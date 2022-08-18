@@ -7,6 +7,19 @@
   pointer-events: none;
 }
 
+:root{
+  --blue:#1D1D56;
+  --puertorico:#EF6A28;
+  --yellow:rgba(220, 165, 98, 1);
+  --white:#fff;
+
+  --inter: 'Inter', sans-serif;
+  --poppins:'Poppins', sans-serif;
+
+}
+body{font-family: var(--poppins);}
+h1, h2, h3{font-family: var(--poppins);} 
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
