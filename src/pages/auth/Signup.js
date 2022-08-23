@@ -10,11 +10,12 @@ import network from "../../assets/images/icon-network.png";
 import fb from "../../assets/images/icon-facebook.png";
 import twit from "../../assets/images/icon-twit.png";
 import Logo from "../../assets/images/logo.svg";
-import Loginbanner from "../../assets/images/forgot-banner.svg";
+import Loginbanner from "../../assets/images/login-banner.svg";
 import back from "../../assets/images/back-arrow.svg";
 import { Link } from "react-router-dom";
+import eye from "../../assets/images/icon-eye-view.svg";
 
-const Setpassword = () => {
+const Forgot = () => {
   return (
     <section className="auth_layout login_screen">
       <div className="left_box">
@@ -33,78 +34,62 @@ const Setpassword = () => {
             </a>
           </div>
           <div className="auth_form">
+            <h3>Create an Account or Register </h3>
+          
             <Form noValidate>
-              <h2 className="title-head">Set password</h2>
-              <Row className="mb-0">
+              <Row className="mb-0 mt-4">
                 <Form.Group
-                  className="form-group-1 mb-4"
-                  as={Col}
-                  md="12"
-                  controlId="validationCustom03"
-                >
-                  <Form.Label className="custom-label">Password</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Password
-"
-                    required
-                  />
-                </Form.Group>
-                <Form.Group
-                  className="form-group-1 mb-4"
+                  className="form-group-1 mb-3"
                   as={Col}
                   md="12"
                   controlId="validationCustom03"
                 >
                   <Form.Label className="custom-label">
-                    Reset password
+                  Email ID
                   </Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Password
-"
-                    required
-                  />
+                 
+                    <Form.Control type="text" placeholder="Enter Emil Id " required />
+                   
+                
                 </Form.Group>
               </Row>
-
+              <div className="forgot_section">
+                <Form.Group
+                  className="custom_checkbox "
+                  controlId="formBasicCheckbox"
+                >
+                  <Form.Check
+                    type="checkbox"
+                    label=" Remember me"
+                  />
+                </Form.Group>
+              </div>
               <div className="button d-flex clearfix">
                 <Button
                   type="submit"
                   variant="info"
-                  className="btn-lg  justify-content-center mt-3 "
+                  className="btn-lg  justify-content-center mb-3"
                 >
-                  <Link to="/otp">Reset password</Link>
+                  Create Account
                 </Button>
               </div>
             </Form>
-            <div className="sign-up-social">
+            <div className="sign-up-social mb-3">
               <h2>Login using social network</h2>
               <ul>
                 <li>
-                  <a href="">
-                    <img src={mail} />
-                  </a>
+                  <a href=""><img src={mail} /></a>
                 </li>
                 <li>
-                  <a href="">
-                    <img src={linked} />
-                  </a>
+                  <a href=""> <img src={linked} /></a>
                 </li>
                 <li>
-                  <a href="">
-                    <img src={network} />
-                  </a>
+                  <a href=""><img src={network} /></a>
                 </li>
                 <li>
-                  <a href="">
-                    <img src={fb} />
-                  </a>
+                  <a href=""> <img src={fb} /> </a>
                 </li>
-                <li>
-                  <a href="">
-                    <img src={twit} />
-                  </a>
+                <li><a href=""> <img src={twit} /></a>
                 </li>
               </ul>
             </div>
@@ -115,4 +100,4 @@ const Setpassword = () => {
   );
 };
 
-export default Setpassword;
+export default Forgot;
