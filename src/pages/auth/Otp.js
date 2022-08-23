@@ -28,11 +28,12 @@ const Otp = () => {
       <a href="#" className='logo'><img src={Logo} /></a>
       </div>
       <div className='auth_form'>
+      <h3 className='mb-4'>Enter your mobile OTP</h3>
       <Form noValidate>
-        <h2 className='title-head'>OTP</h2>
+      
       <Row className="mb-0"> 
         <Form.Group className="form-group-1 mb-4" as={Col} md="12" controlId="validationCustom03">
-          <Form.Label className='custom-label'>Enter your mobile OTP</Form.Label>
+          <Form.Label className='custom-label'> Enter OTP </Form.Label>
           <Form.Control type="text" placeholder="Enter OTP
 " required />
       
@@ -40,8 +41,8 @@ const Otp = () => {
        
         </Row>
        
-        <div className='button d-flex clearfix otp'>
-        <Button type="submit" variant="info" className='btn-lg  justify-content-center mt-2 '><Link to="/login">Submit OTP</Link></Button>
+        <div className='button d-flex clearfix otp mb-5'>
+        <Button type="submit" variant="info" className='btn-lg  justify-content-center mt-2  mb-5'><Link to="/login">Submit OTP</Link></Button>
         <a href="" className='otp-password'>Resend OTP</a>
         </div>
         
