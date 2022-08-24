@@ -1,0 +1,15 @@
+ .left-side {
+    background-color: #ffffff;
+    width: 250px;
+    float: left;   
+    padding: 20px;
+    position: fixed; height: 100vh;
+	 border-right: #E4E4E4 2px solid;
+}
+
+ .layout-right {
+    float: right;
+    width: calc(100% - 250px);
+    padding-top: 37px; padding-left: 37px;
+    padding-right: 37px;
+}

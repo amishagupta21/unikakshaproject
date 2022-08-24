@@ -6,6 +6,8 @@ import mail from '../../assets/images/icon-gmail.png';
 import linked from '../../assets/images/icon-linked.png';
 import network from '../../assets/images/icon-network.png';
 import fb from '../../assets/images/icon-facebook.png';
+import profile from '../../assets/images/profile-picture.png';
+
 import twit from '../../assets/images/icon-twit.png';
 import { ProgressBar } from 'react-bootstrap';
 import Education from '../../components/profile/Education';
@@ -17,8 +19,9 @@ import Projects from '../../components/profile/project/Projects';
 const Profile = () => {
   return (
     <div className="profile-page">
+       <div className="row-profile-left">
       <h2 className='profile-heading'>MY Profile</h2>
-      <div>
+      <div className='profile-information'>
         <div className="profile-background">
           <img src={editIcon} />
         </div>
@@ -30,7 +33,7 @@ const Profile = () => {
             <div className='profile-name ms-3'>
               <h3>Raj Patel</h3>
               <p>Java Full stack developer</p>
-              <div className='sign-up-social'>
+              <div className='sign-up-social profile-social'>
                 <ul>
                   <li><a href=""><img src={fb} /></a></li>
                   <li><a href=""><img src={mail} /></a></li>
@@ -84,6 +87,207 @@ const Profile = () => {
       <Experience />
       <Sklill />
       <Projects />
+      </div>
+      <div className="row-profile-right">
+      <div className="white-box">
+        <h3 className='page-head'>Active Positions</h3>
+        <ul className='list'>
+          <li>
+            <div className="profile-card-row">
+            <div className="profile-card-left">
+            <div className="color-info">
+              </div>
+              <h6>Front-end developer</h6>
+              <p>ABC PVT LTD (Intership)</p>
+
+
+</div>
+<div className="profile-card-right">
+  <a href="" className='btn btn-info-colors'>Invited</a>
+
+</div>
+            </div>
+          </li>
+          <li class="active">
+            <div className="profile-card-row orange">
+            <div className="profile-card-left">
+            <div className="color-info">
+              </div>
+              <h6>Web developer-<span>Student</span> </h6>
+              <p>ABC PVT LTD (Intership)</p>
+
+
+</div>
+<div className="profile-card-right">
+  <a href="" className='btn btn-info-colors'>Invited</a>
+
+</div>
+            </div>
+          </li>
+        </ul>
+        <div className='button-custom'>
+          <a href="" className='btn btn-lg btn-show-all'>Show All</a>
+        </div>
+        </div>
+
+        <div className="white-box">
+        <h3 className='page-head'>Latest updates</h3>
+        <div className="white-box-list">
+          <ul>
+            <li>
+              <div className="row">
+                <div className="col-2">
+                <img src={profile}  className="img-fluid"/>
+                 </div>
+                 <div className="col-10">
+<h4>Heena posted an update</h4>
+<p>4 days ago</p>
+</div>
+                 
+              </div>
+            </li>
+            <li>
+              <div className="row">
+                <div className="col-2">
+                <img src={profile}  className="img-fluid"/>
+                 </div>
+                 <div className="col-10">
+<h4>Heena posted an update</h4>
+<p>4 days ago</p>
+</div>
+                 
+              </div>
+            </li>
+            <li>
+              <div className="row">
+                <div className="col-2">
+                <img src={profile}  className="img-fluid"/>
+                 </div>
+                 <div className="col-10">
+<h4>Heena posted an update</h4>
+<p>4 days ago</p>
+</div>
+                 
+              </div>
+            </li>
+            <li>
+              <div className="row">
+                <div className="col-2">
+                <img src={profile}  className="img-fluid"/>
+                 </div>
+                 <div className="col-10">
+<h4>Heena posted an update</h4>
+<p>4 days ago</p>
+</div>
+                 
+              </div>
+            </li>
+            <li>
+              <div className="row">
+                <div className="col-2">
+                <img src={profile}  className="img-fluid"/>
+                 </div>
+                 <div className="col-10">
+<h4>Heena posted an update</h4>
+<p>4 days ago</p>
+</div>
+                 
+              </div>
+            </li>
+            <li>
+              <div className="row">
+                <div className="col-2">
+                <img src={profile}  className="img-fluid"/>
+                 </div>
+                 <div className="col-10">
+<h4>Heena posted an update</h4>
+<p>4 days ago</p>
+</div>
+                 
+              </div>
+            </li>
+          </ul>
+        </div> </div>
+
+        <div className="white-box">
+        <h3 className='page-head'>Community Groups</h3>
+        <div className="white-box-list">
+          <ul>
+            <li>
+              <div className="row">
+                <div className="col-2">
+              <div className='col-box'style={{background: "#154F56"}}></div>
+                 </div>
+                 <div className="col-10">
+<h4>Development Community</h4>
+<p>112K Members</p>
+</div>
+                 
+              </div>
+            </li>
+            <li>
+              <div className="row">
+                <div className="col-2">
+                <img src={profile}  className="img-fluid"/>
+                 </div>
+                 <div className="col-10">
+<h4>Heena posted an update</h4>
+<p>4 days ago</p>
+</div>
+                 
+              </div>
+            </li>
+            <li>
+              <div className="row">
+                <div className="col-2">
+                <img src={profile}  className="img-fluid"/>
+                 </div>
+                 <div className="col-10">
+<h4>Heena posted an update</h4>
+<p>4 days ago</p>
+</div>
+                 
+              </div>
+            </li>
+            <li>
+              <div className="row">
+                <div className="col-2">
+                <img src={profile}  className="img-fluid"/>
+                 </div>
+                 <div className="col-10">
+<h4>Heena posted an update</h4>
+<p>4 days ago</p>
+</div>
+                 
+              </div>
+            </li>
+            <li>
+              <div className="row">
+                <div className="col-2">
+                <img src={profile}  className="img-fluid"/>
+                 </div>
+                 <div className="col-10">
+<h4>Heena posted an update</h4>
+<p>4 days ago</p>
+</div>
+                 
+              </div>
+            </li>
+            <li>
+              <div className="row">
+                <div className="col-2">
+                <img src={profile}  className="img-fluid"/>
+                 </div>
+                 <div className="col-10">
+<h4>Heena posted an update</h4>
+<p>4 days ago</p>
+</div>
+                 
+              </div>
+            </li>
+          </ul>
+        </div> </div>
+        </div>
     </div>
   )
 }

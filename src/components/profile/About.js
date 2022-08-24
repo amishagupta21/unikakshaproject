@@ -3,7 +3,7 @@ import editIcon from '../../assets/images/edit-icon.svg'
 
 const About = () => {
     return (
-        <div className='py-3 d-flex justify-content-between pe-4'>
+        <div className='py-3 d-flex justify-content-between pe-4 about-container'>
             <div>
                 <h5>About</h5>
                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
