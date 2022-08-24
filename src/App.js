@@ -11,14 +11,28 @@ import Signup from './pages/auth/Signup';
 import Otp from './pages/auth/Otp';
 import Error from './pages/404'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import PrivateRoute from './Routes/PrivateRoutes';
 
 function App() {
   return (
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="home" element={<Homepage />} />
-          <Route path="profile" element={<Profile />} />
+          <Route
+            path="home"
+            element={<PrivateRoute>
+              <Homepage />
+            </PrivateRoute>
+            }
+          />
+          <Route
+            path="profile"
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
           <Route path="/" element={<Login />} />
           <Route path="forgotpassword" element={<Forgot />} />
           <Route path="setpassword" element={<Setpassword />} />

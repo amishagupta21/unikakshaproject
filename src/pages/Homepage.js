@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from "react-redux";
-import { getUsers } from '../redux/actions/LanguageAction'
+import { getUsers } from '../redux/actions/UserActions'
 import { useSelector } from "react-redux";
 
 const Homepage = () => {
@@ -9,8 +9,6 @@ const Homepage = () => {
         dispatch(getUsers());
     }
     const state = useSelector((state) => state)
-    console.log("state", state)
-
     return (
         <div>
             <h3>

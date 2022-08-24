@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
@@ -15,12 +15,17 @@ import Logo from "../../assets/images/logo.svg";
 import Loginbanner from "../../assets/images/login-banner.svg";
 import back from "../../assets/images/back-arrow.svg";
 import { Link } from "react-router-dom";
-
 import Nav from "react-bootstrap/Nav";
-
 import Tab from "react-bootstrap/Tab";
+import { signInWithFacebook, signInWithGoogle, signInWithTwitter } from "../../firebase/firebaseAuth";
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { setUsers } from "../../redux/actions/UserActions";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const [email, setEmail] = useState("")
   return (
     <section className="auth_layout login_screen">
       <div className="left_box">
@@ -103,7 +108,14 @@ const Login = () => {
                 <Col sm={12}>
                   <Tab.Content>
                     <Tab.Pane eventKey="first">
-                      <Form noValidate>
+                      <Form validated onSubmit={(e) => {
+                        e.preventDefault()
+                        if (email !== "") {
+                          dispatch(setUsers(email))
+                          navigate('/password')
+                        }
+                        console.log("sub", e)
+                      }}>
                         <h2 className="title-head">Sign in to Unikaksha</h2>
                         <Row className="mb-0">
                           <Form.Group
@@ -117,9 +129,9 @@ const Login = () => {
                             </Form.Label>
                             <Form.Control
                               type="text"
-                              placeholder="Enter Emil Id
-"
+                              placeholder="Enter Emil Id"
                               required
+                              onChange={(e) => setEmail(e.target.value)}
                             />
                           </Form.Group>
                         </Row>
@@ -132,7 +144,6 @@ const Login = () => {
                           </Form.Group>
                           <div href="#" className="resetpassword ">
                             <a href="" path="">
-                              {" "}
                               <Link to="/forgotpassword">Forgot Password</Link>
                             </a>
                           </div>
@@ -143,7 +154,7 @@ const Login = () => {
                             variant="info"
                             className="btn-lg  justify-content-center "
                           >
-                           <Link to="/password"> Login</Link>
+                            <Link to="/password"> Login</Link>
                           </Button>
                         </div>
                       </Form>
@@ -196,12 +207,17 @@ const Login = () => {
                 </Col>
               </Row>
             </Tab.Container>
-
             <div className="sign-up-social">
               <h2>Login using social network</h2>
               <ul>
                 <li>
-                  <a href=""><img src={mail} /></a>
+                  <a onClick={async () => {
+                    let res = await signInWithGoogle()
+                    if (res) {
+                      navigate('profile')
+                    }
+                    console.log("res", res)
+                  }} ><img src={mail} /></a>
                 </li>
                 <li>
                   <a href=""> <img src={linked} /></a>
@@ -210,16 +226,16 @@ const Login = () => {
                   <a href=""><img src={network} /></a>
                 </li>
                 <li>
-                  <a href=""> <img src={fb} /> </a>
+                  <a onClick={() => signInWithFacebook()}> <img src={fb} /> </a>
                 </li>
-                <li><a href=""> <img src={twit} /></a>
+                <li><a onClick={() => signInWithTwitter()}   > <img src={twit} /></a>
                 </li>
               </ul>
             </div>
           </div>
         </div>{" "}
       </div>
-    </section>
+    </section >
   );
 };
 
