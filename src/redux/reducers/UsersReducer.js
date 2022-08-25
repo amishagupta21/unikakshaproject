@@ -1,15 +1,18 @@
 import { ActionTypes } from "../constants/ActionTypes";
 
 const initializeState = {
-  users: [],
+  user: {},
 };
-const LanguageReducer = (state = initializeState, { type, payload }) => {
+const UserReducer = (state = initializeState, { type, payload }) => {
   switch (type) {
     case ActionTypes.GET_USERS:
-      return { ...state, users: payload };
+      return { ...state, user: payload };
+    case ActionTypes.SET_USERS:
+      console.log("redd", payload)
+      return { ...state, user: { email: payload } };
     default:
       return state;
   }
 };
 
-export default LanguageReducer;
+export default UserReducer;

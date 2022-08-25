@@ -10,7 +10,7 @@ const SideBar = () => {
   const handleToggle = () => {
     setActive(!isActive);  }; 
   return (        
-  
+ 
 <div  className={isActive ? "left-side" : 'left-side active'} >
           <a href="#" className="logo">
               <img className='logo' width={198} src={logo} />
