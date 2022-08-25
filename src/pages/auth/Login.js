@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
+import FormControl from 'react-bootstrap/FormControl';
+import FormGroup from 'react-bootstrap/FormGroup';
+import FormLabel from 'react-bootstrap/FormLabel';
+import FormCheck from 'react-bootstrap/FormCheck';
+import FormSelect from 'react-bootstrap/FormSelect';
+import { Form, Field, Formik } from 'formik'
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
 import mail from "../../assets/images/icon-gmail.png";
@@ -25,7 +30,6 @@ import { setUsers } from "../../redux/actions/UserActions";
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch()
-  const [email, setEmail] = useState("")
   return (
     <section className="auth_layout login_screen">
       <div className="left_box">
@@ -108,100 +112,148 @@ const Login = () => {
                 <Col sm={12}>
                   <Tab.Content>
                     <Tab.Pane eventKey="first">
-                      <Form validated onSubmit={(e) => {
-                        e.preventDefault()
-                        if (email !== "") {
-                          dispatch(setUsers(email))
-                          navigate('/password')
-                        }
-                        console.log("sub", e)
-                      }}>
-                        <h2 className="title-head">Sign in to Unikaksha</h2>
-                        <Row className="mb-0">
-                          <Form.Group
-                            className="form-group-1 mb-3"
-                            as={Col}
-                            md="12"
-                            controlId="validationCustom03"
-                          >
-                            <Form.Label className="custom-label">
-                              Email ID / Password
-                            </Form.Label>
-                            <Form.Control
-                              type="text"
-                              placeholder="Enter Emil Id"
-                              required
-                              onChange={(e) => setEmail(e.target.value)}
+                      <Formik
+                        initialValues={{
+                          email: '',
+                          rememberMe: false
+                        }}
+                        validate={(values) => {
+                          let errors = {};
+                          if (!values.email) {
+                            errors.email = 'email  is required';
+                          }
+                          return errors;
+                        }}
+                        onSubmit={(values) => {
+                          console.log(values)
+                          if (values.email) {
+                            console.log('form submission complete!!');
+                          }
+                        }}
+                        render={({ handleChange, handleSubmit, handleBlur, values, errors, validateForm }) => (
+                          <Form>
+                            <h2 className="title-head">Sign in to Unikaksha</h2>
+                            <Field
+                              name="email"
+                              render={({ field, formProps }) => (
+                                <Row className="mb-0">
+                                  <FormGroup controlId="email"
+                                    className="form-group-1 mb-3"
+                                    as={Col}
+                                    md="12">
+                                    <FormLabel>Email ID / Password</FormLabel>
+                                    <FormControl placeholder="Enter Email ID" type={'text'} value={field.value} onChange={field.onChange} />
+                                  </FormGroup>
+                                </Row>
+                              )}
                             />
-                          </Form.Group>
-                        </Row>
-                        <div className="forgot_section">
-                          <Form.Group
-                            className="custom_checkbox"
-                            controlId="formBasicCheckbox"
-                          >
-                            <Form.Check type="checkbox" label="Remember me" />
-                          </Form.Group>
-                          <div href="#" className="resetpassword ">
-                            <a href="" path="">
-                              <Link to="/forgotpassword">Forgot Password</Link>
-                            </a>
-                          </div>
-                        </div>
-                        <div className="button d-flex clearfix">
-                          <Button
-                            type="submit"
-                            variant="info"
-                            className="btn-lg  justify-content-center "
-                          >
-                            <Link to="/password"> Login</Link>
-                          </Button>
-                        </div>
-                      </Form>
+                            <Field
+                              name="rememberMe"
+                              render={({ field, formProps }) => (
+                                <div className="forgot_section">
+                                  <FormGroup
+                                    className="custom_checkbox"
+                                    controlId="rememberMe">
+                                    <FormCheck
+                                      type={'checkbox'}
+                                      value={field.value}
+                                      onChange={field.onChange}
+                                      label="Remember me" />
+                                  </FormGroup>
+                                  <div href="#" className="resetpassword ">
+                                    <a href="" path="">
+                                      <Link to="/forgotpassword">Forgot Password</Link>
+                                    </a>
+                                  </div>
+                                </div>
+                              )}
+                            />
+                            <div className="button d-flex clearfix">
+                              <Button
+                                onClick={validateForm}
+                                type="submit"
+                                variant="info"
+                                className="btn-lg justify-content-center "
+                              >
+                                <Link to="/password">Login</Link>
+                              </Button>
+                            </div>
+                          </Form>
+                        )}
+                      />
                     </Tab.Pane>
                     <Tab.Pane eventKey="second">
-                      <Form noValidate>
-                        <h2 className="title-head">Sign in to Unikaksha</h2>
-                        <Row className="mb-0">
-                          <Form.Group
-                            className="form-group-1 mb-3"
-                            as={Col}
-                            md="12"
-                            controlId="validationCustom03"
-                          >
-                            <Form.Label className="custom-label">
-                              Mobile Number
-                            </Form.Label>
-                            <div className="user-class-mobile">
-                              <Form.Select id="form-control form-mobile-position">
-                                <option>+91</option>
-                              </Form.Select>
-                              <Form.Control
-                                type="text"
-                                placeholder="Enter  your mobile number"
-                                required
-                              />
+                      <Formik
+                        initialValues={{
+                          mobileNumber: '',
+                          rememberMe: false
+                        }}
+                        validate={(values) => {
+                          let errors = {};
+                          if (!values.mobileNumber) {
+                            errors.mobileNumber = 'mobileNumber  is required';
+                          }
+                          return errors;
+                        }}
+                        onSubmit={(values) => {
+                          console.log(values)
+                          if (values.mobileNumber) {
+                            console.log('form submission complete!!');
+                          }
+                        }}
+                        render={({ handleChange, handleSubmit, handleBlur, values, errors, validateForm }) => (
+                          <Form>
+                            <h2 className="title-head">Sign in to Unikaksha</h2>
+                            <Field
+                              name="mobileNumber"
+                              render={({ field, formProps }) => (
+                                <Row className="mb-0">
+                                  <FormGroup controlId="mobileNumber"
+                                    className="form-group-1 mb-3"
+                                    as={Col}
+                                    md="12">
+                                    <FormLabel>Mobile Number</FormLabel>
+                                    <div className="user-class-mobile">
+                                      <FormSelect id="form-control form-mobile-position">
+                                        <option>+91</option>
+                                      </FormSelect>
+                                      <FormControl placeholder="Enter mobileNumber " type={'number'} value={field.value} onChange={field.onChange} />
+                                    </div>
+                                  </FormGroup>
+                                </Row>
+
+                              )}
+                            />
+                            <Field
+                              name="rememberMe"
+                              render={({ field, formProps }) => (
+                                <div className="forgot_section">
+                                  <FormGroup
+                                    className="custom_checkbox"
+                                    controlId="rememberMe">
+                                    <FormCheck
+                                      type={'checkbox'}
+                                      value={field.value}
+                                      onChange={field.onChange}
+                                      label="Remember me" />
+                                  </FormGroup>
+                                </div>
+                              )}
+                            />
+                            <div className="button d-flex clearfix">
+                              <Button
+                                onClick={validateForm}
+                                type="submit"
+                                variant="info"
+                                className="btn-lg justify-content-center "
+                              >
+                                <Link to="/">Continue with mobile</Link>
+                              </Button>
                             </div>
-                          </Form.Group>
-                        </Row>
-                        <div className="forgot_section">
-                          <Form.Group
-                            className="custom_checkbox"
-                            controlId="formBasicCheckbox"
-                          >
-                            <Form.Check type="checkbox" label="Remember me" />
-                          </Form.Group>
-                        </div>
-                        <div className="button d-flex clearfix">
-                          <Button
-                            type="submit"
-                            variant="info"
-                            className="btn-lg  justify-content-center "
-                          >
-                            Continue with mobile
-                          </Button>
-                        </div>
-                      </Form>
+
+                          </Form>
+                        )}
+                      />
                     </Tab.Pane>
                   </Tab.Content>
                 </Col>
