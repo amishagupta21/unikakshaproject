@@ -2,19 +2,14 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
-import mail from "../../assets/images/icon-gmail.png";
-import linked from "../../assets/images/icon-linked.png";
-import network from "../../assets/images/icon-network.png";
-import fb from "../../assets/images/icon-facebook.png";
-import twit from "../../assets/images/icon-twit.png";
 import Logo from "../../assets/images/logo.svg";
 import Loginbanner from "../../assets/images/forgot-banner.svg";
 import back from "../../assets/images/back-arrow.svg";
 import { Link } from "react-router-dom";
+import SocialLogin from "../../utils-componets/SocialLogin";
 
-const Setpassword = () => {
+const Resetpassword = () => {
   return (
     <section className="auth_layout login_screen">
       <div className="left_box">
@@ -79,40 +74,13 @@ const Setpassword = () => {
               </div>
             </Form>
             <div className="sign-up-social">
-              <h2>Login using social network</h2>
-              <ul>
-                <li>
-                  <a href="">
-                    <img src={mail} />
-                  </a>
-                </li>
-                <li>
-                  <a href="">
-                    <img src={linked} />
-                  </a>
-                </li>
-                <li>
-                  <a href="">
-                    <img src={network} />
-                  </a>
-                </li>
-                <li>
-                  <a href="">
-                    <img src={fb} />
-                  </a>
-                </li>
-                <li>
-                  <a href="">
-                    <img src={twit} />
-                  </a>
-                </li>
-              </ul>
+              <SocialLogin />
             </div>
           </div>
-        </div>{" "}
+        </div>
       </div>
     </section>
   );
 };
 
-export default Setpassword;
+export default Resetpassword;

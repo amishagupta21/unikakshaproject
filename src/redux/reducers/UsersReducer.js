@@ -8,8 +8,7 @@ const UserReducer = (state = initializeState, { type, payload }) => {
     case ActionTypes.GET_USERS:
       return { ...state, user: payload };
     case ActionTypes.SET_USERS:
-      console.log("redd", payload)
-      return { ...state, user: { email: payload } };
+      return state
     default:
       return state;
   }

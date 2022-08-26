@@ -7,25 +7,20 @@ import FormLabel from 'react-bootstrap/FormLabel';
 import FormCheck from 'react-bootstrap/FormCheck';
 import FormSelect from 'react-bootstrap/FormSelect';
 import { Form, Field, Formik } from 'formik'
-import InputGroup from "react-bootstrap/InputGroup";
+import * as Yup from 'yup';
 import Row from "react-bootstrap/Row";
-import mail from "../../assets/images/icon-gmail.png";
-import linked from "../../assets/images/icon-linked.png";
-import network from "../../assets/images/icon-network.png";
-import fb from "../../assets/images/icon-facebook.png";
-import loginmail from "../../assets/images/icon-mail-uni.svg";
-import loginpassword from "../../assets/images/icon-pass-uni.svg";
-import twit from "../../assets/images/icon-twit.png";
 import Logo from "../../assets/images/logo.svg";
 import Loginbanner from "../../assets/images/login-banner.svg";
 import back from "../../assets/images/back-arrow.svg";
 import { Link } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Tab from "react-bootstrap/Tab";
-import { signInWithFacebook, signInWithGoogle, signInWithTwitter } from "../../firebase/firebaseAuth";
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { setUsers } from "../../redux/actions/UserActions";
+import { setEmail } from "../../redux/actions/AuthActions";
+import SocialLogin from "../../utils-componets/SocialLogin";
+import { setMobileNumber } from "../../redux/actions/AuthActions";
+import { signInWithPhoneNumber } from "firebase/auth";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -117,20 +112,20 @@ const Login = () => {
                           email: '',
                           rememberMe: false
                         }}
-                        validate={(values) => {
-                          let errors = {};
-                          if (!values.email) {
-                            errors.email = 'email  is required';
-                          }
-                          return errors;
-                        }}
+                        validationSchema={Yup.object().shape({
+                          email: Yup.string()
+                            .email('Invalid email')
+                            .required('Required'),
+                        })}
                         onSubmit={(values) => {
                           console.log(values)
                           if (values.email) {
                             console.log('form submission complete!!');
+                            dispatch(setEmail(values.email))
+                            navigate('/password')
                           }
                         }}
-                        render={({ handleChange, handleSubmit, handleBlur, values, errors, validateForm }) => (
+                        render={({ handleChange, handleSubmit, handleBlur, values, errors, touched, validateForm }) => (
                           <Form>
                             <h2 className="title-head">Sign in to Unikaksha</h2>
                             <Field
@@ -147,6 +142,7 @@ const Login = () => {
                                 </Row>
                               )}
                             />
+                            {errors.email && touched.email ? (<div className="error-text">{errors.email}</div>) : null}
                             <Field
                               name="rememberMe"
                               render={({ field, formProps }) => (
@@ -188,20 +184,23 @@ const Login = () => {
                           mobileNumber: '',
                           rememberMe: false
                         }}
-                        validate={(values) => {
-                          let errors = {};
-                          if (!values.mobileNumber) {
-                            errors.mobileNumber = 'mobileNumber  is required';
-                          }
-                          return errors;
-                        }}
+                        validationSchema={Yup.object().shape({
+                          mobileNumber: Yup.number()
+                          // .typeError("That doesn't look like a phone number")
+                          // .positive("A phone number can't start with a minus")
+                          // .integer("A phone number can't include a decimal point")
+                          // .min(10, "min 10 digit required")
+                          // .required('A phone number is required'),
+                        })}
                         onSubmit={(values) => {
                           console.log(values)
                           if (values.mobileNumber) {
                             console.log('form submission complete!!');
+                            dispatch(signInWithPhoneNumber(values.mobileNumber))
+                            navigate('/otp')
                           }
                         }}
-                        render={({ handleChange, handleSubmit, handleBlur, values, errors, validateForm }) => (
+                        render={({ handleChange, handleSubmit, handleBlur, values, errors, touched, validateForm }) => (
                           <Form>
                             <h2 className="title-head">Sign in to Unikaksha</h2>
                             <Field
@@ -217,13 +216,13 @@ const Login = () => {
                                       <FormSelect id="form-control form-mobile-position">
                                         <option>+91</option>
                                       </FormSelect>
-                                      <FormControl placeholder="Enter mobileNumber " type={'number'} value={field.value} onChange={field.onChange} />
+                                      <FormControl placeholder="Enter Mobile Number" type={'number'} value={field.value} onChange={field.onChange} />
                                     </div>
                                   </FormGroup>
                                 </Row>
-
                               )}
                             />
+                            {errors.mobileNumber && touched.mobileNumber ? (<div className="error-text">{errors.mobileNumber}</div>) : null}
                             <Field
                               name="rememberMe"
                               render={({ field, formProps }) => (
@@ -260,32 +259,10 @@ const Login = () => {
               </Row>
             </Tab.Container>
             <div className="sign-up-social">
-              <h2>Login using social network</h2>
-              <ul>
-                <li>
-                  <a onClick={async () => {
-                    let res = await signInWithGoogle()
-                    if (res) {
-                      navigate('profile')
-                    }
-                    console.log("res", res)
-                  }} ><img src={mail} /></a>
-                </li>
-                <li>
-                  <a href=""> <img src={linked} /></a>
-                </li>
-                <li>
-                  <a href=""><img src={network} /></a>
-                </li>
-                <li>
-                  <a onClick={() => signInWithFacebook()}> <img src={fb} /> </a>
-                </li>
-                <li><a onClick={() => signInWithTwitter()}   > <img src={twit} /></a>
-                </li>
-              </ul>
+              <SocialLogin />
             </div>
           </div>
-        </div>{" "}
+        </div>
       </div>
     </section >
   );

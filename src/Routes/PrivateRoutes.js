@@ -6,7 +6,7 @@ function PrivateRoute({ children }) {
     useEffect(() => {
         if (!IslogIn()) {
             <Navigate to="/" />
-        } 
+        }
     }, [])
 
     return IslogIn() ? children : <Navigate to="/" />;

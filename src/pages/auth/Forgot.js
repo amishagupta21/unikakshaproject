@@ -2,17 +2,10 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
-import mail from "../../assets/images/icon-gmail.png";
-import linked from "../../assets/images/icon-linked.png";
-import network from "../../assets/images/icon-network.png";
-import fb from "../../assets/images/icon-facebook.png";
-import twit from "../../assets/images/icon-twit.png";
 import Logo from "../../assets/images/logo.svg";
 import Loginbanner from "../../assets/images/login-banner.svg";
 import back from "../../assets/images/back-arrow.svg";
-import { Link } from "react-router-dom";
 import eye from "../../assets/images/icon-eye-view.svg";
 
 const Forgot = () => {

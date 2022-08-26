@@ -1,4 +1,6 @@
 export const ActionTypes = {
   GET_USERS: "GET_USERS",
   SET_USERS: "SET_USERS",
+  SET_EMAIL: "SET_EMAIL",
+  SET_MOBILENUMBER: "SET_MOBILENUMBER"
 };
