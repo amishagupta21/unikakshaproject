@@ -7,15 +7,14 @@ import {
     createUserWithEmailAndPassword,
     sendPasswordResetEmail,
     FacebookAuthProvider,
-    signInWithPhoneNumber,
-    RecaptchaVerifier,
     TwitterAuthProvider,
     signOut,
 } from "firebase/auth";
-import firebaseConfig from "./firebaseConfig";
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+import { firebaseConfig } from "./firebase";
+
+const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
 const googleProvider = new GoogleAuthProvider();
 const facebookProvider = new FacebookAuthProvider();
 const twitterProvider = new TwitterAuthProvider();
@@ -55,16 +54,6 @@ const logInWithEmailAndPassword = async (email, password) => {
         alert(err.message);
     }
 };
-
-const signInWithPhone = async (mynumber) => {
-    try {
-        let verify = new RecaptchaVerifier('recaptcha-container');
-        return await signInWithPhoneNumber(mynumber, verify);
-    } catch (err) {
-        console.error(err);
-        alert(err.message);
-    }
-}
 
 const registerWithEmailAndPassword = async (name, email, password) => {
     try {

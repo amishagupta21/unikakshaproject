@@ -16,11 +16,9 @@ const SocialLogin = () => {
                 <li>
                     <a onClick={async () => {
                         let res = await signInWithGoogle()
-                        console.log("res ::", res)
                         if (res) {
                             navigate('/profile')
                         }
-                        console.log("res", res)
                     }} ><img src={mail} /></a>
                 </li>
                 <li>

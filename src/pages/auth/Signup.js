@@ -51,10 +51,8 @@ const Signup = () => {
                   .required('Required'),
               })}
               onSubmit={(values) => {
-                console.log(values)
                 if (values.email) {
                   dispatch(setEmail(values.email))
-                  console.log('form submission complete!!');
                   navigate('/setpassword')
                 }
               }}
