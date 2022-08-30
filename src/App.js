@@ -13,6 +13,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PrivateRoute from './Routes/PrivateRoutes';
 import Resetpassword from './pages/auth/Resetpassword';
 import SetPasssword from './pages/auth/SetPasssword';
+import SideBar from './pages/sidebar';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
             }
           />
           <Route path="/" element={<Login />} />
+          <Route path="sidebar" element={<SideBar />} />
           <Route path="password" element={<Password />} />
           <Route path="setpassword" element={<SetPasssword />} />
           <Route path="forgotpassword" element={<Forgot />} />

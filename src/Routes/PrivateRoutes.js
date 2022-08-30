@@ -9,7 +9,7 @@ function PrivateRoute({ children }) {
         }
     }, [])
 
-    return IslogIn() ? children : <Navigate to="/" />;
+    return true ? children : <Navigate to="/" />;
 }
 
 export default PrivateRoute;
