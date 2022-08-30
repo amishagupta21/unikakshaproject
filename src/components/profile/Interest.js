@@ -1,7 +1,7 @@
 import React from 'react'
 import editIcon from '../../assets/images/edit-icon.svg'
 
-const About = () => {
+const Interest = () => {
     return (
         <div className='py-3 d-flex justify-content-between pe-4 about-container'>
             <div>
@@ -11,10 +11,10 @@ const About = () => {
                     when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p>
             </div>
             <div>
-               
+                <img src={editIcon} />
             </div>
         </div>
     )
 }
 
-export default About
+export default Interest
