@@ -16,7 +16,6 @@ import { useNavigate } from 'react-router-dom'
 const SetPasssword = () => {
   const email = useSelector(state => state?.auth?.email)
   const navigate = useNavigate();
-  console.log("email::", email)
   return (
     <section className="auth_layout login_screen">
       <div className="left_box">

@@ -18,7 +18,6 @@ const Login = () => {
   const navigate = useNavigate()
 
   const username = useSelector(state => state?.auth?.email)
-  console.log("sss", username)
 
   return (
     <section className='auth_layout login_screen'>

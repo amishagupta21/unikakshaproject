@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import FormControl from 'react-bootstrap/FormControl';
@@ -19,12 +19,34 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setEmail } from "../../redux/actions/AuthActions";
 import SocialLogin from "../../utils-componets/SocialLogin";
-import { setMobileNumber } from "../../redux/actions/AuthActions";
-import { signInWithPhoneNumber } from "firebase/auth";
+import { firebase } from '../../firebase/firebase'
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch()
+
+  const configureCaptcha = (phoneNumber) => {
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
+      'size': 'invisible',
+      'callback': (response) => {
+        sendOTP(phoneNumber);
+      },
+      defaultCountry: "IN"
+    });
+  }
+
+  const sendOTP = (phoneNumber) => {
+    configureCaptcha(phoneNumber)
+    const appVerifier = window.recaptchaVerifier;
+    firebase.auth().signInWithPhoneNumber(`+91${phoneNumber}`, appVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        navigate("/otp")
+      }).catch((error) => {
+        console.log(error)
+      });
+  }
+
   return (
     <section className="auth_layout login_screen">
       <div className="left_box">
@@ -118,9 +140,7 @@ const Login = () => {
                             .required('Required'),
                         })}
                         onSubmit={(values) => {
-                          console.log(values)
                           if (values.email) {
-                            console.log('form submission complete!!');
                             dispatch(setEmail(values.email))
                             navigate('/password')
                           }
@@ -184,22 +204,21 @@ const Login = () => {
                           mobileNumber: '',
                           rememberMe: false
                         }}
-                        validationSchema={Yup.object().shape({
-                          mobileNumber: Yup.number()
-                          // .typeError("That doesn't look like a phone number")
-                          // .positive("A phone number can't start with a minus")
-                          // .integer("A phone number can't include a decimal point")
-                          // .min(10, "min 10 digit required")
-                          // .required('A phone number is required'),
-                        })}
-                        onSubmit={(values) => {
-                          console.log(values)
-                          if (values.mobileNumber) {
-                            console.log('form submission complete!!');
-                            dispatch(signInWithPhoneNumber(values.mobileNumber))
-                            navigate('/otp')
-                          }
-                        }}
+                        // validationSchema={Yup.object().shape({
+                        //   mobileNumber: Yup.number()
+                        //     .typeError("That doesn't look like a phone number")
+                        //     .positive("A phone number can't start with a minus")
+                        //     .integer("A phone number can't include a decimal point")
+                        //     .min(10, "min 10 digit required")
+                        //     .required('A phone number is required'),
+                        // })}
+                        // onSubmit={(values) => {
+                        //   console.log("values", values)
+                        //   if (values.mobileNumber) {
+                        //     sendOTP(values.mobileNumber)
+                        //     navigate('/otp')
+                        //   }
+                        // }}
                         render={({ handleChange, handleSubmit, handleBlur, values, errors, touched, validateForm }) => (
                           <Form>
                             <h2 className="title-head">Sign in to Unikaksha</h2>
@@ -207,6 +226,7 @@ const Login = () => {
                               name="mobileNumber"
                               render={({ field, formProps }) => (
                                 <Row className="mb-0">
+                                  <div id="sign-in-button"> </div>
                                   <FormGroup controlId="mobileNumber"
                                     className="form-group-1 mb-3"
                                     as={Col}
@@ -241,7 +261,7 @@ const Login = () => {
                             />
                             <div className="button d-flex clearfix">
                               <Button
-                                onClick={validateForm}
+                                onClick={() => sendOTP(values.mobileNumber)}
                                 type="submit"
                                 variant="info"
                                 className="btn-lg justify-content-center "
@@ -249,7 +269,6 @@ const Login = () => {
                                 <Link to="/">Continue with mobile</Link>
                               </Button>
                             </div>
-
                           </Form>
                         )}
                       />
