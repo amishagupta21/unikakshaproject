@@ -11,9 +11,9 @@ import twit from '../../assets/images/icon-twit.png';
 
 const Header = () => {
   return (
- <div className='visa'>
-   123
- </div>
+    <div className='visa'>
+      123
+    </div>
   )
 }
 

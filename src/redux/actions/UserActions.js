@@ -22,3 +22,17 @@ export const setUsers = (email) => {
     });
   };
 };
+
+export const getuserProfile = (id) => {
+  return async (dispatch) => {
+    let profileData = await ApiService(`v1/user/profile/${id}`, `get`);
+    console.log();
+    if (profileData.status === 200) {
+      let data = profileData?.data?.data;
+      dispatch({
+        type: ActionTypes.GET_PROFILE,
+        payload: { data },
+      });
+    }
+  };
+};
