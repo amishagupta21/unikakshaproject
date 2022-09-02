@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./profile.css";
 import editIcon from "../../assets/images/edit-icon.svg";
 import ProfilePic from "../../assets/images/profile-picture.png";
@@ -13,7 +13,7 @@ import pintest from "../../assets/images/icon-printest-new.png";
 import pdf from "../../assets/images/icon-pdf.svg";
 
 import twit from "../../assets/images/icon-twitter-new.png";
-import { ProgressBar } from "react-bootstrap";
+import { Modal, ProgressBar } from "react-bootstrap";
 
 import About from "../../components/profile/About";
 import Education from "../../components/profile/Education";
@@ -22,24 +22,68 @@ import Experience from "../../components/profile/Experience";
 import Recommendations from "../../components/profile/Recommendations";
 import Projects from "../../components/profile/Projects";
 import iconplus from "../../assets/images/icon-plus.svg";
-
+import * as Yup from "yup";
 import SideBar from "../sidebar";
 import Header from "../header";
 import Dropdown from "react-bootstrap/Dropdown";
-import { getuserProfile } from "../../redux/actions/UserActions";
+import { addUserIntroduction, getuserProfile } from "../../redux/actions/UserActions";
 import { useDispatch, useSelector } from "react-redux";
 import Onesocial from "../../components/profile/socialmedia/Onesocial";
+import FormikController from "./../../Shared-Component-formik/FormikController";
+import { Form, Formik } from "formik";
+import SchemaList from "./../../Shared-Component-formik/schema/SchemaList";
 
 const Profile = () => {
-  const dispatch = useDispatch()
-  const profileInfo = useSelector(state => state?.users?.profile)
-  console.log("profile Data ::: ", profileInfo)
+  const dispatch = useDispatch();
+  const profileInfo = useSelector((state) => state?.users?.profile);
+  console.log("profile Data ::: ", profileInfo);
+
+  const [isShowIntroductionModal, setIsShowIntroductionModal] = useState(false);
 
   useEffect(() => {
-    let id = "A8DYxHJJN3ap9Zj06ZbrqHKTEv73"
-    dispatch(getuserProfile(id))
-  }, [])
+    let id = "A8DYxHJJN3ap9Zj06ZbrqHKTEv73";
+    dispatch(getuserProfile(id));
+  }, []);
 
+  const initialValues = {
+    firstName: "",
+    lastName: "",
+    profileHeadline: "",
+    about: "",
+    // profilePic: "",
+    // resume: "",
+    // bannerImage: "",
+    linkedin: "",
+    instagram: "",
+    twitter: ""
+  };
+  let validationSchema = Yup.object({
+    firstName: SchemaList[0],
+    lastName: SchemaList[0],
+    profileHeadline: SchemaList[0],
+    about: SchemaList[0],
+    linkedin: "",
+    instagram: "",
+    twitter: ""
+    // profilePic: SchemaList[0],
+  });
+
+  const addIntroduction = (values) => {
+    console.log("Introduction", values);
+    let ans = {
+      uid: "A8DYxHJJN3ap9Zj06ZbrqHKTdsk",
+      firstName: values.firstName,
+      lastName: values.lastName,
+      profileHeadline: values.profileHeadline,
+      about: values.about,
+      socialLinks: {
+        facebook: values.linkedin,
+        youtube: values.youtube,
+        twitter: values.twitter,
+      }
+    }
+    dispatch(addUserIntroduction(ans));
+  };
   return (
     <div className="wrapper">
       <div className="sidebar">
@@ -49,7 +93,199 @@ const Profile = () => {
         <Header />
         <div className="profile-page">
           <div className="row-profile-left">
-            <h2 className="profile-heading">MY Profile</h2>
+            <div className="d-flex justify-content-between">
+              <h2 className="profile-heading">MY Profile</h2>
+              <button className="btn btn-info btn-primary h-75" onClick={() => setIsShowIntroductionModal(true)}>Add Introduction</button>
+            </div>
+            <Modal
+              size="lg"
+              show={isShowIntroductionModal}
+              onHide={() => setIsShowIntroductionModal(false)}
+              aria-labelledby="example-modal-sizes-title-lg"
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="example-modal-sizes-title-lg">
+                  Add Introduction
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Formik
+                  initialValues={initialValues}
+                  validationSchema={validationSchema}
+                  onSubmit={addIntroduction}
+                >
+                  {(formik) => {
+                    return (
+                      <Form
+                        onSubmit={formik.handleSubmit}
+                        className="form"
+                        autoComplete="false"
+                      >
+                        <div
+                          className="d-flex row me-n7 pe-7"
+                          // className="d-flex row scroll-y me-n7 pe-7"
+                          id="kt_modal_add_user_scroll"
+                          data-kt-scroll="true"
+                          data-kt-scroll-activate="{default: false, lg: true}"
+                          // data-kt-scroll-max-height="auto"
+                          data-kt-scroll-dependencies="#kt_modal_add_user_header"
+                          data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
+                        // data-kt-scroll-offset="300px"
+                        >
+                          <div className="col-6">
+                            <FormikController
+                              control="input"
+                              type="text"
+                              label="First Name"
+                              labelClassName="required fs-6 mb-2"
+                              name="firstName"
+                              className="form-control form-control-solid mb-lg-0"
+                              maxLength="25"
+                              formik={formik}
+                              value={formik.values.firstName}
+                              onChange={formik.handleChange}
+                              error={formik.errors.firstName}
+                            />
+                            <FormikController
+                              control="input"
+                              type="text"
+                              label="Last Name"
+                              labelClassName="required fs-6 mb-2"
+                              name="lastName"
+                              className="form-control form-control-solid mb-lg-0"
+                              maxLength="25"
+                              formik={formik}
+                              value={formik.values.lastName}
+                              onChange={formik.handleChange}
+                              error={formik.errors.lastName}
+                            />
+                            <FormikController
+                              control="input"
+                              type="text"
+                              label="Profile Headline"
+                              labelClassName="required fs-6 mb-2"
+                              name="profileHeadline"
+                              className="form-control form-control-solid mb-lg-0"
+                              maxLength="25"
+                              formik={formik}
+                              value={formik.values.profileHeadline}
+                              onChange={formik.handleChange}
+                              error={formik.errors.profileHeadline}
+                            />
+                            {/* <FormikController
+                              control="input"
+                              type="text"
+                              label="Resume Upload"
+                              labelClassName="required fs-6 mb-2"
+                              name="resume"
+                              className="form-control form-control-solid mb-lg-0"
+                              maxLength="25"
+                              formik={formik}
+                              value={formik.values.resume}
+                              onChange={formik.handleChange}
+                              error={formik.errors.resume}
+                            /> */}
+
+                          </div>
+                          <div className="col-6">
+                            {/* <FormikController
+                              control="input"
+                              type="text"
+                              label="Add Banner Image"
+                              labelClassName="required fs-6 mb-2"
+                              name="bannerImage"
+                              className="form-control form-control-solid mb-lg-0"
+                              maxLength="25"
+                              formik={formik}
+                              value={formik.values.bannerImage}
+                              onChange={formik.handleChange}
+                              error={formik.errors.bannerImage}
+                            /> */}
+                            {/* <FormikController
+                              control="input"
+                              type="text"
+                              label="Add Profile Pic"
+                              labelClassName="required fs-6 mb-2"
+                              name="profilePic"
+                              className="form-control form-control-solid mb-lg-0"
+                              maxLength="25"
+                              formik={formik}
+                              value={formik.values.profilePic}
+                              onChange={formik.handleChange}
+                              error={formik.errors.profilePic}
+                            /> */}
+                            <div>
+                              <FormikController
+                                control="input"
+                                type="text"
+                                label="Social Links"
+                                placeholder="Enter Linkdin id"
+                                labelClassName="required fs-6 mb-2"
+                                name="linkedin"
+                                className="form-control form-control-solid mb-lg-0"
+                                maxLength="25"
+                                formik={formik}
+                                value={formik.values.linkedin}
+                                onChange={formik.handleChange}
+                                error={formik.errors.linkedin}
+                              />
+                              <FormikController
+                                control="input"
+                                type="text"
+                                placeholder="Enter Instagram id"
+                                labelClassName="required fs-6 mb-2"
+                                name="instagram"
+                                className="form-control form-control-solid mb-lg-0 my-2"
+                                maxLength="25"
+                                formik={formik}
+                                value={formik.values.instagram}
+                                onChange={formik.handleChange}
+                                error={formik.errors.instagram}
+                              />
+                              <FormikController
+                                control="input"
+                                type="text"
+                                placeholder="Enter Twitter id"
+                                labelClassName="required fs-6 mb-2"
+                                name="twitter"
+                                className="form-control form-control-solid mb-lg-0 my-2"
+                                maxLength="25"
+                                formik={formik}
+                                value={formik.values.twitter}
+                                onChange={formik.handleChange}
+                                error={formik.errors.twitter}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12">
+                            <FormikController
+                              control="input"
+                              type="text"
+                              label="About"
+                              placeholder="Tell us about your self"
+                              labelClassName="required fs-6 mb-2"
+                              name="about"
+                              className="form-control form-control-solid mb-lg-4 pb-5 "
+                              maxLength="25"
+                              formik={formik}
+                              value={formik.values.about}
+                              onChange={formik.handleChange}
+                              error={formik.errors.about}
+                            />
+                          </div>
+                          <Modal.Footer>
+                            <button className="btn btn-info btn-primary" onClick={() => setIsShowIntroductionModal(false)}>
+                              Close
+                            </button>
+                            <button className="btn btn-info btn-primary" type="submit">Save</button>
+                          </Modal.Footer>
+                        </div>
+                      </Form>
+                    );
+                  }}
+                </Formik>
+              </Modal.Body>
+            </Modal>
             <div className="profile-box">
               <div className="profile-background">
                 <img src={editIcon} />
@@ -65,11 +301,26 @@ const Profile = () => {
                       <p>{profileInfo?.profileHeadline}</p>
                       <div className="profile-share">
                         <ul>
-                          <Onesocial link={profileInfo?.socialLinks?.facebook} img={fb} />
-                          <Onesocial link={profileInfo?.socialLinks?.facebook} img={pintest} />
-                          <Onesocial link={profileInfo?.socialLinks?.facebook} img={linked} />
-                          <Onesocial link={profileInfo?.socialLinks?.youtube} img={youtube} />
-                          <Onesocial link={profileInfo?.socialLinks?.twitter} img={twit} />
+                          <Onesocial
+                            link={profileInfo?.socialLinks?.facebook}
+                            img={fb}
+                          />
+                          <Onesocial
+                            link={profileInfo?.socialLinks?.facebook}
+                            img={pintest}
+                          />
+                          <Onesocial
+                            link={profileInfo?.socialLinks?.facebook}
+                            img={linked}
+                          />
+                          <Onesocial
+                            link={profileInfo?.socialLinks?.youtube}
+                            img={youtube}
+                          />
+                          <Onesocial
+                            link={profileInfo?.socialLinks?.twitter}
+                            img={twit}
+                          />
                         </ul>
                       </div>
                     </div>
@@ -87,10 +338,16 @@ const Profile = () => {
                     </div>
                     <div className="col-sm-5">
                       <div className="profile-company">
-                        <p className="mb-0 job-title ">{profileInfo?.workExperience?.[0]?.companyName}</p>
-                        <p className="job-type">{profileInfo?.workExperience?.[0]?.title}</p>
+                        <p className="mb-0 job-title ">
+                          {profileInfo?.workExperience?.[0]?.companyName}
+                        </p>
+                        <p className="job-type">
+                          {profileInfo?.workExperience?.[0]?.title}
+                        </p>
                         <p className="city ">
-                          <strong>{profileInfo?.workExperience?.[0]?.location}</strong>
+                          <strong>
+                            {profileInfo?.workExperience?.[0]?.location}
+                          </strong>
                         </p>
                       </div>
                     </div>

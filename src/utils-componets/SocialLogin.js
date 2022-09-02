@@ -16,8 +16,10 @@ const SocialLogin = () => {
                 <li>
                     <a onClick={async () => {
                         let res = await signInWithGoogle()
-                        if (res) {
-                            navigate('/profile')
+                        console.log("res :===", res)
+                        if (res?.user) {
+                            localStorage.setItem("token", JSON.stringify(res?.user?.stsTokenManager))
+                            navigate('/home')
                         }
                     }} ><img src={mail} /></a>
                 </li>

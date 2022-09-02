@@ -1,5 +1,6 @@
 import ApiService from "../../services/ApiService";
 import { ActionTypes } from "../constants/ActionTypes";
+import { toast } from "react-toastify";
 
 export const getUsers = () => {
   return async (dispatch) => {
@@ -26,7 +27,6 @@ export const setUsers = (email) => {
 export const getuserProfile = (id) => {
   return async (dispatch) => {
     let profileData = await ApiService(`v1/user/profile/${id}`, `get`);
-    console.log();
     if (profileData.status === 200) {
       let data = profileData?.data?.data;
       dispatch({
@@ -36,3 +36,14 @@ export const getuserProfile = (id) => {
     }
   };
 };
+
+export const addUserIntroduction = (data) => {
+  return async (dispatch) => {
+    let res = await ApiService(`v1/user/profile/general-information`, `patch`, data);
+    if (res.status === 200) {
+      toast("User Information Added Sucessfully")
+    }
+  };
+};
+
+

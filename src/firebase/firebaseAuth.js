@@ -10,7 +10,7 @@ import {
     TwitterAuthProvider,
     signOut,
 } from "firebase/auth";
-
+import { toast } from "react-toastify";
 import { firebaseConfig } from "./firebase";
 
 const firebaseApp = initializeApp(firebaseConfig);
@@ -24,7 +24,7 @@ const signInWithGoogle = async () => {
         return await signInWithPopup(auth, googleProvider);
     } catch (err) {
         console.error(err);
-        alert(err.message);
+        toast(`${err.message}`);
     }
 };
 
@@ -33,7 +33,7 @@ const signInWithFacebook = async () => {
         return await signInWithPopup(auth, facebookProvider);
     } catch (err) {
         console.error(err);
-        alert(err.message);
+        toast(`${err.message}`);
     }
 };
 
@@ -42,7 +42,7 @@ const signInWithTwitter = async () => {
         return await signInWithPopup(auth, twitterProvider);
     } catch (err) {
         console.error(err);
-        alert(err.message);
+        toast(`${err.message}`);
     }
 };
 
@@ -51,7 +51,7 @@ const logInWithEmailAndPassword = async (email, password) => {
         return await signInWithEmailAndPassword(auth, email, password);
     } catch (err) {
         console.error(err);
-        alert(err.message);
+        toast(`${err.message}`);
     }
 };
 
@@ -60,7 +60,7 @@ const registerWithEmailAndPassword = async (name, email, password) => {
         return await createUserWithEmailAndPassword(auth, email, password);
     } catch (err) {
         console.error(err);
-        alert(err.message);
+        toast(`${err.message}`);
     }
 };
 const sendPasswordReset = async (email) => {
@@ -68,7 +68,7 @@ const sendPasswordReset = async (email) => {
         await sendPasswordResetEmail(auth, email);
     } catch (err) {
         console.error(err);
-        alert(err.message);
+        toast(`${err.message}`);
     }
 };
 

@@ -1,19 +1,23 @@
-import './App.css';
-import Homepage from './pages/Homepage';
-import Profile from './pages/profile';
-import Login from './pages/auth/Login';
-import Forgot from './pages/auth/Forgot';
-import Password from './pages/auth/Password';
-import Signinverification from './pages/auth/Signinverification';
-import Newpassword from './pages/auth/Newpassword';
-import Signup from './pages/auth/Signup';
-import Otp from './pages/auth/Otp';
-import Error from './pages/404'
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import PrivateRoute from './Routes/PrivateRoutes';
-import Resetpassword from './pages/auth/Resetpassword';
-import SetPasssword from './pages/auth/SetPasssword';
-import SideBar from './pages/sidebar';
+import "./App.css";
+import Homepage from "./pages/Homepage";
+import Profile from "./pages/profile";
+import LiveClasses from "./pages/liveClasses";
+import Courses from "./pages/courses";
+import Login from "./pages/auth/Login";
+import Forgot from "./pages/auth/Forgot";
+import Password from "./pages/auth/Password";
+import Signinverification from "./pages/auth/Signinverification";
+import Newpassword from "./pages/auth/Newpassword";
+import Signup from "./pages/auth/Signup";
+import Otp from "./pages/auth/Otp";
+import Error from "./pages/404";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import PrivateRoute from "./Routes/PrivateRoutes";
+import Resetpassword from "./pages/auth/Resetpassword";
+import SetPasssword from "./pages/auth/SetPasssword";
+import SideBar from "./pages/sidebar";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -22,9 +26,10 @@ function App() {
         <Routes>
           <Route
             path="home"
-            element={<PrivateRoute>
-              <Homepage />
-            </PrivateRoute>
+            element={
+              <PrivateRoute>
+                <Homepage />
+              </PrivateRoute>
             }
           />
           <Route
@@ -35,6 +40,23 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route
+            path="live-classes"
+            element={
+              <PrivateRoute>
+                <LiveClasses />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="courses"
+            element={
+              <PrivateRoute>
+                <Courses />
+              </PrivateRoute>
+            }
+          />
+
           <Route path="/" element={<Login />} />
           <Route path="sidebar" element={<SideBar />} />
           <Route path="password" element={<Password />} />
@@ -48,6 +70,7 @@ function App() {
           <Route path="*" element={<Error />} />
         </Routes>
       </BrowserRouter>
+      <ToastContainer />
     </div>
   );
 }

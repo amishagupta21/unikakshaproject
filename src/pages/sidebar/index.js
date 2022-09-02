@@ -3,6 +3,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Nav from "react-bootstrap/Nav";
 import logo from "../../assets/images/unikaksha-lms-logo.svg";
 import imgcontrol from "../../assets/images/img-accress-control.svg";
+import { Link } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 import "./sidebar.css";
@@ -13,34 +14,29 @@ const SideBar = () => {
   };
   return (
     <div className={isActive ? "left-side" : "left-side active"}>
-      <a href="#" className="logo-admin">
+      <Link to="/home" className="logo-admin">
         <img className="logo-admin" width={198} src={logo} />
-      </a>
-
+      </Link>
       <Nav defaultActiveKey="/home" className="navbar-nav">
         <li>
-          <Nav.Link eventKey="link-1" className="nav-link" href="/home">
+          <Link to="/home" className="nav-link">
             <i className="menu-icons menu-overview"></i> <span>Overview</span>
-          </Nav.Link>
-        </li>
-
-        <li>
-          <Nav.Link className="nav-link" eventKey="link-3">
-            <i className="menu-icons menu-profile"></i>
-            <span>My Profile</span>
-          </Nav.Link>
+          </Link>
         </li>
         <li>
-          <Nav.Link className="nav-link" eventKey="link-4">
-            <i className="menu-icons menu-class"></i>
-            <span>Live Classes</span>
-          </Nav.Link>
+          <Link to="/profile" className="nav-link">
+            <i className="menu-icons menu-profile"></i> <span>My Profile</span>
+          </Link>
         </li>
         <li>
-          <Nav.Link className="nav-link" eventKey="link-5">
-            <i className="menu-icons menu-course"></i>
-            <span>My Courses</span>
-          </Nav.Link>
+          <Link to="/live-classes" className="nav-link">
+            <i className="menu-icons menu-class"></i> <span>Live Classes</span>
+          </Link>
+        </li>
+        <li>
+          <Link to="/courses" className="nav-link">
+            <i className="menu-icons menu-course"></i> <span>My Courses</span>
+          </Link>
         </li>
         <li>
           <Nav.Link className="nav-link" eventKey="link-6">

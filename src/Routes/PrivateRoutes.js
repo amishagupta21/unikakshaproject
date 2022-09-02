@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
-import IslogIn from '../utils/IslogIn';
 
 function PrivateRoute({ children }) {
+    let token = JSON.parse(localStorage.getItem('token'))?.accessToken
     useEffect(() => {
-        if (!IslogIn()) {
+        if (!token) {
             <Navigate to="/" />
         }
     }, [])
-
-    return true ? children : <Navigate to="/" />;
+    return token ? children : <Navigate to="/" />;
 }
 
 export default PrivateRoute;

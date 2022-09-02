@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const ApiService = async (url_end_point, type, data, resettoken) => {
   const apiObj = (url_end_point, type, data) => {
@@ -18,12 +19,11 @@ const ApiService = async (url_end_point, type, data, resettoken) => {
     return obj;
   };
   try {
-    console.log("url ::", url_end_point)
-    const apiResData = await axios(apiObj(url_end_point, type, data));
-    return apiResData;
+    const response = await axios(apiObj(url_end_point, type, data));
+    return response;
   } catch (err) {
-    const apiErrData = err;
-    return apiErrData;
+    toast(`${err}`)
+    return err;
   }
 };
 
