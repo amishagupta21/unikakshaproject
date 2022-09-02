@@ -213,7 +213,6 @@ const Login = () => {
                         //     .required('A phone number is required'),
                         // })}
                         // onSubmit={(values) => {
-                        //   console.log("values", values)
                         //   if (values.mobileNumber) {
                         //     sendOTP(values.mobileNumber)
                         //     navigate('/otp')

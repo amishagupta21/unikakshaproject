@@ -36,10 +36,7 @@ import SchemaList from "./../../Shared-Component-formik/schema/SchemaList";
 const Profile = () => {
   const dispatch = useDispatch();
   const profileInfo = useSelector((state) => state?.users?.profile);
-  console.log("profile Data ::: ", profileInfo);
-
   const [isShowIntroductionModal, setIsShowIntroductionModal] = useState(false);
-
   useEffect(() => {
     let id = "A8DYxHJJN3ap9Zj06ZbrqHKTEv73";
     dispatch(getuserProfile(id));
@@ -69,7 +66,6 @@ const Profile = () => {
   });
 
   const addIntroduction = (values) => {
-    console.log("Introduction", values);
     let ans = {
       uid: "A8DYxHJJN3ap9Zj06ZbrqHKTdsk",
       firstName: values.firstName,

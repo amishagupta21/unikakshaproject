@@ -16,7 +16,6 @@ const SocialLogin = () => {
                 <li>
                     <a onClick={async () => {
                         let res = await signInWithGoogle()
-                        console.log("res :===", res)
                         if (res?.user) {
                             localStorage.setItem("token", JSON.stringify(res?.user?.stsTokenManager))
                             navigate('/home')

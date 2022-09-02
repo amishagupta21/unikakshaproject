@@ -59,7 +59,6 @@ const SetPasssword = () => {
               }}
               render={({ handleChange, handleSubmit, handleBlur, values, errors, touched, validateForm }) => (
                 <Form>
-                  {console.log("errors", errors)}
                   <Row className="mb-0">
                     <Field
                       name="password"

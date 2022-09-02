@@ -19,7 +19,6 @@ const Otp = () => {
 
   const onSubmitOTP = (code) => {
     window.confirmationResult.confirm(code).then((result) => {
-      console.log("user", result?.user)
       navigate('/home')
     }).catch((error) => {
       alert("Error", error)
