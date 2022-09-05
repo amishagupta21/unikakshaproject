@@ -1,6 +1,6 @@
-import {ErrorMessage} from "formik"
+import { ErrorMessage } from "formik"
 // import {toAbsoluteUrl, toProfileImgUrl} from "../../helpers"
-import {toast} from "react-toastify"
+import { toast } from "react-toastify"
 import selectImg from "../.././assets/images/selectImg.png"
 
 const FormikImage = ({
@@ -12,6 +12,8 @@ const FormikImage = ({
   editFlag,
   editPath,
   formik,
+  imgIconClassName,
+  imgIcon,
   ...rest
 }) => {
   const onImageChange = (event) => {
@@ -59,13 +61,14 @@ const FormikImage = ({
             }}
           />
           <img
+            className={imgIconClassName}
             src={
               // img
               // ? img
               // : editFlag && editPath
               // ? toProfileImgUrl(editPath)
               // : toAbsoluteUrl("/media/avatars/blank.png")
-              img ? img : selectImg
+              img ? img : imgIcon
             }
             alt=""
             width="200px"
@@ -75,7 +78,7 @@ const FormikImage = ({
         </span>
       </label>
       <br />
-      <ErrorMessage name={name} component="span" className="invalid-input" style={{color: "red"}} />
+      <ErrorMessage name={name} component="span" className="invalid-input" style={{ color: "red" }} />
     </>
   )
 }

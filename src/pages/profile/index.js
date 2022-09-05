@@ -4,7 +4,6 @@ import editIcon from "../../assets/images/edit-icon.svg"
 import ProfilePic from "../../assets/images/profile-picture.png"
 import ProfilePic2 from "../../assets/images/profile-picture2.png"
 import ProfilePic3 from "../../assets/images/profile-picture3.png"
-import mail from "../../assets/images/icon-gmail.png"
 import linked from "../../assets/images/icon-linked-new.png"
 import youtube from "../../assets/images/icon-youtube.png"
 import fb from "../../assets/images/icon-facebook-new.png"
@@ -33,9 +32,9 @@ import Onesocial from "../../components/profile/socialmedia/Onesocial"
 import { Form, Formik } from "formik"
 import SchemaList from "./../../Shared-Component-formik/schema/SchemaList"
 import FormikController from "./../../Shared-Component-formik/FormikController"
-import { toast } from "react-toastify"
 
 const Profile = () => {
+  let test = "helo"
   const dispatch = useDispatch()
   const profileInfo = useSelector((state) => state?.users?.profile)
   console.log("profile Data ::: ", profileInfo)
@@ -43,19 +42,14 @@ const Profile = () => {
   const [profileImg, setProfileImg] = useState("")
   const [bannerImg, setbannerImg] = useState("")
   const [isShowIntroductionModal, setIsShowIntroductionModal] = useState(false)
+  const [isShowExperienceModal, setIsShowExperienceModal] = useState(false)
 
   useEffect(() => {
     let id = "A8DYxHJJN3ap9Zj06ZbrqHKTEv73"
     dispatch(getuserProfile(id))
   }, [])
 
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ]
-
-  const initialValues = {
+  const IntroductionInitialValues = {
     firstName: "",
     lastName: "",
     profileHeadline: "",
@@ -63,11 +57,22 @@ const Profile = () => {
     resume: "",
     bannerPicture: "",
     profilePicture: "",
-    react_select: "",
     linkedin: "",
     instagram: "",
     twitter: ""
   }
+  const experienceInitialValues = {
+    title: "",
+    employmentType: "",
+    companyName: "",
+    location: "",
+    startMonth: "",
+    startYear: "",
+    endMonth: "",
+    endYear: "",
+    description: ""
+  }
+
   let validationSchema = Yup.object({
     firstName: SchemaList[0].required("First name is a required field"),
     lastName: SchemaList[0].required("Last name is a required field"),
@@ -77,7 +82,6 @@ const Profile = () => {
 
   const addIntroduction = async (values) => {
     console.log("Introduction>>>> ::", values)
-
     setIsShowIntroductionModal(false)
     let ans = {
       uid: "A8DYxHJJN3ap9Zj06ZbrqHKTdsk",
@@ -94,6 +98,9 @@ const Profile = () => {
     dispatch(addUserIntroduction(ans));
     profileImg && setProfileImg("")
     bannerImg && setbannerImg("")
+  }
+  const addExperience = (values) => {
+    console.log("Exp values::", values);
   }
 
   return (
@@ -118,7 +125,7 @@ const Profile = () => {
               </Modal.Header>
               <Modal.Body>
                 <Formik
-                  initialValues={initialValues}
+                  initialValues={IntroductionInitialValues}
                   validationSchema={validationSchema}
                   onSubmit={addIntroduction}
                 >
@@ -178,7 +185,7 @@ const Profile = () => {
                             />
                             <div>
                               <label htmlFor="resume" name="resume">
-                                <label className="required fw-bold fs-6 mb-2">Select Resume</label>
+                                <label className="required fs-6 mb-2">Select Resume</label>
                                 <br />
                                 <span className="form-control form-control-solid mb-lg-0">
                                   <input
@@ -198,28 +205,32 @@ const Profile = () => {
                             </div>
                           </div>
                           <div className="col-6">
-                            <FormikController
+                            {/* <FormikController
                               control="image"
                               label="Profile image"
+                               imgIconClassName="h-auto"
                               labelClassName="required fs-6 mb-2"
                               name="profilePicture"
                               // className="form-control form-control-solid mb-lg-0"
                               img={profileImg}
                               setImg={setProfileImg}
+                               imgIcon={twit}
                               // editFlag={location?.state?.edit}
                               // editPath={location?.state?.editObj?.profilePicture}
                               formik={formik}
                               value={formik.values.profilePicture}
                               onChange={formik.handleChange}
                               error={formik.errors.profilePicture}
-                            />
+                            /> */}
                             <FormikController
                               control="image"
                               label="Banner image"
                               labelClassName="required fs-6 mb-2"
                               name="bannerPicture"
+                              imgIconClassName="h-auto"
                               // className="form-control form-control-solid mb-lg-0"
                               img={bannerImg}
+                              imgIcon={twit}
                               setImg={setbannerImg}
                               // editFlag={location?.state?.edit}
                               // editPath={location?.state?.editObj?.bannerPicture}
@@ -286,23 +297,65 @@ const Profile = () => {
                               onChange={formik.handleChange}
                               error={formik.errors.about}
                             />
-                            <FormikController
-                              control="react_select"
-                              label="React select"
-                              labelClassName="required fw-bold fs-6 mb-2"
-                              name="react_select"
-                              isMulti={false}
-                              className="form-control-solid mb-lg-0"
-                              formik={formik}
-                              options={options}
-                              value={formik.values.react_select}
-                              onChange={formik.handleChange}
-                              error={formik.errors.react_select}
-                            />
                           </div>
                         </div>
                         <Modal.Footer>
                           <button onClick={() => setIsShowIntroductionModal(false)}>Cancel</button>
+                          <button type="submit">Save</button>
+                        </Modal.Footer>
+                      </Form>
+                    )
+                  }}
+                </Formik>
+              </Modal.Body>
+            </Modal>
+            <Modal
+              size="lg"
+              show={isShowExperienceModal}
+              onHide={() => setIsShowExperienceModal(false)}
+              aria-labelledby="example-modal-sizes-title-lg"
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="example-modal-sizes-title-lg">Add Experience</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Formik
+                  initialValues={experienceInitialValues}
+                  validationSchema={validationSchema}
+                  onSubmit={addExperience}
+                >
+                  {(formik) => {
+                    return (
+                      <Form onSubmit={formik.handleSubmit} className="form" autoComplete="false">
+                        <div
+                          className="d-flex row me-n7 pe-7"
+                          // className="d-flex row scroll-y me-n7 pe-7"
+                          id="kt_modal_add_user_scroll"
+                          data-kt-scroll="true"
+                          data-kt-scroll-activate="{default: false, lg: true}"
+                          // data-kt-scroll-max-height="auto"
+                          data-kt-scroll-dependencies="#kt_modal_add_user_header"
+                          data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
+                        // data-kt-scroll-offset="300px"
+                        >
+                          <div className="col-12">
+                            <FormikController
+                              control="input"
+                              type="text"
+                              label="Title"
+                              labelClassName="required fs-6 mb-2"
+                              name="firstName"
+                              className="form-control form-control-solid mb-lg-0"
+                              maxLength="25"
+                              formik={formik}
+                              value={formik.values.firstName}
+                              onChange={formik.handleChange}
+                              error={formik.errors.firstName}
+                            />
+                          </div>
+                        </div>
+                        <Modal.Footer>
+                          <button onClick={() => setIsShowExperienceModal(false)}>Cancel</button>
                           <button type="submit">Save</button>
                         </Modal.Footer>
                       </Form>
@@ -393,8 +446,6 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
-
-              {/* profile complete  */}
               <About description={profileInfo?.about} />
               <div className="py-3 d-flex justify-content-between pe-4 card-bg profile-bg-blue">
                 <div className="complete-profile">
@@ -411,7 +462,11 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-            <Experience info={profileInfo?.workExperience} />
+            <Experience
+              info={profileInfo?.workExperience}
+              Test={test}
+              setIsShowExperienceModal
+            />
             <Education info={profileInfo?.education} />
             <Projects />
             <Skills />

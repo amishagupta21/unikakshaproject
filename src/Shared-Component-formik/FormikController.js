@@ -8,7 +8,7 @@ import ReactSelect from "./select/ReactSelect"
 import FormikImage from "./image/FormikImage"
 
 function FormikController(props) {
-  const {control, ...rest} = props
+  const { control, ...rest } = props
   switch (control) {
     case "input":
       return <Input {...rest} />
