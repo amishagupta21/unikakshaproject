@@ -1,8 +1,8 @@
-import {ErrorMessage, Field} from "formik"
-import {useState} from "react"
+import { ErrorMessage, Field } from "formik"
+import { useState } from "react"
 
 function Input(props) {
-  const {type, name, label, labelClassName, value, formik, ...rest} = props
+  const { type, name, label, labelClassName, value, formik, ...rest } = props
   const [showPass, setShowPass] = useState(false)
 
   return (
@@ -12,7 +12,7 @@ function Input(props) {
           {label}
         </label>
       )}
-      <div style={{position: "relative"}}>
+      <div style={{ position: "relative" }}>
         <Field
           type={showPass ? "text" : type}
           name={name}
@@ -44,7 +44,7 @@ function Input(props) {
           </span>
         ) : null}
       </div>
-      <ErrorMessage name={name} component="span" className="invalid-input" style={{color: "red"}} />
+      <ErrorMessage name={name} component="span" className="invalid-input" style={{ color: "red" }} />
     </>
   )
 }

@@ -11,12 +11,13 @@ import back from '../../assets/images/back-arrow.svg';
 import eye from '../../assets/images/icon-eye-view.svg';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { logInWithEmailAndPassword } from '../../firebase/firebaseAuth';
+import { clearEmail } from '../../redux/actions/AuthActions';
 
 const Login = () => {
   const navigate = useNavigate()
-
+  const dispatch = useDispatch()
   const username = useSelector(state => state?.auth?.email)
 
   return (
@@ -27,8 +28,13 @@ const Login = () => {
       <div className='right_box'>
         <div className='right_box_container'>
           <div className='back-action'>
-            <div className="back-arrow"><a onClick={() => navigate('/')}><img src={back} /></a></div>
-            <a onClick={() => navigate('/')} className='logo'><img src={Logo} /></a>
+            <div className="back-arrow"><a onClick={() => {
+              dispatch(clearEmail())
+              navigate('/')
+            }}><img src={back} /></a></div>
+            <a onClick={() =>
+              navigate('/')
+            } className='logo'><img src={Logo} /></a>
           </div>
           <div className='auth_form'>
             <h3>Enter your password</h3>

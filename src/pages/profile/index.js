@@ -1,71 +1,84 @@
-import React, { useEffect, useState } from "react";
-import "./profile.css";
-import editIcon from "../../assets/images/edit-icon.svg";
-import ProfilePic from "../../assets/images/profile-picture.png";
-import ProfilePic2 from "../../assets/images/profile-picture2.png";
-import ProfilePic3 from "../../assets/images/profile-picture3.png";
-import mail from "../../assets/images/icon-gmail.png";
-import linked from "../../assets/images/icon-linked-new.png";
-import youtube from "../../assets/images/icon-youtube.png";
-import fb from "../../assets/images/icon-facebook-new.png";
-import profile from "../../assets/images/profile-picture.png";
-import pintest from "../../assets/images/icon-printest-new.png";
-import pdf from "../../assets/images/icon-pdf.svg";
+import React, { useEffect, useState } from "react"
+import "./profile.css"
+import editIcon from "../../assets/images/edit-icon.svg"
+import ProfilePic from "../../assets/images/profile-picture.png"
+import ProfilePic2 from "../../assets/images/profile-picture2.png"
+import ProfilePic3 from "../../assets/images/profile-picture3.png"
+import mail from "../../assets/images/icon-gmail.png"
+import linked from "../../assets/images/icon-linked-new.png"
+import youtube from "../../assets/images/icon-youtube.png"
+import fb from "../../assets/images/icon-facebook-new.png"
+import profile from "../../assets/images/profile-picture.png"
+import pintest from "../../assets/images/icon-printest-new.png"
+import pdf from "../../assets/images/icon-pdf.svg"
 
-import twit from "../../assets/images/icon-twitter-new.png";
-import { Modal, ProgressBar } from "react-bootstrap";
+import twit from "../../assets/images/icon-twitter-new.png"
+import { Modal, ProgressBar } from "react-bootstrap"
 
-import About from "../../components/profile/About";
-import Education from "../../components/profile/Education";
-import Skills from "../../components/profile/Skills";
-import Experience from "../../components/profile/Experience";
-import Recommendations from "../../components/profile/Recommendations";
-import Projects from "../../components/profile/Projects";
-import iconplus from "../../assets/images/icon-plus.svg";
-import * as Yup from "yup";
-import SideBar from "../sidebar";
-import Header from "../header";
-import Dropdown from "react-bootstrap/Dropdown";
-import { addUserIntroduction, getuserProfile } from "../../redux/actions/UserActions";
-import { useDispatch, useSelector } from "react-redux";
-import Onesocial from "../../components/profile/socialmedia/Onesocial";
-import FormikController from "./../../Shared-Component-formik/FormikController";
-import { Form, Formik } from "formik";
-import SchemaList from "./../../Shared-Component-formik/schema/SchemaList";
+import About from "../../components/profile/About"
+import Education from "../../components/profile/Education"
+import Skills from "../../components/profile/Skills"
+import Experience from "../../components/profile/Experience"
+import Recommendations from "../../components/profile/Recommendations"
+import Projects from "../../components/profile/Projects"
+import iconplus from "../../assets/images/icon-plus.svg"
+import * as Yup from "yup"
+
+import SideBar from "../sidebar"
+import Header from "../header"
+import Dropdown from "react-bootstrap/Dropdown"
+import { addUserIntroduction, getuserProfile } from "../../redux/actions/UserActions"
+import { useDispatch, useSelector } from "react-redux"
+import Onesocial from "../../components/profile/socialmedia/Onesocial"
+import { Form, Formik } from "formik"
+import SchemaList from "./../../Shared-Component-formik/schema/SchemaList"
+import FormikController from "./../../Shared-Component-formik/FormikController"
+import { toast } from "react-toastify"
 
 const Profile = () => {
-  const dispatch = useDispatch();
-  const profileInfo = useSelector((state) => state?.users?.profile);
-  const [isShowIntroductionModal, setIsShowIntroductionModal] = useState(false);
+  const dispatch = useDispatch()
+  const profileInfo = useSelector((state) => state?.users?.profile)
+  console.log("profile Data ::: ", profileInfo)
+
+  const [profileImg, setProfileImg] = useState("")
+  const [bannerImg, setbannerImg] = useState("")
+  const [isShowIntroductionModal, setIsShowIntroductionModal] = useState(false)
+
   useEffect(() => {
-    let id = "A8DYxHJJN3ap9Zj06ZbrqHKTEv73";
-    dispatch(getuserProfile(id));
-  }, []);
+    let id = "A8DYxHJJN3ap9Zj06ZbrqHKTEv73"
+    dispatch(getuserProfile(id))
+  }, [])
+
+  const options = [
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" },
+  ]
 
   const initialValues = {
     firstName: "",
     lastName: "",
     profileHeadline: "",
     about: "",
-    // profilePic: "",
-    // resume: "",
-    // bannerImage: "",
+    resume: "",
+    bannerPicture: "",
+    profilePicture: "",
+    react_select: "",
     linkedin: "",
     instagram: "",
     twitter: ""
-  };
+  }
   let validationSchema = Yup.object({
-    firstName: SchemaList[0],
-    lastName: SchemaList[0],
-    profileHeadline: SchemaList[0],
-    about: SchemaList[0],
-    linkedin: "",
-    instagram: "",
-    twitter: ""
-    // profilePic: SchemaList[0],
-  });
+    firstName: SchemaList[0].required("First name is a required field"),
+    lastName: SchemaList[0].required("Last name is a required field"),
+    profileHeadline: SchemaList[0].required("Profile headline is a required field"),
+    about: SchemaList[0].required("About is a required field"),
+  })
 
-  const addIntroduction = (values) => {
+  const addIntroduction = async (values) => {
+    console.log("Introduction>>>> ::", values)
+
+    setIsShowIntroductionModal(false)
     let ans = {
       uid: "A8DYxHJJN3ap9Zj06ZbrqHKTdsk",
       firstName: values.firstName,
@@ -79,7 +92,10 @@ const Profile = () => {
       }
     }
     dispatch(addUserIntroduction(ans));
-  };
+    profileImg && setProfileImg("")
+    bannerImg && setbannerImg("")
+  }
+
   return (
     <div className="wrapper">
       <div className="sidebar">
@@ -89,10 +105,8 @@ const Profile = () => {
         <Header />
         <div className="profile-page">
           <div className="row-profile-left">
-            <div className="d-flex justify-content-between">
-              <h2 className="profile-heading">MY Profile</h2>
-              <button className="btn btn-info btn-primary h-75" onClick={() => setIsShowIntroductionModal(true)}>Add Introduction</button>
-            </div>
+            <h2 className="profile-heading">MY Profile</h2>
+            <button className="btn btn-info" onClick={() => setIsShowIntroductionModal(true)}>Add Introduction</button>
             <Modal
               size="lg"
               show={isShowIntroductionModal}
@@ -100,9 +114,7 @@ const Profile = () => {
               aria-labelledby="example-modal-sizes-title-lg"
             >
               <Modal.Header closeButton>
-                <Modal.Title id="example-modal-sizes-title-lg">
-                  Add Introduction
-                </Modal.Title>
+                <Modal.Title id="example-modal-sizes-title-lg">Add Introduction</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <Formik
@@ -112,11 +124,7 @@ const Profile = () => {
                 >
                   {(formik) => {
                     return (
-                      <Form
-                        onSubmit={formik.handleSubmit}
-                        className="form"
-                        autoComplete="false"
-                      >
+                      <Form onSubmit={formik.handleSubmit} className="form" autoComplete="false">
                         <div
                           className="d-flex row me-n7 pe-7"
                           // className="d-flex row scroll-y me-n7 pe-7"
@@ -168,48 +176,58 @@ const Profile = () => {
                               onChange={formik.handleChange}
                               error={formik.errors.profileHeadline}
                             />
-                            {/* <FormikController
-                              control="input"
-                              type="text"
-                              label="Resume Upload"
-                              labelClassName="required fs-6 mb-2"
-                              name="resume"
-                              className="form-control form-control-solid mb-lg-0"
-                              maxLength="25"
-                              formik={formik}
-                              value={formik.values.resume}
-                              onChange={formik.handleChange}
-                              error={formik.errors.resume}
-                            /> */}
-
+                            <div>
+                              <label htmlFor="resume" name="resume">
+                                <label className="required fw-bold fs-6 mb-2">Select Resume</label>
+                                <br />
+                                <span className="form-control form-control-solid mb-lg-0">
+                                  <input
+                                    // hidden
+                                    id="resume"
+                                    labelClassName="required fs-6 mb-2"
+                                    type="file"
+                                    // accept="image/*"
+                                    className="form-control form-control-solid mb-lg-0"
+                                    onClick={() => formik.setFieldTouched("resume", true)}
+                                    onChange={(event) => {
+                                      formik.setFieldValue("resume", event.target.files[0])
+                                    }}
+                                  />
+                                </span>
+                              </label>
+                            </div>
                           </div>
                           <div className="col-6">
-                            {/* <FormikController
-                              control="input"
-                              type="text"
-                              label="Add Banner Image"
+                            <FormikController
+                              control="image"
+                              label="Profile image"
                               labelClassName="required fs-6 mb-2"
-                              name="bannerImage"
-                              className="form-control form-control-solid mb-lg-0"
-                              maxLength="25"
+                              name="profilePicture"
+                              // className="form-control form-control-solid mb-lg-0"
+                              img={profileImg}
+                              setImg={setProfileImg}
+                              // editFlag={location?.state?.edit}
+                              // editPath={location?.state?.editObj?.profilePicture}
                               formik={formik}
-                              value={formik.values.bannerImage}
+                              value={formik.values.profilePicture}
                               onChange={formik.handleChange}
-                              error={formik.errors.bannerImage}
-                            /> */}
-                            {/* <FormikController
-                              control="input"
-                              type="text"
-                              label="Add Profile Pic"
+                              error={formik.errors.profilePicture}
+                            />
+                            <FormikController
+                              control="image"
+                              label="Banner image"
                               labelClassName="required fs-6 mb-2"
-                              name="profilePic"
-                              className="form-control form-control-solid mb-lg-0"
-                              maxLength="25"
+                              name="bannerPicture"
+                              // className="form-control form-control-solid mb-lg-0"
+                              img={bannerImg}
+                              setImg={setbannerImg}
+                              // editFlag={location?.state?.edit}
+                              // editPath={location?.state?.editObj?.bannerPicture}
                               formik={formik}
-                              value={formik.values.profilePic}
+                              value={formik.values.bannerPicture}
                               onChange={formik.handleChange}
-                              error={formik.errors.profilePic}
-                            /> */}
+                              error={formik.errors.bannerPicture}
+                            />
                             <div>
                               <FormikController
                                 control="input"
@@ -268,16 +286,27 @@ const Profile = () => {
                               onChange={formik.handleChange}
                               error={formik.errors.about}
                             />
+                            <FormikController
+                              control="react_select"
+                              label="React select"
+                              labelClassName="required fw-bold fs-6 mb-2"
+                              name="react_select"
+                              isMulti={false}
+                              className="form-control-solid mb-lg-0"
+                              formik={formik}
+                              options={options}
+                              value={formik.values.react_select}
+                              onChange={formik.handleChange}
+                              error={formik.errors.react_select}
+                            />
                           </div>
-                          <Modal.Footer>
-                            <button className="btn btn-info btn-primary" onClick={() => setIsShowIntroductionModal(false)}>
-                              Close
-                            </button>
-                            <button className="btn btn-info btn-primary" type="submit">Save</button>
-                          </Modal.Footer>
                         </div>
+                        <Modal.Footer>
+                          <button onClick={() => setIsShowIntroductionModal(false)}>Cancel</button>
+                          <button type="submit">Save</button>
+                        </Modal.Footer>
                       </Form>
-                    );
+                    )
                   }}
                 </Formik>
               </Modal.Body>
@@ -297,26 +326,11 @@ const Profile = () => {
                       <p>{profileInfo?.profileHeadline}</p>
                       <div className="profile-share">
                         <ul>
-                          <Onesocial
-                            link={profileInfo?.socialLinks?.facebook}
-                            img={fb}
-                          />
-                          <Onesocial
-                            link={profileInfo?.socialLinks?.facebook}
-                            img={pintest}
-                          />
-                          <Onesocial
-                            link={profileInfo?.socialLinks?.facebook}
-                            img={linked}
-                          />
-                          <Onesocial
-                            link={profileInfo?.socialLinks?.youtube}
-                            img={youtube}
-                          />
-                          <Onesocial
-                            link={profileInfo?.socialLinks?.twitter}
-                            img={twit}
-                          />
+                          <Onesocial link={profileInfo?.socialLinks?.facebook} img={fb} />
+                          <Onesocial link={profileInfo?.socialLinks?.facebook} img={pintest} />
+                          <Onesocial link={profileInfo?.socialLinks?.facebook} img={linked} />
+                          <Onesocial link={profileInfo?.socialLinks?.youtube} img={youtube} />
+                          <Onesocial link={profileInfo?.socialLinks?.twitter} img={twit} />
                         </ul>
                       </div>
                     </div>
@@ -334,16 +348,12 @@ const Profile = () => {
                     </div>
                     <div className="col-sm-5">
                       <div className="profile-company">
-                        <p className="mb-0 job-title ">
+                        <p className="mb-0 job-title">
                           {profileInfo?.workExperience?.[0]?.companyName}
                         </p>
-                        <p className="job-type">
-                          {profileInfo?.workExperience?.[0]?.title}
-                        </p>
+                        <p className="job-type">{profileInfo?.workExperience?.[0]?.title}</p>
                         <p className="city ">
-                          <strong>
-                            {profileInfo?.workExperience?.[0]?.location}
-                          </strong>
+                          <strong>{profileInfo?.workExperience?.[0]?.location}</strong>
                         </p>
                       </div>
                     </div>
@@ -361,12 +371,8 @@ const Profile = () => {
 
                       <Dropdown.Menu>
                         <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                        <Dropdown.Item href="#/action-2">
-                          Another action
-                        </Dropdown.Item>
-                        <Dropdown.Item href="#/action-3">
-                          Something else
-                        </Dropdown.Item>
+                        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
                   </div>
@@ -375,22 +381,13 @@ const Profile = () => {
                   <div className="profile-box-column">
                     <div className="row">
                       <div className="col-sm-4">
-                        <div
-                          className="box-color"
-                          style={{ background: "#C8DEFF" }}
-                        ></div>
+                        <div className="box-color" style={{ background: "#C8DEFF" }}></div>
                       </div>
                       <div className="col-sm-4">
-                        <div
-                          className="box-color"
-                          style={{ background: "#DEF3C1" }}
-                        ></div>
+                        <div className="box-color" style={{ background: "#DEF3C1" }}></div>
                       </div>
                       <div className="col-sm-4">
-                        <div
-                          className="box-color"
-                          style={{ background: "#FBD0C1" }}
-                        ></div>
+                        <div className="box-color" style={{ background: "#FBD0C1" }}></div>
                       </div>
                     </div>
                   </div>
@@ -631,8 +628,8 @@ const Profile = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+    </div >
+  )
+}
 
-export default Profile;
+export default Profile

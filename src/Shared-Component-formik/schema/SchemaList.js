@@ -1,17 +1,13 @@
-import * as Yup from "yup";
+import * as Yup from "yup"
 
-const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
+const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"]
 // value?.type?.includes("image/")
 
 const SchemaList = [
   // TEXT => SchemaList[0]
   Yup.string().nullable().required(),
   // EMAIL =? SchemaList[1]
-  Yup.string()
-    .required()
-    .nullable()
-    .email("Wrong email format")
-    .min(3, "Minimum 3 symbols"),
+  Yup.string().required().nullable().email("Wrong email format").min(3, "Minimum 3 symbols"),
   // PASSWORD => SchemaList[2]
   Yup.string()
     .required("Password is a required field")
@@ -51,6 +47,6 @@ const SchemaList = [
   // .max(new Date(Date.now() - 567648000000), "You must be at least 18 years")
   // ARRAY ==> SchemaList[7]
   Yup.array().required().nullable().min(1),
-];
+]
 
-export default SchemaList;
+export default SchemaList

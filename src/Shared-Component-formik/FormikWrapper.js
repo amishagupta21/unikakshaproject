@@ -1,32 +1,30 @@
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-// import {getLabel} from "../language-provider/LanProvider"
-import FormikController from "./FormikController";
-import SchemaList from "./schema/SchemaList";
+import {Formik, Form} from "formik"
+import * as Yup from "yup"
+import {getLabel} from "../language-provider/LanProvider"
+import FormikController from "./FormikController"
+import SchemaList from "./schema/SchemaList"
 
 function FormikWrapper() {
   const choices = [
-    { key: "choice a", value: "choicea" },
-    { key: "choice b", value: "choiceb" },
-  ];
+    {key: "choice a", value: "choicea"},
+    {key: "choice b", value: "choiceb"},
+  ]
   const initialValues = {
     email: "",
     selectChoice: "",
     radioChoice: "",
     checkBoxChoice: "",
-  };
+  }
   let validationSchema = Yup.object({
     f_name: SchemaList[0].min(2),
     l_name: SchemaList[0],
     email: SchemaList[1],
-    password: SchemaList[2].required(
-      `${getLabel("password")} ${getLabel("is_req")}`
-    ),
+    password: SchemaList[2].required(`${getLabel("password")} ${getLabel("is_req")}`),
     confirmPassword: SchemaList[3],
     selectChoice: SchemaList[0],
     radioChoice: SchemaList[0],
     checkBoxChoice: SchemaList[0],
-  });
+  })
   // const validationSchema = Yup.object({
   //   text: Yup.string().required(),
   //   email: Yup.string().email().required(),
@@ -43,13 +41,9 @@ function FormikWrapper() {
   //   radioChoice: Yup.string().required(),
   //   checkBoxChoice: Yup.array().required(),
   // });
-  const onSubmit = (values) => console.log("Form data", values);
+  const onSubmit = (values) => console.log("Form data", values)
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-    >
+    <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
       {(formik) => {
         return (
           <Form onSubmit={formik.handleSubmit}>
@@ -58,7 +52,7 @@ function FormikWrapper() {
               type="text"
               label="First Name"
               name="f_name"
-              style={{ color: "red" }}
+              style={{color: "red"}}
               className="hello"
               formik={formik}
               value={formik.values.f_name}
@@ -174,9 +168,9 @@ function FormikWrapper() {
 
             <button type="submit">Submit</button>
           </Form>
-        );
+        )
       }}
     </Formik>
-  );
+  )
 }
-export default FormikWrapper;
+export default FormikWrapper

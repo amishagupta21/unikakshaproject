@@ -1,29 +1,31 @@
-import React from "react";
-import Input from "./input/Input";
-import Select from "./select/Select";
-import CheckBoxes from "./checkboxes/Checkboxes";
-import RadioButtons from "./radio-buttons/RadioButtons";
-import ReactSelect from "./select/ReactSelect";
-import FormikImage from "./image/FormikImage";
+import React from "react"
+import Input from "./input/Input"
+import Select from "./select/Select"
+import CheckBoxes from "./checkboxes/Checkboxes"
+import RadioButtons from "./radio-buttons/RadioButtons"
+import ReactSelect from "./select/ReactSelect"
+// import DateTimePicker from "./date-time-picker/DateTimePicker"
+import FormikImage from "./image/FormikImage"
 
 function FormikController(props) {
-  const { control, ...rest } = props;
+  const {control, ...rest} = props
   switch (control) {
     case "input":
-      return <Input {...rest} />;
+      return <Input {...rest} />
     case "select":
-      return <Select {...rest} />;
+      return <Select {...rest} />
     case "react_select":
-      return <ReactSelect {...rest} />;
+      return <ReactSelect {...rest} />
     case "radio":
-      return <RadioButtons {...rest} />;
+      return <RadioButtons {...rest} />
     case "checkbox":
-      return <CheckBoxes {...rest} />;
-
+      return <CheckBoxes {...rest} />
+    // case "datetime":
+    //   return <DateTimePicker {...rest} />
     case "image":
-      return <FormikImage {...rest} />;
+      return <FormikImage {...rest} />
     default:
-      return null;
+      return null
   }
 }
-export default FormikController;
+export default FormikController

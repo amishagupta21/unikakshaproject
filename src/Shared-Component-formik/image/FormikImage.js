@@ -1,12 +1,14 @@
-import { ErrorMessage } from "formik";
-// import { toast } from "react-toastify";
+import {ErrorMessage} from "formik"
+// import {toAbsoluteUrl, toProfileImgUrl} from "../../helpers"
+import {toast} from "react-toastify"
+import selectImg from "../.././assets/images/selectImg.png"
 
 const FormikImage = ({
   label,
   labelClassName,
   name,
-  profileImg,
-  setProfileImg,
+  img,
+  setImg,
   editFlag,
   editPath,
   formik,
@@ -14,34 +16,31 @@ const FormikImage = ({
 }) => {
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
-      if (
-        !event.target.files[0].type.includes("image/") &&
-        event.target.files[0].size > 5100000
-      ) {
-        // toast.error("Only image is accepted which is leass than 5MB");
+      if (!event.target.files[0].type.includes("image/") && event.target.files[0].size > 5100000) {
+        toast.error("Only image is accepted which is leass than 5MB")
       } else if (!event.target.files[0].name.match(/\.(jpg|jpeg|png|bmp)$/)) {
-        // toast.error("Only images are accepted");
+        toast.error("Only images are accepted")
       } else if (event.target.files[0].size > 10485760) {
-        // toast.error("Images less than 10MB are accepted");
+        toast.error("Images less than 10MB are accepted")
       } else if (
         event.target.files[0].type.includes("image/") &&
         event.target.files[0].size <= 5100000
       ) {
-        setProfileImg(URL.createObjectURL(event.target.files[0]));
-        formik.setFieldTouched(name, false);
-        return true;
+        setImg(URL.createObjectURL(event.target.files[0]))
+        formik.setFieldTouched(name, false)
+        return true
       }
     }
-  };
+  }
   return (
     <>
-      <label htmlFor="imgId" name="Profile_Picture">
+      <label htmlFor={name} name={name}>
         <label className={labelClassName}>{label}</label>
         <br />
         <span className="form-control form-control-solid mb-lg-0">
           <input
             hidden
-            id="imgId"
+            id={name}
             type="file"
             accept="image/*"
             className="form-control form-control-solid mb-lg-0"
@@ -55,34 +54,30 @@ const FormikImage = ({
             // }}
             onChange={(event) => {
               if (onImageChange(event)) {
-                formik.setFieldValue(name, event.target.files[0]);
+                formik.setFieldValue(name, event.target.files[0])
               }
             }}
           />
-          {/* <img
+          <img
             src={
-              profileImg
-                ? profileImg
-                : editFlag && editPath
-                ? toProfileImgUrl(editPath)
-                : toAbsoluteUrl("/media/avatars/blank.png")
+              // img
+              // ? img
+              // : editFlag && editPath
+              // ? toProfileImgUrl(editPath)
+              // : toAbsoluteUrl("/media/avatars/blank.png")
+              img ? img : selectImg
             }
             alt=""
             width="200px"
             height="200px"
             {...rest}
-          /> */}
+          />
         </span>
       </label>
       <br />
-      <ErrorMessage
-        name={name}
-        component="span"
-        className="invalid-input"
-        style={{ color: "red" }}
-      />
+      <ErrorMessage name={name} component="span" className="invalid-input" style={{color: "red"}} />
     </>
-  );
-};
+  )
+}
 
-export default FormikImage;
+export default FormikImage

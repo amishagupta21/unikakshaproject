@@ -8,6 +8,13 @@ export const setEmail = (email) => {
         });
     };
 };
+export const clearEmail = () => {
+    return async (dispatch) => {
+        dispatch({
+            type: ActionTypes.CLEAR_EMAIL,
+        });
+    };
+};
 
 export const setMobileNumber = (number) => {
     return async (dispatch) => {
