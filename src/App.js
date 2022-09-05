@@ -18,6 +18,7 @@ import SetPasssword from "./pages/auth/SetPasssword";
 import SideBar from "./pages/sidebar";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from "./components/util-comonents/Loader";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
             path="profile"
             element={
               <PrivateRoute>
+                <Loader />
                 <Profile />
               </PrivateRoute>
             }
@@ -69,7 +71,9 @@ function App() {
           <Route path="*" element={<Error />} />
         </Routes>
       </BrowserRouter>
-      <ToastContainer />
+      <ToastContainer
+        autoClose={3000}
+        pauseOnHover={false} />
     </div>
   );
 }

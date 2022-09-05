@@ -4,6 +4,7 @@ import linked from "../assets/images/icon-linked.png";
 import network from "../assets/images/icon-network.png";
 import fb from "../assets/images/icon-facebook.png";
 import twit from "../assets/images/icon-twit.png";
+import { toast } from "react-toastify";
 import { signInWithFacebook, signInWithGoogle, signInWithTwitter } from '../firebase/firebaseAuth'
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -17,7 +18,13 @@ const SocialLogin = () => {
                     <a onClick={async () => {
                         let res = await signInWithGoogle()
                         if (res?.user) {
-                            localStorage.setItem("token", JSON.stringify(res?.user?.stsTokenManager))
+                            localStorage.setItem("user", JSON.stringify(res?.user))
+                            toast.success("Log in Succesfull", {
+                                theme: "colored"
+                            })
+                            setTimeout(() => {
+                                toast(`Welcome ${res?.user?.displayName}`)
+                            }, 3000);
                             navigate('/home')
                         }
                     }} ><img src={mail} /></a>
@@ -33,7 +40,7 @@ const SocialLogin = () => {
                         onClick={async () => {
                             let res = await signInWithFacebook()
                             if (res?.user) {
-                                localStorage.setItem("token", JSON.stringify(res?.user?.stsTokenManager))
+                                localStorage.setItem("user", JSON.stringify(res?.user))
                                 navigate('/home')
                             }
                         }}
@@ -43,7 +50,7 @@ const SocialLogin = () => {
                     onClick={async () => {
                         let res = await signInWithTwitter()
                         if (res?.user) {
-                            localStorage.setItem("token", JSON.stringify(res?.user?.stsTokenManager))
+                            localStorage.setItem("user", JSON.stringify(res?.user))
                             navigate('/home')
                         }
                     }}

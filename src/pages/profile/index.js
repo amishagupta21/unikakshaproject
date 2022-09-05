@@ -49,37 +49,6 @@ const Profile = () => {
     dispatch(getuserProfile(id))
   }, [])
 
-  const IntroductionInitialValues = {
-    firstName: "",
-    lastName: "",
-    profileHeadline: "",
-    about: "",
-    resume: "",
-    bannerPicture: "",
-    profilePicture: "",
-    linkedin: "",
-    instagram: "",
-    twitter: ""
-  }
-  const experienceInitialValues = {
-    title: "",
-    employmentType: "",
-    companyName: "",
-    location: "",
-    startMonth: "",
-    startYear: "",
-    endMonth: "",
-    endYear: "",
-    description: ""
-  }
-
-  let validationSchema = Yup.object({
-    firstName: SchemaList[0].required("First name is a required field"),
-    lastName: SchemaList[0].required("Last name is a required field"),
-    profileHeadline: SchemaList[0].required("Profile headline is a required field"),
-    about: SchemaList[0].required("About is a required field"),
-  })
-
   const addIntroduction = async (values) => {
     console.log("Introduction>>>> ::", values)
     setIsShowIntroductionModal(false)
@@ -125,8 +94,24 @@ const Profile = () => {
               </Modal.Header>
               <Modal.Body>
                 <Formik
-                  initialValues={IntroductionInitialValues}
-                  validationSchema={validationSchema}
+                  initialValues={{
+                    firstName: "",
+                    lastName: "",
+                    profileHeadline: "",
+                    about: "",
+                    resume: "",
+                    bannerPicture: "",
+                    profilePicture: "",
+                    linkedin: "",
+                    instagram: "",
+                    twitter: ""
+                  }}
+                  validationSchema={Yup.object({
+                    firstName: SchemaList[0].required("First name is a required field"),
+                    lastName: SchemaList[0].required("Last name is a required field"),
+                    profileHeadline: SchemaList[0].required("Profile headline is a required field"),
+                    about: SchemaList[0].required("About is a required field"),
+                  })}
                   onSubmit={addIntroduction}
                 >
                   {(formik) => {
@@ -320,8 +305,23 @@ const Profile = () => {
               </Modal.Header>
               <Modal.Body>
                 <Formik
-                  initialValues={experienceInitialValues}
-                  validationSchema={validationSchema}
+                  initialValues={{
+                    title: "",
+                    employmentType: "",
+                    companyName: "",
+                    location: "",
+                    startMonth: "",
+                    startYear: "",
+                    endMonth: "",
+                    endYear: "",
+                    description: ""
+                  }}
+                  validationSchema={Yup.object({
+                    title: SchemaList[0].required(" title is a required field"),
+                    employmentType: SchemaList[0].required(" employmentType is a required field"),
+                    companyName: SchemaList[0].required("companyName is a required field"),
+                    about: SchemaList[0].required("About is a required field"),
+                  })}
                   onSubmit={addExperience}
                 >
                   {(formik) => {
@@ -329,14 +329,11 @@ const Profile = () => {
                       <Form onSubmit={formik.handleSubmit} className="form" autoComplete="false">
                         <div
                           className="d-flex row me-n7 pe-7"
-                          // className="d-flex row scroll-y me-n7 pe-7"
                           id="kt_modal_add_user_scroll"
                           data-kt-scroll="true"
                           data-kt-scroll-activate="{default: false, lg: true}"
-                          // data-kt-scroll-max-height="auto"
                           data-kt-scroll-dependencies="#kt_modal_add_user_header"
                           data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
-                        // data-kt-scroll-offset="300px"
                         >
                           <div className="col-12">
                             <FormikController

@@ -323,8 +323,9 @@ label.form-check-label {
 
 a.otp-password {
     position: absolute;
-    right: 32%;
+    right: 18%;
     top: 21px;
+    cursor: pointer;
     color: #5C5959;
     font-weight: 600;
     text-decoration: none;

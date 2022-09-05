@@ -7,8 +7,14 @@ import Logo from "../../assets/images/logo.svg";
 import Loginbanner from "../../assets/images/login-banner.svg";
 import back from "../../assets/images/back-arrow.svg";
 import eye from "../../assets/images/icon-eye-view.svg";
+import { clearEmail } from "../../redux/actions/AuthActions";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const Forgot = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   return (
     <section className="auth_layout login_screen">
       <div className="left_box">
@@ -18,7 +24,11 @@ const Forgot = () => {
         <div className="right_box_container">
           <div className="back-action">
             <div className="back-arrow">
-              <a href="">
+              <a onClick={() => {
+                dispatch(clearEmail())
+                navigate('/')
+              }
+              }>
                 <img src={back} />
               </a>
             </div>

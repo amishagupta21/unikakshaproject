@@ -15,7 +15,7 @@ import FormCheck from 'react-bootstrap/FormCheck';
 import { Form, Field, Formik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { setEmail } from "../../redux/actions/AuthActions";
+import { clearEmail, setEmail } from "../../redux/actions/AuthActions";
 import SocialLogin from "../../utils-componets/SocialLogin";
 
 const Signup = () => {
@@ -30,7 +30,11 @@ const Signup = () => {
         <div className="right_box_container">
           <div className="back-action">
             <div className="back-arrow">
-              <a href="">
+              <a onClick={() => {
+                dispatch(clearEmail())
+                navigate('/')
+              }
+              }>
                 <img src={back} />
               </a>
             </div>

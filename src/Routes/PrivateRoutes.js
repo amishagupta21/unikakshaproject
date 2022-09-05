@@ -2,7 +2,10 @@ import React, { useEffect } from "react"
 import { Navigate } from "react-router-dom"
 
 function PrivateRoute({ children }) {
-  let token = JSON.parse(localStorage.getItem("token"))?.accessToken
+  let user = JSON.parse(localStorage.getItem("user"))
+  let token = user?.stsTokenManager?.accessToken;
+
+  console.log("user :: ", user);
   useEffect(() => {
     if (!token) {
       <Navigate to="/" />
