@@ -9,13 +9,16 @@ import back from "../../assets/images/back-arrow.svg";
 import eye from "../../assets/images/icon-eye-view.svg";
 import { FormControl, FormGroup, FormLabel } from "react-bootstrap";
 import { Form, Field, Formik } from 'formik'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { registerWithEmailAndPassword } from "../../firebase/firebaseAuth";
 import { useNavigate } from 'react-router-dom'
+import { clearEmail } from "../../redux/actions/AuthActions";
 
 const SetPasssword = () => {
   const email = useSelector(state => state?.auth?.email)
   const navigate = useNavigate();
+  const dispatch = useDispatch()
+
   return (
     <section className="auth_layout login_screen">
       <div className="left_box">
@@ -24,7 +27,11 @@ const SetPasssword = () => {
       <div className="right_box">
         <div className="right_box_container">
           <div className='back-action'>
-            <div className="back-arrow"><a onClick={() => navigate('/')}><img src={back} /></a></div>
+            <div className="back-arrow"><a onClick={() => {
+              dispatch(clearEmail())
+              navigate('/')
+            }
+            }><img src={back} /></a></div>
             <a onClick={() => navigate('/')} className='logo'><img src={Logo} /></a>
           </div>
           <div className="auth_form">
@@ -128,7 +135,7 @@ const SetPasssword = () => {
           </div>
         </div>
       </div>
-    </section>
+    </section >
   );
 };
 

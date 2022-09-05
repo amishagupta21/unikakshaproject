@@ -32,9 +32,9 @@ import Onesocial from "../../components/profile/socialmedia/Onesocial"
 import { Form, Formik } from "formik"
 import SchemaList from "./../../Shared-Component-formik/schema/SchemaList"
 import FormikController from "./../../Shared-Component-formik/FormikController"
-import { toast } from "react-toastify"
 
 const Profile = () => {
+  let test = "helo"
   const dispatch = useDispatch()
   const profileInfo = useSelector((state) => state?.users?.profile)
   console.log("profile Data ::: ", profileInfo)
@@ -42,13 +42,14 @@ const Profile = () => {
   const [profileImg, setProfileImg] = useState("")
   const [bannerImg, setbannerImg] = useState("")
   const [isShowIntroductionModal, setIsShowIntroductionModal] = useState(false)
+  const [isShowExperienceModal, setIsShowExperienceModal] = useState(false)
 
   useEffect(() => {
     let id = "A8DYxHJJN3ap9Zj06ZbrqHKTEv73"
     dispatch(getuserProfile(id))
   }, [])
 
-  const initialValues = {
+  const IntroductionInitialValues = {
     firstName: "",
     lastName: "",
     profileHeadline: "",
@@ -60,6 +61,18 @@ const Profile = () => {
     instagram: "",
     twitter: ""
   }
+  const experienceInitialValues = {
+    title: "",
+    employmentType: "",
+    companyName: "",
+    location: "",
+    startMonth: "",
+    startYear: "",
+    endMonth: "",
+    endYear: "",
+    description: ""
+  }
+
   let validationSchema = Yup.object({
     firstName: SchemaList[0].required("First name is a required field"),
     lastName: SchemaList[0].required("Last name is a required field"),
@@ -69,7 +82,6 @@ const Profile = () => {
 
   const addIntroduction = async (values) => {
     console.log("Introduction>>>> ::", values)
-
     setIsShowIntroductionModal(false)
     let ans = {
       uid: "A8DYxHJJN3ap9Zj06ZbrqHKTdsk",
@@ -86,6 +98,9 @@ const Profile = () => {
     dispatch(addUserIntroduction(ans));
     profileImg && setProfileImg("")
     bannerImg && setbannerImg("")
+  }
+  const addExperience = (values) => {
+    console.log("Exp values::", values);
   }
 
   return (
@@ -110,7 +125,7 @@ const Profile = () => {
               </Modal.Header>
               <Modal.Body>
                 <Formik
-                  initialValues={initialValues}
+                  initialValues={IntroductionInitialValues}
                   validationSchema={validationSchema}
                   onSubmit={addIntroduction}
                 >
@@ -294,6 +309,61 @@ const Profile = () => {
                 </Formik>
               </Modal.Body>
             </Modal>
+            <Modal
+              size="lg"
+              show={isShowExperienceModal}
+              onHide={() => setIsShowExperienceModal(false)}
+              aria-labelledby="example-modal-sizes-title-lg"
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="example-modal-sizes-title-lg">Add Experience</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Formik
+                  initialValues={experienceInitialValues}
+                  validationSchema={validationSchema}
+                  onSubmit={addExperience}
+                >
+                  {(formik) => {
+                    return (
+                      <Form onSubmit={formik.handleSubmit} className="form" autoComplete="false">
+                        <div
+                          className="d-flex row me-n7 pe-7"
+                          // className="d-flex row scroll-y me-n7 pe-7"
+                          id="kt_modal_add_user_scroll"
+                          data-kt-scroll="true"
+                          data-kt-scroll-activate="{default: false, lg: true}"
+                          // data-kt-scroll-max-height="auto"
+                          data-kt-scroll-dependencies="#kt_modal_add_user_header"
+                          data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
+                        // data-kt-scroll-offset="300px"
+                        >
+                          <div className="col-12">
+                            <FormikController
+                              control="input"
+                              type="text"
+                              label="Title"
+                              labelClassName="required fs-6 mb-2"
+                              name="firstName"
+                              className="form-control form-control-solid mb-lg-0"
+                              maxLength="25"
+                              formik={formik}
+                              value={formik.values.firstName}
+                              onChange={formik.handleChange}
+                              error={formik.errors.firstName}
+                            />
+                          </div>
+                        </div>
+                        <Modal.Footer>
+                          <button onClick={() => setIsShowExperienceModal(false)}>Cancel</button>
+                          <button type="submit">Save</button>
+                        </Modal.Footer>
+                      </Form>
+                    )
+                  }}
+                </Formik>
+              </Modal.Body>
+            </Modal>
             <div className="profile-box">
               <div className="profile-background">
                 <img src={editIcon} />
@@ -376,8 +446,6 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
-
-              {/* profile complete  */}
               <About description={profileInfo?.about} />
               <div className="py-3 d-flex justify-content-between pe-4 card-bg profile-bg-blue">
                 <div className="complete-profile">
@@ -394,7 +462,11 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-            <Experience info={profileInfo?.workExperience} />
+            <Experience
+              info={profileInfo?.workExperience}
+              Test={test}
+              setIsShowExperienceModal
+            />
             <Education info={profileInfo?.education} />
             <Projects />
             <Skills />
