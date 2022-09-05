@@ -476,7 +476,176 @@ button.btn-lg.justify-content-center.btn-border.btn.btn-info {
     color: #D2D2D2;
     opacity: 1;
 }
+button.menu-bar {
+    display: none;
+}
 
+
+.gray-box {
+    background: #FFFFFF;
+    border: 1px solid #F6F6F6;
+    box-shadow: 0px 0px 2px rgb(0 0 0 / 25%);
+    border-radius: 20px;
+    padding: 30px 20px;
+}
+.progress-info i {
+    background: #EC6C47;
+    border-radius: 6px;
+    width: 25px;
+    display: inline-block;
+    height: 25px;
+    vertical-align: middle;
+    text-align: center;
+    line-height: 25px;
+}
+.gray-box.color-green .progress-info i {
+    background: #33C581;
+}
+.gray-box.color-green h1:after{background: #33C581;}
+
+.gray-box.color-blue .progress-info i {
+    background: #046EC5;
+}
+.gray-box.color-blue h1:after{background: #046EC5;}
+
+.gray-box.color-orange .progress-info i {
+    background: #FF9A7A;
+}
+.gray-box.color-orange h1:after{background: #FF9A7A;}
+.progress-info span {
+    color: #767780;
+    font-size: 16px;
+}
+.progress-info span {
+    padding-left: 10px;
+}
+.gray-box h1 {
+    font-size: 50px;
+    font-weight: 600;
+    margin-top: 20px;position: relative;
+}
+.gray-box h1:after{background: #EC6C47;
+    border-radius: 11px;
+    content: "";
+    height: 7px;
+    width: 77px;
+    position: absolute;
+    bottom: -11px;
+    left: 0;}
+
+    .table-wrapper .table tr th {
+        color: #83848D;
+        font-weight: 500;    border-bottom: 1px solid #E8E8E8;font-size:16px;padding: 15px 8px;
+    }
+    .table-wrapper .table tr td{ font-size:14px;border: 0;}
+    .table-wrapper .table tr td h4{font-size:14px;}
+    .wrap-box h4 {
+        margin: 0;
+        padding-left: 10px;
+        font-weight: 600;
+    }
+    .wrap-box {
+        display: flex;
+      
+        align-items: center;
+        align-items: center;
+    }
+    .wrap-box span {
+        border-radius: 9px;
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        border-radius: 9px;
+    }
+    .lesson-status i {
+        font-style: normal;
+    }    
+    .box-grid {
+       
+        width: 100%;
+        height: 200px;
+        display: inline-block;
+        border-radius: 9px;
+    }
+    .green{  background: #D7F1B3;}
+    .blue{  background: #B1CFFC;}
+    .yellow{  background: #FFE7BA;}
+    .grid-content .btn-primary {
+        background-color: #2163EA;
+        border-color: #2163EA;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        align-items: center;
+        max-width: 150px;
+        padding: 0 20px;
+        height: 50px;
+    }
+    .grid-content .btn-primary svg {     width: 15px;
+        margin-right: 10px;}
+        .border-radius { border-radius: 100px;}
+        .grid-content p {
+            color: #7A7A86;
+        }
+        
+        .grid-content {
+            margin-top: 10px;
+        }
+        .grid-content h4 {
+            color: #EDA461;
+            font-weight: 500;
+            font-size: 16px;
+        }
+        .grid-content h5 {
+            color: #000000;
+            font-size: 16px;
+        }
+
+        .btn-primary.btn-disable-color svg path {
+            stroke: #2163EA;
+        }
+       
+        .btn-primary.btn-disable-color {
+            background-color: #E5ECFA;
+            border-color: #E5ECFA;
+            color: #2163EA;
+        }
+        .sucess-status span {
+            margin-left: 10px;
+        }
+        
+        .sucess-status {
+            display: flex;
+           
+            align-items: center;
+        }
+        .sucess-status i {
+            width: 30px;
+            height: 30px;
+            background: #4F9F76;
+            border-radius: 100px;
+            display: flex;
+        }
+        .disable-status {
+            display: flex;
+           
+            align-items: center;
+        }
+        .disable-status {
+            display: flex;
+           
+            align-items: center;
+        }
+        .disable-status i {
+            width: 30px;
+            height: 30px;
+            background: #E8E8E8;
+            border-radius: 100px;
+            display: flex;
+        }
+        .disable-status span {
+            margin-left: 10px;
+        }
 @media (max-width:1199px) {
     .right_box_container {
         padding: 30px 0;

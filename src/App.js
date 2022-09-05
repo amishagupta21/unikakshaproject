@@ -14,6 +14,7 @@ import SideBar from './pages/sidebar';
 import Error from './pages/404'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PrivateRoute from './Routes/PrivateRoutes';
+import Dashboard from './pages/dashboard';
 
 function App() {
   return (
@@ -32,6 +33,15 @@ function App() {
             element={
               <PrivateRoute>
                 <Profile />
+              </PrivateRoute>
+            }
+          />
+
+<Route
+            path="dashboard"
+            element={
+              <PrivateRoute>
+                <Dashboard />
               </PrivateRoute>
             }
           />

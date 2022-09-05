@@ -28,9 +28,10 @@ import iconplus from '../../assets/images/icon-plus.svg'
 import SideBar from '../sidebar';
 import Header from '../header';
 import Dropdown from 'react-bootstrap/Dropdown';
+import Button from 'react-bootstrap/Button';
 
 
-const Profile = () => {
+const Profile = (props) => {
   return (
     <div className="wrapper">
 
@@ -39,7 +40,7 @@ const Profile = () => {
   </div>
   <div className="main-wrapper">
   <Header />
- 
+  <div className="page-wrapper">
     <div className="profile-page">
    
        <div className="row-profile-left">
@@ -355,7 +356,7 @@ const Profile = () => {
         </div>
 
     </div>
-  
+    </div>
     
     </div>
     </div>

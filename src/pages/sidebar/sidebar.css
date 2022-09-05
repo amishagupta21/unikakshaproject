@@ -12,9 +12,8 @@
  .main-wrapper {
     float: right;
     width: calc(100% - 280px);
-    padding-top: 37px;
-    padding-left: 37px;
-    padding-right: 37px;
+   
+  
  }
 
  .menu-icons {
@@ -138,15 +137,15 @@
    padding-left: 20px;
    padding-right: 20px;
 }
-.sidebar{display: none;}
+ .sidebar{display: none;} 
 .row-profile-right {
    max-width: 100%;
    flex: 0 0 100%;
-   padding: 0 15px;
+   padding: 0 15px;margin-top: 20px;
 }
 .row-profile-left {
    max-width: 100%;
    flex: 0 0 100%;
-   padding: 0 15px;
-}
+   padding: 0 15px;}
+body.active  .sidebar{display: block;} 
  }

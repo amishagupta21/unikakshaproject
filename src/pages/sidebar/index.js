@@ -8,19 +8,25 @@ import imgcontrol from "../../assets/images/img-accress-control.svg"
 import { useEffect, useState } from "react";
 import './sidebar.css'
 const SideBar = () => {
+  const [Toggle, setToggle] = useState(false);
   const [isActive, setActive] = useState("false");
-  const handleToggle = () => {
-    setActive(!isActive);  }; 
-  return (        
  
+     
+  const ToggleButton=() =>{
+    setToggle(pre=>!pre)
+  }
+  return (        
+  <div className='wrapper-side'>
 <div  className={isActive ? "left-side" : 'left-side active'} >
+
           <a href="#" className="logo-admin">
               <img className='logo-admin' width={198} src={logo} />
             
           </a>
-         
+        
+               
      
-          <Nav defaultActiveKey="/home" className="navbar-nav">
+          <Nav defaultActiveKey="/home" className={Toggle ? `navbar-nav Show` :"navbar-nav Hide" } >
               <li><Nav.Link eventKey="link-1" className='nav-link' href="/home"><i className='menu-icons menu-overview'></i> <span>Overview</span></Nav.Link></li>
             
             
@@ -39,6 +45,7 @@ with lifetime membership</p>
 <a href="" className='btn btn-info btn-primary'>Get Access</a>
 <img  src={imgcontrol} />
         </div>    
+      </div>
       </div>
       
 );    
