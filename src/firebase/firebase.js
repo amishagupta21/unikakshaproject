@@ -1,4 +1,5 @@
-import { initializeApp } from "firebase/app";
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth'; //v9
 
 const firebaseConfig = {
     apiKey: "AIzaSyCFVhwmTpxsk7WGaTduDkQOcmVSRN77SYA",
@@ -8,5 +9,7 @@ const firebaseConfig = {
     messagingSenderId: "891970569376",
     appId: "1:891970569376:web:ed6b939ba2de39d2ce75c5"
 };
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
-export default firebaseConfig
+export { firebaseConfig, firebase }

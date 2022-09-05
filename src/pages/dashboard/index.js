@@ -199,6 +199,26 @@ const Dashboard = () => {
             <div className='profile-information-container'>
             <div className='profile-information-containerpersonal-information'>
             <img src={ProfilePic}  className=""/>
+            <h3 className='font-sm'>Jone Doe</h3>
+            <p>Java full-stack developer</p>
+            <div className='py-3 d-flex justify-content-between pe-4 card-bg profile-bg-blue'>
+        <div className='complete-profile'>
+          <h5 className='lg-title'>Complete Your Profile</h5>
+          <ProgressBar>
+            <ProgressBar variant="success" now={35} key={1} />
+            <ProgressBar variant="warning" now={20} key={2} />
+            <ProgressBar variant="danger" now={10} key={3} />
+          </ProgressBar>
+          <p className='text-center'>65%</p>
+         
+        </div>
+       
+      </div>
+      <div className='courses-profile-list'>
+        <ul>
+          <li><span className='green'></span></li>
+        </ul>
+      </div>
               </div>
             </div>
             </div>

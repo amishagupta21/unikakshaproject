@@ -1,0 +1,19 @@
+.react-form-control{
+   display: block !important; 
+   width: 100% !important;
+   font-size: 1.1rem !important;
+   font-weight: 500 !important;
+   line-height: 1.5 !important;
+   background-clip: padding-box !important;
+   border: none  !important;
+   border: 1px solid #f5f8fa !important;
+   appearance: none !important;
+   border-radius: 0.475rem !important;
+   color: #5e6278 !important;
+}
+.css-319lph-ValueContainer{
+   padding: .5rem !important;
+}
+.css-1okebmr-indicatorSeparator{
+display: none !important;
+}

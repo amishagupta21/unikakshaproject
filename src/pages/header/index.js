@@ -44,9 +44,7 @@ const Header = () => {
         <li><a href=""><i className='icons-header-menu'><img src={networknew} /></i><span>Network </span></a></li>
         <li><a href=""><i className='icons-header-menu'><img src={group} /></i><span>Groups</span></a></li>
         <li><a href=""><i className='icons-header-menu'><img src={morenew} /></i><span>More </span></a></li>
-      
       </ul>
-
     </div>
     <div className='app-navbar flex-shrink-0'>
       <div className='app-navbar-item align-items-center ms-1 ms-lg-3'>
@@ -67,4 +65,4 @@ const Header = () => {
   )
 }
 
-export default Header
+export default Header;

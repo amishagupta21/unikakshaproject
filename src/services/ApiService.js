@@ -1,10 +1,10 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
-const BASE_URL = "https://jsonplaceholder.typicode.com/users";
-const ApiService = async (url, type, data, resettoken) => {
-  const apiObj = (url, type, data) => {
+const ApiService = async (url_end_point, type, data, resettoken) => {
+  const apiObj = (url_end_point, type, data) => {
     const obj = {
-      url: `${BASE_URL}`,
+      url: `${process.env.REACT_APP_LIVEURL}/${url_end_point}`,
       method: type,
       // headers: resettoken
       //   ? { Authorization: `Bearer ${resettoken}` }
@@ -19,11 +19,11 @@ const ApiService = async (url, type, data, resettoken) => {
     return obj;
   };
   try {
-    const apiResData = await axios(apiObj(url, type, data));
-    return apiResData;
+    const response = await axios(apiObj(url_end_point, type, data));
+    return response;
   } catch (err) {
-    const apiErrData = err;
-    return apiErrData;
+    toast(`${err}`)
+    return err;
   }
 };
 
