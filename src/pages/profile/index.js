@@ -4,7 +4,6 @@ import editIcon from "../../assets/images/edit-icon.svg"
 import ProfilePic from "../../assets/images/profile-picture.png"
 import ProfilePic2 from "../../assets/images/profile-picture2.png"
 import ProfilePic3 from "../../assets/images/profile-picture3.png"
-import mail from "../../assets/images/icon-gmail.png"
 import linked from "../../assets/images/icon-linked-new.png"
 import youtube from "../../assets/images/icon-youtube.png"
 import fb from "../../assets/images/icon-facebook-new.png"
@@ -49,12 +48,6 @@ const Profile = () => {
     dispatch(getuserProfile(id))
   }, [])
 
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ]
-
   const initialValues = {
     firstName: "",
     lastName: "",
@@ -63,7 +56,6 @@ const Profile = () => {
     resume: "",
     bannerPicture: "",
     profilePicture: "",
-    react_select: "",
     linkedin: "",
     instagram: "",
     twitter: ""
@@ -178,7 +170,7 @@ const Profile = () => {
                             />
                             <div>
                               <label htmlFor="resume" name="resume">
-                                <label className="required fw-bold fs-6 mb-2">Select Resume</label>
+                                <label className="required fs-6 mb-2">Select Resume</label>
                                 <br />
                                 <span className="form-control form-control-solid mb-lg-0">
                                   <input
@@ -198,28 +190,32 @@ const Profile = () => {
                             </div>
                           </div>
                           <div className="col-6">
-                            <FormikController
+                            {/* <FormikController
                               control="image"
                               label="Profile image"
+                               imgIconClassName="h-auto"
                               labelClassName="required fs-6 mb-2"
                               name="profilePicture"
                               // className="form-control form-control-solid mb-lg-0"
                               img={profileImg}
                               setImg={setProfileImg}
+                               imgIcon={twit}
                               // editFlag={location?.state?.edit}
                               // editPath={location?.state?.editObj?.profilePicture}
                               formik={formik}
                               value={formik.values.profilePicture}
                               onChange={formik.handleChange}
                               error={formik.errors.profilePicture}
-                            />
+                            /> */}
                             <FormikController
                               control="image"
                               label="Banner image"
                               labelClassName="required fs-6 mb-2"
                               name="bannerPicture"
+                              imgIconClassName="h-auto"
                               // className="form-control form-control-solid mb-lg-0"
                               img={bannerImg}
+                              imgIcon={twit}
                               setImg={setbannerImg}
                               // editFlag={location?.state?.edit}
                               // editPath={location?.state?.editObj?.bannerPicture}
@@ -285,19 +281,6 @@ const Profile = () => {
                               value={formik.values.about}
                               onChange={formik.handleChange}
                               error={formik.errors.about}
-                            />
-                            <FormikController
-                              control="react_select"
-                              label="React select"
-                              labelClassName="required fw-bold fs-6 mb-2"
-                              name="react_select"
-                              isMulti={false}
-                              className="form-control-solid mb-lg-0"
-                              formik={formik}
-                              options={options}
-                              value={formik.values.react_select}
-                              onChange={formik.handleChange}
-                              error={formik.errors.react_select}
                             />
                           </div>
                         </div>
