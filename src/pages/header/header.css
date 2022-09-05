@@ -1,0 +1,72 @@
+.menu.menu-header ul {
+    display: flex;
+    display: flex;
+    align-items: center;
+}
+
+.app-navbar .app-navbar-item {
+    display: flex;
+    align-items: center;
+}
+.app-navbar { display: flex;    margin-right: 10px;}
+.header{ border-bottom: 1px solid #EAEAEA;padding: 16px 0; align-items: center;}
+.menu-header li span{ display: block; width:100%;color: #7D7D8B;}
+.menu-header li i{ display: block; width:100%;}
+.menu-header li i {
+    display: block;
+    text-align: center;
+}
+.menu-header li { margin: 0 30px;}
+.menu-header li a {
+    text-decoration: none;
+}
+.profile-box-des {
+    margin-left: 10px;
+}
+.profile-box-des h4 {
+    font-size: 16px;
+    margin-bottom: 0;
+    font-weight: 600;
+    color: #0C0E26;
+}
+.app-navbar-profile img { width:50px; height: 50px; object-fit: cover; border-radius: 100px;}
+
+i.search-icon img {
+    width: 20px;
+    height: 20px;
+    max-width: 20px;
+}
+
+i.notify-icon img {
+    width: 26px;
+    height: 26px;
+    max-width: 26px;
+}
+i.notify-icon {
+    background: #FFFFFF;
+    box-shadow: 0px 2px 4px rgb(0 0 0 / 25%);
+    padding: 10px;
+    border-radius: 100px;
+}
+@media only screen and (max-width: 992px) {
+.menu.menu-header.menu-rounded.menu-column.align-items-stretch.fw-semibold {
+    display: none;
+}
+i.search-icon img {
+    width: 16px;
+    height: 16px;
+    max-width: 20px;
+}
+i.notify-icon img {
+    width: 21px;
+    height: 21px;
+    max-width: 21px;
+}
+.app-navbar-profile img {
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+    border-radius: 100px;
+}
+.app-navbar .app-navbar-item { margin-right: 5px;}
+}

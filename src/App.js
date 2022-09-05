@@ -16,7 +16,7 @@ import PrivateRoute from "./Routes/PrivateRoutes";
 import Resetpassword from "./pages/auth/Resetpassword";
 import SetPasssword from "./pages/auth/SetPasssword";
 import SideBar from "./pages/sidebar";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
@@ -56,7 +56,6 @@ function App() {
               </PrivateRoute>
             }
           />
-
           <Route path="/" element={<Login />} />
           <Route path="sidebar" element={<SideBar />} />
           <Route path="password" element={<Password />} />
