@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { registerWithEmailAndPassword } from "../../firebase/firebaseAuth";
 import { useNavigate } from 'react-router-dom'
 import { clearEmail } from "../../redux/actions/AuthActions";
+import { setLoading } from "../../redux/actions/LoaderActions";
 
 const SetPasssword = () => {
   const email = useSelector(state => state?.auth?.email)
@@ -57,7 +58,9 @@ const SetPasssword = () => {
               })}
               onSubmit={async (values) => {
                 if (values.password === values.confirmPassword) {
+                  dispatch(setLoading(true))
                   let response = await registerWithEmailAndPassword(email, email, values.password)
+                  dispatch(setLoading(false))
                   localStorage.setItem("user", JSON.stringify(response.user))
                   if (response.user) {
                     navigate('/home')

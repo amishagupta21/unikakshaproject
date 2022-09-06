@@ -7,16 +7,21 @@ import twit from "../assets/images/icon-twit.png";
 import { toast } from "react-toastify";
 import { signInWithFacebook, signInWithGoogle, signInWithTwitter } from '../firebase/firebaseAuth'
 import { Link, useNavigate } from 'react-router-dom';
+import { setLoading } from '../redux/actions/LoaderActions';
+import { useDispatch } from 'react-redux';
 
 const SocialLogin = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch()
     return (
         <div>
             <h2>Login using social network</h2>
             <ul>
                 <li>
                     <a onClick={async () => {
+                        dispatch(setLoading(true))
                         let res = await signInWithGoogle()
+                        dispatch(setLoading(false))
                         if (res?.user) {
                             localStorage.setItem("user", JSON.stringify(res?.user))
                             toast.success("Log in Succesfull", {

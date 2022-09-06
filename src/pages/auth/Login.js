@@ -149,6 +149,7 @@ const Login = () => {
                             .required('Required'),
                         })}
                         onSubmit={(values) => {
+                          console.log("validateForm");
                           if (values.email) {
                             dispatch(setEmail(values.email))
                             navigate('/password')
@@ -195,7 +196,7 @@ const Login = () => {
                             />
                             <div className="button d-flex clearfix">
                               <Button
-                                // onClick={validateForm}
+                                onClick={validateForm}
                                 type="submit"
                                 variant="info"
                                 className="btn-lg justify-content-center "

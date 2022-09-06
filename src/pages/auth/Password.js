@@ -16,6 +16,7 @@ import { logInWithEmailAndPassword } from '../../firebase/firebaseAuth';
 import { clearEmail } from '../../redux/actions/AuthActions';
 import { toast } from 'react-toastify';
 import Cookies from 'universal-cookie';
+import { setLoading } from '../../redux/actions/LoaderActions';
 
 const Login = () => {
   const navigate = useNavigate()
@@ -55,14 +56,20 @@ const Login = () => {
                   ),
               })}
               onSubmit={async (values) => {
-                if (values.password) {
+                if (values.password && username) {
+                  dispatch(setLoading(true))
                   let response = await logInWithEmailAndPassword(username, values.password)
-                  console.log("res::", response?.user)
-                  localStorage.setItem("user", JSON.stringify(response.user))
+                  dispatch(setLoading(false))
                   if (response?.user) {
+                    localStorage.setItem("user", JSON.stringify(response.user))
                     const cookies = new Cookies();
-                    cookies.set('myCat', 'user', { path: '/' });
-                    console.log("Cookies ::::", cookies.get('myCat')); // Pacman
+                    let accessToken = response?.user?.stsTokenManager?.accessToken
+                    let expiresAt = 60 * 24;
+                    let date = new Date();
+                    date.setTime(date.getTime() + (expiresAt * 60 * 1000))
+                    let option = { path: '/', expires: date }
+                    cookies.set('access_token', accessToken, option);
+                    console.log("Cookies ::::", cookies.get('access_token'));
                     toast.success("Log in Succesfull", {
                       theme: "colored"
                     })
