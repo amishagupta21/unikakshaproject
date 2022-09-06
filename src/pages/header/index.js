@@ -59,11 +59,11 @@ const Header = () => {
         </div>
         <div className='app-navbar-item app-navbar-profile align-items-center ms-1 ms-lg-3'>
           <img src={ProfilePic} />
-          <div className='profile-box-des'>
+          {/* <div className='profile-box-des'>
             <h4>Raj Patel</h4>
             <span>#10203</span>
-          </div>
-          <Dropdown>
+          </div> */}
+          <Dropdown className='profile-control'>
             <Dropdown.Toggle id="dropdown-button-dark-example1" variant="secondary">
               Raj patel
             </Dropdown.Toggle>

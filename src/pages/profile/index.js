@@ -12,6 +12,8 @@ import pintest from "../../assets/images/icon-printest-new.png"
 import pdf from "../../assets/images/icon-pdf.svg"
 
 import twit from "../../assets/images/icon-twitter-new.png"
+import banner from "../../assets/images/icon-add-banner.svg"
+
 import { Modal, ProgressBar } from "react-bootstrap"
 
 import About from "../../components/profile/About"
@@ -38,11 +40,110 @@ const Profile = () => {
   const dispatch = useDispatch()
   const profileInfo = useSelector((state) => state?.users?.profile)
   console.log("profile Data ::: ", profileInfo)
+  const options = [
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" },
+]
 
+
+const optionsmonth = [
+  { value: "May", label: "May" },
+  { value: "June", label: "June" },
+  { value: "July", label: "July" },
+  { value: "August", label: "August" },
+  { value: "September", label: "September" },
+  { value: "October", label: "October" },
+  { value: "November", label: "November" },
+  { value: "December", label: "December" },
+  { value: "January", label: "January" },
+  { value: "February", label: "February" },
+  { value: "March", label: "March" },
+  { value: "April", label: "April" },
+]
+
+const optionsendmonth = [
+  { value: "May", label: "May" },
+  { value: "June", label: "June" },
+  { value: "July", label: "July" },
+  { value: "August", label: "August" },
+  { value: "September", label: "September" },
+  { value: "October", label: "October" },
+  { value: "November", label: "November" },
+  { value: "December", label: "December" },
+  { value: "January", label: "January" },
+  { value: "February", label: "February" },
+  { value: "March", label: "March" },
+  { value: "April", label: "April" },
+]
+
+const optionsdate = [
+  { value: "2000", label: "2000" },
+  { value: "2001", label: "2001" },
+  { value: "2002", label: "2002" },
+  { value: "2003", label: "2003" },
+  { value: "2004", label: "2004" },
+  { value: "2005", label: "2005" },
+  { value: "2006", label: "2006" },
+  { value: "2007", label: "2007" },
+  { value: "2008", label: "2008" },
+  { value: "2009", label: "2009" },
+  { value: "2010", label: "2010" },
+  { value: "2011", label: "2011" },
+  { value: "2012", label: "2012" },
+  { value: "2013", label: "2013" },
+  { value: "2014", label: "2014" },
+  { value: "2015", label: "2015" },
+  { value: "2016", label: "2016" },
+  { value: "2017", label: "2017" },
+  { value: "2018", label: "2018" },
+  { value: "2019", label: "2019" },
+  { value: "2020", label: "2020" },
+  { value: "2021", label: "2021" },
+  { value: "2022", label: "2022" },
+  
+ 
+]
+
+const optionsenddate = [
+  { value: "2000", label: "2000" },
+  { value: "2001", label: "2001" },
+  { value: "2002", label: "2002" },
+  { value: "2003", label: "2003" },
+  { value: "2004", label: "2004" },
+  { value: "2005", label: "2005" },
+  { value: "2006", label: "2006" },
+  { value: "2007", label: "2007" },
+  { value: "2008", label: "2008" },
+  { value: "2009", label: "2009" },
+  { value: "2010", label: "2010" },
+  { value: "2011", label: "2011" },
+  { value: "2012", label: "2012" },
+  { value: "2013", label: "2013" },
+  { value: "2014", label: "2014" },
+  { value: "2015", label: "2015" },
+  { value: "2016", label: "2016" },
+  { value: "2017", label: "2017" },
+  { value: "2018", label: "2018" },
+  { value: "2019", label: "2019" },
+  { value: "2020", label: "2020" },
+  { value: "2021", label: "2021" },
+  { value: "2022", label: "2022" },
+  
+ 
+]
+
+
+const options1 = [
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+]
   const [profileImg, setProfileImg] = useState("")
   const [bannerImg, setbannerImg] = useState("")
   const [isShowIntroductionModal, setIsShowIntroductionModal] = useState(false)
   const [isShowExperienceModal, setIsShowExperienceModal] = useState(false)
+  const [isShowEducationModal, setIsShowEducationModal] = useState(false)
 
   useEffect(() => {
     let id = "A8DYxHJJN3ap9Zj06ZbrqHKTEv73"
@@ -79,12 +180,16 @@ const Profile = () => {
       </div>
       <div className="main-wrapper">
         <Header />
+        <div className="page-wrapper">
         <div className="profile-page">
           <div className="row-profile-left">
             <h2 className="profile-heading">MY Profile</h2>
             <button className="btn btn-info" onClick={() => setIsShowIntroductionModal(true)}>Add Introduction</button>
+            <button className="btn btn-info" onClick={() => setIsShowExperienceModal(true)}>Add Experience</button>
+            <button className="btn btn-info" onClick={() => setIsShowEducationModal(true)}>Add Education</button>
             <Modal
               size="lg"
+               className="add-popup"
               show={isShowIntroductionModal}
               onHide={() => setIsShowIntroductionModal(false)}
               aria-labelledby="example-modal-sizes-title-lg"
@@ -129,6 +234,7 @@ const Profile = () => {
                         // data-kt-scroll-offset="300px"
                         >
                           <div className="col-6">
+                          <div className="form-group">
                             <FormikController
                               control="input"
                               type="text"
@@ -142,6 +248,8 @@ const Profile = () => {
                               onChange={formik.handleChange}
                               error={formik.errors.firstName}
                             />
+                            </div>
+                            <div className="form-group">
                             <FormikController
                               control="input"
                               type="text"
@@ -154,7 +262,8 @@ const Profile = () => {
                               value={formik.values.lastName}
                               onChange={formik.handleChange}
                               error={formik.errors.lastName}
-                            />
+                            /></div>
+                              <div className="form-group">
                             <FormikController
                               control="input"
                               type="text"
@@ -167,12 +276,12 @@ const Profile = () => {
                               value={formik.values.profileHeadline}
                               onChange={formik.handleChange}
                               error={formik.errors.profileHeadline}
-                            />
-                            <div>
+                            /></div>
+                            <div className="form-froup form-upload-resume">
                               <label htmlFor="resume" name="resume">
                                 <label className="required fs-6 mb-2">Select Resume</label>
                                 <br />
-                                <span className="form-control form-control-solid mb-lg-0">
+                                <span className="uploaded-form">
                                   <input
                                     // hidden
                                     id="resume"
@@ -185,6 +294,12 @@ const Profile = () => {
                                       formik.setFieldValue("resume", event.target.files[0])
                                     }}
                                   />
+                                  <div className="browse-link">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="46" height="38" viewBox="0 0 46 38" fill="none">
+<path d="M23.321 16.0948C23.2828 16.0445 23.2339 16.0038 23.1781 15.9759C23.1224 15.9479 23.0611 15.9333 22.9991 15.9333C22.937 15.9333 22.8758 15.9479 22.82 15.9759C22.7642 16.0038 22.7153 16.0445 22.6771 16.0948L16.953 23.549C16.9058 23.611 16.8765 23.6855 16.8685 23.7638C16.8604 23.8422 16.874 23.9213 16.9076 23.992C16.9412 24.0628 16.9934 24.1225 17.0584 24.1641C17.1234 24.2058 17.1984 24.2278 17.2749 24.2276H21.0518V36.9792C21.0518 37.2106 21.2358 37.4 21.4607 37.4H24.5272C24.7521 37.4 24.9361 37.2106 24.9361 36.9792V24.2329H28.7232C29.0656 24.2329 29.2547 23.8278 29.0452 23.5543L23.321 16.0948Z" fill="white"/>
+<path d="M38.371 11.4289C36.0196 5.1003 30.0283 0.600098 23.0103 0.600098C15.9922 0.600098 10.0009 5.09506 7.64955 11.4236C3.24978 12.6024 0 16.694 0 21.5557C0 27.3446 4.59487 32.0334 10.2627 32.0334H12.3214C12.5473 32.0334 12.7321 31.8448 12.7321 31.6143V28.471C12.7321 28.2405 12.5473 28.0519 12.3214 28.0519H10.2627C8.53259 28.0519 6.90513 27.3499 5.69353 26.0768C4.48705 24.809 3.84531 23.1011 3.90179 21.3304C3.94799 19.9473 4.41004 18.6481 5.24687 17.5531C6.10424 16.4373 7.30558 15.6252 8.6404 15.2637L10.5862 14.7451L11.2998 12.8277C11.7413 11.6332 12.3574 10.5173 13.1326 9.50621C13.8979 8.50405 14.8045 7.62309 15.8228 6.892C17.9328 5.37796 20.4176 4.57641 23.0103 4.57641C25.6029 4.57641 28.0877 5.37796 30.1978 6.892C31.2194 7.62545 32.123 8.50558 32.8879 9.50621C33.6632 10.5173 34.2792 11.6384 34.7208 12.8277L35.4292 14.7399L37.3699 15.2637C40.1525 16.0286 42.0982 18.6114 42.0982 21.5557C42.0982 23.2897 41.4359 24.9243 40.2346 26.1502C39.6455 26.7549 38.9446 27.2343 38.1726 27.5608C37.4007 27.8872 36.5729 28.0541 35.7373 28.0519H33.6786C33.4527 28.0519 33.2679 28.2405 33.2679 28.471V31.6143C33.2679 31.8448 33.4527 32.0334 33.6786 32.0334H35.7373C41.4051 32.0334 46 27.3446 46 21.5557C46 16.6992 42.7605 12.6129 38.371 11.4289Z" fill="white"/>
+</svg><i>Upload Resume</i>
+                                  </div>
                                 </span>
                               </label>
                             </div>
@@ -207,15 +322,16 @@ const Profile = () => {
                               onChange={formik.handleChange}
                               error={formik.errors.profilePicture}
                             /> */}
+                             <div className="form-froup form-upload-banner mb-2">
                             <FormikController
                               control="image"
-                              label="Banner image"
+                             
                               labelClassName="required fs-6 mb-2"
                               name="bannerPicture"
                               imgIconClassName="h-auto"
                               // className="form-control form-control-solid mb-lg-0"
                               img={bannerImg}
-                              imgIcon={twit}
+                              imgIcon={banner}
                               setImg={setbannerImg}
                               // editFlag={location?.state?.edit}
                               // editPath={location?.state?.editObj?.bannerPicture}
@@ -223,8 +339,8 @@ const Profile = () => {
                               value={formik.values.bannerPicture}
                               onChange={formik.handleChange}
                               error={formik.errors.bannerPicture}
-                            />
-                            <div>
+                            /></div>
+                             <div className="form-froup  form-social">
                               <FormikController
                                 control="input"
                                 type="text"
@@ -234,11 +350,13 @@ const Profile = () => {
                                 name="linkedin"
                                 className="form-control form-control-solid mb-lg-0"
                                 maxLength="25"
+                                
                                 formik={formik}
                                 value={formik.values.linkedin}
                                 onChange={formik.handleChange}
                                 error={formik.errors.linkedin}
-                              />
+                              /> <img src={linked}  className="icons-assets"/></div>
+                                <div className="form-froup form-social form-social-linked">
                               <FormikController
                                 control="input"
                                 type="text"
@@ -251,7 +369,8 @@ const Profile = () => {
                                 value={formik.values.instagram}
                                 onChange={formik.handleChange}
                                 error={formik.errors.instagram}
-                              />
+                              /><img src={pintest}  className="icons-assets"/></div>
+                               <div className="form-froup form-social form-social-linked">
                               <FormikController
                                 control="input"
                                 type="text"
@@ -264,7 +383,7 @@ const Profile = () => {
                                 value={formik.values.twitter}
                                 onChange={formik.handleChange}
                                 error={formik.errors.twitter}
-                              />
+                              /><img src={twit}  className="icons-assets"/>
                             </div>
                           </div>
                           <div className="col-12">
@@ -275,7 +394,7 @@ const Profile = () => {
                               placeholder="Tell us about your self"
                               labelClassName="required fs-6 mb-2"
                               name="about"
-                              className="form-control form-control-solid mb-lg-4 pb-5 "
+                              className="form-control form-control-solid mb-lg-4 pb-5 form-about-textarea"
                               maxLength="25"
                               formik={formik}
                               value={formik.values.about}
@@ -285,8 +404,8 @@ const Profile = () => {
                           </div>
                         </div>
                         <Modal.Footer>
-                          <button onClick={() => setIsShowIntroductionModal(false)}>Cancel</button>
-                          <button type="submit">Save</button>
+                          <button onClick={() => setIsShowIntroductionModal(false)} className="btn btn-primary btn-secondary">Cancel</button>
+                          <button type="submit" className="btn btn-primary">Save</button>
                         </Modal.Footer>
                       </Form>
                     )
@@ -296,6 +415,7 @@ const Profile = () => {
             </Modal>
             <Modal
               size="lg"
+              className="add-popup add-exp-modal"
               show={isShowExperienceModal}
               onHide={() => setIsShowExperienceModal(false)}
               aria-labelledby="example-modal-sizes-title-lg"
@@ -336,6 +456,7 @@ const Profile = () => {
                           data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
                         >
                           <div className="col-12">
+                            <div className="form-group">
                             <FormikController
                               control="input"
                               type="text"
@@ -348,12 +469,386 @@ const Profile = () => {
                               value={formik.values.firstName}
                               onChange={formik.handleChange}
                               error={formik.errors.firstName}
+                            /></div>
+
+                            <div className="form-group">
+                            <FormikController
+                                                control="react_select"
+                                                labelClassName="required fw-bold fs-6 mb-2"
+                                                name="Employee Type"
+                                                label="Employee Type"
+                                                isMulti={false}
+                                                className="form-control-solid mb-lg-0"
+                                                formik={formik}
+                                                options={options}
+                                                value={formik.values.skills}
+                                                onChange={formik.handleChange}
+                                                error={formik.errors.skills}
+                                            />
+
+                            </div>
+                            <div className="form-group">
+                            <FormikController
+                                                control="react_select"
+                                                labelClassName="required fw-bold fs-6 mb-2"
+                                                name="Company Name"
+                                                label="Company Name"
+                                                isMulti={false}
+                                                className="form-control-solid mb-lg-0"
+                                                formik={formik}
+                                                options={options1}
+                                                value={formik.values.skills}
+                                                onChange={formik.handleChange}
+                                                error={formik.errors.skills}
+                                            />
+
+                            </div>
+
+                            <div className="form-group">
+                            <FormikController
+                              control="input"
+                              type="text"
+                              label="Location"
+                              labelClassName="required fs-6 mb-2"
+                              name="firstName"
+                              className="form-control form-control-solid mb-lg-0"
+                              maxLength="25"
+                              formik={formik}
+                              value={formik.values.firstName}
+                              onChange={formik.handleChange}
+                              error={formik.errors.firstName}
+                            /></div>
+                             <div className="form-group">
+                             <div className="form-group-main">
+                               <div className="form-group-left">
+                               <div className="form-group-startdate">
+                                 <label>Start date</label>
+                                 <div className="row">
+                                   <div className="col-sm-6">
+                                   <FormikController
+                                                control="react_select"
+                                                labelClassName="required fw-bold fs-6 mb-2"
+                                                name="May"
+                                               
+                                                isMulti={false}
+                                                className="form-control-solid mb-lg-0"
+                                                formik={formik}
+                                                options={optionsmonth}
+                                              
+                                                value={formik.values.skills}
+                                                onChange={formik.handleChange}
+                                                error={formik.errors.skills}
+                                            />
+                                   </div>
+                                   <div className="col-sm-6">
+                                   <FormikController
+                                                control="react_select"
+                                                labelClassName="required fw-bold fs-6 mb-2"
+                                                name="2021"
+                                               
+                                                isMulti={false}
+                                                className="form-control-solid mb-lg-0"
+                                                formik={formik}
+                                                options={optionsdate}
+                                               
+                                                value={formik.values.skills}
+                                                onChange={formik.handleChange}
+                                                error={formik.errors.skills}
+                                            />
+                                   </div>
+                                   </div>
+                                 </div>
+                                 <div className="form-group-startdate form-group-endtdate">
+                                 <label>End date</label>
+                                 <div className="row">
+                                   <div className="col-sm-6">
+                                   <FormikController
+                                                control="react_select"
+                                                labelClassName="required fw-bold fs-6 mb-2"
+                                                name="July"
+                                               
+                                                isMulti={false}
+                                                className="form-control-solid mb-lg-0"
+                                                formik={formik}
+                                                options={optionsendmonth}
+                                              
+                                                value={formik.values.skills}
+                                                onChange={formik.handleChange}
+                                                error={formik.errors.skills}
+                                            />
+                                   </div>
+                                   <div className="col-sm-6">
+                                   <FormikController
+                                                control="react_select"
+                                                labelClassName="required fw-bold fs-6 mb-2"
+                                                name="2022"
+                                               
+                                                isMulti={false}
+                                                className="form-control-solid mb-lg-0"
+                                                formik={formik}
+                                                options={optionsenddate}
+                                               
+                                                value={formik.values.skills}
+                                                onChange={formik.handleChange}
+                                                error={formik.errors.skills}
+                                            />
+                                   </div>
+                                   </div>
+                                 </div>
+                               </div>
+                               <div className="form-group-right">
+                               <div className="form-group">
+                               <FormikController
+                              control="input"
+                              type="text"
+                              label="Description"
+                              placeholder="Enter Description "
+                              labelClassName="required fs-6 mb-2"
+                              name="about"
+                              className="form-control form-control-solid mb-lg-4 pb-5 form-about-textarea"
+                              maxLength="25"
+                              formik={formik}
+                              value={formik.values.about}
+                              onChange={formik.handleChange}
+                              error={formik.errors.about}
                             />
+                            <div className="info-help">0/1,000<br/>
+1000 maximum characters allowed.</div></div>
+                               </div>
+                             </div> </div>
                           </div>
                         </div>
                         <Modal.Footer>
-                          <button onClick={() => setIsShowExperienceModal(false)}>Cancel</button>
-                          <button type="submit">Save</button>
+                          <div className="row">
+                            <div className="col-sm-6 col-padding-left"> <button onClick={() => setIsShowExperienceModal(false)}
+                             className="btn btn-primary btn-secondary">Cancel</button></div>
+                              <div className="col-sm-6 col-padding-right">  <button type="submit" className="btn btn-primary">SAVE</button></div>
+                          </div>
+                         
+                        
+                        </Modal.Footer>
+                      </Form>
+                    )
+                  }}
+                </Formik>
+              </Modal.Body>
+            </Modal>
+            <Modal
+              size="lg"
+              className="add-popup add-exp-modal"
+              show={isShowEducationModal}
+              onHide={() => setIsShowEducationModal(false)}
+              aria-labelledby="example-modal-sizes-title-lg"
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="example-modal-sizes-title-lg">Add/Edit Education</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Formik
+                  initialValues={{
+                    title: "",
+                    employmentType: "",
+                    companyName: "",
+                    location: "",
+                    startMonth: "",
+                    startYear: "",
+                    endMonth: "",
+                    endYear: "",
+                    description: ""
+                  }}
+                  validationSchema={Yup.object({
+                    title: SchemaList[0].required(" title is a required field"),
+                    employmentType: SchemaList[0].required(" employmentType is a required field"),
+                    companyName: SchemaList[0].required("companyName is a required field"),
+                    about: SchemaList[0].required("About is a required field"),
+                  })}
+                  onSubmit={addExperience}
+                >
+                  {(formik) => {
+                    return (
+                      <Form onSubmit={formik.handleSubmit} className="form" autoComplete="false">
+                        <div
+                          className="d-flex row me-n7 pe-7"
+                          id="kt_modal_add_user_scroll"
+                          data-kt-scroll="true"
+                          data-kt-scroll-activate="{default: false, lg: true}"
+                          data-kt-scroll-dependencies="#kt_modal_add_user_header"
+                          data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
+                        >
+                          <div className="col-12">
+                            <div className="form-group">
+                            <FormikController
+                              control="input"
+                              type="text"
+                              label="School"
+                              labelClassName="required fs-6 mb-2"
+                              name="firstName"
+                              className="form-control form-control-solid mb-lg-0"
+                              maxLength="25"
+                              formik={formik}
+                              value={formik.values.firstName}
+                              onChange={formik.handleChange}
+                              error={formik.errors.firstName}
+                            /></div>
+
+                            <div className="form-group">
+                            <FormikController
+                              control="input"
+                              type="text"
+                              label="Degree"
+                              labelClassName="required fs-6 mb-2"
+                              name="firstName"
+                              className="form-control form-control-solid mb-lg-0"
+                              maxLength="25"
+                              formik={formik}
+                              value={formik.values.firstName}
+                              onChange={formik.handleChange}
+                              error={formik.errors.firstName}
+                            />
+
+                            </div>
+                            <div className="form-group">
+                            <FormikController
+                              control="input"
+                              type="text"
+                              label="Field of study"
+                              labelClassName="required fs-6 mb-2"
+                              name="firstName"
+                              className="form-control form-control-solid mb-lg-0"
+                              maxLength="25"
+                              formik={formik}
+                              value={formik.values.firstName}
+                              onChange={formik.handleChange}
+                              error={formik.errors.firstName}
+                            />
+
+                            </div>
+                            <div className="form-group">
+                            <FormikController
+                              control="input"
+                              type="text"
+                              label="Grade"
+                              labelClassName="required fs-6 mb-2"
+                              name="firstName"
+                              className="form-control form-control-solid mb-lg-0"
+                              maxLength="25"
+                              formik={formik}
+                              value={formik.values.firstName}
+                              onChange={formik.handleChange}
+                              error={formik.errors.firstName}
+                            />
+
+                            </div>
+                           
+
+                            
+                             <div className="form-group">
+                             <div className="form-group-main">
+                               <div className="form-group-left">
+                               <div className="form-group-startdate">
+                                 <label>Start date</label>
+                                 <div className="row">
+                                   <div className="col-sm-6">
+                                   <FormikController
+                                                control="react_select"
+                                                labelClassName="required fw-bold fs-6 mb-2"
+                                                name="May"
+                                               
+                                                isMulti={false}
+                                                className="form-control-solid mb-lg-0"
+                                                formik={formik}
+                                                options={optionsmonth}
+                                              
+                                                value={formik.values.skills}
+                                                onChange={formik.handleChange}
+                                                error={formik.errors.skills}
+                                            />
+                                   </div>
+                                   <div className="col-sm-6">
+                                   <FormikController
+                                                control="react_select"
+                                                labelClassName="required fw-bold fs-6 mb-2"
+                                                name="2021"
+                                               
+                                                isMulti={false}
+                                                className="form-control-solid mb-lg-0"
+                                                formik={formik}
+                                                options={optionsdate}
+                                               
+                                                value={formik.values.skills}
+                                                onChange={formik.handleChange}
+                                                error={formik.errors.skills}
+                                            />
+                                   </div>
+                                   </div>
+                                 </div>
+                                 <div className="form-group-startdate form-group-endtdate">
+                                 <label>End date</label>
+                                 <div className="row">
+                                   <div className="col-sm-6">
+                                   <FormikController
+                                                control="react_select"
+                                                labelClassName="required fw-bold fs-6 mb-2"
+                                                name="July"
+                                               
+                                                isMulti={false}
+                                                className="form-control-solid mb-lg-0"
+                                                formik={formik}
+                                                options={optionsendmonth}
+                                              
+                                                value={formik.values.skills}
+                                                onChange={formik.handleChange}
+                                                error={formik.errors.skills}
+                                            />
+                                   </div>
+                                   <div className="col-sm-6">
+                                   <FormikController
+                                                control="react_select"
+                                                labelClassName="required fw-bold fs-6 mb-2"
+                                                name="2022"
+                                               
+                                                isMulti={false}
+                                                className="form-control-solid mb-lg-0"
+                                                formik={formik}
+                                                options={optionsenddate}
+                                               
+                                                value={formik.values.skills}
+                                                onChange={formik.handleChange}
+                                                error={formik.errors.skills}
+                                            />
+                                   </div>
+                                   </div>
+                                 </div>
+                               </div>
+                               <div className="form-group-right">
+                               <div className="form-group">
+                               <FormikController
+                              control="input"
+                              type="text"
+                              label="Description"
+                              placeholder="Enter Description "
+                              labelClassName="required fs-6 mb-2"
+                              name="about"
+                              className="form-control form-control-solid mb-lg-4 pb-5 form-about-textarea"
+                              maxLength="25"
+                              formik={formik}
+                              value={formik.values.about}
+                              onChange={formik.handleChange}
+                              error={formik.errors.about}
+                            />
+                            <div className="info-help">0/1,000<br/>
+1000 maximum characters allowed.</div></div>
+                               </div>
+                             </div> </div>
+                          </div>
+                        </div>
+                        <Modal.Footer>
+                          <div className="row">
+                            <div className="col-sm-6 col-padding-left"> </div>
+                              <div className="col-sm-6 col-padding-right">  <button type="submit" className="btn btn-primary">SAVE</button></div>
+                          </div>
+                         
+                        
                         </Modal.Footer>
                       </Form>
                     )
@@ -678,7 +1173,7 @@ const Profile = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> </div>
     </div >
   )
 }
