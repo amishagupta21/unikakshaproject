@@ -70,3 +70,20 @@ i.notify-icon img {
 }
 .app-navbar .app-navbar-item { margin-right: 5px;}
 }
+.profile-control.dropdown .btn-secondary {
+    background: transparent;
+    border: 0;
+    color: #0C0E26;
+    font-weight: 600;
+}
+
+.app-navbar-profile .dropdown-menu.show {
+    
+    --bs-dropdown-color: transparent;
+    --bs-dropdown-bg: #ab949400 !important;
+    --bs-dropdown-link-color: #000000 !important;
+    margin-top: 18px !important;
+    background: #f5f5f5 !important;
+}
+.app-navbar-profile .dropdown-menu a:hover{ color:#000000 !important;}
+.profile-control.dropdown .btn-secondary:focus{ box-shadow: none; border:0;}

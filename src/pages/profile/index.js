@@ -40,11 +40,110 @@ const Profile = () => {
   const dispatch = useDispatch()
   const profileInfo = useSelector((state) => state?.users?.profile)
   console.log("profile Data ::: ", profileInfo)
+  const options = [
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" },
+]
 
+
+const optionsmonth = [
+  { value: "May", label: "May" },
+  { value: "June", label: "June" },
+  { value: "July", label: "July" },
+  { value: "August", label: "August" },
+  { value: "September", label: "September" },
+  { value: "October", label: "October" },
+  { value: "November", label: "November" },
+  { value: "December", label: "December" },
+  { value: "January", label: "January" },
+  { value: "February", label: "February" },
+  { value: "March", label: "March" },
+  { value: "April", label: "April" },
+]
+
+const optionsendmonth = [
+  { value: "May", label: "May" },
+  { value: "June", label: "June" },
+  { value: "July", label: "July" },
+  { value: "August", label: "August" },
+  { value: "September", label: "September" },
+  { value: "October", label: "October" },
+  { value: "November", label: "November" },
+  { value: "December", label: "December" },
+  { value: "January", label: "January" },
+  { value: "February", label: "February" },
+  { value: "March", label: "March" },
+  { value: "April", label: "April" },
+]
+
+const optionsdate = [
+  { value: "2000", label: "2000" },
+  { value: "2001", label: "2001" },
+  { value: "2002", label: "2002" },
+  { value: "2003", label: "2003" },
+  { value: "2004", label: "2004" },
+  { value: "2005", label: "2005" },
+  { value: "2006", label: "2006" },
+  { value: "2007", label: "2007" },
+  { value: "2008", label: "2008" },
+  { value: "2009", label: "2009" },
+  { value: "2010", label: "2010" },
+  { value: "2011", label: "2011" },
+  { value: "2012", label: "2012" },
+  { value: "2013", label: "2013" },
+  { value: "2014", label: "2014" },
+  { value: "2015", label: "2015" },
+  { value: "2016", label: "2016" },
+  { value: "2017", label: "2017" },
+  { value: "2018", label: "2018" },
+  { value: "2019", label: "2019" },
+  { value: "2020", label: "2020" },
+  { value: "2021", label: "2021" },
+  { value: "2022", label: "2022" },
+  
+ 
+]
+
+const optionsenddate = [
+  { value: "2000", label: "2000" },
+  { value: "2001", label: "2001" },
+  { value: "2002", label: "2002" },
+  { value: "2003", label: "2003" },
+  { value: "2004", label: "2004" },
+  { value: "2005", label: "2005" },
+  { value: "2006", label: "2006" },
+  { value: "2007", label: "2007" },
+  { value: "2008", label: "2008" },
+  { value: "2009", label: "2009" },
+  { value: "2010", label: "2010" },
+  { value: "2011", label: "2011" },
+  { value: "2012", label: "2012" },
+  { value: "2013", label: "2013" },
+  { value: "2014", label: "2014" },
+  { value: "2015", label: "2015" },
+  { value: "2016", label: "2016" },
+  { value: "2017", label: "2017" },
+  { value: "2018", label: "2018" },
+  { value: "2019", label: "2019" },
+  { value: "2020", label: "2020" },
+  { value: "2021", label: "2021" },
+  { value: "2022", label: "2022" },
+  
+ 
+]
+
+
+const options1 = [
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+]
   const [profileImg, setProfileImg] = useState("")
   const [bannerImg, setbannerImg] = useState("")
   const [isShowIntroductionModal, setIsShowIntroductionModal] = useState(false)
   const [isShowExperienceModal, setIsShowExperienceModal] = useState(false)
+  const [isShowEducationModal, setIsShowEducationModal] = useState(false)
 
   useEffect(() => {
     let id = "A8DYxHJJN3ap9Zj06ZbrqHKTEv73"
@@ -86,6 +185,8 @@ const Profile = () => {
           <div className="row-profile-left">
             <h2 className="profile-heading">MY Profile</h2>
             <button className="btn btn-info" onClick={() => setIsShowIntroductionModal(true)}>Add Introduction</button>
+            <button className="btn btn-info" onClick={() => setIsShowExperienceModal(true)}>Add Experience</button>
+            <button className="btn btn-info" onClick={() => setIsShowEducationModal(true)}>Add Education</button>
             <Modal
               size="lg"
                className="add-popup"
@@ -221,7 +322,7 @@ const Profile = () => {
                               onChange={formik.handleChange}
                               error={formik.errors.profilePicture}
                             /> */}
-                             <div className="form-froup form-upload-banner">
+                             <div className="form-froup form-upload-banner mb-2">
                             <FormikController
                               control="image"
                              
@@ -255,7 +356,7 @@ const Profile = () => {
                                 onChange={formik.handleChange}
                                 error={formik.errors.linkedin}
                               /> <img src={linked}  className="icons-assets"/></div>
-                                <div className="form-froup form-social">
+                                <div className="form-froup form-social form-social-linked">
                               <FormikController
                                 control="input"
                                 type="text"
@@ -268,8 +369,8 @@ const Profile = () => {
                                 value={formik.values.instagram}
                                 onChange={formik.handleChange}
                                 error={formik.errors.instagram}
-                              /><img src={linked}  className="icons-assets"/></div>
-                               <div className="form-froup form-social">
+                              /><img src={pintest}  className="icons-assets"/></div>
+                               <div className="form-froup form-social form-social-linked">
                               <FormikController
                                 control="input"
                                 type="text"
@@ -282,7 +383,7 @@ const Profile = () => {
                                 value={formik.values.twitter}
                                 onChange={formik.handleChange}
                                 error={formik.errors.twitter}
-                              /><img src={linked}  className="icons-assets"/>
+                              /><img src={twit}  className="icons-assets"/>
                             </div>
                           </div>
                           <div className="col-12">
@@ -293,7 +394,7 @@ const Profile = () => {
                               placeholder="Tell us about your self"
                               labelClassName="required fs-6 mb-2"
                               name="about"
-                              className="form-control form-control-solid mb-lg-4 pb-5 "
+                              className="form-control form-control-solid mb-lg-4 pb-5 form-about-textarea"
                               maxLength="25"
                               formik={formik}
                               value={formik.values.about}
@@ -303,8 +404,8 @@ const Profile = () => {
                           </div>
                         </div>
                         <Modal.Footer>
-                          <button onClick={() => setIsShowIntroductionModal(false)}>Cancel</button>
-                          <button type="submit">Save</button>
+                          <button onClick={() => setIsShowIntroductionModal(false)} className="btn btn-primary btn-secondary">Cancel</button>
+                          <button type="submit" className="btn btn-primary">Save</button>
                         </Modal.Footer>
                       </Form>
                     )
@@ -314,6 +415,7 @@ const Profile = () => {
             </Modal>
             <Modal
               size="lg"
+              className="add-popup add-exp-modal"
               show={isShowExperienceModal}
               onHide={() => setIsShowExperienceModal(false)}
               aria-labelledby="example-modal-sizes-title-lg"
@@ -354,6 +456,7 @@ const Profile = () => {
                           data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
                         >
                           <div className="col-12">
+                            <div className="form-group">
                             <FormikController
                               control="input"
                               type="text"
@@ -366,12 +469,386 @@ const Profile = () => {
                               value={formik.values.firstName}
                               onChange={formik.handleChange}
                               error={formik.errors.firstName}
+                            /></div>
+
+                            <div className="form-group">
+                            <FormikController
+                                                control="react_select"
+                                                labelClassName="required fw-bold fs-6 mb-2"
+                                                name="Employee Type"
+                                                label="Employee Type"
+                                                isMulti={false}
+                                                className="form-control-solid mb-lg-0"
+                                                formik={formik}
+                                                options={options}
+                                                value={formik.values.skills}
+                                                onChange={formik.handleChange}
+                                                error={formik.errors.skills}
+                                            />
+
+                            </div>
+                            <div className="form-group">
+                            <FormikController
+                                                control="react_select"
+                                                labelClassName="required fw-bold fs-6 mb-2"
+                                                name="Company Name"
+                                                label="Company Name"
+                                                isMulti={false}
+                                                className="form-control-solid mb-lg-0"
+                                                formik={formik}
+                                                options={options1}
+                                                value={formik.values.skills}
+                                                onChange={formik.handleChange}
+                                                error={formik.errors.skills}
+                                            />
+
+                            </div>
+
+                            <div className="form-group">
+                            <FormikController
+                              control="input"
+                              type="text"
+                              label="Location"
+                              labelClassName="required fs-6 mb-2"
+                              name="firstName"
+                              className="form-control form-control-solid mb-lg-0"
+                              maxLength="25"
+                              formik={formik}
+                              value={formik.values.firstName}
+                              onChange={formik.handleChange}
+                              error={formik.errors.firstName}
+                            /></div>
+                             <div className="form-group">
+                             <div className="form-group-main">
+                               <div className="form-group-left">
+                               <div className="form-group-startdate">
+                                 <label>Start date</label>
+                                 <div className="row">
+                                   <div className="col-sm-6">
+                                   <FormikController
+                                                control="react_select"
+                                                labelClassName="required fw-bold fs-6 mb-2"
+                                                name="May"
+                                               
+                                                isMulti={false}
+                                                className="form-control-solid mb-lg-0"
+                                                formik={formik}
+                                                options={optionsmonth}
+                                              
+                                                value={formik.values.skills}
+                                                onChange={formik.handleChange}
+                                                error={formik.errors.skills}
+                                            />
+                                   </div>
+                                   <div className="col-sm-6">
+                                   <FormikController
+                                                control="react_select"
+                                                labelClassName="required fw-bold fs-6 mb-2"
+                                                name="2021"
+                                               
+                                                isMulti={false}
+                                                className="form-control-solid mb-lg-0"
+                                                formik={formik}
+                                                options={optionsdate}
+                                               
+                                                value={formik.values.skills}
+                                                onChange={formik.handleChange}
+                                                error={formik.errors.skills}
+                                            />
+                                   </div>
+                                   </div>
+                                 </div>
+                                 <div className="form-group-startdate form-group-endtdate">
+                                 <label>End date</label>
+                                 <div className="row">
+                                   <div className="col-sm-6">
+                                   <FormikController
+                                                control="react_select"
+                                                labelClassName="required fw-bold fs-6 mb-2"
+                                                name="July"
+                                               
+                                                isMulti={false}
+                                                className="form-control-solid mb-lg-0"
+                                                formik={formik}
+                                                options={optionsendmonth}
+                                              
+                                                value={formik.values.skills}
+                                                onChange={formik.handleChange}
+                                                error={formik.errors.skills}
+                                            />
+                                   </div>
+                                   <div className="col-sm-6">
+                                   <FormikController
+                                                control="react_select"
+                                                labelClassName="required fw-bold fs-6 mb-2"
+                                                name="2022"
+                                               
+                                                isMulti={false}
+                                                className="form-control-solid mb-lg-0"
+                                                formik={formik}
+                                                options={optionsenddate}
+                                               
+                                                value={formik.values.skills}
+                                                onChange={formik.handleChange}
+                                                error={formik.errors.skills}
+                                            />
+                                   </div>
+                                   </div>
+                                 </div>
+                               </div>
+                               <div className="form-group-right">
+                               <div className="form-group">
+                               <FormikController
+                              control="input"
+                              type="text"
+                              label="Description"
+                              placeholder="Enter Description "
+                              labelClassName="required fs-6 mb-2"
+                              name="about"
+                              className="form-control form-control-solid mb-lg-4 pb-5 form-about-textarea"
+                              maxLength="25"
+                              formik={formik}
+                              value={formik.values.about}
+                              onChange={formik.handleChange}
+                              error={formik.errors.about}
                             />
+                            <div className="info-help">0/1,000<br/>
+1000 maximum characters allowed.</div></div>
+                               </div>
+                             </div> </div>
                           </div>
                         </div>
                         <Modal.Footer>
-                          <button onClick={() => setIsShowExperienceModal(false)}>Cancel</button>
-                          <button type="submit">Save</button>
+                          <div className="row">
+                            <div className="col-sm-6 col-padding-left"> <button onClick={() => setIsShowExperienceModal(false)}
+                             className="btn btn-primary btn-secondary">Cancel</button></div>
+                              <div className="col-sm-6 col-padding-right">  <button type="submit" className="btn btn-primary">SAVE</button></div>
+                          </div>
+                         
+                        
+                        </Modal.Footer>
+                      </Form>
+                    )
+                  }}
+                </Formik>
+              </Modal.Body>
+            </Modal>
+            <Modal
+              size="lg"
+              className="add-popup add-exp-modal"
+              show={isShowEducationModal}
+              onHide={() => setIsShowEducationModal(false)}
+              aria-labelledby="example-modal-sizes-title-lg"
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="example-modal-sizes-title-lg">Add/Edit Education</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Formik
+                  initialValues={{
+                    title: "",
+                    employmentType: "",
+                    companyName: "",
+                    location: "",
+                    startMonth: "",
+                    startYear: "",
+                    endMonth: "",
+                    endYear: "",
+                    description: ""
+                  }}
+                  validationSchema={Yup.object({
+                    title: SchemaList[0].required(" title is a required field"),
+                    employmentType: SchemaList[0].required(" employmentType is a required field"),
+                    companyName: SchemaList[0].required("companyName is a required field"),
+                    about: SchemaList[0].required("About is a required field"),
+                  })}
+                  onSubmit={addExperience}
+                >
+                  {(formik) => {
+                    return (
+                      <Form onSubmit={formik.handleSubmit} className="form" autoComplete="false">
+                        <div
+                          className="d-flex row me-n7 pe-7"
+                          id="kt_modal_add_user_scroll"
+                          data-kt-scroll="true"
+                          data-kt-scroll-activate="{default: false, lg: true}"
+                          data-kt-scroll-dependencies="#kt_modal_add_user_header"
+                          data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
+                        >
+                          <div className="col-12">
+                            <div className="form-group">
+                            <FormikController
+                              control="input"
+                              type="text"
+                              label="School"
+                              labelClassName="required fs-6 mb-2"
+                              name="firstName"
+                              className="form-control form-control-solid mb-lg-0"
+                              maxLength="25"
+                              formik={formik}
+                              value={formik.values.firstName}
+                              onChange={formik.handleChange}
+                              error={formik.errors.firstName}
+                            /></div>
+
+                            <div className="form-group">
+                            <FormikController
+                              control="input"
+                              type="text"
+                              label="Degree"
+                              labelClassName="required fs-6 mb-2"
+                              name="firstName"
+                              className="form-control form-control-solid mb-lg-0"
+                              maxLength="25"
+                              formik={formik}
+                              value={formik.values.firstName}
+                              onChange={formik.handleChange}
+                              error={formik.errors.firstName}
+                            />
+
+                            </div>
+                            <div className="form-group">
+                            <FormikController
+                              control="input"
+                              type="text"
+                              label="Field of study"
+                              labelClassName="required fs-6 mb-2"
+                              name="firstName"
+                              className="form-control form-control-solid mb-lg-0"
+                              maxLength="25"
+                              formik={formik}
+                              value={formik.values.firstName}
+                              onChange={formik.handleChange}
+                              error={formik.errors.firstName}
+                            />
+
+                            </div>
+                            <div className="form-group">
+                            <FormikController
+                              control="input"
+                              type="text"
+                              label="Grade"
+                              labelClassName="required fs-6 mb-2"
+                              name="firstName"
+                              className="form-control form-control-solid mb-lg-0"
+                              maxLength="25"
+                              formik={formik}
+                              value={formik.values.firstName}
+                              onChange={formik.handleChange}
+                              error={formik.errors.firstName}
+                            />
+
+                            </div>
+                           
+
+                            
+                             <div className="form-group">
+                             <div className="form-group-main">
+                               <div className="form-group-left">
+                               <div className="form-group-startdate">
+                                 <label>Start date</label>
+                                 <div className="row">
+                                   <div className="col-sm-6">
+                                   <FormikController
+                                                control="react_select"
+                                                labelClassName="required fw-bold fs-6 mb-2"
+                                                name="May"
+                                               
+                                                isMulti={false}
+                                                className="form-control-solid mb-lg-0"
+                                                formik={formik}
+                                                options={optionsmonth}
+                                              
+                                                value={formik.values.skills}
+                                                onChange={formik.handleChange}
+                                                error={formik.errors.skills}
+                                            />
+                                   </div>
+                                   <div className="col-sm-6">
+                                   <FormikController
+                                                control="react_select"
+                                                labelClassName="required fw-bold fs-6 mb-2"
+                                                name="2021"
+                                               
+                                                isMulti={false}
+                                                className="form-control-solid mb-lg-0"
+                                                formik={formik}
+                                                options={optionsdate}
+                                               
+                                                value={formik.values.skills}
+                                                onChange={formik.handleChange}
+                                                error={formik.errors.skills}
+                                            />
+                                   </div>
+                                   </div>
+                                 </div>
+                                 <div className="form-group-startdate form-group-endtdate">
+                                 <label>End date</label>
+                                 <div className="row">
+                                   <div className="col-sm-6">
+                                   <FormikController
+                                                control="react_select"
+                                                labelClassName="required fw-bold fs-6 mb-2"
+                                                name="July"
+                                               
+                                                isMulti={false}
+                                                className="form-control-solid mb-lg-0"
+                                                formik={formik}
+                                                options={optionsendmonth}
+                                              
+                                                value={formik.values.skills}
+                                                onChange={formik.handleChange}
+                                                error={formik.errors.skills}
+                                            />
+                                   </div>
+                                   <div className="col-sm-6">
+                                   <FormikController
+                                                control="react_select"
+                                                labelClassName="required fw-bold fs-6 mb-2"
+                                                name="2022"
+                                               
+                                                isMulti={false}
+                                                className="form-control-solid mb-lg-0"
+                                                formik={formik}
+                                                options={optionsenddate}
+                                               
+                                                value={formik.values.skills}
+                                                onChange={formik.handleChange}
+                                                error={formik.errors.skills}
+                                            />
+                                   </div>
+                                   </div>
+                                 </div>
+                               </div>
+                               <div className="form-group-right">
+                               <div className="form-group">
+                               <FormikController
+                              control="input"
+                              type="text"
+                              label="Description"
+                              placeholder="Enter Description "
+                              labelClassName="required fs-6 mb-2"
+                              name="about"
+                              className="form-control form-control-solid mb-lg-4 pb-5 form-about-textarea"
+                              maxLength="25"
+                              formik={formik}
+                              value={formik.values.about}
+                              onChange={formik.handleChange}
+                              error={formik.errors.about}
+                            />
+                            <div className="info-help">0/1,000<br/>
+1000 maximum characters allowed.</div></div>
+                               </div>
+                             </div> </div>
+                          </div>
+                        </div>
+                        <Modal.Footer>
+                          <div className="row">
+                            <div className="col-sm-6 col-padding-left"> </div>
+                              <div className="col-sm-6 col-padding-right">  <button type="submit" className="btn btn-primary">SAVE</button></div>
+                          </div>
+                         
+                        
                         </Modal.Footer>
                       </Form>
                     )

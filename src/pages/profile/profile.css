@@ -808,8 +808,15 @@ li.active {
 .form-group label {
     font-size: 15px !important;
     color: #444444;
-    font-weight: 500;
+    font-weight: 500 !important;
     margin-bottom: 0 !important;
+}
+.add-exp-modal .form-group label {
+   
+    margin-bottom: 10px !important;
+}
+.add-popup.add-exp-modal .form-group {
+    margin-bottom: 20px;
 }
 .form-group .form-control {
     border: 1px solid #B7B5B5;
@@ -894,6 +901,103 @@ span.uploaded-form {
     line-height: 40px;
     padding: 0 10px;
 }
+.form-froup.form-social.form-social-linked .icons-assets {
+    top: 14px;
+}
+.modal-footer button.btn.btn-primary {
+    background: #FD9C41;
+    border: 0;
+    FONT-WEIGHT: 100;
+    PADDING: 10px 25px;
+    font-size: 14px;
+}
+.modal-footer button.btn.btn-primary.btn-secondary {
+	background: #F3F3F2;
+    border: 0;
+    border-radius: 6px;
+    color: #555555;
+    font-weight: 600;
+}
+.col-sm-6.col-padding-right {
+    justify-content: flex-end;
+    display: flex;
+}
+.css-14el2xx-placeholder {
+    color: #444444 !important;
+   
+    font-weight: normal;
+    font-size: 16px;
+}
+.css-6j8wv5-Input input {
+    color: #444444 !important;
+    font-weight: normal !important;
+}
+.add-popup.add-exp-modal .modal-footer {
+    --bs-modal-margin: 0;
+    padding: 10px 0;
+    --bs-modal-padding: 0;
+}
+.col-padding-left { padding-left: 0 !important;}
+.add-popup.add-exp-modal .modal-footer .row{ width: 100%;}
+button:focus:not(:focus-visible) , button:focus , button:active { outline: none; box-shadow: none; border:0;}
+input.form-control.form-control-solid.form-about-textarea {
+    height: 153px;
+    border-radius: 2px;
+    border: 1px solid #B7B5B5;color:#000000;    font-size: 14px;
+}
+
+input.form-control.form-control-solid::-webkit-input-placeholder { 
+
+	color:#D2D2D2; opacity: 1;
+}
+	
+	
+	input.form-control.form-control-solid::-moz-placeholder  { 
+		color:#D2D2D2; opacity: 1;
+	}
+	
+	input.form-control.form-control-solid:-ms-input-placeholder  { 
+		color:#D2D2D2; opacity: 1;
+	}
+
+	.add-popup .react-form-control {border: 1px solid #B7B5B5 !important;border-radius: 2px !important;}
+	.add-popup .react-form-control .css-16jkyot-control{ background: transparent !important;    padding-bottom: 0px;
+		padding-top: 0px;}
+		.form-group-main {
+			display: flex;
+			width: 100%;
+			/* margin: 0 -20px; */    margin-top: 22px;
+		}
+		.form-group-startdate.form-group-endtdate {
+			margin-top: 15px;
+		}
+		.form-group-left {
+			max-width: 60%;
+			flex: 0 0 60%;
+			/* padding: 0 20px; */
+		}	
+		.form-group-right {
+			max-width: 40%;
+			flex: 0 0 40%;
+			/* padding: 0 20px; */
+			/* background: #f00; */
+			padding-left: 20px;
+		}	
+		.info-help {
+			position: absolute;
+			right: 0;
+			top: -6px;
+			max-width: 200px;
+			font-size: 10px;
+			text-align: right;color: #969595;
+		}
+		.css-6j8wv5-Input {
+			
+			padding-bottom: 0 !important;
+			padding-top: 0 !important;}
+		.form-group-right .form-group {
+			position: relative;
+		}		
 @media only screen and (max-width: 992px) {
 	.main-wrapper {
 
@@ -986,4 +1090,11 @@ span.uploaded-form {
 	.top-information h4 {
 		font-size: 14px;
 	}
+}
+
+.spinner-border {
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    top: 50%;
 }

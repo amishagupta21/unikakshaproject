@@ -27,3 +27,25 @@ code {
   --bs-border-radius: 0;
   --bs-modal-border-radius: 6px;box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.25);
 }
+
+
+.modal-header {
+
+  padding: 10px 2px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  margin: 0 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+ 
+}
+
+.add-popup .modal-dialog.modal-lg .modal-content {
+
+  padding: 0 10px;
+}
+
+.add-popup .modal-dialog.modal-lg  {
+ max-width: 900px; 
+ 
+}
