@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { logInWithEmailAndPassword } from '../../firebase/firebaseAuth';
 import { clearEmail } from '../../redux/actions/AuthActions';
 import { toast } from 'react-toastify';
+import Cookies from 'universal-cookie';
 
 const Login = () => {
   const navigate = useNavigate()
@@ -59,6 +60,9 @@ const Login = () => {
                   console.log("res::", response?.user)
                   localStorage.setItem("user", JSON.stringify(response.user))
                   if (response?.user) {
+                    const cookies = new Cookies();
+                    cookies.set('myCat', 'user', { path: '/' });
+                    console.log("Cookies ::::", cookies.get('myCat')); // Pacman
                     toast.success("Log in Succesfull", {
                       theme: "colored"
                     })
