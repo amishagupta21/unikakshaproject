@@ -802,7 +802,98 @@ li.active {
 .page-wrapper {
 	padding: 30px 40px;
 }
-
+.add-popup .form-group {
+    margin-bottom: 10px;
+}
+.form-group label {
+    font-size: 15px !important;
+    color: #444444;
+    font-weight: 500;
+    margin-bottom: 0 !important;
+}
+.form-group .form-control {
+    border: 1px solid #B7B5B5;
+    border-radius: 2px;
+    height: 46px;
+}
+span.uploaded-form {
+    border: 1px dashed #B7B5B5;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    height: 80px;
+    position: relative;
+    width: 100%;
+}
+.form-froup.form-upload-resume label {
+    width: 100%;}
+	.form-froup.form-upload-resume {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+	}
+	.form-froup.form-upload-resume input#resume {
+		width: 100%;
+		border-radius: 100px;
+		max-width: 185px;
+		margin: 0 auto;
+		cursor: pointer;
+	}
+	.form-froup.form-upload-banner label {
+		width: 100%;
+	}
+	.form-froup.form-upload-banner span.form-control.form-control-solid {
+		border: 1px dashed #B7B5B5;
+		box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
+		height: 80px;
+		display: flex;
+	}
+.browse-link i {
+    color: #fff;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 13px;
+}
+.browse-link svg {
+    width: 30px;
+    margin-right: 10px;
+}
+.form-froup.form-social .icons-assets {
+    position: absolute;
+    top: 44px;
+    left: 4px;
+}
+.form-froup.form-social .form-control.form-control-solid {
+    position: relative;
+    padding-left: 50px;
+    border: 1px solid #B7B5B5;
+    border-radius: 0;
+    height: 50px;
+    font-size: 14px;
+    color: #D2D2D2;
+    font-weight: 500;
+}
+.form-froup.form-social {
+    position: relative;
+}
+.browse-link {
+    background: #FD9C41;
+    position: absolute;
+    width: 100%;
+    border-radius: 100px;
+    max-width: 185px;
+    margin: 0 auto;
+    cursor: pointer;
+    left: 0;
+    right: 0;
+    height: 42px;
+    align-items: center;
+    align-items: center;
+    justify-content: center;
+    line-height: 40px;
+    padding: 0 10px;
+}
 @media only screen and (max-width: 992px) {
 	.main-wrapper {
 
