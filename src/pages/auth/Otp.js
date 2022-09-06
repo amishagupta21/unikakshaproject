@@ -9,17 +9,25 @@ import Logo from '../../assets/images/logo.svg';
 import * as Yup from 'yup';
 import Loginbanner from '../../assets/images/login-banner.svg';
 import back from '../../assets/images/back-arrow.svg';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 import { Form, Field, Formik } from 'formik'
+import { clearEmail } from '../../redux/actions/AuthActions';
+import { toast } from 'react-toastify';
 
 const Otp = () => {
   const mobile = useSelector(state => state?.auth?.mobileNumber)
   const navigate = useNavigate();
-
+  const dispatch = useDispatch()
   const onSubmitOTP = (code) => {
     window.confirmationResult.confirm(code).then((result) => {
-      navigate('/home')
+      if (result?.user) {
+        toast.success("Log in Succesfull", {
+          theme: "colored"
+        })
+        localStorage.setItem("user", JSON.stringify(result?.user))
+        navigate('/home')
+      }
     }).catch((error) => {
       alert("Error", error)
     });
@@ -33,7 +41,15 @@ const Otp = () => {
       <div className='right_box'>
         <div className='right_box_container'>
           <div className='back-action'>
-            <div className="back-arrow"><a href=""><img src={back} /></a></div>
+            <div className="back-arrow">
+              <a onClick={() => {
+                dispatch(clearEmail())
+                navigate('/')
+              }
+              }>
+                <img src={back} />
+              </a>
+            </div>
             <a href="#" className='logo'><img src={Logo} /></a>
           </div>
           <div className='auth_form'>

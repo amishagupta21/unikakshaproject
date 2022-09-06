@@ -24,7 +24,10 @@ const signInWithGoogle = async () => {
         return await signInWithPopup(auth, googleProvider);
     } catch (err) {
         console.error(err);
-        toast(`${err.message}`);
+        toast.error(`${err.message}`, {
+            theme: "colored"
+        }
+        )
     }
 };
 
@@ -33,7 +36,9 @@ const signInWithFacebook = async () => {
         return await signInWithPopup(auth, facebookProvider);
     } catch (err) {
         console.error(err);
-        toast(`${err.message}`);
+        toast.error(`${err.message}`, {
+            theme: "colored"
+        })
     }
 };
 
@@ -42,7 +47,9 @@ const signInWithTwitter = async () => {
         return await signInWithPopup(auth, twitterProvider);
     } catch (err) {
         console.error(err);
-        toast(`${err.message}`);
+        toast.error(`${err.message}`, {
+            theme: "colored"
+        })
     }
 };
 
@@ -51,7 +58,9 @@ const logInWithEmailAndPassword = async (email, password) => {
         return await signInWithEmailAndPassword(auth, email, password);
     } catch (err) {
         console.error(err);
-        toast(`${err.message}`);
+        toast.error(`${err.message}`, {
+            theme: "colored"
+        })
     }
 };
 
@@ -60,7 +69,9 @@ const registerWithEmailAndPassword = async (name, email, password) => {
         return await createUserWithEmailAndPassword(auth, email, password);
     } catch (err) {
         console.error(err);
-        toast(`${err.message}`);
+        toast.error(`${err.message}`, {
+            theme: "colored"
+        })
     }
 };
 const sendPasswordReset = async (email) => {
@@ -68,13 +79,18 @@ const sendPasswordReset = async (email) => {
         await sendPasswordResetEmail(auth, email);
     } catch (err) {
         console.error(err);
-        toast(`${err.message}`);
+        toast.error(`${err.message}`, {
+            theme: "colored"
+        })
     }
 };
 
 const logout = () => {
-    signOut(auth);
     localStorage.clear()
+    toast.success("Logout Successfully", {
+        theme: "colored"
+    })
+    signOut(auth);
 };
 export {
     auth,

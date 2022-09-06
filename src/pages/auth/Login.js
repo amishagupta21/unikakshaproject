@@ -17,9 +17,13 @@ import Nav from "react-bootstrap/Nav";
 import Tab from "react-bootstrap/Tab";
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { setEmail } from "../../redux/actions/AuthActions";
+import { clearEmail, setEmail } from "../../redux/actions/AuthActions";
 import SocialLogin from "../../utils-componets/SocialLogin";
 import { firebase } from '../../firebase/firebase'
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
+import { logout } from "../../firebase/firebaseAuth";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -41,6 +45,9 @@ const Login = () => {
     firebase.auth().signInWithPhoneNumber(`+91${phoneNumber}`, appVerifier)
       .then((confirmationResult) => {
         window.confirmationResult = confirmationResult;
+        toast.success("OTP has been Sent to Mobile Number", {
+          theme: "colored"
+        })
         navigate("/otp")
       }).catch((error) => {
         console.log(error)
@@ -56,7 +63,11 @@ const Login = () => {
         <div className="right_box_container">
           <div className="back-action">
             <div className="back-arrow">
-              <a href="">
+              <a onClick={() => {
+                dispatch(clearEmail())
+                navigate('/')
+              }
+              }>
                 <img src={back} />
               </a>
             </div>
@@ -186,7 +197,7 @@ const Login = () => {
                             />
                             <div className="button d-flex clearfix">
                               <Button
-                                onClick={validateForm}
+                                // onClick={validateForm}
                                 type="submit"
                                 variant="info"
                                 className="btn-lg justify-content-center "
@@ -212,12 +223,18 @@ const Login = () => {
                         //     .min(10, "min 10 digit required")
                         //     .required('A phone number is required'),
                         // })}
-                        // onSubmit={(values) => {
-                        //   if (values.mobileNumber) {
-                        //     sendOTP(values.mobileNumber)
-                        //     navigate('/otp')
-                        //   }
-                        // }}
+                        validationSchema={Yup.object({
+                          // mobileNumber: Yup.string().matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/, 'Phone number is not valid')
+                          mobileNumber: Yup.number()
+                            .required('A phone number is required'),
+                        })}
+                        onSubmit={(values) => {
+                          console.log("values.mobileNumber", values.mobileNumber)
+                          // if (values.mobileNumber) {
+                          //   sendOTP(values.mobileNumber)
+                          //   navigate('/otp')
+                          // }
+                        }}
                         render={({ handleChange, handleSubmit, handleBlur, values, errors, touched, validateForm }) => (
                           <Form>
                             <h2 className="title-head">Sign in to Unikaksha</h2>
@@ -230,6 +247,7 @@ const Login = () => {
                                     className="form-group-1 mb-3"
                                     as={Col}
                                     md="12">
+
                                     <FormLabel>Mobile Number</FormLabel>
                                     <div className="user-class-mobile">
                                       <FormSelect id="form-control form-mobile-position">
@@ -260,12 +278,13 @@ const Login = () => {
                             />
                             <div className="button d-flex clearfix">
                               <Button
-                                onClick={() => sendOTP(values.mobileNumber)}
+                                onClick={() => sendOTP(values.mobileNumber)
+                                }
                                 type="submit"
                                 variant="info"
                                 className="btn-lg justify-content-center "
                               >
-                                <Link to="/">Continue with mobile</Link>
+                                Continue with mobile
                               </Button>
                             </div>
                           </Form>

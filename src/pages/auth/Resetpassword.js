@@ -6,10 +6,14 @@ import Row from "react-bootstrap/Row";
 import Logo from "../../assets/images/logo.svg";
 import Loginbanner from "../../assets/images/forgot-banner.svg";
 import back from "../../assets/images/back-arrow.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SocialLogin from "../../utils-componets/SocialLogin";
+import { clearEmail } from "../../redux/actions/AuthActions";
+import { useDispatch } from "react-redux";
 
 const Resetpassword = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   return (
     <section className="auth_layout login_screen">
       <div className="left_box">
@@ -19,7 +23,11 @@ const Resetpassword = () => {
         <div className="right_box_container">
           <div className="back-action">
             <div className="back-arrow">
-              <a href="">
+              <a onClick={() => {
+                dispatch(clearEmail())
+                navigate('/')
+              }
+              }>
                 <img src={back} />
               </a>
             </div>

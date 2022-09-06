@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
 import { logInWithEmailAndPassword } from '../../firebase/firebaseAuth';
 import { clearEmail } from '../../redux/actions/AuthActions';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const navigate = useNavigate()
@@ -55,8 +56,14 @@ const Login = () => {
               onSubmit={async (values) => {
                 if (values.password) {
                   let response = await logInWithEmailAndPassword(username, values.password)
+                  console.log("res::", response?.user)
                   localStorage.setItem("user", JSON.stringify(response.user))
-                  if (response) navigate('/home')
+                  if (response?.user) {
+                    toast.success("Log in Succesfull", {
+                      theme: "colored"
+                    })
+                    navigate('/home')
+                  }
                 }
               }}
               render={({ handleChange, handleSubmit, handleBlur, values, errors, touched, validateForm }) => (
