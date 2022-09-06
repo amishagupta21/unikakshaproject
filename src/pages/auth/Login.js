@@ -20,8 +20,6 @@ import { useDispatch } from 'react-redux'
 import { clearEmail, setEmail } from "../../redux/actions/AuthActions";
 import SocialLogin from "../../utils-componets/SocialLogin";
 import { firebase } from '../../firebase/firebase'
-import 'react-phone-number-input/style.css'
-import PhoneInput from 'react-phone-number-input'
 import { logout } from "../../firebase/firebaseAuth";
 import { toast } from "react-toastify";
 
