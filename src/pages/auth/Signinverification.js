@@ -17,7 +17,6 @@ import back from "../../assets/images/back-arrow.svg";
 import eye from "../../assets/images/icon-eye-view.svg";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { clearEmail } from "../../redux/actions/AuthActions";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -32,7 +31,6 @@ const Login = () => {
           <div className="back-action">
             <div className="back-arrow">
               <a onClick={() => {
-                dispatch(clearEmail())
                 navigate('/')
               }
               }>

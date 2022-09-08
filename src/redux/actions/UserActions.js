@@ -39,8 +39,8 @@ export const getuserProfile = (id) => {
 
 export const addUserIntroduction = (data) => {
   return async (dispatch) => {
-    let res = await ApiService(`v1/user/profile/general-information`, `patch`, data);
-    if (res.status === 200) {
+    let res = await ApiService(`v1/user/profile/general-information`, `post`, data);
+    if (res.status === 201) {
       toast("User Information Added Sucessfully")
     }
   };

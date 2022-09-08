@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -7,18 +7,20 @@ import * as Yup from 'yup';
 import Loginbanner from "../../assets/images/login-banner.svg";
 import back from "../../assets/images/back-arrow.svg";
 import eye from "../../assets/images/icon-eye-view.svg";
+import eyeIconVisible from '../../assets/images/icon-eye-visible.svg';
 import { FormControl, FormGroup, FormLabel } from "react-bootstrap";
 import { Form, Field, Formik } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
 import { registerWithEmailAndPassword } from "../../firebase/firebaseAuth";
 import { useNavigate } from 'react-router-dom'
-import { clearEmail } from "../../redux/actions/AuthActions";
 import { setLoading } from "../../redux/actions/LoaderActions";
 
 const SetPasssword = () => {
   const email = useSelector(state => state?.auth?.email)
   const navigate = useNavigate();
   const dispatch = useDispatch()
+
+  const [eyeVisible, setEyeVisible] = useState(false)
 
   return (
     <section className="auth_layout login_screen">
@@ -29,8 +31,7 @@ const SetPasssword = () => {
         <div className="right_box_container">
           <div className='back-action'>
             <div className="back-arrow"><a onClick={() => {
-              dispatch(clearEmail())
-              navigate('/')
+              navigate('/signup')
             }
             }><img src={back} /></a></div>
             <a onClick={() => navigate('/')} className='logo'><img src={Logo} /></a>
@@ -82,13 +83,13 @@ const SetPasssword = () => {
                             <FormLabel className="custom-label">Password</FormLabel>
                             <div className="password-view-container">
                               <FormControl
-                                type="password"
+                                type={eyeVisible ? "text" : "password"}
                                 placeholder="Enter Password"
                                 value={field.value}
                                 onChange={field.onChange}
                               />
                               <i className="password-view">
-                                <img src={eye} />
+                                <img onClick={() => setEyeVisible(!eyeVisible)} src={eyeVisible ? eyeIconVisible : eye} />
                               </i>
                             </div>
                           </FormGroup>
@@ -108,13 +109,13 @@ const SetPasssword = () => {
                             <FormLabel className="custom-label">Confirm Password</FormLabel>
                             <div className="password-view-container">
                               <FormControl
-                                type="password"
+                                type={eyeVisible ? "text" : "password"}
                                 placeholder="Re-enter Password"
                                 value={field.value}
                                 onChange={field.onChange}
                               />
                               <i className="password-view">
-                                <img src={eye} />
+                                <img onClick={() => setEyeVisible(!eyeVisible)} src={eyeVisible ? eyeIconVisible : eye} />
                               </i>
                             </div>
                           </FormGroup>

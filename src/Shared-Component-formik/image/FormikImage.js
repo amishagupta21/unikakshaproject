@@ -71,7 +71,7 @@ const FormikImage = ({
               img ? img : imgIcon
             }
             alt=""
-            width="200px"
+            width="70px"
             height="200px"
             {...rest}
           />

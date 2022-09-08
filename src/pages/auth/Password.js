@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -9,19 +9,26 @@ import Logo from '../../assets/images/logo.svg';
 import Loginbanner from '../../assets/images/login-banner.svg';
 import back from '../../assets/images/back-arrow.svg';
 import eye from '../../assets/images/icon-eye-view.svg';
-import { Link } from 'react-router-dom';
+import eyeIconVisible from '../../assets/images/icon-eye-visible.svg';
+import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
 import { logInWithEmailAndPassword } from '../../firebase/firebaseAuth';
-import { clearEmail } from '../../redux/actions/AuthActions';
 import { toast } from 'react-toastify';
 import Cookies from 'universal-cookie';
 import { setLoading } from '../../redux/actions/LoaderActions';
 
-const Login = () => {
+const Password = () => {
+  const cookie = new Cookies();
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const username = useSelector(state => state?.auth?.email)
+  const location = useLocation()
+  const email = location?.state?.email
+
+  console.log("Email params :: ", email)
+
+  const [eyeVisible, setEyeVisible] = useState(false)
 
   return (
     <section className='auth_layout login_screen'>
@@ -32,7 +39,6 @@ const Login = () => {
         <div className='right_box_container'>
           <div className='back-action'>
             <div className="back-arrow"><a onClick={() => {
-              dispatch(clearEmail())
               navigate('/')
             }}><img src={back} /></a></div>
             <a onClick={() =>
@@ -42,10 +48,11 @@ const Login = () => {
           <div className='auth_form'>
             <h3>Enter your password</h3>
             <p>Please enter your Unikaksha password for <br /><a href="">
-              {username && username}</a></p>
+              {email && email}</a></p>
             <Formik
               initialValues={{
-                password: '',
+                password: cookie.get('password') ? cookie.get('password') : "",
+                rememberMe: false
               }}
               validationSchema={Yup.object().shape({
                 password: Yup.string()
@@ -56,9 +63,9 @@ const Login = () => {
                   ),
               })}
               onSubmit={async (values) => {
-                if (values.password && username) {
+                if (values.password && email) {
                   dispatch(setLoading(true))
-                  let response = await logInWithEmailAndPassword(username, values.password)
+                  let response = await logInWithEmailAndPassword(email, values.password)
                   dispatch(setLoading(false))
                   if (response?.user) {
                     localStorage.setItem("user", JSON.stringify(response.user))
@@ -69,7 +76,10 @@ const Login = () => {
                     date.setTime(date.getTime() + (expiresAt * 60 * 1000))
                     let option = { path: '/', expires: date }
                     cookies.set('access_token', accessToken, option);
-                    console.log("Cookies ::::", cookies.get('access_token'));
+                    if (values.rememberMe) {
+                      cookies.set('userName', email, { path: '/' });
+                      cookies.set('password', values.password, { path: '/' });
+                    }
                     toast.success("Log in Succesfull", {
                       theme: "colored"
                     })
@@ -92,13 +102,13 @@ const Login = () => {
                             <FormLabel className="custom-label">Password</FormLabel>
                             <div className="password-view-container">
                               <FormControl
-                                type="password"
+                                type={eyeVisible ? "text" : "password"}
                                 placeholder="Enter Password"
                                 value={field.value}
                                 onChange={field.onChange}
                               />
                               <i className="password-view">
-                                <img src={eye} />
+                                <img onClick={() => setEyeVisible(!eyeVisible)} src={eyeVisible ? eyeIconVisible : eye} />
                               </i>
                             </div>
                           </FormGroup>
@@ -152,4 +162,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Password

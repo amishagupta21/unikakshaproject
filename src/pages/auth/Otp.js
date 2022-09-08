@@ -12,16 +12,18 @@ import back from '../../assets/images/back-arrow.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 import { Form, Field, Formik } from 'formik'
-import { clearEmail } from '../../redux/actions/AuthActions';
 import { toast } from 'react-toastify';
+import { setLoading } from '../../redux/actions/LoaderActions';
 
 const Otp = () => {
   const mobile = useSelector(state => state?.auth?.mobileNumber)
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const onSubmitOTP = (code) => {
+    dispatch(setLoading(true))
     window.confirmationResult.confirm(code).then((result) => {
       if (result?.user) {
+        dispatch(setLoading(false))
         toast.success("Log in Succesfull", {
           theme: "colored"
         })
@@ -43,7 +45,6 @@ const Otp = () => {
           <div className='back-action'>
             <div className="back-arrow">
               <a onClick={() => {
-                dispatch(clearEmail())
                 navigate('/')
               }
               }>

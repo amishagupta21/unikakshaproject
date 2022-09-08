@@ -2,6 +2,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const ApiService = async (url_end_point, type, data, resettoken) => {
+  const token = JSON.parse(localStorage.getItem("user"))?.stsTokenManager?.accessToken
+
   const apiObj = (url_end_point, type, data) => {
     const obj = {
       url: `${process.env.REACT_APP_LIVEURL}/${url_end_point}`,
@@ -14,6 +16,9 @@ const ApiService = async (url_end_point, type, data, resettoken) => {
       //       : ""
       //       }`,
       //   },
+      headers: {
+        Authorization: `${token}`
+      },
       data: data,
     };
     return obj;

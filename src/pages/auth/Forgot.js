@@ -7,7 +7,6 @@ import Logo from "../../assets/images/logo.svg";
 import Loginbanner from "../../assets/images/login-banner.svg";
 import back from "../../assets/images/back-arrow.svg";
 import eye from "../../assets/images/icon-eye-view.svg";
-import { clearEmail } from "../../redux/actions/AuthActions";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
@@ -25,7 +24,6 @@ const Forgot = () => {
           <div className="back-action">
             <div className="back-arrow">
               <a onClick={() => {
-                dispatch(clearEmail())
                 navigate('/')
               }
               }>
@@ -83,7 +81,7 @@ const Forgot = () => {
               </div>
             </Form>
           </div>
-        </div>{" "}
+        </div>
       </div>
     </section>
   );

@@ -9,13 +9,13 @@ import Loginbanner from '../../assets/images/login-banner.svg';
 import back from '../../assets/images/back-arrow.svg';
 import eye from '../../assets/images/icon-eye-view.svg';
 import { Link, useNavigate } from 'react-router-dom';
-import { clearEmail } from '../../redux/actions/AuthActions';
 import { useDispatch } from 'react-redux';
 
 
-const Login = () => {
+const NewPassword = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch()
+
   return (
     <section className='auth_layout login_screen'>
       <div className='left_box'>
@@ -26,7 +26,6 @@ const Login = () => {
           <div className='back-action'>
             <div className="back-arrow">
               <a onClick={() => {
-                dispatch(clearEmail())
                 navigate('/')
               }
               }>
@@ -67,4 +66,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default NewPassword

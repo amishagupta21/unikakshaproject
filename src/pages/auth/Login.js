@@ -17,37 +17,41 @@ import Nav from "react-bootstrap/Nav";
 import Tab from "react-bootstrap/Tab";
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { clearEmail, setEmail } from "../../redux/actions/AuthActions";
 import SocialLogin from "../../utils-componets/SocialLogin";
 import { firebase } from '../../firebase/firebase'
-import { logout } from "../../firebase/firebaseAuth";
 import { toast } from "react-toastify";
+import Cookies from "universal-cookie";
+import { setLoading } from "../../redux/actions/LoaderActions";
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch()
+  const cookie = new Cookies();
 
-  const configureCaptcha = (phoneNumber) => {
-    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
+  const configureCaptcha = () => {
+    return window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
       'size': 'invisible',
       'callback': (response) => {
-        sendOTP(phoneNumber);
       },
       defaultCountry: "IN"
     });
   }
 
-  const sendOTP = (phoneNumber) => {
-    configureCaptcha(phoneNumber)
-    const appVerifier = window.recaptchaVerifier;
+  const sendOTP = async (phoneNumber, remember) => {
+    const appVerifier = configureCaptcha()
     firebase.auth().signInWithPhoneNumber(`+91${phoneNumber}`, appVerifier)
-      .then((confirmationResult) => {
+      .then(async (confirmationResult) => {
         window.confirmationResult = confirmationResult;
         toast.success("OTP has been Sent to Mobile Number", {
           theme: "colored"
         })
+        if (remember)
+          cookie.set('mobileNumber', phoneNumber, { path: '/' });
         navigate("/otp")
       }).catch((error) => {
+        toast.error(`${error}`, {
+          theme: "colored"
+        })
         console.log(error)
       });
   }
@@ -62,7 +66,6 @@ const Login = () => {
           <div className="back-action">
             <div className="back-arrow">
               <a onClick={() => {
-                dispatch(clearEmail())
                 navigate('/')
               }
               }>
@@ -140,8 +143,7 @@ const Login = () => {
                     <Tab.Pane eventKey="first">
                       <Formik
                         initialValues={{
-                          email: '',
-                          rememberMe: false
+                          email: cookie.get('userName') ? cookie.get('userName') : "",
                         }}
                         validationSchema={Yup.object().shape({
                           email: Yup.string()
@@ -149,10 +151,14 @@ const Login = () => {
                             .required('Required'),
                         })}
                         onSubmit={(values) => {
-                          console.log("validateForm");
+                          console.log("validateForm", values);
                           if (values.email) {
-                            dispatch(setEmail(values.email))
-                            navigate('/password')
+                            console.log("eeee::", values.email);
+                            navigate('/password', {
+                              state: {
+                                email: values.email,
+                              }
+                            })
                           }
                         }}
                         render={({ handleChange, handleSubmit, handleBlur, values, errors, touched, validateForm }) => (
@@ -174,18 +180,8 @@ const Login = () => {
                             />
                             {errors.email && touched.email ? (<div className="error-text">{errors.email}</div>) : null}
                             <Field
-                              name="rememberMe"
                               render={({ field, formProps }) => (
                                 <div className="forgot_section">
-                                  <FormGroup
-                                    className="custom_checkbox"
-                                    controlId="rememberMe">
-                                    <FormCheck
-                                      type={'checkbox'}
-                                      value={field.value}
-                                      onChange={field.onChange}
-                                      label="Remember me" />
-                                  </FormGroup>
                                   <div href="#" className="resetpassword ">
                                     <a href="" path="">
                                       <Link to="/forgotpassword">Forgot Password</Link>
@@ -201,7 +197,7 @@ const Login = () => {
                                 variant="info"
                                 className="btn-lg justify-content-center "
                               >
-                                <Link to="/password">Login</Link>
+                                Login
                               </Button>
                             </div>
                           </Form>
@@ -211,28 +207,22 @@ const Login = () => {
                     <Tab.Pane eventKey="second">
                       <Formik
                         initialValues={{
-                          mobileNumber: '',
+                          mobileNumber: cookie.get('mobileNumber') ? cookie.get('mobileNumber') : "",
                           rememberMe: false
                         }}
-                        // validationSchema={Yup.object().shape({
-                        //   mobileNumber: Yup.number()
-                        //     .typeError("That doesn't look like a phone number")
-                        //     .positive("A phone number can't start with a minus")
-                        //     .integer("A phone number can't include a decimal point")
-                        //     .min(10, "min 10 digit required")
-                        //     .required('A phone number is required'),
-                        // })}
-                        validationSchema={Yup.object({
-                          // mobileNumber: Yup.string().matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/, 'Phone number is not valid')
+                        validationSchema={Yup.object().shape({
                           mobileNumber: Yup.number()
+                            .typeError("That doesn't look like a phone number")
+                            .positive("A phone number can't start with a minus")
+                            .integer("A phone number can't include a decimal point")
+                            .min(10, "min 10 digit required")
                             .required('A phone number is required'),
                         })}
                         onSubmit={(values) => {
-                          console.log("values.mobileNumber", values.mobileNumber)
-                          // if (values.mobileNumber) {
-                          //   sendOTP(values.mobileNumber)
-                          //   navigate('/otp')
-                          // }
+                          const { mobileNumber, rememberMe } = values
+                          if (values.mobileNumber) {
+                            sendOTP(mobileNumber, rememberMe)
+                          }
                         }}
                         render={({ handleChange, handleSubmit, handleBlur, values, errors, touched, validateForm }) => (
                           <Form>
@@ -246,7 +236,6 @@ const Login = () => {
                                     className="form-group-1 mb-3"
                                     as={Col}
                                     md="12">
-
                                     <FormLabel>Mobile Number</FormLabel>
                                     <div className="user-class-mobile">
                                       <FormSelect id="form-control form-mobile-position">
@@ -277,8 +266,6 @@ const Login = () => {
                             />
                             <div className="button d-flex clearfix">
                               <Button
-                                onClick={() => sendOTP(values.mobileNumber)
-                                }
                                 type="submit"
                                 variant="info"
                                 className="btn-lg justify-content-center "

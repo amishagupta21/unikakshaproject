@@ -7,7 +7,6 @@ import Loginbanner from "../../assets/images/login-banner.svg";
 import back from "../../assets/images/back-arrow.svg";
 import * as Yup from 'yup';
 import { Link } from "react-router-dom";
-import eye from "../../assets/images/icon-eye-view.svg";
 import FormControl from 'react-bootstrap/FormControl';
 import FormGroup from 'react-bootstrap/FormGroup';
 import FormLabel from 'react-bootstrap/FormLabel';
@@ -15,7 +14,6 @@ import FormCheck from 'react-bootstrap/FormCheck';
 import { Form, Field, Formik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { clearEmail, setEmail } from "../../redux/actions/AuthActions";
 import SocialLogin from "../../utils-componets/SocialLogin";
 
 const Signup = () => {
@@ -31,7 +29,6 @@ const Signup = () => {
           <div className="back-action">
             <div className="back-arrow">
               <a onClick={() => {
-                dispatch(clearEmail())
                 navigate('/')
               }
               }>
@@ -56,7 +53,6 @@ const Signup = () => {
               })}
               onSubmit={(values) => {
                 if (values.email) {
-                  dispatch(setEmail(values.email))
                   navigate('/setpassword')
                 }
               }}

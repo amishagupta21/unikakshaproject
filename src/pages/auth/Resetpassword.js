@@ -8,7 +8,6 @@ import Loginbanner from "../../assets/images/forgot-banner.svg";
 import back from "../../assets/images/back-arrow.svg";
 import { Link, useNavigate } from "react-router-dom";
 import SocialLogin from "../../utils-componets/SocialLogin";
-import { clearEmail } from "../../redux/actions/AuthActions";
 import { useDispatch } from "react-redux";
 
 const Resetpassword = () => {
@@ -24,7 +23,6 @@ const Resetpassword = () => {
           <div className="back-action">
             <div className="back-arrow">
               <a onClick={() => {
-                dispatch(clearEmail())
                 navigate('/')
               }
               }>
