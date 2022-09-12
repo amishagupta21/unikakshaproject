@@ -60,12 +60,10 @@ const Profile = () => {
       <div className="profile-page">
         <div className="row-profile-left">
           <h2 className="profile-heading">MY Profile</h2>
-          <button className="btn btn-info" onClick={() => setIsShowIntroductionModal(true)}>Add Introduction</button>
           <button className="btn btn-info" onClick={() => setIsShowEducationModal(true)}>Add Education</button>
-
           <div className="profile-box">
             <div className="profile-background">
-              <img src={editIcon} />
+              <img className="edit-icon" onClick={() => setIsShowIntroductionModal(true)} src={editIcon} />
             </div>
             <div className="profile-page-columns">
               <div className="profile-information-status-left">
@@ -74,14 +72,14 @@ const Profile = () => {
                     <img src={ProfilePic} alt="profile picture" />
                   </div>
                   <div className="profile-name">
-                    <h3>{profileInfo?.firstName}</h3>
+                    <h3>{profileInfo?.firstName} {profileInfo?.lastName}</h3>
                     <p>{profileInfo?.profileHeadline}</p>
                     <div className="profile-share">
                       <ul>
-                        <Onesocial link={profileInfo?.socialLinks?.facebook} img={fb} />
-                        <Onesocial link={profileInfo?.socialLinks?.facebook} img={pintest} />
-                        <Onesocial link={profileInfo?.socialLinks?.facebook} img={linked} />
-                        <Onesocial link={profileInfo?.socialLinks?.youtube} img={youtube} />
+                        <Onesocial link={profileInfo?.socialLinks?.twitter} img={fb} />
+                        <Onesocial link={profileInfo?.socialLinks?.twitter} img={pintest} />
+                        <Onesocial link={profileInfo?.socialLinks?.twitter} img={linked} />
+                        <Onesocial link={profileInfo?.socialLinks?.twitter} img={youtube} />
                         <Onesocial link={profileInfo?.socialLinks?.twitter} img={twit} />
                       </ul>
                     </div>
@@ -155,7 +153,7 @@ const Profile = () => {
                 </ProgressBar>
                 <p className="text-center">65%</p>
                 <div className="edit-pro">
-                  <img src={editIcon} />
+                  <img className="edit-icon" src={editIcon} />
                 </div>
               </div>
             </div>
@@ -370,6 +368,7 @@ const Profile = () => {
 
         {/* modals  */}
         <GeneralProfileModal
+          info={profileInfo}
           isShowIntroductionModal={isShowIntroductionModal}
           setIsShowIntroductionModal={setIsShowIntroductionModal} />
         <ExerienceModal

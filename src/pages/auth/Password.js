@@ -26,8 +26,6 @@ const Password = () => {
   const location = useLocation()
   const email = location?.state?.email
 
-  console.log("Email params :: ", email)
-
   const [eyeVisible, setEyeVisible] = useState(false)
 
   return (

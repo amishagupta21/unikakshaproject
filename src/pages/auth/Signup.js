@@ -53,7 +53,11 @@ const Signup = () => {
               })}
               onSubmit={(values) => {
                 if (values.email) {
-                  navigate('/setpassword')
+                  navigate("/setpassword", {
+                    state: {
+                      email: values.email,
+                    }
+                  })
                 }
               }}
               render={({ handleChange, handleSubmit, handleBlur, values, errors, touched, validateForm }) => (

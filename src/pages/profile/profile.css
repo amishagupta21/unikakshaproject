@@ -33,7 +33,9 @@ ul li {
 	background: #f0f4fd;
 }
 
-
+.edit-icon{
+	cursor: pointer;
+}
 
 .profile-heading {
 	font-family: 'Poppins';

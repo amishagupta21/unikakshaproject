@@ -47,7 +47,11 @@ const Login = () => {
         })
         if (remember)
           cookie.set('mobileNumber', phoneNumber, { path: '/' });
-        navigate("/otp")
+        navigate("/otp", {
+          state: {
+            phoneNumber: phoneNumber,
+          }
+        })
       }).catch((error) => {
         toast.error(`${error}`, {
           theme: "colored"
@@ -151,9 +155,7 @@ const Login = () => {
                             .required('Required'),
                         })}
                         onSubmit={(values) => {
-                          console.log("validateForm", values);
                           if (values.email) {
-                            console.log("eeee::", values.email);
                             navigate('/password', {
                               state: {
                                 email: values.email,
@@ -215,7 +217,7 @@ const Login = () => {
                             .typeError("That doesn't look like a phone number")
                             .positive("A phone number can't start with a minus")
                             .integer("A phone number can't include a decimal point")
-                            .min(10, "min 10 digit required")
+                            .min(1000000000, "min 10 digit required")
                             .required('A phone number is required'),
                         })}
                         onSubmit={(values) => {

@@ -41,9 +41,24 @@ export const addUserIntroduction = (data) => {
   return async (dispatch) => {
     let res = await ApiService(`v1/user/profile/general-information`, `post`, data);
     if (res.status === 201) {
-      toast("User Information Added Sucessfully")
+      toast.success("User Information Added Sucessfully")
     }
   };
 };
 
+export const editUserIntroduction = (data) => {
+  return async (dispatch) => {
+    let res = await ApiService(`v1/user/profile/general-information`, `patch`, data);
+    if (res.status === 200) {
+      toast.success("User Information Edited Sucessfully")
+    }
+  };
+};
+
+
+export const addUserExperience = (data) => {
+  return async (dispatch) => {
+    return await ApiService(`v1/user/profile/work-experience`, `post`, data);
+  };
+};
 

@@ -9,13 +9,11 @@ import banner from "../../../assets/images/icon-add-banner.svg"
 import SchemaList from '../../../Shared-Component-formik/schema/SchemaList'
 import { Form, Formik } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
-import { addUserIntroduction } from '../../../redux/actions/UserActions'
+import { addUserIntroduction, editUserIntroduction } from '../../../redux/actions/UserActions'
 
-const GeneralProfileModal = ({ isShowIntroductionModal, setIsShowIntroductionModal }) => {
-
+const GeneralProfileModal = ({ info, isShowIntroductionModal, setIsShowIntroductionModal }) => {
     const userId = JSON.parse(localStorage.getItem("user"))?.uid
-    console.log("uID ::::", userId);
-
+    console.log("info ::::", info);
     const dispatch = useDispatch()
 
     const [profileImg, setProfileImg] = useState("")
@@ -36,7 +34,11 @@ const GeneralProfileModal = ({ isShowIntroductionModal, setIsShowIntroductionMod
                 twitter: values.twitter,
             }
         }
-        dispatch(addUserIntroduction(ans));
+        if (info) {
+            dispatch(editUserIntroduction(ans));
+        } else {
+            dispatch(addUserIntroduction(ans));
+        }
         profileImg && setProfileImg("")
         bannerImg && setbannerImg("")
     }
@@ -49,21 +51,21 @@ const GeneralProfileModal = ({ isShowIntroductionModal, setIsShowIntroductionMod
             aria-labelledby="example-modal-sizes-title-lg"
         >
             <Modal.Header closeButton>
-                <Modal.Title id="example-modal-sizes-title-lg">Add Introduction in separate</Modal.Title>
+                <Modal.Title id="example-modal-sizes-title-lg">Add Introduction</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Formik
                     initialValues={{
-                        firstName: "",
-                        lastName: "",
-                        profileHeadline: "",
-                        about: "",
+                        firstName: info ? info?.firstName : "",
+                        lastName: info ? info?.lastName : "",
+                        profileHeadline: info ? info?.profileHeadline : "",
+                        about: info ? info?.about : "",
                         // resume: "",
                         // bannerPicture: "",
                         // profilePicture: "",
-                        linkedin: "",
-                        instagram: "",
-                        twitter: ""
+                        linkedin: info ? info?.socialLinks?.linkedin : "",
+                        instagram: info ? info?.socialLinks?.instagram : "",
+                        twitter: info ? info?.socialLinks?.twitter : "",
                     }}
                     validationSchema={Yup.object({
                         firstName: SchemaList[0].required("First name is a required field"),
@@ -71,7 +73,7 @@ const GeneralProfileModal = ({ isShowIntroductionModal, setIsShowIntroductionMod
                         profileHeadline: SchemaList[0].required("Profile headline is a required field"),
                         about: SchemaList[0].required("About is a required field"),
                     })}
-                    onSubmit={addIntroduction}
+                    onSubmit={(val) => addIntroduction(val)}
                 >
                     {(formik) => {
                         return (

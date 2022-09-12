@@ -11,6 +11,7 @@ import {
     signOut,
 } from "firebase/auth";
 import { toast } from "react-toastify";
+import Cookies from "universal-cookie";
 import { firebaseConfig } from "./firebase";
 
 const firebaseApp = initializeApp(firebaseConfig);
@@ -90,6 +91,9 @@ const logout = () => {
     toast.success("Logout Successfully", {
         theme: "colored"
     })
+    const cookie = new Cookies();
+    cookie.set('access_token', "", { path: '/' });
+    cookie.set('uid', "", { path: '/' });
     signOut(auth);
 };
 export {

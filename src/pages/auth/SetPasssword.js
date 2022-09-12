@@ -12,14 +12,16 @@ import { FormControl, FormGroup, FormLabel } from "react-bootstrap";
 import { Form, Field, Formik } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
 import { registerWithEmailAndPassword } from "../../firebase/firebaseAuth";
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { setLoading } from "../../redux/actions/LoaderActions";
+import Cookies from "universal-cookie";
+import { toast } from "react-toastify";
 
 const SetPasssword = () => {
-  const email = useSelector(state => state?.auth?.email)
   const navigate = useNavigate();
   const dispatch = useDispatch()
-
+  const location = useLocation()
+  const email = location?.state?.email
   const [eyeVisible, setEyeVisible] = useState(false)
 
   return (
@@ -38,6 +40,7 @@ const SetPasssword = () => {
           </div>
           <div className="auth_form">
             <h3>Create a new password</h3>
+            <p>{email}</p>
             <p>
               Use a minimum of 6 characters, including uppercase letters, <br />
               lowercase letters and numbers.
@@ -55,19 +58,34 @@ const SetPasssword = () => {
                     "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
                   ),
                 confirmPassword: Yup.string()
-                  .oneOf([Yup.ref('password'), null], 'Passwords must match')
+                  .oneOf([Yup.ref('password'), null], 'Password and confirm password should be same')
               })}
               onSubmit={async (values) => {
                 if (values.password === values.confirmPassword) {
                   dispatch(setLoading(true))
                   let response = await registerWithEmailAndPassword(email, email, values.password)
                   dispatch(setLoading(false))
-                  localStorage.setItem("user", JSON.stringify(response.user))
                   if (response.user) {
+                    localStorage.setItem("user", JSON.stringify(response.user))
+                    const cookies = new Cookies();
+                    let accessToken = response?.user?.stsTokenManager?.accessToken
+                    let expiresAt = 60 * 24;
+                    let date = new Date();
+                    date.setTime(date.getTime() + (expiresAt * 60 * 1000))
+                    let option = { path: '/', expires: date }
+                    cookies.set('access_token', accessToken, option);
+                    if (values.rememberMe) {
+                      cookies.set('userName', email, { path: '/' });
+                      cookies.set('password', values.password, { path: '/' });
+                    }
+                    toast.success("Log in Succesfull", {
+                      theme: "colored"
+                    })
                     navigate('/home')
                   }
                 }
-              }}
+              }
+              }
               render={({ handleChange, handleSubmit, handleBlur, values, errors, touched, validateForm }) => (
                 <Form>
                   <Row className="mb-0">

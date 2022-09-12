@@ -10,24 +10,37 @@ import * as Yup from 'yup';
 import Loginbanner from '../../assets/images/login-banner.svg';
 import back from '../../assets/images/back-arrow.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Form, Field, Formik } from 'formik'
 import { toast } from 'react-toastify';
 import { setLoading } from '../../redux/actions/LoaderActions';
+import Cookies from 'universal-cookie';
 
 const Otp = () => {
-  const mobile = useSelector(state => state?.auth?.mobileNumber)
   const navigate = useNavigate();
   const dispatch = useDispatch()
-  const onSubmitOTP = (code) => {
+  const location = useLocation()
+  const phoneNumber = location?.state?.phoneNumber
+
+  const onSubmitOTP = (values) => {
     dispatch(setLoading(true))
-    window.confirmationResult.confirm(code).then((result) => {
-      if (result?.user) {
+    window.confirmationResult.confirm(values.otp).then((response) => {
+      if (response.user) {
         dispatch(setLoading(false))
+        localStorage.setItem("user", JSON.stringify(response.user))
+        const cookies = new Cookies();
+        let accessToken = response?.user?.stsTokenManager?.accessToken
+        let expiresAt = 60 * 24;
+        let date = new Date();
+        date.setTime(date.getTime() + (expiresAt * 60 * 1000))
+        let option = { path: '/', expires: date }
+        cookies.set('access_token', accessToken, option);
+        if (values.rememberMe) {
+          cookies.set('phoneNumber', phoneNumber, { path: '/' });
+        }
         toast.success("Log in Succesfull", {
           theme: "colored"
         })
-        localStorage.setItem("user", JSON.stringify(result?.user))
         navigate('/home')
       }
     }).catch((error) => {
@@ -55,6 +68,8 @@ const Otp = () => {
           </div>
           <div className='auth_form'>
             <h3 className='mb-4'>Enter your mobile OTP</h3>
+            <p>Please enter OTP for <br /><a href="">
+              {phoneNumber && phoneNumber}</a></p>
             <Formik
               initialValues={{
                 otp: '',
@@ -66,7 +81,7 @@ const Otp = () => {
               })}
               onSubmit={(values) => {
                 if (values.otp) {
-                  onSubmitOTP(values.otp)
+                  onSubmitOTP(values)
                 }
               }}
               render={({ handleChange, handleSubmit, handleBlur, values, errors, touched, validateForm }) => (
