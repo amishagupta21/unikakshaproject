@@ -25,6 +25,16 @@ import { logout } from '../../firebase/firebaseAuth';
 const Header = () => {
   const [check, setCheck] = useState(false);
   const navigate = useNavigate()
+  const userName = JSON.parse(localStorage.getItem("user"))
+  let user = ""
+  if (userName?.email) {
+    user = userName?.email
+  } else if (userName?.phoneNumber) {
+    user = userName?.phoneNumber
+  }
+
+  console.log("vvv", userName);
+
   useEffect(() => {
     if (check) {
       document.body.classList.add('active')
@@ -59,13 +69,9 @@ const Header = () => {
         </div>
         <div className='app-navbar-item app-navbar-profile align-items-center ms-1 ms-lg-3'>
           <img src={ProfilePic} />
-          {/* <div className='profile-box-des'>
-            <h4>Raj Patel</h4>
-            <span>#10203</span>
-          </div> */}
           <Dropdown className='profile-control'>
             <Dropdown.Toggle id="dropdown-button-dark-example1" variant="secondary">
-              Raj patel
+              {user}
             </Dropdown.Toggle>
             <Dropdown.Menu variant="dark">
               <Dropdown.Item onClick={

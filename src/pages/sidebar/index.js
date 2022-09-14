@@ -3,7 +3,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Nav from "react-bootstrap/Nav";
 import logo from "../../assets/images/unikaksha-lms-logo.svg";
 import imgcontrol from "../../assets/images/img-accress-control.svg";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 import "./sidebar.css";
@@ -12,6 +12,10 @@ const SideBar = () => {
   const handleToggle = () => {
     setActive(!isActive);
   };
+
+  let data = useParams()
+  console.log("params", data)
+
   return (
     <div className={isActive ? "left-side" : "left-side active"}>
       <Link to="/home" className="logo-admin">

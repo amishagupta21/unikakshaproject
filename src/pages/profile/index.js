@@ -24,43 +24,37 @@ import Recommendations from "../../components/profile/Recommendations"
 import Projects from "../../components/profile/Projects"
 import iconplus from "../../assets/images/icon-plus.svg"
 import * as Yup from "yup"
-
-import SideBar from "../sidebar"
-import Header from "../header"
 import Dropdown from "react-bootstrap/Dropdown"
-import { addUserIntroduction, getuserProfile } from "../../redux/actions/UserActions"
+import { getuserProfile } from "../../redux/actions/UserActions"
 import { useDispatch, useSelector } from "react-redux"
 import Onesocial from "../../components/profile/socialmedia/Onesocial"
-import { Form, Formik } from "formik"
-import SchemaList from "./../../Shared-Component-formik/schema/SchemaList"
-import FormikController from "./../../Shared-Component-formik/FormikController"
-import GeneralProfileModal from "./components/GeneralProfileModal"
-import EducationModal from "./components/EducationModal"
-import ExerienceModal from "./components/ExerienceModal"
+import WorkExperienceModal from "./components/Modals/WorkExperienceModal"
+import EducationModal from "./components/Modals/EducationModal"
+import GeneralProfileModal from "./components/Modals/GeneralProfileModal"
+import CurrentStatus from "../../components/profile/CurrentStatus"
+
 
 const Profile = () => {
   const dispatch = useDispatch()
   const profileInfo = useSelector((state) => state?.users?.profile)
-  console.log("profile Data ::: ", profileInfo)
-
+  console.log("profileInfo", profileInfo);
   const [profileImg, setProfileImg] = useState("")
   const [bannerImg, setbannerImg] = useState("")
   const [isShowIntroductionModal, setIsShowIntroductionModal] = useState(false)
   const [isShowExperienceModal, setIsShowExperienceModal] = useState(false)
   const [isShowEducationModal, setIsShowEducationModal] = useState(false)
+  const [currentInfo, setCurrentInfo] = useState({})
 
   useEffect(() => {
     let id = JSON.parse(localStorage.getItem("user"))?.uid
     dispatch(getuserProfile(id))
   }, [])
 
-
   return (
     <div className="page-wrapper">
       <div className="profile-page">
         <div className="row-profile-left">
           <h2 className="profile-heading">MY Profile</h2>
-          <button className="btn btn-info" onClick={() => setIsShowEducationModal(true)}>Add Education</button>
           <div className="profile-box">
             <div className="profile-background">
               <img className="edit-icon" onClick={() => setIsShowIntroductionModal(true)} src={editIcon} />
@@ -91,7 +85,7 @@ const Profile = () => {
                   <div className="col-sm-7">
                     <div className="profile-pdf-download">
                       <img src={pdf} /> <span>Raj patel_resume.pdf</span>
-                      <a href="" className="btn btn-info">
+                      <a className="btn btn-info">
                         Download
                       </a>
                     </div>
@@ -112,19 +106,7 @@ const Profile = () => {
             </div>
             <div className="profile-page-columns mt-3">
               <div className="profile-information-status-left">
-                <div className="current-status">
-                  <label>Current Status</label>
-                  <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                      Activily looking for Job
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                      <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                      <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </div>
+                <CurrentStatus />
               </div>
               <div className="profile-information-status-right">
                 <div className="profile-box-column">
@@ -160,6 +142,8 @@ const Profile = () => {
           </div>
           <Experience
             info={profileInfo?.workExperience}
+            currentInfo={currentInfo}
+            setCurrentInfo={setCurrentInfo}
             isShowExperienceModal={isShowExperienceModal}
             setIsShowExperienceModal={setIsShowExperienceModal}
           />
@@ -371,9 +355,11 @@ const Profile = () => {
           info={profileInfo}
           isShowIntroductionModal={isShowIntroductionModal}
           setIsShowIntroductionModal={setIsShowIntroductionModal} />
-        <ExerienceModal
+        <WorkExperienceModal
           isShowExperienceModal={isShowExperienceModal}
           setIsShowExperienceModal={setIsShowExperienceModal}
+          currentInfo={currentInfo}
+          setCurrentInfo={setCurrentInfo}
         />
         <EducationModal
           isShowEducationModal={isShowEducationModal}

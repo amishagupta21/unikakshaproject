@@ -76,7 +76,6 @@ const SetPasssword = () => {
                     cookies.set('access_token', accessToken, option);
                     if (values.rememberMe) {
                       cookies.set('userName', email, { path: '/' });
-                      cookies.set('password', values.password, { path: '/' });
                     }
                     toast.success("Log in Succesfull", {
                       theme: "colored"

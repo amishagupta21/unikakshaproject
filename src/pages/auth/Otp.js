@@ -15,12 +15,47 @@ import { Form, Field, Formik } from 'formik'
 import { toast } from 'react-toastify';
 import { setLoading } from '../../redux/actions/LoaderActions';
 import Cookies from 'universal-cookie';
+import { firebase } from '../../firebase/firebase'
 
 const Otp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const location = useLocation()
   const phoneNumber = location?.state?.phoneNumber
+
+  const configureCaptcha = () => {
+    return window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
+      'size': 'invisible',
+      'callback': (response) => {
+      },
+      defaultCountry: "IN"
+    });
+  }
+
+  const sendOTP = async (phoneNumber) => {
+    // dispatch(setLoading(true))
+    const appVerifier = configureCaptcha()
+    firebase.auth().signInWithPhoneNumber(`+91${phoneNumber}`, appVerifier)
+      .then(async (confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        // dispatch(setLoading(false))
+        toast.success("OTP has been sent to Mobile Number Again", {
+          theme: "colored"
+        })
+        navigate("/otp", {
+          state: {
+            phoneNumber: phoneNumber,
+          }
+        })
+      }).catch((error) => {
+        toast.error(`${error}`, {
+          theme: "colored"
+        })
+        dispatch(setLoading(false))
+        console.log(error)
+      });
+  }
+
 
   const onSubmitOTP = (values) => {
     dispatch(setLoading(true))
@@ -86,6 +121,7 @@ const Otp = () => {
               }}
               render={({ handleChange, handleSubmit, handleBlur, values, errors, touched, validateForm }) => (
                 <Form>
+                  <div id="sign-in-button"> </div>
                   <h2 className="title-head">Sign in to Unikaksha</h2>
                   <Field
                     name="otp"
@@ -101,7 +137,7 @@ const Otp = () => {
                   {errors.otp && touched.otp ? (<div className="error-text">{errors.otp}</div>) : null}
                   <div className='button d-flex clearfix otp mb-5'>
                     <Button type="submit" variant="info" className='btn-lg justify-content-center mt-2 mb-5'>Submit OTP</Button>
-                    <a className='otp-password'>Resend OTP</a>
+                    <a onClick={() => sendOTP(phoneNumber)} className='otp-password'>Resend OTP</a>
                   </div>
                 </Form>
               )}

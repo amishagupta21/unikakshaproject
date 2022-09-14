@@ -49,7 +49,7 @@ const Password = () => {
               {email && email}</a></p>
             <Formik
               initialValues={{
-                password: cookie.get('password') ? cookie.get('password') : "",
+                password: "",
                 rememberMe: false
               }}
               validationSchema={Yup.object().shape({
@@ -76,7 +76,6 @@ const Password = () => {
                     cookies.set('access_token', accessToken, option);
                     if (values.rememberMe) {
                       cookies.set('userName', email, { path: '/' });
-                      cookies.set('password', values.password, { path: '/' });
                     }
                     toast.success("Log in Succesfull", {
                       theme: "colored"

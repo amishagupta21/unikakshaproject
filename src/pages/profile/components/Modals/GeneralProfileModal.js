@@ -1,26 +1,23 @@
 import React, { useState } from 'react'
 import { Modal } from 'react-bootstrap'
-import FormikController from '../../../Shared-Component-formik/FormikController'
-import linked from "../../../assets/images/icon-linked-new.png"
-import pintest from "../../../assets/images/icon-printest-new.png"
+import FormikController from '../../../../Shared-Component-formik/FormikController'
+import linked from "../../../../assets/images/icon-linked-new.png"
+import pintest from "../../../../assets/images/icon-printest-new.png"
 import * as Yup from "yup"
-import twit from "../../../assets/images/icon-twitter-new.png"
-import banner from "../../../assets/images/icon-add-banner.svg"
-import SchemaList from '../../../Shared-Component-formik/schema/SchemaList'
+import twit from "../../../../assets/images/icon-twitter-new.png"
 import { Form, Formik } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
-import { addUserIntroduction, editUserIntroduction } from '../../../redux/actions/UserActions'
+import { addUserIntroduction, editUserIntroduction } from '../../../../redux/actions/UserActions'
+import SchemaList from '../../../../Shared-Component-formik/schema/SchemaList'
 
 const GeneralProfileModal = ({ info, isShowIntroductionModal, setIsShowIntroductionModal }) => {
     const userId = JSON.parse(localStorage.getItem("user"))?.uid
-    console.log("info ::::", info);
     const dispatch = useDispatch()
 
     const [profileImg, setProfileImg] = useState("")
     const [bannerImg, setbannerImg] = useState("")
 
     const addIntroduction = async (values) => {
-        console.log("Introduction>>>> ::", values)
         setIsShowIntroductionModal(false)
         let ans = {
             uid: userId,
@@ -29,7 +26,7 @@ const GeneralProfileModal = ({ info, isShowIntroductionModal, setIsShowIntroduct
             profileHeadline: values.profileHeadline,
             about: values.about,
             socialLinks: {
-                facebook: values.linkedin,
+                linkedIn: values.linkedin,
                 youtube: values.youtube,
                 twitter: values.twitter,
             }

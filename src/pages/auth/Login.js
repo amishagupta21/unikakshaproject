@@ -38,10 +38,12 @@ const Login = () => {
   }
 
   const sendOTP = async (phoneNumber, remember) => {
+    // dispatch(setLoading(true))
     const appVerifier = configureCaptcha()
     firebase.auth().signInWithPhoneNumber(`+91${phoneNumber}`, appVerifier)
       .then(async (confirmationResult) => {
         window.confirmationResult = confirmationResult;
+        // dispatch(setLoading(false))
         toast.success("OTP has been Sent to Mobile Number", {
           theme: "colored"
         })
@@ -56,6 +58,7 @@ const Login = () => {
         toast.error(`${error}`, {
           theme: "colored"
         })
+        dispatch(setLoading(false))
         console.log(error)
       });
   }

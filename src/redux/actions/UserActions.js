@@ -47,18 +47,26 @@ export const addUserIntroduction = (data) => {
 };
 
 export const editUserIntroduction = (data) => {
+  console.log("data", data);
   return async (dispatch) => {
     let res = await ApiService(`v1/user/profile/general-information`, `patch`, data);
     if (res.status === 200) {
       toast.success("User Information Edited Sucessfully")
+      await dispatch(getuserProfile(data?.uid))
     }
   };
 };
 
+// export const addUserExperience = (data) => {
+//   return async (dispatch) => {
+//     return await ApiService(`v1/user/profile/work-experience`, `post`, data);
+//   };
+// };
 
-export const addUserExperience = (data) => {
-  return async (dispatch) => {
-    return await ApiService(`v1/user/profile/work-experience`, `post`, data);
-  };
-};
+// export const editUserExperience = (data) => {
+//   return async (dispatch) => {
+//     return await ApiService(`v1/user/profile/work-experience`, `patch`, data);
+//   };
+// };
+
 

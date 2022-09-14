@@ -696,6 +696,10 @@ img.edit-add {
 	cursor: pointer;
 }
 
+/* by parth  */
+img.edit-add-new{
+	cursor: pointer;
+}
 .about-container.about-recommendations h5 {
 	margin-bottom: 0px;
 }
