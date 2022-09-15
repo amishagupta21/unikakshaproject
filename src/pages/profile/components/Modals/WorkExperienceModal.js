@@ -9,76 +9,19 @@ import { getuserProfile } from '../../../../redux/actions/UserActions'
 import { toast } from 'react-toastify'
 import { addWorkExperience, deleteExperience, editWorkExperience } from '../../../../redux/actions/WorkExperienceAction'
 import { setLoading } from '../../../../redux/actions/LoaderActions'
+import { optionsEmploymentType, optionsmonth, yearsOptions } from '../../../../utils-componets/static-content/DateMonthContent'
 
-const WorkExperienceModal = ({ isShowExperienceModal, setIsShowExperienceModal, currentInfo, setCurrentInfo }) => {
+const WorkExperienceModal = ({ isShowExperienceModal, setIsShowExperienceModal, experienceCurrentInfo, setExperienceCurrentInfo }) => {
 
     const userId = JSON.parse(localStorage.getItem("user"))?.uid
     const dispatch = useDispatch()
-    const yearsOptions = [
-        { value: "1984", label: "1984" },
-        { value: "1985", label: "1985" },
-        { value: "1986", label: "1986" },
-        { value: "1987", label: "1987" },
-        { value: "1988", label: "1988" },
-        { value: "1989", label: "1989" },
-        { value: "1990", label: "1990" },
-        { value: "1991", label: "1991" },
-        { value: "1992", label: "1992" },
-        { value: "1993", label: "1993" },
-        { value: "1994", label: "1994" },
-        { value: "1995", label: "1995" },
-        { value: "1996", label: "1996" },
-        { value: "1997", label: "1997" },
-        { value: "1998", label: "1998" },
-        { value: "1999", label: "1999" },
-        { value: "2001", label: "2001" },
-        { value: "2002", label: "2002" },
-        { value: "2003", label: "2003" },
-        { value: "2004", label: "2004" },
-        { value: "2005", label: "2005" },
-        { value: "2006", label: "2006" },
-        { value: "2007", label: "2007" },
-        { value: "2008", label: "2008" },
-        { value: "2009", label: "2009" },
-        { value: "2010", label: "2010" },
-        { value: "2011", label: "2011" },
-        { value: "2012", label: "2012" },
-        { value: "2013", label: "2013" },
-        { value: "2014", label: "2014" },
-        { value: "2015", label: "2015" },
-        { value: "2016", label: "2016" },
-        { value: "2017", label: "2017" },
-        { value: "2018", label: "2018" },
-        { value: "2019", label: "2019" },
-        { value: "2020", label: "2020" },
-        { value: "2021", label: "2021" },
-        { value: "2022", label: "2022" },
 
-    ]
-    const optionsmonth = [
-        { value: "May", label: "May" },
-        { value: "June", label: "June" },
-        { value: "July", label: "July" },
-        { value: "August", label: "August" },
-        { value: "September", label: "September" },
-        { value: "October", label: "October" },
-        { value: "November", label: "November" },
-        { value: "December", label: "December" },
-        { value: "January", label: "January" },
-        { value: "February", label: "February" },
-        { value: "March", label: "March" },
-        { value: "April", label: "April" },
-    ]
-    const options = [
-        { value: "Full-Time", label: "Full-Time" },
-        { value: "Part-Time", label: "Part-Time" },
-        { value: "Freelance", label: "Freelance" },
-    ]
-    // if (currentInfo) {
-    //     console.log("ss0::", currentInfo)
+
+    // if (experienceCurrentInfo) {
+    //     console.log("ss0::", experienceCurrentInfo)
     // }
 
-    console.log("ss0::", currentInfo)
+    console.log("ss0::", experienceCurrentInfo)
 
     return (
         <Modal
@@ -86,7 +29,7 @@ const WorkExperienceModal = ({ isShowExperienceModal, setIsShowExperienceModal, 
             className="add-popup add-exp-modal"
             show={isShowExperienceModal}
             onHide={() => {
-                setCurrentInfo("")
+                setExperienceCurrentInfo("")
                 setIsShowExperienceModal(false)
             }
             }
@@ -98,15 +41,15 @@ const WorkExperienceModal = ({ isShowExperienceModal, setIsShowExperienceModal, 
             <Modal.Body>
                 <Formik
                     initialValues={{
-                        title: currentInfo ? currentInfo.title : "",
-                        employmentType: currentInfo ? currentInfo.employmentType : "",
-                        companyName: currentInfo ? currentInfo.companyName : "",
-                        location: currentInfo ? currentInfo.location : "",
-                        startMonth: currentInfo ? currentInfo.startMonth : "",
-                        startYear: currentInfo ? currentInfo.startYear : "",
-                        endMonth: currentInfo ? currentInfo.endMonth : "",
-                        endYear: currentInfo ? currentInfo.endYear : "",
-                        description: currentInfo ? currentInfo.description : ""
+                        title: experienceCurrentInfo ? experienceCurrentInfo.title : "",
+                        employmentType: experienceCurrentInfo ? experienceCurrentInfo.employmentType : "",
+                        companyName: experienceCurrentInfo ? experienceCurrentInfo.companyName : "",
+                        location: experienceCurrentInfo ? experienceCurrentInfo.location : "",
+                        startMonth: experienceCurrentInfo ? experienceCurrentInfo.startMonth : "",
+                        startYear: experienceCurrentInfo ? experienceCurrentInfo.startYear : "",
+                        endMonth: experienceCurrentInfo ? experienceCurrentInfo.endMonth : "",
+                        endYear: experienceCurrentInfo ? experienceCurrentInfo.endYear : "",
+                        description: experienceCurrentInfo ? experienceCurrentInfo.description : ""
                     }}
                     validationSchema={Yup.object({
                         title: SchemaList[0].required("title is a required field"),
@@ -122,11 +65,11 @@ const WorkExperienceModal = ({ isShowExperienceModal, setIsShowExperienceModal, 
                     onSubmit={async (values) => {
                         let data = {}
                         let res = {}
-                        console.log("currentInfo", currentInfo);
-                        if (currentInfo) {
+                        console.log("experienceCurrentInfo", experienceCurrentInfo);
+                        if (experienceCurrentInfo) {
                             data = {
                                 uid: userId,
-                                we_id: currentInfo?._id,
+                                we_id: experienceCurrentInfo?._id,
                                 workExperience: values
                             }
                             //edit
@@ -146,7 +89,7 @@ const WorkExperienceModal = ({ isShowExperienceModal, setIsShowExperienceModal, 
                                 let title = "Edited"
                             }
                             setIsShowExperienceModal(false)
-                            setCurrentInfo("")
+                            setExperienceCurrentInfo("")
                             toast.success(`User Experience ${title} Successfully`, {
                                 theme: "colored"
                             })
@@ -159,6 +102,7 @@ const WorkExperienceModal = ({ isShowExperienceModal, setIsShowExperienceModal, 
                     }}
                 >
                     {(formik) => {
+                        console.log("formik::", formik);
                         return (
                             <Form onSubmit={formik.handleSubmit} className="form" autoComplete="false">
                                 <div
@@ -194,7 +138,7 @@ const WorkExperienceModal = ({ isShowExperienceModal, setIsShowExperienceModal, 
                                                 isMulti={false}
                                                 className="form-control-solid mb-lg-0"
                                                 formik={formik}
-                                                options={options}
+                                                options={optionsEmploymentType}
                                                 value={formik.values.employmentType}
                                                 onChange={formik.handleChange}
                                                 error={formik.errors.employmentType}
@@ -326,14 +270,14 @@ const WorkExperienceModal = ({ isShowExperienceModal, setIsShowExperienceModal, 
                                 <Modal.Footer>
                                     <div className="row">
                                         <div className="col-sm-6 col-padding-left">
-                                            {currentInfo ? <button
+                                            {experienceCurrentInfo ? <button
                                                 onClick={async () => {
-                                                    console.log("ID:::", currentInfo?._id);
+                                                    console.log("ID:::", experienceCurrentInfo?._id);
                                                     dispatch(setLoading(true))
-                                                    setCurrentInfo("")
+                                                    setExperienceCurrentInfo("")
                                                     let res = await dispatch(deleteExperience({
                                                         uid: userId,
-                                                        id: currentInfo?._id
+                                                        id: experienceCurrentInfo?._id
                                                     }))
                                                     if (res.status === 200) {
                                                         dispatch(setLoading(false))
@@ -356,13 +300,15 @@ const WorkExperienceModal = ({ isShowExperienceModal, setIsShowExperienceModal, 
                                         <div className="col-sm-6 col-padding-right">
                                             <button
                                                 onClick={() => {
-                                                    setCurrentInfo("")
+                                                    setExperienceCurrentInfo("")
                                                     setIsShowExperienceModal(false)
                                                 }}
                                                 className="btn btn-primary btn-secondary mx-2">
                                                 Cancel
                                             </button>
-                                            <button type="submit" className="btn btn-primary">SAVE</button>
+                                            <button type="submit" className="btn btn-primary"
+                                            // disabled={formik.initialValues !== formik.values ? false : true}
+                                            >SAVE</button>
                                         </div>
                                     </div>
                                 </Modal.Footer>

@@ -32,6 +32,17 @@ const signInWithGoogle = async () => {
     }
 };
 
+const forgotPassword = async (email) => {
+    try {
+        return await sendPasswordResetEmail(auth, email);
+    } catch (err) {
+        console.error(err);
+        toast.error(`${err.message}`, {
+            theme: "colored"
+        })
+    }
+}
+
 const signInWithFacebook = async () => {
     try {
         return await signInWithPopup(auth, facebookProvider);
@@ -104,5 +115,6 @@ export {
     logInWithEmailAndPassword,
     registerWithEmailAndPassword,
     sendPasswordReset,
+    forgotPassword,
     logout,
 };

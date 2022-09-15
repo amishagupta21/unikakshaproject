@@ -32,22 +32,28 @@ import WorkExperienceModal from "./components/Modals/WorkExperienceModal"
 import EducationModal from "./components/Modals/EducationModal"
 import GeneralProfileModal from "./components/Modals/GeneralProfileModal"
 import CurrentStatus from "../../components/profile/CurrentStatus"
+import { getDegree, getSkills } from "../../redux/actions/ProfileActions"
 
 
 const Profile = () => {
   const dispatch = useDispatch()
   const profileInfo = useSelector((state) => state?.users?.profile)
+  const ReduxProfileData = useSelector(state => state?.profile)
+  let skills = ReduxProfileData?.skills
   console.log("profileInfo", profileInfo);
+
   const [profileImg, setProfileImg] = useState("")
   const [bannerImg, setbannerImg] = useState("")
   const [isShowIntroductionModal, setIsShowIntroductionModal] = useState(false)
   const [isShowExperienceModal, setIsShowExperienceModal] = useState(false)
   const [isShowEducationModal, setIsShowEducationModal] = useState(false)
-  const [currentInfo, setCurrentInfo] = useState({})
+  const [experienceCurrentInfo, setExperienceCurrentInfo] = useState({})
+  const [educationCurrentInfo, setEducationCurrentInfo] = useState({})
 
   useEffect(() => {
     let id = JSON.parse(localStorage.getItem("user"))?.uid
     dispatch(getuserProfile(id))
+    dispatch(getSkills())
   }, [])
 
   return (
@@ -142,8 +148,8 @@ const Profile = () => {
           </div>
           <Experience
             info={profileInfo?.workExperience}
-            currentInfo={currentInfo}
-            setCurrentInfo={setCurrentInfo}
+            experienceCurrentInfo={experienceCurrentInfo}
+            setExperienceCurrentInfo={setExperienceCurrentInfo}
             isShowExperienceModal={isShowExperienceModal}
             setIsShowExperienceModal={setIsShowExperienceModal}
           />
@@ -151,6 +157,8 @@ const Profile = () => {
             info={profileInfo?.education}
             isShowEducationModal={isShowEducationModal}
             setIsShowEducationModal={setIsShowEducationModal}
+            educationCurrentInfo={educationCurrentInfo}
+            setEducationCurrentInfo={setEducationCurrentInfo}
           />
           <Projects />
           <Skills />
@@ -358,14 +366,15 @@ const Profile = () => {
         <WorkExperienceModal
           isShowExperienceModal={isShowExperienceModal}
           setIsShowExperienceModal={setIsShowExperienceModal}
-          currentInfo={currentInfo}
-          setCurrentInfo={setCurrentInfo}
+          experienceCurrentInfo={experienceCurrentInfo}
+          setExperienceCurrentInfo={setExperienceCurrentInfo}
         />
         <EducationModal
           isShowEducationModal={isShowEducationModal}
           setIsShowEducationModal={setIsShowEducationModal}
+          educationCurrentInfo={educationCurrentInfo}
+          setEducationCurrentInfo={setEducationCurrentInfo}
         />
-
       </div>
     </div>
   )
