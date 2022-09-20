@@ -1,7 +1,8 @@
-import {Field} from "formik"
-import CustomSelect from "./CustomSelect"
-const ReactSelect = (props) => {
-  const {label, labelClassName, name, options, isMulti, ...rest} = props
+import { Field } from 'formik';
+import CustomSelect from './CustomSelect';
+
+const ReactSelect = props => {
+  const { label, labelClassName, name, options, isMulti, ...rest } = props;
   return (
     <div>
       {label && (
@@ -11,7 +12,7 @@ const ReactSelect = (props) => {
       )}
       <Field {...rest} name={name} options={options} isMulti={isMulti} component={CustomSelect} />
     </div>
-  )
-}
+  );
+};
 
-export default ReactSelect
+export default ReactSelect;

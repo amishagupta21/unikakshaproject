@@ -1,10 +1,8 @@
-import { ActionTypes } from "../constants/ActionTypes";
+import { ActionTypes } from '../constants/ActionTypes';
 
-export const setLoading = (value) => {
-    return async (dispatch) => {
-        dispatch({
-            type: ActionTypes.SET_LOADING,
-            payload: value,
-        });
-    };
+export const setLoading = value => async dispatch => {
+  dispatch({
+    type: ActionTypes.SET_LOADING,
+    payload: value,
+  });
 };

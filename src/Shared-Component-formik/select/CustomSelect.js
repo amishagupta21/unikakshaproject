@@ -1,30 +1,30 @@
-import {ErrorMessage} from "formik"
-import Select from "react-select"
-import "./reactSelect.css"
+import { ErrorMessage } from 'formik';
+import Select from 'react-select';
+import './reactSelect.css';
 
-export const CustomSelect = ({field, form, options, className, isMulti, formik, ...rest}) => {
+export const CustomSelect = ({ field, form, options, className, isMulti, formik, ...rest }) => {
   const style = {
-    control: (base) => ({
+    control: base => ({
       ...base,
-      border: "none",
-      boxShadow: "none",
-      backgroundColor: "#f5f8fa",
+      border: 'none',
+      boxShadow: 'none',
+      backgroundColor: '#f5f8fa',
     }),
-  }
+  };
 
-  const onChange = (option) => {
-    form.setFieldValue(field.name, isMulti ? option.map((item) => item.value) : option.value)
-  }
+  const onChange = option => {
+    form.setFieldValue(field.name, isMulti ? option.map(item => item.value) : option.value);
+  };
 
   const getValue = () => {
     if (options) {
       return isMulti
-        ? options.filter((option) => field?.value?.indexOf(option.value) >= 0)
-        : options.find((option) => option.value === field.value)
+        ? options.filter(option => field?.value?.indexOf(option.value) >= 0)
+        : options.find(option => option.value === field.value);
     } else {
-      return isMulti ? [] : ""
-    }
-  }
+      return isMulti ? [] : '';
+    };
+  };
 
   return (
     <>
@@ -41,12 +41,12 @@ export const CustomSelect = ({field, form, options, className, isMulti, formik, 
       />
       <ErrorMessage
         name={field.name}
-        component="span"
-        className="invalid-input"
-        style={{color: "red"}}
+        component='span'
+        className='invalid-input'
+        style={{ color: 'red' }}
       />
     </>
-  )
-}
+  );
+};
 
-export default CustomSelect
+export default CustomSelect;

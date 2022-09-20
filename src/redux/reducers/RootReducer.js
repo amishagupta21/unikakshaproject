@@ -1,12 +1,12 @@
-import { combineReducers } from "redux";
-import users from "./UsersReducer";
-import loader from './LoaderReducer'
-import profile from './ProfileReducer'
+import { combineReducers } from 'redux';
+import users from './UsersReducer';
+import loader from './LoaderReducer';
+import profile from './ProfileReducer';
 
 const RootReducer = combineReducers({
   users,
   loader,
-  profile
+  profile,
 });
 
 export default RootReducer;

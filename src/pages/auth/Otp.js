@@ -14,7 +14,6 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { Form, Field, Formik } from 'formik'
 import { toast } from 'react-toastify';
 import { setLoading } from '../../redux/actions/LoaderActions';
-import Cookies from 'universal-cookie';
 import { firebase } from '../../firebase/firebase'
 
 const Otp = () => {
@@ -56,23 +55,15 @@ const Otp = () => {
       });
   }
 
-
   const onSubmitOTP = (values) => {
     dispatch(setLoading(true))
     window.confirmationResult.confirm(values.otp).then((response) => {
       if (response.user) {
         dispatch(setLoading(false))
         localStorage.setItem("user", JSON.stringify(response.user))
-        const cookies = new Cookies();
-        let accessToken = response?.user?.stsTokenManager?.accessToken
-        let expiresAt = 60 * 24;
-        let date = new Date();
-        date.setTime(date.getTime() + (expiresAt * 60 * 1000))
-        let option = { path: '/', expires: date }
-        cookies.set('access_token', accessToken, option);
-        if (values.rememberMe) {
-          cookies.set('phoneNumber', phoneNumber, { path: '/' });
-        }
+        // if (values.rememberMe) {
+        //   cookies.set('phoneNumber', phoneNumber, { path: '/' });
+        // }
         toast.success("Log in Succesfull", {
           theme: "colored"
         })

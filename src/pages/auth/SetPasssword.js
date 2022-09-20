@@ -67,13 +67,6 @@ const SetPasssword = () => {
                   dispatch(setLoading(false))
                   if (response.user) {
                     localStorage.setItem("user", JSON.stringify(response.user))
-                    const cookies = new Cookies();
-                    let accessToken = response?.user?.stsTokenManager?.accessToken
-                    let expiresAt = 60 * 24;
-                    let date = new Date();
-                    date.setTime(date.getTime() + (expiresAt * 60 * 1000))
-                    let option = { path: '/', expires: date }
-                    cookies.set('access_token', accessToken, option);
                     if (values.rememberMe) {
                       cookies.set('userName', email, { path: '/' });
                     }

@@ -435,6 +435,9 @@ button.btn-lg.justify-content-center.btn-border.btn.btn-info {
     cursor: pointer;
 }
 
+.password-view-container .password-view img{
+width: 28px;
+}
 .password-view-container {
     position: relative;
 }

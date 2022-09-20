@@ -105,7 +105,7 @@ const Forgot = () => {
                       variant="info"
                       className="btn-lg justify-content-center "
                     >
-                      Send resend link
+                      Send link
                     </Button>
                   </div>
                 </Form>

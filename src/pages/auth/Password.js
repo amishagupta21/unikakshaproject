@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -12,7 +12,7 @@ import eye from '../../assets/images/icon-eye-view.svg';
 import eyeIconVisible from '../../assets/images/icon-eye-visible.svg';
 import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { logInWithEmailAndPassword } from '../../firebase/firebaseAuth';
 import { toast } from 'react-toastify';
 import Cookies from 'universal-cookie';
@@ -67,15 +67,10 @@ const Password = () => {
                   dispatch(setLoading(false))
                   if (response?.user) {
                     localStorage.setItem("user", JSON.stringify(response.user))
-                    const cookies = new Cookies();
-                    let accessToken = response?.user?.stsTokenManager?.accessToken
-                    let expiresAt = 60 * 24;
-                    let date = new Date();
-                    date.setTime(date.getTime() + (expiresAt * 60 * 1000))
-                    let option = { path: '/', expires: date }
-                    cookies.set('access_token', accessToken, option);
+                    console.log("ddd");
                     if (values.rememberMe) {
-                      cookies.set('userName', email, { path: '/' });
+                      console.log("inside");
+                      cookie.set('userName', email, { path: '/' });
                     }
                     toast.success("Log in Succesfull", {
                       theme: "colored"
@@ -127,7 +122,7 @@ const Password = () => {
                               label="Remember me" />
                           </FormGroup>
                           <div href="#" className="resetpassword ">
-                            <a href="" path="">
+                            <a path="">
                               <Link to="/forgotpassword">Forgot Password</Link>
                             </a>
                           </div>
@@ -147,7 +142,12 @@ const Password = () => {
                       className='btn-lg justify-content-center btn-border mt-0'>Sign in with a verification Link </Button>
                   </div>
                   <div className='forgotton-link'>
-                    <a href="">Forgotten your password ?</a>
+
+                    <a>
+                      <Link to="/forgotpassword">
+                        Forgotten your password ?
+                      </Link>
+                    </a>
                   </div>
                 </Form>
               )}

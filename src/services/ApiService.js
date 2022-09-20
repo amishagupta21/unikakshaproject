@@ -1,8 +1,8 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
-const ApiService = async (url_end_point, type, data, resettoken) => {
-  const token = JSON.parse(localStorage.getItem("user"))?.stsTokenManager?.accessToken
+const ApiService = async (url_end_point, type, data) => {
+  const token = JSON.parse(localStorage.getItem('user'))?.stsTokenManager?.accessToken;
 
   const apiObj = (url_end_point, type, data) => {
     const obj = {
@@ -17,7 +17,7 @@ const ApiService = async (url_end_point, type, data, resettoken) => {
       //       }`,
       //   },
       headers: {
-        Authorization: `${token}`
+        Authorization: `${token}`,
       },
       data: data,
     };
@@ -27,7 +27,7 @@ const ApiService = async (url_end_point, type, data, resettoken) => {
     const response = await axios(apiObj(url_end_point, type, data));
     return response;
   } catch (err) {
-    toast(`${err}`)
+    toast(`${err}`);
     return err;
   }
 };

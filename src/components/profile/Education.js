@@ -11,7 +11,7 @@ const Education = ({ info, isShowExperienceModal, setIsShowEducationModal, educa
                 <div className='my-3'>
                     <img onClick={() => setIsShowEducationModal(true)} src={iconplus} className="edit-add" />
                     {info?.map(education => (
-                        <div className='exp-container exp-edu'>
+                        <div className='exp-container exp-edu my-3'>
                             <div className='row'>
                                 <div className='col-2'>
                                     <div className='box-information blue'>
@@ -25,7 +25,10 @@ const Education = ({ info, isShowExperienceModal, setIsShowEducationModal, educa
                                     </div>
                                 </div>
                             </div>
-                            <img src={editIcon} className="icon-edit-info" />
+                            <img onClick={() => {
+                                setIsShowEducationModal(true)
+                                setEducationCurrentInfo(education)
+                            }} src={editIcon} className="icon-edit-info" />
                         </div>
                     ))}
                 </div>

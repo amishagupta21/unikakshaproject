@@ -1,136 +1,154 @@
-import React, { useState } from 'react'
-import { Modal } from 'react-bootstrap'
-import FormikController from '../../../../Shared-Component-formik/FormikController'
-import linked from "../../../../assets/images/icon-linked-new.png"
-import pintest from "../../../../assets/images/icon-printest-new.png"
-import * as Yup from "yup"
-import twit from "../../../../assets/images/icon-twitter-new.png"
-import { Form, Formik } from 'formik'
-import { useDispatch, useSelector } from 'react-redux'
-import { addUserIntroduction, editUserIntroduction } from '../../../../redux/actions/UserActions'
-import SchemaList from '../../../../Shared-Component-formik/schema/SchemaList'
+import React, { useState } from "react";
+import { Modal } from "react-bootstrap";
+import FormikController from "../../../../Shared-Component-formik/FormikController";
+import linked from "../../../../assets/images/icon-linked-new.png";
+import pintest from "../../../../assets/images/icon-printest-new.png";
+import * as Yup from "yup";
+import twit from "../../../../assets/images/icon-twitter-new.png";
+import { Form, Formik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
+import {
+	addUserIntroduction,
+	editUserIntroduction,
+} from "../../../../redux/actions/UserActions";
+import SchemaList from "../../../../Shared-Component-formik/schema/SchemaList";
 
-const GeneralProfileModal = ({ info, isShowIntroductionModal, setIsShowIntroductionModal }) => {
-    const userId = JSON.parse(localStorage.getItem("user"))?.uid
-    const dispatch = useDispatch()
+const GeneralProfileModal = ({
+	info,
+	isShowIntroductionModal,
+	setIsShowIntroductionModal,
+}) => {
+	const userId = JSON.parse(localStorage.getItem("user"))?.uid;
+	const dispatch = useDispatch();
 
-    const [profileImg, setProfileImg] = useState("")
-    const [bannerImg, setbannerImg] = useState("")
+	const [profileImg, setProfileImg] = useState("");
+	const [bannerImg, setbannerImg] = useState("");
 
-    const addIntroduction = async (values) => {
-        setIsShowIntroductionModal(false)
-        let ans = {
-            uid: userId,
-            firstName: values.firstName,
-            lastName: values.lastName,
-            profileHeadline: values.profileHeadline,
-            about: values.about,
-            socialLinks: {
-                linkedIn: values.linkedin,
-                youtube: values.youtube,
-                twitter: values.twitter,
-            }
-        }
-        if (info) {
-            dispatch(editUserIntroduction(ans));
-        } else {
-            dispatch(addUserIntroduction(ans));
-        }
-        profileImg && setProfileImg("")
-        bannerImg && setbannerImg("")
-    }
-    return (
-        <Modal
-            size="lg"
-            className="add-popup"
-            show={isShowIntroductionModal}
-            onHide={() => setIsShowIntroductionModal(false)}
-            aria-labelledby="example-modal-sizes-title-lg"
-        >
-            <Modal.Header closeButton>
-                <Modal.Title id="example-modal-sizes-title-lg">Add Introduction</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Formik
-                    initialValues={{
-                        firstName: info ? info?.firstName : "",
-                        lastName: info ? info?.lastName : "",
-                        profileHeadline: info ? info?.profileHeadline : "",
-                        about: info ? info?.about : "",
-                        // resume: "",
-                        // bannerPicture: "",
-                        // profilePicture: "",
-                        linkedin: info ? info?.socialLinks?.linkedin : "",
-                        instagram: info ? info?.socialLinks?.instagram : "",
-                        twitter: info ? info?.socialLinks?.twitter : "",
-                    }}
-                    validationSchema={Yup.object({
-                        firstName: SchemaList[0].required("First name is a required field"),
-                        lastName: SchemaList[0].required("Last name is a required field"),
-                        profileHeadline: SchemaList[0].required("Profile headline is a required field"),
-                        about: SchemaList[0].required("About is a required field"),
-                    })}
-                    onSubmit={(val) => addIntroduction(val)}
-                >
-                    {(formik) => {
-                        return (
-                            <Form onSubmit={formik.handleSubmit} className="form" autoComplete="false">
-                                <div
-                                    className="d-flex row me-n7 pe-7"
-                                    // className="d-flex row scroll-y me-n7 pe-7"
-                                    id="kt_modal_add_user_scroll"
-                                    data-kt-scroll="true"
-                                    data-kt-scroll-activate="{default: false, lg: true}"
-                                    // data-kt-scroll-max-height="auto"
-                                    data-kt-scroll-dependencies="#kt_modal_add_user_header"
-                                    data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
-                                // data-kt-scroll-offset="300px"
-                                >
-                                    <div className="col-6">
-                                        <div className="form-group">
-                                            <FormikController
-                                                control="input"
-                                                type="text"
-                                                label="First Name"
-                                                labelClassName="required fs-6 mb-2"
-                                                name="firstName"
-                                                className="form-control form-control-solid mb-lg-0"
-                                                maxLength="25"
-                                                formik={formik}
-                                                value={formik.values.firstName}
-                                                onChange={formik.handleChange}
-                                                error={formik.errors.firstName}
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <FormikController
-                                                control="input"
-                                                type="text"
-                                                label="Last Name"
-                                                labelClassName="required fs-6 mb-2"
-                                                name="lastName"
-                                                className="form-control form-control-solid mb-lg-0"
-                                                maxLength="25"
-                                                formik={formik}
-                                                value={formik.values.lastName}
-                                                onChange={formik.handleChange}
-                                                error={formik.errors.lastName}
-                                            /></div>
-                                        <div className="form-group">
-                                            <FormikController
-                                                control="input"
-                                                type="text"
-                                                label="Profile Headline"
-                                                labelClassName="required fs-6 mb-2"
-                                                name="profileHeadline"
-                                                className="form-control form-control-solid mb-lg-0"
-                                                maxLength="25"
-                                                formik={formik}
-                                                value={formik.values.profileHeadline}
-                                                onChange={formik.handleChange}
-                                                error={formik.errors.profileHeadline}
-                                            /></div>
-                                        {/* <div className="form-froup form-upload-resume">
+	const addIntroduction = async (values) => {
+		console.log("calling...");
+		setIsShowIntroductionModal(false);
+		let ans = {
+			uid: userId,
+			firstName: values.firstName,
+			lastName: values.lastName,
+			profileHeadline: values.profileHeadline,
+			about: values.about,
+			socialLinks: {
+				linkedIn: values.linkedin,
+				youtube: values.youtube,
+				twitter: values.twitter,
+			},
+		};
+		if (info) {
+			dispatch(editUserIntroduction(ans));
+		} else {
+			dispatch(addUserIntroduction(ans));
+		}
+		profileImg && setProfileImg("");
+		bannerImg && setbannerImg("");
+	};
+	return (
+		<Modal
+			size="lg"
+			className="add-popup"
+			show={isShowIntroductionModal}
+			onHide={() => setIsShowIntroductionModal(false)}
+			aria-labelledby="example-modal-sizes-title-lg"
+		>
+			<Modal.Header closeButton>
+				<Modal.Title id="example-modal-sizes-title-lg">
+					Add Introduction
+				</Modal.Title>
+			</Modal.Header>
+			<Modal.Body>
+				<Formik
+					initialValues={{
+						firstName: info ? info?.firstName : "",
+						lastName: info ? info?.lastName : "",
+						profileHeadline: info ? info?.profileHeadline : "",
+						about: info ? info?.about : "",
+						// resume: "",
+						// bannerPicture: "",
+						// profilePicture: "",
+						linkedin: info ? info?.socialLinks?.linkedin : "",
+						instagram: info ? info?.socialLinks?.instagram : "",
+						twitter: info ? info?.socialLinks?.twitter : "",
+					}}
+					validationSchema={Yup.object({
+						firstName: SchemaList[0].required("First name is a required field"),
+						lastName: SchemaList[0].required("Last name is a required field"),
+						profileHeadline: SchemaList[0].required(
+							"Profile headline is a required field"
+						),
+						about: SchemaList[0].required("About is a required field"),
+					})}
+					onSubmit={(val) => addIntroduction(val)}
+				>
+					{(formik) => {
+						return (
+							<Form
+								onSubmit={formik.handleSubmit}
+								className="form"
+								autoComplete="false"
+							>
+								<div
+									className="d-flex row me-n7 pe-7"
+									// className="d-flex row scroll-y me-n7 pe-7"
+									id="kt_modal_add_user_scroll"
+									data-kt-scroll="true"
+									data-kt-scroll-activate="{default: false, lg: true}"
+									// data-kt-scroll-max-height="auto"
+									data-kt-scroll-dependencies="#kt_modal_add_user_header"
+									data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
+									// data-kt-scroll-offset="300px"
+								>
+									<div className="col-6">
+										<div className="form-group">
+											<FormikController
+												control="input"
+												type="text"
+												label="First Name"
+												labelClassName="required fs-6 mb-2"
+												name="firstName"
+												className="form-control form-control-solid mb-lg-0"
+												maxLength="25"
+												formik={formik}
+												value={formik.values.firstName}
+												onChange={formik.handleChange}
+												error={formik.errors.firstName}
+											/>
+										</div>
+										<div className="form-group">
+											<FormikController
+												control="input"
+												type="text"
+												label="Last Name"
+												labelClassName="required fs-6 mb-2"
+												name="lastName"
+												className="form-control form-control-solid mb-lg-0"
+												maxLength="25"
+												formik={formik}
+												value={formik.values.lastName}
+												onChange={formik.handleChange}
+												error={formik.errors.lastName}
+											/>
+										</div>
+										<div className="form-group">
+											<FormikController
+												control="input"
+												type="text"
+												label="Profile Headline"
+												labelClassName="required fs-6 mb-2"
+												name="profileHeadline"
+												className="form-control form-control-solid mb-lg-0"
+												maxLength="25"
+												formik={formik}
+												value={formik.values.profileHeadline}
+												onChange={formik.handleChange}
+												error={formik.errors.profileHeadline}
+											/>
+										</div>
+										{/* <div className="form-froup form-upload-resume">
                                             <label htmlFor="resume" name="resume">
                                                 <label className="required fs-6 mb-2">Select Resume</label>
                                                 <br />
@@ -156,9 +174,9 @@ const GeneralProfileModal = ({ info, isShowIntroductionModal, setIsShowIntroduct
                                                 </span>
                                             </label>
                                         </div> */}
-                                    </div>
-                                    <div className="col-6">
-                                        {/* <FormikController
+									</div>
+									<div className="col-6">
+										{/* <FormikController
                                             control="image"
                                             label="Profile image"
                                             imgIconClassName="h-auto"
@@ -175,8 +193,8 @@ const GeneralProfileModal = ({ info, isShowIntroductionModal, setIsShowIntroduct
                                             onChange={formik.handleChange}
                                             error={formik.errors.profilePicture}
                                         /> */}
-                                        <div className="form-froup form-upload-banner mb-2">
-                                            {/* <FormikController
+										<div className="form-froup form-upload-banner mb-2">
+											{/* <FormikController
                                                 control="image"
                                                 labelClassName="required fs-6 mb-2"
                                                 name="bannerPicture"
@@ -192,81 +210,92 @@ const GeneralProfileModal = ({ info, isShowIntroductionModal, setIsShowIntroduct
                                                 onChange={formik.handleChange}
                                                 error={formik.errors.bannerPicture}
                                             /> */}
-                                        </div>
-                                        <div className="form-froup  form-social">
-                                            <FormikController
-                                                control="input"
-                                                type="text"
-                                                label="Social Links"
-                                                placeholder="Enter Linkdin id"
-                                                labelClassName="required fs-6 mb-2"
-                                                name="linkedin"
-                                                className="form-control form-control-solid mb-lg-0"
-                                                maxLength="25"
+										</div>
+										<div className="form-froup form-social">
+											<FormikController
+												control="input"
+												type="text"
+												label="Social Links"
+												placeholder="Enter Linkdin id"
+												labelClassName="required fs-6 mb-2"
+												name="linkedin"
+												className="form-control form-control-solid mb-lg-0"
+												maxLength="25"
+												formik={formik}
+												value={formik.values.linkedin}
+												onChange={formik.handleChange}
+												error={formik.errors.linkedin}
+											/>
+											<img src={linked} className="icons-assets" />
+										</div>
+										<div className="form-froup form-social form-social-linked">
+											<FormikController
+												control="input"
+												type="text"
+												placeholder="Enter Instagram id"
+												labelClassName="required fs-6 mb-2"
+												name="instagram"
+												className="form-control form-control-solid mb-lg-0 my-2"
+												maxLength="25"
+												formik={formik}
+												value={formik.values.instagram}
+												onChange={formik.handleChange}
+												error={formik.errors.instagram}
+											/>
+											<img src={pintest} className="icons-assets" />
+										</div>
+										<div className="form-froup form-social form-social-linked">
+											<FormikController
+												control="input"
+												type="text"
+												placeholder="Enter Twitter id"
+												labelClassName="required fs-6 mb-2"
+												name="twitter"
+												className="form-control form-control-solid mb-lg-0 my-2"
+												maxLength="25"
+												formik={formik}
+												value={formik.values.twitter}
+												onChange={formik.handleChange}
+												error={formik.errors.twitter}
+											/>
+											<img src={twit} className="icons-assets" />
+										</div>
+									</div>
+									<div className="col-12">
+										<FormikController
+											control="input"
+											type="text"
+											label="About"
+											placeholder="Tell us about your self"
+											labelClassName="required fs-6 mb-2"
+											name="about"
+											className="form-control form-control-solid mb-lg-4 pb-5 form-about-textarea"
+											maxLength="25"
+											formik={formik}
+											value={formik.values.about}
+											onChange={formik.handleChange}
+											error={formik.errors.about}
+										/>
+									</div>
+								</div>
+								<Modal.Footer>
+									<button
+										onClick={() => setIsShowIntroductionModal(false)}
+										className="btn btn-primary btn-secondary"
+									>
+										Cancel
+									</button>
+									<button type="submit" className="btn btn-primary">
+										Save
+									</button>
+								</Modal.Footer>
+							</Form>
+						);
+					}}
+				</Formik>
+			</Modal.Body>
+		</Modal>
+	);
+};
 
-                                                formik={formik}
-                                                value={formik.values.linkedin}
-                                                onChange={formik.handleChange}
-                                                error={formik.errors.linkedin}
-                                            /> <img src={linked} className="icons-assets" /></div>
-                                        <div className="form-froup form-social form-social-linked">
-                                            <FormikController
-                                                control="input"
-                                                type="text"
-                                                placeholder="Enter Instagram id"
-                                                labelClassName="required fs-6 mb-2"
-                                                name="instagram"
-                                                className="form-control form-control-solid mb-lg-0 my-2"
-                                                maxLength="25"
-                                                formik={formik}
-                                                value={formik.values.instagram}
-                                                onChange={formik.handleChange}
-                                                error={formik.errors.instagram}
-                                            /><img src={pintest} className="icons-assets" /></div>
-                                        <div className="form-froup form-social form-social-linked">
-                                            <FormikController
-                                                control="input"
-                                                type="text"
-                                                placeholder="Enter Twitter id"
-                                                labelClassName="required fs-6 mb-2"
-                                                name="twitter"
-                                                className="form-control form-control-solid mb-lg-0 my-2"
-                                                maxLength="25"
-                                                formik={formik}
-                                                value={formik.values.twitter}
-                                                onChange={formik.handleChange}
-                                                error={formik.errors.twitter}
-                                            /><img src={twit} className="icons-assets" />
-                                        </div>
-                                    </div>
-                                    <div className="col-12">
-                                        <FormikController
-                                            control="input"
-                                            type="text"
-                                            label="About"
-                                            placeholder="Tell us about your self"
-                                            labelClassName="required fs-6 mb-2"
-                                            name="about"
-                                            className="form-control form-control-solid mb-lg-4 pb-5 form-about-textarea"
-                                            maxLength="25"
-                                            formik={formik}
-                                            value={formik.values.about}
-                                            onChange={formik.handleChange}
-                                            error={formik.errors.about}
-                                        />
-                                    </div>
-                                </div>
-                                <Modal.Footer>
-                                    <button onClick={() => setIsShowIntroductionModal(false)} className="btn btn-primary btn-secondary">Cancel</button>
-                                    <button type="submit" className="btn btn-primary">Save</button>
-                                </Modal.Footer>
-                            </Form>
-                        )
-                    }}
-                </Formik>
-            </Modal.Body>
-        </Modal >
-    )
-}
-
-export default GeneralProfileModal
+export default GeneralProfileModal;

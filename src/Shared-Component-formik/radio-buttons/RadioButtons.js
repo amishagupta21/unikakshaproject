@@ -1,19 +1,19 @@
-import React from "react"
-import {Field, ErrorMessage} from "formik"
+import React from 'react';
+import { Field, ErrorMessage } from 'formik';
 
 function RadioButtons(props) {
-  const {label, name, option, error, ...rest} = props
+  const { label, name, option, error, ...rest } = props;
   return (
     <div>
       <label>{label}</label>
       <Field name={name}>
-        {(formik) => {
-          const {field} = formik
-          return option.map((option) => {
+        {formik => {
+          const { field } = formik;
+          return option.map(option => {
             return (
               <div key={option.key}>
                 <input
-                  type="radio"
+                  type='radio'
                   id={option.value}
                   {...field}
                   {...rest}
@@ -22,13 +22,13 @@ function RadioButtons(props) {
                 />
                 <label htmlFor={option.value}>{option.key}</label>
               </div>
-            )
-          })
+            );
+          });
         }}
       </Field>
       <ErrorMessage name={name} />
     </div>
-  )
+  );
 }
 
-export default RadioButtons
+export default RadioButtons;

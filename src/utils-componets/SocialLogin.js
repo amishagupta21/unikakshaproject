@@ -6,7 +6,7 @@ import fb from "../assets/images/icon-facebook.png";
 import twit from "../assets/images/icon-twit.png";
 import { toast } from "react-toastify";
 import { signInWithFacebook, signInWithGoogle, signInWithTwitter } from '../firebase/firebaseAuth'
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { setLoading } from '../redux/actions/LoaderActions';
 import { useDispatch } from 'react-redux';
 
@@ -21,6 +21,7 @@ const SocialLogin = () => {
                     <a onClick={async () => {
                         dispatch(setLoading(true))
                         let res = await signInWithGoogle()
+                        console.log("sGOOGLL :::s", res?.user);
                         dispatch(setLoading(false))
                         if (res?.user) {
                             localStorage.setItem("user", JSON.stringify(res?.user))

@@ -1,8 +1,8 @@
-import { ActionTypes } from "../constants/ActionTypes";
+import { ActionTypes } from '../constants/ActionTypes';
 
 const initializeState = {
   user: {},
-  profile: {}
+  profile: {},
 };
 const UserReducer = (state = initializeState, { type, payload }) => {
   switch (type) {
