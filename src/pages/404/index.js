@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 const index = () => {
-    return (
-        <div>Errro Page 404 Not found</div>
-    )
-}
+  return <div>Errro Page 404 Not found</div>;
+};
 
-export default index
+export default index;

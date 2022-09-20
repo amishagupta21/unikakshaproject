@@ -1,18 +1,16 @@
-import React from "react";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import Logo from "../../assets/images/logo.svg";
-import Loginbanner from "../../assets/images/forgot-banner.svg";
-import back from "../../assets/images/back-arrow.svg";
-import { Link, useNavigate } from "react-router-dom";
-import SocialLogin from "../../utils-componets/SocialLogin";
-import { useDispatch } from "react-redux";
+import React from 'react';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Logo from '../../assets/images/logo.svg';
+import Loginbanner from '../../assets/images/forgot-banner.svg';
+import back from '../../assets/images/back-arrow.svg';
+import { Link, useNavigate } from 'react-router-dom';
+import SocialLogin from '../../utils-componets/SocialLogin';
 
 const Resetpassword = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   return (
     <section className="auth_layout login_screen">
       <div className="left_box">
@@ -22,10 +20,10 @@ const Resetpassword = () => {
         <div className="right_box_container">
           <div className="back-action">
             <div className="back-arrow">
-              <a onClick={() => {
-                navigate('/')
-              }
-              }>
+              <a
+                onClick={() => {
+                  navigate('/');
+                }}>
                 <img src={back} />
               </a>
             </div>
@@ -41,8 +39,7 @@ const Resetpassword = () => {
                   className="form-group-1 mb-4"
                   as={Col}
                   md="12"
-                  controlId="validationCustom03"
-                >
+                  controlId="validationCustom03">
                   <Form.Label className="custom-label">Password</Form.Label>
                   <Form.Control
                     type="text"
@@ -55,11 +52,8 @@ const Resetpassword = () => {
                   className="form-group-1 mb-4"
                   as={Col}
                   md="12"
-                  controlId="validationCustom03"
-                >
-                  <Form.Label className="custom-label">
-                    Reset password
-                  </Form.Label>
+                  controlId="validationCustom03">
+                  <Form.Label className="custom-label">Reset password</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Password
@@ -73,8 +67,7 @@ const Resetpassword = () => {
                 <Button
                   type="submit"
                   variant="info"
-                  className="btn-lg  justify-content-center mt-3 "
-                >
+                  className="btn-lg  justify-content-center mt-3 ">
                   <Link to="/otp">Reset password</Link>
                 </Button>
               </div>

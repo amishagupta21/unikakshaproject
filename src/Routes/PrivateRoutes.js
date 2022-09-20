@@ -4,30 +4,29 @@ import Header from '../pages/header';
 import SideBar from '../pages/sidebar';
 
 function PrivateRoute({ children }) {
-
-  const accessToken = JSON.parse(localStorage.getItem("user"))?.stsTokenManager?.accessToken
+  const accessToken = JSON.parse(localStorage.getItem('user'))?.stsTokenManager?.accessToken;
 
   useEffect(() => {
-    // if (!accessToken) {
-    //   <Navigate to='/' />;
-    // }
+    if (!accessToken) {
+      <Navigate to="/" />;
+    }
   }, []);
 
-  return true ? <div>
-    <div className='wrapper'>
-      <div className='sidebar'>
-        <SideBar />
-      </div>
-      <div className='main-wrapper'>
-        <Header />
-        <div>
-          {children}
+  return accessToken ? (
+    <div>
+      <div className="wrapper">
+        <div className="sidebar">
+          <SideBar />
+        </div>
+        <div className="main-wrapper">
+          <Header />
+          <div>{children}</div>
         </div>
       </div>
     </div>
-
-
-  </div> : <Navigate to='/' />;
+  ) : (
+    <Navigate to="/" />
+  );
 }
 
 export default PrivateRoute;
