@@ -7,19 +7,19 @@ import * as Yup from 'yup';
 import {
   addEducation,
   deleteEducation,
-  editEducation
+  editEducation,
 } from '../../../../redux/actions/EducationAction';
 import { setLoading } from '../../../../redux/actions/LoaderActions';
 import {
   addUserEducation,
   getDegree,
-  getFieldOfStudy
+  getFieldOfStudy,
 } from '../../../../redux/actions/ProfileActions';
 import FormikController from '../../../../Shared-Component-formik/FormikController';
 import SchemaList from '../../../../Shared-Component-formik/schema/SchemaList';
 import {
   optionsmonth,
-  yearsOptions
+  yearsOptions,
 } from '../../../../utils-componets/static-content/DateMonthContent';
 import { toast } from 'react-toastify';
 import { getuserProfile } from '../../../../redux/actions/UserActions';
@@ -28,7 +28,7 @@ const EducationModal = ({
   isShowEducationModal,
   setIsShowEducationModal,
   educationCurrentInfo,
-  setEducationCurrentInfo
+  setEducationCurrentInfo,
 }) => {
   const dispatch = useDispatch();
   const userId = JSON.parse(localStorage.getItem('user'))?.uid;
@@ -68,7 +68,7 @@ const EducationModal = ({
             startYear: educationCurrentInfo ? educationCurrentInfo.startYear : '',
             endMonth: educationCurrentInfo ? educationCurrentInfo.endMonth : '',
             endYear: educationCurrentInfo ? educationCurrentInfo.endYear : '',
-            description: educationCurrentInfo ? educationCurrentInfo.description : ''
+            description: educationCurrentInfo ? educationCurrentInfo.description : '',
           }}
           validationSchema={Yup.object({
             school: SchemaList[0].required('school is a required field'),
@@ -79,7 +79,7 @@ const EducationModal = ({
             startYear: SchemaList[0].required('startYear is a required field'),
             endMonth: SchemaList[0].required('endMonth is a required field'),
             endYear: SchemaList[0].required('endYear is a required field'),
-            description: SchemaList[0].required('description is a required field')
+            description: SchemaList[0].required('description is a required field'),
           })}
           onSubmit={async (values) => {
             let data = {};
@@ -91,7 +91,7 @@ const EducationModal = ({
               data = {
                 uid: userId,
                 e_id: educationCurrentInfo?._id,
-                education: values
+                education: values,
               };
               //edit
               res = await dispatch(editEducation(data));
@@ -99,7 +99,7 @@ const EducationModal = ({
               console.log('22');
               data = {
                 uid: userId,
-                education: values
+                education: values,
               };
               //add
               res = await dispatch(addEducation(data));
@@ -112,12 +112,12 @@ const EducationModal = ({
               setIsShowEducationModal(false);
               setEducationCurrentInfo('');
               toast.success(`${res?.data?.message}`, {
-                theme: 'colored'
+                theme: 'colored',
               });
               dispatch(getuserProfile(userId));
             } else {
               toast.error('Something is Wrong', {
-                theme: 'colored'
+                theme: 'colored',
               });
             }
           }}>
@@ -301,14 +301,14 @@ const EducationModal = ({
                             let res = await dispatch(
                               deleteEducation({
                                 uid: userId,
-                                id: educationCurrentInfo?._id
+                                id: educationCurrentInfo?._id,
                               })
                             );
                             console.log('res{{{{', res);
                             if (res.status === 200) {
                               dispatch(setLoading(false));
                               toast.success(`User Education Deleted Successfully`, {
-                                theme: 'colored'
+                                theme: 'colored',
                               });
                               console.log('toster calling ');
                               setIsShowEducationModal(false);
@@ -316,7 +316,7 @@ const EducationModal = ({
                             } else {
                               dispatch(setLoading(false));
                               toast.error(`something is wrong`, {
-                                theme: 'colored'
+                                theme: 'colored',
                               });
                             }
                           }}

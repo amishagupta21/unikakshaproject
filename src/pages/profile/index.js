@@ -32,10 +32,14 @@ import GeneralProfileModal from './components/Modals/GeneralProfileModal';
 import CurrentStatus from '../../components/profile/CurrentStatus';
 import { getSkills } from '../../redux/actions/ProfileActions';
 import ProjectModal from './components/Modals/ProjectModal';
+import SkillsModal from './components/Modals/SkillsModal';
 
 const Profile = () => {
   const dispatch = useDispatch();
   const profileInfo = useSelector((state) => state?.users?.profile);
+  const skillList = useSelector((state) => state.profile.skills);
+//   console.log('🚀 ~ Profile ~ skillList', skillList);
+
   const ReduxProfileData = useSelector((state) => state?.profile);
   let skills = ReduxProfileData?.skills;
 
@@ -45,6 +49,7 @@ const Profile = () => {
   const [isShowExperienceModal, setIsShowExperienceModal] = useState(false);
   const [isShowEducationModal, setIsShowEducationModal] = useState(false);
   const [isShowProjectModal, setIsShowProjectModal] = useState(false);
+  const [isShowSkillsModal, setIsShowSkillsModal] = useState(false);
 
   const [experienceCurrentInfo, setExperienceCurrentInfo] = useState({});
   const [educationCurrentInfo, setEducationCurrentInfo] = useState('');
@@ -55,7 +60,7 @@ const Profile = () => {
     dispatch(getuserProfile(id));
     dispatch(getSkills());
   }, []);
-
+console.log("dddpppppppppp",profileInfo);
   return (
     <div className="page-wrapper">
       <div className="profile-page">
@@ -165,7 +170,12 @@ const Profile = () => {
             setIsShowProjectModal={setIsShowProjectModal}
             setProjectCurrentInfo={setProjectCurrentInfo}
           />
-          <Skills skillList={profileInfo?.skill} />
+          <Skills
+            // skillList={profileInfo?.skill}
+            skillList={skills && skills}
+            isShowSkillsModal={isShowSkillsModal}
+            setIsShowSkillsModal={setIsShowSkillsModal}
+          />
           <Recommendations />
         </div>
         <div className="row-profile-right">
@@ -381,8 +391,18 @@ const Profile = () => {
           setEducationCurrentInfo={setEducationCurrentInfo}
         />
         <ProjectModal
-          isShowProjectModal={isShowProjectModal}
+          isShowProject
+          Modal={isShowProjectModal}
           setIsShowProjectModal={setIsShowProjectModal}
+          projectCurrentInfo={projectCurrentInfo}
+          setProjectCurrentInfo={setProjectCurrentInfo}
+        />
+		{console.log("skilss   78178 skills==>>>",profileInfo.skill)}
+
+        <SkillsModal
+          currentSkill={profileInfo.skill}
+          isShowSkillsModal={isShowSkillsModal}
+          setIsShowSkillsModal={setIsShowSkillsModal}
           projectCurrentInfo={projectCurrentInfo}
           setProjectCurrentInfo={setProjectCurrentInfo}
         />
