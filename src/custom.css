@@ -11,8 +11,7 @@ h2.title-head {
 }
 
 .resetpassword.create-account {
-    text-align: center;
-    margin-top: 30px;
+    margin-top: 10px;
 }
 
 .back-arrow img {
@@ -38,44 +37,11 @@ h2.title-head {
 
 .btn:hover,
 .btn:focus {
-
     background-color: var(--blue);
     border-color: var(--blue);
     color: var(--white)
 }
 
-.sign-up-social h2 {
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 30px;
-    color: #003194;
-}
-
-.sign-up-social {
-    text-align: center;
-    margin-top: 40px;
-}
-
-.sign-up-social ul {
-    display: flex;
-    justify-content: center;
-}
-
-.sign-up-social ul li {
-    list-style: none;
-    padding: 5px 10px;
-    display: flex;
-    border: 1px solid #D2D2D2;
-    margin: 0 5px;
-}
-
-.sign-up-social ul {
-    margin: 0 -5px;
-    margin-top: 20px;
-    align-items: center;
-    text-align: center;
-    padding: 0;
-}
 
 .button.d-flex {
     flex-direction: column;
@@ -89,7 +55,7 @@ section {
 }
 
 a.resetpassword a {
-    color: #EF6A28;
+    color: #2BBEAA;
     text-decoration: none;
 }
 
@@ -128,35 +94,35 @@ a.resetpassword a {
     margin: 0 auto;
 }
 
-
+.navbar {
+	background: #FFFFFF;
+	box-shadow: 0px 15px 15px rgba(0, 103, 223, 0.05);
+	height: 100px;
+}
 
 .auth_layout {
     display: inline-flex;
 }
 
 .auth_layout .left_box {
-    background-size: cover;
-    background-position: center;
-    min-height: 100vh;
+	min-height: calc(100vh - 100px);
     width: 40%;
-    flex: 0 0 40%;
-    position: relative;
-    background-image: url(../src/assets/images/banner-logo.png);
+    flex: 0 0 50%;
+    /* position: relative; */
+	background-color: #DCFFF8;
+;
 }
-
-.auth_layout .left_box img {
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    height: 100%;
-    width: 100%;
+.auth_layout .left_box .carousel {
+	text-align: center;
+	padding-top: 20%;
 }
-
 
 .auth_layout .right_box {
-    width: calc(100% - 40%);
-    flex: 0 0 calc(100% - 40%);
-    padding: 10px 0;
+    width: calc(100% - 50%);
+    flex: 0 0 calc(100% - 50%);
+    padding: 10px 90px;
+	padding-top: 60px;
+	background: #FFFFFF;
 }
 
 .logo {
@@ -176,24 +142,25 @@ a.resetpassword a {
 }
 
 .form-group-1 .form-label {
-    font-weight: 400;
-    color: #222222;
-    font-size: 18px;
-    line-height: 120%;
-    font-weight: 600;
-    margin-bottom: 15px;
+/* font-family: 'Roboto';
+font-style: normal; */
+font-weight: 500;
+font-size: 14px;
+line-height: 16px;
+text-align: center;
+color: #8F8799;
+margin-bottom: 10px;
 }
 
 .form-group-1 .form-control {
     min-height: 50px;
     border-radius: 3px;
-
     font-size: 16px;
     line-height: 19px;
     color: #000000;
-    padding: 0.375rem 4rem 0.375rem 1rem;
+    /* padding: 0.375rem 4rem 0.375rem 1rem; */
     border: 1px solid #A0A0A0;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .input_icon {
@@ -209,19 +176,13 @@ a.resetpassword a {
     font-size: 19px;
 }
 
-.login_screen .right_box .title_h3 {
-    margin-bottom: 64px;
-    margin-top: 36px;
-}
 
 .login_screen .form-group-1 {
     margin-bottom: 37px;
 }
 
 .right_box_container {
-    padding: 10px 0;
-    max-width: 600px;
-    margin: 0 auto;
+    max-width: 358px;
 }
 
 .tab-content {
@@ -257,7 +218,8 @@ a.resetpassword a {
 }
 
 .resetpassword.create-account a {
-    color: #EF6A28;
+    color: #2BBEAA;
+	text-decoration: underline;
 }
 
 label.form-check-label {
@@ -270,8 +232,7 @@ label.form-check-label {
 }
 
 .login_screen .btn-lg {
-    margin-top: 40px;
-
+    margin-top: 15px;
 }
 
 .custom_checkbox .form-check {
@@ -293,21 +254,12 @@ label.form-check-label {
 }
 
 .auth_form {
-
     margin-top: 30px;
-    background: #FFFFFF;
-    box-shadow: 0px 0px 2px rgb(0 0 0 / 25%);
-    padding: 25px 50px;
+    /* box-shadow: 0px 0px 2px rgb(0 0 0 / 25%); */
     position: relative;
-
 }
 
 .resetpassword.create-account {
-    text-align: center;
-    margin-top: 30px;
-    position: absolute;
-    right: 50px;
-    top: 12px;
     color: #2D2D2D;
     font-weight: 500;
 }
@@ -340,7 +292,7 @@ a.otp-password {
   
     stroke: #2D2D2D;
 }
-.custom-tabs-container.nav.nav-pills .nav-link.active  svg path{ stroke: #EF6A28;}
+.custom-tabs-container.nav.nav-pills .nav-link.active  svg path{ stroke: #2BBEAA;}
 select#form-control\ form-mobile-position {
     position: absolute;
     width: 82px;
@@ -351,7 +303,7 @@ select#form-control\ form-mobile-position {
     font-size: 20px;
     padding-right: 0;
     border: 0;
-    border-right: 2px #EF6A28 solid;
+    border-right: 2px #2BBEAA solid;
     background: transparent;
     padding-top: 5px;
     margin-top: 5px;
@@ -376,7 +328,7 @@ select#form-control\ form-mobile-position {
 button.btn-lg.justify-content-center.btn-border.btn.btn-info {
     background: #fff;
     color: #655D5D;
-    border: 1px #ef6a28 solid;
+    border: 1px #2BBEAA solid;
 }
 
 .auth_form p a {
@@ -652,9 +604,7 @@ button.menu-bar {
         }
 @media (max-width:1199px) {
     .right_box_container {
-        padding: 30px 0;
         max-width: 350px;
-        margin: 0 auto;
     }
 
 }
@@ -692,7 +642,6 @@ button.menu-bar {
 
     .login_screen .btn-lg {
         margin-top: 20px;
-
         margin-bottom: 20px;
     }
 
@@ -733,18 +682,13 @@ button.menu-bar {
     }
 
     .right_box_container {
-
-
         max-width: 90%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         height: 100%;
-
         width: 100%;
-
-
     }
 
     .resetpassword.mobile {
@@ -762,26 +706,6 @@ button.menu-bar {
 
 @media (max-width:767px) {
 	.resetpassword.create-account {  display: none;}
-	.sign-up-social h2 {
-		font-weight: 600;
-		font-size: 15px;
-		line-height: 24px;
-		color: #003194;
-	}
-	.sign-up-social ul li {
-		list-style: none;
-		padding: 2px 8px;
-		display: flex;
-		border: 1px solid #D2D2D2;
-		margin: 0 5px;
-	}
-    .sign-up-social ul {
-        display: flex;
-        justify-content: space-between;
-    }
-	.sign-up-social ul li img {
-		width: 16px;
-	}
 
     h2.title-head {
         display: block;font-size: 14px;

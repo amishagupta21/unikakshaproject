@@ -28,19 +28,7 @@ const Login = () => {
       </div>
       <div className="right_box">
         <div className="right_box_container">
-          <div className="back-action">
-            <div className="back-arrow">
-              <a
-                onClick={() => {
-                  navigate('/');
-                }}>
-                <img src={back} />
-              </a>
-            </div>
-            <a href="#" className="logo">
-              <img src={Logo} />
-            </a>
-          </div>
+         
           <div className="auth_form auth_form-verification">
             <h3 className="text-center">Check your inbox</h3>
             <p className="text-center mt-2">

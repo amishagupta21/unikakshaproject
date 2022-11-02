@@ -15,6 +15,9 @@ import { Form, Field, Formik } from 'formik';
 import { toast } from 'react-toastify';
 import { setLoading } from '../../redux/actions/LoaderActions';
 import { firebase } from '../../firebase/firebase';
+import OtpInput from 'react-otp-input';
+import LeftBox from './components/LeftBox';
+import AuthNavbar from './components/AuthNavbar';
 
 const Otp = () => {
   const navigate = useNavigate();
@@ -64,9 +67,6 @@ const Otp = () => {
         if (response.user) {
           dispatch(setLoading(false));
           localStorage.setItem('user', JSON.stringify(response.user));
-          // if (values.rememberMe) {
-          //   cookies.set('phoneNumber', phoneNumber, { path: '/' });
-          // }
           toast.success('Log in Succesfull', {
             theme: 'colored'
           });
@@ -79,10 +79,10 @@ const Otp = () => {
   };
 
   return (
+	<>
+	<AuthNavbar />
     <section className="auth_layout login_screen">
-      <div className="left_box">
-        <img src={Loginbanner} />
-      </div>
+    <LeftBox />
       <div className="right_box">
         <div className="right_box_container">
           <div className="back-action">
@@ -99,15 +99,14 @@ const Otp = () => {
             </a>
           </div>
           <div className="auth_form">
-            <h3 className="mb-4">Enter your mobile OTP</h3>
+            <h3 className="mb-4">Verify OTP</h3>
             <p>
-              Please enter OTP for <br />
+              Enter an OTP sent to your mobile number <br />
               <a href="">{phoneNumber && phoneNumber}</a>
             </p>
             <Formik
               initialValues={{
                 otp: '',
-                rememberMe: false
               }}
               validationSchema={Yup.object().shape({
                 otp: Yup.string().required('Required')
@@ -132,18 +131,31 @@ const Otp = () => {
                   <Field
                     name="otp"
                     render={({ field }) => (
-                      <Row className="mb-0">
-                        <FormGroup className="form-group-1 mb-4" as={Col} md="12">
-                          <FormLabel className="custom-label"> Enter OTP </FormLabel>
-                          <FormControl
-                            name="otp"
-                            type={'text'}
-                            placeholder="Enter OTP"
-                            value={field.value}
-                            onChange={field.onChange}
-                          />
-                        </FormGroup>
-                      </Row>
+						<>
+						{console.log("fieldd",field.value)}
+						<OtpInput
+       						value={field.value}
+       						// onChange={field.onChange}
+       						onChange={(e)=>console.log("ee",e)}
+      						numInputs={4}
+      						/>
+							</> 
+                    //   <Row className="mb-0">
+                    //     <FormGroup className="form-group-1 mb-4" as={Col} md="12">
+					// 		{console.log("field.value",field.value)}
+                    //       <FormControl
+                    //         name="otp"
+                    //         type={'text'}
+                    //         value={field.value}
+                    //         onChange={field.onChange}
+                    //       />
+					// 	    {/* <OtpInput
+       				// 		value={field.value}
+       				// 		onChange={this.handleChange}
+      				// 		numInputs={4}
+      				// 		/> */}
+                    //     </FormGroup>
+                    //   </Row>
                     )}
                   />
                   {errors.otp && touched.otp ? (
@@ -167,6 +179,7 @@ const Otp = () => {
         </div>
       </div>
     </section>
+	</>
   );
 };
 

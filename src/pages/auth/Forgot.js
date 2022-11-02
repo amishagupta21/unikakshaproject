@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { Form, Field, Formik } from 'formik';
 import * as Yup from 'yup';
 import { forgotPassword } from '../../firebase/firebaseAuth';
-import { FormCheck, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
+import { Carousel, FormCheck, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
 const Forgot = () => {
@@ -17,23 +17,50 @@ const Forgot = () => {
   return (
     <section className="auth_layout login_screen">
       <div className="left_box">
-        <img src={Loginbanner} />
+        {/* <img src={Loginbanner} /> */}
+		<Carousel>
+      <Carousel.Item>
+        <img
+          className="d-block w-100"
+          src="holder.js/800x400?text=First slide&bg=373940"
+          alt="First slide"
+        />
+        <Carousel.Caption>
+          <h3>First slide label</h3>
+          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+        </Carousel.Caption>
+      </Carousel.Item>
+      <Carousel.Item>
+        <img
+          className="d-block w-100"
+          src="holder.js/800x400?text=Second slide&bg=282c34"
+          alt="Second slide"
+        />
+
+        <Carousel.Caption>
+          <h3>Second slide label</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </Carousel.Caption>
+      </Carousel.Item>
+      <Carousel.Item>
+        <img
+          className="d-block w-100"
+          src="holder.js/800x400?text=Third slide&bg=20232a"
+          alt="Third slide"
+        />
+
+        <Carousel.Caption>
+          <h3>Third slide label</h3>
+          <p>
+            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+          </p>
+        </Carousel.Caption>
+      </Carousel.Item>
+    </Carousel>
       </div>
       <div className="right_box">
         <div className="right_box_container">
-          <div className="back-action">
-            <div className="back-arrow">
-              <a
-                onClick={() => {
-                  navigate('/');
-                }}>
-                <img src={back} />
-              </a>
-            </div>
-            <a href="#" className="logo">
-              <img src={Logo} />
-            </a>
-          </div>
+         
           <div className="auth_form">
             <h3>Forgotten your password?</h3>
             <p>

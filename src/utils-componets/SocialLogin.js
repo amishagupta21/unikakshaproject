@@ -9,14 +9,18 @@ import { signInWithFacebook, signInWithGoogle, signInWithTwitter } from '../fire
 import { useNavigate } from 'react-router-dom';
 import { setLoading } from '../redux/actions/LoaderActions';
 import { useDispatch } from 'react-redux';
+import { Button } from 'react-bootstrap';
 
 const SocialLogin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   return (
     <>
-      <h2>Login using social network</h2>
-      <ul>
+	<div className='d-flex justify-content-between mt-4'>
+		<Button className='social-btn' variant="outline-dark">Google</Button>
+		<Button className='social-btn' variant="outline-dark">Facebook</Button>
+	</div>
+      {/* <ul>
         <li>
           <a
             onClick={async () => {
@@ -73,7 +77,7 @@ const SocialLogin = () => {
             <img src={twit} />
           </a>
         </li>
-      </ul>
+      </ul> */}
     </>
   );
 };

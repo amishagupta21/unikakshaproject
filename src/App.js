@@ -67,6 +67,7 @@ function App() {
             <Route path="forgotpassword" element={<Forgot />} />
             <Route path="resetpassword" element={<Resetpassword />} />
             <Route path="newpassword" element={<Newpassword />} />
+            <Route path="login" element={<Login />} />
             <Route path="signup" element={<Signup />} />
             <Route path="verification" element={<Signinverification />} />
             <Route path="otp" element={<Otp />} />
