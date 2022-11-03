@@ -22,3 +22,36 @@ line-height: 19px;
 color: #363F5E;
 padding: 10px 0;
 }
+
+/* mobile-input  */
+.react-tel-input{
+	margin-bottom: 20px;
+}
+.react-tel-input .form-control{
+	width: 100% !important;
+}
+
+.resend-otp{
+cursor: pointer;
+/* font-family: 'Roboto'; */
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 14px;
+/* identical to box height */
+text-decoration-line: underline;
+color: #FF0808;
+
+}
+
+.otp-input input{
+    margin: 5px;
+/* font-family: 'Roboto'; */
+width: 50px !important;
+padding: 10px 15px;
+font-style: normal;
+font-weight: 500;
+font-size: 24px;
+line-height: 28px;
+text-align: center;
+}
