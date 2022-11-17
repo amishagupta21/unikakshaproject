@@ -12,12 +12,16 @@ import {
 } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import { firebaseConfig } from './firebase';
+import { getRemoteConfig, getValue, fetchAndActivate } from "firebase/remote-config";
 
 const firebaseApp = initializeApp(firebaseConfig);
+const remoteConfig = getRemoteConfig(firebaseApp);
 const auth = getAuth(firebaseApp);
 const googleProvider = new GoogleAuthProvider();
 const facebookProvider = new FacebookAuthProvider();
 const twitterProvider = new TwitterAuthProvider();
+
+
 
 const signInWithGoogle = async () => {
   try {
@@ -105,6 +109,7 @@ const logout = () => {
 };
 export {
   auth,
+  remoteConfig,
   signInWithGoogle,
   signInWithFacebook,
   signInWithTwitter,

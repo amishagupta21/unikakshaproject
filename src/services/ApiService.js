@@ -17,7 +17,8 @@ const ApiService = async (url_end_point, type, data) => {
       //       }`,
       //   },
       headers: {
-        Authorization: `${token}`,
+        Authorization: `Bearer ${token}`,
+        'Access-Control-Allow-Origin': '*',
       },
       data: data,
     };
