@@ -1,28 +1,32 @@
 .App {
   text-align: center;
 }
-body{ display: inline-block ;    width: 100%;}
+
+body {
+  display: inline-block;
+  width  : 100%;
+}
+
 .App-logo {
-  height: 40vmin;
+  height        : 40vmin;
   pointer-events: none;
 }
 
-:root{
-  --blue:#1D1D56;
-  --puertorico:#EF6A28;
-  --color-purple:#9D56FD;
-  --color-orange:#FC8E6B;
-  --color-lightpurple:#E5D4FC;
-  --color-lightorange:#FFE7DE;
-  --yellow:rgba(220, 165, 98, 1);
-  --white:#fff;
-
-  --inter: 'Inter', sans-serif;
-  --poppins:'Poppins', sans-serif;
-
+:root {
+  --inter  : 'Inter', sans-serif;
+  --poppins: 'Poppins', sans-serif;
+  --roboto : 'Roboto', sans-serfi;
 }
-body{font-family: var(--poppins);}
-h1, h2, h3{font-family: var(--poppins);} 
+
+body {
+  font-family: var(--poppins);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--poppins);
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -32,13 +36,13 @@ h1, h2, h3{font-family: var(--poppins);}
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  min-height      : 100vh;
+  display         : flex;
+  flex-direction  : column;
+  align-items     : center;
+  justify-content : center;
+  font-size       : calc(10px + 2vmin);
+  color           : white;
 }
 
 .App-link {
@@ -49,6 +53,7 @@ h1, h2, h3{font-family: var(--poppins);}
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

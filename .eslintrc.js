@@ -1,12 +1,22 @@
 module.exports = {
-  extends: ['eslint:recommended', 'prettier'],
+  extends: ['eslint:recommended', 'prettier', 'plugin:react/recommended',
+  'plugin:react/jsx-runtime',
+  'plugin:testing-library/react',
+  'plugin:jest/all'],
   parser: '@babel/eslint-parser',
   parserOptions: {
     requireConfigFile: false,
     ecmaVersion: 2018,
+    sourceType: 'module',
+    babelOptions: {
+      presets: ['@babel/preset-react'],
+   },
   },
   env: {
     es6: true,
+    browser: true,
+    amd: true,
+    node: true,
   },
   rules: {
     'no-console': ['error', { allow: ['warn', 'error'] }],
