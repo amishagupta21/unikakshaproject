@@ -10,9 +10,10 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Loader from './components/util-comonents/Loader';
 import { useSelector } from 'react-redux';
+import CourseApplication from './pages/courses/CourseApply';
 
 function App() {
-  const isLoader = useSelector((state) => state?.loader?.isLoading);
+  const isLoader = useSelector(state => state?.loader?.isLoading);
   return (
     <div>
       {!isLoader ? (
@@ -26,6 +27,7 @@ function App() {
                 </PrivateRoute>
               }
             />
+            <Route path="course/apply" element={<PrivateRoute> <CourseApplication /> </PrivateRoute>} />
             <Route path="/" element={<Login />} />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<Signup />} />

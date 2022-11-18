@@ -25,6 +25,7 @@ module.exports = {
     curly: 'error',
     eqeqeq: 'error',
     'no-eq-null': 'error',
+    'react/prop-types': 0,
 
     // Variables
     'no-use-before-define': ['error', 'nofunc'],
