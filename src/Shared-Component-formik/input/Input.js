@@ -29,22 +29,25 @@ function Input(props) {
             //   height: '95%',
             // }}
             // className='input-group-text'
-            className='btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2'
-            onClick={() => setShowPass(false)}
-          >
+            className="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2"
+            onClick={() => setShowPass(false)}>
             {/* <i className='bi bi-eye-fill'></i> */}
-            <i className='bi bi-eye fs-2'></i>
+            <i className="bi bi-eye fs-2"></i>
           </span>
         ) : type === 'password' && !showPass ? (
           <span
-            className='btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2'
-            onClick={() => setShowPass(true)}
-          >
-            <i className='bi bi-eye-slash fs-2'></i>
+            className="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2"
+            onClick={() => setShowPass(true)}>
+            <i className="bi bi-eye-slash fs-2"></i>
           </span>
         ) : null}
       </div>
-      <ErrorMessage name={name} component='span' className='invalid-input' style={{ color: 'red' }} />
+      <ErrorMessage
+        name={name}
+        component="span"
+        className="invalid-input"
+        style={{ color: 'red' }}
+      />
     </>
   );
 }

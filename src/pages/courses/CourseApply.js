@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, ButtonGroup, Card, Col, Container, Form, Row, ToggleButton } from 'react-bootstrap';
 import PhoneInput from 'react-phone-input-2';
 import { arrowBack, calendar1, femaleIcon, hourGlass, maleIcon, workingRemote } from '../../assets/images';
-import './courses.scss';
+import './courseapply.scss';
 import TestResult from './TestResult';
 import MultiStepBar from './form-progress';
 import { Formik } from 'formik';
@@ -442,11 +442,11 @@ const CourseApplication = () => {
                             <Col className='d-flex justify-content-center'>
                                 <img src={workingRemote}></img>
                             </Col>
-                            <Col className='d-flex flex-column my-5 mx-5'>
-                                <div className='d-flex justify-content-center mb-5'>
+                            <Col className='d-flex flex-column justify-content-around mx-5'>
+                                <div className='d-flex justify-content-center'>
                                     <Button variant='outline-secondary'>Take Test</Button>
                                 </div>
-                                <div className="copy-text mb-5">
+                                <div className="copy-text">
                                     <Form.Control type="text" className="text" value="https://www.skillfit.com/java-test" readOnly />
                                     <Button variant='primary'><i className="bi bi-files"></i></Button>
                                 </div>
@@ -458,7 +458,7 @@ const CourseApplication = () => {
                 </>)}
                 {page === 3 && (
                     <>
-                        <TestResult />
+                        <TestResult testResult={{isPassed: false, marks: 80 }}/>
                     </>
                 )}
                 <Row className='d-flex justify-content-end'>

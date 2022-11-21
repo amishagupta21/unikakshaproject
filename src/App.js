@@ -1,7 +1,7 @@
 import './App.css';
-import Homepage from './pages/Homepage';
 import Login from './pages/auth/Login';
 import Signup from './pages/auth/Signup';
+import Info from './pages/auth/Info';
 import SignInOtp from './pages/auth/SignInOtp';
 import Error from './pages/404';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -11,9 +11,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import Loader from './components/util-comonents/Loader';
 import { useSelector } from 'react-redux';
 import CourseApplication from './pages/courses/CourseApply';
+import Homepage from './pages/Homepage/Homepage';
 
-function App() {
-  const isLoader = useSelector(state => state?.loader?.isLoading);
+const App = () => {
+  const isLoader = useSelector((state) => state?.loader?.isLoading);
   return (
     <div>
       {!isLoader ? (
@@ -31,6 +32,7 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<Signup />} />
+            <Route path="info" element={<Info />} />
             <Route path="signin-otp" element={<SignInOtp />} />
             <Route path="*" element={<Error />} />
           </Routes>
@@ -41,6 +43,6 @@ function App() {
       <ToastContainer autoClose={3000} pauseOnHover={false} />
     </div>
   );
-}
+};
 
 export default App;

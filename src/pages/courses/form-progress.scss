@@ -14,6 +14,18 @@
     cursor: pointer;
 }
 
+#RFS-StepButton.completed {
+    background-color: var(--bs-indigo) !important;
+}
+
+#RFS-StepButton.active {
+    background-color: var(--bs-orange) !important;
+}
+
+#RFS-Connector {
+    border-color: var(--bs-indigo);
+}
+
 .indexedStep.accomplished {
     background-color: #664DE5;
     color: white;
@@ -63,6 +75,14 @@
     border-radius: 10px;
     background: #664DE5;
     z-index: -1;
+}
+
+.active + div {
+    color: var(--bs-orange);
+}
+
+.completed + div {
+    color: var(--bs-indigo);
 }
 
 @media screen and (max-width: 480px) {

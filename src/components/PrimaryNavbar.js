@@ -1,10 +1,10 @@
 import React from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
-import { unikakshaLmsLogo } from '../../../assets/images/';
-import '../../../custom.scss';
-import '../auth.scss';
+import { unikakshaLmsLogo } from '../assets/images';
+import '../custom.scss';
+import '../pages/auth/auth.scss';
 
-const AuthNavbar = () => (
+const PrimaryNavbar = () => (
   <Navbar bg="light" variant="light">
     <Container>
       <Navbar.Brand href="#home">
@@ -13,9 +13,11 @@ const AuthNavbar = () => (
       <Nav className="ms-auto">
         <Nav.Link href="#home">Courses</Nav.Link>
         <Nav.Link href="#features">Event & Content</Nav.Link>
+        <Nav.Link href="#features">Refer a Friend</Nav.Link>
+        <Nav.Link href="#features">John Smith</Nav.Link>
       </Nav>
     </Container>
   </Navbar>
 );
 
-export default AuthNavbar;
+export default PrimaryNavbar;

@@ -19,13 +19,13 @@ body {
 }
 
 body {
-  font-family: var(--poppins);
+  font-family: var(--roboto);
 }
 
 h1,
 h2,
 h3 {
-  font-family: var(--poppins);
+  font-family: var(--roboto);
 }
 
 @media (prefers-reduced-motion: no-preference) {
