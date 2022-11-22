@@ -1,3 +1,6 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,900&display=swap');
+
 .resetpassword.mobile {
     display: none;
 }
@@ -900,7 +903,36 @@ button.menu-bar {
               
                 color: #262626;
                 font-weight: 600;
+                font-family: 'Urbanist', sans-serif;
+                padding-left: 20px;
+                padding-right: 20px;
+                font-size: 16px;
+            
             }
+
+            
+
+            .custom-header button#dropdown-basic span {
+    text-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+    font-weight: 600;
+    margin-left: 10px;
+}
+.custom-header .dropdown-toggle::after {
+    display: inline-block;
+    margin-left: 0.555em;
+    vertical-align: 0.155em;
+    content: "";
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+    color: #7492FF;
+}
+.custom-header  .navbar-expand .navbar-nav .dropdown-menu{ border:0;}
+.custom-header  .navbar-expand .navbar-nav .dropdown-menu a img{ margin-right: 10px;}
+
+.custom-header  .navbar-expand .navbar-nav .dropdown-menu a{ padding-left: 10px; padding-right: 10px;}
+            .custom-header .navbar    .ms-auto.navbar-nav a.notification-link{ padding-left: 30px ; padding-right: 0;}
             .dropdown-design.dropdown-toggle.btn.btn-primary{
                 background: transparent;
                 border: 0;
@@ -910,3 +942,158 @@ button.menu-bar {
               
                 align-items: center;
             }
+
+            a.refer-frd.nav-link {
+                border: 1px solid #FFCE6B;
+                filter: drop-shadow(0px 10px 20px rgba(255, 206, 107, 0.25));
+                border-radius: 8px;
+            }
+
+            .custom-footer {
+                background: #EEF4FF;
+                padding: 30px 0; padding-bottom: 0;
+            }            
+
+            .custom-footer a.list-group-item {
+                background-color: transparent;
+                border: 0;
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 22px;
+                color: #666666;
+            }
+
+            .custom-footer  .list-group-item{ background-color: transparent;
+                border: 0;
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 22px;
+                color: #666666;}
+
+                .follow-us ul {
+                    display: flex;
+                    margin: 0;
+                    padding: 0 9px;
+                }
+                .follow-us ul li {
+                    list-style: none;
+                    padding: 0 3px;
+                }
+                .follow-us label {
+                    font-weight: 600;
+                    font-size: 16px;
+                    line-height: 27px;
+                    letter-spacing: 0.3px;
+                    color: #333333;
+                }
+                .follow-us ul li {
+                    list-style: none;
+                    padding: 0 3px;
+                }
+
+                .newletter button {
+                    background: #EF6B29;
+                    border-radius: 0px 3px 3px 0px;
+                    border: 0;
+                    color: #fff;
+                    height: 40px;
+                    padding: 0 20px;
+                    position: absolute;
+                    right: 0;
+                }
+                .newletter input {
+                    border: 1px solid #CDCBCB;
+                    box-shadow: 0px 0px 1px rgb(0 0 0 / 25%);
+                    border-radius: 6px;
+                    height: 40px;
+                    padding-left: 19px;
+                    width: 100%;
+                }
+                .newletter {
+                    position: relative;
+                }
+                .follow-us {
+                    display: flex;}
+
+                  
+
+                    .copy-right {
+                        background: #E1EBFF;
+                      
+                        margin-top: 20px;
+                        display: flex;
+                        align-items: center;
+                        height: 65px;
+                    }
+                
+                    .copy-right p{    margin: 0;
+                        text-align: right;}
+               
+
+                        .invite-container-outer {
+                            max-width: 800px;
+                            margin: 0 auto;
+                           
+                            border: 1px solid #FFFBF2;
+                            border-radius: 10px;
+                            background: #FFFBF2;
+                            padding: 10px 70px;
+                            margin-bottom: 40px; position: relative; margin-top: 50px;
+                        }
+                        .invite-container-outer h3{font-weight: 500;
+                            font-size: 18px;
+                            line-height: 27px;
+                            /* identical to box height */
+                            
+                            
+                            /* Heading 1 */
+                            
+                            color: #363F5E; margin: 0;}
+                            .invite-container-outer p{font-weight: 500;
+                                font-size: 14px;
+                                line-height: 21px;
+                              
+                                
+                                color: #363F5E;}
+
+              .invite-container-outer:after{ position: absolute;
+                background-image: url("./assets/images/img-invite.svg");
+                 background-repeat: no-repeat;     content: "";
+                 top: 4px;
+                 right: 92px;
+                 width: 98px;
+                 height: 92px;
+            }
+
+            .partner-list ul {
+                display: flex;
+                flex-wrap: wrap;
+                margin: 0 -10px; padding: 0;
+            }
+            .partner-list ul li img {
+                list-style: none;
+                background: #FFFFFF;
+                box-shadow: 0px 15px 20px rgb(0 103 223 / 10%);
+                border-radius: 15px;width: 100%;
+               
+            }
+            .partner-list ul li{ max-width: 16.666%;
+               
+                display: flex;
+              margin-bottom: 20px;
+                flex: 0 0 16.666%;
+                padding: 0 10px;}
+
+                .partner-list {
+                    margin-top: 20px;
+                }
+                .partner-list h5 {
+                    margin-bottom: 20px;
+                }
+
+                .card-custom{ background: #FFFFFF;
+                    box-shadow: 0px 15px 20px rgba(0, 103, 223, 0.1);
+                    border-radius: 15px;}
+                    .button-group .btn {
+                        width: 100%;
+                    }

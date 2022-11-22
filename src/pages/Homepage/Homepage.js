@@ -1,9 +1,15 @@
 import { getValue } from 'firebase/remote-config';
 import React, { useEffect } from 'react';
 import PrimaryNavbar from '../../components/PrimaryNavbar';
+import Footer from '../../components/Footer';
 import { remoteConfig } from '../../firebase/firebaseAuth';
 import CourseList from './components/CourseList';
+import Invite from './components/Invite';
 import Loginbanner from '../../assets/images/img-home-banner.png';
+import Logopartner from '../../assets/images/img-partner.png';
+
+
+
 
 import { Carousel } from 'react-bootstrap';
 
@@ -85,7 +91,29 @@ const Homepage = () => {
         </div>
         <CourseList />
         <CourseList />
+        <div className='partner-list'>
+          <h5>Our Placement Partners</h5>
+        
+            <ul>
+              <li> <img src={Logopartner}/></li>
+              <li> <img src={Logopartner}/></li>
+              <li> <img src={Logopartner}/></li>
+              <li> <img src={Logopartner}/></li>
+              <li> <img src={Logopartner}/></li>
+              <li> <img src={Logopartner}/></li>
+              <li> <img src={Logopartner}/></li>
+              <li> <img src={Logopartner}/></li>
+              <li> <img src={Logopartner}/></li>
+              <li> <img src={Logopartner}/></li>
+              <li> <img src={Logopartner}/></li>
+              <li> <img src={Logopartner}/></li>
+            </ul>
+           
+        </div>
+        <Invite />
+       
       </div>
+      <Footer />
     </div>
   );
 };

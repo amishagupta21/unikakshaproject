@@ -16,7 +16,7 @@ const CourseList = () => {
   return (
     <Row>
       <Col>
-        <Card className="my-4" style={{ width: '100%' }}>
+        <Card className="my-4 card-custom" style={{ width: '100%' }}>
           <Card.Img variant="top" src={courseImage} />
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
@@ -61,15 +61,19 @@ const CourseList = () => {
                 <p className="ms-2 mb-0">No Coding Experience Required</p>
               </div>
             </div>
-            <div className="d-flex justify-content-between">
-              <Button variant="outline-warning">View Details</Button>
-              <Button variant="warning">Apply Now</Button>
+            <div className="button-group">
+            <div className='row'>
+            <div className='col-sm-6'>  <Button variant="outline-warning">View Details</Button></div>
+            <div className='col-sm-6'>    <Button variant="warning">Apply Now</Button></div>
+              </div>
+            
+           
             </div>
           </Card.Body>
         </Card>
       </Col>
       <Col>
-        <Card className="my-4" style={{ width: '100%' }}>
+        <Card className="my-4 card-custom" style={{ width: '100%' }}>
           <Card.Img variant="top" src={courseImage} />
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
@@ -114,15 +118,19 @@ const CourseList = () => {
                 <p className="ms-2 mb-0">No Coding Experience Required</p>
               </div>
             </div>
-            <div className="d-flex justify-content-between">
-              <Button variant="outline-warning">View Details</Button>
-              <Button variant="warning">Apply Now</Button>
+            <div className="button-group">
+            <div className='row'>
+            <div className='col-sm-6'>  <Button variant="outline-warning">View Details</Button></div>
+            <div className='col-sm-6'>    <Button variant="warning">Apply Now</Button></div>
+              </div>
+            
+           
             </div>
           </Card.Body>
         </Card>
       </Col>
       <Col>
-        <Card className="my-4" style={{ width: '100%' }}>
+        <Card className="my-4 card-custom" style={{ width: '100%' }}>
           <Card.Img variant="top" src={courseImage} />
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
@@ -167,9 +175,13 @@ const CourseList = () => {
                 <p className="ms-2 mb-0">No Coding Experience Required</p>
               </div>
             </div>
-            <div className="d-flex justify-content-between">
-              <Button variant="outline-warning">View Details</Button>
-              <Button variant="warning">Apply Now</Button>
+            <div className="button-group">
+            <div className='row'>
+            <div className='col-sm-6'>  <Button variant="outline-warning">View Details</Button></div>
+            <div className='col-sm-6'>    <Button variant="warning">Apply Now</Button></div>
+              </div>
+            
+           
             </div>
           </Card.Body>
         </Card>
