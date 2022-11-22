@@ -12,16 +12,14 @@ import {
 } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import { firebaseConfig } from './firebase';
-import { getRemoteConfig, getValue, fetchAndActivate } from "firebase/remote-config";
+import { getRemoteConfig, getValue, fetchAndActivate } from 'firebase/remote-config';
 
 const firebaseApp = initializeApp(firebaseConfig);
-const remoteConfig = getRemoteConfig(firebaseApp);
 const auth = getAuth(firebaseApp);
+const remoteConfig = getRemoteConfig(firebaseApp);
 const googleProvider = new GoogleAuthProvider();
 const facebookProvider = new FacebookAuthProvider();
 const twitterProvider = new TwitterAuthProvider();
-
-
 
 const signInWithGoogle = async () => {
   try {
@@ -30,12 +28,11 @@ const signInWithGoogle = async () => {
     console.error(err);
     toast.error(`${err.message}`, {
       theme: 'colored',
-    },
-    );
+    });
   }
 };
 
-const forgotPassword = async email => {
+const forgotPassword = async (email) => {
   try {
     return await sendPasswordResetEmail(auth, email);
   } catch (err) {
@@ -89,7 +86,7 @@ const registerWithEmailAndPassword = async (name, email, password) => {
     });
   }
 };
-const sendPasswordReset = async email => {
+const sendPasswordReset = async (email) => {
   try {
     await sendPasswordResetEmail(auth, email);
   } catch (err) {

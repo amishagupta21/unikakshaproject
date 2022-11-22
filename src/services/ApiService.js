@@ -28,7 +28,7 @@ const ApiService = async (url_end_point, type, data) => {
     const response = await axios(apiObj(url_end_point, type, data));
     return response;
   } catch (err) {
-    toast(`${err}`);
+    console.log(`${err}`);
     return err;
   }
 };
