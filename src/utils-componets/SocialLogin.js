@@ -13,41 +13,43 @@ const SocialLogin = () => {
   const dispatch = useDispatch();
   return (
     <>
-	<div className='d-flex justify-content-between mt-4'>
-		<Button 
-		className='social-btn' 
-		variant="outline-dark" 
-		onClick={async () => {
-              dispatch(setLoading(true));
-              const res = await signInWithGoogle();
-              dispatch(setLoading(false));
-              if (res?.user) {
-                localStorage.setItem('user', JSON.stringify(res?.user));
-                toast.success('Log in Succesfull', {
-                  theme: 'colored'
-                });
-                setTimeout(() => {
-                  toast(`Welcome ${res?.user?.displayName}`);
-                }, 3000);
-                navigate('/home');
-              }
-            }}>
-		<img className='mx-2' src={googleIcon} alt="google" />
-			Google
-		</Button>
-		<Button className='social-btn' variant="outline-dark" 
-		   onClick={async () => {
-              const res = await signInWithFacebook();
-              if (res?.user) {
-                localStorage.setItem('user', JSON.stringify(res?.user));
-                navigate('/home');
-              }
-            }}
-		>
-			<img className='mx-2' src={facebookIcon} alt="facebook" />
-			Facebook
-		</Button>
-	</div>
+      <div className="d-flex justify-content-between mt-4">
+        <Button
+          className="social-btn"
+          variant="outline-dark"
+          onClick={async () => {
+            dispatch(setLoading(true));
+            const res = await signInWithGoogle();
+            console.log('response latest=>>', res);
+            dispatch(setLoading(false));
+            if (res?.user) {
+              localStorage.setItem('user', JSON.stringify(res?.user));
+              toast.success('Log in Succesfull', {
+                theme: 'colored',
+              });
+              setTimeout(() => {
+                toast(`Welcome ${res?.user?.displayName}`);
+              }, 3000);
+              navigate('/home');
+            }
+          }}>
+          <img className="mx-2" src={googleIcon} alt="google" />
+          Google
+        </Button>
+        <Button
+          className="social-btn"
+          variant="outline-dark"
+          onClick={async () => {
+            const res = await signInWithFacebook();
+            if (res?.user) {
+              localStorage.setItem('user', JSON.stringify(res?.user));
+              navigate('/home');
+            }
+          }}>
+          <img className="mx-2" src={facebookIcon} alt="facebook" />
+          Facebook
+        </Button>
+      </div>
     </>
   );
 };

@@ -12,6 +12,9 @@ import './style.css';
 import Placementpartner from './components/Placementpartner';
 import { setLoading } from '../../redux/actions/LoaderActions';
 import { useDispatch } from 'react-redux';
+import Loginbanner from '../../assets/images/img-home-banner.png';
+
+import { Carousel } from 'react-bootstrap';
 
 const Homepage = () => {
   const [data, setData] = useState({});
@@ -32,6 +35,7 @@ const Homepage = () => {
     const isFetched = await fetchAndActivate(remoteConfig);
     const temp3 = await getValue(remoteConfig, 'skill_fit_data');
     const responseData = await JSON.parse(temp3._value);
+    console.log('lllll', responseData);
     setplacementPartner(responseData?.placement_partner_configure);
     setData(responseData);
     fetchCourseDetails(responseData);
@@ -47,8 +51,64 @@ const Homepage = () => {
   return (
     <div>
       <PrimaryNavbar />
-      <div className="container">
-        <h2>Hero page design</h2>
+      <div className="hero-banner">
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-6">
+              <div className="hero-banner-left-apart">
+                <img src={Loginbanner} />
+              </div>
+            </div>
+            <div className="col-sm-6">
+              <div className="home-page-slides">
+                <Carousel>
+                  <Carousel.Item>
+                    <div className="bootcamp-item">
+                      <h2>Full-stack development</h2>
+                      <h1>Bootcamp</h1>
+                      <p>
+                        Batch starting <span className="orange">this Saturday</span>
+                      </p>
+                      <div className="btn-item">
+                        <a href="" className="enroll-now">
+                          Enroll Now
+                        </a>
+                      </div>
+                    </div>
+                  </Carousel.Item>
+                  <Carousel.Item>
+                    <div className="bootcamp-item">
+                      <h2>Full-stack development</h2>
+                      <h1>Bootcamp</h1>
+                      <p>
+                        Batch starting <span className="orange">this Saturday</span>
+                      </p>
+                      <div className="btn-item">
+                        <a href="" className="enroll-now">
+                          Enroll Now
+                        </a>
+                      </div>
+                    </div>
+                  </Carousel.Item>
+                  <Carousel.Item>
+                    <div className="bootcamp-item">
+                      <h2>Full-stack development</h2>
+                      <h1>Bootcamp</h1>
+                      <p>
+                        Batch starting <span className="orange">this Saturday</span>
+                      </p>
+                      <div className="btn-item">
+                        <a href="" className="enroll-now">
+                          Enroll Now
+                        </a>
+                      </div>
+                    </div>
+                  </Carousel.Item>
+                </Carousel>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div className="container">
         <CourseList courses={topCourses && topCourses} />
