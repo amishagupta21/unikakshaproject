@@ -13,76 +13,85 @@ import WaitClockIcon from '../../../assets/images/courses/icons/wait-sandclock-i
 import CalenderIcon from '../../../assets/images/courses/icons/CalenderIcon.svg';
 
 const CourseList = ({ courses }) => {
+  console.log('courses =>>::', courses);
   return (
-    <div>
+    <>
       <div className="d-flex justify-content-between">
         <div>
-          <h6>Top Techfit Courses</h6>
-          <p>This are the top 3 courses provided by SkillFit</p>
+          <h5>Top Techfit Courses</h5>
+          <p>This are the top 3 courses provided by UniKaksha</p>
         </div>
         <div>see all</div>
       </div>
       <Row>
-        {Object.keys(courses).length !== 0 &&
-          courses.map((e) => (
-            <Col key={e.id}>
-              <Card className="my-4" style={{ width: '100%' }}>
-                <Card.Img variant="top" src={courseImage} />
-                <Card.Body>
-                  <div
-                    className="d-flex justify-content-between align-items-center"
-                    style={{ height: '80px' }}>
-                    <Card.Title>{e?.course_title}</Card.Title>
-                    <img src={HeartIcon} alt="heart-icon" />
+        {courses?.map((course) => (
+          <Col key={course?.id}>
+            {console.log('kkkkk', course)}
+            <Card className="my-4 card-custom" style={{ width: '100%' }}>
+              <Card.Img variant="top" src={courseImage} />
+              <Card.Body>
+                <div className="d-flex justify-content-between align-items-center course-title-section">
+                  <Card.Title>{course?.course_title}</Card.Title>
+                  <img src={HeartIcon} alt="heart-icon" />
+                </div>
+                <div className="d-flex align-items-center my-3 ">
+                  <p className="mb-0">Ratings {course?.sections?.ratings?.value}</p>
+                  <div className="d-flex ms-2">
+                    <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
+                    <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
+                    <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
+                    <img className="me-1" src={StarHalfFilledIcon} alt="heart-icon" />
+                    <img className="me-1" src={StarIcon} alt="heart-icon" />
                   </div>
-                  <div className="d-flex align-items-center my-3 ">
-                    <p className="mb-0">Ratings 4.5/5.0</p>
-                    <div className="d-flex ms-2">
-                      <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-                      <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-                      <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-                      <img className="me-1" src={StarHalfFilledIcon} alt="heart-icon" />
-                      <img className="me-1" src={StarIcon} alt="heart-icon" />
+                </div>
+                <div className="mb-4">
+                  <div className="d-flex justify-content-between mb-3">
+                    <div className="d-flex">
+                      <img src={WaitClockIcon} alt="Wait-Clock-Icon" />
+                      <p style={{ fontSize: '12px' }} className="ms-2 mb-0">
+                        Duration, <strong> 6 Months</strong>
+                      </p>
+                    </div>
+                    <div className="d-flex">
+                      <img src={CalenderIcon} alt="Wait-Clock-Icon" />
+                      <p style={{ fontSize: '12px' }} className="ms-2 mb-0">
+                        Starts, <strong> {course?.sections?.batches?.value[0][0]?.value}</strong>
+                      </p>
                     </div>
                   </div>
-                  <div className="mb-4">
-                    <div className="d-flex justify-content-between mb-3">
-                      <div className="d-flex">
-                        <img src={WaitClockIcon} alt="Wait-Clock-Icon" />
-                        <p style={{ fontSize: '12px' }} className="ms-2 mb-0">
-                          Duration, <strong> 6 Months</strong>
-                        </p>
-                      </div>
-                      <div className="d-flex">
-                        <img src={CalenderIcon} alt="Wait-Clock-Icon" />
-                        <p style={{ fontSize: '12px' }} className="ms-2 mb-0">
-                          Starts, <strong> 6 Nov 2022</strong>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="d-flex mb-1">
+                  {course?.sections?.highlights?.value?.map((heighlight, index) => (
+                    <div key={index} className="d-flex mb-1">
                       <img src={righrMark} alt="right mark" />
-                      <p className="ms-2 mb-0">Certificate on Completion</p>
+                      <p className="ms-2 mb-0">{heighlight.value}</p>
                     </div>
-                    <div className="d-flex mb-1">
-                      <img src={righrMark} alt="right mark" />
-                      <p className="ms-2 mb-0">Pay After Placement</p>
+                  ))}
+                  {/* <div className="d-flex mb-1">
+                  <img src={righrMark} alt="right mark" />
+                  <p className="ms-2 mb-0">Pay After Placement</p>
+                </div>
+                <div className="d-flex mb-1">
+                  <img src={righrMark} alt="right mark" />
+                  <p className="ms-2 mb-0">No Coding Experience Required</p>
+                </div> */}
+                </div>
+                <div className="button-group">
+                  <div className="row">
+                    <div className="col-sm-6">
+                      {' '}
+                      <Button variant="outline-warning">View Details</Button>
                     </div>
-                    <div className="d-flex mb-1">
-                      <img src={righrMark} alt="right mark" />
-                      <p className="ms-2 mb-0">No Coding Experience Required</p>
+                    <div className="col-sm-6">
+                      {' '}
+                      <Button variant="warning">Apply Now</Button>
                     </div>
                   </div>
-                  <div className="d-flex justify-content-between">
-                    <Button variant="outline-warning">View Details</Button>
-                    <Button variant="warning">Apply Now</Button>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
       </Row>
-    </div>
+    </>
   );
 };
 

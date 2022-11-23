@@ -5,6 +5,9 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import BrandLogo from '../assets/images/unikakha-logo.svg';
 import Notify from '../assets/images/icon-notify.svg';
 import Profileimg from '../assets/images/img-profile-pic.svg';
+import Course from '../assets/images/icon-mycourse.svg';
+import Profile from '../assets/images/icon-myprofile.svg';
+import Logout from '../assets/images/icon-logout.svg';
 
 import '../custom.css';
 import '../pages/auth/auth.css';
@@ -19,8 +22,8 @@ const PrimaryNavbar = () => (
       <Nav className="ms-auto">
         <Nav.Link href="#home">Courses</Nav.Link>
         <Nav.Link href="#features">Event & Content</Nav.Link>
-        <Nav.Link href="#features">Refer a Friend</Nav.Link>
-        <Nav.Link href="#features"> <img src={Notify} alt="notification" /></Nav.Link>
+        <Nav.Link href="#features" className="refer-frd">Refer a Friend</Nav.Link>
+        <Nav.Link href="#features" className='notification-link'> <img src={Notify} alt="notification" /></Nav.Link>
         <Nav.Link href="#features">
         <Dropdown>
       <Dropdown.Toggle  id="dropdown-basic" className="dropdown-design">
@@ -29,9 +32,9 @@ const PrimaryNavbar = () => (
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        <Dropdown.Item href="#/action-1">My Courses</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">My Profile</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">Logout</Dropdown.Item>
+        <Dropdown.Item href="#/action-1"> <img src={Course} alt="profile" />My Courses</Dropdown.Item>
+        <Dropdown.Item href="#/action-2"> <img src={Profile} alt="profile" />My Profile</Dropdown.Item>
+        <Dropdown.Item href="#/action-3"> <img src={Logout} alt="profile" />Logout</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
     </Nav.Link>

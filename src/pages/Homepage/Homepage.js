@@ -1,31 +1,25 @@
 import { getValue } from 'firebase/remote-config';
 import React, { useEffect, useState } from 'react';
 import PrimaryNavbar from '../../components/PrimaryNavbar';
+import Footer from '../../components/Footer';
 import { remoteConfig } from '../../firebase/firebaseAuth';
 import CourseList from './components/CourseList';
 import { fetchAndActivate } from 'firebase/remote-config';
 import ApiService from '../../services/ApiService';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import { Card, Container } from 'react-bootstrap';
-import './style.css';
 import Placementpartner from './components/Placementpartner';
 import { setLoading } from '../../redux/actions/LoaderActions';
 import { useDispatch } from 'react-redux';
-import Loginbanner from '../../assets/images/img-home-banner.png';
-
-import { Carousel } from 'react-bootstrap';
+import Invite from './components/Invite';
+import HeroSection from './components/HeroSection';
 
 const Homepage = () => {
   const [data, setData] = useState({});
-  const [topCourses, setTopCourses] = useState({});
-  const [placementPartner, setplacementPartner] = useState({});
-  const [config, setconfig] = useState({});
-
+  const [topCourses, setTopCourses] = useState([]);
   const dispatch = useDispatch();
+
   const fetchCourseDetails = async (data) => {
     data = data['top-courses']?.item;
-    let res = await ApiService('home/top-courses', `POST`, { course_ids: data });
+    let res = await ApiService('home/top-courses', `POST`, { course_ids: data }, true);
     if (res?.data?.code === 200) {
       setTopCourses(res?.data?.data?.result);
     }
@@ -35,13 +29,11 @@ const Homepage = () => {
     const isFetched = await fetchAndActivate(remoteConfig);
     const temp3 = await getValue(remoteConfig, 'skill_fit_data');
     const responseData = await JSON.parse(temp3._value);
-    console.log('lllll', responseData);
-    setplacementPartner(responseData?.placement_partner_configure);
+    console.log('response fit data', responseData);
     setData(responseData);
     fetchCourseDetails(responseData);
   };
 
-  console.log('topCourses final::', topCourses);
   useEffect(() => {
     setTimeout(() => {
       fetchdata();
@@ -51,69 +43,15 @@ const Homepage = () => {
   return (
     <div>
       <PrimaryNavbar />
-      <div className="hero-banner">
-        <div className="container">
-          <div className="row">
-            <div className="col-sm-6">
-              <div className="hero-banner-left-apart">
-                <img src={Loginbanner} />
-              </div>
-            </div>
-            <div className="col-sm-6">
-              <div className="home-page-slides">
-                <Carousel>
-                  <Carousel.Item>
-                    <div className="bootcamp-item">
-                      <h2>Full-stack development</h2>
-                      <h1>Bootcamp</h1>
-                      <p>
-                        Batch starting <span className="orange">this Saturday</span>
-                      </p>
-                      <div className="btn-item">
-                        <a href="" className="enroll-now">
-                          Enroll Now
-                        </a>
-                      </div>
-                    </div>
-                  </Carousel.Item>
-                  <Carousel.Item>
-                    <div className="bootcamp-item">
-                      <h2>Full-stack development</h2>
-                      <h1>Bootcamp</h1>
-                      <p>
-                        Batch starting <span className="orange">this Saturday</span>
-                      </p>
-                      <div className="btn-item">
-                        <a href="" className="enroll-now">
-                          Enroll Now
-                        </a>
-                      </div>
-                    </div>
-                  </Carousel.Item>
-                  <Carousel.Item>
-                    <div className="bootcamp-item">
-                      <h2>Full-stack development</h2>
-                      <h1>Bootcamp</h1>
-                      <p>
-                        Batch starting <span className="orange">this Saturday</span>
-                      </p>
-                      <div className="btn-item">
-                        <a href="" className="enroll-now">
-                          Enroll Now
-                        </a>
-                      </div>
-                    </div>
-                  </Carousel.Item>
-                </Carousel>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <HeroSection bannerDetails={data?.banner1_configure && data?.banner1_configure} />
       <div className="container">
         <CourseList courses={topCourses && topCourses} />
-        <Placementpartner placementPartner={placementPartner && placementPartner} />
+        <Placementpartner
+          placementPartner={data?.placement_partner_configure && data?.placement_partner_configure}
+        />
+        <Invite />
       </div>
+      <Footer />
     </div>
   );
 };

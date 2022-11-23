@@ -20,7 +20,7 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route
-              path="home"
+              path="dashboard"
               element={
                 <PrivateRoute>
                   <Homepage />

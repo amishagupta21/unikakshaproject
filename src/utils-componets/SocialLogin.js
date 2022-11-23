@@ -7,10 +7,24 @@ import { useNavigate } from 'react-router-dom';
 import { setLoading } from '../redux/actions/LoaderActions';
 import { useDispatch } from 'react-redux';
 import { Button } from 'react-bootstrap';
+import ApiService from '../services/ApiService';
 
 const SocialLogin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const dualAuth = async (userDetail) => {
+    console.log('userDetail', userDetail);
+    let data = {
+      uid: userDetail?.uid,
+      email: userDetail?.email,
+      phone: '1238071892',
+    };
+    const response = await ApiService('user/create', 'POST', data);
+    if (response?.data?.code === 200) {
+      navigate('/dashboard');
+    }
+  };
   return (
     <>
       <div className="d-flex justify-content-between mt-4">
@@ -24,13 +38,8 @@ const SocialLogin = () => {
             dispatch(setLoading(false));
             if (res?.user) {
               localStorage.setItem('user', JSON.stringify(res?.user));
-              toast.success('Log in Succesfull', {
-                theme: 'colored',
-              });
-              setTimeout(() => {
-                toast(`Welcome ${res?.user?.displayName}`);
-              }, 3000);
-              navigate('/home');
+              dualAuth(res?.user);
+              //   navigate('/home');
             }
           }}>
           <img className="mx-2" src={googleIcon} alt="google" />
@@ -43,7 +52,7 @@ const SocialLogin = () => {
             const res = await signInWithFacebook();
             if (res?.user) {
               localStorage.setItem('user', JSON.stringify(res?.user));
-              navigate('/home');
+              navigate('/dashboard');
             }
           }}>
           <img className="mx-2" src={facebookIcon} alt="facebook" />

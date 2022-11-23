@@ -4,30 +4,22 @@ const Placementpartner = ({ placementPartner }) => {
   return (
     <>
       <div className="d-flex justify-content-between">
-        <div>
-          <h6>Our Placement Partners</h6>
-        </div>
+        <h5>Our Placement Partners</h5>
         <div>see all</div>
       </div>
-      <div className="d-flex justify-content-start my-4 flex-wrap">
-        {placementPartner?.items &&
-          placementPartner?.items.map((e) => (
-            <div key={e} className="placement-image-wrapper">
-              <img className="placement-image" src={e} alt={`placement partner image ${e}`} />
-            </div>
-          ))}
-        {placementPartner?.items &&
-          placementPartner?.items.map((e) => (
-            <div key={e} className="placement-image-wrapper">
-              <img className="placement-image" src={e} alt={`placement partner image ${e}`} />
-            </div>
-          ))}
-        {placementPartner?.items &&
-          placementPartner?.items.map((e) => (
-            <div key={e} className="placement-image-wrapper">
-              <img className="placement-image" src={e} alt={`placement partner image ${e}`} />
-            </div>
-          ))}
+      <div className="partner-list">
+        <ul>
+          {placementPartner?.items &&
+            placementPartner?.items.map((partner, index) => (
+              <li key={index + partner}>
+                <img
+                  className="placement-image"
+                  src={partner}
+                  alt={`placement partner image ${partner}`}
+                />
+              </li>
+            ))}
+        </ul>
       </div>
     </>
   );
