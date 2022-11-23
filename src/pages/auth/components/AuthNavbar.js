@@ -1,14 +1,14 @@
 import React from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
-import BrandLogo from '../../../assets/images/unikakha-logo.svg';
-import '../../../custom.css';
-import '../auth.css';
+import { unikakshaLmsLogo } from '../../../assets/images/';
+import '../../../custom.scss';
+import '../auth.scss';
 
 const AuthNavbar = () => (
   <Navbar bg="light" variant="light">
     <Container>
       <Navbar.Brand href="#home">
-        <img src={BrandLogo} alt="Brand Logo" />
+        <img src={unikakshaLmsLogo} alt="Brand Logo" />
       </Navbar.Brand>
       <Nav className="ms-auto">
         <Nav.Link href="#home">Courses</Nav.Link>

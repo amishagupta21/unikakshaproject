@@ -18,7 +18,7 @@ import { toast } from 'react-toastify';
 import Cookies from 'universal-cookie';
 import { setLoading } from '../../redux/actions/LoaderActions';
 import AuthNavbar from './components/AuthNavbar';
-import './auth.css';
+import './auth.scss';
 import LeftBox from './components/LeftBox';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';

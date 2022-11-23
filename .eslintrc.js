@@ -1,10 +1,18 @@
-// module.exports = {
-//   extends: ['eslint:recommended', 'prettier'],
-//   parser: '@babel/eslint-parser',
-//   parserOptions: {
-//     requireConfigFile: false,
-//     ecmaVersion: 2018,
-//   },
+module.exports = {
+  extends: ['eslint:recommended',
+            'standard',
+            'prettier',
+            'plugin:react/jsx-runtime',
+            'plugin:react/recommended'],
+  parser: '@babel/eslint-parser',
+  parserOptions: {
+    requireConfigFile: false,
+    ecmaVersion: 2018,
+    sourceType: "module",
+  },
+  rules: {
+    "react/react-in-jsx-scope": "off",
+  }
 //   env: {
 //     es6: true,
 //   },
@@ -54,4 +62,4 @@
 //     'prefer-const': 'error',
 //     'prefer-template': 'error',
 //   },
-// };
+}

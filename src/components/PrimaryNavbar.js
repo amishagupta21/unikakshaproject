@@ -17,7 +17,7 @@ const PrimaryNavbar = () => (
   <Navbar bg="light" variant="light">
     <Container>
       <Navbar.Brand href="#home">
-        <img src={BrandLogo} alt="Brand Logo" />
+        <img src={unikakshaLmsLogo} alt="Brand Logo" />
       </Navbar.Brand>
       <Nav className="ms-auto">
         <Nav.Link href="#home">Courses</Nav.Link>
