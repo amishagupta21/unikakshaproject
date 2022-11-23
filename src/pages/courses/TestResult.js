@@ -1,6 +1,6 @@
 import { failedbadge, badge, congrats1 } from '../../assets/images';
 import { Row, Button } from 'react-bootstrap';
-import './test-result.scss';
+import './TestResult.scss';
 
 const staticContents = {
     successMessage1: 'You have successfully cleared the test with',
@@ -11,7 +11,7 @@ const staticContents = {
     failedMessage4: 'Thank you!',
 }
 
-const TestResult = ({ testResult }) => {
+const TestResult = ({ nextPage, testResult }) => {
     const { isPassed, marks } = testResult;
     const userName = 'John';
 
@@ -30,6 +30,9 @@ const TestResult = ({ testResult }) => {
                             <p className='my-2 text-primary'>You will get a call from Admission counsellor within next 72 hours </p>
                             <p className='text-secondary stay-tuned'>Stay Tuned!</p>
                         </div>
+                    </div>
+                    <div className='mb-4 status text-primary text-center'>
+                        Your application is being reviewed by our team.
                     </div>
                     <div className='m-auto'>
                         <Button size='lg' className='px-5' variant='secondary' type="button" onClick={() => nextPage()}>Application Status</Button>

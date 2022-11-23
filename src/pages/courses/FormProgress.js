@@ -1,5 +1,5 @@
 import { Step, Stepper } from 'react-form-stepper';
-import './form-progress.scss'
+import './FormProgress.scss'
 
 const MultiStepBar = ({ page, onPageNumberClick }) => {
   const onStepperClick = page => {
@@ -16,6 +16,7 @@ const MultiStepBar = ({ page, onPageNumberClick }) => {
         <Step onClick={() => onStepperClick(4)} label="Application Status" />
         <Step onClick={() => onStepperClick(5)} label="Payment" />
         <Step onClick={() => onStepperClick(6)} label="KYC & Documents" />
+        <Step onClick={() => onStepperClick(7)} label="Enrollment Status" />
       </Stepper>
     </>
   );

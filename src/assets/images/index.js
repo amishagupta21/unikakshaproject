@@ -64,6 +64,11 @@ import iconEnroll from './icon-enroll.svg';
 import editGray from './edit-gray.svg';
 import badge from './badge.svg';
 import failedbadge from './failedbadge.svg';
+import upload from './upload.svg'
+
+import cancelRe from './CourseApplication/cancelre.svg';
+import engineeringTeam from './CourseApplication/engineeringteam.svg';
+import working from './CourseApplication/working.svg';
 
 export {
     iconTwit,
@@ -132,4 +137,8 @@ export {
     congrats1,
     badge,
     failedbadge,
+    cancelRe,
+    engineeringTeam,
+    working,
+    upload,
 };

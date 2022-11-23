@@ -2,11 +2,14 @@ import React from 'react';
 import { Button, ButtonGroup, Card, Col, Container, Form, Row, ToggleButton } from 'react-bootstrap';
 import PhoneInput from 'react-phone-input-2';
 import { arrowBack, calendar1, femaleIcon, hourGlass, maleIcon, workingRemote } from '../../assets/images';
-import './courseapply.scss';
+import './CourseApply.scss';
 import TestResult from './TestResult';
-import MultiStepBar from './form-progress';
+import MultiStepBar from './FormProgress';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import ApplicationStatus from './ApplicationStatus';
+import KYCDocuments from './KYCDocuments';
+import EnrollmentStatus from './EnrollmentStatus';
 
 const highestQualificationOption = [
     { value: '', label: 'Please select' },
@@ -29,7 +32,7 @@ const ColoredLine = ({ color }) => (
 );
 
 const CourseApplication = () => {
-    const [page, setPage] = React.useState(0);
+    const [page, setPage] = React.useState(7);
     const [stepperTitle, setStepperTitle] = React.useState('Personal Details');
     const [mobileNumber, setMobileNumber] = React.useState({ phone: '', data: '' });
     const [whatsAppNumber, setWhatsAppNumber] = React.useState({ phone: '', data: '' });
@@ -79,8 +82,11 @@ const CourseApplication = () => {
                 setPage(6);
                 setStepperTitle('KYC & Documents');
                 break;
+            case 7: setPage(7);
+                setStepperTitle('Enrollment Status');
+                break;
             default:
-                setPage(1);
+                setPage(0);
         }
     };
 
@@ -289,7 +295,7 @@ const CourseApplication = () => {
                                     <Container className='d-flex flex-row justify-content-center'>
                                         <div>
                                             <img style={{ maxWidth: 'max-content' }} src={workingRemote}></img>
-                                            <p className='not-eligible-msg'>{staticContents['notEligible']}</p>
+                                            <p className='not-eligible-msg'>{staticContents.notEligible}</p>
                                         </div>
                                     </Container>
                                 )}
@@ -458,7 +464,22 @@ const CourseApplication = () => {
                 </>)}
                 {page === 3 && (
                     <>
-                        <TestResult testResult={{isPassed: false, marks: 80 }}/>
+                        <TestResult nextPage={nextPage} testResult={{isPassed: true, marks: 80 }}/>
+                    </>
+                )}
+                { page === 4 && (
+                    <>
+                        <ApplicationStatus nextPage={nextPage} ></ApplicationStatus>
+                    </>
+                )}
+                { page === 6 && (
+                    <>
+                        <KYCDocuments nextPage={nextPage} ></KYCDocuments>
+                    </>
+                )}
+                { page === 7 && (
+                    <>
+                        <EnrollmentStatus nextPage={nextPage} ></EnrollmentStatus>
                     </>
                 )}
                 <Row className='d-flex justify-content-end'>

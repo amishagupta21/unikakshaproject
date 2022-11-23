@@ -6,7 +6,6 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
-    "@upstatement/prettier-config": "^1.0.0",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.2",
     "bootstrap-icons": "^1.9.1",
@@ -33,7 +32,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "DISABLE_ESLINT_PLUGIN=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -58,9 +57,12 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
+    "@upstatement/prettier-config": "^1.0.0",
     "eslint": "^8.23.1",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-react": "^7.31.8",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-jsx": "^0.1.0",
+    "eslint-plugin-react": "^7.31.11",
     "prettier": "^2.7.1",
     "sass": "^1.56.1"
   }

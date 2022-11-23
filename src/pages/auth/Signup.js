@@ -25,8 +25,8 @@ const Signup = () => {
 				<LeftBox />
 				<div className="right_box">
 					<div className="right_box_container">
-						<div className='log-in-title'>Sign Up</div>
-						<div href="#" className="resetpassword create-account">
+						<div className='log-in-title 1'>Sign Up</div>
+						<div href="#" className="resetpassword create-account gray">
 							Already have an account?
 							<a href="">
 								<Link to="/login"> Log in</Link>
@@ -69,7 +69,7 @@ const Signup = () => {
 														className="form-group-1 mb-3"
 														as={Col}
 														md="12">
-														<FormLabel>Full Name (As per PAN)</FormLabel>
+														<FormLabel>Full Name<em className="red top">*</em> (As per PAN)</FormLabel>
 														<FormControl
 															placeholder="Enter your name here"
 															type={'text'}
@@ -92,7 +92,7 @@ const Signup = () => {
 														className="form-group-1 mb-3"
 														as={Col}
 														md="12">
-														<FormLabel>Email</FormLabel>
+														<FormLabel>Email<em className="red top">*</em></FormLabel>
 														<FormControl
 															placeholder="Enter your email here"
 															type={'text'}
@@ -110,9 +110,9 @@ const Signup = () => {
 											name="mobileNumber"
 											render={({ field, formProps }) => (
 												<Row className="mb-0">
-													<FormLabel>Enter Number</FormLabel>
+													<FormLabel>Mobile Number<em className="red top">*</em></FormLabel>
 													<PhoneInput
-														placeholder="Enter Number"
+														placeholder="Enter mobile number"
 														country={'us'}
 														value={field.value}
 														onChange={(phone, data) => {
@@ -120,6 +120,8 @@ const Signup = () => {
 															setFieldValue('mobileLength', data.dialCode.length)
 														}}
 													/>
+												<small className="sml-size">We will send you OTP on mobile number and WhatsApp.</small>
+
 												</Row>
 
 											)}
@@ -127,25 +129,28 @@ const Signup = () => {
 										{errors.mobileNumber && touched.mobileNumber ? (
 											<div className="error-text">{errors.mobileNumber}</div>
 										) : null}
-										<label className="mb-3">
+										<label className="mb-3 mt-3 custom-check-lable">
 											<Field className="me-2" type="checkbox" name="subscribe" />
-											By sign up you subcribe to have WhatsApp updates.
+											<span>By sign up you subcribe to have WhatsApp updates.</span>
 										</label>
-										<div className="d-grid gap-2">
+										<div className="d-grid gap-2 mt-3 mb-3">
 											<Button
 												type="submit"
 												variant="info">
 												Sign Up
 											</Button>
 										</div>
-										<div>
-											By clicking sign up you will be agree with our
+										<div className='space-or'>
+<span>OR</span>					</div>
+										<SocialLogin />
+										<div className='policy-terms text-center mt-4'>
+											By clicking sign up you will be agree with our<br/>
 										 <a> terms & conditions </a> and  <a> privacy policy. </a> 
 										</div>
 									</Form>
 								)}
 							/>
-							<SocialLogin />
+						
 						</div>
 					</div>
 				</div>
