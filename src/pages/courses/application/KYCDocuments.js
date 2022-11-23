@@ -1,5 +1,5 @@
 import { Col, Row } from 'react-bootstrap';
-import { upload } from '../../assets/images';
+import { upload } from '../../../assets/images';
 
 import './KYCDocuments.scss';
 

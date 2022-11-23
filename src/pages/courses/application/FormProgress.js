@@ -8,7 +8,7 @@ const MultiStepBar = ({ page, onPageNumberClick }) => {
 
   return (
     <>
-      <Stepper activeStep={page} style={{ margin: '10px 0 10px 0' }}>
+      <Stepper activeStep={page}>
         <Step onClick={() => onStepperClick(0)} label="Personal Details" />
         <Step onClick={() => onStepperClick(1)} label="Education & Work Details" />
         <Step onClick={() => onStepperClick(2)} label="Entrance Test" />

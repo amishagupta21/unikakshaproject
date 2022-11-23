@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, ButtonGroup, Card, Col, Container, Form, Row, ToggleButton } from 'react-bootstrap';
 import PhoneInput from 'react-phone-input-2';
-import { arrowBack, calendar1, femaleIcon, hourGlass, maleIcon, workingRemote } from '../../assets/images';
+import { arrowBack, calendar1, femaleIcon, hourGlass, maleIcon, workingRemote } from '../../../assets/images';
 import './CourseApply.scss';
 import TestResult from './TestResult';
 import MultiStepBar from './FormProgress';
@@ -32,7 +32,7 @@ const ColoredLine = ({ color }) => (
 );
 
 const CourseApplication = () => {
-    const [page, setPage] = React.useState(7);
+    const [page, setPage] = React.useState(6);
     const [stepperTitle, setStepperTitle] = React.useState('Personal Details');
     const [mobileNumber, setMobileNumber] = React.useState({ phone: '', data: '' });
     const [whatsAppNumber, setWhatsAppNumber] = React.useState({ phone: '', data: '' });
@@ -41,6 +41,7 @@ const CourseApplication = () => {
     const [yesOrNoLabel, setYesOrNoLabel] = React.useState('');
     const [highestQualification, setHighestQualification] = React.useState('');
     const [enrolledInProgram, setEnrolledInProgram] = React.useState('');
+    const [showNavButtons, setShowNavButtons] = React.useState(true);
 
     const initialValues1 = { fullname: '', email: '', phone: '', blog: '' };
     const validationSchema = Yup.object().shape({ 
@@ -51,12 +52,17 @@ const CourseApplication = () => {
         dob: Yup.string().required('Date of birth is requied'),
         guardianDetail: Yup.string(),
     });
+    
+    useEffect(() => {
+        setShowNavButtons(true);
+    },[])
 
     const nextPageNumber = pageNumber => {
         switch (pageNumber) {
             case 0:
                 setPage(0);
                 setStepperTitle('Personal Details');
+                setShowNavButtons(true);
                 break;
             case 1:
                 setPage(1);
@@ -129,7 +135,7 @@ const CourseApplication = () => {
                 <Card.Body style={{ padding: 'unset' }} className='d-flex justify-content-between rounded align-items-center'>
                     <div>
                         <Card.Title style={{ fontWeight: '600', color: '#222380' }} className="mb-4">Full Stack Development</Card.Title>
-                        <Card.Subtitle style={{ fontFamily: 'Poppins' }} className="mb-2 text-muted d-flex">
+                        <Card.Subtitle style={{ fontFamily: 'Roboto' }} className="mb-2 text-muted d-flex">
                             <div style={{ fontSize: '12px', paddingRight: '24px' }}>
                                 <img className='me-2' src={hourGlass} alt="back-arrow" />
                                 <span style={{ fontWeight: '400' }}>Duration, </span><span style={{ fontWeight: '600' }}>6 Months</span>
@@ -248,6 +254,18 @@ const CourseApplication = () => {
                             </>
                         )}
                     </Formik>
+                    <Row className='d-flex justify-content-end'>
+                        <Button
+                            className='col-1 me-2 btn btn-outline-secondary'
+                            variant='outline-secondary'
+                            type="button"
+                        >
+                            Cancel
+                        </Button>
+                        <Button className='col-1' variant='secondary' type="button" onClick={() => nextPage()}>
+                            Next
+                        </Button>
+                    </Row>
                 </>)}
                 {page === 1 && (<div>
                     <Form>
@@ -442,6 +460,18 @@ const CourseApplication = () => {
                             </>
                         )}
                     </Form>
+                    <Row className='d-flex justify-content-end'>
+                        <Button
+                            className='col-1 me-2 btn btn-outline-secondary'
+                            variant='outline-secondary'
+                            type="button"
+                        >
+                            Cancel
+                        </Button>
+                        <Button className='col-1' variant='secondary' type="button" onClick={() => nextPage()}>
+                            Next
+                        </Button>
+                    </Row>
                 </div>)}
                 {page === 2 && (<>
                     <Container className='d-flex'>
@@ -464,36 +494,36 @@ const CourseApplication = () => {
                 </>)}
                 {page === 3 && (
                     <>
-                        <TestResult nextPage={nextPage} testResult={{isPassed: true, marks: 80 }}/>
+                        <TestResult nextPage={nextPage} showNavBtn={setShowNavButtons} testResult={{isPassed: true, marks: 80 }}/>
                     </>
                 )}
                 { page === 4 && (
                     <>
-                        <ApplicationStatus nextPage={nextPage} ></ApplicationStatus>
+                        <ApplicationStatus showNavBtn={setShowNavButtons} nextPage={nextPage} ></ApplicationStatus>
                     </>
                 )}
                 { page === 6 && (
                     <>
-                        <KYCDocuments nextPage={nextPage} ></KYCDocuments>
+                        <KYCDocuments showNavBtn={setShowNavButtons} nextPage={nextPage} ></KYCDocuments>
+                        <Row className='d-flex justify-content-end'>
+                            <Button
+                                className='col-1 me-2 btn btn-outline-secondary'
+                                variant='outline-secondary'
+                                type="button"
+                            >
+                                Cancel
+                            </Button>
+                            <Button className='col-1' variant='secondary' type="button" onClick={() => nextPage()}>
+                                Save
+                            </Button>
+                        </Row>
                     </>
                 )}
                 { page === 7 && (
                     <>
-                        <EnrollmentStatus nextPage={nextPage} ></EnrollmentStatus>
+                        <EnrollmentStatus showNavBtn={setShowNavButtons} nextPage={nextPage} ></EnrollmentStatus>
                     </>
                 )}
-                <Row className='d-flex justify-content-end'>
-                    <Button
-                        className='col-1 me-2 btn btn-outline-secondary'
-                        variant='outline-secondary'
-                        type="button"
-                    >
-                        Cancel
-                    </Button>
-                    <Button className='col-1' variant='secondary' type="button" onClick={() => nextPage()}>
-                        Next
-                    </Button>
-                </Row>
             </div>
         </div>
     );

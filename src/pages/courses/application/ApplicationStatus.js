@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { badge, cancelRe, engineeringTeam, working } from '../../assets/images';
+import { badge, cancelRe, engineeringTeam, working } from '../../../assets/images';
 import './ApplicationStatus.scss';
 
 const applicationStatus = {

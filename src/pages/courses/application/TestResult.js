@@ -1,4 +1,4 @@
-import { failedbadge, badge, congrats1 } from '../../assets/images';
+import { failedbadge, badge, congrats1 } from '../../../assets/images';
 import { Row, Button } from 'react-bootstrap';
 import './TestResult.scss';
 
