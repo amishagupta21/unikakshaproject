@@ -9,8 +9,8 @@ import Course from '../assets/images/icon-mycourse.svg';
 import Profile from '../assets/images/icon-myprofile.svg';
 import Logout from '../assets/images/icon-logout.svg';
 
-import '../custom.css';
-import '../pages/auth/auth.css';
+import '../custom.scss';
+import '../pages/auth/auth.scss';
 
 const PrimaryNavbar = () => (
   <div className='custom-header'>

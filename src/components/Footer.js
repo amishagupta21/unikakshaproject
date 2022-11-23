@@ -15,8 +15,8 @@ import twitter from '../assets/images/icon-twitter-unikaksha.svg';
 import payment from '../assets/images/payment-icons.svg';
 
 
-import '../custom.css';
-import '../pages/auth/auth.css';
+import '../custom.scss';
+import '../pages/auth/auth.scss';
 
 const Footer = () => (
   <div className='custom-footer'>
