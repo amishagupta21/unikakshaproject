@@ -15,7 +15,6 @@ import HeroSection from './components/HeroSection';
 const Homepage = () => {
   const [data, setData] = useState({});
   const [topCourses, setTopCourses] = useState([]);
-  const dispatch = useDispatch();
 
   const fetchCourseDetails = async (data) => {
     data = data['top-courses']?.item;

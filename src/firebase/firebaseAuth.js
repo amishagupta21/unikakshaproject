@@ -97,12 +97,12 @@ const sendPasswordReset = async (email) => {
   }
 };
 
-const logout = () => {
+const logout = async () => {
   localStorage.clear();
   toast.success('Logout Successfully', {
     theme: 'colored',
   });
-  signOut(auth);
+  return await signOut(auth);
 };
 export {
   auth,
