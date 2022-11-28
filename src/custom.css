@@ -1142,7 +1142,7 @@ a.refer-frd.nav-link {
   /* max-width: 16.666%; */
   display: flex;
   margin-bottom: 20px;
-  flex: 0 0 16.666%;
+  /* flex: 0 0 16.666%; */
   padding: 0 10px;
 }
 
@@ -1215,4 +1215,66 @@ a.refer-frd.nav-link {
 img.footer-logo {
   margin-left: 10px;
 }
+
+.invite-container-outer:after {
+ 
+  content: '';
+  top: auto;
+  right: -35px;
+  width: 98px;
+  height: 92px;
+  background-size: 47px;
+  bottom: -41px;
+}
+.custom-header .nav-customs {
+  background: #fff;
+  z-index: 99999;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  align-items: inherit;
+  top: 100%;
+  border-top: 1px #e5e5e5 solid;
+  padding-bottom: 40px;
+  padding: 0 20px;
+  padding-bottom: 40px;padding-top: 12px;
+}
+.ms-auto.nav-customs.navbar-nav a {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+button.navbar-toggler {
+  position: absolute;
+  left: 8px;
+  border: 0;
+
+  color: #222380 !important;
+}
+a.navbar-brand {
+  text-align: center;
+  margin: 0 auto;
+}
+a.navbar-brand img {
+  max-width: 100px;
+}
+.navbar-toggler:focus{ box-shadow: none;}
+
+.d-flex.profile-sidebar-unikaksha {
+  position: absolute;
+ 
+  right: -13px;
+}
+a.notification-link-dp.nav-link {
+  padding-left: 10px !important;
+}
+.d-flex.profile-sidebar-unikaksha .navbar-nav { flex-direction: row;}
+span.avatar-name {
+  display: none;
+}
+.ms-auto.nav-customs.navbar-nav a {
+   width:100%; text-align: left;
+}
+.ms-auto.nav-customs.navbar-nav a.refer-frd.nav-link{  padding-left: 20px !important;}
 }

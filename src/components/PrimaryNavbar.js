@@ -28,20 +28,27 @@ const PrimaryNavbar = () => {
       <Navbar.Brand href="#home"> <img src={BrandLogo} alt="Brand Logo" /></Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="ms-auto">
+        <Nav className="ms-auto nav-customs">
         <Nav.Link href="#home">Courses</Nav.Link>
             <Nav.Link href="#features">Event & Content</Nav.Link>
             <Nav.Link href="#features" className="refer-frd">
               Refer a Friend
             </Nav.Link>
-            <Nav.Link href="#features" className="notification-link">
+            
+           
+        </Nav>
+        
+      </Navbar.Collapse>
+      <div className="d-flex profile-sidebar-unikaksha">
+			<Nav className="ms-auto">
+      <Nav.Link href="#features" className="notification-link">
               <img src={Notify} alt="notification" />
             </Nav.Link>
-            <Nav.Link href="#features">
+			 <Nav.Link href="#features" className="notification-link-dp">
               <Dropdown>
                 <Dropdown.Toggle id="dropdown-basic" className="dropdown-design">
-                  <img src={Profileimg} alt="profile" />
-                  <span>John Smith</span>
+                  <img src={Profileimg} alt="profile" className='profile-avatar'/>
+                  <span className='avatar-name'>John Smith</span>
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
@@ -65,8 +72,9 @@ const PrimaryNavbar = () => {
                 </Dropdown.Menu>
               </Dropdown>
             </Nav.Link>
-        </Nav>
-      </Navbar.Collapse>
+                 </Nav>
+                </div>
+
     </Container>
   </Navbar>
       {/* <Navbar bg="light" variant="light">

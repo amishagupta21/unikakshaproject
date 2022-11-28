@@ -1,9 +1,10 @@
+/* eslint no-use-before-define: 0 */  // --> OFF
 import React from 'react';
 import { Carousel } from 'react-bootstrap';
 import Loginbanner from '../../../assets/images/img-home-banner.png';
 
-const HeroSection = ({ bannerDetails }) => {
-  return (
+
+const HeroSection = ({ bannerDetails }) =>  (
     <div className="hero-banner">
       <div className="container">
         <div className="row">
@@ -37,8 +38,6 @@ const HeroSection = ({ bannerDetails }) => {
         </div>
       </div>
     </div>
-    
   );
-};
 
 export default HeroSection;
