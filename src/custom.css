@@ -1177,3 +1177,42 @@ a.refer-frd.nav-link {
   padding: 10px 14px;
   background: #ffffff;
 }
+
+
+
+@media (max-width: 767px) {
+
+.hero-banner-left-apart {
+  position: relative;
+  display: none;
+}
+.home-page-slides {
+  margin-right: 0;
+  margin-top: 0;
+}
+.hero-banner .container{ background-color: transparent;}
+.footer-social-services.list-group {
+  border-bottom: 2px solid #E1EBFF;
+  padding-bottom: 20px;}
+  .col-sm-2-mobile {
+    max-width: 50%;
+}
+.row.align-items-center.row-top-follow .follow-us {
+  border-top: 2px solid #E1EBFF;
+  padding-top: 26px;
+  margin-top: 20px;    padding-bottom: 18px;
+}
+.newletter {
+  position: relative;
+  padding-bottom: 10px;
+}
+.custom-footer hr {
+  display: none;
+}
+.copy-right p.text-right {
+  text-align: center;
+}
+img.footer-logo {
+  margin-left: 10px;
+}
+}

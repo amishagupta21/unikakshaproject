@@ -37,6 +37,7 @@ const HeroSection = ({ bannerDetails }) => {
         </div>
       </div>
     </div>
+    
   );
 };
 

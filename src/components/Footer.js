@@ -1,8 +1,8 @@
 import React from 'react';
-import { Container, Nav, Navbar } from 'react-bootstrap';
+
 import ListGroup from 'react-bootstrap/ListGroup';
 
-import Dropdown from 'react-bootstrap/Dropdown';
+
 import BrandLogo from '../assets/images/unikakha-logo.svg';
 import Call from '../assets/images/call.svg';
 import Whatsapp from '../assets/images/whatsapp.svg';
@@ -24,8 +24,8 @@ const Footer = () => (
  <div className='row'>
  <div className='col-sm-3'>
  <div className='footer-list'>
- <img src={BrandLogo} alt="Brand Logo" />
- <ListGroup className='mt-3'>
+ <img src={BrandLogo} alt="Brand Logo" className='footer-logo'/>
+ <ListGroup className='mt-3 footer-social-services'>
  <ListGroup.Item action href="tel:(+91) 9310575018">
  <img src={Call} alt="Brand Logo" /><span>(+91) 9310575018</span></ListGroup.Item>
       <ListGroup.Item action href="https://wa.me/+919310575018?text=Hello">
@@ -37,7 +37,7 @@ const Footer = () => (
     </ListGroup>
 </div>
 </div>
-<div className='col-sm-2'>
+<div className='col-sm-2 col-sm-2-mobile'>
 <div className='footer-menu mt-2'>
 <ListGroup>
  <ListGroup.Item action href="">
@@ -55,7 +55,7 @@ const Footer = () => (
     </ListGroup>
   </div>
 </div>
-<div className='col-sm-2'>
+<div className='col-sm-2 col-sm-2-mobile'>
 <div className='footer-menu mt-2'>
 <ListGroup>
  <ListGroup.Item action href="">
@@ -73,7 +73,7 @@ const Footer = () => (
     </ListGroup>
   </div>
 </div>
-<div className='col-sm-2'>
+<div className='col-sm-2 col-sm-2-mobile'>
 <div className='footer-menu mt-2'>
 <ListGroup>
  <ListGroup.Item action href="">
@@ -89,7 +89,7 @@ const Footer = () => (
     </ListGroup>
   </div>
 </div>
-<div className='col-sm-3'>
+<div className='col-sm-3 col-sm-2-mobile'>
 <div className='footer-menu mt-2'>
 <ListGroup>
  <ListGroup.Item action href="">
@@ -108,7 +108,7 @@ const Footer = () => (
   </div>
   <hr/>
 
-  <div className='row align-items-center'>
+  <div className='row align-items-center row-top-follow'>
  <div className='col-sm-4'>
  <div className='footer-list'>
  
