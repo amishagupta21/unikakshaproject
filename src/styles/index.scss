@@ -1,24 +1,23 @@
-$theme-colors: (
-    "primary": #363F5E,
-    "secondary": #FF7B30,
-    "info": #2BBEAA,
-    "danger": red,
-    // "success": ,
-    // "danger": ,
-    // "warning": ,
+$theme-colors: ("primary": #5352A3,
+  "secondary": #EF6B29,
+  "info": #2BBEAA,
+  "danger": red,
+  "success": #6c757d,
+  "warning": #ffc107,
+  "light": #f8f9fa,
+  "dark": #212529,
 );
 
-$colors: (
-  "indigo":     #363F5E,
-  "orange":     #FF7B30,
-  "teal":       #2BBEAA,
+$colors: ("indigo": #5352A3,
+  "orange": #EF6B29,
+  "teal": #2BBEAA,
+  "red": red,
 );
 
-@import '../node_modules/bootstrap/scss/bootstrap';
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap');
-@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300ita‌​lic,400italic,500,500italic,700,700italic,900italic,900);
-@import "../src/custom.scss";
-@import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";
+@import '../../node_modules/bootstrap/scss/bootstrap';
+@import url('http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300ita‌​lic,400italic,500,500italic,700,700italic,900italic,900');
+@import "./custom.scss";
+@import "../../node_modules/bootstrap-icons/font/bootstrap-icons.css";
 
 body {
   margin: 0;

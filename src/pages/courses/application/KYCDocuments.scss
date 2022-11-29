@@ -3,17 +3,17 @@
 }
 
 .upload-container {
-    display: flex;
-    padding: 20px;
-    align-items: center;
+    display        : flex;
+    padding        : 20px;
+    align-items    : center;
     justify-content: space-between;
-    border: 1px dashed #8F8799;
-    border-radius: 6px;
+    border         : 1px dashed #8F8799;
+    border-radius  : 6px;
 }
 
 .uploadbtn-text {
     p {
-        font-size: 11px;
+        font-size    : 11px;
         margin-bottom: unset;
     }
 
@@ -22,14 +22,14 @@
     }
 
     h3 {
-        color: var(--bs-indigo);
-        font-size: 14px;
+        color        : var(--bs-indigo);
+        font-size    : 14px;
         margin-bottom: unset;
     }
 }
 
 .upload-btn {
-    display: flex;
+    display        : flex;
     justify-content: space-between;
 
     img {
@@ -37,10 +37,10 @@
     }
 
     p {
-        color: var(--bs-indigo);
+        color                : var(--bs-indigo);
         text-decoration-color: var(--bs-indigo) !important;
-        margin-bottom: unset !important;
-        text-decoration: underline;
+        margin-bottom        : unset !important;
+        text-decoration      : underline;
 
         &:hover {
             cursor: pointer;

@@ -1,22 +1,16 @@
 import React from 'react';
-import { Container, Nav, Navbar } from 'react-bootstrap';
 import ListGroup from 'react-bootstrap/ListGroup';
 
-import Dropdown from 'react-bootstrap/Dropdown';
-import BrandLogo from '../assets/images/unikakha-logo.svg';
 import Call from '../assets/images/call.svg';
-import Whatsapp from '../assets/images/whatsapp.svg';
-import Send from '../assets/images/send.svg';
 import fa from '../assets/images/icon-fa-unikaksha.svg';
 import insta from '../assets/images/icon-insta-unikaksha.svg';
 import linked from '../assets/images/icon-linked-unikaksha.svg';
-import youtube from '../assets/images/icon-youtube-unikaksha.svg';
 import twitter from '../assets/images/icon-twitter-unikaksha.svg';
+import youtube from '../assets/images/icon-youtube-unikaksha.svg';
 import payment from '../assets/images/payment-icons.svg';
-
-
-import '../custom.scss';
-import '../pages/auth/auth.scss';
+import Send from '../assets/images/send.svg';
+import BrandLogo from '../assets/images/unikaksha-logo.svg';
+import Whatsapp from '../assets/images/whatsapp.svg';
 
 const Footer = () => (
   <div className='custom-footer'>

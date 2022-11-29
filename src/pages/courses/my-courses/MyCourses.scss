@@ -5,7 +5,7 @@
     margin-bottom: 5px;
 }
 
-.course-application {
+.course-application-list {
     .card {
         border-radius: 15px;
         border: none;
@@ -79,44 +79,6 @@
     .course-image {
         img {
             border-radius: 6px;
-        }
-    }
-}
-
-.invitation {
-    .card {
-        background-color: #FFFBF2;
-    }
-
-    .card-header {
-        border-bottom: unset;
-        background-color: unset;
-        font-weight: 500;
-        font-size: 18px;
-    }
-
-    .card-body {
-        padding: 0 1rem !important;
-        p {
-            margin-bottom: unset;
-            margin-right: 5px;
-            font-size: 14px;
-        }
-    }
-    
-    .card-footer {
-        background-color: unset;
-        border-top: unset;
-        a {
-            color: #3BAACF !important;
-        }
-
-        svg {
-            transform: rotate(180deg);
-
-            path {
-                fill: #3BAACF;
-            }
         }
     }
 }

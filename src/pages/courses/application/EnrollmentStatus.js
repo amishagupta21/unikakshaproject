@@ -9,12 +9,8 @@ const staticContents = {
     goToDashboard: 'Go to Dashboard',
 }
 
-const EnrollmentStatus = ({ showNavBtn }) => {
+const EnrollmentStatus = () => {
     const navigate = useNavigate();
-
-    useEffect(() => {
-        showNavBtn(false);
-    },[])
 
     const goToDashboard = () => {
         navigate('/my-courses');

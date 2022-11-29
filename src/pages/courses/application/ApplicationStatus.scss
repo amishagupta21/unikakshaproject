@@ -3,18 +3,19 @@
 }
 
 .message1 {
-    font-size: 24px;
+    font-size  : 24px;
     font-weight: 600;
 }
 
-.message2, .message3 {
+.message2,
+.message3 {
     font-size: 20px;
 }
 
 .content-box {
-    padding: 20px 80px;
+    padding      : 20px 80px;
     border-radius: 10px;
-    
+
     &.rejected {
         border: 1px solid #FF3838;
     }

@@ -1,16 +1,16 @@
-import { getValue } from 'firebase/remote-config';
+import { fetchAndActivate, getValue } from 'firebase/remote-config';
 import React, { useEffect, useState } from 'react';
-import PrimaryNavbar from '../../components/PrimaryNavbar';
-import Footer from '../../components/Footer';
-import { remoteConfig } from '../../firebase/firebaseAuth';
-import CourseList from './components/CourseList';
-import { fetchAndActivate } from 'firebase/remote-config';
-import ApiService from '../../services/ApiService';
-import Placementpartner from './components/Placementpartner';
-import { setLoading } from '../../redux/actions/LoaderActions';
+import { Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import Invite from './components/Invite';
+import Footer from '../../components/Footer';
+import InviteNow from '../../components/InviteNow';
+import PrimaryNavbar from '../../components/PrimaryNavbar';
+import { remoteConfig } from '../../firebase/firebaseAuth';
+import ApiService from '../../services/ApiService';
+import CourseList from './components/CourseList';
 import HeroSection from './components/HeroSection';
+import Invite from './components/Invite';
+import Placementpartner from './components/Placementpartner';
 
 const Homepage = () => {
   const [data, setData] = useState({});
@@ -49,7 +49,10 @@ const Homepage = () => {
         <Placementpartner
           placementPartner={data?.placement_partner_configure && data?.placement_partner_configure}
         />
-        <Invite />
+        {/* <Invite /> */}
+        <Row className='d-flex justify-content-center my-4' lg={2}>
+          <InviteNow />
+        </Row>
       </div>
       <Footer />
     </div>

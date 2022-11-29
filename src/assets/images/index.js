@@ -29,7 +29,6 @@ import calendar1 from './calendar1.svg';
 import logo from './logo.svg';
 import logInBanner1 from './log-in-banner1.svg';
 import iconLinkedNew from './icon-linked-new.png';
-import unikakshaLmsLogo from './unikaksha-logo.svg';
 import iconSearch from './icon-search.svg';
 import FacebookIcon from './Facebook-icon.svg';
 import iconMailUni from './icon-mail-uni.svg';
@@ -101,7 +100,6 @@ export {
     logo,
     logInBanner1,
     iconLinkedNew,
-    unikakshaLmsLogo,
     iconSearch,
     FacebookIcon,
     iconMailUni,

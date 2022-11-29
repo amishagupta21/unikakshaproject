@@ -1,10 +1,12 @@
 import React from "react";
-import { Button, Card, Nav, Row } from "react-bootstrap";
+import { Button, Card, Nav, Row, Col } from "react-bootstrap";
 import './MyCourses.scss';
 import { hand, arrowBack, wrappedGift, hourGlass, calendar1 } from "../../../assets/images";
 import { ReactComponent as HourGlass } from '../../../assets/images/hour-glass.svg';
 import { ReactComponent as ArrowFront } from '../../../assets/images/arrow-back.svg';
 import MultiStepBar from '../application/FormProgress';
+import Footer from "../../../components/Footer";
+import InviteNow from '../../../components/InviteNow';
 
 const Hand = () => {
     return (
@@ -22,8 +24,8 @@ const MyCourses = () => {
 
     return (
         <>
-            <div className="d-flex flex-row mx-5 my-5">
-                <div className="applied-courses col-9 me-4">
+            <Row className="d-flex flex-row mx-5 my-5">
+                <Col className="applied-courses me-4" lg={9}>
                     <div className="mb-5">
                         <p className="welcome-note">
                             <Hand />
@@ -31,7 +33,7 @@ const MyCourses = () => {
                         </p>
                         <p>Lörem ipsum ultrarade samyde völ. Sask pseudoment påmyskapet. Ihet rer: för pilingar jiviv.</p>
                     </div>
-                    <div className='course-application'>
+                    <div className='course-application-list'>
                         <h3 className='text-primary'>Course Application</h3>
                         <Card className="p-3">
                             <div className='d-flex flex-row'>
@@ -77,18 +79,13 @@ const MyCourses = () => {
                             </Card.Footer>
                         </Card>
                     </div>
-                </div>
-                <div className='invitation'>
-                    <Card>
-                        <Card.Header>Invite your friends</Card.Header>
-                        <Card.Body className='d-flex align-items-center'>
-                            <p>Enroll for as many techfit courses as you like for Free</p>
-                            <img src={wrappedGift}></img>
-                        </Card.Body>
-                        <Card.Footer><Nav.Link>Invite Now <ArrowFront src={arrowBack} /></Nav.Link></Card.Footer>
-                    </Card>
-                </div>
-            </div>
+                </Col>
+                {/* <InviteNow /> */}
+                <Col lg={3}>
+                    <InviteNow />
+                </Col>
+            </Row>
+            <Footer />
         </>
     );
 };

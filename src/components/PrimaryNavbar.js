@@ -2,22 +2,19 @@ import React from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 
 import Dropdown from 'react-bootstrap/Dropdown';
-import BrandLogo from '../assets/images/unikakha-logo.svg';
+import BrandLogo from '../assets/images/unikaksha-logo.svg';
 import Notify from '../assets/images/icon-notify.svg';
 import Profileimg from '../assets/images/img-profile-pic.svg';
 import Course from '../assets/images/icon-mycourse.svg';
 import Profile from '../assets/images/icon-myprofile.svg';
 import Logout from '../assets/images/icon-logout.svg';
 
-import '../custom.scss';
-import '../pages/auth/auth.scss';
-
 const PrimaryNavbar = () => (
   <div className='custom-header'>
   <Navbar bg="light" variant="light">
     <Container>
       <Navbar.Brand href="#home">
-        <img src={unikakshaLmsLogo} alt="Brand Logo" />
+        <img src={BrandLogo} alt="Brand Logo" />
       </Navbar.Brand>
       <Nav className="ms-auto">
         <Nav.Link href="#home">Courses</Nav.Link>

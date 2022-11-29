@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import CourseApplication from './pages/courses/application/CourseApply';
 import Homepage from './pages/Homepage/Homepage';
 import MyCourses from './pages/courses/my-courses/MyCourses';
+import Footer from './components/Footer';
 
 const App = () => {
   const isLoader = useSelector((state) => state?.loader?.isLoading);
@@ -39,6 +40,7 @@ const App = () => {
             <Route path="*" element={<Error />} />
           </Routes>
         </BrowserRouter>
+
       ) : (
         <Loader />
       )}

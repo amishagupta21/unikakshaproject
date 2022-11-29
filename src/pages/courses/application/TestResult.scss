@@ -1,39 +1,40 @@
 .marks-title {
-    font-size: 24px;
+    font-size  : 24px;
     font-weight: 700;
 }
 
 .marks {
-    color: #2DD63E;
-    font-size: 48px;
+    color      : #2DD63E;
+    font-size  : 48px;
     font-weight: 500;
 }
 
 .passed-container {
     border-radius: 10px;
-    border-color: #2DD63E !important;
+    border-color : #2DD63E !important;
 
     div {
         .stay-tuned {
-            color: var(--bs-orange) !important;
-            font-size: 20px;
+            color      : var(--bs-orange) !important;
+            font-size  : 20px;
             font-weight: 500;
         }
     }
 }
 
 .status {
-    font-size: 24px;
+    font-size  : 24px;
     font-weight: 600;
 }
 
 .username {
-    font-size: 48px;
+    font-size  : 48px;
     font-weight: 500;
 }
 
 .failed-container {
     border-radius: 9px;
+
     div p:last-child {
         font-weight: 500;
     }
