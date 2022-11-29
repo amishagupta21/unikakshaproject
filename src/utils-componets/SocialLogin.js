@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import ApiService from '../services/ApiService';
 
-const SocialLogin = () => {
+const SocialLogin = ({ setFieldValue }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -36,10 +36,12 @@ const SocialLogin = () => {
             const res = await signInWithGoogle();
             console.log('response latest=>>', res);
             dispatch(setLoading(false));
+            // setFieldValue('email', 'test@yopmail.com');
+            // setFieldValue('fullName', 'Testng');
             if (res?.user) {
               localStorage.setItem('user', JSON.stringify(res?.user));
               dualAuth(res?.user);
-              //   navigate('/home');
+              navigate('/info');
             }
           }}>
           <img className="mx-2" src={googleIcon} alt="google" />
@@ -50,6 +52,8 @@ const SocialLogin = () => {
           variant="outline-dark"
           onClick={async () => {
             const res = await signInWithFacebook();
+            setFieldValue('email', 'test@yopmail.com');
+            setFieldValue('fullName', 'Testng');
             if (res?.user) {
               localStorage.setItem('user', JSON.stringify(res?.user));
               navigate('/dashboard');
