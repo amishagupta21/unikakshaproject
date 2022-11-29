@@ -1178,9 +1178,15 @@ a.refer-frd.nav-link {
   background: #ffffff;
 }
 
-
-
-@media (max-width: 767px) {
+.payment img {
+  max-width: 100%;
+}
+@media (max-width: 1024px) {
+.custom-footer a.list-group-item , .custom-footer .list-group-item{ font-size: 12px;
+}
+.newletter input{ padding-left: 10px;}
+}
+@media (max-width: 991px) {
 
 .hero-banner-left-apart {
   position: relative;
@@ -1195,7 +1201,7 @@ a.refer-frd.nav-link {
   border-bottom: 2px solid #E1EBFF;
   padding-bottom: 20px;}
   .col-sm-2-mobile {
-    max-width: 50%;
+    max-width: 50%;width:50%;
 }
 .row.align-items-center.row-top-follow .follow-us {
   border-top: 2px solid #E1EBFF;
@@ -1264,7 +1270,7 @@ a.navbar-brand img {
 .d-flex.profile-sidebar-unikaksha {
   position: absolute;
  
-  right: -13px;
+  right: 0;
 }
 a.notification-link-dp.nav-link {
   padding-left: 10px !important;
@@ -1282,5 +1288,20 @@ section.vacancy.vacancy-custom .col-xs-9 {
 }
 section.vacancy.vacancy-custom .col-xs-3 {
   width: 45%;
+}
+.row.align-items-center.row-top-follow .col-sm-4 {
+  flex: 0 0 auto;
+  width: 100%;
+}
+.row.align-items-center.row-top-follow .col-sm-4 {
+  flex: 0 0 auto;
+  width: 100%;
+}
+.custom-footer .col-sm-3 {
+  flex: 0 0 auto;
+  width: 100%;
+}
+.hero-banner .col-sm-6 {
+  width: 100%;
 }
 }
