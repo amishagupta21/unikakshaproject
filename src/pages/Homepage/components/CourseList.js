@@ -1,7 +1,7 @@
 import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { Card, Container } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import courseImage from '../../../assets/images/courses/course1-image.png';
 import righrMark from '../../../assets/images/courses/icons/right-mark.svg';
@@ -13,7 +13,7 @@ import WaitClockIcon from '../../../assets/images/courses/icons/wait-sandclock-i
 import CalenderIcon from '../../../assets/images/courses/icons/CalenderIcon.svg';
 
 const CourseList = ({ courses }) => {
-  console.log('courses =>>::', courses);
+  console.log('courses =>>::', courses[0]?.sections);
   return (
     <>
       <div className="d-flex justify-content-between">
@@ -77,11 +77,9 @@ const CourseList = ({ courses }) => {
                 <div className="button-group">
                   <div className="row">
                     <div className="col-sm-6">
-                      {' '}
                       <Button variant="outline-warning">View Details</Button>
                     </div>
                     <div className="col-sm-6">
-                      {' '}
                       <Button variant="warning">Apply Now</Button>
                     </div>
                   </div>
