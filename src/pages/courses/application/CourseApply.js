@@ -38,6 +38,7 @@ const CourseApplication = () => {
     const { state } = useLocation();
 
     useEffect(() => {
+        window.scrollTo(0, 0)
         setUser(JSON.parse(localStorage.getItem('user')))
         setCourseDetails(state);
         nextPageNumber(steps.indexOf('personal_details'));
