@@ -15,9 +15,19 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import EducationDetails from './EducationDetails';
 import ApiService from '../../../services/ApiService';
 
+const steps = ["personal_details",
+    "education_details",
+    "entrance_test",
+    "test_result",
+    "application_status",
+    "payment",
+    "kyc_documents",
+    "enrollment_status"
+]
+
 const CourseApplication = () => {
     const [page, setPage] = React.useState(6);
-    const [stepperTitle, setStepperTitle] = React.useState('Personal Details');
+    const [stepperTitle, setStepperTitle] = React.useState('');
     const [mobileState, setMobileNumber] = React.useState({ phone: '', data: '' });
     const [whatsAppState, setWhatsAppNumber] = React.useState({ phone: '', data: '' });
     const [genderValue, setGenderValue] = React.useState('');
@@ -30,6 +40,7 @@ const CourseApplication = () => {
     useEffect(() => {
         setUser(JSON.parse(localStorage.getItem('user')))
         setCourseDetails(state);
+        nextPageNumber(steps.indexOf('personal_details'));
     }, [])
 
     const formPersonalDetailsPayload = async (personalDetails) => {
