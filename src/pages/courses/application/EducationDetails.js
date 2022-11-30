@@ -1,9 +1,8 @@
-import { Button, ButtonGroup, Col, Form, Row, ToggleButton } from "react-bootstrap";
+import { Button, ButtonGroup, Col, Container, Form, Row, ToggleButton } from "react-bootstrap";
 import { workingRemote } from '../../../assets/images';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import React from "react";
-
 
 const highestQualificationOption = [
     { value: '', label: 'Please select' },
@@ -25,7 +24,7 @@ const ColoredLine = ({ color }) => (
     />
 );
 
-const EducationDetails = () => {
+const EducationDetails = ({ nextPage }) => {
     const [graduatedYesOrNo, setGraduatedYesOrNo] = React.useState('nil');
     const [yesOrNoLabel, setYesOrNoLabel] = React.useState('');
     const [highestQualification, setHighestQualification] = React.useState('');
@@ -36,6 +35,24 @@ const EducationDetails = () => {
         setYesOrNoLabel(option[0].yesNoLabel);
         setHighestQualification(option[0].value);
     };
+
+    const formik = useFormik({
+        initialValues: { fullname: '', email: '' },
+        validationSchema: Yup.object().shape({ 
+            position: Yup.string().required('Name is required'),
+            experience: Yup.string().required(),
+            organization_name: Yup.string().required(),
+            highest_qualification: Yup.string().required(),
+            is_enrolled_other_program: Yup.string().required(),
+            other_program_name: Yup.string().required(),
+            other_program_college_name: Yup.string().required(),
+            other_program_course_duration: Yup.string().required(),
+        }),
+        validate: values => {
+        },
+        onSubmit: values => {
+        }
+    })
 
     const yesNo = [
         { name: 'Yes', value: 'yes' },

@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
-import { Button, Card, Nav, Row, Col } from "react-bootstrap";
-import './MyCourses.scss';
-import { hand, arrowBack, wrappedGift, hourGlass, calendar1 } from "../../../assets/images";
+import { Button, Card, Col } from "react-bootstrap";
+import { calendar1, hand, hourGlass } from "../../../assets/images";
 import { ReactComponent as HourGlass } from '../../../assets/images/hour-glass.svg';
-import { ReactComponent as ArrowFront } from '../../../assets/images/arrow-back.svg';
-import MultiStepBar from '../application/FormProgress';
 import Footer from "../../../components/Footer";
 import InviteNow from '../../../components/InviteNow';
+import PrimaryNavBar from '../../../components/PrimaryNavbar';
 import ApiService from '../../../services/ApiService';
+import MultiStepBar from '../application/FormProgress';
+import './MyCourses.scss';
 
 const Hand = () => {
     return (
@@ -28,19 +28,16 @@ const steps = ["personal_details",
 const MyCourses = () => {
 
     const [userName, setUserName] = React.useState('John');
-    const [formProgress, setFormProgress] = React.useState({});
     const [applicationList, setApplicationList] = React.useState();
 
     const fetchInitialData = async() => {
         const response = await ApiService('/student/application/list', 'GET', {}, true)
         const { data } = response;
         setApplicationList(data?.data);
-        formProgressStage(data?.data.application_stage);
     }
 
-    const formProgressStage = (state) => {
-        const page = steps.indexOf(state);
-        setFormProgress({ page })
+    const setStepperStage = (stage) => {
+        return steps.indexOf(stage);
     }
 
     useEffect(() => {
@@ -48,8 +45,9 @@ const MyCourses = () => {
     }, [])
 
     return (
-        <>
-            <div className="d-flex flex-row mx-5 my-5">
+        <>  
+            <PrimaryNavBar />
+            <div className="my-courses d-flex flex-row mx-auto my-5">
                 <Col className="applied-courses me-4" lg={9}>
                     <div className="mb-5">
                         <p className="welcome-note">
@@ -89,7 +87,7 @@ const MyCourses = () => {
                                                 </div>
                                             </Card.Subtitle>
                                             <Card.Body className='application-status'>
-                                                <MultiStepBar page={formProgress.page} />
+                                                <MultiStepBar page={setStepperStage(application?.application_stage)} />
                                             </Card.Body>
                                         </div>
                                     </div>
