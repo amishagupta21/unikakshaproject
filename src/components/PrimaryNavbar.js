@@ -10,7 +10,7 @@ import Profile from '../assets/images/icon-myprofile.svg';
 import Logout from '../assets/images/icon-logout.svg';
 
 import '../custom.css';
-import '../pages/auth/auth.css';
+import '../pages/auth/auth.scss';
 import { logout } from '../firebase/firebaseAuth';
 import { useNavigate } from 'react-router-dom';
 

@@ -1,7 +1,8 @@
 import { Button, ButtonGroup, Col, Form, Row, ToggleButton } from "react-bootstrap";
-import { arrowBack, calendar1, femaleIcon, hourGlass, maleIcon, workingRemote } from '../../../assets/images';
+import { workingRemote } from '../../../assets/images';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import React from "react";
 
 
 const highestQualificationOption = [
@@ -25,6 +26,22 @@ const ColoredLine = ({ color }) => (
 );
 
 const EducationDetails = () => {
+    const [graduatedYesOrNo, setGraduatedYesOrNo] = React.useState('nil');
+    const [yesOrNoLabel, setYesOrNoLabel] = React.useState('');
+    const [highestQualification, setHighestQualification] = React.useState('');
+    const [enrolledInProgram, setEnrolledInProgram] = React.useState('');
+
+    const onQualificationChange = value => {
+        const option = highestQualificationOption.filter(e => e.value === value.target.value);
+        setYesOrNoLabel(option[0].yesNoLabel);
+        setHighestQualification(option[0].value);
+    };
+
+    const yesNo = [
+        { name: 'Yes', value: 'yes' },
+        { name: 'No', value: 'no' },
+    ];
+
     return (
         <div>
             <Form>
@@ -163,7 +180,7 @@ const EducationDetails = () => {
                     <Row className='d-flex mb-2 justify-content-center align-items-center'>
                         <span className='sections'>Additional Course Details</span><Col><ColoredLine color='grey'/></Col>
                     </Row>
-                    <Row className='mb-5'>
+                    <Row className='mb-4'>
                         <Form.Group as={Col} md={4} controlId="enrolledInProgram">
                             <Row>
                                 <Form.Label>Are you enrolled into any other program
@@ -188,6 +205,26 @@ const EducationDetails = () => {
                                     ))}
                                 </ButtonGroup>
                             </Row>
+                        </Form.Group>
+                    </Row>
+                    <Row className="mb-5">
+                        <Form.Group as={Col} controlId="programName">
+                            <Form.Label>Program Name
+                                <span className="text-danger">*</span>
+                            </Form.Label>
+                            <Form.Control name='programName' type="text" placeholder="Program name" />
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="collegeName">
+                            <Form.Label>College/Insitute Name<span className="text-danger">*</span></Form.Label>
+                            <Form.Control type="date" name='collegeName'></Form.Control>
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="programDuration">
+                            <Form.Label>Duration in months
+                                <span className="text-danger">*</span>
+                            </Form.Label>
+                            <Form.Control name="programDuration" type="text" placeholder="Duration in months" />
                         </Form.Group>
                     </Row>
                     <Row className='d-flex flex-column'>

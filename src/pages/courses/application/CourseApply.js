@@ -11,8 +11,9 @@ import ApplicationStatus from './ApplicationStatus';
 import KYCDocuments from './KYCDocuments';
 import EnrollmentStatus from './EnrollmentStatus';
 import Footer from '../../../components/Footer'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import EducationDetails from './EducationDetails';
+import ApiService from '../../../services/ApiService';
 
 const CourseApplication = () => {
     const [page, setPage] = React.useState(6);
@@ -20,12 +21,32 @@ const CourseApplication = () => {
     const [mobileState, setMobileNumber] = React.useState({ phone: '', data: '' });
     const [whatsAppState, setWhatsAppNumber] = React.useState({ phone: '', data: '' });
     const [genderValue, setGenderValue] = React.useState('');
-    const [graduatedYesOrNo, setGraduatedYesOrNo] = React.useState('nil');
-    const [yesOrNoLabel, setYesOrNoLabel] = React.useState('');
-    const [highestQualification, setHighestQualification] = React.useState('');
-    const [enrolledInProgram, setEnrolledInProgram] = React.useState('');
+    const [courseDetails, setCourseDetails] = React.useState({});
+    const [user, setUser] = React.useState({});
 
     const navigate = useNavigate();
+    const { state } = useLocation();
+
+    useEffect(() => {
+        setUser(JSON.parse(localStorage.getItem('user')))
+        setCourseDetails(state);
+    }, [])
+
+    const formPersonalDetailsPayload = async (personalDetails) => {
+        const payload = {
+            uid: user?.uid,
+            course_id: courseDetails?.id,
+            course_title: courseDetails?.course_title,
+            course_duration: 4,
+            course_start_date: "12th December 2022",
+            personal_details: personalDetails
+        }
+        const response = await ApiService('/student/personal-details', `POST`, payload, true);
+        console.log(response)
+        if(response?.data.code === 200) {
+            nextPage();
+        }
+    }
 
     const formik = useFormik({
         initialValues: { fullname: '', email: '' },
@@ -42,26 +63,26 @@ const CourseApplication = () => {
             let errors = {};
             if(!values.mobileNumber) {
                 errors.mobileNumber = '*Mobile number required';
-            } else if(values.whatsAppNumber) {
+            } else if(!values.whatsAppNumber) {
                 errors.whatsAppNumber = '*Whatsapp number required';
             }
             return errors;
         },
         onSubmit: values => {
-            const { fullname, email, mobileNumber, whatsAppNumber, guardianDetail, ...rest } = values;
-            let personalDetails = {
+            const { fullname, mobileNumber, whatsAppNumber, guardianDetail, ...rest } = values;
+            const personalDetails = {
                 full_name: fullname,
-                mobile_number: mobileNumber,
-                mobile_cc: mobileState.data.dialCode,
-                whatsapp_number: whatsAppNumber,
-                whatsapp_cc: whatsAppState.data.dialCode,
+                mobile_number: `+${mobileNumber}`,
+                mobile_cc: `+${mobileState.data.dialCode}`,
+                whatsapp_number: `+${whatsAppNumber}`,
+                whatsapp_cc: `+${whatsAppState.data.dialCode}`,
                 guardian_details: guardianDetail,
                 ...rest
             }
-            
+            formPersonalDetailsPayload(personalDetails);
         }
     })
-    
+
     const nextPageNumber = pageNumber => {
         switch (pageNumber) {
             case 0:
@@ -105,15 +126,9 @@ const CourseApplication = () => {
     }
 
     const nextPage = () => {
-        // const nextPage = page + 1;
-        // setPage(nextPage);
-        // nextPageNumber(nextPage);
-    };
-
-    const onQualificationChange = value => {
-        const option = highestQualificationOption.filter(e => e.value === value.target.value);
-        setYesOrNoLabel(option[0].yesNoLabel);
-        setHighestQualification(option[0].value);
+        const nextPage = page + 1;
+        setPage(nextPage);
+        nextPageNumber(nextPage);
     };
 
     const copyFromMobileNumber = value => {
@@ -128,11 +143,6 @@ const CourseApplication = () => {
         { name: 'Female', value: 'female', icon: femaleIcon },
     ];
 
-    const yesNo = [
-        { name: 'Yes', value: 'yes' },
-        { name: 'No', value: 'no' },
-    ];
-
     return (
         <>
             <div className='px-5 my-5 mx-5 course-application'>
@@ -144,7 +154,7 @@ const CourseApplication = () => {
                 <Card className='view-course border'>
                     <Card.Body style={{ padding: 'unset' }} className='d-flex justify-content-between rounded align-items-center'>
                         <div>
-                            <Card.Title style={{ fontWeight: '600', color: '#222380' }} className="mb-4">Full Stack Development</Card.Title>
+                            <Card.Title style={{ fontWeight: '600', color: '#222380' }} className="mb-4">{courseDetails.course_title}</Card.Title>
                             <Card.Subtitle style={{ fontFamily: 'Roboto' }} className="mb-2 text-muted d-flex">
                                 <div style={{ fontSize: '12px', paddingRight: '24px' }}>
                                     <img className='me-2' src={hourGlass} alt="back-arrow" />
@@ -152,7 +162,7 @@ const CourseApplication = () => {
                                 </div>
                                 <div style={{ fontSize: '12px' }}>
                                     <img className='me-2' src={calendar1} alt="back-arrow" />
-                                    <span style={{ fontWeight: '400' }}>Starts, </span><span style={{ fontWeight: '600' }}>14 Nov 2022</span>
+                                    <span style={{ fontWeight: '400' }}>Starts, </span><span style={{ fontWeight: '600' }}>{courseDetails.course_variant_sections?.batches?.value[0][0].value}</span>
                                 </div>
                             </Card.Subtitle>
                         </div>
@@ -206,12 +216,12 @@ const CourseApplication = () => {
                                                 country={'in'}
                                                 value={whatsAppState.phone}
                                                 onChange={(phone, data) => {
-                                                    formik.setFieldValue('whatsAppNumber', phone);
                                                     setWhatsAppNumber({ phone, data });
+                                                    formik.setFieldValue('whatsAppNumber', phone);
                                                 }}
                                                 onBlur={formik.handleBlur('whatsAppNumber')}
                                             />
-                                            {formik.touched.whatsAppNumber && formik.errors.whatsAppNumber ? (<div className="error-message">{formik.errors.whatsAppNumber}</div>) : null}
+                                            {formik.touched.whatsAppNumber && formik.errors.whatsAppNumber ? (<div className="error-message  mt-3">{formik.errors.whatsAppNumber}</div>) : null}
                                             <Form.Check style={{ paddingLeft: '1.5em !important' }} type="checkbox" onChange={value => (copyFromMobileNumber(value))} label="Same as mobile number" />
                                         </Form.Group>
 
@@ -264,7 +274,7 @@ const CourseApplication = () => {
                                         >
                                             Cancel
                                         </Button>
-                                        <Button className='col-1' disabled={!(formik.isValid && formik.dirty)} variant='secondary' type="submit" onClick={() => nextPage()}>
+                                        <Button className='col-1' disabled={!(formik.isValid && formik.dirty)} variant='secondary' type="submit">
                                             Next
                                         </Button>
                                     </Row>
