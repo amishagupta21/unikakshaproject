@@ -3,21 +3,56 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import FormControl from 'react-bootstrap/FormControl';
 import FormGroup from 'react-bootstrap/FormGroup';
 import FormLabel from 'react-bootstrap/FormLabel';
 import { Form, Field, Formik } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import { firebase } from '../../firebase/firebase';
 import { useDispatch } from 'react-redux';
 import SocialLogin from '../../utils-componets/SocialLogin';
 import LeftBox from './components/LeftBox';
 import AuthNavbar from './components/AuthNavbar';
-import PhoneInput from 'react-phone-input-2'
+import PhoneInput from 'react-phone-input-2';
+import { toast } from 'react-toastify';
 
 const Signup = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+
+	const configureCaptcha = () =>
+	(window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
+		size: 'invisible',
+		callback: (response) => { },
+		defaultCountry: 'IN',
+	}));
+
+	const sendOTP = async (values) => {
+		const appVerifier = configureCaptcha();
+		// dispatch(setLoading(true))
+		firebase
+			.auth()
+			.signInWithPhoneNumber(`+${values.phoneNumber}`, appVerifier)
+			.then(async (confirmationResult) => {
+				window.confirmationResult = confirmationResult;
+				// dispatch(setLoading(false))
+				toast.success('OTP has been Sent to Mobile Number', {
+					theme: 'colored',
+				});
+
+				navigate('/signup-otp', {
+					state: {
+						values: values,
+					},
+				});
+			})
+			.catch((error) => {
+				toast.error(`${error}`, {
+					theme: 'colored',
+				});
+				dispatch(setLoading(false));
+			});
+	};
 	return (
 		<>
 			<AuthNavbar />
@@ -41,13 +76,14 @@ const Signup = () => {
 									subscribe: false
 								}}
 								validationSchema={Yup.object().shape({
-									fullName: Yup.string(),
-									email: Yup.string(),
-									mobileNumber: Yup.number()
+									fullName: Yup.string().required('Required'),
+									email: Yup.string().email('Invalid email').required('Required'),
+									mobileNumber: Yup.string().min(10, "Too short").required('Required')
 								})}
 								onSubmit={(values) => {
 									const { fullName, email, mobileNumber } = values;
 									console.log("values::", values);
+									sendOTP(values)
 								}}
 								render={({
 									handleChange,
@@ -57,7 +93,8 @@ const Signup = () => {
 									errors,
 									touched,
 									validateForm,
-									setFieldValue
+									setFieldValue,
+									isValid
 								}) => (
 									<Form>
 										<Field
@@ -120,7 +157,7 @@ const Signup = () => {
 															setFieldValue('mobileLength', data.dialCode.length)
 														}}
 													/>
-												<small className="sml-size">We will send you OTP on mobile number and WhatsApp.</small>
+													<small className="sml-size">We will send you OTP on mobile number and WhatsApp.</small>
 
 												</Row>
 
@@ -136,21 +173,22 @@ const Signup = () => {
 										<div className="d-grid gap-2 mt-3 mb-3">
 											<Button
 												type="submit"
+												disabled={!isValid}
 												variant="info">
 												Sign Up
 											</Button>
 										</div>
 										<div className='space-or'>
-<span>OR</span>					</div>
-										<SocialLogin />
+											<span>OR</span>					</div>
+										<SocialLogin setFieldValue={setFieldValue} />
 										<div className='policy-terms text-center mt-4'>
-											By clicking sign up you will be agree with our<br/>
-										 <a> terms & conditions </a> and  <a> privacy policy. </a> 
+											By clicking sign up you will be agree with our<br />
+											<a> terms & conditions </a> and  <a> privacy policy. </a>
 										</div>
 									</Form>
 								)}
 							/>
-						
+
 						</div>
 					</div>
 				</div>

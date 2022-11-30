@@ -27,12 +27,12 @@ const Info = () => {
     occupation: '',
     birthYear: '',
     referalCode: '',
-    ...(occ == 'STUDENT' && { collegeName: '' }),
-    ...(occ == 'STUDENT' && { graduationMonth: '' }),
-    ...(occ == 'PROFESSIONAL' && { position: '' }),
-    ...(occ == 'PROFESSIONAL' && { experience: '' }),
-    ...(occ == 'PROFESSIONAL' && { organization: '' }),
-    ...(occ == 'PROFESSIONAL' && { organizationCode: '' }),
+    collegeName: '',
+    graduationMonth: '',
+    position: '',
+    experience: '',
+    organization: '',
+    organizationCode: '',
   };
   let validationSchema = Yup.object({
     occupation: SchemaList[0].required('Please select an occupation.'),
@@ -47,13 +47,12 @@ const Info = () => {
   });
   const onSubmit = async (values) => {
     let loginData = await JSON.parse(localStorage.getItem('user'));
-
     let data = {
       uid: loginData.uid,
       occupation: values.occupation,
       information_data: {
         referral_code: values.referalCode,
-        birth_year: values.birthYear,
+        birth_year: parseInt(values?.birthYear?.getFullYear()),
         ...(occ == 'STUDENT' && { college_name: values.collegeName }),
         ...(occ == 'STUDENT' && { month_year_of_graduation: values.graduationMonth }),
         ...(occ == 'PROFESSIONAL' && { position: values.position }),
@@ -134,13 +133,19 @@ const Info = () => {
                                   type="radio"
                                   name="occupation"
                                   value="STUDENT"
-                                  onChange={field.onChange}
+                                  onChange={(e) => {
+                                    field.onChange(e);
+                                    formik.setTouched({});
+                                  }}
                                   label="I’m a student."
                                 />
                                 <FormCheck
                                   type="radio"
                                   name="occupation"
-                                  onChange={field.onChange}
+                                  onChange={(e) => {
+                                    field.onChange(e);
+                                    formik.setTouched({});
+                                  }}
                                   value="PROFESSIONAL"
                                   label="I'm a working professional."
                                 />
@@ -148,7 +153,10 @@ const Info = () => {
                                   type="radio"
                                   name="occupation"
                                   value="UNEMPLOYED"
-                                  onChange={field.onChange}
+                                  onChange={(e) => {
+                                    field.onChange(e);
+                                    formik.setTouched({});
+                                  }}
                                   label="Unemployed"
                                 />
                               </div>
@@ -170,7 +178,9 @@ const Info = () => {
                             className="form-group-1 mb-3 mt-3"
                             label="Enter your college name*"
                             type="text"
-                            md="12">
+                            md="12"
+                            error={formik?.errors?.collegeName}
+                            touched={formik?.touched?.collegeName}>
                             <option value="">Select a Collage</option>
                             {collageList.map((col) => {
                               return <option value={col.value}>{col.label}</option>;
@@ -192,7 +202,7 @@ const Info = () => {
                                     name="graduationMonth"
                                     views={['year', 'month']}
                                     minDate={new Date('2012-03-01')}
-                                    maxDate={new Date('2023-06-01')}
+                                    maxDate={new Date()}
                                   />
                                 </FormGroup>
                               </Row>
@@ -338,6 +348,7 @@ const Info = () => {
                                 name="birthYear"
                                 className="form-group-1 mb-3"
                                 maxDetail="decade"
+                                maxDate={new Date()}
                               />
                             </FormGroup>
                           </Row>

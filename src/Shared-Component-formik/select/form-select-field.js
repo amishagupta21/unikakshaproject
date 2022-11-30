@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, InputGroup } from 'react-bootstrap';
 import { Field } from 'formik';
 
-const FormSelectField = ({ as, md, controlId, label, name, type, inputGroupPrepend, children }) => {
+const FormSelectField = ({ as, md, controlId, label, name, type, inputGroupPrepend, error, touched, children }) => {
   return (
     <Field
       name={name}
@@ -24,8 +24,12 @@ const FormSelectField = ({ as, md, controlId, label, name, type, inputGroupPrepe
                 {children}
               </Form.Control>
               <Form.Control.Feedback type="invalid">
-                {form.errors[field.name]}
+                {/* {form.errors[field.name]} */}
+                {error && touched ? (
+                  <div className="error-text">{error}</div>
+                ) : null}
               </Form.Control.Feedback>
+
             </InputGroup>
           </Form.Group>
         );
