@@ -39,7 +39,7 @@ const MyCourses = () => {
     }
 
     const formProgressStage = (state) => {
-        const page = steps.indexOf(stage);
+        const page = steps.indexOf(state);
         setFormProgress({ page })
     }
 
