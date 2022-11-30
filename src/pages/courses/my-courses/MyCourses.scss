@@ -1,0 +1,120 @@
+.welcome-note {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--bs-indigo);
+    margin-bottom: 5px;
+}
+
+.course-application-list {
+    .card {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0px 15px 20px rgba(0, 103, 223, 0.1);
+    }
+
+    h3 {
+        font-weight: 500;
+        font-size: 22px;
+    }
+
+    .card-title {
+        p {
+            color: #262935;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .in-progress {
+            align-items: center;
+            
+            svg {
+                margin-right: 8px;
+
+                path {
+                    fill: var(--bs-orange);
+                }
+            }
+
+            p {
+                font-size: 12px;
+                margin: unset;
+                color: var(--bs-orange);
+            }
+        }
+    }
+
+    .card-body {
+        padding: unset;
+    }
+
+    .card-footer {
+        background-color: unset;
+        border: unset;
+        
+        div {
+            background-color: #FFE1E1;
+            color: #FF3838;
+            padding: 8px;
+            text-align: center;
+            
+            p {
+                &:first-child {
+                    font-size: 14px;
+                    font-weight: 600;
+                }
+                
+                &:last-child {
+                    font-size: 10px;
+                    font-weight: 400;
+                    margin-bottom: unset;
+                }
+            }
+        }
+
+        button {
+            float: right;
+        }
+    }
+
+    .course-image {
+        img {
+            border-radius: 6px;
+        }
+    }
+}
+
+.application-status {
+    margin-top: 20px;
+
+    #RFS-StepperContainer {
+        padding: unset !important;
+        margin: 12px 0px;
+
+        #RFS-StepContainer {
+            padding: unset;
+        }
+    }
+    
+    #RFS-StepMain {
+        #RFS-LabelContainer {
+            width: 80%;
+        }
+
+        button {
+            width: 1.5em !important;
+            height: 1.5em !important;
+        }
+    }
+    
+    #RFS-LabelContainer {
+        span {
+            margin-top: 8px;
+        }
+    }
+    
+    #RFS-ConnectorContainer {
+        top: calc((2em - 7px) / 2);
+        left: calc((-50% + 1.5em) + 4px);
+        right: calc((50% + 1.5em) + 4px);
+    }
+}

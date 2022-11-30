@@ -9,7 +9,10 @@ import PrivateRoute from './Routes/PrivateRoutes';
 import 'react-toastify/dist/ReactToastify.css';
 import Loader from './components/util-comonents/Loader';
 import { useSelector } from 'react-redux';
+import CourseApplication from './pages/courses/application/CourseApply';
 import Homepage from './pages/Homepage/Homepage';
+import MyCourses from './pages/courses/my-courses/MyCourses';
+import Footer from './components/Footer';
 import SignupOtp from './pages/auth/SignupOtp';
 
 const App = () => {
@@ -27,6 +30,8 @@ const App = () => {
                 </PrivateRoute>
               }
             />
+            <Route path="course/apply" element={<PrivateRoute> <CourseApplication /> </PrivateRoute>} />
+            <Route path='my-courses' element={<PrivateRoute><MyCourses/></PrivateRoute>} />
             <Route path="/" element={<Login />} />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<Signup />} />
@@ -36,6 +41,7 @@ const App = () => {
             <Route path="*" element={<Error />} />
           </Routes>
         </BrowserRouter>
+
       ) : (
         <Loader />
       )}

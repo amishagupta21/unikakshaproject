@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 
 import Dropdown from 'react-bootstrap/Dropdown';
-import BrandLogo from '../assets/images/unikakha-logo.svg';
+import BrandLogo from '../assets/images/unikaksha-logo.svg';
 import Notify from '../assets/images/icon-notify.svg';
 import Profileimg from '../assets/images/img-profile-pic.svg';
 import Course from '../assets/images/icon-mycourse.svg';
@@ -10,7 +10,7 @@ import Profile from '../assets/images/icon-myprofile.svg';
 import Logout from '../assets/images/icon-logout.svg';
 
 import '../custom.css';
-import '../pages/auth/auth.css';
+import '../pages/auth/auth.scss';
 import { logout } from '../firebase/firebaseAuth';
 import { useNavigate } from 'react-router-dom';
 
