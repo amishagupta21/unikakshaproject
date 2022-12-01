@@ -7,7 +7,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import FormGroup from 'react-bootstrap/FormGroup';
 import FormLabel from 'react-bootstrap/FormLabel';
 import { Form, Field, Formik } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import LeftBox from './components/LeftBox';
 import AuthNavbar from './components/AuthNavbar';
@@ -21,11 +21,19 @@ import { getCollages, getWorkingPosition } from '../../services/ReuseableFun';
 import FormSelectField from './../../Shared-Component-formik/select/form-select-field';
 
 const Info = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [occ, setocc] = useState();
   const [collageList, setcollageList] = useState([]);
   const [workingPositionList, setworkingPositionList] = useState([]);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    console.log(location.state?.fullName);
+    console.log(location.state?.email);
+    console.log(location.state?.mobileNumber);
+  }, [])
+
   const initialValues = {
     occupation: '',
     birthYear: '',
@@ -48,6 +56,7 @@ const Info = () => {
     ...(occ == 'PROFESSIONAL' && { organization: SchemaList[0] }),
     ...(occ == 'PROFESSIONAL' && { organizational_code: SchemaList[0] }),
   });
+
   const onSubmit = async (values) => {
     let loginData = await JSON.parse(localStorage.getItem('user'));
     let data = {
@@ -65,7 +74,14 @@ const Info = () => {
       },
     };
 
+    let userData = {
+      uid: loginData.uid,
+      email: location.state?.email,
+      phone: location.state?.mobileNumber,
+    }
+
     let res = await ApiService(`on-boarding/update-information`, `PUT`, data);
+    let response = await ApiService(`/user/create`, `POST`, userData);
     if (res?.data?.code === 200) {
       navigate('/dashboard');
     }

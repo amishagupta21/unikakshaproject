@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -15,8 +15,14 @@ const SignupOtp = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const location = useLocation();
-    const phoneNumber = location?.state?.phoneNumber;
+    const phoneNumber = location.state?.values.mobileNumber;
     const [otp, setOtp] = useState('');
+
+    useEffect(() => {
+        if (!location.state?.values.mobileNumber) {
+            navigate("/signup")
+        }
+    }, [])
 
     const configureCaptcha = () =>
     (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
@@ -30,17 +36,12 @@ const SignupOtp = () => {
         const appVerifier = configureCaptcha();
         firebase
             .auth()
-            .signInWithPhoneNumber(`+91${phoneNumber}`, appVerifier)
+            .signInWithPhoneNumber(`+${phoneNumber}`, appVerifier)
             .then(async (confirmationResult) => {
                 window.confirmationResult = confirmationResult;
                 // dispatch(setLoading(false))
                 toast.success('OTP has been sent to Mobile Number Again', {
                     theme: 'colored',
-                });
-                navigate('/otp', {
-                    state: {
-                        phoneNumber: phoneNumber,
-                    },
                 });
             })
             .catch((error) => {
@@ -63,7 +64,9 @@ const SignupOtp = () => {
                     toast.success('Log in Succesfull', {
                         theme: 'colored',
                     });
-                    navigate('/info');
+                    navigate('/info', {
+                        state: location.state?.values
+                    });
                 }
             })
             .catch((error) => {
@@ -95,6 +98,7 @@ const SignupOtp = () => {
                             <div className="otp-input">
                                 <OtpInput value={otp} onChange={(e) => setOtp(e)} numInputs={6} />
                             </div>
+                            <div id="sign-in-button"> </div>
                             <a className="resend-otp" onClick={() => sendOTP(phoneNumber)}>
                                 Resend OTP
                             </a>
@@ -104,7 +108,7 @@ const SignupOtp = () => {
                                     variant="info"
                                     onClick={onSubmitOTP}
                                     disabled={!(otp.length === 6)}>
-                                    Verify and Signin
+                                    Verify and Signup
                                 </Button>
                             </div>
                         </div>
