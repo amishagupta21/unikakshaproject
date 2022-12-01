@@ -14,6 +14,7 @@ import Homepage from './pages/Homepage/Homepage';
 import MyCourses from './pages/courses/my-courses/MyCourses';
 import Footer from './components/Footer';
 import SignupOtp from './pages/auth/SignupOtp';
+import CourseDetails from './pages/courses/course-details/CourseDetails';
 
 const App = () => {
   const isLoader = useSelector((state) => state?.loader?.isLoading);
@@ -32,6 +33,7 @@ const App = () => {
             />
             <Route path="course/apply" element={<PrivateRoute> <CourseApplication /> </PrivateRoute>} />
             <Route path='my-courses' element={<PrivateRoute><MyCourses/></PrivateRoute>} />
+            <Route path='course/:courseVariantSlug/:courseId' element={<PrivateRoute><CourseDetails /></PrivateRoute>}/>
             <Route path="/" element={<Login />} />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<Signup />} />

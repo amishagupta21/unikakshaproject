@@ -1,0 +1,189 @@
+@function toRem($value) {
+    $remValue: ($value / 16) + rem;
+    @return $remValue;
+}
+
+.course-details {
+
+    .banner {
+        border: 1px solid grey;
+
+        .row {
+            .carousel-container {
+                box-sizing: border-box;
+                height: max-content;
+                border-radius: 20px;
+            }
+        }
+
+        .carousel {
+            height: 20em;
+    
+            .carousel-inner {
+                border-radius: 20px;
+                .carousel-item {
+                    img {
+                        height: 20em !important;
+                        background-position: center;
+                        width: 100%;
+                    }
+        
+                    video,
+                    iframe {
+                        width : 100%;
+                        height: 20em !important;
+                    }
+                }
+            }
+        }
+    }
+
+    .course-body {
+        margin-top: 5%;
+        width     : 100%;
+    }
+
+    .sidebar-container {
+        background   : #fff;
+        height       : auto;
+        border       : 1px solid #f3eeee;
+        border-radius: toRem(10);
+        overflow     : auto;
+        cursor       : pointer;
+        box-shadow   : 0 0 9px #cadeef, 0 0 5px #ffffffa6;
+        transition   : all ease 200ms;
+
+        .nav {
+            a {
+                color: var(--bs-indigo);
+                padding: toRem(15);
+                font-size: toRem(20);
+                &.active {
+                    font-weight: 600;
+                    background: rgba(34, 35, 128, 0.12);
+                }
+            }
+        }
+    }
+
+    .course-content {
+        overflow  : hidden;
+        height    : auto;
+        text-align: center;
+
+        h4 {
+            font-size  : toRem(30);
+            font-weight: 500;
+        }
+
+        h6 {
+            font-size  : toRem(20);
+            font-weight: 600;
+        }
+
+        p {
+            font-size: toRem(16);
+        }
+    }
+
+    ul.list {
+        list-style-type: none;
+        margin         : 0;
+        padding        : 0;
+    }
+
+    li {
+        height       : 60px;
+        font-size    : 1rem;
+        font-weight  : 500;
+        padding-left : 10%;
+        display      : flex;
+        align-items  : center;
+        border-bottom: 1px solid #e8e8e8;
+        color        : #070774;
+    }
+
+    .active-list {
+        background-color: #aeb1dbb1;
+    }
+
+    .font-color {
+        color      : #070774;
+        font-weight: bold;
+    }
+
+    .cardStyle {
+        background   : #fff;
+        width        : 95%;
+        margin       : 5%;
+        min-height   : 220px;
+        margin-bottom: 1%;
+        height       : auto;
+        border       : 1px solid #f3eeee;
+        border-radius: 1em;
+        overflow     : auto;
+        cursor       : pointer;
+        box-shadow   : 0px 2px 20px rgba(0, 103, 223, 0.1);
+        transition   : all ease 200ms;
+    }
+
+    .EligibilitycardStyle {
+        background   : #fff;
+        width        : 96%;
+        margin-left  : 2%;
+        margin-bottom: 1%;
+        height       : auto;
+        border       : 1px solid #f3eeee;
+        border-radius: 1em;
+        overflow     : auto;
+        cursor       : pointer;
+        box-shadow   : 0 0 9px #cadeef, 0 0 5px #ffffffa6;
+        transition   : all ease 200ms;
+    }
+
+    .text-left-align {
+        text-align: left;
+    }
+
+    .p10 {
+        padding: 10px;
+    }
+
+    .mb5 {
+        margin-bottom: 5%;
+    }
+
+    .plr5 {
+        padding-right: 5%;
+        padding-left : 5%;
+    }
+
+    .mt2 {
+        margin-top: 2%;
+    }
+
+    .mb2 {
+        margin-bottom: 2%;
+    }
+
+    .mtb5 {
+        margin-top   : 5%;
+        margin-bottom: 5%;
+    }
+
+    .circle {
+        height          : 50px;
+        width           : 50px;
+        background-color: #f1abe994;
+        border-radius   : 50%;
+        display         : inline-block;
+    }
+
+    .Squre {
+        height          : 50px;
+        width           : 50px;
+        background-color: #f1abe994;
+        border-radius   : 20%;
+        display         : inline-block;
+    }
+}
