@@ -1,0 +1,44 @@
+.invitation {
+    .card {
+        background-color: #FFFBF2;
+    }
+
+    .card-header {
+        border-bottom: unset;
+        background-color: unset;
+        font-weight: 500;
+        font-size: 18px;
+        padding: 0.5em 1.2rem;
+    }
+
+    .card-body {
+        padding: 0 1.2rem !important;
+        p {
+            margin-bottom: unset;
+            margin-right: 5px;
+            font-size: toRem(14);
+        }
+
+        img {
+            transform: rotate(20deg);
+        }
+    }
+    
+    .card-footer {
+        padding: 0.8em 1.2rem !important;
+        background-color: unset;
+        border-top: unset;
+        display: inline-block;
+        a {
+            color: #3BAACF !important;
+        }
+
+        svg {
+            transform: rotate(180deg);
+
+            path {
+                fill: #3BAACF;
+            }
+        }
+    }
+}

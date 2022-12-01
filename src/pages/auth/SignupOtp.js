@@ -5,10 +5,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { setLoading } from '../../redux/actions/LoaderActions';
 import { firebase } from '../../firebase/firebase';
-import OtpInput from 'react-otp-input';
+import OtpInput from 'react18-input-otp';
 import LeftBox from './components/LeftBox';
 import AuthNavbar from './components/AuthNavbar';
-import './auth.css';
+import './auth.scss';
 import { useState } from 'react';
 
 const SignupOtp = () => {
