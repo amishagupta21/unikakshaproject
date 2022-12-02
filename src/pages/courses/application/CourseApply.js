@@ -104,7 +104,7 @@ const CourseApplication = () => {
     const response = await ApiService('/student/personal-details', `POST`, payload, true);
     if (response?.data.code === 200) {
       nextPage();
-    }
+    }    
   };
 
   const formik = useFormik({
@@ -211,7 +211,7 @@ const CourseApplication = () => {
           <img className="me-2" src={arrowBack} alt="back-arrow" />
           <p className="step-header">{stepperTitle}</p>
         </div>
-        <MultiStepBar page={page} onPageNumberClick={nextPageNumber} disabledSteps={[0,1]}/>
+        <MultiStepBar page={page} onPageNumberClick={nextPageNumber} />
         <Card className="view-course border">
           <Card.Body
             style={{ padding: 'unset' }}
@@ -284,6 +284,7 @@ const CourseApplication = () => {
                         }
                         onBlur={formik.handleBlur}
                         placeholder="Email"
+                        value={formik.values.email}
                       />
                       {formik.touched.email && formik.errors.email ? (
                         <div className="error-message">{formik.errors.email}</div>
@@ -317,7 +318,7 @@ const CourseApplication = () => {
                       </Form.Label>
                       <PhoneInput
                         country={'in'}
-                        value={whatsAppState.phone}
+                        value={formik.values.whatsapp_number}
                         onChange={(phone, data) => {
                           setWhatsAppNumber({ phone, data });
                           formik.setFieldValue('whatsapp_number', phone);
@@ -378,6 +379,7 @@ const CourseApplication = () => {
                         type="date"
                         name="dob"
                         onChange={formik.handleChange}
+                        value = {formik.values.dob}
                         className={formik.touched.dob && formik.errors.dob ? 'is-invalid' : null}
                         onBlur={formik.handleBlur}></Form.Control>
                       {formik.touched.dob && formik.errors.dob ? (
