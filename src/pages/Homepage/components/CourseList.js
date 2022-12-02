@@ -16,7 +16,11 @@ import { useNavigate } from 'react-router-dom';
 const CourseList = ({ courses }) => {
 
   const apply = (course) => {
-    navigate(`/course/apply/?id=${course.id}`, { state: course });
+    navigate(`/course/apply?id=${course.id}`, { state: course });
+  }
+
+  const viewDetails = (course) => {
+    navigate(`/course/${course.course_url}/${course.id}`, { state: course });
   }
 
   const navigate = useNavigate();
@@ -83,7 +87,7 @@ const CourseList = ({ courses }) => {
                 <div className="button-group">
                   <div className="row">
                     <div className="col-sm-6">
-                      <Button variant="outline-warning">View Details</Button>
+                      <Button variant="outline-warning" onClick={() => {viewDetails(course)}}>View Details</Button>
                     </div>
                     <div className="col-sm-6">
                       <Button variant="warning" onClick={() => {apply(course)}}>Apply Now</Button>

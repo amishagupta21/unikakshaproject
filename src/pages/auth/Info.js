@@ -1,12 +1,10 @@
 import { Field, Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { FormCheck } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import FormControl from 'react-bootstrap/FormControl';
 import FormGroup from 'react-bootstrap/FormGroup';
 import FormLabel from 'react-bootstrap/FormLabel';
-import { Form, Field, Formik } from 'formik';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import LeftBox from './components/LeftBox';
@@ -15,14 +13,10 @@ import { FormCheck } from 'react-bootstrap';
 import SchemaList from '../../Shared-Component-formik/schema/SchemaList';
 import FormikController from '../../Shared-Component-formik/FormikController';
 import DatePicker from 'react-date-picker';
-import DatePickerField from '../../Shared-Component-formik/date-picker/DatePickerField ';
 import ApiService from '../../services/ApiService';
 import { getCollages, getWorkingPosition } from '../../services/ReuseableFun';
 import DatePickerField from '../../Shared-Component-formik/date-picker/DatePickerField ';
-import SchemaList from '../../Shared-Component-formik/schema/SchemaList';
 import FormSelectField from './../../Shared-Component-formik/select/form-select-field';
-import AuthNavbar from './components/AuthNavbar';
-import LeftBox from './components/LeftBox';
 
 const Info = () => {
   const navigate = useNavigate();
@@ -105,7 +99,6 @@ const Info = () => {
 
   return (
     <>
-      <AuthNavbar />
       <section className="auth_layout login_screen">
         <LeftBox />
         <div className="right_box">
