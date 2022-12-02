@@ -1,37 +1,75 @@
 @function toRem($value) {
-    $remValue: ($value / 16) + rem;
+    $remValue: calc($value / 16) + rem;
     @return $remValue;
 }
 
 .course-details {
-
     .banner {
-        border: 1px solid grey;
+        border             : 1px solid grey;
+        background         : #222380;
+        display            : flex;
+        flex-wrap          : wrap;
+        background-image   : url(https://developer.unikaksha.com/wp-content/uploads/2022/11/Group-18861.svg);
+        background-repeat  : no-repeat;
+        background-position: right center;
+        height             : 100%;
 
-        .row {
+        .container {
+            display    : flex;
+            max-width  : 1084px;
+            flex-wrap  : wrap;
+            align-items: center;
+            margin     : 0 auto;
+            height     : 22em;
+
+            .details,
             .carousel-container {
-                box-sizing: border-box;
-                height: max-content;
-                border-radius: 20px;
+                max-width: 50%;
+                flex     : 0 0 50%;
+            }
+
+            .details {
+                color: white;
+
+                .ratings {
+                    p {
+                        margin-bottom  : unset !important;
+                        justify-content: space-between;
+                        align-items    : center;
+                    }
+
+                    span {
+                        margin-bottom: 0.3rem;
+                    }
+                }
+
+                h4 {
+                    text-transform: capitalize;
+                }
+
+                span {
+                    color: #c3c6cf;
+                }
+
+                .hightlights {
+                    p {
+                        margin-bottom: 0.5rem;
+                    }
+                }
             }
         }
 
         .carousel {
-            height: 20em;
-    
             .carousel-inner {
-                border-radius: 20px;
                 .carousel-item {
-                    img {
-                        height: 20em !important;
-                        background-position: center;
-                        width: 100%;
-                    }
-        
+
                     video,
+                    img,
                     iframe {
-                        width : 100%;
-                        height: 20em !important;
+                        height       : 260px !important;
+                        width        : 478px !important;
+                        border-radius: 12px;
+                        border       : 2px #fff solid;
                     }
                 }
             }
@@ -43,24 +81,29 @@
         width     : 100%;
     }
 
-    .sidebar-container {
-        background   : #fff;
-        height       : auto;
-        border       : 1px solid #f3eeee;
-        border-radius: toRem(10);
-        overflow     : auto;
-        cursor       : pointer;
-        box-shadow   : 0 0 9px #cadeef, 0 0 5px #ffffffa6;
-        transition   : all ease 200ms;
+    .side-nave {
+        .sidebar-container {
+            background   : #fff;
+            height       : auto;
+            border       : 1px solid #f3eeee;
+            border-radius: toRem(10);
+            overflow     : auto;
+            cursor       : pointer;
+            box-shadow   : 0px 2px 20px rgba(0, 103, 223, 0.1);
+            transition   : all ease 200ms;
+            position     : sticky;
+            top          : 20px;
 
-        .nav {
-            a {
-                color: var(--bs-indigo);
-                padding: toRem(15);
-                font-size: toRem(20);
-                &.active {
-                    font-weight: 600;
-                    background: rgba(34, 35, 128, 0.12);
+            .nav {
+                a {
+                    color    : var(--bs-indigo);
+                    padding  : toRem(15);
+                    font-size: toRem(20);
+
+                    &.active {
+                        font-weight: 600;
+                        background : rgba(34, 35, 128, 0.12);
+                    }
                 }
             }
         }

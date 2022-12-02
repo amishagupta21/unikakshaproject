@@ -3,7 +3,9 @@ import { Button, Card, CardGroup, CardImg, Carousel, CarouselItem, Col, Containe
 import './CourseDetails.scss';
 import ApiService from '../../../services/ApiService';
 import { useLocation, useParams } from 'react-router-dom';
-import PrimaryNavBar from '../../../components/PrimaryNavbar';
+import { emptystar, fullstar, tick } from '../../../assets/images';
+import Rating from 'react-rating';
+
 
 function CourseDetails() {
 
@@ -73,6 +75,18 @@ function CourseDetails() {
         'Programmer',
         'Backend Developer',
     ];
+
+    const RatingComponent = () => {
+        const ratingInDecimal = courseDetails?.course_variant_sections?.ratings?.value.split('/')[0];
+        return (
+            <Rating
+                initialRating={ratingInDecimal}
+                readonly
+                emptySymbol={<img src={emptystar} className="icon" />}
+                fullSymbol={<img src={fullstar} className="icon" />}
+            />
+        )
+    }
 
     const getCourseOverview = () => {
         const courseOverview = courseDetails?.course_variant_sections?.courseOverview?.value;
@@ -155,31 +169,31 @@ function CourseDetails() {
     };
     return (
         <>
-            <PrimaryNavBar />
             <div className="course-details my-5">
                     <Container fluid={true} className='banner'>
-                        <Row className='mx-5 my-4'>
-                            <div className='col-sm-8 my-auto'>
+                        <div className='container mx-auto my-4'>
+                            <div className='details my-auto'>
                                 <h4>{`${courseDetails?.course_title} - ${courseDetails?.variant_name}`}</h4>
-                                <div className='d-flex'>
-                                    <p className='me-3'>Ratings: {courseDetails?.course_variant_sections?.ratings?.value}</p>
-                                    <p>Learners: {courseDetails?.course_variant_sections?.learnersCount?.value}</p>
+                                <div className='d-flex ratings my-2'>
+                                    <p className='me-3'><span>Ratings:</span> {courseDetails?.course_variant_sections?.ratings?.value}</p>
+                                    <RatingComponent />
+                                    <p className='ms-3'><span>Learners:</span> {courseDetails?.course_variant_sections?.learnersCount?.value}</p>
                                 </div>
-                                <div className='d-flex my-auto'>
-                                    <h6 className='me-1'>Duration: 4 Months | </h6>
+                                <div className='d-flex'>
+                                    <h6 className='me-1'><span>Duration:</span> 4 Months | </h6>
                                     <h6>{courseDetails?.course_type}</h6>
                                 </div>
-                                <div>
+                                <div className='hightlights my-2'>
                                     {courseDetails?.course_variant_sections?.highlights?.value.map((value, i) => {
                                         return (
-                                            <p key={i}>{value.value}</p>
+                                            <p key={i}><img className='me-1' src={tick} /> {value.value}</p>
                                         );
                                     })}
                                 </div>
-                                <Button variant='secondary'>Apply Now</Button>
+                                <Button className='mt-2' style={{padding: '8px 30px'}} variant='secondary'>Apply Now</Button>
                             </div>
-                            <div className='col-sm-4 carousel-container'>
-                                <Carousel touch={true} pause='hover' controls={false}>
+                            <div className='carousel-container'>
+                                <Carousel indicators={false} touch={true} pause='hover' controls={false}>
                                     {courseDetails?.banner_assets?.items.map((asset, i) => {
                                         if(asset.type === 'image') {
                                             return (
@@ -205,7 +219,7 @@ function CourseDetails() {
                                     })}
                                 </Carousel>
                             </div>
-                        </Row>
+                        </div>
                     </Container>
                 <Container>
 
