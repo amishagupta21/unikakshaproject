@@ -15,6 +15,7 @@ import LeftBox from './components/LeftBox';
 import AuthNavbar from './components/AuthNavbar';
 import PhoneInput from 'react-phone-input-2';
 import { toast } from 'react-toastify';
+import { setLoading } from '../../redux/actions/LoaderActions';
 
 const Signup = () => {
 	const navigate = useNavigate();
@@ -28,18 +29,18 @@ const Signup = () => {
 	}));
 
 	const sendOTP = async (values) => {
+		console.log(values);
 		const appVerifier = configureCaptcha();
 		// dispatch(setLoading(true))
 		firebase
 			.auth()
-			.signInWithPhoneNumber(`+${values.phoneNumber}`, appVerifier)
+			.signInWithPhoneNumber(`+${values.mobileNumber}`, appVerifier)
 			.then(async (confirmationResult) => {
 				window.confirmationResult = confirmationResult;
 				// dispatch(setLoading(false))
 				toast.success('OTP has been Sent to Mobile Number', {
 					theme: 'colored',
 				});
-
 				navigate('/signup-otp', {
 					state: {
 						values: values,
@@ -68,6 +69,7 @@ const Signup = () => {
 							</a>
 						</div>
 						<div className="auth_form">
+							<div id="sign-in-button"> </div>
 							<Formik
 								initialValues={{
 									fullName: "",
@@ -78,7 +80,7 @@ const Signup = () => {
 								validationSchema={Yup.object().shape({
 									fullName: Yup.string().required('Required'),
 									email: Yup.string().email('Invalid email').required('Required'),
-									mobileNumber: Yup.string().min(10, "Too short").required('Required')
+									mobileNumber: Yup.string().min(8, "Too short").required('Required')
 								})}
 								onSubmit={(values) => {
 									const { fullName, email, mobileNumber } = values;
