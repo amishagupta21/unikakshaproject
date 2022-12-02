@@ -37,8 +37,8 @@ const SocialLogin = ({ setFieldValue }) => {
             console.log('response latest=>>', res);
             // dispatch(setLoading(false));
             if (res?.user) {
-              setFieldValue("fullName", res?.user.displayName)
-              setFieldValue("email", res?.user.email)
+              // setFieldValue("fullName", res?.user.displayName)
+              // setFieldValue("email", res?.user.email)
               localStorage.setItem('user', JSON.stringify(res?.user));
               dualAuth(res?.user);
               // navigate('/info');
