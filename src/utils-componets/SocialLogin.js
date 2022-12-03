@@ -32,16 +32,16 @@ const SocialLogin = ({ setFieldValue }) => {
           className="social-btn"
           variant="outline-dark"
           onClick={async () => {
-            dispatch(setLoading(true));
+            // dispatch(setLoading(true));
             const res = await signInWithGoogle();
             console.log('response latest=>>', res);
-            dispatch(setLoading(false));
-            // setFieldValue('email', 'test@yopmail.com');
-            // setFieldValue('fullName', 'Testng');
+            // dispatch(setLoading(false));
             if (res?.user) {
+              // setFieldValue("fullName", res?.user.displayName)
+              // setFieldValue("email", res?.user.email)
               localStorage.setItem('user', JSON.stringify(res?.user));
               dualAuth(res?.user);
-              navigate('/info');
+              // navigate('/info');
             }
           }}>
           <img className="mx-2" src={googleIcon} alt="google" />

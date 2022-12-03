@@ -1,0 +1,231 @@
+@function toRem($value) {
+    $remValue: calc($value / 16) + rem;
+    @return $remValue;
+}
+
+.course-details {
+    .banner {
+        border             : 1px solid grey;
+        background         : #222380;
+        display            : flex;
+        flex-wrap          : wrap;
+        background-image   : url(https://developer.unikaksha.com/wp-content/uploads/2022/11/Group-18861.svg);
+        background-repeat  : no-repeat;
+        background-position: right center;
+        height             : 100%;
+
+        .container {
+            display    : flex;
+            flex-wrap  : wrap;
+            align-items: center;
+            margin     : 0 auto;
+            height     : 22em;
+
+            .details,
+            .carousel-container {
+                max-width: 50%;
+                flex     : 0 0 50%;
+            }
+
+            .details {
+                color: white;
+
+                .ratings {
+                    p {
+                        margin-bottom  : unset !important;
+                        justify-content: space-between;
+                        align-items    : center;
+                    }
+
+                    span {
+                        margin-bottom: 0.3rem;
+                    }
+                }
+
+                h4 {
+                    text-transform: capitalize;
+                }
+
+                span {
+                    color: #c3c6cf;
+                }
+
+                .hightlights {
+                    p {
+                        margin-bottom: 0.5rem;
+                    }
+                }
+            }
+        }
+
+        .carousel {
+            .carousel-inner {
+                .carousel-item {
+
+                    video,
+                    img,
+                    iframe {
+                        height       : 260px !important;
+                        width        : 478px !important;
+                        border-radius: 12px;
+                        border       : 2px #fff solid;
+                    }
+                }
+            }
+        }
+    }
+
+    .course-body {
+        margin-top: 5%;
+        width     : 100%;
+    }
+
+    .side-nave {
+        .sidebar-container {
+            background   : #fff;
+            height       : auto;
+            border       : 1px solid #f3eeee;
+            border-radius: toRem(10);
+            overflow     : auto;
+            cursor       : pointer;
+            box-shadow   : 0px 2px 20px rgba(0, 103, 223, 0.1);
+            transition   : all ease 200ms;
+            position     : sticky;
+            top          : 20px;
+
+            .nav {
+                a {
+                    color    : var(--bs-indigo);
+                    padding  : toRem(15);
+                    font-size: toRem(20);
+
+                    &.active {
+                        font-weight: 600;
+                        background : rgba(34, 35, 128, 0.12);
+                    }
+                }
+            }
+        }
+    }
+
+    .course-content {
+        overflow  : hidden;
+        height    : auto;
+        text-align: center;
+
+        h4 {
+            font-size  : toRem(30);
+            font-weight: 500;
+        }
+
+        h6 {
+            font-size  : toRem(20);
+            font-weight: 600;
+        }
+
+        p {
+            font-size: toRem(16);
+        }
+    }
+
+    ul.list {
+        list-style-type: none;
+        margin         : 0;
+        padding        : 0;
+    }
+
+    li {
+        height       : 60px;
+        font-size    : 1rem;
+        font-weight  : 500;
+        padding-left : 10%;
+        display      : flex;
+        align-items  : center;
+        border-bottom: 1px solid #e8e8e8;
+        color        : #070774;
+    }
+
+    .active-list {
+        background-color: #aeb1dbb1;
+    }
+
+    .font-color {
+        color      : #070774;
+        font-weight: bold;
+    }
+
+    .cardStyle {
+        background   : #fff;
+        width        : 95%;
+        margin       : 5%;
+        min-height   : 220px;
+        margin-bottom: 1%;
+        height       : auto;
+        border       : 1px solid #f3eeee;
+        border-radius: 1em;
+        overflow     : auto;
+        cursor       : pointer;
+        box-shadow   : 0px 2px 20px rgba(0, 103, 223, 0.1);
+        transition   : all ease 200ms;
+    }
+
+    .EligibilitycardStyle {
+        background   : #fff;
+        width        : 96%;
+        margin-left  : 2%;
+        margin-bottom: 1%;
+        height       : auto;
+        border       : 1px solid #f3eeee;
+        border-radius: 1em;
+        overflow     : auto;
+        cursor       : pointer;
+        box-shadow   : 0 0 9px #cadeef, 0 0 5px #ffffffa6;
+        transition   : all ease 200ms;
+    }
+
+    .text-left-align {
+        text-align: left;
+    }
+
+    .p10 {
+        padding: 10px;
+    }
+
+    .mb5 {
+        margin-bottom: 5%;
+    }
+
+    .plr5 {
+        padding-right: 5%;
+        padding-left : 5%;
+    }
+
+    .mt2 {
+        margin-top: 2%;
+    }
+
+    .mb2 {
+        margin-bottom: 2%;
+    }
+
+    .mtb5 {
+        margin-top   : 5%;
+        margin-bottom: 5%;
+    }
+
+    .circle {
+        height          : 50px;
+        width           : 50px;
+        background-color: #f1abe994;
+        border-radius   : 50%;
+        display         : inline-block;
+    }
+
+    .Squre {
+        height          : 50px;
+        width           : 50px;
+        background-color: #f1abe994;
+        border-radius   : 20%;
+        display         : inline-block;
+    }
+}

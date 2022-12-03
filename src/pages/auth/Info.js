@@ -1,28 +1,37 @@
 import { Field, Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { FormCheck } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import FormControl from 'react-bootstrap/FormControl';
 import FormGroup from 'react-bootstrap/FormGroup';
 import FormLabel from 'react-bootstrap/FormLabel';
-import Row from 'react-bootstrap/Row';
-import { useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import LeftBox from './components/LeftBox';
+import AuthNavbar from './components/AuthNavbar';
+import { FormCheck } from 'react-bootstrap';
+import SchemaList from '../../Shared-Component-formik/schema/SchemaList';
+import FormikController from '../../Shared-Component-formik/FormikController';
+import DatePicker from 'react-date-picker';
 import ApiService from '../../services/ApiService';
 import { getCollages, getWorkingPosition } from '../../services/ReuseableFun';
 import DatePickerField from '../../Shared-Component-formik/date-picker/DatePickerField ';
-import SchemaList from '../../Shared-Component-formik/schema/SchemaList';
 import FormSelectField from './../../Shared-Component-formik/select/form-select-field';
-import AuthNavbar from './components/AuthNavbar';
-import LeftBox from './components/LeftBox';
 
 const Info = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [occ, setocc] = useState();
   const [collageList, setcollageList] = useState([]);
   const [workingPositionList, setworkingPositionList] = useState([]);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    console.log(location.state?.fullName);
+    console.log(location.state?.email);
+    console.log(location.state?.mobileNumber);
+  }, []);
+
   const initialValues = {
     occupation: '',
     birthYear: '',
@@ -45,6 +54,7 @@ const Info = () => {
     ...(occ == 'PROFESSIONAL' && { organization: SchemaList[0] }),
     ...(occ == 'PROFESSIONAL' && { organizational_code: SchemaList[0] }),
   });
+
   const onSubmit = async (values) => {
     let loginData = await JSON.parse(localStorage.getItem('user'));
     let data = {
@@ -62,7 +72,14 @@ const Info = () => {
       },
     };
 
+    let userData = {
+      uid: loginData.uid,
+      email: location.state?.email,
+      phone: location.state?.mobileNumber,
+    };
+
     let res = await ApiService(`on-boarding/update-information`, `PUT`, data);
+    let response = await ApiService(`/user/create`, `POST`, userData);
     if (res?.data?.code === 200) {
       navigate('/dashboard');
     }
@@ -82,7 +99,6 @@ const Info = () => {
 
   return (
     <>
-      <AuthNavbar />
       <section className="auth_layout login_screen">
         <LeftBox />
         <div className="right_box">

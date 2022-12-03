@@ -64,13 +64,17 @@ import editGray from './edit-gray.svg';
 import badge from './badge.svg';
 import failedbadge from './failedbadge.svg';
 import upload from './upload.svg';
+import hand from './Hand.svg';
 import wrappedGift from './courses/emojione_wrapped-gift.svg';
 
 import cancelRe from './CourseApplication/cancelre.svg';
 import engineeringTeam from './CourseApplication/engineeringteam.svg';
 import working from './CourseApplication/working.svg';
 import undrawFriends from './CourseApplication/undraw_friends_r511.svg';
-import hand from './Hand.svg';
+
+import tick from './CourseDetails/circle-tick.svg';
+import fullstar from './CourseDetails/fullstar.svg';
+import emptystar from './CourseDetails/emptystar.svg';
 
 export {
     iconTwit,
@@ -144,5 +148,8 @@ export {
     upload,
     undrawFriends,
     hand,
-    wrappedGift
+    wrappedGift,
+    tick,
+    fullstar,
+    emptystar
 };
