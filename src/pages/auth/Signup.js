@@ -1,21 +1,21 @@
+import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import * as Yup from 'yup';
-import { Link, useNavigate } from 'react-router-dom';
 import FormControl from 'react-bootstrap/FormControl';
 import FormGroup from 'react-bootstrap/FormGroup';
 import FormLabel from 'react-bootstrap/FormLabel';
-import { Form, Field, Formik } from 'formik';
-import { firebase } from '../../firebase/firebase';
-import { useDispatch } from 'react-redux';
-import SocialLogin from '../../utils-componets/SocialLogin';
-import LeftBox from './components/LeftBox';
-import AuthNavbar from './components/AuthNavbar';
+import Row from 'react-bootstrap/Row';
 import PhoneInput from 'react-phone-input-2';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { firebase } from '../../firebase/firebase';
 import { setLoading } from '../../redux/actions/LoaderActions';
+import SocialLogin from '../../utils-componets/SocialLogin';
+import AuthNavbar from './components/AuthNavbar';
+import LeftBox from './components/LeftBox';
 
 const Signup = () => {
 	const navigate = useNavigate();
@@ -28,13 +28,12 @@ const Signup = () => {
 		defaultCountry: 'IN',
 	}));
 
-	const sendOTP = async (values) => {
-		console.log(values);
+	const sendOTP = async (mobileNumber) => {
 		const appVerifier = configureCaptcha();
 		// dispatch(setLoading(true))
 		firebase
 			.auth()
-			.signInWithPhoneNumber(`+${values.mobileNumber}`, appVerifier)
+			.signInWithPhoneNumber(`+${mobileNumber}`, appVerifier)
 			.then(async (confirmationResult) => {
 				window.confirmationResult = confirmationResult;
 				// dispatch(setLoading(false))
@@ -56,7 +55,7 @@ const Signup = () => {
 	};
 	return (
 		<>
-			<AuthNavbar />
+			{/* <AuthNavbar /> */}
 			<section className="auth_layout login_screen">
 				<LeftBox />
 				<div className="right_box">
@@ -83,9 +82,7 @@ const Signup = () => {
 									mobileNumber: Yup.string().min(8, "Too short").required('Required')
 								})}
 								onSubmit={(values) => {
-									const { fullName, email, mobileNumber } = values;
-									console.log("values::", values);
-									sendOTP(values)
+									sendOTP(values.mobileNumber)
 								}}
 								render={({
 									handleChange,

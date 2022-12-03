@@ -8,7 +8,6 @@ import FormLabel from 'react-bootstrap/FormLabel';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import LeftBox from './components/LeftBox';
-import AuthNavbar from './components/AuthNavbar';
 import { FormCheck } from 'react-bootstrap';
 import SchemaList from '../../Shared-Component-formik/schema/SchemaList';
 import FormikController from '../../Shared-Component-formik/FormikController';

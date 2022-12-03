@@ -68,7 +68,7 @@ const SignInOtp = () => {
   console.log('otp::::', otp.length);
   return (
     <>
-      <AuthNavbar />
+      {/* <AuthNavbar /> */}
       <section className="auth_layout login_screen">
         <LeftBox />
         <div className="right_box">

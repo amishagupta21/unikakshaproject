@@ -33,7 +33,7 @@ const PrimaryNavbar = () => {
 
   return (
     <div className="custom-header">
-      <Navbar bg="light" expand="lg">
+      <Navbar bg="light" variant="light" expand="lg">
         <Container>
           <Navbar.Brand href="#home">
             {' '}
@@ -88,51 +88,6 @@ const PrimaryNavbar = () => {
           )}
         </Container>
       </Navbar>
-      {/* <Navbar bg="light" variant="light">
-        <Container>
-          <Navbar.Brand href="#home">
-            <img src={BrandLogo} alt="Brand Logo" />
-          </Navbar.Brand>
-          <Nav className="ms-auto">
-            <Nav.Link href="#home">Courses</Nav.Link>
-            <Nav.Link href="#features">Event & Content</Nav.Link>
-            <Nav.Link href="#features" className="refer-frd">
-              Refer a Friend
-            </Nav.Link>
-            <Nav.Link href="#features" className="notification-link">
-              <img src={Notify} alt="notification" />
-            </Nav.Link>
-            <Nav.Link href="#features">
-              <Dropdown>
-                <Dropdown.Toggle id="dropdown-basic" className="dropdown-design">
-                  <img src={Profileimg} alt="profile" />
-                  <span>John Smith</span>
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  <Dropdown.Item href="#/action-1">
-                    <img src={Course} alt="profile" />
-                    My Courses
-                  </Dropdown.Item>
-                  <Dropdown.Item href="#/action-2">
-                    {' '}
-                    <img src={Profile} alt="profile" />
-                    My Profile
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={async () => {
-                      logout();
-                      navigate('/');
-                    }}>
-                    <img src={Logout} alt="profile" />
-                    Logout
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </Nav.Link>
-          </Nav>
-        </Container>
-      </Navbar> */}
     </div>
   );
 };
