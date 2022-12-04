@@ -21,8 +21,7 @@ function CourseDetails() {
 
     const fetchInitialData = async(params) => {
         const courseData = state ? state : await fetchCourseDetails(params);
-        console.log(courseData);
-        setCourseDetails(courseData)
+        setCourseDetails(courseData);
     }  
 
     useEffect(() => {

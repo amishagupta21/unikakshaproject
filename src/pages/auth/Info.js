@@ -1,24 +1,25 @@
 import { Field, Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
+import { FormCheck, Row } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import FormControl from 'react-bootstrap/FormControl';
 import FormGroup from 'react-bootstrap/FormGroup';
 import FormLabel from 'react-bootstrap/FormLabel';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import LeftBox from './components/LeftBox';
-import { FormCheck } from 'react-bootstrap';
-import SchemaList from '../../Shared-Component-formik/schema/SchemaList';
-import FormikController from '../../Shared-Component-formik/FormikController';
-import DatePicker from 'react-date-picker';
+import { useLocation, useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
+import { setIsAuthenticated } from '../../redux/actions/AuthAction';
 import ApiService from '../../services/ApiService';
 import { getCollages, getWorkingPosition } from '../../services/ReuseableFun';
 import DatePickerField from '../../Shared-Component-formik/date-picker/DatePickerField ';
+import SchemaList from '../../Shared-Component-formik/schema/SchemaList';
 import FormSelectField from './../../Shared-Component-formik/select/form-select-field';
+import LeftBox from './components/LeftBox';
 
 const Info = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const location = useLocation();
 
   const [occ, setocc] = useState();
@@ -26,9 +27,6 @@ const Info = () => {
   const [workingPositionList, setworkingPositionList] = useState([]);
 
   useEffect(() => {
-    console.log(location.state?.fullName);
-    console.log(location.state?.email);
-    console.log(location.state?.mobileNumber);
   }, []);
 
   const initialValues = {
@@ -45,7 +43,7 @@ const Info = () => {
   let validationSchema = Yup.object({
     occupation: SchemaList[0].required('Please select an occupation.'),
     birthYear: SchemaList[0],
-    referalCode: SchemaList[0],
+    // referalCode: SchemaList[0],
     ...(occ == 'STUDENT' && { collegeName: SchemaList[0] }),
     ...(occ == 'STUDENT' && { graduationMonth: SchemaList[0] }),
     ...(occ == 'PROFESSIONAL' && { position: SchemaList[0] }),
@@ -74,14 +72,18 @@ const Info = () => {
     let userData = {
       uid: loginData.uid,
       email: location.state?.email,
-      phone: location.state?.mobileNumber,
+      phone: `+${location.state?.mobileNumber}`
     };
 
-    let res = await ApiService(`on-boarding/update-information`, `PUT`, data);
     let response = await ApiService(`/user/create`, `POST`, userData);
-    if (res?.data?.code === 200) {
-      navigate('/dashboard');
+    if(response?.data?.code === 200) {
+      let res = await ApiService(`on-boarding/update-information`, `PUT`, data);
+      if (res?.data?.code === 200) {
+        navigate('/dashboard');
+        dispatch(setIsAuthenticated(true));
+      }
     }
+    
   };
 
   const getCollageList = async () => {
@@ -398,7 +400,7 @@ const Info = () => {
                       ) : null}
 
                       <div className="d-grid gap-2 my-3">
-                        <Button type="submit" variant="info">
+                        <Button type="submit" variant="secondary">
                           Get Started
                         </Button>
                       </div>

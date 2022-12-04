@@ -13,23 +13,25 @@ import '../custom.css';
 import '../pages/auth/auth.scss';
 import { logout } from '../firebase/firebaseAuth';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setIsAuthenticated } from '../redux/actions/AuthAction';
 
-const PrimaryNavbar = () => {
+const PrimaryNavbar = ({ isAuthenticated }) => {
   const navigate = useNavigate();
   const path = useLocation().pathname;
   const url = window.location.pathname.split('/').pop();
   const [user, setUser] = React.useState();
-  const [showAuthNavItems, setShowAuthNavItems] = React.useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem('user')));
-    if(user) {
-      setShowAuthNavItems(true);
-    }
-    if(path === '/info' || path === '/') {
-      setShowAuthNavItems(false);
-    }
   }, [])
+
+  const logOutHandler = async() => {
+    await logout();
+    dispatch(setIsAuthenticated(false));
+    navigate('/');
+  }
 
   return (
     <div className="custom-header">
@@ -49,42 +51,39 @@ const PrimaryNavbar = () => {
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
-          { showAuthNavItems && (
-            <div className="d-flex profile-sidebar-unikaksha">
-            <Nav className="ms-auto">
-              <Nav.Link href="#features" className="notification-link">
-                <img src={Notify} alt="notification" />
-              </Nav.Link>
-              <Nav.Link href="#features" className="notification-link-dp">
-                <Dropdown>
-                  <Dropdown.Toggle id="dropdown-basic" className="dropdown-design">
-                    <img src={Profileimg} alt="profile" className="profile-avatar" />
-                    <span className="avatar-name">John Smith</span>
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu>
-                    <Dropdown.Item href="#/action-1">
-                      <img src={Course} alt="profile" />
-                      My Courses
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">
-                      {' '}
-                      <img src={Profile} alt="profile" />
-                      My Profile
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={async () => {
-                        logout();
-                        navigate('/');
-                      }}>
-                      <img src={Logout} alt="profile" />
-                      Logout
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </Nav.Link>
-            </Nav>
-          </div>
+          {isAuthenticated && (
+              <div className="d-flex profile-sidebar-unikaksha">
+              <Nav className="ms-auto">
+                <Nav.Link href="#features" className="notification-link">
+                  <img src={Notify} alt="notification" />
+                </Nav.Link>
+                <Nav.Link href="#features" className="notification-link-dp">
+                  <Dropdown>
+                    <Dropdown.Toggle id="dropdown-basic" className="dropdown-design">
+                      <img src={Profileimg} alt="profile" className="profile-avatar" />
+                      <span className="avatar-name">John Smith</span>
+                    </Dropdown.Toggle>
+  
+                    <Dropdown.Menu>
+                      <Dropdown.Item href="#/action-1">
+                        <img src={Course} alt="profile" />
+                        My Courses
+                      </Dropdown.Item>
+                      <Dropdown.Item href="#/action-2">
+                        {' '}
+                        <img src={Profile} alt="profile" />
+                        My Profile
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={() => logOutHandler()}>
+                        <img src={Logout} alt="profile" />
+                        Logout
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Nav.Link>
+              </Nav>
+            </div>
           )}
         </Container>
       </Navbar>

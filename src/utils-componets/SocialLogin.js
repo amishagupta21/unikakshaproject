@@ -1,29 +1,28 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import facebookIcon from '../assets/images/Facebook-icon.svg';
 import googleIcon from '../assets/images/Google-icon.svg';
-import { toast } from 'react-toastify';
 import { signInWithFacebook, signInWithGoogle } from '../firebase/firebaseAuth';
-import { useNavigate } from 'react-router-dom';
-import { setLoading } from '../redux/actions/LoaderActions';
-import { useDispatch } from 'react-redux';
-import { Button } from 'react-bootstrap';
-import ApiService from '../services/ApiService';
 
 const SocialLogin = ({ setFieldValue }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const dualAuth = async (userDetail) => {
-    console.log('userDetail', userDetail);
     let data = {
       uid: userDetail?.uid,
       email: userDetail?.email,
-      phone: '1238071892',
+      fullName: userDetail?.displayName
     };
-    const response = await ApiService('user/create', 'POST', data);
-    if (response?.data?.code === 200) {
-      navigate('/dashboard');
-    }
+    navigate('/signup', {
+      state: data
+    });
+    // const response = await ApiService('user/create', 'POST', data);
+    // if (response?.data?.code === 200) {
+    //   navigate('/dashboard');
+    // }
   };
   return (
     <>
@@ -32,16 +31,10 @@ const SocialLogin = ({ setFieldValue }) => {
           className="social-btn"
           variant="outline-dark"
           onClick={async () => {
-            // dispatch(setLoading(true));
             const res = await signInWithGoogle();
-            console.log('response latest=>>', res);
-            // dispatch(setLoading(false));
             if (res?.user) {
-              // setFieldValue("fullName", res?.user.displayName)
-              // setFieldValue("email", res?.user.email)
               localStorage.setItem('user', JSON.stringify(res?.user));
               dualAuth(res?.user);
-              // navigate('/info');
             }
           }}>
           <img className="mx-2" src={googleIcon} alt="google" />

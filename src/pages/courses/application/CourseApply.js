@@ -54,7 +54,6 @@ const CourseApplication = () => {
             personal_details: personalDetails
         }
         const response = await ApiService('/student/personal-details', `POST`, payload, true);
-        console.log(response)
         if(response?.data.code === 200) {
             nextPage();
         }

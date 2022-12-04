@@ -1,10 +1,6 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
+import { Button, FormSelect, Badge, FormControl, FormLabel, FormGroup } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
-import FormControl from 'react-bootstrap/FormControl';
-import FormGroup from 'react-bootstrap/FormGroup';
-import FormLabel from 'react-bootstrap/FormLabel';
-import FormSelect from 'react-bootstrap/FormSelect';
 import { Form, Field, Formik } from 'formik';
 import * as Yup from 'yup';
 import Row from 'react-bootstrap/Row';
@@ -22,6 +18,7 @@ import './auth.scss';
 import LeftBox from './components/LeftBox';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import ApiService from '../../services/ApiService';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -35,6 +32,41 @@ const Login = () => {
       defaultCountry: 'IN',
     }));
   };
+
+  const checkIfUserExists = async (email, phone) => {
+    const result = await ApiService('user/check-exists', 'POST', { email, phone }, true);
+    return result?.data?.data?.user;
+  }
+
+  const singInwithEmail = async (values) => {
+    const { email } = values;
+    const user = await checkIfUserExists(email, null);
+    if (user) {
+      const { phone, uid } = user;
+      if(phone) {
+        sendOTP(phone);
+      }
+    } else {
+      // TODO
+      // user not found
+      alert('User Not Found')
+    }
+  }
+
+  const signInWithNumber = async (values) => {
+    const { mobileNumber } = values;
+    const user = await checkIfUserExists(null, mobileNumber);
+    if (user) {
+      const { phone, uid } = user;
+      if (phone) {
+        sendOTP(phone);
+      }
+    } else {
+      // TODO
+      // user not found
+      alert('User Not Found')
+    }
+  }
 
   const sendOTP = async (phoneNumber) => {
     const appVerifier = configureCaptcha();
@@ -73,9 +105,7 @@ const Login = () => {
             <div className="log-in-title">Log in</div>
             <div href="#" className="resetpassword create-account">
               Don't have account?
-              <a href="">
-                <Link to="/signup"> Create New</Link>
-              </a>
+              <Link to="/signup"> Create New</Link>
             </div>
             <div href="#" className="signin-text">
               Signin using
@@ -87,12 +117,12 @@ const Login = () => {
                     <Nav variant="pills" className="custom-tabs-container">
                       <Nav.Item>
                         <Nav.Link eventKey="first">
-                          <Button>Mobile</Button>
+                            Mobile
                         </Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
                         <Nav.Link eventKey="second">
-                          <Button>Email</Button>
+                            Email
                         </Nav.Link>
                       </Nav.Item>
                     </Nav>
@@ -112,11 +142,7 @@ const Login = () => {
                             // ((values.mobileNumber.length-values.mobileLength) === 10)
                           })}
                           onSubmit={(values) => {
-                            const { mobileNumber } = values;
-                            console.log('moo ::::', mobileNumber);
-                            if (values.mobileNumber) {
-                              sendOTP(mobileNumber);
-                            }
+                            signInWithNumber(values);
                           }}
                           render={({
                             handleChange,
@@ -150,11 +176,10 @@ const Login = () => {
                               {errors.mobileNumber && touched.mobileNumber ? (
                                 <div className="error-text">{errors.mobileNumber}</div>
                               ) : null}
-                              <div className="d-grid gap-2">
-                                {console.log('op==>>', values.mobileLength)}
+                              <div className="d-grid gap-2 mt-4">
                                 <Button
                                   type="submit"
-                                  variant="info"
+                                  variant="secondary"
                                   disabled={
                                     !(values.mobileNumber.length - values.mobileLength === 10)
                                   }>
@@ -174,13 +199,7 @@ const Login = () => {
                             email: Yup.string().email('Invalid email').required('Required'),
                           })}
                           onSubmit={(values) => {
-                            if (values.email) {
-                              navigate('/password', {
-                                state: {
-                                  email: values.email,
-                                },
-                              });
-                            }
+                            singInwithEmail(values);
                           }}
                           render={({
                             handleChange,
@@ -217,7 +236,7 @@ const Login = () => {
                                 <div className="error-text">{errors.email}</div>
                               ) : null}
                               <div className="d-grid gap-2">
-                                <Button type="submit" variant="info">
+                                <Button type="submit" className="btn-secondary" variant="secondary">
                                   Log in
                                 </Button>
                               </div>
