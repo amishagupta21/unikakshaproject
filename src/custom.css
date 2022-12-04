@@ -392,22 +392,31 @@ button.btn-lg.justify-content-center.btn-border.btn.btn-info {
   padding-left: 95px;
 }
 
+.custom-tabs-container.nav.nav-pills {
+  background-color: #363F5E;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 30px;
+}
+
 .custom-tabs-container.nav.nav-pills .nav-link {
-  background-color: transparent !important;
-  border-radius: 0;
-  width: 55px;
+  border-radius: 30px;
+  width: 179px;
   height: 47px;
   text-align: center;
   line-height: 30px;
-  border: 1px solid #d2d2d2;
+  color: white;
+  border: none !important;
 }
 
 .custom-tabs-container.nav.nav-pills .nav-link.active {
   box-shadow: 0px 0px 6px rgb(0 0 0 / 25%);
+  color: #363F5E;
+  background-color: white !important;
 }
 
 .custom-tabs-container.nav.nav-pills .nav-item {
-  margin-right: 30px;
+  margin-right: unset !important;
 }
 
 .form-group-1 .form-control::-webkit-input-placeholder {
@@ -948,8 +957,7 @@ button.menu-bar {
   color: #262626;
   font-weight: 600;
   font-family: 'Urbanist', sans-serif;
-  padding-left: 20px;
-  padding-right: 20px;
+  margin-left: 16px;
   font-size: 16px;
 }
 

@@ -27,7 +27,6 @@ const Homepage = () => {
     const isFetched = await fetchAndActivate(remoteConfig);
     const temp3 = await getValue(remoteConfig, 'skill_fit_data');
     const responseData = await JSON.parse(temp3._value);
-    console.log('response fit data', responseData);
     setData(responseData);
     fetchCourseDetails(responseData);
   };

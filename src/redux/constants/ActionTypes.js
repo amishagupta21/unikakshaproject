@@ -1,3 +1,4 @@
 export const ActionTypes = {
   SET_LOADING: 'SET_LOADING',
+  SET_IS_AUTHENTICATED: 'SET_IS_AUTHENTICATED',
 };

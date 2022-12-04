@@ -13,6 +13,8 @@ import {
 import { toast } from 'react-toastify';
 import { firebaseConfig } from './firebase';
 import { getRemoteConfig, getValue, fetchAndActivate } from 'firebase/remote-config';
+import { setIsAuthenticated } from '../redux/actions/AuthAction';
+import { useDispatch } from 'react-redux';
 
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
