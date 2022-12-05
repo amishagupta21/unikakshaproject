@@ -20,7 +20,7 @@ const CourseList = ({ courses }) => {
   }
 
   const viewDetails = (course) => {
-    navigate(`/course/${course.course_url}/${course.id}`, { state: course });
+    navigate(`/course/${course.course_url}`, { state: course });
   }
 
   const navigate = useNavigate();

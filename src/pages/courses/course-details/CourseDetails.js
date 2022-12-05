@@ -14,17 +14,21 @@ function CourseDetails() {
     const params = useParams();
 
     const fetchCourseDetails = async(params) => {
-        const { courseId } = params;
-        const res = await ApiService(`courses/${courseId}/detail`);
+       
+        console.log(params);
+        const { courseVariantSlug } = params;
+        const res = await ApiService(`courses/course_url/${courseVariantSlug}/detail`);
         return res?.data?.data?.course;
     }
 
     const fetchInitialData = async(params) => {
+       console.log(state);
         const courseData = state ? state : await fetchCourseDetails(params);
         setCourseDetails(courseData);
     }  
 
     useEffect(() => {
+       
         fetchInitialData(params);
     },[])
 
