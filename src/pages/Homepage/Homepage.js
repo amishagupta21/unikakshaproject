@@ -1,10 +1,7 @@
 import { fetchAndActivate, getValue } from 'firebase/remote-config';
 import React, { useEffect, useState } from 'react';
 import { Row } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
-import Footer from '../../components/Footer';
 import InviteNow from '../../components/InviteNow';
-import PrimaryNavbar from '../../components/PrimaryNavbar';
 import { remoteConfig } from '../../firebase/firebaseAuth';
 import ApiService from '../../services/ApiService';
 import CourseList from './components/CourseList';

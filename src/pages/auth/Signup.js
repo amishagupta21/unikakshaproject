@@ -158,7 +158,7 @@ const Signup = () => {
 													<FormLabel>Mobile Number<em className="red top">*</em></FormLabel>
 													<PhoneInput
 														placeholder="Enter mobile number"
-														country={'us'}
+														country={'in'}
 														value={field.value}
 														onChange={(phone, data) => {
 															setFieldValue('mobileNumber', phone)

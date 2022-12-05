@@ -163,7 +163,7 @@ const Login = () => {
                                   <Row className="mb-0">
                                     <FormLabel>Enter Number</FormLabel>
                                     <PhoneInput
-                                      country={'us'}
+                                      country={'in'}
                                       value={field.value}
                                       onChange={(phone, data) => {
                                         setFieldValue('mobileNumber', phone);

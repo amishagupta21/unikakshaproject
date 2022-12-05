@@ -25,7 +25,7 @@ const App = () => {
     <div>
       {!isLoader ? (
         <BrowserRouter>
-            <PrimaryNavbar isAuthenticated={isAuthenticated}/>
+            <PrimaryNavbar />
             <Routes>
               <Route exact={true} path="/" element={<Login />} />
               <Route element={<PrivateRoute />}>

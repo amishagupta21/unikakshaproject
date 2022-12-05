@@ -13,15 +13,16 @@ import '../custom.css';
 import '../pages/auth/auth.scss';
 import { logout } from '../firebase/firebaseAuth';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setIsAuthenticated } from '../redux/actions/AuthAction';
 
-const PrimaryNavbar = ({ isAuthenticated }) => {
+const PrimaryNavbar = () => {
   const navigate = useNavigate();
   const path = useLocation().pathname;
   const url = window.location.pathname.split('/').pop();
   const [user, setUser] = React.useState();
   const dispatch = useDispatch();
+  let isAuth = useSelector((state) => state?.auth?.isAuthenticated) || localStorage.getItem("isAuthenticated");
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem('user')));
@@ -51,7 +52,7 @@ const PrimaryNavbar = ({ isAuthenticated }) => {
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
-          {isAuthenticated && (
+          {isAuth && (
               <div className="d-flex profile-sidebar-unikaksha">
               <Nav className="ms-auto">
                 <Nav.Link href="#features" className="notification-link">

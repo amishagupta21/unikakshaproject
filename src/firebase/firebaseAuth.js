@@ -1,20 +1,10 @@
 import { initializeApp } from 'firebase/app';
 import {
-  GoogleAuthProvider,
-  getAuth,
-  signInWithPopup,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  sendPasswordResetEmail,
-  FacebookAuthProvider,
-  TwitterAuthProvider,
-  signOut,
+  createUserWithEmailAndPassword, FacebookAuthProvider, getAuth, GoogleAuthProvider, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, TwitterAuthProvider
 } from 'firebase/auth';
+import { getRemoteConfig } from 'firebase/remote-config';
 import { toast } from 'react-toastify';
 import { firebaseConfig } from './firebase';
-import { getRemoteConfig, getValue, fetchAndActivate } from 'firebase/remote-config';
-import { setIsAuthenticated } from '../redux/actions/AuthAction';
-import { useDispatch } from 'react-redux';
 
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
