@@ -55,7 +55,7 @@ const Login = () => {
 
   const signInWithNumber = async (values) => {
     const { mobileNumber } = values;
-    const user = await checkIfUserExists(null, mobileNumber);
+    const user = await checkIfUserExists(null, `+${mobileNumber}`);
     if (user) {
       const { phone, uid } = user;
       if (phone) {
