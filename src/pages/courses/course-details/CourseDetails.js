@@ -5,70 +5,58 @@ import ApiService from '../../../services/ApiService';
 import { useLocation, useParams } from 'react-router-dom';
 import { emptystar, fullstar, tick } from '../../../assets/images';
 import Rating from 'react-rating';
-
+import parse from 'html-react-parser';
+import Placementpartner from '../../Homepage/components/Placementpartner';
 
 function CourseDetails() {
 
     const [courseDetails, setCourseDetails] = React.useState();
     const { state } = useLocation();
     const params = useParams();
+    const [coureseVariantBatches, setVariantcoureseBatches] = React.useState([]);
+    const [eligibilityCriteria, setEligibilityCriteria] = React.useState([]);
 
     const fetchCourseDetails = async(params) => {
        
-        console.log(params);
+        // console.log(params.course_variant_sections);
         const { courseVariantSlug } = params;
         const res = await ApiService(`courses/course_url/${courseVariantSlug}/detail`);
         return res?.data?.data?.course;
     }
 
+    const fetchVariantBatches = async(courseVariantId) => {
+
+        console.log(courseVariantId);
+
+        const res = await ApiService(`courses/${courseVariantId}/batch/list`);
+        return res?.data?.data?.result;
+    }
+
     const fetchInitialData = async(params) => {
-       console.log(state);
+       
         const courseData = state ? state : await fetchCourseDetails(params);
+        const variantBatches = await fetchVariantBatches(courseData.id);
         setCourseDetails(courseData);
+        setVariantcoureseBatches(variantBatches);
+        
+
     }  
+
+    const convertDate = (dateInput) => {
+        const date = new Date(dateInput)
+        const formattedDate = date.toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+        })
+       return formattedDate;
+    }
 
     useEffect(() => {
        
         fetchInitialData(params);
     },[])
-
-    const Batches = [
-        {
-            label: '100% Live Classes',
-            value: 'sasxaskbsdclkbdshckbaslkdbckdjsbc',
-        },
-        {
-            label: 'Certificate',
-            value: 'sasxaskbsdclkbdshckbaslkdbckdjsbc',
-        },
-        {
-            label: 'Course Structure',
-            value: 'sasxaskbsdclkbdshckbaslkdbckdjsbc',
-        },
-    ];
-    const Eligibility = [
-        {
-            label: 'Qualification',
-            value: 'sasxaskbsdclkbdshckbaslkdbckdjsbc',
-        },
-        {
-            label: 'Document Required',
-            value: 'sasxaskbsdclkbdshckbaslkdbckdjsbc',
-        },
-        {
-            label: 'Age Limit',
-            value: 'sasxaskbsdclkbdshckbaslkdbckdjsbc',
-        },
-        {
-            label: 'Skill Requirement',
-            value: 'sasxaskbsdclkbdshckbaslkdbckdjsbc',
-        },
-        {
-            label: 'Hardware Required',
-            value: 'sasxaskbsdclkbdshckbaslkdbckdjsbc',
-        },
-    ];
-
+    
     const jobs = [
         'Front-end developer',
         'Web programmer',
@@ -112,26 +100,32 @@ function CourseDetails() {
         });
         return items;
     };
+
     const getBatches = () => {
-        let items = Batches.map((element, index) => {
+      
+        let items = coureseVariantBatches?.map((element, index) => {
+            
             return (
                 <CardGroup key={index}>
                     <Col>
                         <Card className="cardStyle">
                             <Card.Body className="text-left-align">
-                                <h6 className="font-color text-left-align mtb5">Starts From</h6>
-                                <p className="text-left-align mtb5">12th December 2022</p>
-                                <Button variant="secondary"> Apply Now </Button>
+                                <h6 className="font-color text-left-align mtb5"> Starts From </h6>
+                                <p className="text-left-align mtb5">{ convertDate(element.start_date) }</p>
+                                <Button variant="secondary"> { index == 0 ? 'Apply Now' : 'Upcoming' } </Button>
                             </Card.Body>
                         </Card>
                     </Col>
                 </CardGroup>
             );
+
         });
         return items;
     };
+
     const getEligibility = () => {
-        let items = Eligibility.map((element, index) => {
+        const Eligibility = courseDetails?.course_variant_sections?.eligibilityCriteria?.value;
+        let items = Eligibility?.map((element, index) => {
             return (
                 <CardGroup key={index}>
                     <Col>
@@ -142,9 +136,9 @@ function CourseDetails() {
                                         <span className="Squre"></span>
                                     </Col>
                                     <Col lg={11} md={10} sm={8}>
-                                        <span className="font-color">{element.label}</span>
+                                        <span className="font-color">{element.key}</span>
                                         <div className="mt2">
-                                            <p>Valid Pan card and Adhar card</p>
+                                            {parse(element.value)}
                                         </div>
                                     </Col>
                                 </Row>
@@ -156,6 +150,49 @@ function CourseDetails() {
         });
         return items;
     };
+
+    const getWhatWillYouLearn = () => {
+        const whatWillYouLearn = courseDetails?.course_variant_sections?.whatWillYouLearn?.value;
+        let items = whatWillYouLearn?.map((element, index) => {
+        return (
+            <CardGroup key={index}>
+                <Col>
+                    <Card className="cardStyle learn">
+                        <Card.Body className="text-left-align">
+                            <h6 className="font-color text-left-align mtb5"> { element.label } </h6>
+                            <p className="text-left-align mtb5">{ element.content }</p>
+                            
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </CardGroup>
+        );
+
+        });
+        return items;
+    };
+
+    const getHiringPartners = () => {
+        const hiringPartners = courseDetails?.course_variant_sections?.placementPartner?.value;
+        let items = hiringPartners?.map((element, index) => {
+        return (
+            <CardGroup key={index}>
+                <Col>
+                
+                    <Card className="cardStyle partners">
+                        <Card.Body className="text-left-align">
+                            <h5 className="font-color text-left-align mtb5"> { element } </h5>
+                            
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </CardGroup>
+        );
+
+        });
+        return items;
+    };
+
     const getJobs = () => {
         let items = jobs.map((element, index) => {
             return (
@@ -263,6 +300,14 @@ function CourseDetails() {
                                 {getEligibility()}
                             </Row>
                             <h4 className="font-color mb2" id=''>What Will You Learn?</h4>
+                            <Row xs={1} md={3} className="mtb5">
+                                {getWhatWillYouLearn()}
+                            </Row>
+
+                            <h4 className="font-color mb2" id=''>Hiring Partners</h4>
+                            <Row xs={1} md={3} className="mtb5">
+                                {getHiringPartners()}
+                            </Row>
                             
                             {courseDetails?.course_type !== 'PartTime' && (
                                     <>

@@ -228,4 +228,11 @@
         border-radius   : 20%;
         display         : inline-block;
     }
+    .partners {
+        min-height: 0px !important;
+    }
+
+    .cardStyle.card.learn {
+        height: 250px !important;
+    }
 }
