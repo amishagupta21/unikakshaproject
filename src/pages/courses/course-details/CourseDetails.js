@@ -7,6 +7,7 @@ import { emptystar, fullstar, tick, calendar1, computer, overview } from '../../
 import Rating from 'react-rating';
 import parse from 'html-react-parser';
 import Placementpartner from '../../Homepage/components/Placementpartner';
+import { getByDisplayValue } from '@testing-library/react';
 
 function CourseDetails() {
 
@@ -66,6 +67,7 @@ function CourseDetails() {
         'Programmer',
         'Backend Developer',
     ];
+
 
     const RatingComponent = () => {
         const ratingInDecimal = courseDetails?.course_variant_sections?.ratings?.value.split('/')[0];
@@ -144,6 +146,34 @@ function CourseDetails() {
                                        
                                         {parse(element.value)}
                                         
+                                    </Col>
+                                </Row>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                </CardGroup>
+            );
+        });
+        return items;
+    };
+
+    const getPaymentsPlans = () => {
+
+        const paymentPlans = courseDetails?.course_variant_sections?.feesStructure?.value;
+        let items = paymentPlans?.map((element, index) => {
+            return (
+                <CardGroup key={index}>
+                    <Col>
+                        <Card className="eligibility-card-style">
+                            <Card.Body className="text-left-align">
+                          
+                                <Row>
+                                    
+                                <Col lg={11} md={10} sm={8} >
+                                    <h6 className="font-color text-left-align mtb1 payment-title"> { element.key } </h6>
+                                    <span className='payment-content'>{parse(element.value)}</span>
+                                       
+                                
                                     </Col>
                                 </Row>
                             </Card.Body>
@@ -308,8 +338,8 @@ function CourseDetails() {
                             </Row>
 
                             <h4 className="font-color mb2" id='paymode'>Choose A Payment Plan That Works For You</h4>
-                            <Row xs={1} md={4} className="mtb5">
-                                
+                            <Row xs={1} md={1} className="mtb5">
+                                {getPaymentsPlans()}
                             </Row>
 
                             <h4 className="font-color mb2" id='learnings'>What Will You Learn?</h4>

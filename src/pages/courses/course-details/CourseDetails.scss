@@ -315,6 +315,7 @@
         font-weight: 400;
         font-size: 18px;
         line-height: 21px;
+        text-align: justify;
     }
     .upcoming-btn {
         background: #FFFFFF;
@@ -335,6 +336,7 @@
     }
     .eligibility-content {
         padding-left: 28px;
+        line-height: 28px;
     }
     .calendar-icon {
         padding-right: 10px;
@@ -345,5 +347,23 @@
 
     .overview-icon {
         margin: 18px 0px 0px 14px;
+    }
+    .payment-title {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 183.5%;
+        /* identical to box height, or 37px */
+        color: #A994FF;
+    }
+    .payment-content {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 20px;
+        color: #363F5E;
+        line-height: 28px;
     }
 }
