@@ -23,6 +23,7 @@ const App = () => {
 
   return (
     <div>
+      
       {!isLoader ? (
         <BrowserRouter>
             <PrimaryNavbar />
@@ -32,7 +33,7 @@ const App = () => {
                 <Route path="dashboard" element={<Homepage />}/>
                 <Route path="course/apply" element={ <CourseApplication /> } />
                 <Route path='my-courses' element={<MyCourses/>} />
-                <Route path='course/:courseVariantSlug/:courseId' element={<CourseDetails />}/>
+                <Route path='course/:courseVariantSlug' element={<CourseDetails />}/>
               </Route>
               {/* <Route path="dashboard" element={<PrivateRoute><Homepage /></PrivateRoute>}/>
               <Route path="course/apply" element={<PrivateRoute> <CourseApplication /> </PrivateRoute>} />

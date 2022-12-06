@@ -75,6 +75,8 @@ import undrawFriends from './CourseApplication/undraw_friends_r511.svg';
 import tick from './CourseDetails/circle-tick.svg';
 import fullstar from './CourseDetails/fullstar.svg';
 import emptystar from './CourseDetails/emptystar.svg';
+import computer from './CourseDetails/computer.svg';
+import overview from './CourseDetails/overview.svg';
 
 export {
     iconTwit,
@@ -151,5 +153,7 @@ export {
     wrappedGift,
     tick,
     fullstar,
-    emptystar
+    emptystar,
+    computer,
+    overview
 };
