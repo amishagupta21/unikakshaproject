@@ -3,7 +3,7 @@ import { Button, Card, CardGroup, CardImg, Carousel, CarouselItem, Col, Containe
 import './CourseDetails.scss';
 import ApiService from '../../../services/ApiService';
 import { useLocation, useParams } from 'react-router-dom';
-import { emptystar, fullstar, tick } from '../../../assets/images';
+import { emptystar, fullstar, tick, calendar1, computer, overview } from '../../../assets/images';
 import Rating from 'react-rating';
 import parse from 'html-react-parser';
 import Placementpartner from '../../Homepage/components/Placementpartner';
@@ -87,9 +87,10 @@ function CourseDetails() {
                     <Col>
                         <Card className="cardStyle">
                             <Card.Body className="text-left-align">
-                                <span className="circle"></span>
+                                <span className="circle"><img src={overview} alt="Course Overview" className='overview-icon' /></span>
                                 <h6 className="font-color text-left-align mtb5">{element?.label}</h6>
                                 <p className="text-left-align mtb5">
+                                
                                     {element?.content}
                                 </p>
                             </Card.Body>
@@ -108,11 +109,13 @@ function CourseDetails() {
             return (
                 <CardGroup key={index}>
                     <Col>
-                        <Card className="cardStyle">
+                        <Card className="batch-card-style">
                             <Card.Body className="text-left-align">
                                 <h6 className="font-color text-left-align mtb5"> Starts From </h6>
-                                <p className="text-left-align mtb5">{ convertDate(element.start_date) }</p>
-                                <Button variant="secondary"> { index == 0 ? 'Apply Now' : 'Upcoming' } </Button>
+                                <p>
+                                <img src={calendar1} alt="Calendar" className='calendar-icon' /><span className="text-left-align mtb5">{ convertDate(element.start_date) }</span>
+                                </p>
+                                <Button variant="secondary" className={ index == 0 ? "" : "upcoming-btn" }> { index == 0 ? 'Apply Now' : 'Upcoming' } </Button>
                             </Card.Body>
                         </Card>
                     </Col>
@@ -129,17 +132,18 @@ function CourseDetails() {
             return (
                 <CardGroup key={index}>
                     <Col>
-                        <Card className="EligibilitycardStyle">
+                        <Card className="eligibility-card-style">
                             <Card.Body className="text-left-align">
                                 <Row>
                                     <Col lg={1} md={2} sm={4}>
-                                        <span className="Squre"></span>
+                                        <span className="Squre"><img src={computer} alt="Computer" className='computer-icon' /></span>
                                     </Col>
-                                    <Col lg={11} md={10} sm={8}>
+                                    <Col lg={11} md={10} sm={8} className='eligibility-content'>
+                                       
                                         <span className="font-color">{element.key}</span>
-                                        <div className="mt2">
-                                            {parse(element.value)}
-                                        </div>
+                                       
+                                        {parse(element.value)}
+                                        
                                     </Col>
                                 </Row>
                             </Card.Body>
@@ -157,9 +161,9 @@ function CourseDetails() {
         return (
             <CardGroup key={index}>
                 <Col>
-                    <Card className="cardStyle learn">
+                    <Card className="learn">
                         <Card.Body className="text-left-align">
-                            <h6 className="font-color text-left-align mtb5"> { element.label } </h6>
+                            <h6 className="font-color text-left-align mtb5 learn-label"> { element.label } </h6>
                             <p className="text-left-align mtb5">{ element.content }</p>
                             
                         </Card.Body>
@@ -271,11 +275,14 @@ function CourseDetails() {
                                     <Nav.Link href='#about'>About the course</Nav.Link>
                                     <Nav.Link href='#batches'>Batches</Nav.Link>
                                     <Nav.Link href='#eligibility'>Eligibility Criteria</Nav.Link>
+                                    <Nav.Link href='#paymode'>Payment Structure</Nav.Link>
                                     {courseDetails?.course_type !== 'PartTime' && (
                                         <Nav.Link href='#jobs'>Jobs Role You Can Get</Nav.Link>
                                     )}
-                                    <Nav.Link href='#learnings'>What Will You Learn?</Nav.Link>
-                                    <Nav.Link href='#paymode'>Payment Structure</Nav.Link>
+                                    <Nav.Link href='#learnings'>
+                                        What Will You Learn?
+                                        </Nav.Link>
+                                   
                                     <Nav.Link href='#hiring-partners'>Hiring Partners</Nav.Link>
                                 </Nav>
                             </div>
@@ -299,17 +306,24 @@ function CourseDetails() {
                             <Row xs={1} md={1} className="mtb5">
                                 {getEligibility()}
                             </Row>
-                            <h4 className="font-color mb2" id=''>What Will You Learn?</h4>
-                            <Row xs={1} md={3} className="mtb5">
+
+                            <h4 className="font-color mb2" id='paymode'>Choose A Payment Plan That Works For You</h4>
+                            <Row xs={1} md={4} className="mtb5">
+                                
+                            </Row>
+
+                            <h4 className="font-color mb2" id='learnings'>What Will You Learn?</h4>
+                            <h6 className='learn-sub-title'>{courseDetails?.course_variant_sections?.whatWillYouLearn?.label}</h6>
+                            <Row xs={1} md={2} className="mtb1">
                                 {getWhatWillYouLearn()}
                             </Row>
 
-                            <h4 className="font-color mb2" id=''>Hiring Partners</h4>
+                            <h4 className="font-color mb2" id='hiring-partners'>Hiring Partners</h4>
                             <Row xs={1} md={3} className="mtb5">
                                 {getHiringPartners()}
                             </Row>
                             
-                            {courseDetails?.course_type !== 'PartTime' && (
+                            {courseDetails?.course_type !== "PartTime" && (
                                     <>
                                         <h4 className="font-color mb2" id='jobs'>The Best Job Roles You Can Get</h4>
                                         <Row xs={1} md={4} className="mtb5">
@@ -318,8 +332,7 @@ function CourseDetails() {
                                     </>
                                 )
                             }
-                            <h4 className="font-color mb2" id='paymode'>Choose A Payment Plan That Works For You</h4>
-                            <Row xs={1} md={4} className="mtb5"></Row>
+                            
                         </Col>
                     </Row>
 
