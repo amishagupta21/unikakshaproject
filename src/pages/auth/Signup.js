@@ -1,25 +1,35 @@
-import React from 'react';
+import { Field, Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import * as Yup from 'yup';
-import { Link, useNavigate } from 'react-router-dom';
 import FormControl from 'react-bootstrap/FormControl';
 import FormGroup from 'react-bootstrap/FormGroup';
 import FormLabel from 'react-bootstrap/FormLabel';
-import { Form, Field, Formik } from 'formik';
-import { firebase } from '../../firebase/firebase';
-import { useDispatch } from 'react-redux';
-import SocialLogin from '../../utils-componets/SocialLogin';
-import LeftBox from './components/LeftBox';
-import AuthNavbar from './components/AuthNavbar';
+import Row from 'react-bootstrap/Row';
 import PhoneInput from 'react-phone-input-2';
+import { useDispatch } from 'react-redux';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { firebase } from '../../firebase/firebase';
 import { setLoading } from '../../redux/actions/LoaderActions';
+import SocialLogin from '../../utils-componets/SocialLogin';
+import AuthNavbar from './components/AuthNavbar';
+import LeftBox from './components/LeftBox';
 
 const Signup = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const location = useLocation();
+	const [userDetails, setUserDetails] = React.useState({});
+
+	const setInitialData = async () => {
+		setUserDetails(location.state);
+	}
+
+	useEffect(() => {
+		setInitialData();
+	}, [])
 
 	const configureCaptcha = () =>
 	(window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
@@ -29,21 +39,21 @@ const Signup = () => {
 	}));
 
 	const sendOTP = async (values) => {
-		console.log(values);
 		const appVerifier = configureCaptcha();
-		// dispatch(setLoading(true))
 		firebase
 			.auth()
 			.signInWithPhoneNumber(`+${values.mobileNumber}`, appVerifier)
 			.then(async (confirmationResult) => {
 				window.confirmationResult = confirmationResult;
-				// dispatch(setLoading(false))
 				toast.success('OTP has been Sent to Mobile Number', {
 					theme: 'colored',
 				});
 				navigate('/signup-otp', {
 					state: {
-						values: values,
+						values: {
+							mobileNumber: values.mobileNumber,
+							email: values.email
+						},
 					},
 				});
 			})
@@ -56,7 +66,6 @@ const Signup = () => {
 	};
 	return (
 		<>
-			<AuthNavbar />
 			<section className="auth_layout login_screen">
 				<LeftBox />
 				<div className="right_box">
@@ -64,16 +73,15 @@ const Signup = () => {
 						<div className='log-in-title 1'>Sign Up</div>
 						<div href="#" className="resetpassword create-account gray">
 							Already have an account?
-							<a href="">
-								<Link to="/login"> Log in</Link>
-							</a>
+							<Link to="/login"> Log in</Link>
 						</div>
 						<div className="auth_form">
 							<div id="sign-in-button"> </div>
 							<Formik
+							    enableReinitialize={true}
 								initialValues={{
-									fullName: "",
-									email: "",
+									fullName: userDetails ? userDetails.fullName : "" ,
+									email: userDetails ? userDetails.email : "",
 									mobileNumber: "",
 									subscribe: false
 								}}
@@ -83,8 +91,6 @@ const Signup = () => {
 									mobileNumber: Yup.string().min(8, "Too short").required('Required')
 								})}
 								onSubmit={(values) => {
-									const { fullName, email, mobileNumber } = values;
-									console.log("values::", values);
 									sendOTP(values)
 								}}
 								render={({
@@ -152,7 +158,7 @@ const Signup = () => {
 													<FormLabel>Mobile Number<em className="red top">*</em></FormLabel>
 													<PhoneInput
 														placeholder="Enter mobile number"
-														country={'us'}
+														country={'in'}
 														value={field.value}
 														onChange={(phone, data) => {
 															setFieldValue('mobileNumber', phone)
@@ -176,12 +182,14 @@ const Signup = () => {
 											<Button
 												type="submit"
 												disabled={!isValid}
-												variant="info">
+												style={{fontWeight: '500'}}
+												variant="secondary">
 												Sign Up
 											</Button>
 										</div>
 										<div className='space-or'>
-											<span>OR</span>					</div>
+											<span>OR</span>
+										</div>
 										<SocialLogin setFieldValue={setFieldValue} />
 										<div className='policy-terms text-center mt-4'>
 											By clicking sign up you will be agree with our<br />
