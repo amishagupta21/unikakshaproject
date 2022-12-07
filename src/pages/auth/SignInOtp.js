@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Alert } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { useDispatch } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import OtpInput from 'react18-input-otp';
 import { arrowBack } from '../../assets/images';
@@ -18,20 +19,53 @@ const SignInOtp = () => {
   const location = useLocation();
   const phoneNumber = location?.state?.phoneNumber;
   const [otp, setOtp] = useState('');
+  const [otpError, setOtpError] = useState();
+  const [minutes, setMinutes] = useState(2);
+  const [seconds, setSeconds] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (seconds > 0) {
+        setSeconds(seconds - 1);
+      }
+
+      if (seconds === 0) {
+        if (minutes === 0) {
+          clearInterval(interval);
+        } else {
+          setSeconds(59);
+          setMinutes(minutes - 1);
+        }
+      }
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [seconds, minutes]);
 
   const configureCaptcha = () =>
-  (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
-    size: 'invisible',
-    callback: (response) => { },
-    defaultCountry: 'IN',
-  }));
+    (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signin-otp-container', {
+      size: 'invisible',
+      callback: (response) => {},
+      defaultCountry: 'IN',
+    }));
+
+  const resendOTP = (phone) => {
+    if (seconds === 0 && minutes === 0) {
+      setOtp('');
+      setOtpError(null);
+      setMinutes(2);
+      setSeconds(0);
+      sendOTP(phone);
+    }
+  };
 
   const sendOTP = async (phoneNumber) => {
     // dispatch(setLoading(true))
     const appVerifier = configureCaptcha();
     firebase
       .auth()
-      .signInWithPhoneNumber(`+${phoneNumber}`, appVerifier)
+      .signInWithPhoneNumber(phoneNumber, appVerifier)
       .then(async (confirmationResult) => {
         window.confirmationResult = confirmationResult;
         // dispatch(setLoading(false))
@@ -49,14 +83,14 @@ const SignInOtp = () => {
 
   const getUserBasicInfo = async (uid) => {
     const response = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
-    return response.data.data.userProfile.information_data ? true : false;
-  }
+    return response.data.data.userProfile?.information_data ? true : false;
+  };
 
   const onSubmitOTP = () => {
-    dispatch(setLoading(true));
+    // dispatch(setLoading(true));
     window.confirmationResult
       .confirm(otp && otp)
-      .then(async(response) => {
+      .then(async (response) => {
         const { user } = response;
         if (user) {
           dispatch(setIsAuthenticated(true));
@@ -64,9 +98,9 @@ const SignInOtp = () => {
           toast.success('Log in Succesfull', {
             theme: 'colored',
           });
-          
+
           const isBasicInfoExists = await getUserBasicInfo(user.uid);
-          if(isBasicInfoExists) {
+          if (isBasicInfoExists) {
             navigate('/dashboard');
           } else {
             navigate('/info');
@@ -75,29 +109,48 @@ const SignInOtp = () => {
         dispatch(setLoading(false));
       })
       .catch((error) => {
-        navigate('/login')
+        console.log(error)
+        // dispatch(setLoading(false));
+        // navigate('/login');
+        setOtpError("Invalid Code")
       });
   };
   return (
     <>
-      {/* <AuthNavbar /> */}
       <section className="auth_layout login_screen">
         <LeftBox />
         <div className="right_box">
+          <div id="signin-otp-container"></div>
           <div className="right_box_container">
             <div className="auth_form otp-form">
-
               <div className="log-in-title login-head">
-                <img className='me-2' src={arrowBack} alt="back-arrow" />
-                Verify OTP 
+                <img
+                  className="me-2"
+                  onClick={() => navigate(-1)}
+                  src={arrowBack}
+                  alt="back-arrow"
+                />
+                Verify OTP
               </div>
               <p>Enter the OTP sent to your registered email id and mobile number.</p>
+              {otpError && (
+                <Alert key="danger" variant="danger">
+                  {otpError}
+                </Alert>
+              )}
               <div className="otp-input">
                 <OtpInput value={otp} onChange={(e) => setOtp(e)} numInputs={6} />
               </div>
-              <a className="resend-otp" onClick={() => sendOTP(phoneNumber)}>
-                Resend OTP
-              </a>
+              <div>
+                <a className="resend-otp" onClick={() => resendOTP(phoneNumber)}>
+                  Resend OTP
+                </a>
+                <span>
+                  {' '}
+                  in {minutes < 10 ? `0${minutes}` : minutes}:{' '}
+                  {seconds < 10 ? `0${seconds}` : seconds}
+                </span>
+              </div>
               <div className="d-grid gap-2 mt-4">
                 <Button
                   type="submit"
