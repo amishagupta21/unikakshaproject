@@ -31,13 +31,10 @@ function CourseDetails() {
     }
 
     const fetchInitialData = async(params) => {
-       
         const courseData = state ? state : await fetchCourseDetails(params);
         const variantBatches = await fetchVariantBatches(courseData.id);
         setCourseDetails(courseData);
         setVariantcoureseBatches(variantBatches);
-        
-
     }  
 
     const convertDate = (dateInput) => {
