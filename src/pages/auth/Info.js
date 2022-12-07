@@ -12,7 +12,7 @@ import * as Yup from 'yup';
 import { arrowBack } from '../../assets/images';
 import { setIsAuthenticated } from '../../redux/actions/AuthAction';
 import ApiService from '../../services/ApiService';
-import { getCollages, getWorkingPosition } from '../../services/ReuseableFun';
+import { getColleges, getWorkingPosition } from '../../services/ReuseableFun';
 import DatePickerField from '../../Shared-Component-formik/date-picker/DatePickerField ';
 import SchemaList from '../../Shared-Component-formik/schema/SchemaList';
 import FormSelectField from './../../Shared-Component-formik/select/form-select-field';
@@ -28,10 +28,9 @@ const Info = () => {
   const location = useLocation();
 
   const [occ, setocc] = useState();
-  const [collageList, setcollageList] = useState([]);
+  const [collegeList, setCollegeList] = useState([]);
   const [workingPositionList, setworkingPositionList] = useState([]);
 
-  useEffect(() => {}, []);
 
   const initialValues = {
     occupation: '',
@@ -62,7 +61,7 @@ const Info = () => {
       uid: loginData.uid,
       occupation: values.occupation,
       information_data: {
-        referral_code: values.referalCode,
+        ...values.referalCode && { college_name: values.collegeName },
         birth_year: parseInt(values?.birthYear?.getFullYear()),
         ...(occ == 'STUDENT' && { college_name: values.collegeName }),
         ...(occ == 'STUDENT' && { month_year_of_graduation: values.graduationMonth }),
@@ -80,15 +79,15 @@ const Info = () => {
     }
   };
 
-  const getCollageList = async () => {
-    setcollageList(await getCollages());
+  const getCollegeList = async () => {
+    setCollegeList(await getColleges());
   };
   const getWorkingPositionList = async () => {
     setworkingPositionList(await getWorkingPosition());
   };
 
   useEffect(() => {
-    getCollageList();
+    getCollegeList();
     getWorkingPositionList();
   }, []);
 
@@ -182,8 +181,8 @@ const Info = () => {
                             md="12"
                             error={formik?.errors?.collegeName}
                             touched={formik?.touched?.collegeName}>
-                            <option value="">Select a Collage</option>
-                            {collageList.map((col) => {
+                            <option value="">Select a college</option>
+                            {collegeList.map((col) => {
                               return <option value={col.value}>{col.label}</option>;
                             })}
                           </FormSelectField>

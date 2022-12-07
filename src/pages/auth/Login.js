@@ -205,9 +205,6 @@ const Login = () => {
                             singInwithEmail(values);
                           }}
                           render={({
-                            handleChange,
-                            handleSubmit,
-                            handleBlur,
                             values,
                             errors,
                             touched,
@@ -239,7 +236,13 @@ const Login = () => {
                                 <div className="error-text">{errors.email}</div>
                               ) : null}
                               <div className="d-grid gap-2">
-                                <Button type="submit" className="btn-secondary" variant="secondary">
+                                <Button  
+                                  type="submit" 
+                                  className="btn-secondary" 
+                                  variant="secondary" 
+                                  disabled={
+                                    !(values.email)
+                                  }>
                                   Log in
                                 </Button>
                               </div>

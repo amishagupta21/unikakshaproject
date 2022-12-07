@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
-
 import Dropdown from 'react-bootstrap/Dropdown';
 import BrandLogo from '../assets/images/unikaksha-logo.svg';
 import Notify from '../assets/images/icon-notify.svg';
@@ -17,16 +16,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setIsAuthenticated } from '../redux/actions/AuthAction';
 
 const PrimaryNavbar = () => {
+  let isAuth = useSelector((state) => state?.auth?.isAuthenticated) || localStorage.getItem("isAuthenticated");
+  const [user, setUser] = React.useState();
+  
   const navigate = useNavigate();
   const path = useLocation().pathname;
   const url = window.location.pathname.split('/').pop();
-  const [user, setUser] = React.useState();
   const dispatch = useDispatch();
-  let isAuth = useSelector((state) => state?.auth?.isAuthenticated) || localStorage.getItem("isAuthenticated");
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem('user')));
-  }, [])
+  }, [isAuth])
 
   const logOutHandler = async() => {
     await logout();
@@ -52,17 +52,17 @@ const PrimaryNavbar = () => {
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
-          {isAuth && (
+          {(isAuth === true) ?  (
               <div className="d-flex profile-sidebar-unikaksha">
               <Nav className="ms-auto">
                 <Nav.Link href="#features" className="notification-link">
                   <img src={Notify} alt="notification" />
                 </Nav.Link>
-                <Nav.Link href="#features" className="notification-link-dp">
+                <Nav.Link className="notification-link-dp">
                   <Dropdown>
                     <Dropdown.Toggle id="dropdown-basic" className="dropdown-design">
                       <img src={Profileimg} alt="profile" className="profile-avatar" />
-                      <span className="avatar-name">John Smith</span>
+                      <span className="avatar-name">{user?.displayName}</span>
                     </Dropdown.Toggle>
   
                     <Dropdown.Menu>
@@ -85,7 +85,7 @@ const PrimaryNavbar = () => {
                 </Nav.Link>
               </Nav>
             </div>
-          )}
+          ) : ''}
         </Container>
       </Navbar>
     </div>

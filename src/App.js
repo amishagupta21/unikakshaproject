@@ -19,7 +19,7 @@ import PrivateRoute from './Routes/PrivateRoutes';
 
 const App = () => {
   const isLoader = useSelector((state) => state?.loader?.isLoading);
-  const isAuthenticated = useSelector((state) => state?.auth?.isAuthenticated);
+  const isAuthenticated = useSelector((state) => state?.auth?.isAuthenticated) || localStorage.getItem('isAuthenticated');
 
   return (
     <div>
@@ -28,7 +28,7 @@ const App = () => {
         <BrowserRouter>
             <PrimaryNavbar />
             <Routes>
-              <Route exact={true} path="/" element={<Login />} />
+              <Route exact={true} path="/" element={<Login /> } />
               <Route element={<PrivateRoute />}>
                 <Route path="dashboard" element={<Homepage />}/>
                 <Route path="course/apply/:courseVariantSlug" element={ <CourseApplication /> } />
@@ -39,7 +39,7 @@ const App = () => {
               <Route path="course/apply" element={<PrivateRoute> <CourseApplication /> </PrivateRoute>} />
               <Route path='my-courses' element={<PrivateRoute><MyCourses/></PrivateRoute>} />
               <Route path='course/:courseVariantSlug/:courseId' element={<PrivateRoute><CourseDetails /></PrivateRoute>}/> */}
-              <Route path="login" element={<Login />} />
+              <Route path="login" element={<Login /> } />
               <Route path="signup" element={<Signup />} />
               <Route path="info" element={<Info />} />
               <Route path="signin-otp" element={<SignInOtp />} />
