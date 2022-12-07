@@ -19,9 +19,7 @@ function CourseDetails() {
     const [eligibilityCriteria, setEligibilityCriteria] = React.useState([]);
     const navigate = useNavigate();
 
-    const fetchCourseDetails = async(params) => {
-       
-        // console.log(params.course_variant_sections);
+    const fetchCourseDetails = async(params) => {       
         const { courseVariantSlug } = params;
         const res = await ApiService(`courses/course_url/${courseVariantSlug}/detail`);
         return res?.data?.data?.course;
@@ -33,13 +31,10 @@ function CourseDetails() {
     }
 
     const fetchInitialData = async(params) => {
-       
         const courseData = state ? state : await fetchCourseDetails(params);
         const variantBatches = await fetchVariantBatches(courseData.id);
         setCourseDetails(courseData);
         setVariantcoureseBatches(variantBatches);
-        
-
     }  
 
     const convertDate = (dateInput) => {

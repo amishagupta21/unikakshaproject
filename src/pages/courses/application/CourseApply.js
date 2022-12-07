@@ -1,27 +1,11 @@
 import { useFormik } from 'formik';
 import React, { useEffect } from 'react';
-import {
-  Button,
-  ButtonGroup,
-  Card,
-  Col,
-  Container,
-  Form,
-  Row,
-  ToggleButton
-} from 'react-bootstrap';
+import { Button, ButtonGroup, Card, Col, Form, Row, ToggleButton } from 'react-bootstrap';
 import PhoneInput from 'react-phone-input-2';
 import { useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
-import {
-  arrowBack,
-  calendar1,
-  femaleIcon,
-  hourGlass,
-  maleIcon,
-  workingRemote
-} from '../../../assets/images';
+import { arrowBack, calendar1, femaleIcon, hourGlass, maleIcon } from '../../../assets/images';
 import { setLoading } from '../../../redux/actions/LoaderActions';
 import ApiService from '../../../services/ApiService';
 import ApplicationStatus from './ApplicationStatus';
@@ -57,6 +41,7 @@ const CourseApplication = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { state } = useLocation();
+  const params = useParams();
 
   const fetchUserDetails = async () => {
     setIsLoading(true);
@@ -74,8 +59,15 @@ const CourseApplication = () => {
     setGenderValue(details.gender);
   };
 
-  const fetchInitialData = () => {
-    setCourseDetails(state);
+  const fetchCourseDetails = async (params) => {
+    const { courseVariantSlug } = params;
+    const res = await ApiService(`courses/course_url/${courseVariantSlug}/detail`);
+    return res?.data?.data?.course;
+  };
+
+  const fetchInitialData = async () => {
+    const courseData = state ? state : await fetchCourseDetails(params);
+    setCourseDetails(courseData);
     fetchUserDetails();
   };
 
@@ -418,8 +410,8 @@ const CourseApplication = () => {
                 </Form>
               </>
             )}
-            {page === 1 && <EducationDetails nextPage={nextPage} course={courseDetails}/>}
-            {page === 2 && <EntranceTest nextPage={nextPage}/>}
+            {page === 1 && <EducationDetails nextPage={nextPage} course={courseDetails} />}
+            {page === 2 && <EntranceTest nextPage={nextPage} />}
             {page === 3 && (
               <>
                 <TestResult nextPage={nextPage} testResult={{ isPassed: true, marks: 80 }} />

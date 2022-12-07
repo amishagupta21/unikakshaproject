@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 const CourseList = ({ courses }) => {
 
   const apply = (course) => {
-    navigate(`/course/apply?id=${course.id}`, { state: course });
+    navigate(`/course/apply/${course.course_url}`, { state: course });
   }
 
   const viewDetails = (course) => {

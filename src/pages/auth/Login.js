@@ -1,28 +1,28 @@
-import React from 'react';
-import { Button, FormSelect, Badge, FormControl, FormLabel, FormGroup } from 'react-bootstrap';
+import { Field, Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { Button, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
-import { Form, Field, Formik } from 'formik';
-import * as Yup from 'yup';
-import Row from 'react-bootstrap/Row';
-import { Link, useNavigate } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
+import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
-import { useDispatch } from 'react-redux';
-import SocialLogin from '../../utils-componets/SocialLogin';
-import { firebase } from '../../firebase/firebase';
-import { toast } from 'react-toastify';
-import Cookies from 'universal-cookie';
-import { setLoading } from '../../redux/actions/LoaderActions';
-import AuthNavbar from './components/AuthNavbar';
-import './auth.scss';
-import LeftBox from './components/LeftBox';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Cookies from 'universal-cookie';
+import * as Yup from 'yup';
+import { firebase } from '../../firebase/firebase';
+import { setLoading } from '../../redux/actions/LoaderActions';
 import ApiService from '../../services/ApiService';
+import SocialLogin from '../../utils-componets/SocialLogin';
+import './auth.scss';
+import LeftBox from './components/LeftBox';
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
   const cookie = new Cookies();
 
   const configureCaptcha = () => {
@@ -81,9 +81,11 @@ const Login = () => {
           theme: 'colored',
         });
 
-        navigate('/signin-otp', {
+        const redirectUrl = searchParams.get('redirect');
+        const signInUrl = redirectUrl ? `/signin-otp?redirect=${searchParams.get('redirect')}` : '/signin-otp';
+        navigate(signInUrl, {
           state: {
-            phoneNumber: phoneNumber,
+            phoneNumber: phoneNumber
           },
         });
       })

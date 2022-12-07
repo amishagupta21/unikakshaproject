@@ -31,7 +31,7 @@ const App = () => {
               <Route exact={true} path="/" element={<Login />} />
               <Route element={<PrivateRoute />}>
                 <Route path="dashboard" element={<Homepage />}/>
-                <Route path="course/apply" element={ <CourseApplication /> } />
+                <Route path="course/apply/:courseVariantSlug" element={ <CourseApplication /> } />
                 <Route path='my-courses' element={<MyCourses/>} />
                 <Route path='course/:courseVariantSlug' element={<CourseDetails />}/>
               </Route>
