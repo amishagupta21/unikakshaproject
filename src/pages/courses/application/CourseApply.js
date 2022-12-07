@@ -22,14 +22,13 @@ import {
   maleIcon,
   workingRemote
 } from '../../../assets/images';
-import Footer from '../../../components/Footer';
-import PrimaryNavbar from '../../../components/PrimaryNavbar';
 import { setLoading } from '../../../redux/actions/LoaderActions';
 import ApiService from '../../../services/ApiService';
 import ApplicationStatus from './ApplicationStatus';
 import './CourseApply.scss';
 import EducationDetails from './EducationDetails';
 import EnrollmentStatus from './EnrollmentStatus';
+import EntranceTest from './EntranceTest';
 import MultiStepBar from './FormProgress';
 import KYCDocuments from './KYCDocuments';
 import TestResult from './TestResult';
@@ -46,8 +45,6 @@ const steps = [
 ];
 
 const CourseApplication = () => {
-  // const [personalDetails, setPersonalDetails] = React.useState();
-  // const [educationDetails, setEducationDetails] = React.useState();
   const [page, setPage] = React.useState();
   const [stepperTitle, setStepperTitle] = React.useState('');
   const [mobileState, setMobileNumber] = React.useState({ phone: '', data: '' });
@@ -66,9 +63,7 @@ const CourseApplication = () => {
     const localUser = await JSON.parse(localStorage.getItem('user'));
     setUser(localUser);
     const userProfile = await ApiService(`/user/${localUser?.uid}/detail`, 'GET', {}, true);
-    const { education_details, personal_details } = userProfile?.data?.data?.userProfile;
-    // setPersonalDetails(personal_details);
-    // setEducationDetails(education_details);
+    const { personal_details } = userProfile?.data?.data?.userProfile;
     nextPageNumber(0);
     setPersonalDetailsInForm(personal_details);
     setIsLoading(false);
@@ -203,11 +198,10 @@ const CourseApplication = () => {
 
   return (
     <>
-      <PrimaryNavbar />
       {!isLoading && (
         <div className="px-5 my-5 mx-5 course-application">
           <div className="d-flex mt-5">
-            <img className="me-2" src={arrowBack} alt="back-arrow" />
+            <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
             <p className="step-header">{stepperTitle}</p>
           </div>
           <MultiStepBar page={page} onPageNumberClick={nextPageNumber} />
@@ -237,7 +231,7 @@ const CourseApplication = () => {
               <div>
                 <Card.Link
                   style={{ fontSize: '18px', fontWeight: '500', color: '#EF6B29' }}
-                  href="#">
+                  href={`${courseDetails.course_url}`}>
                   View Course
                 </Card.Link>
               </div>
@@ -397,6 +391,7 @@ const CourseApplication = () => {
                         <Form.Control
                           name="guardian_details"
                           onChange={formik.handleChange}
+                          value={formik.values?.guardian_details}
                           type="text"
                           placeholder="Guardian detail"
                         />
@@ -423,37 +418,8 @@ const CourseApplication = () => {
                 </Form>
               </>
             )}
-            {page === 1 && <EducationDetails nextPage={nextPage} />}
-            {page === 2 && (
-              <>
-                <Container className="d-flex">
-                  <Col className="d-flex justify-content-center">
-                    <img src={workingRemote}></img>
-                  </Col>
-                  <Col className="d-flex flex-column justify-content-around mx-5">
-                    <div className="d-flex justify-content-center">
-                      <Button variant="outline-secondary">Take Test</Button>
-                    </div>
-                    <div className="copy-text">
-                      <Form.Control
-                        type="text"
-                        className="text"
-                        value="https://www.skillfit.com/java-test"
-                        readOnly
-                      />
-                      <Button variant="primary">
-                        <i className="bi bi-files"></i>
-                      </Button>
-                    </div>
-                    <div className="text-center">
-                      After taking the test please go back to{' '}
-                      <span className="text-secondary">&quot;My Course&quot;</span> section to
-                      complete the application.
-                    </div>
-                  </Col>
-                </Container>
-              </>
-            )}
+            {page === 1 && <EducationDetails nextPage={nextPage} course={courseDetails}/>}
+            {page === 2 && <EntranceTest nextPage={nextPage}/>}
             {page === 3 && (
               <>
                 <TestResult nextPage={nextPage} testResult={{ isPassed: true, marks: 80 }} />
@@ -492,7 +458,6 @@ const CourseApplication = () => {
           </div>
         </div>
       )}
-      <Footer />
     </>
   );
 };

@@ -46,7 +46,6 @@ const MyCourses = () => {
 
     return (
         <>  
-            <PrimaryNavBar />
             <div className="my-courses d-flex flex-row mx-auto my-5">
                 <Col className="applied-courses me-4" lg={9}>
                     <div className="mb-5">
@@ -117,7 +116,6 @@ const MyCourses = () => {
                     <InviteNow />
                 </Col>
             </div>
-            <Footer />
         </>
     );
 };

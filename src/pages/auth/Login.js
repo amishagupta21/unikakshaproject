@@ -26,7 +26,7 @@ const Login = () => {
   const cookie = new Cookies();
 
   const configureCaptcha = () => {
-    return (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
+    return (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signin-container', {
       size: 'invisible',
       callback: (response) => {},
       defaultCountry: 'IN',
@@ -73,7 +73,7 @@ const Login = () => {
     // dispatch(setLoading(true))
     firebase
       .auth()
-      .signInWithPhoneNumber(`+${phoneNumber}`, appVerifier)
+      .signInWithPhoneNumber(`${phoneNumber}`, appVerifier)
       .then(async (confirmationResult) => {
         window.confirmationResult = confirmationResult;
         // dispatch(setLoading(false))
@@ -105,10 +105,10 @@ const Login = () => {
             <div className="log-in-title">Log in</div>
             <div href="#" className="resetpassword create-account">
               Don't have account?
-              <Link to="/signup"> Create New</Link>
+              <Link to="/signup">&nbsp;Sign up</Link>
             </div>
             <div href="#" className="signin-text">
-              Signin using
+              Login with
             </div>
             <div className="auth_form">
               <Tab.Container id="left-tabs-example" defaultActiveKey="first">
@@ -156,7 +156,7 @@ const Login = () => {
                           }) => (
                             <Form>
                               <h2 className="title-head">Sign in to Unikaksha</h2>
-                              <div id="sign-in-button"> </div>
+                              <div id="signin-container"> </div>
                               <Field
                                 name="mobileNumber"
                                 render={({ field, formProps }) => (
@@ -164,6 +164,7 @@ const Login = () => {
                                     <FormLabel>Enter Number</FormLabel>
                                     <PhoneInput
                                       country={'in'}
+                                      placeholder='Enter mobile number'
                                       value={field.value}
                                       onChange={(phone, data) => {
                                         setFieldValue('mobileNumber', phone);
@@ -248,6 +249,9 @@ const Login = () => {
                   </Col>
                 </Row>
               </Tab.Container>
+              <div className='space-or mt-4'>
+                <span>OR</span>
+							</div>
               <SocialLogin />
             </div>
           </div>

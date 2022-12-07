@@ -21,7 +21,7 @@ const SocialLogin = ({ setFieldValue }) => {
   }
 
   const configureCaptcha = () => {
-    return (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
+    return (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('social-login', {
       size: 'invisible',
       callback: (response) => {},
       defaultCountry: 'IN',
@@ -68,6 +68,7 @@ const SocialLogin = ({ setFieldValue }) => {
   };
   return (
     <>
+      <div id='social-login'></div>
       <div className="d-flex justify-content-between mt-4">
         <Button
           className="social-btn"

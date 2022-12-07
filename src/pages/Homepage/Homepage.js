@@ -1,7 +1,7 @@
-import { fetchAndActivate, getValue } from 'firebase/remote-config';
 import React, { useEffect, useState } from 'react';
 import { Row } from 'react-bootstrap';
 import InviteNow from '../../components/InviteNow';
+import { fetchAndActivate, getValue } from 'firebase/remote-config';
 import { remoteConfig } from '../../firebase/firebaseAuth';
 import ApiService from '../../services/ApiService';
 import CourseList from './components/CourseList';

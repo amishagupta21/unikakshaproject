@@ -26,9 +26,6 @@ function CourseDetails() {
     }
 
     const fetchVariantBatches = async(courseVariantId) => {
-
-        console.log(courseVariantId);
-
         const res = await ApiService(`courses/${courseVariantId}/batch/list`);
         return res?.data?.data?.result;
     }

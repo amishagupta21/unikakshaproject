@@ -1,5 +1,7 @@
 import { failedbadge, badge, congrats1 } from '../../../assets/images';
 import { Row, Button } from 'react-bootstrap';
+import { remoteConfig } from '../../../firebase/firebaseAuth';
+import { getValue } from 'firebase/remote-config';
 import './TestResult.scss';
 
 const staticContents = {
@@ -14,7 +16,7 @@ const staticContents = {
 const TestResult = ({ nextPage, testResult }) => {
     const { isPassed, marks } = testResult;
     const userName = 'John';
-
+   
     return (
         <>
             {isPassed ? (

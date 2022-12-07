@@ -86,7 +86,7 @@
 
 }
 
-.log-in-title.login-head svg {
+.log-in-title.login-head img {
 	position: absolute;
 	left    : -34px;
 	cursor  : pointer;
@@ -307,4 +307,8 @@ label.mb-3.mt-3.custom-check-lable {
 select.form-control {
 	height       : 44px;
 	border-radius: 6px !important;
+}
+
+.formlabel-helper {
+	font-size: 12px !important;
 }
