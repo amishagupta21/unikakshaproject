@@ -8,6 +8,7 @@ import Rating from 'react-rating';
 import parse from 'html-react-parser';
 import Placementpartner from '../../Homepage/components/Placementpartner';
 import { getByDisplayValue } from '@testing-library/react';
+import { useNavigate } from 'react-router-dom';
 
 function CourseDetails() {
 
@@ -16,6 +17,7 @@ function CourseDetails() {
     const params = useParams();
     const [coureseVariantBatches, setVariantcoureseBatches] = React.useState([]);
     const [eligibilityCriteria, setEligibilityCriteria] = React.useState([]);
+    const navigate = useNavigate();
 
     const fetchCourseDetails = async(params) => {
        
@@ -48,6 +50,10 @@ function CourseDetails() {
         year: "numeric"
         })
        return formattedDate;
+    }
+
+    const apply = (course) => {
+        navigate(`/course/apply?id=${course.id}`, { state: course });
     }
 
     useEffect(() => {
@@ -114,7 +120,7 @@ function CourseDetails() {
                                 <p>
                                 <img src={calendar1} alt="Calendar" className='calendar-icon' /><span className="text-left-align mtb5">{ convertDate(element.start_date) }</span>
                                 </p>
-                                <Button variant="secondary" className={ index == 0 ? "" : "upcoming-btn" }> { index == 0 ? 'Apply Now' : 'Upcoming' } </Button>
+                                <Button variant="secondary" className={ index == 0 ? "" : "upcoming-btn" } onClick={() => {apply(courseDetails)}}> { index == 0 ? 'Apply Now' : 'Upcoming' } </Button>
                             </Card.Body>
                         </Card>
                     </Col>
@@ -261,7 +267,7 @@ function CourseDetails() {
                                         );
                                     })}
                                 </div>
-                                <Button className='mt-2' style={{padding: '8px 30px'}} variant='secondary'>Apply Now</Button>
+                                <Button className='mt-2' style={{padding: '8px 30px'}} variant='secondary' onClick={() => {apply(courseDetails)}}>Apply Now</Button>
                             </div>
                             <div className='carousel-container'>
                                 <Carousel indicators={false} touch={true} pause='hover' controls={false}>
