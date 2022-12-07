@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Alert } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import OtpInput from 'react18-input-otp';
 import { arrowBack } from '../../assets/images';
@@ -22,6 +22,7 @@ const SignInOtp = () => {
   const [otpError, setOtpError] = useState();
   const [minutes, setMinutes] = useState(2);
   const [seconds, setSeconds] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -101,7 +102,12 @@ const SignInOtp = () => {
 
           const isBasicInfoExists = await getUserBasicInfo(user.uid);
           if (isBasicInfoExists) {
-            navigate('/dashboard');
+            const redirectUrl = searchParams.get('redirect')
+            if(redirectUrl) {
+              navigate(redirectUrl);
+            } else {
+              navigate('/dashboard');
+            }
           } else {
             navigate('/info');
           }

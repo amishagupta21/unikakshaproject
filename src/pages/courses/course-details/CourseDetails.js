@@ -17,9 +17,7 @@ function CourseDetails() {
     const [coureseVariantBatches, setVariantcoureseBatches] = React.useState([]);
     const [eligibilityCriteria, setEligibilityCriteria] = React.useState([]);
 
-    const fetchCourseDetails = async(params) => {
-       
-        // console.log(params.course_variant_sections);
+    const fetchCourseDetails = async(params) => {       
         const { courseVariantSlug } = params;
         const res = await ApiService(`courses/course_url/${courseVariantSlug}/detail`);
         return res?.data?.data?.course;
