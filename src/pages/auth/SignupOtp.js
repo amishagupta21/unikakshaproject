@@ -1,18 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Alert } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { setLoading } from '../../redux/actions/LoaderActions';
-import { firebase } from '../../firebase/firebase';
 import OtpInput from 'react18-input-otp';
-import LeftBox from './components/LeftBox';
-import AuthNavbar from './components/AuthNavbar';
-import './auth.scss';
-import { useState } from 'react';
 import { arrowBack } from '../../assets/images';
+import { firebase } from '../../firebase/firebase';
+import { setLoading } from '../../redux/actions/LoaderActions';
 import ApiService from '../../services/ApiService';
-import { Alert } from 'react-bootstrap';
+import './auth.scss';
+import LeftBox from './components/LeftBox';
 
 const SignupOtp = () => {
   const navigate = useNavigate();
@@ -23,12 +21,21 @@ const SignupOtp = () => {
   const [otpError, setOtpError] = useState();
   const [minutes, setMinutes] = useState(2);
   const [seconds, setSeconds] = useState(0);
+  const [userCreated, setUserCreated] = useState();
 
   useEffect(() => {
     if (!userSignUpData?.phoneNumber) {
       navigate('/signup');
     }
   }, []);
+
+  useEffect(() => {
+    console.log(userCreated);
+    if(userCreated) {
+      console.log("Navigating")
+      navigate('/info');
+    }
+  }, [userCreated])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -67,13 +74,19 @@ const SignupOtp = () => {
       defaultCountry: 'IN',
     }));
 
-  const createUserIfNotExists = async (uid) => {
+  const createUserIfNotExists = async (user) => {
     const userData = {
-      uid,
+      uid: user.uid,
       email: userSignUpData.email,
       phone: `+${userSignUpData.phoneNumber}`,
+      whatsappoptin: userSignUpData.whatsappoptin
     };
-    await ApiService(`/user/create`, `POST`, userData);
+    const result = await ApiService(`user/create`, `POST`, userData);
+    localStorage.setItem('user', JSON.stringify(user));
+    if(result?.data.code === 200) {
+      dispatch(setLoading(false));
+      navigate('/info');
+    }
   };
 
   const sendOTP = async (phoneNumber) => {
@@ -97,27 +110,20 @@ const SignupOtp = () => {
       });
   };
 
-  const onSubmitOTP = () => {
+  const onSubmitOTP =  (e) => {
+    e.preventDefault();
     dispatch(setLoading(true));
     window.confirmationResult
       .confirm(otp && otp)
-      .then((response) => {
+      .then(async (response) => {
         if (response.user) {
-          const { user } = response;
-          dispatch(setLoading(false));
-          const res = createUserIfNotExists(user.uid);
-          if (res?.data?.data?.code === 200) {
-            localStorage.setItem('user', JSON.stringify(user));
-            toast.success('Log in Succesfull', {
-              theme: 'colored',
-            });
-            navigate('/info', {
-              state: location.state?.values,
-            });
-          }
+          const { user } = response.user.multiFactor;
+          firebase.auth().currentUser.updateProfile({displayName: userSignUpData?.displayName})
+          createUserIfNotExists(user);
         }
       })
       .catch((error) => {
+        dispatch(setLoading(false));
         setOtpError('Invalid Code');
       });
   };

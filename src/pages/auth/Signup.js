@@ -69,6 +69,8 @@ const Signup = () => {
             values: {
               phoneNumber: values.mobileNumber,
               email: values.email,
+              displayName: values.fullName,
+              whatsappoptin: values.whatsappoptin
             },
           },
         });
@@ -99,7 +101,7 @@ const Signup = () => {
                   fullName: userDetails ? userDetails.fullName : '',
                   email: userDetails ? userDetails.email : '',
                   mobileNumber: '',
-                  subscribe: false,
+                  whatsappoptin: true,
                 }}
                 validationSchema={Yup.object().shape({
                   fullName: Yup.string().required('Required'),
@@ -196,10 +198,12 @@ const Signup = () => {
                     {errors.mobileNumber && touched.mobileNumber ? (
                       <div className="error-text">{errors.mobileNumber}</div>
                     ) : null}
+
                     <label className="mb-3 mt-3 custom-check-lable">
-                      <Field className="me-2" type="checkbox" name="subscribe" />
+                      <Field className="me-2" type="checkbox" name="whatsappoptin" />
                       <span>By sign up you subcribe to have WhatsApp updates.</span>
                     </label>
+
                     <div className="d-grid gap-2 mt-3 mb-3">
                       <Button
                         type="submit"
