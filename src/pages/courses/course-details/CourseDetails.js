@@ -3,7 +3,14 @@ import { Button, Card, CardGroup, CardImg, Carousel, CarouselItem, Col, Containe
 import './CourseDetails.scss';
 import ApiService from '../../../services/ApiService';
 import { useLocation, useParams } from 'react-router-dom';
-import { emptystar, fullstar, tick, calendar1, computer, overview } from '../../../assets/images';
+import { emptystar, fullstar, tick, calendar1, computer, overview,
+    microsoft,
+    facebook,
+    slack,
+    xbo,
+    netflix,
+    linkedin
+ } from '../../../assets/images';
 import Rating from 'react-rating';
 import parse from 'html-react-parser';
 import Placementpartner from '../../Homepage/components/Placementpartner';
@@ -168,7 +175,7 @@ function CourseDetails() {
             return (
                 <CardGroup key={index}>
                     <Col>
-                        <Card className="eligibility-card-style">
+                        <Card className="eligibility-card-style payment-card">
                             <Card.Body className="text-left-align">
                           
                                 <Row>
@@ -218,9 +225,28 @@ function CourseDetails() {
             <CardGroup key={index}>
                 <Col>
                 
-                    <Card className="cardStyle partners">
+                    <Card className=" partners">
                         <Card.Body className="text-left-align">
-                            <h5 className="font-color text-left-align mtb5"> { element } </h5>
+                            <h5 className="font-color text-left-align mtb5"> 
+                            {element == 'microsoft.com' && (
+                                <img src={microsoft} alt="microsoft" className='microsoft-icon' />
+                            )}
+                            {element == 'facebook.com' && (
+                                <img src={facebook} alt="facebook" className='facebook-icon' />
+                            )}
+                            {element == 'slack.com' && (
+                                <img src={slack} alt="slack" className='slack-icon' />
+                            )}
+                            {element == 'xboxone.com' && (
+                                <img src={xbo} alt="xboxone" className='xboxone-icon' />
+                            )}
+                            {element == 'netflix.com' && (
+                                <img src={netflix} alt="Netflix" className='netflix-icon' />
+                            )}
+                            {element == 'likedin.com' && (
+                                <img src={linkedin} alt="Linkedin" className='likedin-icon' />
+                            )}
+                            </h5>
                             
                         </Card.Body>
                     </Card>
@@ -359,7 +385,7 @@ function CourseDetails() {
                             }
 
                             <h4 className="font-color mb2" id='hiring-partners'>Hiring Partners</h4>
-                            <Row xs={1} md={3} className="mtb5">
+                            <Row xs={2} md={5} className="mtb5">
                                 {getHiringPartners()}
                             </Row>
                             
