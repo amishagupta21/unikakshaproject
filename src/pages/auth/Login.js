@@ -107,7 +107,7 @@ const Login = () => {
             <div className="log-in-title">Log in</div>
             <div href="#" className="resetpassword create-account">
               Don't have account?
-              <Link to="/signup">&nbsp;Sign up</Link>
+              <Link to="/signup" state={searchParams}>&nbsp;Sign up</Link>
             </div>
             <div href="#" className="signin-text">
               Login with

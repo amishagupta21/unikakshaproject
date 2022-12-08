@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import Dropdown from 'react-bootstrap/Dropdown';
 import BrandLogo from '../assets/images/unikaksha-logo.svg';
-import Notify from '../assets/images/icon-notify.svg';
+import Notify from '../assets/images/icon-notify.svg';https://github.com/CodeShastra/unikakshaapp-frontend/compare/develop...course-apply-from-wp
 import Profileimg from '../assets/images/img-profile-pic.svg';
 import Course from '../assets/images/icon-mycourse.svg';
 import Profile from '../assets/images/icon-myprofile.svg';
@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setIsAuthenticated } from '../redux/actions/AuthAction';
 
 const PrimaryNavbar = () => {
-  let isAuth = useSelector((state) => state?.auth?.isAuthenticated) || localStorage.getItem("isAuthenticated");
+  let isAuth = useSelector((state) => state?.auth?.isAuthenticated) || JSON.parse(localStorage.getItem("isAuthenticated"));
   const [user, setUser] = React.useState();
   
   const navigate = useNavigate();

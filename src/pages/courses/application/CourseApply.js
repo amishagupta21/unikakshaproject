@@ -57,7 +57,7 @@ const CourseApplication = () => {
 
   const setPersonalDetailsInForm = (details) => {
     formik.setValues(details);
-    setGenderValue(details.gender);
+    setGenderValue(details?.gender);
   };
 
   const fetchCourseDetails = async (params) => {
@@ -106,9 +106,9 @@ const CourseApplication = () => {
     }),
     validate: (values) => {
       let errors = {};
-      if (!values.mobile_number) {
+      if (!values?.mobile_number) {
         errors.mobile_number = '*Mobile number required';
-      } else if (!values.whatsapp_number) {
+      } else if (!values?.whatsapp_number) {
         errors.whatsapp_number = '*Whatsapp number required';
       }
       return errors;
@@ -206,7 +206,7 @@ const CourseApplication = () => {
                 <Card.Title style={{ fontWeight: '600', color: '#222380' }} className="mb-4">
                   {courseDetails.course_title}
                 </Card.Title>
-                <Card.Subtitle style={{ fontFamily: 'Roboto' }} className="mb-2 text-muted d-flex">
+                {/* <Card.Subtitle style={{ fontFamily: 'Roboto' }} className="mb-2 text-muted d-flex">
                   <div style={{ fontSize: '12px', paddingRight: '24px' }}>
                     <img className="me-2" src={hourGlass} alt="back-arrow" />
                     <span style={{ fontWeight: '400' }}>Duration, </span>
@@ -219,7 +219,7 @@ const CourseApplication = () => {
                       {courseDetails.course_variant_sections?.batches?.value[0][0].value}
                     </span>
                   </div>
-                </Card.Subtitle>
+                </Card.Subtitle> */}
               </div>
               <div>
                 <Card.Link
