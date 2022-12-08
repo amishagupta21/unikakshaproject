@@ -16,6 +16,7 @@ import EntranceTest from './EntranceTest';
 import MultiStepBar from './FormProgress';
 import KYCDocuments from './KYCDocuments';
 import TestResult from './TestResult';
+import Payments from './Payments';
 
 const steps = [
   'personal_details',
@@ -420,6 +421,11 @@ const CourseApplication = () => {
             {page === 4 && (
               <>
                 <ApplicationStatus nextPage={nextPage}></ApplicationStatus>
+              </>
+            )}
+            {page === 5 && (
+              <>
+                <Payments nextPage={nextPage}></Payments>
               </>
             )}
             {page === 6 && (
