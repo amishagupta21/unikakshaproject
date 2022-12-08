@@ -71,7 +71,7 @@ function CourseDetails() {
         'Backend Developer',
     ];
 
-
+    
     const RatingComponent = () => {
         const ratingInDecimal = courseDetails?.course_variant_sections?.ratings?.value.split('/')[0];
         return (
@@ -90,7 +90,7 @@ function CourseDetails() {
             return (
                 <CardGroup key={index}>
                     <Col>
-                        <Card className="cardStyle">
+                        <Card className="cardStyle overview">
                             <Card.Body className="text-left-align">
                                 <span className="circle"><img src={overview} alt="Course Overview" className='overview-icon' /></span>
                                 <h6 className="font-color text-left-align mtb5">{element?.label}</h6>
@@ -176,8 +176,9 @@ function CourseDetails() {
                                     <h6 className="font-color text-left-align mtb1 payment-title"> { element.key } </h6>
                                     <span className='payment-content'>{parse(element.value)}</span>
                                        
-                                
-                                    </Col>
+                                    
+                                </Col>
+                               
                                 </Row>
                             </Card.Body>
                         </Card>
@@ -312,10 +313,11 @@ function CourseDetails() {
                                     {courseDetails?.course_type !== 'PartTime' && (
                                         <Nav.Link href='#jobs'>Jobs Role You Can Get</Nav.Link>
                                     )}
+                                    {courseDetails?.course_type == 'PartTime' && (
                                     <Nav.Link href='#learnings'>
                                         What Will You Learn?
                                         </Nav.Link>
-                                   
+                                    )}
                                     <Nav.Link href='#hiring-partners'>Hiring Partners</Nav.Link>
                                 </Nav>
                             </div>
@@ -344,12 +346,16 @@ function CourseDetails() {
                             <Row xs={1} md={1} className="mtb5">
                                 {getPaymentsPlans()}
                             </Row>
-
-                            <h4 className="font-color mb2" id='learnings'>What Will You Learn?</h4>
-                            <h6 className='learn-sub-title'>{courseDetails?.course_variant_sections?.whatWillYouLearn?.label}</h6>
-                            <Row xs={1} md={2} className="mtb1">
-                                {getWhatWillYouLearn()}
-                            </Row>
+                            {courseDetails?.course_type == "PartTime" && (
+                                <>
+                                    <h4 className="font-color mb2" id='learnings'>What Will You Learn?</h4>
+                                    <h6 className='learn-sub-title'>{courseDetails?.course_variant_sections?.whatWillYouLearn?.label}</h6>
+                                    <Row xs={1} md={2} className="mtb1">
+                                        {getWhatWillYouLearn()}
+                                    </Row>
+                                </>
+                                )
+                            }
 
                             <h4 className="font-color mb2" id='hiring-partners'>Hiring Partners</h4>
                             <Row xs={1} md={3} className="mtb5">
