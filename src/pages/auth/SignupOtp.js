@@ -154,15 +154,20 @@ const SignupOtp = () => {
               <div className="otp-input">
                 <OtpInput value={otp} onChange={(e) => setOtp(e)} numInputs={6} />
               </div>
-              <div>
-                <a className="resend-otp" onClick={() => resendOTP(phoneNumber)}>
-                  Resend OTP
-                </a>
-                <span>
-                  {' '}
-                  in {minutes < 10 ? `0${minutes}` : minutes}:{' '}
-                  {seconds < 10 ? `0${seconds}` : seconds}
-                </span>
+              <div className='d-flex justify-content-between'>
+                <div>
+                  <span>Didn't receive code?</span>
+                </div>
+                <div>
+                  <a className="resend-otp" onClick={() => resendOTP(phoneNumber)}>
+                    Resend OTP
+                  </a>
+                  <span>
+                    {' '}
+                    in {minutes < 10 ? `0${minutes}` : minutes}:{' '}
+                    {seconds < 10 ? `0${seconds}` : seconds}
+                  </span>
+                </div>
               </div>
               <div className="d-grid gap-2 mt-4">
                 <Button
