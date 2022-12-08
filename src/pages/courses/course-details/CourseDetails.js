@@ -69,6 +69,7 @@ function CourseDetails() {
         'UI Engineer',
         'Programmer',
         'Backend Developer',
+        'UI Developer'
     ];
 
     
