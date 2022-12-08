@@ -30,9 +30,7 @@ const SignupOtp = () => {
   }, []);
 
   useEffect(() => {
-    console.log(userCreated);
     if(userCreated) {
-      console.log("Navigating")
       navigate('/info');
     }
   }, [userCreated])
@@ -112,7 +110,6 @@ const SignupOtp = () => {
 
   const onSubmitOTP =  (e) => {
     e.preventDefault();
-    dispatch(setLoading(true));
     window.confirmationResult
       .confirm(otp && otp)
       .then(async (response) => {
@@ -123,8 +120,7 @@ const SignupOtp = () => {
         }
       })
       .catch((error) => {
-        dispatch(setLoading(false));
-        setOtpError('Invalid Code');
+        setOtpError('Invalid Code!');
       });
   };
   return (
@@ -145,7 +141,7 @@ const SignupOtp = () => {
                 />
                 Verify OTP
               </div>
-              <p>Enter the OTP sent to your registered email id and mobile number.</p>
+              <p>Enter OTP sent to your mobile number <span style={{font: 'Poppins', color: '#363F5E'}}>+{userSignUpData.phoneNumber}</span>.</p>
               {otpError && (
                 <Alert key="danger" variant="danger">
                   {otpError}
@@ -154,7 +150,7 @@ const SignupOtp = () => {
               <div className="otp-input">
                 <OtpInput value={otp} onChange={(e) => setOtp(e)} numInputs={6} />
               </div>
-              <div className='d-flex justify-content-between'>
+              <div className='d-flex justify-content-between mt-2'>
                 <div>
                   <span>Didn't receive code?</span>
                 </div>

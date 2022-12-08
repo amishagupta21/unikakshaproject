@@ -115,10 +115,9 @@ const SignInOtp = () => {
         dispatch(setLoading(false));
       })
       .catch((error) => {
-        console.log(error)
         // dispatch(setLoading(false));
         // navigate('/login');
-        setOtpError("Invalid Code")
+        setOtpError("Invalid Code!")
       });
   };
   return (
