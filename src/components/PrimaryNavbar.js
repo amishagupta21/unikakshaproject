@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import Dropdown from 'react-bootstrap/Dropdown';
 import BrandLogo from '../assets/images/unikaksha-logo.svg';
-import Notify from '../assets/images/icon-notify.svg';https://github.com/CodeShastra/unikakshaapp-frontend/compare/develop...course-apply-from-wp
+import Notify from '../assets/images/icon-notify.svg';
 import Profileimg from '../assets/images/img-profile-pic.svg';
 import Course from '../assets/images/icon-mycourse.svg';
 import Profile from '../assets/images/icon-myprofile.svg';
