@@ -60,7 +60,7 @@ function CourseDetails() {
     }
 
     const apply = (course) => {
-        navigate(`/course/apply?id=${course.id}`, { state: course });
+        navigate(`/course/apply/${course.course_url}`, { state: course });
     }
 
     useEffect(() => {
@@ -69,14 +69,13 @@ function CourseDetails() {
     },[])
     
     const jobs = [
-        'Front-end developer',
+        'Frontend developer',
         'Web programmer',
         'Full Stack Developer',
         'Software Engineer',
         'UI Engineer',
         'Programmer',
-        'Backend Developer',
-        'UI Developer'
+        'Backend Developer'
     ];
 
     
@@ -340,6 +339,7 @@ function CourseDetails() {
                                     {courseDetails?.course_type !== 'PartTime' && (
                                         <Nav.Link href='#jobs'>Jobs Role You Can Get</Nav.Link>
                                     )}
+                                    
                                     {courseDetails?.course_type == 'PartTime' && (
                                     <Nav.Link href='#learnings'>
                                         What Will You Learn?
@@ -369,6 +369,16 @@ function CourseDetails() {
                                 {getEligibility()}
                             </Row>
 
+                            {courseDetails?.course_type !== "PartTime" && (
+                                    <>
+                                        <h4 className="font-color mb2" id='jobs'>The Best Job Roles You Can Get</h4>
+                                        <Row xs={1} md={4} className="mtb5">
+                                            {getJobs()}
+                                        </Row>
+                                    </>
+                                )
+                            }
+
                             <h4 className="font-color mb2" id='paymode'>Choose A Payment Plan That Works For You</h4>
                             <Row xs={1} md={1} className="mtb5">
                                 {getPaymentsPlans()}
@@ -389,15 +399,7 @@ function CourseDetails() {
                                 {getHiringPartners()}
                             </Row>
                             
-                            {courseDetails?.course_type !== "PartTime" && (
-                                    <>
-                                        <h4 className="font-color mb2" id='jobs'>The Best Job Roles You Can Get</h4>
-                                        <Row xs={1} md={4} className="mtb5">
-                                            {getJobs()}
-                                        </Row>
-                                    </>
-                                )
-                            }
+                           
                             
                         </Col>
                     </Row>
