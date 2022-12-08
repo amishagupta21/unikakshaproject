@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert } from 'react-bootstrap';
+import { Alert, Spinner } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -22,6 +22,7 @@ const SignupOtp = () => {
   const [minutes, setMinutes] = useState(2);
   const [seconds, setSeconds] = useState(0);
   const [userCreated, setUserCreated] = useState();
+  const [isButtonLoading, setIsButtonLoading] = useState();
 
   useEffect(() => {
     if (!userSignUpData?.phoneNumber) {
@@ -82,9 +83,9 @@ const SignupOtp = () => {
     const result = await ApiService(`user/create`, `POST`, userData);
     localStorage.setItem('user', JSON.stringify(user));
     if(result?.data.code === 200) {
-      dispatch(setLoading(false));
       navigate('/info');
     }
+    setIsButtonLoading(false);
   };
 
   const sendOTP = async (phoneNumber) => {
@@ -109,10 +110,12 @@ const SignupOtp = () => {
   };
 
   const onSubmitOTP =  (e) => {
+    setIsButtonLoading(true);
     e.preventDefault();
     window.confirmationResult
       .confirm(otp && otp)
       .then(async (response) => {
+        setIsButtonLoading(false);
         if (response.user) {
           const { user } = response.user.multiFactor;
           firebase.auth().currentUser.updateProfile({displayName: userSignUpData?.displayName})
@@ -120,9 +123,11 @@ const SignupOtp = () => {
         }
       })
       .catch((error) => {
+        setIsButtonLoading(false);
         setOtpError('Invalid Code!');
       });
   };
+
   return (
     <>
       {/* <AuthNavbar /> */}
@@ -172,6 +177,17 @@ const SignupOtp = () => {
                   onClick={onSubmitOTP}
                   disabled={!(otp.length === 6)}>
                   Verify
+                  {isButtonLoading && (
+                    <>
+                      <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                    <span className="visually-hidden">Loading...</span></>
+                  )}
                 </Button>
               </div>
             </div>
