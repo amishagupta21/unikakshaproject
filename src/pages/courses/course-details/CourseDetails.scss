@@ -158,7 +158,7 @@
         background   : #fff;
         width        : 95%;
         margin       : 5%;
-        min-height   : 220px;
+        min-height   : 266px;
         margin-bottom: 1%;
         height       : auto;
         border       : 1px solid #f3eeee;
@@ -173,7 +173,7 @@
         background   : #fff;
         width        : 96%;
         margin-left  : 2%;
-        margin-bottom: 1%;
+        margin-bottom: 10px;
         height       : auto;
         border       : 1px solid #f3eeee;
         border-radius: 1em;
@@ -232,8 +232,27 @@
         border-radius: 15px;
     }
     .partners {
-        min-height: 0px !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 5.46566px 14.2107px;
+        gap: 5.47px;
+        
+        // position: absolute;
+        width: 110px;
+        height: 44px;
+        margin-bottom: 26px;
+        // left: 16px;
+        // top: 2857px;
+        
+        background: #FFFFFF;
+        border: none !important;
+        // box-shadow: 0px 2.54217px 12.7108px rgba(0, 103, 223, 0.15);
+        // border-radius: 8px;
+        // min-height: 0px !important;
     }
+
 
     .cardStyle.card.learn {
         // position: absolute;
@@ -297,6 +316,13 @@
         background: #FFFFFF;
         box-shadow: 0px 2px 20px rgba(0, 103, 223, 0.1);
         border-radius: 15px;
+        
+    }
+    .payment-card {
+      
+        background: #F7F5FF;
+        box-shadow: none !important;
+        border-radius: none !important;
         
     }
     .eligibility-card-style li {
