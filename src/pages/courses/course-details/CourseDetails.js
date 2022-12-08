@@ -28,7 +28,6 @@ function CourseDetails() {
 
     const fetchCourseDetails = async(params) => {
        
-        // console.log(params.course_variant_sections);
         const { courseVariantSlug } = params;
         const res = await ApiService(`courses/course_url/${courseVariantSlug}/detail`);
         return res?.data?.data?.course;
@@ -364,7 +363,7 @@ function CourseDetails() {
                             <Row xs={1} md={3} className="mtb5">
                                 {getBatches()}
                             </Row>
-                            <h4 className="font-color mb2" id='eligibility'>Eligiblility Crieteria</h4>
+                            <h4 className="font-color mb2" id='eligibility'>Eligiblility Criteria</h4>
                             <Row xs={1} md={1} className="mtb5">
                                 {getEligibility()}
                             </Row>
