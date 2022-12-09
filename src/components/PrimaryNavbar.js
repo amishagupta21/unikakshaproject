@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setIsAuthenticated } from '../redux/actions/AuthAction';
 
 const PrimaryNavbar = () => {
-  let isAuth = useSelector((state) => state?.auth?.isAuthenticated) || localStorage.getItem("isAuthenticated");
+  let isAuth = useSelector((state) => state?.auth?.isAuthenticated) || JSON.parse(localStorage.getItem("isAuthenticated"));
   const [user, setUser] = React.useState();
   
   const navigate = useNavigate();
