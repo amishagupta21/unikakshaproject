@@ -35,8 +35,9 @@ const CourseApplication = () => {
   const [whatsAppState, setWhatsAppNumber] = React.useState({ phone: '', data: '' });
   const [genderValue, setGenderValue] = React.useState('');
   const [courseDetails, setCourseDetails] = React.useState({});
+  const [EducationalDetails, setEducationalDetails] = React.useState({});
   const [user, setUser] = React.useState({});
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);  
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -45,12 +46,21 @@ const CourseApplication = () => {
 
   const fetchUserDetails = async () => {
     setIsLoading(true);
+    let personalDetails = {}; 
+    let educationalDetails = {};    
     const localUser = await JSON.parse(localStorage.getItem('user'));
     setUser(localUser);
     const userProfile = await ApiService(`/user/${localUser?.uid}/detail`, 'GET', {}, true);
-    const { personal_details } = userProfile?.data?.data?.userProfile;
+    personalDetails = userProfile?.data?.data?.userProfile?.personal_details ?? personalDetails;
+    educationalDetails = userProfile?.data?.data?.userProfile?.education_details ?? educationalDetails;
+    educationalDetails.work_details = userProfile?.data?.data?.userProfile?.work_details ?? [];
     nextPageNumber(0);
-    setPersonalDetailsInForm(personal_details);
+    if(personalDetails) {
+      setPersonalDetailsInForm(personalDetails); 
+    }
+    if(educationalDetails) {
+      setEducationalDetails(educationalDetails)
+    }  
     setIsLoading(false);
   };
 
@@ -410,7 +420,8 @@ const CourseApplication = () => {
                 </Form>
               </>
             )}
-            {page === 1 && <EducationDetails nextPage={nextPage} course={courseDetails} />}
+            {page === 1 && <EducationDetails nextPage={nextPage} course={courseDetails} user={user} 
+            educationalDetails={EducationalDetails} setEducationalDetails={setEducationalDetails}/>}
             {page === 2 && <EntranceTest nextPage={nextPage} />}
             {page === 3 && (
               <>
