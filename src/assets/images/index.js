@@ -78,6 +78,14 @@ import emptystar from './CourseDetails/emptystar.svg';
 import computer from './CourseDetails/computer.svg';
 import overview from './CourseDetails/overview.svg';
 
+import microsoft from './CourseDetails/microsoft.svg';
+import facebook from './CourseDetails/facebook.svg';
+import slack from './CourseDetails/slack.svg';
+import xbo from './CourseDetails/xbo.svg';
+import netflix from './CourseDetails/netflix.svg';
+import linkedin from './CourseDetails/linkedin.svg';
+
+
 export {
     iconTwit,
     iconTwitSvg,
@@ -155,5 +163,11 @@ export {
     fullstar,
     emptystar,
     computer,
-    overview
+    overview,
+    microsoft,
+    facebook,
+    slack,
+    xbo,
+    netflix,
+    linkedin
 };

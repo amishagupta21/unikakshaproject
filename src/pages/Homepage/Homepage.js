@@ -34,7 +34,9 @@ const Homepage = () => {
     }, 1000);
   }, []);
 
+  
   return (
+    
     <div>
       <HeroSection bannerDetails={data?.banner1_configure && data?.banner1_configure} />
       <div className="container">
