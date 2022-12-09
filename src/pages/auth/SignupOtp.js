@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert } from 'react-bootstrap';
+import { Alert, Spinner } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -22,6 +22,7 @@ const SignupOtp = () => {
   const [minutes, setMinutes] = useState(2);
   const [seconds, setSeconds] = useState(0);
   const [userCreated, setUserCreated] = useState();
+  const [isButtonLoading, setIsButtonLoading] = useState();
 
   useEffect(() => {
     if (!userSignUpData?.phoneNumber) {
@@ -30,9 +31,7 @@ const SignupOtp = () => {
   }, []);
 
   useEffect(() => {
-    console.log(userCreated);
     if(userCreated) {
-      console.log("Navigating")
       navigate('/info');
     }
   }, [userCreated])
@@ -84,9 +83,9 @@ const SignupOtp = () => {
     const result = await ApiService(`user/create`, `POST`, userData);
     localStorage.setItem('user', JSON.stringify(user));
     if(result?.data.code === 200) {
-      dispatch(setLoading(false));
       navigate('/info');
     }
+    setIsButtonLoading(false);
   };
 
   const sendOTP = async (phoneNumber) => {
@@ -111,11 +110,12 @@ const SignupOtp = () => {
   };
 
   const onSubmitOTP =  (e) => {
+    setIsButtonLoading(true);
     e.preventDefault();
-    dispatch(setLoading(true));
     window.confirmationResult
       .confirm(otp && otp)
       .then(async (response) => {
+        setIsButtonLoading(false);
         if (response.user) {
           const { user } = response.user.multiFactor;
           firebase.auth().currentUser.updateProfile({displayName: userSignUpData?.displayName})
@@ -123,10 +123,11 @@ const SignupOtp = () => {
         }
       })
       .catch((error) => {
-        dispatch(setLoading(false));
-        setOtpError('Invalid Code');
+        setIsButtonLoading(false);
+        setOtpError('Invalid Code!');
       });
   };
+
   return (
     <>
       {/* <AuthNavbar /> */}
@@ -145,7 +146,7 @@ const SignupOtp = () => {
                 />
                 Verify OTP
               </div>
-              <p>Enter the OTP sent to your registered email id and mobile number.</p>
+              <p>Enter OTP sent to your mobile number <span style={{font: 'Poppins', color: '#363F5E'}}>+{userSignUpData.phoneNumber}</span>.</p>
               {otpError && (
                 <Alert key="danger" variant="danger">
                   {otpError}
@@ -154,7 +155,7 @@ const SignupOtp = () => {
               <div className="otp-input">
                 <OtpInput value={otp} onChange={(e) => setOtp(e)} numInputs={6} />
               </div>
-              <div className='d-flex justify-content-between'>
+              <div className='d-flex justify-content-between mt-2'>
                 <div>
                   <span>Didn't receive code?</span>
                 </div>
@@ -176,6 +177,17 @@ const SignupOtp = () => {
                   onClick={onSubmitOTP}
                   disabled={!(otp.length === 6)}>
                   Verify
+                  {isButtonLoading && (
+                    <>
+                      <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                    <span className="visually-hidden">Loading...</span></>
+                  )}
                 </Button>
               </div>
             </div>
