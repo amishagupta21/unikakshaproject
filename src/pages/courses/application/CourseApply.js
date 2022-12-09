@@ -436,7 +436,7 @@ const CourseApplication = () => {
             )}
             {page === 5 && (
               <>
-                <Payments nextPage={nextPage}></Payments>
+                <Payments nextPage={nextPage} course={courseDetails}></Payments>
               </>
             )}
             {page === 6 && (

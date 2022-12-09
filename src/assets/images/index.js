@@ -66,6 +66,8 @@ import failedbadge from './failedbadge.svg';
 import upload from './upload.svg';
 import hand from './Hand.svg';
 import wrappedGift from './courses/emojione_wrapped-gift.svg';
+import SuccessTick from './CourseApplication/success-tick.svg';
+import PaymentTick from './CourseApplication/payment-tick.svg';
 
 import cancelRe from './CourseApplication/cancelre.svg';
 import engineeringTeam from './CourseApplication/engineeringteam.svg';
@@ -169,5 +171,7 @@ export {
     slack,
     xbo,
     netflix,
-    linkedin
+    linkedin,
+    SuccessTick,
+    PaymentTick
 };
