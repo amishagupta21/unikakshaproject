@@ -339,7 +339,7 @@ function CourseDetails() {
                                         <Nav.Link href='#jobs'>Jobs Role You Can Get</Nav.Link>
                                     )}
                                     
-                                    {courseDetails?.course_type == 'PartTime' && (
+                                    {courseDetails?.course_variant_sections?.whatWillYouLearn?.value && courseDetails?.course_type == 'PartTime' && (
                                     <Nav.Link href='#learnings'>
                                         What Will You Learn?
                                         </Nav.Link>
@@ -382,7 +382,8 @@ function CourseDetails() {
                             <Row xs={1} md={1} className="mtb5">
                                 {getPaymentsPlans()}
                             </Row>
-                            {courseDetails?.course_type == "PartTime" && (
+                          
+                            { courseDetails?.course_variant_sections?.whatWillYouLearn?.value && courseDetails?.course_type == "PartTime" && (
                                 <>
                                     <h4 className="font-color mb2" id='learnings'>What Will You Learn?</h4>
                                     <h6 className='learn-sub-title'>{courseDetails?.course_variant_sections?.whatWillYouLearn?.label}</h6>
