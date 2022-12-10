@@ -78,3 +78,30 @@
     // top: 39.58%;
     // bottom: 39.58%;
 }
+.payment-failed {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 56px;
+
+    color: #FF3838;
+}
+.fail-content {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 28px;
+    text-align: center;
+
+    /* Icon Color */
+
+    color: #8F8799;
+}
+p {
+    color: #8F8799;
+}
+.content-box.fail {
+    border: none !important;
+}
