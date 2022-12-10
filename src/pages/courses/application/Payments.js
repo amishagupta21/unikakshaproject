@@ -1,18 +1,11 @@
-import React, { useEffect } from 'react';
-import { Button, Card, CardGroup, CardImg, Carousel, CarouselItem, Col, Container, Nav, Row } from 'react-bootstrap';
-import ApiService from '../../../services/ApiService';
-import { useLocation, useParams } from 'react-router-dom';
-import { getByDisplayValue } from '@testing-library/react';
-import { useNavigate } from 'react-router-dom';
-import './Payments.scss';
+import React from 'react';
+import { Button } from 'react-bootstrap';
 import {
-    bannerLogoSvg,
-    SuccessTick,
-    PaymentTick,
-    PaymentFailure
-  } from '../../../assets/images';
+    bannerLogoSvg, PaymentFailure, SuccessTick
+} from '../../../assets/images';
+import ApiService from '../../../services/ApiService';
+import './Payments.scss';
 
-  import axios from "axios";
   
 const Payments = (params) => {
 
@@ -22,7 +15,6 @@ const Payments = (params) => {
     const courseData = params.course;
     const nextPage = params.nextPage;
 
-    
     const getCurrentDateTime = () => {
         let cdate = new Date().toLocaleString()
         return cdate;
@@ -149,9 +141,7 @@ const Payments = (params) => {
             <div className='d-flex align-items-center justify-content-center'>
             <div>
                 <div className='mt-2 mb-4 d-flex align-items-center justify-content-center'>
-                
                     <img src={SuccessTick}></img>
-                    
                 </div>
                 <h3 className='payment-text text-center header mt-2 mb-4 '>Payment Successful!</h3>
                 <div className='content-box' >
@@ -206,13 +196,9 @@ const Payments = (params) => {
    
     return (
         
-        <div>
-            
+        <div className='payments'>
              { paymentStatus == 'Success' ? getPaymentSuccess() : "" }
              { paymentStatus == 'Failed' ? getPaymentFailure() : "" }
-            {/* <button className="App-link" onClick={displayRazorpay}>
-                Pay ₹500
-            </button> */}
         </div>
     );
 }

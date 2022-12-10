@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
-import { Button, Card, Col } from "react-bootstrap";
+import { Alert, Button, Card, Col } from "react-bootstrap";
 import { calendar1, hand, hourGlass } from "../../../assets/images";
 import { ReactComponent as HourGlass } from '../../../assets/images/hour-glass.svg';
-import Footer from "../../../components/Footer";
 import InviteNow from '../../../components/InviteNow';
-import PrimaryNavBar from '../../../components/PrimaryNavbar';
+import { firebase } from "../../../firebase/firebase";
 import ApiService from '../../../services/ApiService';
 import MultiStepBar from '../application/FormProgress';
 import './MyCourses.scss';
@@ -27,8 +26,8 @@ const steps = ["personal_details",
 
 const MyCourses = () => {
 
-    const [userName, setUserName] = React.useState('John');
-    const [applicationList, setApplicationList] = React.useState();
+    const [userName, setUserName] = React.useState(firebase.auth().currentUser.displayName);
+    const [applicationList, setApplicationList] = React.useState([]);
 
     const fetchInitialData = async() => {
         const response = await ApiService('/student/application/list', 'GET', {}, true)
@@ -51,13 +50,12 @@ const MyCourses = () => {
                     <div className="mb-5">
                         <p className="welcome-note">
                             <Hand />
-                            {`Hey ${userName}`}
+                            {`Hey ${userName}!`}
                         </p>
-                        <p>Lörem ipsum ultrarade samyde völ. Sask pseudoment påmyskapet. Ihet rer: för pilingar jiviv.</p>
                     </div>
                     <div className='course-application-list'>
                         <h3 className='text-primary'>Course Application</h3>
-                        { applicationList?.map((application, idx) => {
+                        { applicationList?.length > 0 ? applicationList.map((application, idx) => {
                             return (
                                 <Card key={idx} className="p-3 my-3">
                                     <div className='d-flex flex-row'>
@@ -108,7 +106,7 @@ const MyCourses = () => {
                                     </Card.Footer>
                                 </Card>
                             )
-                        })}
+                        }): <Alert className="d-flex justify-content-center">No applications!</Alert>}
                     </div>
                 </Col>
                 {/* <InviteNow /> */}
