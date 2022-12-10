@@ -210,9 +210,9 @@ const Payments = (params) => {
             
              { paymentStatus == 'Success' ? getPaymentSuccess() : "" }
              { paymentStatus == 'Failed' ? getPaymentFailure() : "" }
-            <button className="App-link" onClick={displayRazorpay}>
+            {/* <button className="App-link" onClick={displayRazorpay}>
                 Pay ₹500
-            </button>
+            </button> */}
         </div>
     );
 }

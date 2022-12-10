@@ -36,22 +36,32 @@ const CourseApplication = () => {
   const [whatsAppState, setWhatsAppNumber] = React.useState({ phone: '', data: '' });
   const [genderValue, setGenderValue] = React.useState('');
   const [courseDetails, setCourseDetails] = React.useState({});
-  const [user, setUser] = React.useState({});
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [EducationalDetails, setEducationalDetails] = React.useState({});
+  const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
+  const [isLoading, setIsLoading] = React.useState(false);  
+  const [testResults, settestResults] = React.useState('');
+  const [ OrderData, setOrderData ] = React.useState();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { state } = useLocation();
   const params = useParams();
 
-  const fetchUserDetails = async () => {
+  const fetchUserDetails = async (uid) => {
     setIsLoading(true);
-    const localUser = await JSON.parse(localStorage.getItem('user'));
-    setUser(localUser);
-    const userProfile = await ApiService(`/user/${localUser?.uid}/detail`, 'GET', {}, true);
-    const { personal_details } = userProfile?.data?.data?.userProfile;
+    let personalDetails = {}; 
+    let educationalDetails = {};        
+    const userProfile = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
+    personalDetails = userProfile?.data?.data?.userProfile?.personal_details ?? personalDetails;
+    educationalDetails.education_details = userProfile?.data?.data?.userProfile?.education_details ?? educationalDetails;
+    educationalDetails.work_details = userProfile?.data?.data?.userProfile?.work_details ?? [];
     nextPageNumber(0);
-    setPersonalDetailsInForm(personal_details);
+    if(personalDetails) {
+      setPersonalDetailsInForm(personalDetails); 
+    }
+    if(educationalDetails) {
+      setEducationalDetails(educationalDetails)
+    }     
     setIsLoading(false);
   };
 
@@ -66,16 +76,40 @@ const CourseApplication = () => {
     return res?.data?.data?.course;
   };
 
-  const fetchInitialData = async () => {
+  const fetchInitialData = async (uid) => {
     const courseData = state ? state : await fetchCourseDetails(params);
     setCourseDetails(courseData);
-    fetchUserDetails();
+    await fetchUserDetails(uid);   
+    await fetchApplicationDetails(uid, courseData.id);  
   };
 
-  useEffect(() => {
+  const fetchApplicationDetails = async (uid, courseId) => {
+    console.log(user)
+    const payload = {
+      uid : uid,
+      course_variant_id : courseId,
+    };
+    let applicationDetails = await ApiService('/student/application/detail-by-user-course', `POST`, payload, true);
+    console.log("application",applicationDetails)
+    const { application_stage, m_applicationstatus, m_totalscore, m_candidatescore } = applicationDetails?.data?.data.application;    
+    const obj = {
+      applicationStatus : 'Application Approved',
+      marks : (m_candidatescore / m_totalscore) * 100,
+    };
+    settestResults(obj)
+    if(application_stage === "personal_details") {
+      nextPageNumber(1);
+    } else if(application_stage === "education_details") {
+      nextPageNumber(2);
+    } else if(application_stage === "test_result") {
+      nextPageNumber(3);
+    }
+  }
+
+  useEffect(() => {    
     dispatch(setLoading(true));
     window.scrollTo(0, 0);
-    fetchInitialData();
+    fetchInitialData(user?.uid);
     dispatch(setLoading(false));
   }, []);
 
@@ -415,17 +449,17 @@ const CourseApplication = () => {
             {page === 2 && <EntranceTest nextPage={nextPage} />}
             {page === 3 && (
               <>
-                <TestResult nextPage={nextPage} testResult={{ isPassed: true, marks: 80 }} />
+                <TestResult nextPage={nextPage} testResult={testResults} userName={user.displayName}/>
               </>
             )}
             {page === 4 && (
               <>
-                <ApplicationStatus nextPage={nextPage}></ApplicationStatus>
+                <ApplicationStatus nextPage={nextPage} appStatus={testResults.applicationStatus} setOrderData={setOrderData} courseId={courseDetails?.id}></ApplicationStatus>
               </>
             )}
             {page === 5 && (
               <>
-                <Payments nextPage={nextPage}></Payments>
+                <Payments nextPage={nextPage} OrderData = {OrderData}></Payments>
               </>
             )}
             {page === 6 && (

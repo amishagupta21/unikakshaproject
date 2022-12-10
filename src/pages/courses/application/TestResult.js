@@ -13,13 +13,13 @@ const staticContents = {
     failedMessage4: 'Thank you!',
 }
 
-const TestResult = ({ nextPage, testResult }) => {
-    const { isPassed, marks } = testResult;
-    const userName = 'John';
+const TestResult = ({ nextPage, testResult, userName }) => {
+    console.log("testResult",testResult)
+    const { applicationStatus, marks } = testResult;    
    
     return (
         <>
-            {isPassed ? (
+            {applicationStatus === "Assessment Passed" ? (
                 <div className='d-flex flex-column m-auto'>
                     <div className='d-flex justify-content-center'>
                         <img className='me-2 mw-50' src={congrats1} alt="success" />
