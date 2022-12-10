@@ -14,7 +14,7 @@ import CalenderIcon from '../../../assets/images/courses/icons/CalenderIcon.svg'
 import { useNavigate } from 'react-router-dom';
 
 const CourseList = ({ courses }) => {
-
+console.log(courses[0]?.course_variant_sections?.highlights?.value);
   const apply = (course) => {
     navigate(`/course/apply/${course.course_url}`, { state: course });
   }
@@ -24,6 +24,22 @@ const CourseList = ({ courses }) => {
   }
 
   const navigate = useNavigate();
+
+  const getHighlights = (course) => {
+
+    const highlights = course?.course_variant_sections?.highlights?.value;
+    const items = highlights?.map((element, index) => {
+      console.log(element.value);
+        return (
+          
+          <p className="font-color text-left-align mtb5"  style={{ "font-size": '14px' }}> 
+            <img src={WaitClockIcon} alt="Wait-Clock-Icon" /> <span className="ms-2 mb-0">{element.value}</span>
+          </p>
+          
+        );
+    });
+    return items;
+}
 
   return (
     <>
@@ -42,9 +58,9 @@ const CourseList = ({ courses }) => {
               <Card.Body>
                 <div className="d-flex justify-content-between align-items-center course-title-section">
                   <Card.Title>{course?.course_title}</Card.Title>
-                  <img src={HeartIcon} alt="heart-icon" />
+                  {/* <img src={HeartIcon} alt="heart-icon" /> */}
                 </div>
-                <div className="d-flex align-items-center my-3 ">
+                {/* <div className="d-flex align-items-center my-3 ">
                   <p className="mb-0">Ratings {course?.sections?.ratings?.value}</p>
                   <div className="d-flex ms-2">
                     <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
@@ -53,19 +69,20 @@ const CourseList = ({ courses }) => {
                     <img className="me-1" src={StarHalfFilledIcon} alt="heart-icon" />
                     <img className="me-1" src={StarIcon} alt="heart-icon" />
                   </div>
-                </div>
+                </div>  */}
+                
                 <div className="mb-4">
                   <div className="d-flex justify-content-between mb-3">
                     <div className="d-flex">
                       <img src={WaitClockIcon} alt="Wait-Clock-Icon" />
-                      <p style={{ fontSize: '12px' }} className="ms-2 mb-0">
+                      <p style={{ fontSize: '14px' }} className="ms-2 mb-0">
                         Duration, <strong> 6 Months</strong>
                       </p>
                     </div>
                     <div className="d-flex">
-                      <img src={CalenderIcon} alt="Wait-Clock-Icon" />
+                      {/* <img src={CalenderIcon} alt="Wait-Clock-Icon" /> */}
                       <p style={{ fontSize: '12px' }} className="ms-2 mb-0">
-                        Starts, <strong> {course?.sections?.batches?.value[0][0]?.value}</strong>
+                        {/* Starts, <strong> {course?.sections?.batches?.value[0][0]?.value}</strong> */}
                       </p>
                     </div>
                   </div>
@@ -84,6 +101,14 @@ const CourseList = ({ courses }) => {
                   <p className="ms-2 mb-0">No Coding Experience Required</p>
                 </div> */}
                 </div>
+
+                <div className=" align-items-center">
+                  <div className="">
+                  
+                    {getHighlights(course)}
+                  </div>
+                </div>
+
                 <div className="button-group">
                   <div className="row">
                     <div className="col-sm-6">
