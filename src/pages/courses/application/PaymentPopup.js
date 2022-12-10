@@ -5,9 +5,7 @@ import moment from 'moment';
 import ApiService from '../../../services/ApiService';
 
 
-const PaymentPopup = ({nextPage, setOrderData, courseId}) => {
-    console.log("paymentopen")
-    const [ paymentpopup, setpaymentpopup ] = React.useState("modal display-block");   
+const PaymentPopup = ({nextPage, setOrderData, courseId, setopenpayment}) => {        
     const [ batches, setbatches ] = React.useState();
     useEffect(() => {
         fetchVariantBatches(courseId);
@@ -20,11 +18,7 @@ const PaymentPopup = ({nextPage, setOrderData, courseId}) => {
         }
     } 
     const togglepayment = () => {
-        if(paymentpopup === "modal display-none") {
-            setpaymentpopup("modal display-block");
-        } else {
-            setpaymentpopup("modal display-none");
-        }
+        setopenpayment(false);
     }
     const createOrder = async () => {        
         let payload = {
@@ -81,7 +75,7 @@ const PaymentPopup = ({nextPage, setOrderData, courseId}) => {
         <>
         {batches?.length && (
             <>
-            <div className={paymentpopup}>
+            <div className='modal display-block'>
             <section className="modal-main">
                 <div className="model-body">
                 <div className='modalheader'>

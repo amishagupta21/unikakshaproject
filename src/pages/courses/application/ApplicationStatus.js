@@ -88,7 +88,7 @@ const ApplicationStatus = ({nextPage, appStatus, setOrderData, courseId}) => {
             )}
             {openpayment && (
             <>
-            <PaymentPopup nextPage={nextPage} setOrderData = {setOrderData} courseId={courseId} />
+                <PaymentPopup nextPage={nextPage} setOrderData = {setOrderData} courseId={courseId} setopenpayment={setopenpayment} />
             </>
             )}  
         </>
