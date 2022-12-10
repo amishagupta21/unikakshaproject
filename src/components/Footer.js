@@ -3,7 +3,7 @@ import { Container, Nav, Navbar } from 'react-bootstrap';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 import Dropdown from 'react-bootstrap/Dropdown';
-import BrandLogo from '../assets/images/unikakha-logo.svg';
+import BrandLogo from '../assets/images/unikaksha-logo.svg';
 import Call from '../assets/images/call.svg';
 import Whatsapp from '../assets/images/whatsapp.svg';
 import Send from '../assets/images/send.svg';
@@ -16,7 +16,7 @@ import payment from '../assets/images/payment-icons.svg';
 
 
 import '../custom.css';
-import '../pages/auth/auth.css';
+import '../pages/auth/auth.scss';
 
 const Footer = () => (
   <div className='custom-footer'>
