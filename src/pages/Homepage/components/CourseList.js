@@ -17,7 +17,7 @@ import { tick
 } from '../../../assets/images';
 
 const CourseList = ({ courses }) => {
-console.log(courses[0]?.course_variant_sections?.highlights?.value);
+
   const apply = (course) => {
     navigate(`/course/apply/${course.course_url}`, { state: course });
   }
@@ -32,7 +32,7 @@ console.log(courses[0]?.course_variant_sections?.highlights?.value);
 
     const highlights = course?.course_variant_sections?.highlights?.value;
     const items = highlights?.map((element, index) => {
-      console.log(element.value);
+      
         return (
           <p key={index} style={{ "font-size": '14px' }}><img className='me-1' src={tick} /> {element.value}</p>
           // <p className="font-color text-left-align mtb5"  style={{ "font-size": '14px' }}> 
