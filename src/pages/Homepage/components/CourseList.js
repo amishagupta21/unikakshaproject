@@ -12,9 +12,12 @@ import StarHalfFilledIcon from '../../../assets/images/courses/icons/StarIconHal
 import WaitClockIcon from '../../../assets/images/courses/icons/wait-sandclock-icon.svg';
 import CalenderIcon from '../../../assets/images/courses/icons/CalenderIcon.svg';
 import { useNavigate } from 'react-router-dom';
+import { tick
+ 
+} from '../../../assets/images';
 
 const CourseList = ({ courses }) => {
-console.log(courses[0]?.course_variant_sections?.highlights?.value);
+
   const apply = (course) => {
     navigate(`/course/apply/${course.course_url}`, { state: course });
   }
@@ -29,12 +32,12 @@ console.log(courses[0]?.course_variant_sections?.highlights?.value);
 
     const highlights = course?.course_variant_sections?.highlights?.value;
     const items = highlights?.map((element, index) => {
-      console.log(element.value);
+      
         return (
-          
-          <p className="font-color text-left-align mtb5"  style={{ "font-size": '14px' }}> 
-            <img src={WaitClockIcon} alt="Wait-Clock-Icon" /> <span className="ms-2 mb-0">{element.value}</span>
-          </p>
+          <p key={index} style={{ "font-size": '14px' }}><img className='me-1' src={tick} /> {element.value}</p>
+          // <p className="font-color text-left-align mtb5"  style={{ "font-size": '14px' }}> 
+          //   <img src={WaitClockIcon} alt="Wait-Clock-Icon" /> <span className="ms-2 mb-0">{element.value}</span>
+          // </p>
           
         );
     });
