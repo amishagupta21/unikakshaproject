@@ -1,22 +1,16 @@
 import React from 'react';
-import { Container, Nav, Navbar } from 'react-bootstrap';
-import ListGroup from 'react-bootstrap/ListGroup';
 
-import Dropdown from 'react-bootstrap/Dropdown';
+import ListGroup from 'react-bootstrap/ListGroup';
 import BrandLogo from '../assets/images/unikaksha-logo.svg';
 import Call from '../assets/images/call.svg';
-import Whatsapp from '../assets/images/whatsapp.svg';
-import Send from '../assets/images/send.svg';
 import fa from '../assets/images/icon-fa-unikaksha.svg';
 import insta from '../assets/images/icon-insta-unikaksha.svg';
 import linked from '../assets/images/icon-linked-unikaksha.svg';
-import youtube from '../assets/images/icon-youtube-unikaksha.svg';
 import twitter from '../assets/images/icon-twitter-unikaksha.svg';
+import youtube from '../assets/images/icon-youtube-unikaksha.svg';
 import payment from '../assets/images/payment-icons.svg';
-
-
-import '../custom.css';
-import '../pages/auth/auth.scss';
+import Send from '../assets/images/send.svg';
+import Whatsapp from '../assets/images/whatsapp.svg';
 
 const Footer = () => (
   <div className='custom-footer'>
@@ -24,8 +18,8 @@ const Footer = () => (
  <div className='row'>
  <div className='col-sm-3'>
  <div className='footer-list'>
- <img src={BrandLogo} alt="Brand Logo" />
- <ListGroup className='mt-3'>
+ <img src={BrandLogo} alt="Brand Logo" className='footer-logo'/>
+ <ListGroup className='mt-3 footer-social-services'>
  <ListGroup.Item action href="tel:(+91) 9310575018">
  <img src={Call} alt="Brand Logo" /><span>(+91) 9310575018</span></ListGroup.Item>
       <ListGroup.Item action href="https://wa.me/+919310575018?text=Hello">
@@ -37,59 +31,68 @@ const Footer = () => (
     </ListGroup>
 </div>
 </div>
-<div className='col-sm-2'>
+<div className='col-sm-2 col-sm-2-mobile'>
 <div className='footer-menu mt-2'>
 <ListGroup>
- <ListGroup.Item action href="https://unikaksha.com/about-us">
+ <ListGroup.Item action href="">
  About us
  </ListGroup.Item>
- <ListGroup.Item action href="https://unikaksha.com/contactus">
+ <ListGroup.Item action href="">
  Contact us
  </ListGroup.Item>
- <ListGroup.Item action href="https://unikaksha.com/become-a-mentor">
+ <ListGroup.Item action href="">
+ UniKaksha stories
+ </ListGroup.Item>
+ <ListGroup.Item action href="">
  Become a mentor
  </ListGroup.Item>
     </ListGroup>
   </div>
 </div>
-<div className='col-sm-2'>
+<div className='col-sm-2 col-sm-2-mobile'>
 <div className='footer-menu mt-2'>
 <ListGroup>
- <ListGroup.Item action href="https://unikaksha.com/courses">
+ <ListGroup.Item action href="">
  Courses
  </ListGroup.Item>
- <ListGroup.Item action href="https://unikaksha.com/unikampus">
+ <ListGroup.Item action href="">
  UniKampus
  </ListGroup.Item>
- <ListGroup.Item action href="https://unikaksha.com/hire-from-us">
+ <ListGroup.Item action href="">
  Hire from us
+ </ListGroup.Item>
+ <ListGroup.Item action href="">
+ Corporate training
  </ListGroup.Item>
     </ListGroup>
   </div>
 </div>
-<div className='col-sm-2'>
+<div className='col-sm-2 col-sm-2-mobile'>
 <div className='footer-menu mt-2'>
 <ListGroup>
- <ListGroup.Item action href="https://unikaksha.com/pricing">
+ <ListGroup.Item action href="">
  Pricing
  </ListGroup.Item>
- <ListGroup.Item action href="https://unikaksha.com/blog">
+ <ListGroup.Item action href="">
+ Referral
+ </ListGroup.Item>
+ <ListGroup.Item action href="">
  Blogs
  </ListGroup.Item>
  
     </ListGroup>
   </div>
 </div>
-<div className='col-sm-3'>
+<div className='col-sm-3 col-sm-2-mobile'>
 <div className='footer-menu mt-2'>
 <ListGroup>
- <ListGroup.Item action href="https://unikaksha.com/terms-and-conditions">
+ <ListGroup.Item action href="">
  Terms & Conditions
  </ListGroup.Item>
- <ListGroup.Item action href="https://unikaksha.com/privacy-policy">
+ <ListGroup.Item action href="">
  Privacy Policy
  </ListGroup.Item>
- <ListGroup.Item action href="https://unikaksha.com/refund-policy">
+ <ListGroup.Item action href="">
  Refund Policy
  </ListGroup.Item>
  
@@ -99,7 +102,7 @@ const Footer = () => (
   </div>
   <hr/>
 
-  <div className='row align-items-center'>
+  <div className='row align-items-center row-top-follow'>
  <div className='col-sm-4'>
  <div className='footer-list'>
  

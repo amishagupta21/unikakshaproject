@@ -17,12 +17,15 @@ import DatePickerField from '../../Shared-Component-formik/date-picker/DatePicke
 import SchemaList from '../../Shared-Component-formik/schema/SchemaList';
 import FormSelectField from './../../Shared-Component-formik/select/form-select-field';
 import LeftBox from './components/LeftBox';
+import CreatableSelect from 'react-select/creatable';
+import { setLoading } from './../../redux/actions/LoaderActions';
 
 const MandatorySymbol = () => {
   return <span className="text-danger">*</span>;
 };
 
 const Info = () => {
+  const [loading, setloading] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -30,7 +33,7 @@ const Info = () => {
   const [occ, setocc] = useState();
   const [collegeList, setCollegeList] = useState([]);
   const [workingPositionList, setworkingPositionList] = useState([]);
-
+  const [colVal, setcolVal] = useState();
 
   const initialValues = {
     occupation: '',
@@ -56,12 +59,15 @@ const Info = () => {
   });
 
   const onSubmit = async (values) => {
+    setloading(true);
+    dispatch(setLoading(true));
+
     let loginData = await JSON.parse(localStorage.getItem('user'));
     let data = {
       uid: loginData.uid,
       occupation: values.occupation,
       information_data: {
-        ...values.referalCode && { referalCode: values.referalCode },
+        ...(values.referalCode && { referalCode: values.referalCode }),
         birth_year: parseInt(values?.birthYear?.getFullYear()),
         ...(occ == 'STUDENT' && { college_name: values.collegeName }),
         ...(occ == 'STUDENT' && { month_year_of_graduation: values.graduationMonth }),
@@ -75,13 +81,20 @@ const Info = () => {
     let res = await ApiService(`on-boarding/update-information`, `PUT`, data);
     if (res?.data?.code === 200) {
       navigate('/dashboard');
+      setloading(false);
+      dispatch(setloading(false));
+
       dispatch(setIsAuthenticated(true));
+    } else {
+      setloading(false);
+      dispatch(setLoading(false));
     }
   };
 
   const getCollegeList = async () => {
     setCollegeList(await getColleges());
   };
+
   const getWorkingPositionList = async () => {
     setworkingPositionList(await getWorkingPosition());
   };
@@ -90,6 +103,28 @@ const Info = () => {
     getCollegeList();
     getWorkingPositionList();
   }, []);
+
+  const createOption = (label, val) => ({
+    label,
+    value: val,
+  });
+
+  const handleCreate = async (inputValue, formik) => {
+    let obj = {
+      name: inputValue,
+    };
+
+    let res = await ApiService(`on-boarding/college/create`, `POST`, obj);
+    if (res.data.code) {
+      formik.setFieldValue('collegeName', res.data.data._id);
+
+      const newOption = createOption(inputValue, res.data.data._id);
+      console.log('🚀 ~ setTimeout ~ newOption', newOption);
+      setCollegeList((prev) => [...prev, newOption]);
+      setcolVal(newOption);
+      getCollegeList();
+    }
+  };
 
   return (
     <>
@@ -108,6 +143,7 @@ const Info = () => {
                 validationSchema={validationSchema}
                 onSubmit={onSubmit}>
                 {(formik) => {
+                  console.log(`formik val`, formik);
                   setocc(formik.values.occupation);
                   return (
                     <Form>
@@ -166,7 +202,7 @@ const Info = () => {
                       {formik.values.occupation === 'STUDENT' ? (
                         <div className="college-student">
                           {/* formik + react-bootstrap + select  */}
-                          <FormSelectField
+                          {/* <FormSelectField
                             name="collegeName"
                             controlId="collegeName"
                             as={Col}
@@ -185,7 +221,25 @@ const Info = () => {
                             {collegeList.map((col) => {
                               return <option value={col.value}>{col.label}</option>;
                             })}
-                          </FormSelectField>
+                          </FormSelectField> */}
+
+                          <label className="required">Enter college name</label>
+                          <CreatableSelect
+                            isClearable
+                            name="collegeName"
+                            onChange={(newValue) => {
+                              formik.setFieldValue('collegeName', newValue?.value || null);
+                              setcolVal(newValue);
+                            }}
+                            onCreateOption={(e) => handleCreate(e, formik)}
+                            options={collegeList}
+                            value={colVal}
+                          />
+                          <br />
+                          {formik?.errors?.collegeName && formik?.touched?.collegeName ? (
+                            <div className="error-text">{formik?.errors?.collegeName}</div>
+                          ) : null}
+
                           <Field
                             name="graduationMonth"
                             render={({ field, formProps }) => (
@@ -356,8 +410,12 @@ const Info = () => {
                               className="form-group-1 mb-3"
                               as={Col}
                               md="12">
-                              <FormLabel style={{marginBottom: 'unset'}}>Do you have any referral code?</FormLabel>
-                              <FormLabel className='formlabel-helper'>Enter referral code recieved from your Friend.</FormLabel>
+                              <FormLabel style={{ marginBottom: 'unset' }}>
+                                Do you have any referral code?
+                              </FormLabel>
+                              <FormLabel className="formlabel-helper">
+                                Enter referral code recieved from your Friend.
+                              </FormLabel>
                               <FormControl
                                 placeholder="Enter a referral code here"
                                 type={'text'}
@@ -381,8 +439,12 @@ const Info = () => {
                               className="form-group-1 mb-3"
                               as={Col}
                               md="12">
-                              <FormLabel style={{marginBottom: 'unset'}}>Do you have any Organization code?</FormLabel>
-                              <FormLabel className='formlabel-helper'>Enter referral code recieved from your Institute.</FormLabel>
+                              <FormLabel style={{ marginBottom: 'unset' }}>
+                                Do you have any Organization code?
+                              </FormLabel>
+                              <FormLabel className="formlabel-helper">
+                                Enter referral code recieved from your Institute.
+                              </FormLabel>
                               <FormControl
                                 placeholder="Enter a organization code here"
                                 type={'text'}
@@ -398,8 +460,8 @@ const Info = () => {
                       ) : null}
 
                       <div className="d-grid gap-2 my-3">
-                        <Button type="submit" variant="secondary">
-                          Get Started
+                        <Button type="submit" variant="secondary" disabled={loading}>
+                          {loading ? 'Loading...' : 'Get Started'}
                         </Button>
                       </div>
                     </Form>
