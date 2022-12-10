@@ -5,7 +5,7 @@ const Placementpartner = ({ placementPartner }) => {
     <>
       <div className="d-flex justify-content-between">
         <h5>Our Placement Partners</h5>
-        <div>see all</div>
+        {/* <div>see all</div> */}
       </div>
       <div className="partner-list">
         <ul>
