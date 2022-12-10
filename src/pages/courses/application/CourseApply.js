@@ -445,8 +445,7 @@ const CourseApplication = () => {
                 </Form>
               </>
             )}
-            {page === 1 && <EducationDetails nextPage={nextPage} course={courseDetails} user={user} 
-            educationalDetails={EducationalDetails} setEducationalDetails={setEducationalDetails}/>}
+            {page === 1 && <EducationDetails nextPage={nextPage} course={courseDetails} />}
             {page === 2 && <EntranceTest nextPage={nextPage} />}
             {page === 3 && (
               <>

@@ -1,5 +1,5 @@
 import { Field, Form, Formik } from 'formik';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import FormControl from 'react-bootstrap/FormControl';
@@ -19,6 +19,7 @@ import AuthNavbar from './components/AuthNavbar';
 import LeftBox from './components/LeftBox';
 
 const Signup = () => {
+  const [loading, setloading] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -45,16 +46,24 @@ const Signup = () => {
   };
 
   const createUser = async (values) => {
+    setloading(true);
+    dispatch(setLoading(true));
+
     const { email, mobileNumber: phone } = values;
     const user = await checkIfUserExists(email, phone);
     if (!user) {
       sendOTP(values);
+      setloading(true);
+      dispatch(setLoading(false));
     } else {
       alert('User already exists');
+      dispatch(setLoading(false));
+      setloading(true);
     }
   };
 
   const sendOTP = async (values) => {
+    setloading(true);
     const appVerifier = configureCaptcha();
     firebase
       .auth()
@@ -70,16 +79,17 @@ const Signup = () => {
               phoneNumber: values.mobileNumber,
               email: values.email,
               displayName: values.fullName,
-              whatsappoptin: values.whatsappoptin
+              whatsappoptin: values.whatsappoptin,
             },
           },
         });
+        setloading(false);
       })
       .catch((error) => {
         toast.error(`${error}`, {
           theme: 'colored',
         });
-        dispatch(setLoading(false));
+        setloading(false);
       });
   };
   return (
@@ -207,10 +217,10 @@ const Signup = () => {
                     <div className="d-grid gap-2 mt-3 mb-3">
                       <Button
                         type="submit"
-                        disabled={!isValid}
+                        disabled={!isValid || loading}
                         style={{ fontWeight: '500' }}
                         variant="secondary">
-                        Sign Up
+                        {loading ? 'Loading...' : 'Sign Up'}
                       </Button>
                     </div>
                     <div className="space-or">
