@@ -51,7 +51,7 @@ const CourseList = ({ courses }) => {
           <h5>Top Techfit Courses</h5>
           <p>This are the top 3 courses provided by UniKaksha</p>
         </div>
-        <div>see all</div>
+        {/* <div>see all</div> */}
       </div>
       <Row>
         {courses?.map((course) => (

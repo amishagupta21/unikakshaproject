@@ -318,14 +318,14 @@ function CourseDetails() {
                             </div>
                             <div className='carousel-container'>
                                 <Carousel indicators={false} touch={true} pause='hover' controls={false}>
-                                    {courseDetails?.banner_assets?.items.map((asset, i) => {
-                                        if(asset.type === 'image') {
-                                            return (
-                                                <CarouselItem key={i}>
-                                                    <img src={asset.url}></img>
-                                                </CarouselItem>
-                                            );
-                                        }
+                                    {courseDetails?.course_variant_sections?.bannerAsset?.value.map((asset, i) => {
+                                        // if(asset.type === 'image') {
+                                        //     return (
+                                        //         <CarouselItem key={i}>
+                                        //             <img src={asset.url}></img>
+                                        //         </CarouselItem>
+                                        //     );
+                                        // }
                                         if(asset.type === 'video') {
                                             return (
                                                 <CarouselItem key={i}>
@@ -336,7 +336,7 @@ function CourseDetails() {
                                         if(asset.type === 'youtube') {
                                             return (
                                                 <CarouselItem key={i}>
-                                                    <iframe src='https://www.youtube.com/embed/JsZlogpkucg' frameBorder="20px" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen={true}></iframe>
+                                                    <iframe src={asset.url} frameBorder="20px" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen={true}></iframe>
                                                 </CarouselItem>
                                             );
                                         }
