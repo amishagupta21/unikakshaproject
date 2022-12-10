@@ -4,8 +4,7 @@ import {
 
   import axios from "axios";
   
-const Payments = () => {
-
+const Payments = () => {    
     function loadScript(src) {
         return new Promise((resolve) => {
             const script = document.createElement("script");
@@ -99,10 +98,7 @@ console.log(result);
         paymentObject.open();
     }
     return (
-        <>
-            <button className="App-link" onClick={displayRazorpay}>
-                Pay ₹500
-            </button>
+        <>            
         </>
     );
 }

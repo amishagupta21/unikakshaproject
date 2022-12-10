@@ -15,7 +15,7 @@ const ApiService = async (url_end_point, type, data, isToken) => {
         'Access-Control-Allow-Origin': '*',
       },
       data: data,
-    };
+    };    
     return obj;
   };
   try {
