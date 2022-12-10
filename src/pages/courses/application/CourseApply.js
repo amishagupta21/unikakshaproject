@@ -129,7 +129,7 @@ const CourseApplication = () => {
   });
 
   const nextPageNumber = (pageNumber) => {
-    switch (pageNumber) {
+    switch (pageNumber = 5) {
       case 0:
         setPage(0);
         setStepperTitle('Personal Details');
