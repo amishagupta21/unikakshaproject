@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Cookies from 'universal-cookie';
@@ -20,6 +20,7 @@ import './auth.scss';
 import LeftBox from './components/LeftBox';
 
 const Login = () => {
+  let isAuth = useSelector((state) => state?.auth?.isAuthenticated) || JSON.parse(localStorage.getItem("isAuthenticated"));
   const [loading, setloading] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -33,6 +34,12 @@ const Login = () => {
       defaultCountry: 'IN',
     }));
   };
+
+  useEffect(() => {
+    if(isAuth) {
+      navigate('/dashboard');
+    }
+  },[])
 
   const checkIfUserExists = async (email, phone) => {
     const result = await ApiService('user/check-exists', 'POST', { email, phone }, true);

@@ -38,7 +38,7 @@ const PrimaryNavbar = () => {
     <div className="custom-header">
       <Navbar bg="light" variant="light" expand="lg">
         <Container>
-          <Navbar.Brand href="#home">
+          <Navbar.Brand href="/dashboard">
             {' '}
             <img src={BrandLogo} alt="Brand Logo" />
           </Navbar.Brand>
@@ -66,11 +66,11 @@ const PrimaryNavbar = () => {
                     </Dropdown.Toggle>
   
                     <Dropdown.Menu>
-                      <Dropdown.Item href="#/action-1">
-                        <img src={Course} alt="profile" />
+                      <Dropdown.Item href="/my-courses" onClick={() => navigate('/my-courses')}>
+                        <img src={Course} alt="my-courses" />
                         My Courses
                       </Dropdown.Item>
-                      <Dropdown.Item href="#/action-2">
+                      <Dropdown.Item href="#/action">
                         {' '}
                         <img src={Profile} alt="profile" />
                         My Profile

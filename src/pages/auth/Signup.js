@@ -89,6 +89,7 @@ const Signup = () => {
         toast.error(`${error}`, {
           theme: 'colored',
         });
+        dispatch(setLoading(false));
         setloading(false);
       });
   };
@@ -230,8 +231,7 @@ const Signup = () => {
                     <div className="policy-terms text-center mt-4">
                       By clicking sign up you will be agree with our
                       <br />
-                      <a> terms & conditions </a> and <a> privacy policy. </a>
-                    </div>
+                      <a href="https://unikaksha.com/terms-and-conditions"> terms & conditions </a> and <a href="https://unikaksha.com/privacy-policy"> privacy policy. </a>                    </div>
                   </Form>
                 )}
               />

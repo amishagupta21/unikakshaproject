@@ -149,9 +149,7 @@ const Payments = (params) => {
             <div className='d-flex align-items-center justify-content-center'>
             <div>
                 <div className='mt-2 mb-4 d-flex align-items-center justify-content-center'>
-                
                     <img src={SuccessTick}></img>
-                    
                 </div>
                 <h3 className='payment-text text-center header mt-2 mb-4 '>Payment Successful!</h3>
                 <div className='content-box' >
@@ -206,13 +204,9 @@ const Payments = (params) => {
    
     return (
         
-        <div>
-            
+        <div className='payments'>
              { paymentStatus == 'Success' ? getPaymentSuccess() : "" }
              { paymentStatus == 'Failed' ? getPaymentFailure() : "" }
-            <button className="App-link" onClick={displayRazorpay}>
-                Pay ₹500
-            </button>
         </div>
     );
 }

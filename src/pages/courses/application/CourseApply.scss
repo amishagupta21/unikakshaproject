@@ -3,6 +3,12 @@
 }
 
 .course-application {
+    .back-btn {
+        img {
+            cursor: pointer;
+        }
+    }
+
     .step-header {
         color        : var(--bs-teal);
         font-style   : normal;

@@ -19,36 +19,38 @@ import PrivateRoute from './Routes/PrivateRoutes';
 
 const App = () => {
   const isLoader = useSelector((state) => state?.loader?.isLoading);
-  const isAuthenticated =
-    useSelector((state) => state?.auth?.isAuthenticated) || localStorage.getItem('isAuthenticated');
+  const isAuthenticated = useSelector((state) => state?.auth?.isAuthenticated) || localStorage.getItem('isAuthenticated');
 
   return (
     <div>
-      {isLoader && <Loader />}
-
-      <BrowserRouter>
-        <PrimaryNavbar />
-        <Routes>
-          <Route exact={true} path="/" element={<Login />} />
-          <Route element={<PrivateRoute />}>
-            <Route path="dashboard" element={<Homepage />} />
-            <Route path="course/apply/:courseVariantSlug" element={<CourseApplication />} />
-            <Route path="my-courses" element={<MyCourses />} />
-            <Route path="course/:courseVariantSlug" element={<CourseDetails />} />
-          </Route>
-          {/* <Route path="dashboard" element={<PrivateRoute><Homepage /></PrivateRoute>}/>
+      
+      {!isLoader ? (
+        <BrowserRouter>
+            <PrimaryNavbar />
+            <Routes>
+              <Route exact={true} path="/" element={<Login /> } />
+              <Route element={<PrivateRoute />}>
+                <Route path="dashboard" element={<Homepage />}/>
+                <Route path="course/apply/:courseVariantSlug" element={ <CourseApplication /> } />
+                <Route path='my-courses' element={<MyCourses/>} />
+                <Route path='course/:courseVariantSlug' element={<CourseDetails />}/>
+              </Route>
+              {/* <Route path="dashboard" element={<PrivateRoute><Homepage /></PrivateRoute>}/>
               <Route path="course/apply" element={<PrivateRoute> <CourseApplication /> </PrivateRoute>} />
               <Route path='my-courses' element={<PrivateRoute><MyCourses/></PrivateRoute>} />
               <Route path='course/:courseVariantSlug/:courseId' element={<PrivateRoute><CourseDetails /></PrivateRoute>}/> */}
-          <Route path="login" element={<Login />} />
-          <Route path="signup" element={<Signup />} />
-          <Route path="info" element={<Info />} />
-          <Route path="signin-otp" element={<SignInOtp />} />
-          <Route path="signup-otp" element={<SignupOtp />} />
-          <Route path="*" element={<Error />} />
-        </Routes>
-        <Footer />
-      </BrowserRouter>
+              <Route path="login" element={<Login /> } />
+              <Route path="signup" element={<Signup />} />
+              <Route path="info" element={<Info />} />
+              <Route path="signin-otp" element={<SignInOtp />} />
+              <Route path="signup-otp" element={<SignupOtp />} />
+              <Route path="*" element={<Error />} />
+            </Routes>
+            <Footer />
+        </BrowserRouter>
+      ) : (
+        <Loader />
+      )}
     </div>
   );
 };

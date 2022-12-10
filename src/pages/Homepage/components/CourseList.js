@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Card } from 'react-bootstrap';
@@ -11,10 +11,21 @@ import StarFilledIcon from '../../../assets/images/courses/icons/StarIconFill.sv
 import StarHalfFilledIcon from '../../../assets/images/courses/icons/StarIconHalfFill.svg';
 import WaitClockIcon from '../../../assets/images/courses/icons/wait-sandclock-icon.svg';
 import CalenderIcon from '../../../assets/images/courses/icons/CalenderIcon.svg';
+import Rating from 'react-rating';
 import { useNavigate } from 'react-router-dom';
-import { tick
- 
-} from '../../../assets/images';
+import { emptystar, fullstar, tick } from '../../../assets/images';
+
+const RatingComponent = ({rating}) => {
+  const ratingInDecimal = rating?.value.split('/')[0];
+  return (
+      <Rating
+          initialRating={ratingInDecimal}
+          readonly
+          emptySymbol={<img src={emptystar} className="icon" />}
+          fullSymbol={<img src={fullstar} className="icon" />}
+      />
+  )
+}
 
 const CourseList = ({ courses }) => {
 
@@ -25,6 +36,9 @@ const CourseList = ({ courses }) => {
   const viewDetails = (course) => {
     navigate(`/course/${course.course_url}`, { state: course });
   }
+
+  useEffect(() => {
+  }, [])
 
   const navigate = useNavigate();
 
@@ -49,7 +63,7 @@ const CourseList = ({ courses }) => {
       <div className="d-flex justify-content-between">
         <div>
           <h5>Top Techfit Courses</h5>
-          <p>This are the top 3 courses provided by UniKaksha</p>
+          <p>These are the top 3 courses provided by UniKaksha</p>
         </div>
         {/* <div>see all</div> */}
       </div>
@@ -57,29 +71,26 @@ const CourseList = ({ courses }) => {
         {courses?.map((course) => (
           <Col md="4" key={course?.id}>
             <Card className="my-4 card-custom" style={{ width: '100%' }}>
-              <Card.Img variant="top" src={courseImage} />
+              <Card.Img style={{ width: 'fit-content', margin: 'auto' ,maxHeight: '246px' }} variant="top" src={course?.course_variant_sections?.bannerAsset?.value[0].url} />
               <Card.Body>
                 <div className="d-flex justify-content-between align-items-center course-title-section">
                   <Card.Title>{course?.course_title}</Card.Title>
-                  {/* <img src={HeartIcon} alt="heart-icon" /> */}
+                  {/* <img src={HeartIcon} style={{cursor: 'pointer'}} alt="heart-icon" /> */}
                 </div>
-                {/* <div className="d-flex align-items-center my-3 ">
-                  <p className="mb-0">Ratings {course?.sections?.ratings?.value}</p>
-                  <div className="d-flex ms-2">
-                    <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-                    <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-                    <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-                    <img className="me-1" src={StarHalfFilledIcon} alt="heart-icon" />
-                    <img className="me-1" src={StarIcon} alt="heart-icon" />
+                <Card.Subtitle style={{fontSize:'12px', fontStyle: 'italic', fontWeight: 'normal'}} className='mb-2'>{course?.variant_subtitle}</Card.Subtitle>
+                <div className="d-flex align-items-center mb-3 ">
+                  <p className="mb-0">Ratings {course?.course_variant_sections?.ratings.value}</p>
+                  <div className="d-flex ms-2 mb-1">
+                    <RatingComponent rating={course?.course_variant_sections?.ratings} />
                   </div>
-                </div>  */}
+                </div> 
                 
-                <div className="mb-4">
+                <div className="mb-3">
                   <div className="d-flex justify-content-between mb-3">
                     <div className="d-flex">
                       <img src={WaitClockIcon} alt="Wait-Clock-Icon" />
                       <p style={{ fontSize: '14px' }} className="ms-2 mb-0">
-                        Duration, <strong> 6 Months</strong>
+                        Duration, <strong> 6 Months</strong> | {course?.variant_name} 
                       </p>
                     </div>
                     <div className="d-flex">
