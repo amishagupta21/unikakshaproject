@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Cookies from 'universal-cookie';
@@ -16,10 +16,12 @@ import { firebase } from '../../firebase/firebase';
 import { setLoading } from '../../redux/actions/LoaderActions';
 import ApiService from '../../services/ApiService';
 import SocialLogin from '../../utils-componets/SocialLogin';
+import Homepage from '../Homepage/Homepage';
 import './auth.scss';
 import LeftBox from './components/LeftBox';
 
 const Login = () => {
+  let isAuth = useSelector((state) => state?.auth?.isAuthenticated) || JSON.parse(localStorage.getItem("isAuthenticated"));
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -37,6 +39,12 @@ const Login = () => {
     const result = await ApiService('user/check-exists', 'POST', { email, phone }, true);
     return result?.data?.data?.user;
   }
+
+  useEffect(() => {
+    if(isAuth) {
+      navigate('/dashboard');
+    }
+  },[])
 
   const singInwithEmail = async (values) => {
     const { email } = values;
@@ -98,7 +106,8 @@ const Login = () => {
   };
 
   return (
-    <div>
+   <>
+     {(isAuth === false) ? (<div>
       {/* <AuthNavbar /> */}
       <section className="auth_layout login_screen">
         <LeftBox />
@@ -262,7 +271,8 @@ const Login = () => {
           </div>
         </div>
       </section>
-    </div>
+    </div>) : <Homepage />}
+   </>
   );
 };
 

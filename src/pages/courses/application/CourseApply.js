@@ -203,7 +203,7 @@ const CourseApplication = () => {
     <>
       {!isLoading && (
         <div className="px-5 my-5 mx-5 course-application">
-          <div className="d-flex mt-5">
+          <div className="d-flex mt-5 back-btn">
             <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
             <p className="step-header">{stepperTitle}</p>
           </div>
@@ -213,7 +213,7 @@ const CourseApplication = () => {
               style={{ padding: 'unset' }}
               className="d-flex justify-content-between rounded align-items-center">
               <div>
-                <Card.Title style={{ fontWeight: '600', color: '#222380' }} className="mb-4">
+                <Card.Title style={{ fontWeight: '600', color: '#222380', marginBottom: 'unset' }}>
                   {courseDetails.course_title}
                 </Card.Title>
                 {/* <Card.Subtitle style={{ fontFamily: 'Roboto' }} className="mb-2 text-muted d-flex">
@@ -234,7 +234,7 @@ const CourseApplication = () => {
               <div>
                 <Card.Link
                   style={{ fontSize: '18px', fontWeight: '500', color: '#EF6B29' }}
-                  href={`${courseDetails.course_url}`}>
+                  href={`../${courseDetails.course_url}`}>
                   View Course
                 </Card.Link>
               </div>
