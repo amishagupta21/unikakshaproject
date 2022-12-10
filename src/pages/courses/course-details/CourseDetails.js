@@ -1,5 +1,8 @@
 import React, { useEffect } from 'react';
 import { Button, Card, CardGroup, CardImg, Carousel, CarouselItem, Col, Container, Nav, Row } from 'react-bootstrap';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+import Accordion from 'react-bootstrap/Accordion';
 import './CourseDetails.scss';
 import ApiService from '../../../services/ApiService';
 import { useLocation, useParams } from 'react-router-dom';
@@ -122,6 +125,7 @@ function CourseDetails() {
                     <Col>
                         <Card className="batch-card-style">
                             <Card.Body className="text-left-align">
+                            
                                 <h6 className="font-color text-left-align mtb5"> Starts From </h6>
                                 <p>
                                 <img src={calendar1} alt="Calendar" className='calendar-icon' /><span className="text-left-align mtb5">{ convertDate(element.start_date) }</span>
@@ -270,6 +274,23 @@ function CourseDetails() {
         });
         return items;
     };
+
+    const getFAQs = () => {
+        const faqs = courseDetails?.faqs?.items;
+        let items = faqs.map((element, index) => {
+        return (
+            
+                <Tab eventKey="home" title="${element.category}">
+                    <h5 className='text-left-align'>1. What does LOREM mean?</h5>
+                    <p className='text-left-align'>‘Lorem ipsum dolor sit amet, consectetur adipisici elit…’ (complete text) is dummy text that is not meant to mean anything. It is used as a placeholder in magazine layouts, for example, in order to give an impression of the finished document.</p>
+                </Tab>
+               
+            
+        );
+    });
+    return items;
+    }
+
     return (
         <>
             <div className="course-details my-5">
@@ -352,6 +373,7 @@ function CourseDetails() {
                             <h4 className="font-color mb2">Course Overview</h4>
                             <Row xs={1} md={4}>
                                 {getCourseOverview()}
+                                
                             </Row>
                             <Row className="mtb5" id='about'>
                                 <h4 className="font-color">About The Course</h4>
@@ -398,6 +420,38 @@ function CourseDetails() {
                                 {getHiringPartners()}
                             </Row>
                             
+                            <h4 className="font-color mb2" id='eligibility'>FAQs</h4>
+                            <Row xs={1} md={1} className="mtb5">
+                            {/* <Tabs
+                                defaultActiveKey="home"
+                                id="uncontrolled-tab-example"
+                                className="mb-3"
+                                > */}
+                                 
+                                 <Accordion defaultActiveKey='0'>
+                                {courseDetails?.faqs?.items.map((element, index) => {
+                                    return (
+                                        <div>
+                                            
+                                             <Accordion.Item eventKey={index}>
+                                            <Accordion.Header className='text-left-align faq-title'>{ index + 1}. { element.question }</Accordion.Header>
+                                            <Accordion.Body className='text-left-align faq-content'>{ element.answer }</Accordion.Body>
+                                            </Accordion.Item>
+                                            
+                                    {/* <Tab eventKey="home" title="Home"> */}
+                                    {/* <h5 className='text-left-align faq-title'>{ index + 1}.{ element.question } </h5>
+                                    <p className='text-left-align faq-content'> { element.answer }</p> */}
+                                    {/* </Tab> */}
+                                    </div>
+                                    );
+                                })
+                            }
+                            </Accordion>
+                         
+                           
+                            {/* </Tabs> */}
+                        
+                            </Row>
                            
                             
                         </Col>
