@@ -1,5 +1,5 @@
 import { Field, Form, Formik } from 'formik';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Cookies from 'universal-cookie';
@@ -16,12 +16,11 @@ import { firebase } from '../../firebase/firebase';
 import { setLoading } from '../../redux/actions/LoaderActions';
 import ApiService from '../../services/ApiService';
 import SocialLogin from '../../utils-componets/SocialLogin';
-import Homepage from '../Homepage/Homepage';
 import './auth.scss';
 import LeftBox from './components/LeftBox';
 
 const Login = () => {
-  let isAuth = useSelector((state) => state?.auth?.isAuthenticated) || JSON.parse(localStorage.getItem("isAuthenticated"));
+  const [loading, setloading] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -38,30 +37,32 @@ const Login = () => {
   const checkIfUserExists = async (email, phone) => {
     const result = await ApiService('user/check-exists', 'POST', { email, phone }, true);
     return result?.data?.data?.user;
-  }
-
-  useEffect(() => {
-    if(isAuth) {
-      navigate('/dashboard');
-    }
-  },[])
+  };
 
   const singInwithEmail = async (values) => {
+    setloading(true);
+    dispatch(setLoading(true));
     const { email } = values;
     const user = await checkIfUserExists(email, null);
     if (user) {
       const { phone, uid } = user;
-      if(phone) {
+      if (phone) {
         sendOTP(phone);
       }
+      setloading(false);
+      dispatch(setLoading(false));
     } else {
       // TODO
       // user not found
-      alert('User Not Found')
+      alert('User Not Found');
+      setloading(false);
+      dispatch(setLoading(false));
     }
-  }
+  };
 
   const signInWithNumber = async (values) => {
+    dispatch(setLoading(true));
+    setloading(true);
     const { mobileNumber } = values;
     const user = await checkIfUserExists(null, `+${mobileNumber}`);
     if (user) {
@@ -69,45 +70,51 @@ const Login = () => {
       if (phone) {
         sendOTP(phone);
       }
+      setloading(false);
+      dispatch(setLoading(false));
     } else {
-      // TODO
-      // user not found
-      alert('User Not Found')
+      alert('User Not Found');
+      setloading(false);
+      dispatch(setLoading(false));
     }
-  }
+  };
 
   const sendOTP = async (phoneNumber) => {
+    dispatch(setLoading(true));
+    setloading(true);
     const appVerifier = configureCaptcha();
-    // dispatch(setLoading(true))
     firebase
       .auth()
       .signInWithPhoneNumber(`${phoneNumber}`, appVerifier)
       .then(async (confirmationResult) => {
         window.confirmationResult = confirmationResult;
-        // dispatch(setLoading(false))
         toast.success('OTP has been Sent to Mobile Number', {
           theme: 'colored',
         });
 
         const redirectUrl = searchParams.get('redirect');
-        const signInUrl = redirectUrl ? `/signin-otp?redirect=${searchParams.get('redirect')}` : '/signin-otp';
+        const signInUrl = redirectUrl
+          ? `/signin-otp?redirect=${searchParams.get('redirect')}`
+          : '/signin-otp';
         navigate(signInUrl, {
           state: {
-            phoneNumber: phoneNumber
+            phoneNumber: phoneNumber,
           },
         });
+        dispatch(setLoading(false));
+        setloading(false);
       })
       .catch((error) => {
         toast.error(`${error}`, {
           theme: 'colored',
         });
+        setloading(false);
         dispatch(setLoading(false));
       });
   };
 
   return (
-   <>
-     {/* {(isAuth === false) ? (<div> */}
+    <div>
       {/* <AuthNavbar /> */}
       <section className="auth_layout login_screen">
         <LeftBox />
@@ -116,7 +123,9 @@ const Login = () => {
             <div className="log-in-title">Log in</div>
             <div href="#" className="resetpassword create-account">
               Don't have account?
-              <Link to="/signup" state={searchParams}>&nbsp;Sign up</Link>
+              <Link to="/signup" state={searchParams}>
+                &nbsp;Sign up
+              </Link>
             </div>
             <div href="#" className="signin-text">
               Login with
@@ -127,14 +136,10 @@ const Login = () => {
                   <Col sm={12}>
                     <Nav variant="pills" className="custom-tabs-container">
                       <Nav.Item>
-                        <Nav.Link eventKey="first">
-                            Mobile
-                        </Nav.Link>
+                        <Nav.Link eventKey="first">Mobile</Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
-                        <Nav.Link eventKey="second">
-                            Email
-                        </Nav.Link>
+                        <Nav.Link eventKey="second">Email</Nav.Link>
                       </Nav.Item>
                     </Nav>
                   </Col>
@@ -175,12 +180,13 @@ const Login = () => {
                                     <FormLabel>Enter Number</FormLabel>
                                     <PhoneInput
                                       country={'in'}
-                                      placeholder='Enter mobile number'
+                                      placeholder="Enter mobile number"
                                       value={field.value}
                                       onChange={(phone, data) => {
                                         setFieldValue('mobileNumber', phone);
                                         setFieldValue('mobileLength', data.dialCode.length);
                                       }}
+                                      // disableCountryCode
                                     />
                                   </Row>
                                 )}
@@ -193,9 +199,10 @@ const Login = () => {
                                   type="submit"
                                   variant="secondary"
                                   disabled={
-                                    !(values.mobileNumber.length - values.mobileLength === 10)
+                                    !(values.mobileNumber.length - values.mobileLength === 10) ||
+                                    loading
                                   }>
-                                  Log in
+                                  {loading ? 'Loading...' : 'Log in'}
                                 </Button>
                               </div>
                             </Form>
@@ -213,12 +220,7 @@ const Login = () => {
                           onSubmit={(values) => {
                             singInwithEmail(values);
                           }}
-                          render={({
-                            values,
-                            errors,
-                            touched,
-                            validateForm,
-                          }) => (
+                          render={({ values, errors, touched, validateForm }) => (
                             <Form>
                               <h2 className="title-head">Sign in to Unikaksha</h2>
                               <Field
@@ -245,14 +247,12 @@ const Login = () => {
                                 <div className="error-text">{errors.email}</div>
                               ) : null}
                               <div className="d-grid gap-2">
-                                <Button  
-                                  type="submit" 
-                                  className="btn-secondary" 
-                                  variant="secondary" 
-                                  disabled={
-                                    !(values.email)
-                                  }>
-                                  Log in
+                                <Button
+                                  type="submit"
+                                  className="btn-secondary"
+                                  variant="secondary"
+                                  disabled={!values.email || loading}>
+                                  {loading ? 'Loading...' : 'Log in'}
                                 </Button>
                               </div>
                             </Form>
@@ -263,16 +263,15 @@ const Login = () => {
                   </Col>
                 </Row>
               </Tab.Container>
-              <div className='space-or mt-4'>
+              <div className="space-or mt-4">
                 <span>OR</span>
-							</div>
+              </div>
               <SocialLogin />
             </div>
           </div>
         </div>
       </section>
-    {/* </div> */}
-   </>
+    </div>
   );
 };
 

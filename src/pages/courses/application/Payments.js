@@ -1,23 +1,10 @@
-import React, { useEffect } from 'react';
-import { Button, Card, CardGroup, CardImg, Carousel, CarouselItem, Col, Container, Nav, Row } from 'react-bootstrap';
-import ApiService from '../../../services/ApiService';
-import { useLocation, useParams } from 'react-router-dom';
-import { getByDisplayValue } from '@testing-library/react';
-import { useNavigate } from 'react-router-dom';
-import './Payments.scss';
 import {
-    bannerLogoSvg,
-    SuccessTick,
-    PaymentTick
+    bannerLogoSvg
   } from '../../../assets/images';
 
   import axios from "axios";
   
-const Payments = (params) => {
-// console.log(course);
-
-const courseData = params.course;
-
+const Payments = () => {
 
     function loadScript(src) {
         return new Promise((resolve) => {
@@ -44,8 +31,8 @@ const courseData = params.course;
             return;
         }
 
-        // const result = await axios.post("https://api.razorpay.com/v1/orders")
-
+        const result = await axios.post("https://api.razorpay.com/v1/orders")
+console.log(result);
        
 
         // if (!result) {
@@ -71,7 +58,7 @@ const courseData = params.course;
         // "notes": [],
         // "created_at": 1670407266
 
-        const orderId = "order_KptBeukbWqJacQ";
+        const orderId = "order_KpJGDTLev2EqgU";
 
         const options = {
             key: "rzp_test_xOikuguYnrmtYd", // Enter the Key ID generated from the Dashboard
@@ -91,7 +78,7 @@ const courseData = params.course;
 
                 // const result = await axios.post("http://localhost:5000/payment/success", data);
 
-                console.log(response);
+                console.log(data.razorpayPaymentId);
                 console.log(data.razorpayOrderId);
                 console.log(data.razorpaySignature);
             },
@@ -111,43 +98,8 @@ const courseData = params.course;
         const paymentObject = new window.Razorpay(options);
         paymentObject.open();
     }
-
-    const getPaymentSuccess = () => {
-      
-        // let items = coureseVariantBatches?.map((element, index) => {
-            
-            return (
-                <div className='d-flex align-items-center justify-content-center'>
-                <div>
-                    <div className='mt-2 mb-4 d-flex align-items-center justify-content-center'>
-                    <img src={PaymentTick} className="payment-tick"></img>
-                        <img src={SuccessTick}></img>
-                        
-                    </div>
-                    <h3 className='payment-text text-center header mt-2 mb-4 '>Payment Successful!</h3>
-                    <div className='content-box' >
-                        <p className='text-primary text-center message1'> Transaction details</p>
-                        <p className='text-primary text-center message2'>Transaction number : 123456789</p>
-                        <p className='text-primary text-center message3'>Transaction Time : 07:00 PM, 17/11/2022</p>
-                        <p className='text-primary text-center message1'> Course details</p>
-                        <p className='text-primary text-center message2'>Batch name: {courseData?.course_title}</p>
-                        <p className='text-primary text-center message3'>Batch type : {courseData?.variant_name}</p>
-                        <p className='text-primary text-center message3'>Batch Time : 09:00 AM, 11/12/2022</p>
-                    </div>
-                    <div className='mt-5 d-flex align-items-center justify-content-center footer-content'>
-                        <p>We have sent you the transaction details on your email and whatsapp.</p>
-                    </div> 
-                </div>
-            </div>
-            );
-
-        // });
-        // return items;
-    };
-
     return (
         <>
-             {getPaymentSuccess()}
             <button className="App-link" onClick={displayRazorpay}>
                 Pay ₹500
             </button>

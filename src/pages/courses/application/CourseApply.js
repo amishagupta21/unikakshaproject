@@ -36,9 +36,8 @@ const CourseApplication = () => {
   const [whatsAppState, setWhatsAppNumber] = React.useState({ phone: '', data: '' });
   const [genderValue, setGenderValue] = React.useState('');
   const [courseDetails, setCourseDetails] = React.useState({});
-  const [EducationalDetails, setEducationalDetails] = React.useState({});
   const [user, setUser] = React.useState({});
-  const [isLoading, setIsLoading] = React.useState(false);  
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -47,21 +46,12 @@ const CourseApplication = () => {
 
   const fetchUserDetails = async () => {
     setIsLoading(true);
-    let personalDetails = {}; 
-    let educationalDetails = {};    
     const localUser = await JSON.parse(localStorage.getItem('user'));
     setUser(localUser);
     const userProfile = await ApiService(`/user/${localUser?.uid}/detail`, 'GET', {}, true);
-    personalDetails = userProfile?.data?.data?.userProfile?.personal_details ?? personalDetails;
-    educationalDetails = userProfile?.data?.data?.userProfile?.education_details ?? educationalDetails;
-    educationalDetails.work_details = userProfile?.data?.data?.userProfile?.work_details ?? [];
+    const { personal_details } = userProfile?.data?.data?.userProfile;
     nextPageNumber(0);
-    if(personalDetails) {
-      setPersonalDetailsInForm(personalDetails); 
-    }
-    if(educationalDetails) {
-      setEducationalDetails(educationalDetails)
-    }  
+    setPersonalDetailsInForm(personal_details);
     setIsLoading(false);
   };
 
@@ -203,7 +193,7 @@ const CourseApplication = () => {
     <>
       {!isLoading && (
         <div className="px-5 my-5 mx-5 course-application">
-          <div className="d-flex mt-5 back-btn">
+          <div className="d-flex mt-5">
             <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
             <p className="step-header">{stepperTitle}</p>
           </div>
@@ -213,7 +203,7 @@ const CourseApplication = () => {
               style={{ padding: 'unset' }}
               className="d-flex justify-content-between rounded align-items-center">
               <div>
-                <Card.Title style={{ fontWeight: '600', color: '#222380', marginBottom: 'unset' }}>
+                <Card.Title style={{ fontWeight: '600', color: '#222380' }} className="mb-4">
                   {courseDetails.course_title}
                 </Card.Title>
                 {/* <Card.Subtitle style={{ fontFamily: 'Roboto' }} className="mb-2 text-muted d-flex">
@@ -234,7 +224,7 @@ const CourseApplication = () => {
               <div>
                 <Card.Link
                   style={{ fontSize: '18px', fontWeight: '500', color: '#EF6B29' }}
-                  href={`../${courseDetails.course_url}`}>
+                  href={`${courseDetails.course_url}`}>
                   View Course
                 </Card.Link>
               </div>
@@ -421,8 +411,7 @@ const CourseApplication = () => {
                 </Form>
               </>
             )}
-            {page === 1 && <EducationDetails nextPage={nextPage} course={courseDetails} user={user} 
-            educationalDetails={EducationalDetails} setEducationalDetails={setEducationalDetails}/>}
+            {page === 1 && <EducationDetails nextPage={nextPage} course={courseDetails} />}
             {page === 2 && <EntranceTest nextPage={nextPage} />}
             {page === 3 && (
               <>
@@ -436,7 +425,7 @@ const CourseApplication = () => {
             )}
             {page === 5 && (
               <>
-                <Payments nextPage={nextPage} course={courseDetails}></Payments>
+                <Payments nextPage={nextPage}></Payments>
               </>
             )}
             {page === 6 && (

@@ -2,25 +2,21 @@ import { Button, ButtonGroup, Col, Container, Form, Row, ToggleButton } from 're
 import { workingRemote } from '../../../assets/images';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import ApiService from '../../../services/ApiService';
-import React, { useEffect } from 'react';
-import lodash from 'lodash';
-import { yearsOptions } from '../../../utils-componets/static-content/DateMonthContent';
-import { getWorkingPosition } from '../../../services/ReuseableFun';
+import React from 'react';
 
 const highestQualificationOption = [
   { value: '', label: 'Please select' },
   {
-    value: 'Diploma_or_12th',
+    value: '12th/diploma',
     label: '12th / Diploma Graduate',
     yesNoLabel: '12th / Diploma graduated?',
   },
   {
-    value: 'UG',
+    value: 'ug',
     label: 'UG / Bachelors degree Completed',
     yesNoLabel: 'UG / Bachelors degree completed?',
   },
-  { value: 'PG', label: 'PG Graduated', yesNoLabel: 'PG Completed?' },
+  { value: 'pg', label: 'PG Graduated', yesNoLabel: 'PG Completed?' },
 ];
 
 const staticContents = {
@@ -38,20 +34,12 @@ const ColoredLine = ({ color }) => (
   />
 );
 
-const EducationDetails = ({ nextPage, course, user, educationalDetails, setEducationalDetails }) => {
+const EducationDetails = ({ nextPage }) => {
   const [graduatedYesOrNo, setGraduatedYesOrNo] = React.useState('nill');
   const [yesOrNoLabel, setYesOrNoLabel] = React.useState('');
   const [highestQualification, setHighestQualification] = React.useState('');
-  const [is_enrolled_other_program, setis_enrolled_other_program] = React.useState('yes');  
-  const [workingPositionList, setworkingPositionList] = React.useState('');
-  const yesNo = [
-    { name: 'Yes', value: 'yes' },  
-    { name: 'No', value: 'no' },
-  ];
-
-  useEffect(() => {            
-    setInitialData();
-  }, []);
+  const [enrolledInProgram, setEnrolledInProgram] = React.useState('');
+  const [formClear, setformClear] = React.useState(false)
 
   const onQualificationChange = (value) => {
     const option = highestQualificationOption.filter((e) => e.value === value.target.value);
@@ -60,182 +48,59 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
     setGraduatedYesOrNo('yes');
   };
 
-  const setInitialData = async () => {
-    setworkingPositionList(await getWorkingPosition());
-    let formData = {};
-    console.log('educationalDetails', educationalDetails);
-    let educationData = educationalDetails.education_details; 
-    if (educationData) {
-      setHighestQualification(educationData.highest_qualification);
-      setGraduatedYesOrNo(
-        educationData.qualification[educationData.qualification.length - 1].passing_marks
-          ? 'yes'
-          : 'no'
-      );
-      formData.is_enrolled_other_program = educationData.is_enrolled_other_program;
-      formData.other_program_name = educationData.other_program_name ?? '';
-      formData.other_program_college_name = educationData.other_program_college_name ?? '';
-      formData.other_program_course_duration = educationData.other_program_course_duration ?? '';
-      lodash.forEach(educationData.qualification, (each) => {
-        if (each.level === 'Diploma_or_12th') {
-          formData.schoolDiplomaCollegeName = each.college_name;
-          formData.schoolYearOfCompletion = each.year_of_completion;
-          formData.schoolMarks = each.passing_marks;
-        }
-        if (each.level === 'UG') {
-          formData.ugCollegeName = each.college_name;
-          formData.ugYOC = each.year_of_completion;
-          formData.ugMarks = each.passing_marks;
-        }
-        if (each.level === 'PG') {
-          formData.pgCollegeName = each.college_name;
-          formData.pgYOC = each.year_of_completion;
-          formData.pgMarks = each.passing_marks;
-        }
-      });
-    }
-    if (educationalDetails.work_details.length) {
-      formData.position = educationalDetails.work_details[0].position;
-      formData.organization_name = educationalDetails.work_details[0].organization_name;
-      formData.experience = educationalDetails.work_details[0].experience;
-    }
-    console.log('formData', formData);
-    formik.setValues(formData);
-  };
-
   const formik = useFormik({
+    initialValues: {schoolDiplomaCollegeName: '', schoolYearOfCompletion: '', schoolMarks: '' },
     validationSchema: Yup.object().shape({
+    //   position: Yup.string().required('Name is required'),
+    //   experience: Yup.string().required(),
+    //   organization_name: Yup.string().required(),    
+    //   is_enrolled_other_program: Yup.string().required(),
+    //   other_program_name: Yup.string().required(),
+    //   other_program_college_name: Yup.string().required(),
+    //   other_program_course_duration: Yup.string().required(),
       schoolDiplomaCollegeName: Yup.string().required(),
       schoolYearOfCompletion: Yup.date().required(),
-      schoolMarks: Yup.number().required(),
-      ugCollegeName: Yup.string(),
+      schoolMarks: Yup.string().required(),
+      ugCollegeName : Yup.string(),
       ugYOC: Yup.date(),
-      ugMarks: Yup.number(),
-      pgCollegeName: Yup.string(),
-      pgYOC: Yup.date(),
-      pgMarks: Yup.number(),
-      other_program_name: Yup.string(),
-      other_program_college_name: Yup.string(),
-      other_program_course_duration: Yup.string(),
-      position: Yup.string(),
-      experience: Yup.number(),
-      organization_name: Yup.string(),
+      ugMarks: Yup.string(),
+
     }),
     validate: (values) => {
-      let errors = {};
-      if (!values.schoolDiplomaCollegeName) {
-        errors.schoolDiplomaCollegeName = '*School Name is Required';
-      }
-      if (!values.schoolYearOfCompletion) {
-        errors.schoolYearOfCompletion = '*12th/Diplomo completion year is required';
-      }
-      if (!values.schoolMarks) {
-        errors.schoolMarks = '*12th/Diplomo Mark is required';
-      }
-      if (highestQualification === 'UG' || highestQualification === 'PG') {
-        if (!values.ugCollegeName) {
-          errors.ugCollegeName = '*College Name is Required';
+        let errors = {};      
+        if(highestQualification === '12th/diploma' ) {
+            if (!values.schoolDiplomaCollegeName) {
+                errors.schoolDiplomaCollegeName = '*School Name is Required';
+            } else if (!values.schoolYearOfCompletion) {
+                errors.schoolYearOfCompletion = '*12th/Diplomo completion year is required';
+            } else if (!values.schoolMarks) {
+                errors.schoolMarks = '*12th/Diplomo Mark is required';
+            } else {
+                setformClear(true)
+            }
+        }        
+        if(highestQualification === 'ug') {        
+            if (!values.ugCollegeName) {                
+                errors.ugCollegeName = '*School Name is Required';
+            } else if (!values.ugYOC) {
+                errors.ugYOC = '*12th/Diplomo completion year is required';
+            } else if (!values.ugMarks) {
+                errors.ugMarks = '*12th/Diplomo Mark is required';
+            } else {
+                setformClear(true)
+            }
         }
-        if (!values.ugYOC) {
-          errors.ugYOC = '*UG completion year is required';
-        }
-        if (
-          (!values.ugMarks && highestQualification === 'PG') ||
-          (!values.ugMarks && highestQualification === 'UG' && graduatedYesOrNo === 'yes')
-        ) {
-          errors.ugMarks = '*UG Mark is required';
-        }
-      }
-      if (highestQualification === 'PG') {
-        if (!values.pgCollegeName) {
-          errors.pgCollegeName = '*College Name is Required';
-        }
-        if (!values.pgYOC) {
-          errors.pgYOC = '*PG completion year is required';
-        }
-        if (!values.pgMarks && graduatedYesOrNo === 'yes') {
-          errors.pgMarks = '*PG Mark is required';
-        }
-      }
-      if (
-        is_enrolled_other_program === 'yes' &&
-        (highestQualification === 'UG' || highestQualification === 'PG')
-      ) {
-        if (!values.other_program_name) {
-          errors.other_program_name = '*School Name is Required';
-        }
-        if (!values.other_program_college_name) {
-          errors.other_program_college_name = '*College Name is Required';
-        }
-        if (!values.other_program_course_duration) {
-          errors.other_program_course_duration = 'Duration is required';
-        }
-      }
-      return errors;
+        return errors;
     },
     onSubmit: (values) => {
-      let qualification = [
-        {
-          level: 'Diploma_or_12th',
-          college_name: values.schoolDiplomaCollegeName,
-          year_of_completion: values.schoolYearOfCompletion,
-          passing_marks: values.schoolMarks,
-        },
-        {
-          level: 'UG',
-          college_name: values.ugCollegeName,
-          year_of_completion: values.ugYOC,
-          passing_marks: values.ugMarks,
-        },
-        {
-          level: 'PG',
-          college_name: values.pgCollegeName,
-          year_of_completion: values.pgYOC,
-          passing_marks: values.pgMarks,
-        },
-      ];
-      if (highestQualification === 'UG') {
-        qualification = qualification.slice(0, 2);
-      } else if (highestQualification === 'Diploma_or_12th') {
-        qualification = qualification.slice(0, 1);
-      }
-      let workDetails = [
-        {
-          position: values.position,
-          experience: values.experience,
-          organization_name: values.organization_name,
-        },
-      ];
-      const payload = {
-        education_details: {
-          highest_qualification: highestQualification,
-          qualification: qualification,
-          is_enrolled_other_program: is_enrolled_other_program === 'yes' ? true : false,
-        },
-        work_details: workDetails,
-        uid: user?.uid,
-        course_id: course?.id,
-      };
-      if (is_enrolled_other_program === 'yes') {
-        payload.education_details.other_program_name = 'React Js';
-        payload.education_details.other_program_college_name =
-          'A. D. Patel Institute of Technology';
-        payload.education_details.other_program_course_duration = 60;
-      }
-      console.log('Payload', payload);
-      submitEducationalDetails(payload);
+      console.log('Payload', values);
     },
   });
 
-  const submitEducationalDetails = async (payload) => {
-    const response = await ApiService('/student/educational-details', `PUT`, payload, true);
-    console.log('responce', response);
-    if (response?.data.code === 200) {
-      setEducationalDetails(payload);
-      console.log('next');
-      nextPage();
-    }
-  };
+  const yesNo = [
+    { name: 'Yes', value: 'yes' },
+    { name: 'No', value: 'no' },
+  ];
 
   return (
     <div>
@@ -256,7 +121,8 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                 onChange={(value) => onQualificationChange(value)}
                 placeholder="Please select"
                 name="qualification"
-                value={highestQualification}>
+                onBlur={formik.handleBlur}
+                value={formik.values.qualification}>                    
                 {highestQualificationOption.map((option, index) => (
                   <option key={index} value={option.value}>
                     {option.label}
@@ -297,7 +163,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
           </Row>
           {highestQualification && (
             <>
-              {graduatedYesOrNo === 'no' && highestQualification === 'Diploma_or_12th' && (
+              {graduatedYesOrNo === 'no' && highestQualification === '12th/diploma' && (
                 <Container className="d-flex flex-row justify-content-center">
                   <div>
                     <img style={{ maxWidth: 'max-content' }} src={workingRemote}></img>
@@ -305,7 +171,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                   </div>
                 </Container>
               )}
-              {highestQualification === 'PG' && (
+              {highestQualification === 'pg' && (
                 <>
                   <Row className="d-flex mb-2 justify-content-center align-items-center">
                     <span className="sections">PG Degree Details</span>
@@ -320,76 +186,30 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                         PG college name
                         <span className="text-danger">*</span>
                       </Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="PG college name"
-                        name="pgCollegeName"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        className={
-                          formik.touched.pgCollegeName && formik.errors.pgCollegeName
-                            ? 'is-invalid'
-                            : null
-                        }
-                        value={formik.values.pgCollegeName}
-                      />
-                      {formik.touched.pgCollegeName && formik.errors.pgCollegeName ? (
-                        <div className="error-message">{formik.errors.pgCollegeName}</div>
-                      ) : null}
+                      <Form.Control type="text" placeholder="UG college name" />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="pgYOC">
                       <Form.Label>
                         PG year of completion<span className="text-danger">*</span>
                       </Form.Label>
-                      <Form.Select
-                        name="pgYOC"
-                        className={
-                          formik.touched.pgYOC && formik.errors.pgYOC ? 'is-invalid' : null
-                        }
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        defaultValue={formik.values.pgYOC}>
-                        <option value="">Select completion Year</option>
-                        {yearsOptions.map((option, index) => (
-                          <option key={index} value={option.value}>
-                            {option.label}
-                          </option>
-                        ))}
-                        ;
-                      </Form.Select>
-                      {formik.touched.pgYOC && formik.errors.pgYOC ? (
-                        <div className="error-message">{formik.errors.pgYOC}</div>
-                      ) : null}
+                      <Form.Control type="date" name="pgYOC"></Form.Control>
                     </Form.Group>
-                    {highestQualification === 'PG' && graduatedYesOrNo === 'yes' && (
+                    {highestQualification === 'pg' && graduatedYesOrNo === 'yes' && (
                       <>
                         <Form.Group as={Col} controlId="pgMarks">
                           <Form.Label>
                             PG passing marks
                             <span className="text-danger">*</span>
                           </Form.Label>
-                          <Form.Control
-                            name="pgMarks"
-                            type="numeric"
-                            placeholder="PG passing marks"
-                            className={
-                              formik.touched.pgMarks && formik.errors.pgMarks ? 'is-invalid' : null
-                            }
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            value={formik.values.pgMarks}
-                          />
-                          {formik.touched.pgMarks && formik.errors.pgMarks ? (
-                            <div className="error-message">{formik.errors.pgMarks}</div>
-                          ) : null}
+                          <Form.Control type="text" placeholder="PG passing marks" />
                         </Form.Group>
                       </>
                     )}
                   </Row>
                 </>
               )}
-              {(highestQualification === 'UG' || highestQualification === 'PG') && (
+              {(highestQualification === 'ug' || highestQualification === 'pg') && (
                 <>
                   <Row className="d-flex mb-2 justify-content-center align-items-center">
                     <span className="sections">UG / Bachelors Degree Details</span>
@@ -404,20 +224,20 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                         UG college name
                         <span className="text-danger">*</span>
                       </Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="UG college name"
-                        name="ugCollegeName"
-                        onChange={formik.handleChange}
+                      <Form.Control 
+                      type="text" 
+                      placeholder="UG college name"
+                      name="ugCollegeName"
+                      onChange={formik.handleChange}
                         className={
-                          formik.touched.ugCollegeName && formik.errors.ugCollegeName
+                            formik.touched.ugCollegeName &&
+                            formik.errors.ugCollegeName
                             ? 'is-invalid'
                             : null
                         }
                         onBlur={formik.handleBlur}
-                        value={formik.values.ugCollegeName}
-                      />
-                      {formik.touched.ugCollegeName && formik.errors.ugCollegeName ? (
+                        value={formik.values.ugCollegeName}/>
+                        {formik.touched.ugCollegeName && formik.errors.ugCollegeName ? (
                         <div className="error-message">{formik.errors.ugCollegeName}</div>
                       ) : null}
                     </Form.Group>
@@ -426,46 +246,44 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                       <Form.Label>
                         UG year of completion<span className="text-danger">*</span>
                       </Form.Label>
-                      <Form.Select
-                        name="ugYOC"
-                        className={
-                          formik.touched.ugYOC && formik.errors.ugYOC ? 'is-invalid' : null
-                        }
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        defaultValue={formik.values.ugYOC}>
-                        <option value="">Select completion Year</option>
-                        {yearsOptions.map((option, index) => (
-                          <option key={index} value={option.value}>
-                            {option.label}
-                          </option>
-                        ))}
-                        ;
-                      </Form.Select>
+                      <Form.Control 
+                      type="date" 
+                      name="ugYOC"
+                      onChange={formik.handleChange}
+                      className={
+                          formik.touched.ugYOC &&
+                          formik.errors.ugYOC
+                          ? 'is-invalid'
+                          : null
+                      }
+                      onBlur={formik.handleBlur}
+                      value={formik.values.ugYOC}/>
                       {formik.touched.ugYOC && formik.errors.ugYOC ? (
-                        <div className="error-message">{formik.errors.ugYOC}</div>
-                      ) : null}
+                      <div className="error-message">{formik.errors.ugYOC}</div>
+                    ) : null}
                     </Form.Group>
-                    {(highestQualification === 'PG' ||
-                      (highestQualification === 'UG' && graduatedYesOrNo === 'yes')) && (
+                    {(highestQualification === 'pg' ||
+                      (highestQualification === 'ug' && graduatedYesOrNo === 'yes')) && (
                       <>
                         <Form.Group as={Col} controlId="ugMarks">
                           <Form.Label>
                             UG passing marks
                             <span className="text-danger">*</span>
                           </Form.Label>
-                          <Form.Control
-                            type="numeric"
-                            placeholder="UG passing marks"
+                          <Form.Control 
+                            type="text" 
+                            placeholder="UG passing marks" 
                             name="ugMarks"
                             onChange={formik.handleChange}
                             className={
-                              formik.touched.ugMarks && formik.errors.ugMarks ? 'is-invalid' : null
+                                formik.touched.ugMarks &&
+                                formik.errors.ugMarks
+                                ? 'is-invalid'
+                                : null
                             }
                             onBlur={formik.handleBlur}
-                            value={formik.values.ugMarks}
-                          />
-                          {formik.touched.ugMarks && formik.errors.ugMarks ? (
+                            value={formik.values.ugMarks}/>
+                            {formik.touched.ugMarks && formik.errors.ugMarks ? (
                             <div className="error-message">{formik.errors.ugMarks}</div>
                           ) : null}
                         </Form.Group>
@@ -474,9 +292,9 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                   </Row>
                 </>
               )}
-              {(highestQualification === 'UG' ||
-                highestQualification === 'PG' ||
-                (graduatedYesOrNo === 'yes' && highestQualification === 'Diploma_or_12th')) && (
+              {(highestQualification === 'ug' ||
+                highestQualification === 'pg' ||
+                (graduatedYesOrNo === 'yes' && highestQualification === '12th/diploma')) && (
                 <>
                   <Row className="d-flex mb-2 justify-content-center align-items-center">
                     <span className="sections">12th / Diploma Course Details</span>
@@ -505,11 +323,8 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                         value={formik.values.schoolDiplomaCollegeName}
                         placeholder="12th school / diploma college name"
                       />
-                      {formik.touched.schoolDiplomaCollegeName &&
-                      formik.errors.schoolDiplomaCollegeName ? (
-                        <div className="error-message">
-                          {formik.errors.schoolDiplomaCollegeName}
-                        </div>
+                      {formik.touched.schoolDiplomaCollegeName && formik.errors.schoolDiplomaCollegeName ? (
+                        <div className="error-message">{formik.errors.schoolDiplomaCollegeName}</div>
                       ) : null}
                     </Form.Group>
 
@@ -517,8 +332,10 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                       <Form.Label>
                         12th / Diploma year of completion<span className="text-danger">*</span>
                       </Form.Label>
-                      <Form.Select
+                      <Form.Control
+                        type="date"
                         name="schoolYearOfCompletion"
+                        onChange={formik.handleChange}
                         className={
                           formik.touched.schoolYearOfCompletion &&
                           formik.errors.schoolYearOfCompletion
@@ -526,18 +343,8 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                             : null
                         }
                         onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        defaultValue={formik.values.schoolYearOfCompletion}>
-                        <option value="">Select completion Year</option>
-                        {yearsOptions.map((option, index) => (
-                          <option key={index} value={option.value}>
-                            {option.label}
-                          </option>
-                        ))}
-                        ;
-                      </Form.Select>
-                      {formik.touched.schoolYearOfCompletion &&
-                      formik.errors.schoolYearOfCompletion ? (
+                        value={formik.values.schoolYearOfCompletion}></Form.Control>
+                        {formik.touched.schoolYearOfCompletion && formik.errors.schoolYearOfCompletion ? (
                         <div className="error-message">{formik.errors.schoolYearOfCompletion}</div>
                       ) : null}
                     </Form.Group>
@@ -567,7 +374,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                   </Row>
                 </>
               )}
-              {(highestQualification === 'UG' || highestQualification === 'PG') && (
+              {(highestQualification === 'ug' || highestQualification === 'pg') && (
                 <>
                   <Row className="d-flex mb-2 justify-content-center align-items-center">
                     <span className="sections">Additional Course Details</span>
@@ -576,7 +383,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                     </Col>
                   </Row>
                   <Row className="mb-4">
-                    <Form.Group as={Col} md={4} controlId="is_enrolled_other_program">
+                    <Form.Group as={Col} md={4} controlId="enrolledInProgram">
                       <Row>
                         <Form.Label>
                           Are you enrolled into any other program
@@ -591,11 +398,11 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                               id={`enrollOption-${idx}`}
                               type="radio"
                               variant="outline-primary"
-                              name="is_enrolled_other_program"
+                              name="enrolledInProgram"
                               value={enrollOption.value}
-                              checked={is_enrolled_other_program === enrollOption.value}
+                              checked={enrolledInProgram === enrollOption.value}
                               onChange={(e) => {
-                                setis_enrolled_other_program(e.currentTarget.value);
+                                setEnrolledInProgram(e.currentTarget.value);
                               }}>
                               <span className="options">{enrollOption.name}</span>
                             </ToggleButton>
@@ -604,83 +411,34 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                       </Row>
                     </Form.Group>
                   </Row>
-                  {is_enrolled_other_program !== 'no' && (
+                  {enrolledInProgram !== 'no' && (
                     <>
                       <Row className="mb-5">
-                        <Form.Group as={Col} controlId="other_program_name">
+                        <Form.Group as={Col} controlId="programName">
                           <Form.Label>
                             Program Name
                             <span className="text-danger">*</span>
                           </Form.Label>
-                          <Form.Control
-                            name="other_program_name"
-                            type="text"
-                            placeholder="Program name"
-                            onChange={formik.handleChange}
-                            className={
-                              formik.touched.other_program_name && formik.errors.other_program_name
-                                ? 'is-invalid'
-                                : null
-                            }
-                            onBlur={formik.handleBlur}
-                            value={formik.values.other_program_name}
-                          />
-                          {formik.touched.other_program_name && formik.errors.other_program_name ? (
-                            <div className="error-message">{formik.errors.other_program_name}</div>
-                          ) : null}
+                          <Form.Control name="programName" type="text" placeholder="Program name" />
                         </Form.Group>
 
-                        <Form.Group as={Col} controlId="other_program_college_name">
+                        <Form.Group as={Col} controlId="collegeName">
                           <Form.Label>
                             College/Insitute Name<span className="text-danger">*</span>
                           </Form.Label>
-                          <Form.Control
-                            type="text"
-                            name="other_program_college_name"
-                            placeholder="College name"
-                            onChange={formik.handleChange}
-                            className={
-                              formik.touched.other_program_college_name &&
-                              formik.errors.other_program_college_name
-                                ? 'is-invalid'
-                                : null
-                            }
-                            onBlur={formik.handleBlur}
-                            value={formik.values.other_program_college_name}
-                          />
-                          {formik.touched.other_program_college_name &&
-                          formik.errors.other_program_college_name ? (
-                            <div className="error-message">
-                              {formik.errors.other_program_college_name}
-                            </div>
-                          ) : null}
+                          <Form.Control type="date" name="collegeName"></Form.Control>
                         </Form.Group>
 
-                        <Form.Group as={Col} controlId="other_program_course_duration">
+                        <Form.Group as={Col} controlId="programDuration">
                           <Form.Label>
                             Duration in months
                             <span className="text-danger">*</span>
                           </Form.Label>
                           <Form.Control
-                            name="other_program_course_duration"
+                            name="programDuration"
                             type="text"
                             placeholder="Duration in months"
-                            onChange={formik.handleChange}
-                            className={
-                              formik.touched.other_program_course_duration &&
-                              formik.errors.other_program_course_duration
-                                ? 'is-invalid'
-                                : null
-                            }
-                            onBlur={formik.handleBlur}
-                            value={formik.values.other_program_course_duration}
                           />
-                          {formik.touched.other_program_course_duration &&
-                          formik.errors.other_program_course_duration ? (
-                            <div className="error-message">
-                              {formik.errors.other_program_course_duration}
-                            </div>
-                          ) : null}
                         </Form.Group>
                       </Row>
                     </>
@@ -689,23 +447,17 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                     <p className="stepper-sub-header">Work Details</p>
                   </Row>
                   <Row className="mb-5">
-                    <Form.Group as={Col} controlId="position">
+                    <Form.Group as={Col} controlId="currentPosition">
                       <Form.Label>
                         Your current working position
                         <span className="text-danger">*</span>
                       </Form.Label>
                       <Form.Select
-                        name="position"
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        defaultValue={formik.values.position}>
-                        <option value="">Select your Position</option>
-                        {workingPositionList.map((option, index) => (
-                          <option key={index} value={option.value}>
-                            {option.label}
-                          </option>
-                        ))}
-                        ;
+                        className="form-control"
+                        aria-label="current-position"
+                        onChange={(value) => onQualificationChange(value)}
+                        placeholder="Please select">
+                        <option>Please select</option>
                       </Form.Select>
                     </Form.Group>
                     <Form.Group as={Col} controlId="experience">
@@ -713,14 +465,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                         Total technical experience in years
                         <span className="text-danger">*</span>
                       </Form.Label>
-                      <Form.Control
-                        name="experience"
-                        type="text"
-                        placeholder="Total technical experience"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.experience}
-                      />
+                      <Form.Control type="text" placeholder="Total technical experience" />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="currentOrganization">
@@ -728,14 +473,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                         Organization you are working in
                         <span className="text-danger">*</span>
                       </Form.Label>
-                      <Form.Control
-                        name="organization_name"
-                        type="text"
-                        placeholder="Current organization"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.organization_name}
-                      />
+                      <Form.Control type="text" placeholder="Current organization" />
                     </Form.Group>
                   </Row>
                 </>
@@ -749,11 +487,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
               type="button">
               Cancel
             </Button>
-            <Button
-              className="col-1"
-              disabled={!formik.isValid && !formik.dirty}
-              variant="secondary"
-              type="submit">
+            <Button className="col-1" disabled={(!formik.isValid && !formik.dirty) && !formClear} variant="secondary" type="submit">
               Next
             </Button>
           </Row>
