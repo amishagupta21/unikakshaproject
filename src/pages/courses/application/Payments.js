@@ -1,10 +1,58 @@
+import React, { useEffect } from 'react';
+import { Button, Card, CardGroup, CardImg, Carousel, CarouselItem, Col, Container, Nav, Row } from 'react-bootstrap';
+import ApiService from '../../../services/ApiService';
+import { useLocation, useParams } from 'react-router-dom';
+import { getByDisplayValue } from '@testing-library/react';
+import { useNavigate } from 'react-router-dom';
+import './Payments.scss';
 import {
-    bannerLogoSvg
+    bannerLogoSvg,
+    SuccessTick,
+    PaymentTick,
+    PaymentFailure
   } from '../../../assets/images';
 
   import axios from "axios";
   
-const Payments = () => {
+const Payments = (params) => {
+
+    const [paymentResponse, setpaymentResponse] = React.useState();
+    const [paymentStatus, setpaymentStatus] = React.useState();
+
+    const courseData = params.course;
+    const nextPage = params.nextPage;
+
+    
+    const getCurrentDateTime = () => {
+        let cdate = new Date().toLocaleString()
+        return cdate;
+    };
+
+    const createPaymant = async (paymentResponse, status) => {
+        const payload = {
+            uid: "c0ea2207-fa9b-4c5c-aeba-90f836072d14",
+            "orderItems": [
+                {
+                    application_id: "6385e9554909c4eac2b89f9c",
+                    course_variant_id: courseData?.id,
+                    batch_id: "02f810b9-df35-4a8c-86c4-27408eac840a",
+                    registration_fee: 2500,
+                    discount_coupon: "",
+                    discount_amount: 0,
+                    final_amount: 2500,
+                    payment_id: paymentResponse.razorpay_payment_id,
+                    order_id: paymentResponse.razorpay_order_id,
+                    payment_status: status
+                }
+            ]
+        
+         
+        };
+        const response = await ApiService('/order/create-payment', `POST`, payload, true);
+        if (response?.data.code === 200) {
+            // nextPage();
+        }
+      };
 
     function loadScript(src) {
         return new Promise((resolve) => {
@@ -31,44 +79,26 @@ const Payments = () => {
             return;
         }
 
-        const result = await axios.post("https://api.razorpay.com/v1/orders")
-console.log(result);
-       
+        // const result = await axios.post("https://api.razorpay.com/v1/orders")
 
-        // if (!result) {
-        //     alert("Server error. Are you online?");
-        //     return;
-        // }
-        // RAZORPAY_KEY_ID = "rzp_test_xOikuguYnrmtYd"
-        // RAZORPAY_KEY_SECRET = "Pngnbv4asYJwI7prz7PS6yl3"
-        
-
-        // const { amount = 100, id: "order_id", currency = "INR" };
-
-        //  "id": "order_KoynsHiR7891aP",
-        // "entity": "order",
-        // "amount": 500,
-        // "amount_paid": 0,
-        // "amount_due": 500,
-        // "currency": "INR",
-        // "receipt": "qwsaq1",
-        // "offer_id": null,
-        // "status": "created",
-        // "attempts": 0,
-        // "notes": [],
-        // "created_at": 1670407266
-
-        const orderId = "order_KpJGDTLev2EqgU";
+        const orderId = "order_Kq9Gow9wSupdlN";
 
         const options = {
             key: "rzp_test_xOikuguYnrmtYd", // Enter the Key ID generated from the Dashboard
-            amount: 500,
+            amount: 2500,
             currency: "INR",
             name: "Code Shastra",
             description: "Test Transaction",
             image: { bannerLogoSvg },
             order_id: orderId,
             handler: async function (response) {
+                console.log(response);
+                if ( response.razorpay_payment_id ) {
+                    createPaymant(response, 'Success');
+                } 
+                
+                setpaymentStatus('Success');
+                setpaymentResponse(response);
                 const data = {
                     orderCreationId: orderId,
                     razorpayPaymentId: response.razorpay_payment_id,
@@ -78,7 +108,7 @@ console.log(result);
 
                 // const result = await axios.post("http://localhost:5000/payment/success", data);
 
-                console.log(data.razorpayPaymentId);
+                
                 console.log(data.razorpayOrderId);
                 console.log(data.razorpaySignature);
             },
@@ -96,14 +126,94 @@ console.log(result);
         };
 
         const paymentObject = new window.Razorpay(options);
+        paymentObject.on('payment.failed', function (response) 
+        {
+            setpaymentStatus('Failed');
+            createPaymant(response, 'Failed');
+            // alert(response.error.code);
+            // alert(response.error.description);
+            // alert(response.error.source);
+            // alert(response.error.step);
+            // alert(response.error.reason);
+            // alert(response.error.metadata.order_id);
+            // alert(response.error.metadata.payment_id);
+    });
         paymentObject.open();
     }
+
+    const getPaymentSuccess = () => {
+      
+        // let items = coureseVariantBatches?.map((element, index) => {
+            
+        return (
+            <div className='d-flex align-items-center justify-content-center'>
+            <div>
+                <div className='mt-2 mb-4 d-flex align-items-center justify-content-center'>
+                
+                    <img src={SuccessTick}></img>
+                    
+                </div>
+                <h3 className='payment-text text-center header mt-2 mb-4 '>Payment Successful!</h3>
+                <div className='content-box' >
+                    <p className='text-primary text-center message1'> Transaction details</p>
+                    <p className='text-primary text-center message2'>Transaction number : { paymentResponse?.razorpay_payment_id }</p>
+                    <p className='text-primary text-center message3'>Transaction Time : {getCurrentDateTime()}</p>
+                    <p className='text-primary text-center message1'> Course details</p>
+                    <p className='text-primary text-center message2'>Batch name: {courseData?.course_title}</p>
+                    <p className='text-primary text-center message3'>Batch type : {courseData?.variant_name}</p>
+                    <p className='text-primary text-center message3'>Batch Time : 09:00 AM, 11/12/2022</p>
+                </div>
+                <div className='mt-5 d-flex align-items-center justify-content-center footer-content'>
+                    <p>We have sent you the transaction details on your email and whatsapp.</p>
+                </div> 
+            </div>
+            </div>
+        );
+
+        // });
+        // return items;
+    };
+
+    const getPaymentFailure = () => {
+        return (
+            <div className='d-flex align-items-center justify-content-center'>
+                <div>
+                    <div className='mt-2 mb-4 d-flex align-items-center justify-content-center'>
+                    <img src={PaymentFailure} className="payment-tick"></img>
+                        
+                    </div>
+                    <h3 className='payment-failed text-center header mt-2 mb-4 '>Payment Failed!</h3>
+                    <div className='content-box fail' >
+                      
+                        <p className='text-primary text-center fail-content'>Your transaction has been declined by the bank.</p>
+                        <p className='text-center'>
+                        <Button className='mt-2 ' style={{padding: '8px 30px'}} variant='secondary' onClick={displayRazorpay}>Retry Payment</Button>
+                        </p>
+                    </div>
+                    <div className='mt-5 d-flex align-items-center justify-content-center footer-content'>
+                        <span>
+                        <p>Any query about payment please feel free connect with us.</p>
+                       
+                        <p>Call us - (+91) 9310575018</p> <p>Mail us - support@unikaksha.com</p>
+                        </span>
+                        
+                    </div> 
+                   
+                </div>
+            </div>
+        );
+    }
+   
     return (
-        <>
+        
+        <div>
+            
+             { paymentStatus == 'Success' ? getPaymentSuccess() : "" }
+             { paymentStatus == 'Failed' ? getPaymentFailure() : "" }
             <button className="App-link" onClick={displayRazorpay}>
                 Pay ₹500
             </button>
-        </>
+        </div>
     );
 }
 
