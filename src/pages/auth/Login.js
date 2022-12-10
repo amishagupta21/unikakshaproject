@@ -107,7 +107,7 @@ const Login = () => {
 
   return (
    <>
-     {(isAuth === false) ? (<div>
+     {/* {(isAuth === false) ? (<div> */}
       {/* <AuthNavbar /> */}
       <section className="auth_layout login_screen">
         <LeftBox />
@@ -271,7 +271,7 @@ const Login = () => {
           </div>
         </div>
       </section>
-    </div>) : <Homepage />}
+    {/* </div> */}
    </>
   );
 };
