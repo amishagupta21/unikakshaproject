@@ -60,7 +60,7 @@ const MyCourses = () => {
                                 <Card key={idx} className="p-3 my-3">
                                     <div className='d-flex flex-row'>
                                         <div className="course-image">
-                                            <img width={'115px'} height={'90px'} src={application?.courseDetail?.banner_assets.items[0].url}></img>
+                                            <img width={'115px'} height={'90px'} src={application?.courseDetail?.course_variant_sections?.bannerAssets.items[0].url}></img>
                                         </div>
                                         <div className="ps-3 w-100">
                                             <Card.Title className='d-flex justify-content-between align-items-center'>
