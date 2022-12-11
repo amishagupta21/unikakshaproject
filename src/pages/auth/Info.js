@@ -54,8 +54,6 @@ const Info = () => {
     ...(occ == 'STUDENT' && { graduationMonth: SchemaList[0] }),
     ...(occ == 'PROFESSIONAL' && { position: SchemaList[0] }),
     ...(occ == 'PROFESSIONAL' && { experience: SchemaList[0] }),
-    ...(occ == 'PROFESSIONAL' && { organization: SchemaList[0] }),
-    ...(occ == 'PROFESSIONAL' && { organizational_code: SchemaList[0] }),
   });
 
   const onSubmit = async (values) => {
@@ -67,14 +65,14 @@ const Info = () => {
       uid: loginData.uid,
       occupation: values.occupation,
       information_data: {
-        ...(values.referalCode && { referalCode: values.referalCode }),
+        ...(values.referalCode && { referral_code: values.referalCode }),
         birth_year: parseInt(values?.birthYear?.getFullYear()),
         ...(occ == 'STUDENT' && { college_name: values.collegeName }),
         ...(occ == 'STUDENT' && { month_year_of_graduation: values.graduationMonth }),
         ...(occ == 'PROFESSIONAL' && { position: values.position }),
         ...(occ == 'PROFESSIONAL' && { experience_in_years: values.experience }),
         ...(occ == 'PROFESSIONAL' && { organization_name: values.organization }),
-        ...(occ == 'PROFESSIONAL' && { organizational_code: values.organizationCode }),
+        ...(occ == 'PROFESSIONAL' &&  values.organizationCode && { organizational_code: values.organizationCode }),
       },
     };
 
@@ -117,7 +115,6 @@ const Info = () => {
     let res = await ApiService(`on-boarding/college/create`, `POST`, obj);
     if (res.data.code) {
       formik.setFieldValue('collegeName', res.data.data._id);
-
       const newOption = createOption(inputValue, res.data.data._id);
       console.log('🚀 ~ setTimeout ~ newOption', newOption);
       setCollegeList((prev) => [...prev, newOption]);

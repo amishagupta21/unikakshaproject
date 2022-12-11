@@ -63,7 +63,7 @@ const SignInOtp = () => {
   };
 
   const sendOTP = async (phoneNumber) => {
-    dispatch(setLoading(true));
+    // dispatch(setLoading(true));
 
     setloading(true);
     const appVerifier = configureCaptcha();
@@ -76,14 +76,14 @@ const SignInOtp = () => {
           theme: 'colored',
         });
         setloading(false);
-        dispatch(setLoading(true));
+        // dispatch(setLoading(true));
       })
       .catch((error) => {
         toast.error(`${error}`, {
           theme: 'colored',
         });
         setloading(false);
-        dispatch(setLoading(true));
+        // dispatch(setLoading(true));
       });
   };
 
@@ -94,7 +94,7 @@ const SignInOtp = () => {
 
   const onSubmitOTP = () => {
     setloading(true);
-    dispatch(setLoading(true));
+    // dispatch(setLoading(true));
 
     window.confirmationResult
       .confirm(otp && otp)
@@ -102,7 +102,7 @@ const SignInOtp = () => {
         const { user } = response;
         if (user) {
           setloading(false);
-          dispatch(setLoading(false));
+          // dispatch(setLoading(false));
 
           dispatch(setIsAuthenticated(true));
           localStorage.setItem('user', JSON.stringify(user));
@@ -125,7 +125,7 @@ const SignInOtp = () => {
       })
       .catch((error) => {
         setloading(false);
-        dispatch(setLoading(false));
+        // dispatch(setLoading(false));
 
         // navigate('/login');
         setOtpError('Invalid Code!');

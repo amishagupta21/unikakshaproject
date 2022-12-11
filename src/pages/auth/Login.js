@@ -48,7 +48,7 @@ const Login = () => {
 
   const singInwithEmail = async (values) => {
     setloading(true);
-    dispatch(setLoading(true));
+    // dispatch(setLoading(true));
     const { email } = values;
     const user = await checkIfUserExists(email, null);
     if (user) {
@@ -57,18 +57,18 @@ const Login = () => {
         sendOTP(phone);
       }
       setloading(false);
-      dispatch(setLoading(false));
+      // dispatch(setLoading(false));
     } else {
       // TODO
       // user not found
-      alert('User Not Found');
       setloading(false);
-      dispatch(setLoading(false));
+      alert('User Not Found');
+      // dispatch(setLoading(false));
     }
   };
 
   const signInWithNumber = async (values) => {
-    dispatch(setLoading(true));
+    // dispatch(setLoading(true));
     setloading(true);
     const { mobileNumber } = values;
     const user = await checkIfUserExists(null, `+${mobileNumber}`);
@@ -78,11 +78,11 @@ const Login = () => {
         sendOTP(phone);
       }
       setloading(false);
-      dispatch(setLoading(false));
+      // dispatch(setLoading(false));
     } else {
       alert('User Not Found');
       setloading(false);
-      dispatch(setLoading(false));
+      // dispatch(setLoading(false));
     }
   };
 
