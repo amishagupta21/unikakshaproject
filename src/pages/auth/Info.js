@@ -60,7 +60,7 @@ const Info = () => {
 
   const onSubmit = async (values) => {
     setloading(true);
-    dispatch(setLoading(true));
+    // dispatch(setLoading(true));
 
     let loginData = await JSON.parse(localStorage.getItem('user'));
     let data = {
@@ -82,12 +82,12 @@ const Info = () => {
     if (res?.data?.code === 200) {
       navigate('/dashboard');
       setloading(false);
-      dispatch(setloading(false));
+      // dispatch(setloading(false));
 
       dispatch(setIsAuthenticated(true));
     } else {
       setloading(false);
-      dispatch(setLoading(false));
+      // dispatch(setLoading(false));
     }
   };
 

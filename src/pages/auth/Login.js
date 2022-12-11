@@ -87,7 +87,7 @@ const Login = () => {
   };
 
   const sendOTP = async (phoneNumber) => {
-    dispatch(setLoading(true));
+    // dispatch(setLoading(true));
     setloading(true);
     const appVerifier = configureCaptcha();
     firebase
@@ -108,7 +108,7 @@ const Login = () => {
             phoneNumber: phoneNumber,
           },
         });
-        dispatch(setLoading(false));
+        // dispatch(setLoading(false));
         setloading(false);
       })
       .catch((error) => {
@@ -116,7 +116,7 @@ const Login = () => {
           theme: 'colored',
         });
         setloading(false);
-        dispatch(setLoading(false));
+        // dispatch(setLoading(false));
       });
   };
 

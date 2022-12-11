@@ -41,6 +41,7 @@ const CourseApplication = () => {
   const [isLoading, setIsLoading] = React.useState(false);  
   const [testResults, settestResults] = React.useState('');
   const [orderData, setOrderData] = React.useState();
+  const [isNextLoading, setIsNextLoading] = React.useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -84,13 +85,11 @@ const CourseApplication = () => {
   };
 
   const fetchApplicationDetails = async (uid, courseId) => {
-    console.log(user)
     const payload = {
       uid : uid,
       course_variant_id : courseId,
     };
     let applicationDetails = await ApiService('/student/application/detail-by-user-course', `POST`, payload, true);
-    console.log("application",applicationDetails)
     const { application_stage, m_applicationstatus, m_totalscore, m_candidatescore } = applicationDetails?.data?.data.application;    
     const obj = {
       applicationStatus : 'Application Approved',
@@ -114,6 +113,7 @@ const CourseApplication = () => {
   }, []);
 
   const formPersonalDetailsPayload = async (personalDetails) => {
+    setIsNextLoading(true);
     const payload = {
       uid: user?.uid,
       course_id: courseDetails?.id,
@@ -123,6 +123,7 @@ const CourseApplication = () => {
       personal_details: personalDetails,
     };
     const response = await ApiService('/student/personal-details', `POST`, payload, true);
+    setIsNextLoading(false);
     if (response?.data.code === 200) {
       nextPage();
     }
@@ -353,7 +354,7 @@ const CourseApplication = () => {
                           <div className="error-message  mt-3">{formik.errors.whatsapp_number}</div>
                         ) : null}
                         <Form.Check
-                          style={{ paddingLeft: '1.5em !important' }}
+                          style={{ paddingLeft: '1.5em !important', marginTop: '5px' }}
                           type="checkbox"
                           onChange={(value) => copyFromMobileNumber(value)}
                           label="Same as mobile number"
@@ -435,10 +436,10 @@ const CourseApplication = () => {
                       </Button>
                       <Button
                         className="col-1"
-                        disabled={!(formik.isValid && formik.dirty)}
+                        disabled={(!(formik.isValid && formik.dirty)) || isNextLoading}
                         variant="secondary"
                         type="submit">
-                        Next
+                        {isNextLoading ? 'Saving.. ' : 'Next'}
                       </Button>
                     </Row>
                   </>
@@ -447,7 +448,7 @@ const CourseApplication = () => {
             )}
             {page === 1 && <EducationDetails nextPage={nextPage} course={courseDetails} user={user} 
             educationalDetails={EducationalDetails} setEducationalDetails={setEducationalDetails}/>}
-            {page === 2 && <EntranceTest nextPage={nextPage} />}
+            {page === 2 && <EntranceTest nextPage={nextPage} course={courseDetails} user={user}/>}
             {page === 3 && (
               <>
                 <TestResult nextPage={nextPage} testResult={testResults} userName={user.displayName}/>

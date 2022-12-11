@@ -1,19 +1,13 @@
 import React, { useEffect } from 'react';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import { Card } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
-import courseImage from '../../../assets/images/courses/course1-image.png';
-import righrMark from '../../../assets/images/courses/icons/right-mark.svg';
-import HeartIcon from '../../../assets/images/courses/icons/HeartIcon.svg';
-import StarIcon from '../../../assets/images/courses/icons/StarIcon.svg';
-import StarFilledIcon from '../../../assets/images/courses/icons/StarIconFill.svg';
-import StarHalfFilledIcon from '../../../assets/images/courses/icons/StarIconHalfFill.svg';
-import WaitClockIcon from '../../../assets/images/courses/icons/wait-sandclock-icon.svg';
-import CalenderIcon from '../../../assets/images/courses/icons/CalenderIcon.svg';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 import Rating from 'react-rating';
 import { useNavigate } from 'react-router-dom';
 import { emptystar, fullstar, tick } from '../../../assets/images';
+import righrMark from '../../../assets/images/courses/icons/right-mark.svg';
+import WaitClockIcon from '../../../assets/images/courses/icons/wait-sandclock-icon.svg';
 
 const RatingComponent = ({rating}) => {
   const ratingInDecimal = rating?.value.split('/')[0];
@@ -43,7 +37,6 @@ const CourseList = ({ courses }) => {
   const navigate = useNavigate();
 
   const getHighlights = (course) => {
-
     const highlights = course?.course_variant_sections?.highlights?.value;
     const items = highlights?.map((element, index) => {
       
@@ -68,7 +61,7 @@ const CourseList = ({ courses }) => {
         {/* <div>see all</div> */}
       </div>
       <Row>
-        {courses?.map((course) => (
+        {courses?.map((course, idx) => (
           <Col md="4" key={course?.id}>
             <Card className="my-4 card-custom" style={{ width: '100%' }}>
               <Card.Img style={{ width: 'fit-content', margin: 'auto' ,maxHeight: '246px' }} variant="top" src={course?.course_variant_sections?.bannerAsset?.value[0].url} />
@@ -90,7 +83,7 @@ const CourseList = ({ courses }) => {
                     <div className="d-flex">
                       <img src={WaitClockIcon} alt="Wait-Clock-Icon" />
                       <p style={{ fontSize: '14px' }} className="ms-2 mb-0">
-                        Duration, <strong> 6 Months</strong> | {course?.variant_name} 
+                        Duration, {course?.course_variant_sections?.duration} Months | {course?.variant_name} 
                       </p>
                     </div>
                     <div className="d-flex">

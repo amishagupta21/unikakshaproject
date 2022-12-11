@@ -91,7 +91,7 @@ const SignupOtp = () => {
 
   const sendOTP = async (phoneNumber) => {
     setloading(true);
-    dispatch(setLoading(true));
+    // dispatch(setLoading(true));
 
     const appVerifier = configureCaptcha();
     firebase
@@ -103,14 +103,14 @@ const SignupOtp = () => {
           theme: 'colored',
         });
         setloading(false);
-        dispatch(setLoading(false));
+        // dispatch(setLoading(false));
       })
       .catch((error) => {
         toast.error(`${error}`, {
           theme: 'colored',
         });
         setloading(false);
-        dispatch(setLoading(false));
+        // dispatch(setLoading(false));
       });
   };
 

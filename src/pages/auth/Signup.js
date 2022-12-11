@@ -46,24 +46,20 @@ const Signup = () => {
   };
 
   const createUser = async (values) => {
-    setloading(true);
-    dispatch(setLoading(true));
-
     const { email, mobileNumber: phone } = values;
     const user = await checkIfUserExists(email, phone);
     if (!user) {
-      sendOTP(values);
       setloading(true);
-      dispatch(setLoading(false));
+      sendOTP(values);
+      // dispatch(setLoading(false));
     } else {
       alert('User already exists');
-      dispatch(setLoading(false));
-      setloading(true);
+      // dispatch(setLoading(false));
+      // setloading(true);
     }
   };
 
   const sendOTP = async (values) => {
-    setloading(true);
     const appVerifier = configureCaptcha();
     firebase
       .auth()
@@ -89,7 +85,7 @@ const Signup = () => {
         toast.error(`${error}`, {
           theme: 'colored',
         });
-        dispatch(setLoading(false));
+        // dispatch(setLoading(false));
         setloading(false);
       });
   };
