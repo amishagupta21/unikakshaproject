@@ -54,6 +54,7 @@ const Info = () => {
     ...(occ == 'STUDENT' && { graduationMonth: SchemaList[0] }),
     ...(occ == 'PROFESSIONAL' && { position: SchemaList[0] }),
     ...(occ == 'PROFESSIONAL' && { experience: SchemaList[0] }),
+    ...(occ == 'PROFESSIONAL' && { organization: SchemaList[0] }),
   });
 
   const onSubmit = async (values) => {
@@ -351,7 +352,7 @@ const Info = () => {
                                   className="form-group-1 mb-3"
                                   as={Col}
                                   md="12">
-                                  <FormLabel>Ogranization you are working in</FormLabel>
+                                  <FormLabel>Ogranization you are working in <MandatorySymbol /> </FormLabel>
                                   <FormControl
                                     placeholder="Eg, Amazon"
                                     type={'text'}

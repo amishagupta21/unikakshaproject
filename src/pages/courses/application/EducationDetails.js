@@ -68,7 +68,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
     if (educationData) {
       setHighestQualification(educationData.highest_qualification);
       const option = highestQualificationOption.filter((e) => e.value === educationData.highest_qualification);
-      setYesOrNoLabel(option[0].yesNoLabel);      
+      setYesOrNoLabel(option[0]?.yesNoLabel);      
       setGraduatedYesOrNo(
         educationData.qualification[educationData.qualification.length - 1]?.passing_marks
           ? 'yes'
