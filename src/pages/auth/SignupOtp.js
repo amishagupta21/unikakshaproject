@@ -13,6 +13,7 @@ import './auth.scss';
 import LeftBox from './components/LeftBox';
 
 const SignupOtp = () => {
+  const [loading, setloading] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -23,6 +24,7 @@ const SignupOtp = () => {
   const [seconds, setSeconds] = useState(0);
   const [userCreated, setUserCreated] = useState();
   const [isButtonLoading, setIsButtonLoading] = useState();
+  const [isResendDisabled, setIsResendDisabled] = useState(true);
 
   useEffect(() => {
     if (!userSignUpData?.phoneNumber) {
@@ -31,10 +33,10 @@ const SignupOtp = () => {
   }, []);
 
   useEffect(() => {
-    if(userCreated) {
+    if (userCreated) {
       navigate('/info');
     }
-  }, [userCreated])
+  }, [userCreated]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -44,6 +46,7 @@ const SignupOtp = () => {
 
       if (seconds === 0) {
         if (minutes === 0) {
+          setIsResendDisabled(false);
           clearInterval(interval);
         } else {
           setSeconds(59);
@@ -60,6 +63,7 @@ const SignupOtp = () => {
     if (seconds === 0 && minutes === 0) {
       setOtp('');
       setOtpError(null);
+      setIsResendDisabled(true);
       setMinutes(2);
       setSeconds(0);
       sendOTP(phone);
@@ -78,38 +82,43 @@ const SignupOtp = () => {
       uid: user.uid,
       email: userSignUpData.email,
       phone: `+${userSignUpData.phoneNumber}`,
-      whatsappoptin: userSignUpData.whatsappoptin
+      whatsappoptin: userSignUpData.whatsappoptin,
     };
     const result = await ApiService(`user/create`, `POST`, userData);
     localStorage.setItem('user', JSON.stringify(user));
-    if(result?.data.code === 200) {
+    if (result?.data.code === 200) {
       navigate('/info');
     }
     setIsButtonLoading(false);
   };
 
   const sendOTP = async (phoneNumber) => {
-    // dispatch(setLoading(true))
+    setloading(true);
+    // dispatch(setLoading(true));
+
     const appVerifier = configureCaptcha();
     firebase
       .auth()
       .signInWithPhoneNumber(`+${phoneNumber}`, appVerifier)
       .then(async (confirmationResult) => {
         window.confirmationResult = confirmationResult;
-        // dispatch(setLoading(false))
         toast.success('OTP has been sent to Mobile Number Again', {
           theme: 'colored',
         });
+        setloading(false);
+        // dispatch(setLoading(false));
       })
       .catch((error) => {
         toast.error(`${error}`, {
           theme: 'colored',
         });
-        dispatch(setLoading(false));
+        setloading(false);
+        // dispatch(setLoading(false));
       });
   };
 
-  const onSubmitOTP =  (e) => {
+  const onSubmitOTP = (e) => {
+    setloading(true);
     setIsButtonLoading(true);
     e.preventDefault();
     window.confirmationResult
@@ -117,12 +126,14 @@ const SignupOtp = () => {
       .then(async (response) => {
         setIsButtonLoading(false);
         if (response.user) {
+          setloading(false);
           const { user } = response.user.multiFactor;
-          firebase.auth().currentUser.updateProfile({displayName: userSignUpData?.displayName})
+          firebase.auth().currentUser.updateProfile({ displayName: userSignUpData?.displayName });
           createUserIfNotExists(user);
         }
       })
       .catch((error) => {
+        setloading(false);
         setIsButtonLoading(false);
         setOtpError('Invalid Code!');
       });
@@ -146,7 +157,13 @@ const SignupOtp = () => {
                 />
                 Verify OTP
               </div>
-              <p>Enter OTP sent to your mobile number <span style={{font: 'Poppins', color: '#363F5E'}}>+{userSignUpData.phoneNumber}</span>.</p>
+              <p>
+                Enter OTP sent to your mobile number{' '}
+                <span style={{ font: 'Poppins', color: '#363F5E' }}>
+                  +{userSignUpData.phoneNumber}
+                </span>
+                .
+              </p>
               {otpError && (
                 <Alert key="danger" variant="danger">
                   {otpError}
@@ -155,12 +172,12 @@ const SignupOtp = () => {
               <div className="otp-input">
                 <OtpInput value={otp} onChange={(e) => setOtp(e)} numInputs={6} />
               </div>
-              <div className='d-flex justify-content-between mt-2'>
+              <div className="d-flex justify-content-between mt-2">
                 <div>
                   <span>Didn't receive code?</span>
                 </div>
                 <div>
-                  <a className="resend-otp" onClick={() => resendOTP(phoneNumber)}>
+                  <a className={isResendDisabled ? 'resend-otp disabled' : 'resend-otp'} onClick={() => resendOTP(userSignUpData.phoneNumber)}>
                     Resend OTP
                   </a>
                   <span>
@@ -180,14 +197,17 @@ const SignupOtp = () => {
                   {isButtonLoading && (
                     <>
                       <Spinner
-                      as="span"
-                      animation="border"
-                      size="sm"
-                      role="status"
-                      aria-hidden="true"
-                    />
-                    <span className="visually-hidden">Loading...</span></>
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                      />
+                      <span className="visually-hidden">Loading...</span>
+                    </>
                   )}
+                  {/* disabled={!(otp.length === 6) || loading}>
+                   {loading ? 'Loading...' : 'Verify and Signup'} */}
                 </Button>
               </div>
             </div>

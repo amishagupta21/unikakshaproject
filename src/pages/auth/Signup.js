@@ -1,5 +1,5 @@
 import { Field, Form, Formik } from 'formik';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import FormControl from 'react-bootstrap/FormControl';
@@ -19,6 +19,7 @@ import AuthNavbar from './components/AuthNavbar';
 import LeftBox from './components/LeftBox';
 
 const Signup = () => {
+  const [loading, setloading] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -48,9 +49,13 @@ const Signup = () => {
     const { email, mobileNumber: phone } = values;
     const user = await checkIfUserExists(email, phone);
     if (!user) {
+      setloading(true);
       sendOTP(values);
+      // dispatch(setLoading(false));
     } else {
       alert('User already exists');
+      // dispatch(setLoading(false));
+      // setloading(true);
     }
   };
 
@@ -70,16 +75,18 @@ const Signup = () => {
               phoneNumber: values.mobileNumber,
               email: values.email,
               displayName: values.fullName,
-              whatsappoptin: values.whatsappoptin
+              whatsappoptin: values.whatsappoptin,
             },
           },
         });
+        setloading(false);
       })
       .catch((error) => {
         toast.error(`${error}`, {
           theme: 'colored',
         });
-        dispatch(setLoading(false));
+        // dispatch(setLoading(false));
+        setloading(false);
       });
   };
   return (
@@ -207,10 +214,10 @@ const Signup = () => {
                     <div className="d-grid gap-2 mt-3 mb-3">
                       <Button
                         type="submit"
-                        disabled={!isValid}
+                        disabled={!isValid || loading}
                         style={{ fontWeight: '500' }}
                         variant="secondary">
-                        Sign Up
+                        {loading ? 'Loading...' : 'Sign Up'}
                       </Button>
                     </div>
                     <div className="space-or">
@@ -220,8 +227,7 @@ const Signup = () => {
                     <div className="policy-terms text-center mt-4">
                       By clicking sign up you will be agree with our
                       <br />
-                      <a href="https://unikaksha.com/terms-and-conditions"> terms & conditions </a> and <a href="https://unikaksha.com/privacy-policy"> privacy policy. </a>
-                    </div>
+                      <a href="https://unikaksha.com/terms-and-conditions"> terms & conditions </a> and <a href="https://unikaksha.com/privacy-policy"> privacy policy. </a>                    </div>
                   </Form>
                 )}
               />

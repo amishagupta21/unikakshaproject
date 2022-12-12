@@ -68,6 +68,11 @@
 	text-decoration-line: underline;
 	color               : #FF0808;
 
+	&.disabled {
+		color: grey;
+		text-decoration: none;
+		cursor: not-allowed;
+	}
 }
 
 .otp-input input {

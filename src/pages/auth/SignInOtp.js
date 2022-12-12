@@ -14,6 +14,7 @@ import './auth.scss';
 import LeftBox from './components/LeftBox';
 
 const SignInOtp = () => {
+  const [loading, setloading] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -23,6 +24,7 @@ const SignInOtp = () => {
   const [minutes, setMinutes] = useState(2);
   const [seconds, setSeconds] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isResendDisabled, setIsResendDisabled] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -32,6 +34,7 @@ const SignInOtp = () => {
 
       if (seconds === 0) {
         if (minutes === 0) {
+          setIsResendDisabled(false);
           clearInterval(interval);
         } else {
           setSeconds(59);
@@ -55,6 +58,7 @@ const SignInOtp = () => {
     if (seconds === 0 && minutes === 0) {
       setOtp('');
       setOtpError(null);
+      setIsResendDisabled(true);
       setMinutes(2);
       setSeconds(0);
       sendOTP(phone);
@@ -62,23 +66,27 @@ const SignInOtp = () => {
   };
 
   const sendOTP = async (phoneNumber) => {
-    // dispatch(setLoading(true))
+    // dispatch(setLoading(true));
+
+    setloading(true);
     const appVerifier = configureCaptcha();
     firebase
       .auth()
       .signInWithPhoneNumber(phoneNumber, appVerifier)
       .then(async (confirmationResult) => {
         window.confirmationResult = confirmationResult;
-        // dispatch(setLoading(false))
         toast.success('OTP has been sent to Mobile Number Again', {
           theme: 'colored',
         });
+        setloading(false);
+        // dispatch(setLoading(true));
       })
       .catch((error) => {
         toast.error(`${error}`, {
           theme: 'colored',
         });
-        dispatch(setLoading(false));
+        setloading(false);
+        // dispatch(setLoading(true));
       });
   };
 
@@ -88,12 +96,17 @@ const SignInOtp = () => {
   };
 
   const onSubmitOTP = () => {
+    setloading(true);
     // dispatch(setLoading(true));
+
     window.confirmationResult
       .confirm(otp && otp)
       .then(async (response) => {
         const { user } = response;
         if (user) {
+          setloading(false);
+          // dispatch(setLoading(false));
+
           dispatch(setIsAuthenticated(true));
           localStorage.setItem('user', JSON.stringify(user));
           toast.success('Log in Succesfull', {
@@ -102,8 +115,8 @@ const SignInOtp = () => {
 
           const isBasicInfoExists = await getUserBasicInfo(user.uid);
           if (isBasicInfoExists) {
-            const redirectUrl = searchParams.get('redirect')
-            if(redirectUrl) {
+            const redirectUrl = searchParams.get('redirect');
+            if (redirectUrl) {
               navigate(redirectUrl);
             } else {
               navigate('/dashboard');
@@ -112,12 +125,13 @@ const SignInOtp = () => {
             navigate('/info');
           }
         }
-        dispatch(setLoading(false));
       })
       .catch((error) => {
+        setloading(false);
         // dispatch(setLoading(false));
+
         // navigate('/login');
-        setOtpError("Invalid Code!")
+        setOtpError('Invalid Code!');
       });
   };
   return (
@@ -146,12 +160,12 @@ const SignInOtp = () => {
               <div className="otp-input">
                 <OtpInput value={otp} onChange={(e) => setOtp(e)} numInputs={6} />
               </div>
-              <div className='d-flex justify-content-between mt-2'>
+              <div className="d-flex justify-content-between mt-2">
                 <div>
                   <span>Didn't receive code?</span>
                 </div>
                 <div>
-                  <a className="resend-otp" onClick={() => resendOTP(phoneNumber)}>
+                  <a className={isResendDisabled ? 'resend-otp disabled' : 'resend-otp'} onClick={() => resendOTP(phoneNumber)}>
                     Resend OTP
                   </a>
                   <span>
@@ -166,8 +180,8 @@ const SignInOtp = () => {
                   type="submit"
                   variant="secondary"
                   onClick={onSubmitOTP}
-                  disabled={!(otp.length === 6)}>
-                  Verify and Signin
+                  disabled={!(otp.length === 6) || loading}>
+                  {loading ? 'Loading...' : 'Verify and Signin'}
                 </Button>
               </div>
             </div>

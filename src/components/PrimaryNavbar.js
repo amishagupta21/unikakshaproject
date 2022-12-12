@@ -45,7 +45,7 @@ const PrimaryNavbar = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto nav-customs">
-              <Nav.Link href="#home">Courses</Nav.Link>
+              <Nav.Link href="/dashboard">Courses</Nav.Link>
               <Nav.Link href="#features">Event & Content</Nav.Link>
               <Nav.Link href="#features" className="refer-frd">
                 Refer a Friend
@@ -66,11 +66,11 @@ const PrimaryNavbar = () => {
                     </Dropdown.Toggle>
   
                     <Dropdown.Menu>
-                      <Dropdown.Item href="my-courses" onClick={() => navigate('/my-courses')}>
-                        <img src={Course} alt="profile" />
+                      <Dropdown.Item href="/my-courses" onClick={() => navigate('/my-courses')}>
+                        <img src={Course} alt="my-courses" />
                         My Courses
                       </Dropdown.Item>
-                      <Dropdown.Item href="#/action-2">
+                      <Dropdown.Item href="#/action">
                         {' '}
                         <img src={Profile} alt="profile" />
                         My Profile

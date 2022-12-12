@@ -1,5 +1,8 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { Card, Row, Col, InputGroup, FormControl, Button } from 'react-bootstrap';
 import { badge, cancelRe, engineeringTeam, working } from '../../../assets/images';
+import PaymentPopup from './PaymentPopup';
+import ApiService from '../../../services/ApiService';
 import './ApplicationStatus.scss';
 
 const applicationStatus = {
@@ -26,15 +29,33 @@ const applicationStatus = {
     },
 }
 
-const ApplicationStatus = () => {
+const ApplicationStatus = ({nextPage, application, setOrderData, courseId}) => {
 
-    const [ status, setStatus ] = useState('rejected');
-    const [ statusContent, setStatusContent ] = useState({});
+    const [ status, setStatus ] = React.useState();
+    const [ statusContent, setStatusContent ] = React.useState({});
+    const [ openpayment, setopenpayment ] = React.useState(false);   
 
     useEffect(() => {
-        setStatusContent(applicationStatus[status]);
+        const { m_applicationstatus: appStatus } = application;
+        let app_status ='';
+        if(appStatus === 'Application Approved') {
+            app_status = 'approved'
+            setStatus(app_status)
+        }
+        if(appStatus === 'Application Rejected') {
+            app_status = 'rejected'
+            setStatus(app_status)
+        }
+        if(appStatus === 'Application In Review') {
+            app_status = 'review'
+            setStatus(app_status)
+        }
+        setStatusContent(applicationStatus[app_status]);      
     }, [])
-    
+
+    const openPayment = () => {
+        setopenpayment(true);
+    }
     const { header, imgContent, message1, message2, message3 } = statusContent;
 
     return (
@@ -56,8 +77,18 @@ const ApplicationStatus = () => {
                         <p className='text-primary text-center message2'>{message2}</p>
                         <p className='text-primary text-center message3'>{message3}</p>
                     </div>
-                </div>
+                </div>                
             </div>
+            {/* {status === 'approved' && (
+                <div className='m-auto mt-3'>
+                    <Button size='lg' className='btn-center' variant='secondary' type="button" onClick={() => openPayment()}>Next</Button>
+                </div>
+            )} */}
+            {openpayment && (
+            <>
+                <PaymentPopup nextPage={nextPage} setOrderData = {setOrderData} courseId={courseId} setopenpayment={setopenpayment} />
+            </>
+            )}  
         </>
     );
 };
