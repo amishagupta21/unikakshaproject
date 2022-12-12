@@ -96,7 +96,7 @@ const CourseApplication = () => {
     const { application_stage, m_applicationstatus, m_totalscore, m_candidatescore } = applicationDetails?.data?.data.application;    
     const obj = {
       applicationStatus : m_applicationstatus,
-      marks : (m_candidatescore / m_totalscore) * 100,
+      marks : ((m_candidatescore / m_totalscore) * 100).toFixed(2),
     };
     settestResults(obj);
     setApplicationDetails(applicationDetails?.data?.data.application);
