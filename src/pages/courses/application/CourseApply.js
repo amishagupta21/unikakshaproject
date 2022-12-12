@@ -133,7 +133,7 @@ const CourseApplication = () => {
       uid: user?.uid,
       course_id: courseDetails?.id,
       course_title: courseDetails?.course_title,
-      course_duration: courseDetailCs?.course_variant_sections?.duration,
+      course_duration: courseDetails?.course_variant_sections?.duration,
       course_start_date: new Date(batches[0].start_date).toLocaleDateString(),
       personal_details: personalDetails,
     };
