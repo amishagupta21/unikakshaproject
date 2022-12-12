@@ -24,6 +24,7 @@ const SignInOtp = () => {
   const [minutes, setMinutes] = useState(2);
   const [seconds, setSeconds] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isResendDisabled, setIsResendDisabled] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -33,6 +34,7 @@ const SignInOtp = () => {
 
       if (seconds === 0) {
         if (minutes === 0) {
+          setIsResendDisabled(false);
           clearInterval(interval);
         } else {
           setSeconds(59);
@@ -56,6 +58,7 @@ const SignInOtp = () => {
     if (seconds === 0 && minutes === 0) {
       setOtp('');
       setOtpError(null);
+      setIsResendDisabled(true);
       setMinutes(2);
       setSeconds(0);
       sendOTP(phone);
@@ -162,7 +165,7 @@ const SignInOtp = () => {
                   <span>Didn't receive code?</span>
                 </div>
                 <div>
-                  <a className="resend-otp" onClick={() => resendOTP(phoneNumber)}>
+                  <a className={isResendDisabled ? 'resend-otp disabled' : 'resend-otp'} onClick={() => resendOTP(phoneNumber)}>
                     Resend OTP
                   </a>
                   <span>

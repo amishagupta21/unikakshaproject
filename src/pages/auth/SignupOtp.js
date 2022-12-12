@@ -24,6 +24,7 @@ const SignupOtp = () => {
   const [seconds, setSeconds] = useState(0);
   const [userCreated, setUserCreated] = useState();
   const [isButtonLoading, setIsButtonLoading] = useState();
+  const [isResendDisabled, setIsResendDisabled] = useState(true);
 
   useEffect(() => {
     if (!userSignUpData?.phoneNumber) {
@@ -45,6 +46,7 @@ const SignupOtp = () => {
 
       if (seconds === 0) {
         if (minutes === 0) {
+          setIsResendDisabled(false);
           clearInterval(interval);
         } else {
           setSeconds(59);
@@ -61,6 +63,7 @@ const SignupOtp = () => {
     if (seconds === 0 && minutes === 0) {
       setOtp('');
       setOtpError(null);
+      setIsResendDisabled(true);
       setMinutes(2);
       setSeconds(0);
       sendOTP(phone);
@@ -174,7 +177,7 @@ const SignupOtp = () => {
                   <span>Didn't receive code?</span>
                 </div>
                 <div>
-                  <a className="resend-otp" onClick={() => resendOTP(userSignUpData.phoneNumber)}>
+                  <a className={isResendDisabled ? 'resend-otp disabled' : 'resend-otp'} onClick={() => resendOTP(userSignUpData.phoneNumber)}>
                     Resend OTP
                   </a>
                   <span>
