@@ -174,7 +174,7 @@ const SignupOtp = () => {
                   <span>Didn't receive code?</span>
                 </div>
                 <div>
-                  <a className="resend-otp" onClick={() => resendOTP(phoneNumber)}>
+                  <a className="resend-otp" onClick={() => resendOTP(userSignUpData.phoneNumber)}>
                     Resend OTP
                   </a>
                   <span>
