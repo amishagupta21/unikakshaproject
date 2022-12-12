@@ -29,14 +29,14 @@ const applicationStatus = {
     },
 }
 
-const ApplicationStatus = ({nextPage, appStatus, setOrderData, courseId}) => {
+const ApplicationStatus = ({nextPage, application, setOrderData, courseId}) => {
 
     const [ status, setStatus ] = React.useState();
     const [ statusContent, setStatusContent ] = React.useState({});
     const [ openpayment, setopenpayment ] = React.useState(false);   
 
     useEffect(() => {
-        console.log("appStatus",appStatus)
+        const { m_applicationstatus: appStatus } = application;
         let app_status ='';
         if(appStatus === 'Application Approved') {
             app_status = 'approved'
@@ -50,12 +50,9 @@ const ApplicationStatus = ({nextPage, appStatus, setOrderData, courseId}) => {
             app_status = 'review'
             setStatus(app_status)
         }
-        console.log("app_status",app_status)
-        console.log("applicationStatus[app_status]",applicationStatus[app_status])
-        setStatusContent(applicationStatus[app_status]);        
+        setStatusContent(applicationStatus[app_status]);      
     }, [])       
     const openPayment = () => {
-        console.log("openpayment")
         setopenpayment(true);
     }
     const { header, imgContent, message1, message2, message3 } = statusContent;
@@ -82,7 +79,7 @@ const ApplicationStatus = ({nextPage, appStatus, setOrderData, courseId}) => {
                 </div>                
             </div>
             {status === 'approved' && (
-                <div className='m-auto'>
+                <div className='m-auto mt-3'>
                     <Button size='lg' className='btn-center' variant='secondary' type="button" onClick={() => openPayment()}>Next</Button>
                 </div>
             )}

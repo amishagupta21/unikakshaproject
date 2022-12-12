@@ -42,6 +42,8 @@ const CourseApplication = () => {
   const [testResults, settestResults] = React.useState('');
   const [orderData, setOrderData] = React.useState();
   const [isNextLoading, setIsNextLoading] = React.useState(false);
+  const [applicationDetails, setApplicationDetails] = React.useState();
+  const [batches, setBatches] = React.useState([]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -81,6 +83,7 @@ const CourseApplication = () => {
     const courseData = state ? state : await fetchCourseDetails(params);
     setCourseDetails(courseData);
     await fetchUserDetails(uid);   
+    await fetchVariantBatches(courseData.id);
     await fetchApplicationDetails(uid, courseData.id);  
   };
 
@@ -92,25 +95,33 @@ const CourseApplication = () => {
     let applicationDetails = await ApiService('/student/application/detail-by-user-course', `POST`, payload, true);
     const { application_stage, m_applicationstatus, m_totalscore, m_candidatescore } = applicationDetails?.data?.data.application;    
     const obj = {
-      applicationStatus : 'Application Approved',
+      applicationStatus : m_applicationstatus,
       marks : (m_candidatescore / m_totalscore) * 100,
     };
-    settestResults(obj)
+    settestResults(obj);
+    setApplicationDetails(applicationDetails?.data?.data.application);
     if(application_stage === "personal_details") {
       nextPageNumber(1);
     } else if(application_stage === "education_details") {
       nextPageNumber(2);
-    } else if(application_stage === "test_result") {
-      nextPageNumber(3);
+    } else if(application_stage === "application_status") {
+      nextPageNumber(4);
     }
   }
 
-  useEffect(() => {    
+  useEffect(() => {
     dispatch(setLoading(true));
     window.scrollTo(0, 0);
     fetchInitialData(user?.uid);
     dispatch(setLoading(false));
   }, []);
+
+  const fetchVariantBatches = async(courseVariantId) => {
+    const res = await ApiService(`courses/${courseVariantId}/batch/list`);
+    if(res?.data.code === 200) {
+        setBatches(res.data.data.result);        
+    }
+  }
 
   const formPersonalDetailsPayload = async (personalDetails) => {
     setIsNextLoading(true);
@@ -118,8 +129,8 @@ const CourseApplication = () => {
       uid: user?.uid,
       course_id: courseDetails?.id,
       course_title: courseDetails?.course_title,
-      course_duration: 4,
-      course_start_date: '12th December 2022',
+      course_duration: courseDetails?.course_variant_sections?.duration,
+      course_start_date: new Date(batches[0].start_date).toLocaleDateString(),
       personal_details: personalDetails,
     };
     const response = await ApiService('/student/personal-details', `POST`, payload, true);
@@ -451,12 +462,12 @@ const CourseApplication = () => {
             {page === 2 && <EntranceTest nextPage={nextPage} course={courseDetails} user={user}/>}
             {page === 3 && (
               <>
-                <TestResult nextPage={nextPage} testResult={testResults} userName={user.displayName}/>
+                <TestResult nextPage={nextPage} testResult={testResults} application={applicationDetails} userName={user.displayName}/>
               </>
             )}
             {page === 4 && (
               <>
-                <ApplicationStatus nextPage={nextPage} appStatus={testResults.applicationStatus} setOrderData={setOrderData} courseId={courseDetails?.id}></ApplicationStatus>
+                <ApplicationStatus nextPage={nextPage} application={applicationDetails} setOrderData={setOrderData} courseId={courseDetails?.id}></ApplicationStatus>
               </>
             )}
             {page === 5 && (

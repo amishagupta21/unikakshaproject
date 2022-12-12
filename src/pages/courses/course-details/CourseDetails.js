@@ -332,14 +332,15 @@ function CourseDetails() {
                   //         </CarouselItem>
                   //     );
                   // }
-                  // if(asset.type === 'video') {
-                  //     return (
-                  //         <CarouselItem key={i}>
-                  //             <video src={asset.url} controls></video>
-                  //         </CarouselItem>
-                  //     );
-                  // }
-                  if (asset.type === 'youtube' || asset.type === 'video') {
+                  if(asset.type === 'video') {
+                      return (
+                          <CarouselItem key={i}>
+                              <video src={asset.url} controls></video>
+                          </CarouselItem>
+                      );
+                  }
+                  
+                  if (asset.type === 'youtube') {
                     return (
                       <CarouselItem key={i}>
                         <iframe

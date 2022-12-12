@@ -14,12 +14,11 @@ const staticContents = {
 }
 
 const TestResult = ({ nextPage, testResult, userName }) => {
-    console.log("testResult",testResult)
-    const { applicationStatus, marks } = testResult;    
-   
-    return (
-        <>
-            {applicationStatus === "Assessment Passed" ? (
+    const { applicationStatus, marks } = testResult;
+    useEffect(() => {
+        console.log(applicationStatus)
+    }, [])        <>
+            {!(applicationStatus === "Assessment Failed") ? (
                 <div className='d-flex flex-column m-auto'>
                     <div className='d-flex justify-content-center'>
                         <img className='me-2 mw-50' src={congrats1} alt="success" />
@@ -54,7 +53,7 @@ const TestResult = ({ nextPage, testResult, userName }) => {
                             <p className='text-secondary failedMessage4'>{staticContents.failedMessage4}</p>
                         </div>
                     </div>
-                    <div className='m-auto'>
+                    <div className='m-auto mt-2'>
                         <Button size='lg' className='px-5' variant='secondary' type="button" onClick={() => nextPage()}>Application Status</Button>
                     </div>
                 </div>)
