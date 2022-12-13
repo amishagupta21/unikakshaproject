@@ -53,7 +53,7 @@
 
 
 	color     : #8F8799;
-	margin-top: 3px;
+	margin-top: 8px;
 	text-align: right;
 }
 
@@ -316,4 +316,10 @@ select.form-control {
 
 .formlabel-helper {
 	font-size: 12px !important;
+}
+
+@media (max-width: 768px){
+.space-or:after, .space-or:before {
+    width: 79px;
+}
 }

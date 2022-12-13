@@ -1312,3 +1312,39 @@ section.vacancy.vacancy-custom .col-xs-3 {
   width: 100%;
 }
 }
+
+
+
+@media (max-width: 768px) {
+  .otp-input {
+    padding: 20px 0;
+}
+  img.footer-logo {
+    margin-top: 25px;
+}
+.auth_form.otp-form p{ margin-top: 10px;}
+section.auth_layout.login_screen.auth-unikaksha .otp-input input{ width: 40px  !important;}
+.space-or:after , .space-or:before{ width: 79px;}
+
+section.auth_layout.login_screen.auth-unikaksha .right_box_container {
+  max-width: 100%;
+  padding: 0 20px;align-items: inherit;
+}
+section.auth_layout.login_screen.auth-unikaksha .right_box{ height:auto; padding: 20px; align-items: inherit;}
+section.auth_layout.login_screen.auth-unikaksha .resetpassword.create-account{ display: block;}
+section.auth_layout.login_screen.auth-unikaksha .log-in-title{ margin-top: 20px; margin-bottom: 0; }
+section.auth_layout.login_screen.auth-unikaksha .auth_form { padding:0;}
+section.auth_layout.login_screen.auth-unikaksha .custom-tabs-container.nav.nav-pills .nav-item{ width:50%;}
+section.auth_layout.login_screen.auth-unikaksha .custom-tabs-container.nav.nav-pills .nav-link {
+ 
+  width: 100%;
+  height: 30px;
+
+  line-height: 15px;
+
+  margin: 3px 15px;
+}
+
+.right_box_container.right_box_infostudents  .log-in-title{ font-size: 18px; margin-bottom: 0;}
+.right_box_container.right_box_infostudents .auth_form{ padding: 25px 0;}
+}
