@@ -1,0 +1,37 @@
+.faqs {
+    .faqs-list {
+        li {
+            padding: 2% !important;
+            height : 42px;
+
+            .nav-link {
+                color: #222380;
+
+                &.active {
+                    background-color: #222380;
+                    color           : white;
+                }
+            }
+        }
+    }
+
+    .tab-content {
+        .tab-pane {
+            .accordion {
+                .accordion-item {
+                    .accordion-header {
+                        button {
+                            font-weight: 500;
+                            color      : #222380;
+                        }
+                    }
+
+                    .accordion-collapse {
+                        text-align: start;
+                        color     : #363F5E;
+                    }
+                }
+            }
+        }
+    }
+}
