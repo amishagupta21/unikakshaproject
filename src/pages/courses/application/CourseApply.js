@@ -93,21 +93,23 @@ const CourseApplication = () => {
       course_variant_id : courseId,
     };
     let applicationDetails = await ApiService('/student/application/detail-by-user-course', `POST`, payload, true);
-    const { application_stage, m_applicationstatus, m_totalscore, m_candidatescore } = applicationDetails?.data?.data.application;    
-    const obj = {
-      applicationStatus : m_applicationstatus,
-      marks : ((m_candidatescore / m_totalscore) * 100).toFixed(2),
-    };
-    settestResults(obj);
-    setApplicationDetails(applicationDetails?.data?.data.application);
-    if(application_stage === "personal_details") {
-      nextPageNumber(1);
-    } else if(application_stage === "education_details") {
-      nextPageNumber(2);
-    } else if(application_stage === "test_result") {
-      nextPageNumber(3);
-    } else if(application_stage === "application_status") {
-      nextPageNumber(4);
+    if(applicationDetails?.data?.data.application) {
+      const { application_stage, m_applicationstatus, m_totalscore, m_candidatescore } = applicationDetails?.data?.data.application;    
+      const obj = {
+        applicationStatus : m_applicationstatus,
+        marks : ((m_candidatescore / m_totalscore) * 100).toFixed(2),
+      };
+      settestResults(obj);
+      setApplicationDetails(applicationDetails?.data?.data.application);
+      if(application_stage === "personal_details") {
+        nextPageNumber(1);
+      } else if(application_stage === "education_details") {
+        nextPageNumber(2);
+      } else if(application_stage === "test_result") {
+        nextPageNumber(3);
+      } else if(application_stage === "application_status") {
+        nextPageNumber(4);
+      }
     }
   }
 
@@ -131,7 +133,7 @@ const CourseApplication = () => {
       uid: user?.uid,
       course_id: courseDetails?.id,
       course_title: courseDetails?.course_title,
-      course_duration: courseDetailCs?.course_variant_sections?.duration,
+      course_duration: courseDetails?.course_variant_sections?.duration,
       course_start_date: new Date(batches[0].start_date).toLocaleDateString(),
       personal_details: personalDetails,
     };
