@@ -45,7 +45,7 @@ const PrimaryNavbar = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto nav-customs">
-              <Nav.Link href="/dashboard">Courses</Nav.Link>
+              <Nav.Link href="#home">Courses</Nav.Link>
               <Nav.Link href="#features">Event & Content</Nav.Link>
               <Nav.Link href="#features" className="refer-frd">
                 Refer a Friend

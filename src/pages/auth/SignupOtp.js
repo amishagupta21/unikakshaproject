@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import OtpInput from 'react18-input-otp';
+import OtpInput from 'react-otp-input';
 import { arrowBack } from '../../assets/images';
 import { firebase } from '../../firebase/firebase';
 import { setLoading } from '../../redux/actions/LoaderActions';
@@ -24,7 +24,6 @@ const SignupOtp = () => {
   const [seconds, setSeconds] = useState(0);
   const [userCreated, setUserCreated] = useState();
   const [isButtonLoading, setIsButtonLoading] = useState();
-  const [isResendDisabled, setIsResendDisabled] = useState(true);
 
   useEffect(() => {
     if (!userSignUpData?.phoneNumber) {
@@ -46,7 +45,6 @@ const SignupOtp = () => {
 
       if (seconds === 0) {
         if (minutes === 0) {
-          setIsResendDisabled(false);
           clearInterval(interval);
         } else {
           setSeconds(59);
@@ -63,7 +61,6 @@ const SignupOtp = () => {
     if (seconds === 0 && minutes === 0) {
       setOtp('');
       setOtpError(null);
-      setIsResendDisabled(true);
       setMinutes(2);
       setSeconds(0);
       sendOTP(phone);
@@ -81,8 +78,8 @@ const SignupOtp = () => {
     const userData = {
       uid: user.uid,
       email: userSignUpData.email,
-      phone: `+${userSignUpData.phoneNumber}`,
-      whatsappoptin: userSignUpData.whatsappoptin,
+      phone: `+${userSignUpData?.phoneNumber}`,
+      whatsappoptin: userSignUpData?.whatsappoptin,
     };
     const result = await ApiService(`user/create`, `POST`, userData);
     localStorage.setItem('user', JSON.stringify(user));
@@ -94,7 +91,7 @@ const SignupOtp = () => {
 
   const sendOTP = async (phoneNumber) => {
     setloading(true);
-    // dispatch(setLoading(true));
+    dispatch(setLoading(true));
 
     const appVerifier = configureCaptcha();
     firebase
@@ -106,14 +103,14 @@ const SignupOtp = () => {
           theme: 'colored',
         });
         setloading(false);
-        // dispatch(setLoading(false));
+        dispatch(setLoading(false));
       })
       .catch((error) => {
         toast.error(`${error}`, {
           theme: 'colored',
         });
         setloading(false);
-        // dispatch(setLoading(false));
+        dispatch(setLoading(false));
       });
   };
 
@@ -121,6 +118,7 @@ const SignupOtp = () => {
     setloading(true);
     setIsButtonLoading(true);
     e.preventDefault();
+
     window.confirmationResult
       .confirm(otp && otp)
       .then(async (response) => {
@@ -142,7 +140,7 @@ const SignupOtp = () => {
   return (
     <>
       {/* <AuthNavbar /> */}
-      <section className="auth_layout login_screen auth-unikaksha">
+      <section className="auth_layout login_screen">
         <LeftBox />
         <div className="right_box">
           <div className="right_box_container">
@@ -151,7 +149,7 @@ const SignupOtp = () => {
               <div className="log-in-title login-head">
                 <img
                   className="me-2"
-                  onClick={() => navigate(-1)}
+                  onClick={() => navigate('/signup')}
                   src={arrowBack}
                   alt="back-arrow"
                 />
@@ -160,7 +158,7 @@ const SignupOtp = () => {
               <p>
                 Enter OTP sent to your mobile number{' '}
                 <span style={{ font: 'Poppins', color: '#363F5E' }}>
-                  +{userSignUpData.phoneNumber}
+                  +{userSignUpData?.phoneNumber}
                 </span>
                 .
               </p>
@@ -177,7 +175,10 @@ const SignupOtp = () => {
                   <span>Didn't receive code?</span>
                 </div>
                 <div>
-                  <a className={isResendDisabled ? 'resend-otp disabled' : 'resend-otp'} onClick={() => resendOTP(userSignUpData.phoneNumber)}>
+                  <a
+                    className="resend-otp"
+                    style={{ cursor: !minutes && !seconds ? 'pointer' : 'not-allowed' }}
+                    onClick={() => !minutes && !seconds && resendOTP(phoneNumber)}>
                     Resend OTP
                   </a>
                   <span>

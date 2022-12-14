@@ -20,7 +20,9 @@ import './auth.scss';
 import LeftBox from './components/LeftBox';
 
 const Login = () => {
-  let isAuth = useSelector((state) => state?.auth?.isAuthenticated) || JSON.parse(localStorage.getItem("isAuthenticated"));
+  let isAuth =
+    useSelector((state) => state?.auth?.isAuthenticated) ||
+    JSON.parse(localStorage.getItem('isAuthenticated'));
   const [loading, setloading] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,10 +38,10 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if(isAuth) {
+    if (isAuth) {
       navigate('/dashboard');
     }
-  },[])
+  }, []);
 
   const checkIfUserExists = async (email, phone) => {
     const result = await ApiService('user/check-exists', 'POST', { email, phone }, true);
@@ -48,7 +50,7 @@ const Login = () => {
 
   const singInwithEmail = async (values) => {
     setloading(true);
-    // dispatch(setLoading(true));
+    dispatch(setLoading(true));
     const { email } = values;
     const user = await checkIfUserExists(email, null);
     if (user) {
@@ -57,18 +59,16 @@ const Login = () => {
         sendOTP(phone);
       }
       setloading(false);
-      // dispatch(setLoading(false));
+      dispatch(setLoading(false));
     } else {
-      // TODO
-      // user not found
-      setloading(false);
       alert('User Not Found');
-      // dispatch(setLoading(false));
+      setloading(false);
+      dispatch(setLoading(false));
     }
   };
 
   const signInWithNumber = async (values) => {
-    // dispatch(setLoading(true));
+    dispatch(setLoading(true));
     setloading(true);
     const { mobileNumber } = values;
     const user = await checkIfUserExists(null, `+${mobileNumber}`);
@@ -78,16 +78,16 @@ const Login = () => {
         sendOTP(phone);
       }
       setloading(false);
-      // dispatch(setLoading(false));
+      dispatch(setLoading(false));
     } else {
       alert('User Not Found');
       setloading(false);
-      // dispatch(setLoading(false));
+      dispatch(setLoading(false));
     }
   };
 
   const sendOTP = async (phoneNumber) => {
-    // dispatch(setLoading(true));
+    dispatch(setLoading(true));
     setloading(true);
     const appVerifier = configureCaptcha();
     firebase
@@ -108,7 +108,7 @@ const Login = () => {
             phoneNumber: phoneNumber,
           },
         });
-        // dispatch(setLoading(false));
+        dispatch(setLoading(false));
         setloading(false);
       })
       .catch((error) => {
@@ -116,14 +116,14 @@ const Login = () => {
           theme: 'colored',
         });
         setloading(false);
-        // dispatch(setLoading(false));
+        dispatch(setLoading(false));
       });
   };
 
   return (
     <div>
       {/* <AuthNavbar /> */}
-      <section className="auth_layout login_screen auth-unikaksha">
+      <section className="auth_layout login_screen">
         <LeftBox />
         <div className="right_box">
           <div className="right_box_container">
@@ -161,7 +161,9 @@ const Login = () => {
                             mobileLength: null,
                           }}
                           validationSchema={Yup.object().shape({
-                            mobileNumber: Yup.number().required('A phone number is required'),
+                            mobileNumber: Yup.number().required(
+                              'Mobile number is a required field'
+                            ),
                             // ((values.mobileNumber.length-values.mobileLength) === 10)
                           })}
                           onSubmit={(values) => {
@@ -186,14 +188,14 @@ const Login = () => {
                                   <Row className="mb-0">
                                     <FormLabel>Enter Number</FormLabel>
                                     <PhoneInput
-                                      country={'in'}
                                       placeholder="Enter mobile number"
+                                      country={'in'}
                                       value={field.value}
                                       onChange={(phone, data) => {
                                         setFieldValue('mobileNumber', phone);
                                         setFieldValue('mobileLength', data.dialCode.length);
                                       }}
-                                      // disableCountryCode
+                                      countryCodeEditable={false}
                                     />
                                   </Row>
                                 )}

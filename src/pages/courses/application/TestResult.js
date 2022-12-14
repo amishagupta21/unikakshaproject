@@ -3,7 +3,6 @@ import { Row, Button } from 'react-bootstrap';
 import { remoteConfig } from '../../../firebase/firebaseAuth';
 import { getValue } from 'firebase/remote-config';
 import './TestResult.scss';
-import { useEffect } from 'react';
 
 const staticContents = {
     successMessage1: 'You have successfully cleared the test with',
@@ -15,10 +14,12 @@ const staticContents = {
 }
 
 const TestResult = ({ nextPage, testResult, userName }) => {
-    const { applicationStatus, marks } = testResult;
+    console.log("testResult",testResult)
+    const { applicationStatus, marks } = testResult;    
+   
     return (
         <>
-            {!(applicationStatus === "Assessment Failed") ? (
+            {applicationStatus === "Assessment Passed" ? (
                 <div className='d-flex flex-column m-auto'>
                     <div className='d-flex justify-content-center'>
                         <img className='me-2 mw-50' src={congrats1} alt="success" />
@@ -52,6 +53,9 @@ const TestResult = ({ nextPage, testResult, userName }) => {
                             <p className='my-2 text-primary'>{staticContents.failedMessage3}</p>
                             <p className='text-secondary failedMessage4'>{staticContents.failedMessage4}</p>
                         </div>
+                    </div>
+                    <div className='m-auto'>
+                        <Button size='lg' className='px-5' variant='secondary' type="button" onClick={() => nextPage()}>Application Status</Button>
                     </div>
                 </div>)
             }

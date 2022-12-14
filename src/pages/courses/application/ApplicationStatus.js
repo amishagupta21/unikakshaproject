@@ -29,14 +29,14 @@ const applicationStatus = {
     },
 }
 
-const ApplicationStatus = ({nextPage, application, setOrderData, courseId}) => {
+const ApplicationStatus = ({nextPage, appStatus, setOrderData, courseId}) => {
 
     const [ status, setStatus ] = React.useState();
     const [ statusContent, setStatusContent ] = React.useState({});
     const [ openpayment, setopenpayment ] = React.useState(false);   
 
     useEffect(() => {
-        const { m_applicationstatus: appStatus } = application;
+        console.log("appStatus",appStatus)
         let app_status ='';
         if(appStatus === 'Application Approved') {
             app_status = 'approved'
@@ -50,10 +50,12 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId}) => {
             app_status = 'review'
             setStatus(app_status)
         }
-        setStatusContent(applicationStatus[app_status]);      
-    }, [])
-
+        console.log("app_status",app_status)
+        console.log("applicationStatus[app_status]",applicationStatus[app_status])
+        setStatusContent(applicationStatus[app_status]);        
+    }, [])       
     const openPayment = () => {
+        console.log("openpayment")
         setopenpayment(true);
     }
     const { header, imgContent, message1, message2, message3 } = statusContent;
@@ -79,11 +81,11 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId}) => {
                     </div>
                 </div>                
             </div>
-            {/* {status === 'approved' && (
-                <div className='m-auto mt-3'>
+            {status === 'approved' && (
+                <div className='m-auto'>
                     <Button size='lg' className='btn-center' variant='secondary' type="button" onClick={() => openPayment()}>Next</Button>
                 </div>
-            )} */}
+            )}
             {openpayment && (
             <>
                 <PaymentPopup nextPage={nextPage} setOrderData = {setOrderData} courseId={courseId} setopenpayment={setopenpayment} />

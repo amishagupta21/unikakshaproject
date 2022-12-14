@@ -53,7 +53,7 @@
 
 
 	color     : #8F8799;
-	margin-top: 8px;
+	margin-top: 3px;
 	text-align: right;
 }
 
@@ -68,11 +68,6 @@
 	text-decoration-line: underline;
 	color               : #FF0808;
 
-	&.disabled {
-		color: grey;
-		text-decoration: none;
-		cursor: not-allowed;
-	}
 }
 
 .otp-input input {
@@ -318,8 +313,3 @@ select.form-control {
 	font-size: 12px !important;
 }
 
-@media (max-width: 768px){
-.space-or:after, .space-or:before {
-    width: 79px;
-}
-}

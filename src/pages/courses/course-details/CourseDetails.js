@@ -25,7 +25,7 @@ function CourseDetails() {
   const [courseDetails, setCourseDetails] = React.useState();
   const { state } = useLocation();
   const params = useParams();
-  const [courseVariantBatches, setVariantCourseBatches] = React.useState([]);
+  const [coureseVariantBatches, setVariantcoureseBatches] = React.useState([]);
   const [eligibilityCriteria, setEligibilityCriteria] = React.useState([]);
   const navigate = useNavigate();
 
@@ -34,7 +34,7 @@ function CourseDetails() {
     const res = await ApiService(`courses/course_url/${courseVariantSlug}/detail`);
     return res?.data?.data?.course;
   };
-  
+
   const fetchVariantBatches = async (courseVariantId) => {
     const res = await ApiService(`courses/${courseVariantId}/batch/list`);
     return res?.data?.data?.result;
@@ -44,7 +44,7 @@ function CourseDetails() {
     const courseData = state ? state : await fetchCourseDetails(params);
     const variantBatches = await fetchVariantBatches(courseData.id);
     setCourseDetails(courseData);
-    setVariantCourseBatches(variantBatches);
+    setVariantcoureseBatches(variantBatches);
   };
 
   const convertDate = (dateInput) => {
@@ -110,7 +110,7 @@ function CourseDetails() {
   };
 
   const getBatches = () => {
-    let items = courseVariantBatches?.map((element, index) => {
+    let items = coureseVariantBatches?.map((element, index) => {
       return (
         <CardGroup key={index}>
           <Col>
@@ -267,7 +267,7 @@ function CourseDetails() {
     const faqs = courseDetails?.faqs?.items;
     let items = faqs.map((element, index) => {
       return (
-        <Tab key={index} eventKey="home" title="${element.category}">
+        <Tab eventKey="home" title="${element.category}">
           <h5 className="text-left-align">1. What does LOREM mean?</h5>
           <p className="text-left-align">
             ‘Lorem ipsum dolor sit amet, consectetur adipisici elit…’ (complete text) is dummy text
@@ -299,7 +299,7 @@ function CourseDetails() {
               </div>
               <div className="d-flex">
                 <h6 className="me-1">
-                  <span>Duration:</span> {courseVariantBatches[0]?.duration} Months |{' '}
+                  <span>Duration:</span> 4 Months |{' '}
                 </h6>
                 <h6>{courseDetails?.variant_name}</h6>
               </div>
@@ -332,15 +332,14 @@ function CourseDetails() {
                   //         </CarouselItem>
                   //     );
                   // }
-                  if(asset.type === 'video') {
-                      return (
-                          <CarouselItem key={i}>
-                              <video src={asset.url} controls></video>
-                          </CarouselItem>
-                      );
-                  }
-                  
-                  if (asset.type === 'youtube') {
+                  // if(asset.type === 'video') {
+                  //     return (
+                  //         <CarouselItem key={i}>
+                  //             <video src={asset.url} controls></video>
+                  //         </CarouselItem>
+                  //     );
+                  // }
+                  if (asset.type === 'youtube' || asset.type === 'video') {
                     return (
                       <CarouselItem key={i}>
                         <iframe
@@ -416,7 +415,7 @@ function CourseDetails() {
               <Row xs={1} md={1} className="mtb5">
                 {getPaymentsPlans()}
               </Row>
-              {courseDetails?.course_type == 'PartTime' && courseDetails?.course_variant_sections?.whatWillYouLearn.label && (
+              {courseDetails?.course_type == 'PartTime' && (
                 <>
                   <h4 className="font-color mb2" id="learnings">
                     What Will You Learn?
@@ -450,7 +449,7 @@ function CourseDetails() {
                 <Accordion defaultActiveKey="0">
                   {courseDetails?.faqs?.items.map((element, index) => {
                     return (
-                      <div key={index}>
+                      <div>
                         <Accordion.Item eventKey={index}>
                           <Accordion.Header className="text-left-align faq-title">
                             {index + 1}. {element.question}

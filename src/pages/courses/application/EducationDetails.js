@@ -42,9 +42,8 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
   const [graduatedYesOrNo, setGraduatedYesOrNo] = React.useState('nill');
   const [yesOrNoLabel, setYesOrNoLabel] = React.useState('');
   const [highestQualification, setHighestQualification] = React.useState('');
-  const [is_enrolled_other_program, setis_enrolled_other_program] = React.useState('no');  
+  const [is_enrolled_other_program, setis_enrolled_other_program] = React.useState('yes');  
   const [workingPositionList, setworkingPositionList] = React.useState('');
-  const [isNextLoading, setIsNextLoading] = React.useState(false);
   const yesNo = [
     { name: 'Yes', value: 'yes' },  
     { name: 'No', value: 'no' },
@@ -64,13 +63,12 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
   const setInitialData = async () => {
     setworkingPositionList(await getWorkingPosition());
     let formData = {};
+    console.log('educationalDetails', educationalDetails);
     let educationData = educationalDetails.education_details; 
     if (educationData) {
       setHighestQualification(educationData.highest_qualification);
-      const option = highestQualificationOption.filter((e) => e.value === educationData.highest_qualification);
-      setYesOrNoLabel(option[0]?.yesNoLabel);      
       setGraduatedYesOrNo(
-        educationData.qualification[educationData.qualification.length - 1]?.passing_marks
+        educationData.qualification[educationData.qualification.length - 1].passing_marks
           ? 'yes'
           : 'no'
       );
@@ -101,6 +99,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
       formData.organization_name = educationalDetails.work_details[0].organization_name;
       formData.experience = educationalDetails.work_details[0].experience;
     }
+    console.log('formData', formData);
     formik.setValues(formData);
   };
 
@@ -108,13 +107,13 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
     validationSchema: Yup.object().shape({
       schoolDiplomaCollegeName: Yup.string().required(),
       schoolYearOfCompletion: Yup.date().required(),
-      schoolMarks: Yup.number().typeError('School marks should be numeric').required(),
+      schoolMarks: Yup.number().required(),
       ugCollegeName: Yup.string(),
       ugYOC: Yup.date(),
-      ugMarks: Yup.number().typeError('Marks should be numeric'),
+      ugMarks: Yup.number(),
       pgCollegeName: Yup.string(),
       pgYOC: Yup.date(),
-      pgMarks: Yup.number().typeError('Marks should be numeric'),
+      pgMarks: Yup.number(),
       other_program_name: Yup.string(),
       other_program_college_name: Yup.string(),
       other_program_course_duration: Yup.string(),
@@ -218,20 +217,22 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
         course_id: course?.id,
       };
       if (is_enrolled_other_program === 'yes') {
-        payload.education_details.other_program_name = values.other_program_name;
-        payload.education_details.other_program_college_name = values.other_program_college_name;
-        payload.education_details.other_program_course_duration = values.other_program_course_duration;
+        payload.education_details.other_program_name = 'React Js';
+        payload.education_details.other_program_college_name =
+          'A. D. Patel Institute of Technology';
+        payload.education_details.other_program_course_duration = 60;
       }
-      setIsNextLoading(true);
+      console.log('Payload', payload);
       submitEducationalDetails(payload);
     },
   });
 
   const submitEducationalDetails = async (payload) => {
     const response = await ApiService('/student/educational-details', `PUT`, payload, true);
-    setIsNextLoading(false);
+    console.log('responce', response);
     if (response?.data.code === 200) {
       setEducationalDetails(payload);
+      console.log('next');
       nextPage();
     }
   };
@@ -330,7 +331,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                             ? 'is-invalid'
                             : null
                         }
-                        value={formik.values?.pgCollegeName}
+                        value={formik.values.pgCollegeName}
                       />
                       {formik.touched.pgCollegeName && formik.errors.pgCollegeName ? (
                         <div className="error-message">{formik.errors.pgCollegeName}</div>
@@ -348,7 +349,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                         }
                         onBlur={formik.handleBlur}
                         onChange={formik.handleChange}
-                        defaultValue={formik.values?.pgYOC}>
+                        defaultValue={formik.values.pgYOC}>
                         <option value="">Select completion Year</option>
                         {yearsOptions.map((option, index) => (
                           <option key={index} value={option.value}>
@@ -377,7 +378,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                             }
                             onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
-                            value={formik.values?.pgMarks}
+                            value={formik.values.pgMarks}
                           />
                           {formik.touched.pgMarks && formik.errors.pgMarks ? (
                             <div className="error-message">{formik.errors.pgMarks}</div>
@@ -414,7 +415,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                             : null
                         }
                         onBlur={formik.handleBlur}
-                        value={formik.values?.ugCollegeName}
+                        value={formik.values.ugCollegeName}
                       />
                       {formik.touched.ugCollegeName && formik.errors.ugCollegeName ? (
                         <div className="error-message">{formik.errors.ugCollegeName}</div>
@@ -432,7 +433,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                         }
                         onBlur={formik.handleBlur}
                         onChange={formik.handleChange}
-                        defaultValue={formik.values?.ugYOC}>
+                        defaultValue={formik.values.ugYOC}>
                         <option value="">Select completion Year</option>
                         {yearsOptions.map((option, index) => (
                           <option key={index} value={option.value}>
@@ -462,7 +463,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                               formik.touched.ugMarks && formik.errors.ugMarks ? 'is-invalid' : null
                             }
                             onBlur={formik.handleBlur}
-                            value={formik.values?.ugMarks}
+                            value={formik.values.ugMarks}
                           />
                           {formik.touched.ugMarks && formik.errors.ugMarks ? (
                             <div className="error-message">{formik.errors.ugMarks}</div>
@@ -501,7 +502,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                             : null
                         }
                         onBlur={formik.handleBlur}
-                        value={formik.values?.schoolDiplomaCollegeName}
+                        value={formik.values.schoolDiplomaCollegeName}
                         placeholder="12th school / diploma college name"
                       />
                       {formik.touched.schoolDiplomaCollegeName &&
@@ -526,7 +527,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                         }
                         onBlur={formik.handleBlur}
                         onChange={formik.handleChange}
-                        defaultValue={formik.values?.schoolYearOfCompletion}>
+                        defaultValue={formik.values.schoolYearOfCompletion}>
                         <option value="">Select completion Year</option>
                         {yearsOptions.map((option, index) => (
                           <option key={index} value={option.value}>
@@ -557,7 +558,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                             : null
                         }
                         onBlur={formik.handleBlur}
-                        value={formik.values?.schoolMarks}
+                        value={formik.values.schoolMarks}
                       />
                       {formik.touched.schoolMarks && formik.errors.schoolMarks ? (
                         <div className="error-message">{formik.errors.schoolMarks}</div>
@@ -622,7 +623,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                                 : null
                             }
                             onBlur={formik.handleBlur}
-                            value={formik.values?.other_program_name}
+                            value={formik.values.other_program_name}
                           />
                           {formik.touched.other_program_name && formik.errors.other_program_name ? (
                             <div className="error-message">{formik.errors.other_program_name}</div>
@@ -645,7 +646,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                                 : null
                             }
                             onBlur={formik.handleBlur}
-                            value={formik.values?.other_program_college_name}
+                            value={formik.values.other_program_college_name}
                           />
                           {formik.touched.other_program_college_name &&
                           formik.errors.other_program_college_name ? (
@@ -672,7 +673,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                                 : null
                             }
                             onBlur={formik.handleBlur}
-                            value={formik.values?.other_program_course_duration}
+                            value={formik.values.other_program_course_duration}
                           />
                           {formik.touched.other_program_course_duration &&
                           formik.errors.other_program_course_duration ? (
@@ -691,12 +692,13 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                     <Form.Group as={Col} controlId="position">
                       <Form.Label>
                         Your current working position
+                        <span className="text-danger">*</span>
                       </Form.Label>
                       <Form.Select
                         name="position"
                         onBlur={formik.handleBlur}
                         onChange={formik.handleChange}
-                        defaultValue={formik.values?.position}>
+                        defaultValue={formik.values.position}>
                         <option value="">Select your Position</option>
                         {workingPositionList.map((option, index) => (
                           <option key={index} value={option.value}>
@@ -709,6 +711,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                     <Form.Group as={Col} controlId="experience">
                       <Form.Label>
                         Total technical experience in years
+                        <span className="text-danger">*</span>
                       </Form.Label>
                       <Form.Control
                         name="experience"
@@ -716,13 +719,14 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                         placeholder="Total technical experience"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values?.experience}
+                        value={formik.values.experience}
                       />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="currentOrganization">
                       <Form.Label>
                         Organization you are working in
+                        <span className="text-danger">*</span>
                       </Form.Label>
                       <Form.Control
                         name="organization_name"
@@ -730,7 +734,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                         placeholder="Current organization"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values?.organization_name}
+                        value={formik.values.organization_name}
                       />
                     </Form.Group>
                   </Row>
@@ -747,10 +751,10 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
             </Button>
             <Button
               className="col-1"
-              disabled={(!formik.isValid && !formik.dirty) || isNextLoading}
+              disabled={!formik.isValid && !formik.dirty}
               variant="secondary"
               type="submit">
-              {isNextLoading ? 'Saving..' : 'Next'}
+              Next
             </Button>
           </Row>
         </>

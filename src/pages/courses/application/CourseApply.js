@@ -38,12 +38,9 @@ const CourseApplication = () => {
   const [courseDetails, setCourseDetails] = React.useState({});
   const [EducationalDetails, setEducationalDetails] = React.useState({});
   const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
-  const [isLoading, setIsLoading] = React.useState(false);  
+  const [isLoading, setIsLoading] = React.useState(false);
   const [testResults, settestResults] = React.useState('');
   const [orderData, setOrderData] = React.useState();
-  const [isNextLoading, setIsNextLoading] = React.useState(false);
-  const [applicationDetails, setApplicationDetails] = React.useState();
-  const [batches, setBatches] = React.useState([]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -52,19 +49,20 @@ const CourseApplication = () => {
 
   const fetchUserDetails = async (uid) => {
     setIsLoading(true);
-    let personalDetails = {}; 
-    let educationalDetails = {};        
+    let personalDetails = {};
+    let educationalDetails = {};
     const userProfile = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
     personalDetails = userProfile?.data?.data?.userProfile?.personal_details ?? personalDetails;
-    educationalDetails.education_details = userProfile?.data?.data?.userProfile?.education_details ?? educationalDetails;
+    educationalDetails.education_details =
+      userProfile?.data?.data?.userProfile?.education_details ?? educationalDetails;
     educationalDetails.work_details = userProfile?.data?.data?.userProfile?.work_details ?? [];
     nextPageNumber(0);
-    if(personalDetails) {
-      setPersonalDetailsInForm(personalDetails); 
+    if (personalDetails) {
+      setPersonalDetailsInForm(personalDetails);
     }
-    if(educationalDetails) {
-      setEducationalDetails(educationalDetails)
-    }     
+    if (educationalDetails) {
+      setEducationalDetails(educationalDetails);
+    }
     setIsLoading(false);
   };
 
@@ -80,65 +78,58 @@ const CourseApplication = () => {
   };
 
   const fetchInitialData = async (uid) => {
+    dispatch(setLoading(true));
     const courseData = state ? state : await fetchCourseDetails(params);
     setCourseDetails(courseData);
-    await fetchUserDetails(uid);   
-    await fetchVariantBatches(courseData.id);
-    await fetchApplicationDetails(uid, courseData.id);  
+    await fetchUserDetails(uid);
+    dispatch(setLoading(false));
+    await fetchApplicationDetails(uid, courseData.id);
   };
 
   const fetchApplicationDetails = async (uid, courseId) => {
+    console.log(user);
     const payload = {
-      uid : uid,
-      course_variant_id : courseId,
+      uid: uid,
+      course_variant_id: courseId,
     };
-    let applicationDetails = await ApiService('/student/application/detail-by-user-course', `POST`, payload, true);
-    if(applicationDetails?.data?.data.application) {
-      const { application_stage, m_applicationstatus, m_totalscore, m_candidatescore } = applicationDetails?.data?.data.application;    
-      const obj = {
-        applicationStatus : m_applicationstatus,
-        marks : ((m_candidatescore / m_totalscore) * 100).toFixed(2),
-      };
-      settestResults(obj);
-      setApplicationDetails(applicationDetails?.data?.data.application);
-      if(application_stage === "personal_details") {
-        nextPageNumber(1);
-      } else if(application_stage === "education_details") {
-        nextPageNumber(2);
-      } else if(application_stage === "test_result") {
-        nextPageNumber(3);
-      } else if(application_stage === "application_status") {
-        nextPageNumber(4);
-      }
+    let applicationDetails = await ApiService(
+      '/student/application/detail-by-user-course',
+      `POST`,
+      payload,
+      true
+    );
+    console.log('application', applicationDetails);
+    const { application_stage, m_applicationstatus, m_totalscore, m_candidatescore } =
+      applicationDetails?.data?.data.application;
+    const obj = {
+      applicationStatus: 'Application Approved',
+      marks: (m_candidatescore / m_totalscore) * 100,
+    };
+    settestResults(obj);
+    if (application_stage === 'personal_details') {
+      nextPageNumber(1);
+    } else if (application_stage === 'education_details') {
+      nextPageNumber(2);
+    } else if (application_stage === 'test_result') {
+      nextPageNumber(3);
     }
-  }
+  };
 
   useEffect(() => {
-    dispatch(setLoading(true));
     window.scrollTo(0, 0);
     fetchInitialData(user?.uid);
-    dispatch(setLoading(false));
   }, []);
 
-  const fetchVariantBatches = async(courseVariantId) => {
-    const res = await ApiService(`courses/${courseVariantId}/batch/list`);
-    if(res?.data.code === 200) {
-        setBatches(res.data.data.result);        
-    }
-  }
-
   const formPersonalDetailsPayload = async (personalDetails) => {
-    setIsNextLoading(true);
     const payload = {
       uid: user?.uid,
       course_id: courseDetails?.id,
       course_title: courseDetails?.course_title,
-      course_duration: courseDetails?.course_variant_sections?.duration,
-      course_start_date: new Date(batches[0].start_date).toLocaleDateString(),
+      course_duration: 4,
+      course_start_date: '12th December 2022',
       personal_details: personalDetails,
     };
     const response = await ApiService('/student/personal-details', `POST`, payload, true);
-    setIsNextLoading(false);
     if (response?.data.code === 200) {
       nextPage();
     }
@@ -369,7 +360,7 @@ const CourseApplication = () => {
                           <div className="error-message  mt-3">{formik.errors.whatsapp_number}</div>
                         ) : null}
                         <Form.Check
-                          style={{ paddingLeft: '1.5em !important', marginTop: '5px' }}
+                          style={{ paddingLeft: '1.5em !important' }}
                           type="checkbox"
                           onChange={(value) => copyFromMobileNumber(value)}
                           label="Same as mobile number"
@@ -451,32 +442,50 @@ const CourseApplication = () => {
                       </Button>
                       <Button
                         className="col-1"
-                        disabled={(!(formik.isValid && formik.dirty)) || isNextLoading}
+                        disabled={!(formik.isValid && formik.dirty)}
                         variant="secondary"
                         type="submit">
-                        {isNextLoading ? 'Saving.. ' : 'Next'}
+                        Next
                       </Button>
                     </Row>
                   </>
                 </Form>
               </>
             )}
-            {page === 1 && <EducationDetails nextPage={nextPage} course={courseDetails} user={user} 
-            educationalDetails={EducationalDetails} setEducationalDetails={setEducationalDetails}/>}
-            {page === 2 && <EntranceTest nextPage={nextPage} course={courseDetails} user={user}/>}
+            {page === 1 && (
+              <EducationDetails
+                nextPage={nextPage}
+                course={courseDetails}
+                user={user}
+                educationalDetails={EducationalDetails}
+                setEducationalDetails={setEducationalDetails}
+              />
+            )}
+            {page === 2 && <EntranceTest nextPage={nextPage} />}
             {page === 3 && (
               <>
-                <TestResult nextPage={nextPage} testResult={testResults} application={applicationDetails} userName={user.displayName}/>
+                <TestResult
+                  nextPage={nextPage}
+                  testResult={testResults}
+                  userName={user.displayName}
+                />
               </>
             )}
             {page === 4 && (
               <>
-                <ApplicationStatus nextPage={nextPage} application={applicationDetails} setOrderData={setOrderData} courseId={courseDetails?.id}></ApplicationStatus>
+                <ApplicationStatus
+                  nextPage={nextPage}
+                  appStatus={testResults.applicationStatus}
+                  setOrderData={setOrderData}
+                  courseId={courseDetails?.id}></ApplicationStatus>
               </>
             )}
             {page === 5 && (
               <>
-                <Payments nextPage={nextPage} course={courseDetails}  orderData={orderData}></Payments>
+                <Payments
+                  nextPage={nextPage}
+                  course={courseDetails}
+                  orderData={orderData}></Payments>
               </>
             )}
             {page === 6 && (
