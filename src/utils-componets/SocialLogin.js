@@ -69,7 +69,7 @@ const SocialLogin = ({ setFieldValue }) => {
   return (
     <>
       <div id='social-login'></div>
-      <div className="d-flex justify-content-between mt-4">
+      <div className="d-flex justify-content-center mt-4">
         <Button
           className="social-btn"
           variant="outline-dark"
@@ -83,7 +83,7 @@ const SocialLogin = ({ setFieldValue }) => {
           <img className="mx-2" src={googleIcon} alt="google" />
           Google
         </Button>
-        <Button
+        {/* <Button
           className="social-btn"
           variant="outline-dark"
           onClick={async () => {
@@ -97,7 +97,7 @@ const SocialLogin = ({ setFieldValue }) => {
           }}>
           <img className="mx-2" src={facebookIcon} alt="facebook" />
           Facebook
-        </Button>
+        </Button> */}
       </div>
     </>
   );
