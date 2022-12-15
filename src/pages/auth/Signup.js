@@ -41,7 +41,12 @@ const Signup = () => {
     }));
 
   const checkIfUserExists = async (email, phone) => {
-    const result = await ApiService('user/check-exists', 'POST', { email, phone }, true);
+    const result = await ApiService(
+      'user/check-exists',
+      'POST',
+      { email, phone: `+${phone}` },
+      true
+    );
     console.log(`result check-exists`, result);
     return result?.data?.data?.user;
   };

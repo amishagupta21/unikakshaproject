@@ -15,7 +15,12 @@ const SocialLogin = ({ setFieldValue }) => {
   const dispatch = useDispatch();
 
   const checkIfUserExists = async (email, phone) => {
-    const result = await ApiService('user/check-exists', 'POST', { email, phone }, true);
+    const result = await ApiService(
+      'user/check-exists',
+      'POST',
+      { email, phone: `+${phone}` },
+      true
+    );
     return result?.data?.data?.user;
   };
 
