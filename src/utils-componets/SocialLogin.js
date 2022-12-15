@@ -15,12 +15,7 @@ const SocialLogin = ({ setFieldValue }) => {
   const dispatch = useDispatch();
 
   const checkIfUserExists = async (email, phone) => {
-    const result = await ApiService(
-      'user/check-exists',
-      'POST',
-      { email, phone: `+${phone}` },
-      true
-    );
+    const result = await ApiService('user/check-exists', 'POST', { email, phone }, true);
     return result?.data?.data?.user;
   };
 
@@ -87,6 +82,21 @@ const SocialLogin = ({ setFieldValue }) => {
           <img className="mx-2" src={googleIcon} alt="google" />
           Google
         </Button>
+        {/* <Button
+          className="social-btn"
+          variant="outline-dark"
+          onClick={async () => {
+            const res = await signInWithFacebook();
+            setFieldValue('email', 'test@yopmail.com');
+            setFieldValue('fullName', 'Testng');
+            if (res?.user) {
+              localStorage.setItem('user', JSON.stringify(res?.user));
+              navigate('/dashboard');
+            }
+          }}>
+          <img className="mx-2" src={facebookIcon} alt="facebook" />
+          Facebook
+        </Button> */}
       </div>
     </>
   );

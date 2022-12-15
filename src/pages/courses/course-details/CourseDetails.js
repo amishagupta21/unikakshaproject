@@ -35,7 +35,7 @@ function CourseDetails() {
   const [courseDetails, setCourseDetails] = React.useState();
   const { state } = useLocation();
   const params = useParams();
-  const [coureseVariantBatches, setVariantcoureseBatches] = React.useState([]);
+  const [courseVariantBatches, setVariantCourseBatches] = React.useState([]);
   const [eligibilityCriteria, setEligibilityCriteria] = React.useState([]);
   const navigate = useNavigate();
 
@@ -54,7 +54,7 @@ function CourseDetails() {
     const courseData = state ? state : await fetchCourseDetails(params);
     const variantBatches = await fetchVariantBatches(courseData.id);
     setCourseDetails(courseData);
-    setVariantcoureseBatches(variantBatches);
+    setVariantCourseBatches(variantBatches);
   };
 
   const convertDate = (dateInput) => {
@@ -120,7 +120,7 @@ function CourseDetails() {
   };
 
   const getBatches = () => {
-    let items = coureseVariantBatches?.map((element, index) => {
+    let items = courseVariantBatches?.map((element, index) => {
       return (
         <CardGroup key={index}>
           <Col>
@@ -292,7 +292,7 @@ function CourseDetails() {
               </div>
               <div className="d-flex">
                 <h6 className="me-1">
-                  <span>Duration:</span> 4 Months |{' '}
+                  <span>Duration:</span> {courseVariantBatches[0]?.duration} Months |{' '}
                 </h6>
                 <h6>{courseDetails?.variant_name}</h6>
               </div>
@@ -325,14 +325,15 @@ function CourseDetails() {
                   //         </CarouselItem>
                   //     );
                   // }
-                  // if(asset.type === 'video') {
-                  //     return (
-                  //         <CarouselItem key={i}>
-                  //             <video src={asset.url} controls></video>
-                  //         </CarouselItem>
-                  //     );
-                  // }
-                  if (asset.type === 'youtube' || asset.type === 'video') {
+                  if (asset.type === 'video') {
+                    return (
+                      <CarouselItem key={i}>
+                        <video src={asset.url} controls></video>
+                      </CarouselItem>
+                    );
+                  }
+
+                  if (asset.type === 'youtube') {
                     return (
                       <CarouselItem key={i}>
                         <iframe
@@ -410,19 +411,20 @@ function CourseDetails() {
               <Row xs={1} md={1} className="mtb5">
                 {getPaymentsPlans()}
               </Row>
-              {courseDetails?.course_type == 'PartTime' && (
-                <>
-                  <h4 className="font-color mb2" id="learnings">
-                    What Will You Learn?
-                  </h4>
-                  <h6 className="learn-sub-title">
-                    {courseDetails?.course_variant_sections?.whatWillYouLearn?.label}
-                  </h6>
-                  <Row xs={1} md={2} className="mtb1">
-                    {getWhatWillYouLearn()}
-                  </Row>
-                </>
-              )}
+              {courseDetails?.course_type == 'PartTime' &&
+                courseDetails?.course_variant_sections?.whatWillYouLearn.label && (
+                  <>
+                    <h4 className="font-color mb2" id="learnings">
+                      What Will You Learn?
+                    </h4>
+                    <h6 className="learn-sub-title">
+                      {courseDetails?.course_variant_sections?.whatWillYouLearn?.label}
+                    </h6>
+                    <Row xs={1} md={2} className="mtb1">
+                      {getWhatWillYouLearn()}
+                    </Row>
+                  </>
+                )}
 
               <h4 className="font-color mb2" id="hiring-partners">
                 Hiring Partners
