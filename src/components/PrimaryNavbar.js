@@ -16,9 +16,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setIsAuthenticated } from '../redux/actions/AuthAction';
 
 const PrimaryNavbar = () => {
-  let isAuth = useSelector((state) => state?.auth?.isAuthenticated) || JSON.parse(localStorage.getItem("isAuthenticated"));
+  let isAuth =
+    useSelector((state) => state?.auth?.isAuthenticated) ||
+    JSON.parse(localStorage.getItem('isAuthenticated'));
   const [user, setUser] = React.useState();
-  
+
   const navigate = useNavigate();
   const path = useLocation().pathname;
   const url = window.location.pathname.split('/').pop();
@@ -26,13 +28,13 @@ const PrimaryNavbar = () => {
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem('user')));
-  }, [isAuth])
+  }, [isAuth]);
 
-  const logOutHandler = async() => {
+  const logOutHandler = async () => {
     await logout();
     dispatch(setIsAuthenticated(false));
     navigate('/');
-  }
+  };
 
   return (
     <div className="custom-header">
@@ -45,15 +47,15 @@ const PrimaryNavbar = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto nav-customs">
-              <Nav.Link href="#home">Courses</Nav.Link>
+              <Nav.Link href="/dashboard">Courses</Nav.Link>
               <Nav.Link href="#features">Event & Content</Nav.Link>
               <Nav.Link href="#features" className="refer-frd">
                 Refer a Friend
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
-          {(isAuth === true) ?  (
-              <div className="d-flex profile-sidebar-unikaksha">
+          {isAuth === true ? (
+            <div className="d-flex profile-sidebar-unikaksha">
               <Nav className="ms-auto">
                 <Nav.Link href="#features" className="notification-link">
                   <img src={Notify} alt="notification" />
@@ -64,7 +66,7 @@ const PrimaryNavbar = () => {
                       <img src={Profileimg} alt="profile" className="profile-avatar" />
                       <span className="avatar-name">{user?.displayName}</span>
                     </Dropdown.Toggle>
-  
+
                     <Dropdown.Menu>
                       <Dropdown.Item href="/my-courses" onClick={() => navigate('/my-courses')}>
                         <img src={Course} alt="my-courses" />
@@ -75,8 +77,7 @@ const PrimaryNavbar = () => {
                         <img src={Profile} alt="profile" />
                         My Profile
                       </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={() => logOutHandler()}>
+                      <Dropdown.Item onClick={() => logOutHandler()}>
                         <img src={Logout} alt="profile" />
                         Logout
                       </Dropdown.Item>
@@ -85,7 +86,9 @@ const PrimaryNavbar = () => {
                 </Nav.Link>
               </Nav>
             </div>
-          ) : ''}
+          ) : (
+            ''
+          )}
         </Container>
       </Navbar>
     </div>

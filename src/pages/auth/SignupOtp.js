@@ -24,6 +24,7 @@ const SignupOtp = () => {
   const [seconds, setSeconds] = useState(0);
   const [userCreated, setUserCreated] = useState();
   const [isButtonLoading, setIsButtonLoading] = useState();
+  const [isResendDisabled, setIsResendDisabled] = useState(true);
 
   useEffect(() => {
     if (!userSignUpData?.phoneNumber) {
@@ -45,6 +46,7 @@ const SignupOtp = () => {
 
       if (seconds === 0) {
         if (minutes === 0) {
+          setIsResendDisabled(false);
           clearInterval(interval);
         } else {
           setSeconds(59);
@@ -61,6 +63,7 @@ const SignupOtp = () => {
     if (seconds === 0 && minutes === 0) {
       setOtp('');
       setOtpError(null);
+      setIsResendDisabled(true);
       setMinutes(2);
       setSeconds(0);
       sendOTP(phone);
@@ -140,7 +143,7 @@ const SignupOtp = () => {
   return (
     <>
       {/* <AuthNavbar /> */}
-      <section className="auth_layout login_screen">
+      <section className="auth_layout login_screen auth-unikaksha">
         <LeftBox />
         <div className="right_box">
           <div className="right_box_container">
@@ -175,12 +178,15 @@ const SignupOtp = () => {
                   <span>Didn't receive code?</span>
                 </div>
                 <div>
-                  <a
+                  {/* <a
                     className="resend-otp"
                     style={{ cursor: !minutes && !seconds ? 'pointer' : 'not-allowed' }}
                     onClick={() => !minutes && !seconds && resendOTP(phoneNumber)}>
-                    Resend OTP
-                  </a>
+                    Resend OTP */}
+                  <a
+                    style={{ cursor: !minutes && !seconds ? 'pointer' : 'not-allowed' }}
+                    className={isResendDisabled ? 'resend-otp disabled' : 'resend-otp'}
+                    onClick={() => resendOTP(userSignUpData.phoneNumber)}></a>
                   <span>
                     {' '}
                     in {minutes < 10 ? `0${minutes}` : minutes}:{' '}

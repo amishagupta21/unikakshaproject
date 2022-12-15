@@ -105,7 +105,7 @@ const Signup = () => {
   };
   return (
     <>
-      <section className="auth_layout login_screen">
+      <section className="auth_layout login_screen auth-unikaksha">
         <LeftBox />
         <div className="right_box">
           <div className="right_box_container">

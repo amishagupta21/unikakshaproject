@@ -86,7 +86,8 @@ const Info = () => {
         ...(occ == 'PROFESSIONAL' && { position: values.position }),
         ...(occ == 'PROFESSIONAL' && { experience_in_years: values.experience }),
         ...(occ == 'PROFESSIONAL' && { organization_name: values.organization }),
-        ...(occ == 'PROFESSIONAL' && { organizational_code: values.organizationCode }),
+        ...(occ == 'PROFESSIONAL' &&
+          values.organizationCode && { organizational_code: values.organizationCode }),
       },
     };
 
