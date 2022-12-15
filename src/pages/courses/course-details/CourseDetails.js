@@ -1,25 +1,35 @@
 import parse from 'html-react-parser';
 import React, { useEffect } from 'react';
 import {
-    Button,
-    Card,
-    CardGroup, Carousel,
-    CarouselItem,
-    Col,
-    Container,
-    Nav,
-    Row
+  Button,
+  Card,
+  CardGroup,
+  Carousel,
+  CarouselItem,
+  Col,
+  Container,
+  Nav,
+  Row,
 } from 'react-bootstrap';
-import Accordion from 'react-bootstrap/Accordion';
-import Tab from 'react-bootstrap/Tab';
 import Rating from 'react-rating';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
-    calendar1,
-    computer, emptystar, facebook, fullstar, linkedin, microsoft, netflix, overview, slack, tick, xbo
+  calendar1,
+  computer,
+  emptystar,
+  facebook,
+  fullstar,
+  linkedin,
+  microsoft,
+  netflix,
+  overview,
+  slack,
+  tick,
+  xbo,
 } from '../../../assets/images';
 import ApiService from '../../../services/ApiService';
 import './CourseDetails.scss';
+import Faqs from './Faqs';
 
 function CourseDetails() {
   const [courseDetails, setCourseDetails] = React.useState();
@@ -263,23 +273,6 @@ function CourseDetails() {
     return items;
   };
 
-  const getFAQs = () => {
-    const faqs = courseDetails?.faqs?.items;
-    let items = faqs.map((element, index) => {
-      return (
-        <Tab eventKey="home" title="${element.category}">
-          <h5 className="text-left-align">1. What does LOREM mean?</h5>
-          <p className="text-left-align">
-            ‘Lorem ipsum dolor sit amet, consectetur adipisici elit…’ (complete text) is dummy text
-            that is not meant to mean anything. It is used as a placeholder in magazine layouts, for
-            example, in order to give an impression of the finished document.
-          </p>
-        </Tab>
-      );
-    });
-    return items;
-  };
-
   return (
     <>
       <div className="course-details my-5">
@@ -369,9 +362,10 @@ function CourseDetails() {
                     <Nav.Link href="#jobs">Jobs Role You Can Get</Nav.Link>
                   )}
 
-                  {courseDetails?.course_variant_sections?.whatWillYouLearn?.value && courseDetails?.course_type == 'PartTime' && (
-                    <Nav.Link href="#learnings">What Will You Learn?</Nav.Link>
-                  )}
+                  {courseDetails?.course_variant_sections?.whatWillYouLearn?.value &&
+                    courseDetails?.course_type == 'PartTime' && (
+                      <Nav.Link href="#learnings">What Will You Learn?</Nav.Link>
+                    )}
                   <Nav.Link href="#hiring-partners">Hiring Partners</Nav.Link>
                 </Nav>
               </div>
@@ -398,16 +392,17 @@ function CourseDetails() {
                 {getEligibility()}
               </Row>
 
-              { courseDetails?.course_variant_sections?.whatWillYouLearn?.value && courseDetails?.course_type == "PartTime" && (
-                <>
-                  <h4 className="font-color mb2" id="jobs">
-                    The Best Job Roles You Can Get
-                  </h4>
-                  <Row xs={1} md={4} className="mtb5">
-                    {getJobs()}
-                  </Row>
-                </>
-              )}
+              {courseDetails?.course_variant_sections?.whatWillYouLearn?.value &&
+                courseDetails?.course_type == 'PartTime' && (
+                  <>
+                    <h4 className="font-color mb2" id="jobs">
+                      The Best Job Roles You Can Get
+                    </h4>
+                    <Row xs={1} md={4} className="mtb5">
+                      {getJobs()}
+                    </Row>
+                  </>
+                )}
 
               <h4 className="font-color mb2" id="paymode">
                 Choose A Payment Plan That Works For You
@@ -439,36 +434,8 @@ function CourseDetails() {
               <h4 className="font-color mb2" id="eligibility">
                 FAQs
               </h4>
-              <Row xs={1} md={1} className="mtb5">
-                {/* <Tabs
-                                defaultActiveKey="home"
-                                id="uncontrolled-tab-example"
-                                className="mb-3"
-                                > */}
-
-                <Accordion defaultActiveKey="0">
-                  {courseDetails?.faqs?.items.map((element, index) => {
-                    return (
-                      <div>
-                        <Accordion.Item eventKey={index}>
-                          <Accordion.Header className="text-left-align faq-title">
-                            {index + 1}. {element.question}
-                          </Accordion.Header>
-                          <Accordion.Body className="text-left-align faq-content">
-                            {element.answer}
-                          </Accordion.Body>
-                        </Accordion.Item>
-
-                        {/* <Tab eventKey="home" title="Home"> */}
-                        {/* <h5 className='text-left-align faq-title'>{ index + 1}.{ element.question } </h5>
-                                    <p className='text-left-align faq-content'> { element.answer }</p> */}
-                        {/* </Tab> */}
-                      </div>
-                    );
-                  })}
-                </Accordion>
-
-                {/* </Tabs> */}
+              <Row xs={1} md={1} className="mtb5 faqs">
+                {courseDetails?.faqs?.items && <Faqs faqs={courseDetails?.faqs?.items} />}
               </Row>
             </Col>
           </Row>
