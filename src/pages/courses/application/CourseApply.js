@@ -38,7 +38,7 @@ const CourseApplication = () => {
   const [courseDetails, setCourseDetails] = React.useState({});
   const [EducationalDetails, setEducationalDetails] = React.useState({});
   const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
-  const [isLoading, setIsLoading] = React.useState(false);  
+  const [isLoading, setIsLoading] = React.useState(false);
   const [testResults, settestResults] = React.useState('');
   const [orderData, setOrderData] = React.useState();
   const [isNextLoading, setIsNextLoading] = React.useState(false);
@@ -52,19 +52,20 @@ const CourseApplication = () => {
 
   const fetchUserDetails = async (uid) => {
     setIsLoading(true);
-    let personalDetails = {}; 
-    let educationalDetails = {};        
+    let personalDetails = {};
+    let educationalDetails = {};
     const userProfile = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
     personalDetails = userProfile?.data?.data?.userProfile?.personal_details ?? personalDetails;
-    educationalDetails.education_details = userProfile?.data?.data?.userProfile?.education_details ?? educationalDetails;
+    educationalDetails.education_details =
+      userProfile?.data?.data?.userProfile?.education_details ?? educationalDetails;
     educationalDetails.work_details = userProfile?.data?.data?.userProfile?.work_details ?? [];
     nextPageNumber(0);
-    if(personalDetails) {
-      setPersonalDetailsInForm(personalDetails); 
+    if (personalDetails) {
+      setPersonalDetailsInForm(personalDetails);
     }
-    if(educationalDetails) {
-      setEducationalDetails(educationalDetails)
-    }     
+    if (educationalDetails) {
+      setEducationalDetails(educationalDetails);
+    }
     setIsLoading(false);
   };
 
@@ -82,36 +83,42 @@ const CourseApplication = () => {
   const fetchInitialData = async (uid) => {
     const courseData = state ? state : await fetchCourseDetails(params);
     setCourseDetails(courseData);
-    await fetchUserDetails(uid);   
+    await fetchUserDetails(uid);
     await fetchVariantBatches(courseData.id);
-    await fetchApplicationDetails(uid, courseData.id);  
+    await fetchApplicationDetails(uid, courseData.id);
   };
 
   const fetchApplicationDetails = async (uid, courseId) => {
     const payload = {
-      uid : uid,
-      course_variant_id : courseId,
+      uid: uid,
+      course_variant_id: courseId,
     };
-    let applicationDetails = await ApiService('/student/application/detail-by-user-course', `POST`, payload, true);
-    if(applicationDetails?.data?.data.application) {
-      const { application_stage, m_applicationstatus, m_totalscore, m_candidatescore } = applicationDetails?.data?.data.application;    
+    let applicationDetails = await ApiService(
+      '/student/application/detail-by-user-course',
+      `POST`,
+      payload,
+      true
+    );
+    if (applicationDetails?.data?.data.application) {
+      const { application_stage, m_applicationstatus, m_totalscore, m_candidatescore } =
+        applicationDetails?.data?.data.application;
       const obj = {
-        applicationStatus : m_applicationstatus,
-        marks : ((m_candidatescore / m_totalscore) * 100).toFixed(2),
+        applicationStatus: m_applicationstatus,
+        marks: ((m_candidatescore / m_totalscore) * 100).toFixed(2),
       };
       settestResults(obj);
       setApplicationDetails(applicationDetails?.data?.data.application);
-      if(application_stage === "personal_details") {
+      if (application_stage === 'personal_details') {
         nextPageNumber(1);
-      } else if(application_stage === "education_details") {
+      } else if (application_stage === 'education_details') {
         nextPageNumber(2);
-      } else if(application_stage === "test_result") {
+      } else if (application_stage === 'test_result') {
         nextPageNumber(3);
-      } else if(application_stage === "application_status") {
+      } else if (application_stage === 'application_status') {
         nextPageNumber(4);
       }
     }
-  }
+  };
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -120,12 +127,12 @@ const CourseApplication = () => {
     dispatch(setLoading(false));
   }, []);
 
-  const fetchVariantBatches = async(courseVariantId) => {
+  const fetchVariantBatches = async (courseVariantId) => {
     const res = await ApiService(`courses/${courseVariantId}/batch/list`);
-    if(res?.data.code === 200) {
-        setBatches(res.data.data.result);        
+    if (res?.data.code === 200) {
+      setBatches(res.data.data.result);
     }
-  }
+  };
 
   const formPersonalDetailsPayload = async (personalDetails) => {
     setIsNextLoading(true);
@@ -451,7 +458,7 @@ const CourseApplication = () => {
                       </Button>
                       <Button
                         className="col-1"
-                        disabled={(!(formik.isValid && formik.dirty)) || isNextLoading}
+                        disabled={!(formik.isValid && formik.dirty) || isNextLoading}
                         variant="secondary"
                         type="submit">
                         {isNextLoading ? 'Saving.. ' : 'Next'}
@@ -461,22 +468,41 @@ const CourseApplication = () => {
                 </Form>
               </>
             )}
-            {page === 1 && <EducationDetails nextPage={nextPage} course={courseDetails} user={user} 
-            educationalDetails={EducationalDetails} setEducationalDetails={setEducationalDetails}/>}
-            {page === 2 && <EntranceTest nextPage={nextPage} course={courseDetails} user={user}/>}
+            {page === 1 && (
+              <EducationDetails
+                nextPage={nextPage}
+                course={courseDetails}
+                user={user}
+                educationalDetails={EducationalDetails}
+                setEducationalDetails={setEducationalDetails}
+              />
+            )}
+            {page === 2 && <EntranceTest nextPage={nextPage} course={courseDetails} user={user} />}
             {page === 3 && (
               <>
-                <TestResult nextPage={nextPage} testResult={testResults} application={applicationDetails} userName={user.displayName}/>
+                <TestResult
+                  nextPage={nextPage}
+                  testResult={testResults}
+                  application={applicationDetails}
+                  userName={user.displayName}
+                />
               </>
             )}
             {page === 4 && (
               <>
-                <ApplicationStatus nextPage={nextPage} application={applicationDetails} setOrderData={setOrderData} courseId={courseDetails?.id}></ApplicationStatus>
+                <ApplicationStatus
+                  nextPage={nextPage}
+                  application={applicationDetails}
+                  setOrderData={setOrderData}
+                  courseId={courseDetails?.id}></ApplicationStatus>
               </>
             )}
             {page === 5 && (
               <>
-                <Payments nextPage={nextPage} course={courseDetails}  orderData={orderData}></Payments>
+                <Payments
+                  nextPage={nextPage}
+                  course={courseDetails}
+                  orderData={orderData}></Payments>
               </>
             )}
             {page === 6 && (

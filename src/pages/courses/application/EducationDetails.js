@@ -38,19 +38,25 @@ const ColoredLine = ({ color }) => (
   />
 );
 
-const EducationDetails = ({ nextPage, course, user, educationalDetails, setEducationalDetails }) => {
+const EducationDetails = ({
+  nextPage,
+  course,
+  user,
+  educationalDetails,
+  setEducationalDetails,
+}) => {
   const [graduatedYesOrNo, setGraduatedYesOrNo] = React.useState('nill');
   const [yesOrNoLabel, setYesOrNoLabel] = React.useState('');
   const [highestQualification, setHighestQualification] = React.useState('');
-  const [is_enrolled_other_program, setis_enrolled_other_program] = React.useState('no');  
+  const [is_enrolled_other_program, setis_enrolled_other_program] = React.useState('no');
   const [workingPositionList, setworkingPositionList] = React.useState('');
   const [isNextLoading, setIsNextLoading] = React.useState(false);
   const yesNo = [
-    { name: 'Yes', value: 'yes' },  
+    { name: 'Yes', value: 'yes' },
     { name: 'No', value: 'no' },
   ];
 
-  useEffect(() => {            
+  useEffect(() => {
     setInitialData();
   }, []);
 
@@ -64,11 +70,13 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
   const setInitialData = async () => {
     setworkingPositionList(await getWorkingPosition());
     let formData = {};
-    let educationData = educationalDetails.education_details; 
+    let educationData = educationalDetails.education_details;
     if (educationData) {
       setHighestQualification(educationData.highest_qualification);
-      const option = highestQualificationOption.filter((e) => e.value === educationData.highest_qualification);
-      setYesOrNoLabel(option[0]?.yesNoLabel);      
+      const option = highestQualificationOption.filter(
+        (e) => e.value === educationData.highest_qualification
+      );
+      setYesOrNoLabel(option[0]?.yesNoLabel);
       setGraduatedYesOrNo(
         educationData.qualification[educationData.qualification.length - 1]?.passing_marks
           ? 'yes'
@@ -220,7 +228,8 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
       if (is_enrolled_other_program === 'yes') {
         payload.education_details.other_program_name = values.other_program_name;
         payload.education_details.other_program_college_name = values.other_program_college_name;
-        payload.education_details.other_program_course_duration = values.other_program_course_duration;
+        payload.education_details.other_program_course_duration =
+          values.other_program_course_duration;
       }
       setIsNextLoading(true);
       submitEducationalDetails(payload);
@@ -689,9 +698,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                   </Row>
                   <Row className="mb-5">
                     <Form.Group as={Col} controlId="position">
-                      <Form.Label>
-                        Your current working position
-                      </Form.Label>
+                      <Form.Label>Your current working position</Form.Label>
                       <Form.Select
                         name="position"
                         onBlur={formik.handleBlur}
@@ -707,9 +714,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                       </Form.Select>
                     </Form.Group>
                     <Form.Group as={Col} controlId="experience">
-                      <Form.Label>
-                        Total technical experience in years
-                      </Form.Label>
+                      <Form.Label>Total technical experience in years</Form.Label>
                       <Form.Control
                         name="experience"
                         type="text"
@@ -721,9 +726,7 @@ const EducationDetails = ({ nextPage, course, user, educationalDetails, setEduca
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="currentOrganization">
-                      <Form.Label>
-                        Organization you are working in
-                      </Form.Label>
+                      <Form.Label>Organization you are working in</Form.Label>
                       <Form.Control
                         name="organization_name"
                         type="text"

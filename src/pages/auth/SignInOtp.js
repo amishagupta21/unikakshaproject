@@ -4,7 +4,6 @@ import Button from 'react-bootstrap/Button';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import OtpInput from 'react18-input-otp';
 import { arrowBack } from '../../assets/images';
 import { firebase } from '../../firebase/firebase';
 import { setIsAuthenticated } from '../../redux/actions/AuthAction';
@@ -12,6 +11,7 @@ import { setLoading } from '../../redux/actions/LoaderActions';
 import ApiService from '../../services/ApiService';
 import './auth.scss';
 import LeftBox from './components/LeftBox';
+import OtpInput from 'react-otp-input';
 
 const SignInOtp = () => {
   const [loading, setloading] = useState();
@@ -34,8 +34,8 @@ const SignInOtp = () => {
 
       if (seconds === 0) {
         if (minutes === 0) {
-          setIsResendDisabled(false);
           clearInterval(interval);
+          setIsResendDisabled(false);
         } else {
           setSeconds(59);
           setMinutes(minutes - 1);
@@ -66,7 +66,7 @@ const SignInOtp = () => {
   };
 
   const sendOTP = async (phoneNumber) => {
-    // dispatch(setLoading(true));
+    dispatch(setLoading(true));
 
     setloading(true);
     const appVerifier = configureCaptcha();
@@ -79,14 +79,14 @@ const SignInOtp = () => {
           theme: 'colored',
         });
         setloading(false);
-        // dispatch(setLoading(true));
+        dispatch(setLoading(true));
       })
       .catch((error) => {
         toast.error(`${error}`, {
           theme: 'colored',
         });
         setloading(false);
-        // dispatch(setLoading(true));
+        dispatch(setLoading(true));
       });
   };
 
@@ -97,7 +97,7 @@ const SignInOtp = () => {
 
   const onSubmitOTP = () => {
     setloading(true);
-    // dispatch(setLoading(true));
+    dispatch(setLoading(true));
 
     window.confirmationResult
       .confirm(otp && otp)
@@ -105,7 +105,7 @@ const SignInOtp = () => {
         const { user } = response;
         if (user) {
           setloading(false);
-          // dispatch(setLoading(false));
+          dispatch(setLoading(false));
 
           dispatch(setIsAuthenticated(true));
           localStorage.setItem('user', JSON.stringify(user));
@@ -128,7 +128,7 @@ const SignInOtp = () => {
       })
       .catch((error) => {
         setloading(false);
-        // dispatch(setLoading(false));
+        dispatch(setLoading(false));
 
         // navigate('/login');
         setOtpError('Invalid Code!');
@@ -145,7 +145,7 @@ const SignInOtp = () => {
               <div className="log-in-title login-head">
                 <img
                   className="me-2"
-                  onClick={() => navigate(-1)}
+                  onClick={() => navigate('/login')}
                   src={arrowBack}
                   alt="back-arrow"
                 />
@@ -165,7 +165,16 @@ const SignInOtp = () => {
                   <span>Didn't receive code?</span>
                 </div>
                 <div>
-                  <a className={isResendDisabled ? 'resend-otp disabled' : 'resend-otp'} onClick={() => resendOTP(phoneNumber)}>
+                  {/* <a
+                    className="resend-otp"
+                    style={{ cursor: !minutes && !seconds ? 'pointer' : 'not-allowed' }}
+                    onClick={() => !minutes && !seconds && resendOTP(phoneNumber)}>
+                    Resend OTP
+                  </a> */}
+                  <a
+                    style={{ cursor: !minutes && !seconds ? 'pointer' : 'not-allowed' }}
+                    className={isResendDisabled ? 'resend-otp disabled' : 'resend-otp'}
+                    onClick={() => resendOTP(phoneNumber)}>
                     Resend OTP
                   </a>
                   <span>

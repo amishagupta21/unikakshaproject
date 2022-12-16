@@ -36,7 +36,7 @@ const Info = () => {
   const [colVal, setcolVal] = useState();
 
   const initialValues = {
-    occupation: '',
+    occupation: 'UNEMPLOYED',
     birthYear: '',
     referalCode: '',
     collegeName: '',
@@ -47,19 +47,32 @@ const Info = () => {
     organizationCode: '',
   };
   let validationSchema = Yup.object({
-    occupation: SchemaList[0].required('Please select an occupation.'),
-    birthYear: SchemaList[0],
+    occupation: SchemaList[0].required('Please select an occupation'),
+    birthYear: SchemaList[0].required('Birth year is a required field'),
     // referalCode: SchemaList[0],
-    ...(occ == 'STUDENT' && { collegeName: SchemaList[0] }),
-    ...(occ == 'STUDENT' && { graduationMonth: SchemaList[0] }),
-    ...(occ == 'PROFESSIONAL' && { position: SchemaList[0] }),
-    ...(occ == 'PROFESSIONAL' && { experience: SchemaList[0] }),
-    ...(occ == 'PROFESSIONAL' && { organization: SchemaList[0] }),
+    ...(occ == 'STUDENT' && {
+      collegeName: SchemaList[0].required('Collage name is a required field'),
+    }),
+    ...(occ == 'STUDENT' && {
+      graduationMonth: SchemaList[0].required('Graduation month is a required field'),
+    }),
+    ...(occ == 'PROFESSIONAL' && {
+      position: SchemaList[0].required('Position is a required field'),
+    }),
+    ...(occ == 'PROFESSIONAL' && {
+      experience: SchemaList[0].required('Experience is a required field'),
+    }),
+    ...(occ == 'PROFESSIONAL' && {
+      organization: SchemaList[0].required('Organization is a required field'),
+    }),
+    ...(occ == 'PROFESSIONAL' && {
+      organizational_code: SchemaList[0].required('Organizational code is a required field'),
+    }),
   });
 
   const onSubmit = async (values) => {
     setloading(true);
-    // dispatch(setLoading(true));
+    dispatch(setLoading(true));
 
     let loginData = await JSON.parse(localStorage.getItem('user'));
     let data = {
@@ -73,20 +86,20 @@ const Info = () => {
         ...(occ == 'PROFESSIONAL' && { position: values.position }),
         ...(occ == 'PROFESSIONAL' && { experience_in_years: values.experience }),
         ...(occ == 'PROFESSIONAL' && { organization_name: values.organization }),
-        ...(occ == 'PROFESSIONAL' &&  values.organizationCode && { organizational_code: values.organizationCode }),
+        ...(occ == 'PROFESSIONAL' &&
+          values.organizationCode && { organizational_code: values.organizationCode }),
       },
     };
 
     let res = await ApiService(`on-boarding/update-information`, `PUT`, data);
     if (res?.data?.code === 200) {
+      dispatch(setLoading(false));
       navigate('/dashboard');
       setloading(false);
-      // dispatch(setloading(false));
-
       dispatch(setIsAuthenticated(true));
     } else {
       setloading(false);
-      // dispatch(setLoading(false));
+      dispatch(setLoading(false));
     }
   };
 
@@ -99,8 +112,13 @@ const Info = () => {
   };
 
   useEffect(() => {
-    getCollegeList();
-    getWorkingPositionList();
+    let loginData = JSON.parse(localStorage.getItem('user'));
+    if (loginData?.uid) {
+      getCollegeList();
+      getWorkingPositionList();
+    } else {
+      navigate('/signup');
+    }
   }, []);
 
   const createOption = (label, val) => ({
@@ -116,6 +134,7 @@ const Info = () => {
     let res = await ApiService(`on-boarding/college/create`, `POST`, obj);
     if (res.data.code) {
       formik.setFieldValue('collegeName', res.data.data._id);
+
       const newOption = createOption(inputValue, res.data.data._id);
       console.log('🚀 ~ setTimeout ~ newOption', newOption);
       setCollegeList((prev) => [...prev, newOption]);
@@ -126,13 +145,13 @@ const Info = () => {
 
   return (
     <>
-      <section className="auth_layout login_screen auth-unikaksha">
+      <section className="auth_layout login_screen">
         <LeftBox />
         <div className="right_box">
           <div className="right_box_container right_box_infostudents">
             <div className="log-in-title login-head">
-              <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
-              We need a few more information about you
+              {/* <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" /> */}
+              Let's get to know you a little better!
             </div>
 
             <div className="auth_form">
@@ -141,7 +160,7 @@ const Info = () => {
                 validationSchema={validationSchema}
                 onSubmit={onSubmit}>
                 {(formik) => {
-                  console.log(`formik val`, formik);
+                  console.log(`formik`, formik);
                   setocc(formik.values.occupation);
                   return (
                     <Form>
@@ -182,6 +201,7 @@ const Info = () => {
                                   type="radio"
                                   name="occupation"
                                   value="UNEMPLOYED"
+                                  defaultChecked={formik.values.occupation}
                                   onChange={(e) => {
                                     field.onChange(e);
                                     formik.setTouched({});
@@ -221,7 +241,9 @@ const Info = () => {
                             })}
                           </FormSelectField> */}
 
-                          <label className="required">Enter college name</label>
+                          <label className="form-label">
+                            Enter college name <span class="text-danger">*</span>
+                          </label>
                           <CreatableSelect
                             isClearable
                             name="collegeName"
@@ -352,7 +374,7 @@ const Info = () => {
                                   className="form-group-1 mb-3"
                                   as={Col}
                                   md="12">
-                                  <FormLabel>Ogranization you are working in <MandatorySymbol /> </FormLabel>
+                                  <FormLabel>Ogranization you are working in</FormLabel>
                                   <FormControl
                                     placeholder="Eg, Amazon"
                                     type={'text'}
@@ -394,39 +416,42 @@ const Info = () => {
                           </Row>
                         )}
                       />
-
                       {formik?.errors?.birthYear && formik?.touched?.birthYear ? (
                         <div className="error-text">{formik?.errors?.birthYear}</div>
                       ) : null}
 
-                      <Field
-                        name="referalCode"
-                        render={({ field, formProps }) => (
-                          <Row className="mb-0">
-                            <FormGroup
-                              controlId="referalCode"
-                              className="form-group-1 mb-3"
-                              as={Col}
-                              md="12">
-                              <FormLabel style={{ marginBottom: 'unset' }}>
-                                Do you have any referral code?
-                              </FormLabel>
-                              <FormLabel className="formlabel-helper">
-                                Enter referral code recieved from your Friend.
-                              </FormLabel>
-                              <FormControl
-                                placeholder="Enter a referral code here"
-                                type={'text'}
-                                value={field.value}
-                                onChange={field.onChange}
-                              />
-                            </FormGroup>
-                          </Row>
-                        )}
-                      />
-                      {formik?.errors?.referalCode && formik?.touched?.referalCode ? (
-                        <div className="error-text">{formik?.errors?.referalCode}</div>
-                      ) : null}
+                      {formik.values.occupation === 'STUDENT' || (
+                        <>
+                          <Field
+                            name="referalCode"
+                            render={({ field, formProps }) => (
+                              <Row className="mb-0">
+                                <FormGroup
+                                  controlId="referalCode"
+                                  className="form-group-1 mb-3"
+                                  as={Col}
+                                  md="12">
+                                  <FormLabel style={{ marginBottom: 'unset' }}>
+                                    Do you have any referral code?
+                                  </FormLabel>
+                                  <FormLabel className="formlabel-helper">
+                                    Enter referral code recieved from your Friend.
+                                  </FormLabel>
+                                  <FormControl
+                                    placeholder="Enter a referral code here"
+                                    type={'text'}
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                  />
+                                </FormGroup>
+                              </Row>
+                            )}
+                          />
+                          {formik?.errors?.referalCode && formik?.touched?.referalCode ? (
+                            <div className="error-text">{formik?.errors?.referalCode}</div>
+                          ) : null}
+                        </>
+                      )}
 
                       <Field
                         name="organizationCode"
@@ -440,9 +465,9 @@ const Info = () => {
                               <FormLabel style={{ marginBottom: 'unset' }}>
                                 Do you have any Organization code?
                               </FormLabel>
-                              <FormLabel className="formlabel-helper">
+                              {/* <FormLabel className="formlabel-helper">
                                 Enter referral code recieved from your Institute.
-                              </FormLabel>
+                              </FormLabel> */}
                               <FormControl
                                 placeholder="Enter a organization code here"
                                 type={'text'}
@@ -458,7 +483,10 @@ const Info = () => {
                       ) : null}
 
                       <div className="d-grid gap-2 my-3">
-                        <Button type="submit" variant="secondary" disabled={loading}>
+                        <Button
+                          type="submit"
+                          variant="secondary"
+                          disabled={!formik.isValid || loading}>
                           {loading ? 'Loading...' : 'Get Started'}
                         </Button>
                       </div>

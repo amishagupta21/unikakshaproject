@@ -1,10 +1,10 @@
 .log-in-title {
-	font-family  : 'Roboto', sans-serif;
-	font-style   : normal;
-	font-weight  : 500;
-	font-size    : 24px;
-	line-height  : 28px;
-	color        : #2BBEAA;
+	font-family: 'Roboto', sans-serif;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 24px;
+	line-height: 28px;
+	color: #2BBEAA;
 	margin-bottom: 20px;
 }
 
@@ -13,9 +13,9 @@
 }
 
 .right_box_container .signin-text {
-	color      : #363F5E;
-	font-size  : 16px;
-	margin-top : 25px;
+	color: #363F5E;
+	font-size: 16px;
+	margin-top: 25px;
 	font-weight: 500;
 }
 
@@ -28,12 +28,12 @@
 }
 
 .social-btn {
-	width      : 45%;
+	width: 45%;
 	font-weight: 600;
-	font-size  : 16px;
+	font-size: 16px;
 	line-height: 19px;
-	color      : #363F5E;
-	padding    : 10px 0;
+	color: #363F5E;
+	padding: 10px 0;
 }
 
 /* mobile-input  */
@@ -47,26 +47,26 @@
 
 .sml-size {
 	font-weight: 500;
-	font-size  : 10px;
+	font-size: 10px;
 	line-height: 12px;
 	/* identical to box height */
 
 
-	color     : #8F8799;
+	color: #8F8799;
 	margin-top: 8px;
 	text-align: right;
 }
 
 .resend-otp {
-	cursor              : pointer;
+	cursor: pointer;
 	/* font-family      : 'Roboto'; */
-	font-style          : normal;
-	font-weight         : 400;
-	font-size           : 12px;
-	line-height         : 14px;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 14px;
 	/* identical to box height */
 	text-decoration-line: underline;
-	color               : #FF0808;
+	color: #FF0808;
 
 	&.disabled {
 		color: grey;
@@ -76,25 +76,25 @@
 }
 
 .otp-input input {
-	margin        : 5px;
+	margin: 5px;
 	/* font-family: 'Roboto'; */
-	width         : 50px !important;
-	padding       : 10px 15px;
-	font-style    : normal;
-	font-weight   : 500;
-	font-size     : 24px;
-	line-height   : 28px;
-	text-align    : center;
-	border        : 1px solid rgba(54, 63, 94, 0.4);
-	box-shadow    : 0px 6px 10px rgb(54 63 94 / 6%);
-	border-radius : 6px;
+	width: 50px !important;
+	padding: 10px 15px;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 24px;
+	line-height: 28px;
+	text-align: center;
+	border: 1px solid rgba(54, 63, 94, 0.4);
+	box-shadow: 0px 6px 10px rgb(54 63 94 / 6%);
+	border-radius: 6px;
 
 }
 
 .log-in-title.login-head img {
 	position: absolute;
-	left    : -34px;
-	cursor  : pointer;
+	left: -34px;
+	cursor: pointer;
 }
 
 
@@ -103,7 +103,7 @@
 }
 
 .auth_layout .left_box h3 {
-	font-size : 20px;
+	font-size: 20px;
 	margin-top: 30px;
 }
 
@@ -111,28 +111,28 @@
 
 .auth_layout .left_box .carousel-indicators {
 	position: absolute;
-	right   : 0;
-	bottom  : -44px;
+	right: 0;
+	bottom: -44px;
 }
 
 .carousel-indicators [data-bs-target] {
-	box-sizing      : content-box;
-	flex            : 0 1 auto;
-	width           : 10px;
-	height          : 10px;
-	padding         : 0;
-	margin-right    : 3px;
-	margin-left     : 3px;
-	text-indent     : -999px;
-	cursor          : pointer;
+	box-sizing: content-box;
+	flex: 0 1 auto;
+	width: 10px;
+	height: 10px;
+	padding: 0;
+	margin-right: 3px;
+	margin-left: 3px;
+	text-indent: -999px;
+	cursor: pointer;
 	background-color: #93E3D3;
-	background-clip : padding-box;
-	border          : 0;
-	border-top      : 10px solid transparent;
-	border-bottom   : 10px solid transparent;
-	opacity         : 1;
-	transition      : opacity 0.6s ease;
-	border-radius   : 100% !important;
+	background-clip: padding-box;
+	border: 0;
+	border-top: 10px solid transparent;
+	border-bottom: 10px solid transparent;
+	opacity: 1;
+	transition: opacity 0.6s ease;
+	border-radius: 100% !important;
 }
 
 .carousel-indicators .active {
@@ -145,28 +145,28 @@
 
 .form-group-1 .form-control {
 
-	border       : 1px solid rgba(54, 63, 94, 0.4);
+	border: 1px solid rgba(54, 63, 94, 0.4);
 	border-radius: 6px;
-	min-height   : 44px;
+	min-height: 44px;
 }
 
 .react-tel-input .form-control {
 
-	border       : 1px solid rgba(54, 63, 94, 0.4);
+	border: 1px solid rgba(54, 63, 94, 0.4);
 	border-radius: 6px;
-	min-height   : 44px;
+	min-height: 44px;
 }
 
 .react-tel-input .flag-dropdown {
 
 	background-color: transparent !important;
-	border          : 0 !important;
-	border-radius   : 3px 0 0 3px !important;
+	border: 0 !important;
+	border-radius: 3px 0 0 3px !important;
 }
 
 .custom-check-label {
 	font-weight: 400;
-	font-size  : 12px;
+	font-size: 12px;
 	line-height: 14px;
 	/* identical to box height */
 	font-family: 'Roboto', sans-serif;
@@ -179,10 +179,10 @@ button.btn.btn-info {
 }
 
 .policy-terms.text-center.mt-4 {
-	font-size  : 14px;
+	font-size: 14px;
 	line-height: 19px;
-	text-align : center;
-	color      : #8F8799;
+	text-align: center;
+	color: #8F8799;
 	font-family: 'Roboto', sans-serif;
 
 }
@@ -193,108 +193,108 @@ button.btn.btn-info {
 
 label.mb-3.mt-3.custom-check-lable {
 	font-weight: 400;
-	font-size  : 12px;
+	font-size: 12px;
 	line-height: 14px;
-	color      : #8F8799;
+	color: #8F8799;
 }
 
 .space-or span {
 
-	border       : 1.47059px solid #363F5E;
-	width        : 33px;
-	height       : 33px;
+	border: 1.47059px solid #363F5E;
+	width: 33px;
+	height: 33px;
 	border-radius: 100px;
-	display      : inline-block;
-	line-height  : 33px;
+	display: inline-block;
+	line-height: 33px;
 }
 
 .space-or:after {
-	position  : absolute;
-	content   : "";
-	left      : 53px;
-	width     : 100px;
-	height    : 1px;
-	top       : 17px;
+	position: absolute;
+	content: "";
+	left: 53px;
+	width: 100px;
+	height: 1px;
+	top: 17px;
 	background: #363F5E;
 }
 
 .space-or:before {
 	position: absolute;
-	content : "";
+	content: "";
 
-	width     : 100px;
-	height    : 1px;
-	top       : 17px;
+	width: 100px;
+	height: 1px;
+	top: 17px;
 	background: #363F5E;
-	right     : 55px;
+	right: 55px;
 }
 
 .space-or {
 	text-align: center;
-	position  : relative;
+	position: relative;
 }
 
 label.mb-3.mt-3.custom-check-lable input {
 
-	width        : 17px;
-	height       : 17px;
+	width: 17px;
+	height: 17px;
 	border-radius: 55px;
 }
 
 label.mb-3.mt-3.custom-check-lable {
 	font-weight: 400;
-	font-size  : 12px;
+	font-size: 12px;
 	line-height: 14px;
-	color      : #8F8799;
-	display    : flex;
+	color: #8F8799;
+	display: flex;
 
 	align-items: center;
 }
 
 .auth_form.otp-form p {
 	font-weight: 400;
-	font-size  : 14px;
+	font-size: 14px;
 	line-height: 16px;
-	color      : #8F8799;
+	color: #8F8799;
 }
 
 .right_box_container.right_box_infostudents .form-label {
 	font-weight: 500;
-	font-size  : 16px;
+	font-size: 16px;
 	line-height: 19px;
-	color      : #363F5E;
+	color: #363F5E;
 	font-family: 'Roboto', sans-serif;
 }
 
 .right_box_container.right_box_infostudents label.form-check-label {
 
-	font-size   : 12px;
-	line-height : 14px;
-	color       : #8F8799;
+	font-size: 12px;
+	line-height: 14px;
+	color: #8F8799;
 	padding-left: 7px;
-	font-family : 'Roboto', sans-serif;
+	font-family: 'Roboto', sans-serif;
 }
 
 .right_box_container.right_box_infostudents .react-date-picker {
-	display : inline-flex;
+	display: inline-flex;
 	position: relative;
-	width   : 100%;
+	width: 100%;
 }
 
 .right_box_container.right_box_infostudents .react-date-picker__wrapper {
-	display      : flex;
-	flex-grow    : 1;
-	flex-shrink  : 0;
-	border       : thin solid gray;
-	border       : 1px solid rgba(54, 63, 94, 0.4);
+	display: flex;
+	flex-grow: 1;
+	flex-shrink: 0;
+	border: thin solid gray;
+	border: 1px solid rgba(54, 63, 94, 0.4);
 	border-radius: 6px;
-	min-height   : 44px;
-	width        : 100%;
+	min-height: 44px;
+	width: 100%;
 }
 
 .right_box_container.right_box_infostudents .form-check-input {
-	width     : 18px;
-	height    : 18px;
+	width: 18px;
+	height: 18px;
 	margin-top: 2px !important;
 
 	border: 1px solid #363F5E;
@@ -310,7 +310,7 @@ label.mb-3.mt-3.custom-check-lable {
 }
 
 select.form-control {
-	height       : 44px;
+	height: 44px;
 	border-radius: 6px !important;
 }
 
@@ -318,8 +318,10 @@ select.form-control {
 	font-size: 12px !important;
 }
 
-@media (max-width: 768px){
-.space-or:after, .space-or:before {
-    width: 79px;
-}
+@media (max-width: 768px) {
+
+	.space-or:after,
+	.space-or:before {
+		width: 79px;
+	}
 }

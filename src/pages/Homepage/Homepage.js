@@ -7,16 +7,22 @@ import ApiService from '../../services/ApiService';
 import CourseList from './components/CourseList';
 import HeroSection from './components/HeroSection';
 import Placementpartner from './components/Placementpartner';
+import { useDispatch } from 'react-redux';
+import { setLoading } from '../../redux/actions/LoaderActions';
 
 const Homepage = () => {
+  const dispatch = useDispatch();
   const [data, setData] = useState({});
   const [topCourses, setTopCourses] = useState([]);
 
   const fetchCourseDetails = async (data) => {
+    dispatch(setLoading(true));
     data = data['top-courses']?.item;
     let res = await ApiService('home/top-courses', `POST`, { course_variant_ids: data }, true);
+    console.log(`res`, res);
     if (res?.data?.code === 200) {
       setTopCourses(res?.data?.data?.result);
+      dispatch(setLoading(false));
     }
   };
 
@@ -31,12 +37,10 @@ const Homepage = () => {
   useEffect(() => {
     setTimeout(() => {
       fetchdata();
-    }, 1000);
+    }, 100);
   }, []);
 
-  
   return (
-    
     <div>
       <HeroSection bannerDetails={data?.banner1_configure && data?.banner1_configure} />
       <div className="container">
@@ -45,7 +49,7 @@ const Homepage = () => {
           placementPartner={data?.placement_partner_configure && data?.placement_partner_configure}
         />
         {/* <Invite /> */}
-        <Row className='d-flex justify-content-center my-4' lg={2}>
+        <Row className="d-flex justify-content-center my-4" lg={2}>
           <InviteNow />
         </Row>
       </div>

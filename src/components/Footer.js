@@ -21,7 +21,7 @@ const Footer = () => (
       <div className="row">
         <div className="col-sm-3">
           <div className="footer-list">
-            <img src={BrandLogo} alt="Brand Logo" className='footer-logo'/>
+            <img src={BrandLogo} alt="Brand Logo" className="footer-logo" />
             <ListGroup className="mt-3 footer-social-services">
               <ListGroup.Item action href="tel:(+91) 9310575018">
                 <img src={Call} alt="Brand Logo" />
@@ -83,7 +83,10 @@ const Footer = () => (
         <div className="col-sm-3">
           <div className="footer-menu mt-2">
             <ListGroup>
-              <ListGroup.Item action target="_blank" href="https://unikaksha.com/terms-and-conditions">
+              <ListGroup.Item
+                action
+                target="_blank"
+                href="https://unikaksha.com/terms-and-conditions">
                 Terms & Conditions
               </ListGroup.Item>
               <ListGroup.Item action target="_blank" href="https://unikaksha.com/privacy-policy">

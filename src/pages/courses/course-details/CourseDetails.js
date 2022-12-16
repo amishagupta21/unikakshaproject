@@ -3,18 +3,29 @@ import React, { useEffect } from 'react';
 import {
   Button,
   Card,
-  CardGroup, Carousel,
+  CardGroup,
+  Carousel,
   CarouselItem,
   Col,
   Container,
   Nav,
-  Row
+  Row,
 } from 'react-bootstrap';
 import Rating from 'react-rating';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   calendar1,
-  computer, emptystar, facebook, fullstar, linkedin, microsoft, netflix, overview, slack, tick, xbo
+  computer,
+  emptystar,
+  facebook,
+  fullstar,
+  linkedin,
+  microsoft,
+  netflix,
+  overview,
+  slack,
+  tick,
+  xbo,
 } from '../../../assets/images';
 import ApiService from '../../../services/ApiService';
 import './CourseDetails.scss';
@@ -33,7 +44,7 @@ function CourseDetails() {
     const res = await ApiService(`courses/course_url/${courseVariantSlug}/detail`);
     return res?.data?.data?.course;
   };
-  
+
   const fetchVariantBatches = async (courseVariantId) => {
     const res = await ApiService(`courses/${courseVariantId}/batch/list`);
     return res?.data?.data?.result;
@@ -314,14 +325,14 @@ function CourseDetails() {
                   //         </CarouselItem>
                   //     );
                   // }
-                  if(asset.type === 'video') {
-                      return (
-                          <CarouselItem key={i}>
-                              <video src={asset.url} controls></video>
-                          </CarouselItem>
-                      );
+                  if (asset.type === 'video') {
+                    return (
+                      <CarouselItem key={i}>
+                        <video src={asset.url} controls></video>
+                      </CarouselItem>
+                    );
                   }
-                  
+
                   if (asset.type === 'youtube') {
                     return (
                       <CarouselItem key={i}>
@@ -352,9 +363,10 @@ function CourseDetails() {
                     <Nav.Link href="#jobs">Jobs Role You Can Get</Nav.Link>
                   )}
 
-                  {courseDetails?.course_variant_sections?.whatWillYouLearn?.value && courseDetails?.course_type == 'PartTime' && (
-                    <Nav.Link href="#learnings">What Will You Learn?</Nav.Link>
-                  )}
+                  {courseDetails?.course_variant_sections?.whatWillYouLearn?.value &&
+                    courseDetails?.course_type == 'PartTime' && (
+                      <Nav.Link href="#learnings">What Will You Learn?</Nav.Link>
+                    )}
                   <Nav.Link href="#hiring-partners">Hiring Partners</Nav.Link>
                 </Nav>
               </div>
@@ -381,16 +393,17 @@ function CourseDetails() {
                 {getEligibility()}
               </Row>
 
-              { courseDetails?.course_variant_sections?.whatWillYouLearn?.value && courseDetails?.course_type == "PartTime" && (
-                <>
-                  <h4 className="font-color mb2" id="jobs">
-                    The Best Job Roles You Can Get
-                  </h4>
-                  <Row xs={1} md={4} className="mtb5">
-                    {getJobs()}
-                  </Row>
-                </>
-              )}
+              {courseDetails?.course_variant_sections?.whatWillYouLearn?.value &&
+                courseDetails?.course_type == 'PartTime' && (
+                  <>
+                    <h4 className="font-color mb2" id="jobs">
+                      The Best Job Roles You Can Get
+                    </h4>
+                    <Row xs={1} md={4} className="mtb5">
+                      {getJobs()}
+                    </Row>
+                  </>
+                )}
 
               <h4 className="font-color mb2" id="paymode">
                 Choose A Payment Plan That Works For You
@@ -398,19 +411,20 @@ function CourseDetails() {
               <Row xs={1} md={1} className="mtb5">
                 {getPaymentsPlans()}
               </Row>
-              {courseDetails?.course_type == 'PartTime' && courseDetails?.course_variant_sections?.whatWillYouLearn.label && (
-                <>
-                  <h4 className="font-color mb2" id="learnings">
-                    What Will You Learn?
-                  </h4>
-                  <h6 className="learn-sub-title">
-                    {courseDetails?.course_variant_sections?.whatWillYouLearn?.label}
-                  </h6>
-                  <Row xs={1} md={2} className="mtb1">
-                    {getWhatWillYouLearn()}
-                  </Row>
-                </>
-              )}
+              {courseDetails?.course_type == 'PartTime' &&
+                courseDetails?.course_variant_sections?.whatWillYouLearn.label && (
+                  <>
+                    <h4 className="font-color mb2" id="learnings">
+                      What Will You Learn?
+                    </h4>
+                    <h6 className="learn-sub-title">
+                      {courseDetails?.course_variant_sections?.whatWillYouLearn?.label}
+                    </h6>
+                    <Row xs={1} md={2} className="mtb1">
+                      {getWhatWillYouLearn()}
+                    </Row>
+                  </>
+                )}
 
               <h4 className="font-color mb2" id="hiring-partners">
                 Hiring Partners
@@ -423,11 +437,7 @@ function CourseDetails() {
                 FAQs
               </h4>
               <Row xs={1} md={1} className="mtb5 faqs">
-                {
-                  courseDetails?.faqs?.items && (
-                    <Faqs faqs={courseDetails?.faqs?.items}/>
-                  )
-                }
+                {courseDetails?.faqs?.items && <Faqs faqs={courseDetails?.faqs?.items} />}
               </Row>
             </Col>
           </Row>
