@@ -79,7 +79,7 @@ const Info = () => {
       uid: loginData.uid,
       occupation: values.occupation,
       information_data: {
-        ...(values.referalCode && { referalCode: values.referalCode }),
+        ...(values.referalCode && { referral_code: values.referalCode }),
         birth_year: parseInt(values?.birthYear?.getFullYear()),
         ...(occ == 'STUDENT' && { college_name: values.collegeName }),
         ...(occ == 'STUDENT' && { month_year_of_graduation: values.graduationMonth }),
