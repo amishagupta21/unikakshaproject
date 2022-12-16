@@ -29,6 +29,7 @@ const PaymentPopup = ({nextPage, setOrderData, courseId, setopenpayment}) => {
         let orderDetails = await ApiService('/order/create-order', `POST`, payload, true);        
         if(orderDetails?.data?.code === 200) {
             setOrderData(orderDetails.data.data);
+            setopenpayment(false);
             nextPage();
         }
     }
