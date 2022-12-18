@@ -64,12 +64,11 @@ module.exports = (env) => {
               loader: 'babel-loader',
             },
           },
-          {
-            test: /\.svg$/i,
-            issuer: /\.[jt]sx?$/,
-            use: ['@svgr/webpack', 'url-loader'],
-            // type: 'asset/resource',
-          },
+          // {
+          //   test: /\.svg$/i,
+          //   issuer: /\.[jt]sx?$/,
+          //   use: ['url-loader'],
+          // },
           {
             test: /\.(less|css|scss)$/,
             use: [
@@ -81,7 +80,7 @@ module.exports = (env) => {
             ],
           },
           {
-            test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)/,
+            test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/,
             use: "file-loader",
           },
           {

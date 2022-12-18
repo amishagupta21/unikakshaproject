@@ -25,7 +25,7 @@ const steps = [
 ];
 
 const MyCourses = () => {
-  const [userName, setUserName] = React.useState(firebase.auth().currentUser.displayName);
+  const [userName, setUserName] = React.useState(firebase.auth().currentUser?.displayName);
   const [applicationList, setApplicationList] = React.useState([]);
 
   const navigate = useNavigate();
@@ -105,7 +105,7 @@ const MyCourses = () => {
                           <div className="d-flex in-progress">
                             {application?.application_status === 'pending' && (
                               <>
-                                <HourGlass />
+                                <svg width="19" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.425 1.248a.624.624 0 1 1 0-1.248 8.997 8.997 0 1 1-7.812 4.531l-.582.222A.76.76 0 0 1 .49 3.332l1.98-.75c.072-.03.15-.049.229-.055a.75.75 0 0 1 .845.529l.621 2.026a.759.759 0 0 1-1.451.44l-.078-.274a7.757 7.757 0 1 0 6.79-4Zm-3.27 11.355c-.327 0-.592-.22-.592-.492 0-.27.265-.491.592-.491h.568a3.72 3.72 0 0 1 .815-1.914c.222-.277.488-.516.787-.709a3.376 3.376 0 0 1-.787-.718 3.72 3.72 0 0 1-.815-1.912h-.568c-.327 0-.592-.22-.592-.493s.265-.492.592-.492h6.524c.327 0 .6.22.6.492 0 .271-.265.493-.6.493h-.57a3.72 3.72 0 0 1-.812 1.912c-.224.28-.49.522-.789.718.3.195.566.437.789.717.447.547.73 1.211.813 1.913h.57c.326 0 .6.22.6.492 0 .271-.266.492-.6.492l-6.525-.008Zm5.24-1.024a3.022 3.022 0 0 0-.646-1.43c-.386-.48-.881-.807-1.331-.807-.45 0-.943.327-1.33.807a3.023 3.023 0 0 0-.648 1.43h3.956ZM10.75 7.83c.338-.412.56-.906.647-1.432H7.439c.086.526.31 1.02.647 1.432.387.48.88.806 1.33.806.45 0 .945-.326 1.332-.806h.002Z" fill="#8F8799"></path></svg>
                                 <p>In Progress</p>
                               </>
                             )}
