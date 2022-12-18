@@ -4,6 +4,7 @@ const fs = require('fs'); // to check if the file exists
 const path = require('path'); // to get the current path
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = (env) => {
   // Get the root path (assuming your webpack config is in the root of your project!)
@@ -31,7 +32,10 @@ module.exports = (env) => {
     entry: path.resolve(__dirname, "./src/index.js"),
     output: {
         path: path.resolve(__dirname, './build'),
-        filename: 'index.js'
+        filename: '[name].[contenthash].js',
+        sourceMapFilename: "[name].[contenthash].map",
+        chunkFilename: "[id].[contenthash].js",
+        publicPath: "/",
     },
     plugins: [
       new webpack.DefinePlugin(envKeys),
@@ -43,7 +47,13 @@ module.exports = (env) => {
         filename: './index.html',
         favicon: './public/favicon.ico',
         manifest: './public/manifest.json'
-      })
+      }),
+      new CompressionPlugin({
+        algorithm: "gzip",
+        test: /\.js$|\.css$|\.html$/,
+        threshold: 10240,
+        minRatio: 0.8,
+      }),
     ],
     module: {
         rules: [
@@ -58,6 +68,7 @@ module.exports = (env) => {
             test: /\.svg$/i,
             issuer: /\.[jt]sx?$/,
             use: ['@svgr/webpack', 'url-loader'],
+            // type: 'asset/resource',
           },
           {
             test: /\.(less|css|scss)$/,
