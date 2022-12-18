@@ -13,7 +13,7 @@ const InviteNow = () => {
                     <p>Enroll for as many techfit courses as you like for free</p>
                     <img src={wrappedGift}></img>
                 </Card.Body>
-                <Card.Footer><Nav.Link>Invite Now <ArrowFront src={arrowBack} /></Nav.Link></Card.Footer>
+                <Card.Footer><Nav.Link>Invite Now <ArrowFront /></Nav.Link></Card.Footer>
             </Card>
         </div>
     </>
