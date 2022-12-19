@@ -1312,10 +1312,32 @@ section.vacancy.vacancy-custom .col-xs-3 {
   width: 100%;
 }
 }
+div#RFS-StepperContainer{ position: relative;}
+div#RFS-StepperContainer:after {
+  content: "";
+  position: absolute;
 
+  box-shadow: inset 0px 2px 3px rgb(0 0 0 / 10%);
+  border-radius: 22px;
+  background: #f2f2f2;
+  height: 8px;
+  width: 100%;
 
+  top: 35px;
+  z-index: -999;
+}
+#RFS-Connector{ border-width: 0;}
+.course-application .col-sm-4{ margin-bottom: 20px;}
+@media (max-width: 767px) {
+ 
 
-@media (max-width: 768px) {
+  .StepperContainer-0-2-1 {
+    display: flex;
+    padding: 24px 0 !important;}
+
+div#RFS-StepContainer span#RFS-Label {
+    display: none;
+}
   .otp-input {
     padding: 20px 0;
 }
@@ -1347,4 +1369,8 @@ section.auth_layout.login_screen.auth-unikaksha .custom-tabs-container.nav.nav-p
 
 .right_box_container.right_box_infostudents  .log-in-title{ font-size: 18px; margin-bottom: 0;}
 .right_box_container.right_box_infostudents .auth_form{ padding: 25px 0;}
+.button-group .btn {
+  width: 100%;
+  margin-top: 10px;
+}
 }
