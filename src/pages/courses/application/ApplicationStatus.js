@@ -79,11 +79,11 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId}) => {
                     </div>
                 </div>                
             </div>
-            {/* {status === 'approved' && (
+            {status === 'approved' && (
                 <div className='m-auto mt-3'>
                     <Button size='lg' className='btn-center' variant='secondary' type="button" onClick={() => openPayment()}>Next</Button>
                 </div>
-            )} */}
+            )} 
             {openpayment && (
             <>
                 <PaymentPopup nextPage={nextPage} setOrderData = {setOrderData} courseId={courseId} setopenpayment={setopenpayment} />
