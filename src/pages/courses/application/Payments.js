@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import {
     bannerLogoSvg, PaymentFailure, SuccessTick
@@ -9,11 +9,19 @@ import './Payments.scss';
   
 const Payments = (params) => {
 
+    console.log(params);
     const [paymentResponse, setpaymentResponse] = React.useState();
     const [paymentStatus, setpaymentStatus] = React.useState();
 
     const courseData = params.course;
     const nextPage = params.nextPage;
+    const orderData = params.orderData;
+console.log(orderData);
+
+
+useEffect(() => {
+    displayRazorpay();
+  }, []);
 
     const getCurrentDateTime = () => {
         let cdate = new Date().toLocaleString()
@@ -73,12 +81,12 @@ const Payments = (params) => {
 
         // const result = await axios.post("https://api.razorpay.com/v1/orders")
 
-        const orderId = "order_Kq9Gow9wSupdlN";
+        const orderId = orderData?.id;
 
         const options = {
             key: "rzp_test_xOikuguYnrmtYd", // Enter the Key ID generated from the Dashboard
-            amount: 2500,
-            currency: "INR",
+            amount: orderData?.amount,
+            currency: orderData?.currency,
             name: "Code Shastra",
             description: "Test Transaction",
             image: { bannerLogoSvg },
@@ -103,6 +111,7 @@ const Payments = (params) => {
                 
                 console.log(data.razorpayOrderId);
                 console.log(data.razorpaySignature);
+                nextPage();
             },
             prefill: {
                 name: "Velmurugan K",
