@@ -6,15 +6,16 @@ const ApiService = async (url_end_point, type, data, isToken) => {
     token = JSON.parse(localStorage.getItem('user'))?.stsTokenManager?.accessToken;
   }
   const apiObj = (url_end_point, type, data) => {
+    const baseUrl = process.env.REACT_APP_LIVEURL || 'https://skillfit-api-xwsrrlwthq-uk.a.run.app/v1';
     const obj = {
-      url: `${process.env.REACT_APP_LIVEURL}/${url_end_point}`,
+      url: `${baseUrl}/${url_end_point}`,
       method: type,
       headers: {
         Authorization: `Bearer ${token}`,
         'Access-Control-Allow-Origin': '*',
       },
       data: data,
-    };
+    };    
     return obj;
   };
   try {

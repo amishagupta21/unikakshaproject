@@ -1,11 +1,11 @@
 import ApiService from './ApiService';
 
-export const getCollages = async () => {
-  const getCollageRes = await ApiService(`on-boarding/college/list`, `get`);
+export const getColleges = async () => {
+  const getCollegeRes = await ApiService(`on-boarding/college/list`, `get`);
   const tempArray = [];
-  getCollageRes.data.data?.map(collage => {
-    Object.assign(collage, { label: collage.lookup_value, value: collage._id });
-    tempArray.push(collage);
+  getCollegeRes.data.data?.map(college => {
+    Object.assign(college, { label: college.lookup_value, value: college._id });
+    tempArray.push(college);
   });
   return tempArray;
 };

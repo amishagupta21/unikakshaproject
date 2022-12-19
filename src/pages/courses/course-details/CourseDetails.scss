@@ -1,0 +1,568 @@
+@function toRem($value) {
+    $remValue: calc($value / 16) + rem;
+    @return $remValue;
+}
+
+.course-details {
+    .banner {
+        border             : 1px solid grey;
+        background         : #222380;
+        display            : flex;
+        flex-wrap          : wrap;
+        background-image   : url(https://developer.unikaksha.com/wp-content/uploads/2022/11/Group-18861.svg);
+        background-repeat  : no-repeat;
+        background-position: right center;
+        height             : 100%;
+        padding: 20px 0;
+
+        .container {
+            display    : flex;
+            flex-wrap  : wrap;
+            align-items: center;
+            margin     : 0 auto;
+         
+
+            .details,
+            .carousel-container {
+                max-width: 50%;
+                flex     : 0 0 50%;
+            }
+
+            .details {
+                color: white;
+
+                .ratings {
+                    p {
+                        margin-bottom  : unset !important;
+                        justify-content: space-between;
+                        align-items    : center;
+                    }
+
+                    span {
+                        margin-bottom: 0.3rem;
+                    }
+                }
+
+                h4 {
+                    text-transform: capitalize;
+                }
+
+                span {
+                    color: #c3c6cf;
+                }
+
+                .hightlights {
+                    p {
+                        margin-bottom: 0.5rem;
+                    }
+                }
+            }
+        }
+
+        .carousel {
+            .carousel-inner {
+                .carousel-item {
+
+                    video,
+                    img,
+                    iframe {
+                        height       : 260px !important;
+                        width        : 478px !important;
+                        border-radius: 12px;
+                        border       : 2px #fff solid;
+                    }
+                }
+            }
+        }
+    }
+
+    .course-body {
+        margin-top: 5%;
+        width     : 100%;
+    }
+
+    .side-nave {
+        .sidebar-container {
+            background   : #fff;
+            height       : auto;
+            border       : 1px solid #f3eeee;
+            border-radius: toRem(10);
+            overflow     : auto;
+            cursor       : pointer;
+            box-shadow   : 0px 2px 20px rgba(0, 103, 223, 0.1);
+            transition   : all ease 200ms;
+            position     : sticky;
+            top          : 20px;
+
+            .nav {
+                a {
+                    color    : var(--bs-indigo);
+                    padding  : toRem(15);
+                    font-size: toRem(20);
+
+                    &.active {
+                        font-weight: 600;
+                        background : rgba(34, 35, 128, 0.12);
+                    }
+                }
+            }
+        }
+    }
+
+    .course-content {
+        overflow  : hidden;
+        height    : auto;
+        text-align: center;
+
+        h4 {
+            font-size  : toRem(30);
+            font-weight: 500;
+        }
+
+        h6 {
+            font-size  : toRem(20);
+            font-weight: 600;
+        }
+
+        p {
+            font-size: toRem(16);
+        }
+    }
+
+    ul.list {
+        list-style-type: none;
+        margin         : 0;
+        padding        : 0;
+    }
+
+    li {
+        height       : 60px;
+        font-size    : 1rem;
+        font-weight  : 500;
+        padding-left : 10%;
+        display      : flex;
+        align-items  : center;
+        border-bottom: 1px solid #e8e8e8;
+        color        : #070774;
+    }
+
+    .active-list {
+        background-color: #aeb1dbb1;
+    }
+
+    .font-color {
+        color      : #070774;
+        font-weight: bold;
+    }
+
+    .cardStyle {
+        background   : #fff;
+        width        : 100%;
+       
+       
+        margin-bottom: 1%;
+        height       : 100%;
+        border       : 1px solid #f3eeee;
+        border-radius: 1em;
+        overflow     : auto;
+        cursor       : pointer;
+        box-shadow   : 0px 2px 20px rgba(0, 103, 223, 0.1);
+        transition   : all ease 200ms;
+    }
+
+    .EligibilitycardStyle {
+        background   : #fff;
+        width        : 96%;
+        margin-left  : 2%;
+        margin-bottom: 10px;
+        height       : auto;
+        border       : 1px solid #f3eeee;
+        border-radius: 1em;
+        overflow     : auto;
+        cursor       : pointer;
+        box-shadow   : 0 0 9px #cadeef, 0 0 5px #ffffffa6;
+        transition   : all ease 200ms;
+    }
+
+    .text-left-align {
+        text-align: left;
+    }
+
+    .p10 {
+        padding: 10px;
+    }
+
+    .mb5 {
+        margin-bottom: 5%;
+    }
+
+    .plr5 {
+        padding-right: 5%;
+        padding-left : 5%;
+    }
+
+    .mt2 {
+        margin-top: 2%;
+    }
+
+    .mb2 {
+        margin-bottom: 2%;
+    }
+
+    .mtb5 {
+        margin-top   : 5%;
+        margin-bottom: 5%;
+    }
+
+    .circle {
+        height          : 50px;
+        width           : 50px;
+        background-color: #f1abe994;
+        border-radius   : 50%;
+        display         : inline-block;
+    }
+
+    .Squre {
+        position    : absolute;
+        width       : 78px;
+        height      : 78px;
+        // left        : 498px;
+        // top         : 1670px;
+
+        background: rgba(255, 123, 48, 0.24);
+        border-radius: 15px;
+    }
+    .partners {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 43px;
+      
+        
+        // position: absolute;
+        width: 100%;
+        height: 44px;
+ 
+    
+        
+        background: #FFFFFF;
+        border: none !important;
+        
+        // border-radius: 8px;
+        // min-height: 0px !important;
+
+        .text-left-align{ width: 100%; }
+    }
+    .course-details h2.text-left-align.faq-title.accordion-header button {
+        background: transparent;
+        font-size: 22px;
+        box-shadow: none;
+        color: #363F5E; border: 0;
+    }
+    .flex-column.list.nav a {
+        border-bottom: #E7E7E7 1px solid;}
+    .eligibility-card-style.payment-card.card {
+        border: 0;
+    }
+    h2.text-left-align.faq-title.accordion-header button {
+        font-size: 22px;
+    }
+    .course-acc .accordion-item {
+       border:0;
+    }
+    .cardStyle.card.learn {
+        // position: absolute;
+        width: 380px;
+        height: 95px;
+        left: 488px;
+        top: 2845px;
+        border: none !important;
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: justify;
+
+        color: #363F5E;
+    }
+    .learn {
+        border: none !important;
+    }
+    .learn-label
+    {
+        background: rgba(255, 123, 48, 0.24);
+        border-radius: 12px;
+        align-items: flex-start;
+        padding: 10px 10px;
+        gap: 10px;
+        /* position: absolute; */
+        width: 100px;
+        height: 41px;
+        left: 488px;
+        top: 2794px;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        font-family: 'Roboto' !important;
+        font-style: normal !important;
+        font-weight: 500 !important;
+        font-size: 15px !important;
+        line-height: 21px !important;
+        color: #363F5E !important;
+    }
+    h6.learn-sub-title {
+        /* width: 830px; */
+        /* height: 19px; */
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: center;
+        color: #363F5E;
+    }
+    .eligibility-card-style {
+        position: relative;
+     
+     
+        margin-bottom: 10px;
+        background: #FFFFFF;
+        box-shadow: 0px 2px 20px rgba(0, 103, 223, 0.1);
+        border-radius: 15px; padding: 15px;
+        
+    }
+    .payment-card {
+      
+        background: #F7F5FF;
+        box-shadow: none !important;
+        border-radius: none !important;
+        
+    }
+    .eligibility-card-style li {
+        height: auto !important;
+        font-size: 16px;
+        font-weight: 400;
+        padding-left: 2% !important; 
+        display: list-item !important;
+        align-items: center;
+        border-bottom: none !important;
+        color: #363F5E !important;
+    }
+    .eligibility-card-style .font-color {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 21px;
+        text-align: justify;
+    }
+    .upcoming-btn {
+        background: #FFFFFF;
+        box-shadow: 0px 2px 20px rgba(0, 103, 223, 0.1);
+        border-radius: 5px;
+        color: #363F5E;
+    }
+    .batch-card-style {
+        // position: absolute;
+        width: 260px !important;
+        height: 176px !important;
+        left: 10px !important;
+        top: 10px !important;
+
+        background: #FFFFFF;
+        box-shadow: 0px 2px 20px rgba(0, 103, 223, 0.1);
+        border-radius: 15px;
+    }
+    .eligibility-content {
+        padding-left: 28px;
+        line-height: 28px;
+    }
+    .calendar-icon {
+        padding-right: 10px;
+    }
+    .computer-icon {
+        margin: 25px 0px 0 25px;
+    }
+
+    .overview-icon {
+        margin: 18px 0px 0px 14px;
+    }
+    .payment-title {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 183.5%;
+        /* identical to box height, or 37px */
+        color: #A994FF;
+    }
+    .payment-content {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 20px;
+        color: #363F5E;
+        line-height: 28px;
+    }
+    .faq-content {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 28px;
+        text-align: justify;
+
+        color: #363F5E;
+    }
+    .faq-title {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 22px;
+        line-height: 26px;
+        /* identical to box height */
+
+
+        color: #363F5E;
+    }
+}
+.eligibilityCriteria-media {
+    position: absolute;
+    left: 14px;
+    top: 13px;
+}
+.text-left-align.eligibility-card-style-container {
+    margin-left: 87px;
+}
+.eligibility-content ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.eligibility-content span {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    color: #363F5E;
+}
+
+.eligibility-content p {
+    display: none;
+}
+.eligibility-content {
+    ul{
+        li{ position: relative;
+        }
+        li:after{    content: "";
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            top: 11px;
+            left: 0;
+            background: #000;
+            border-radius: 100px;}
+    }
+}
+.d-flex.row-align-buttongroups.row {
+    justify-content: end;
+}
+@media (max-width: 767px) {  
+    .d-flex.row-align-buttongroups.row .btn {
+        width: 100px;
+    }
+    
+    .d-flex.row-align-buttongroups.row {
+        justify-content: center;
+    }
+    .d-flex.row-align-buttongroups.row {
+        justify-content: center;
+    }
+    .course-details .course-content h4 {
+        font-size: 20px;
+        font-weight: 500;
+        text-align: left;
+    }
+    .course-details .banner .container .details, .course-details .banner .container .carousel-container {
+        max-width: 100%;
+        flex: 0 0 100%;
+    }
+    .course-details .banner .container .carousel-container  { display: flex; order:1;flex-direction: column;}
+    .course-details .banner .container .details { order:2; display: flex; flex-direction: column; padding: 20px;}
+    .course-details .banner .container{ padding: 0 !important;}
+    .course-details .banner .carousel .carousel-inner .carousel-item video, .course-details .banner .carousel .carousel-inner .carousel-item img, .course-details .banner .carousel .carousel-inner .carousel-item iframe {
+        height: 202px !important;
+        width: 100%!important;
+        border-radius: 0;
+        border: 2px #fff solid;
+    }
+    .course-details .banner{  padding: 0 !important; background-image: none; background-color: #fff; border:0;}
+    .course-details .banner .container .details h4 {
+      
+        color: #363F5E; text-transform: uppercase;
+    }
+    .hightlights.my-2 p {
+        color: #515151;
+    }
+    .course-details .banner .container .details span {
+        color: #515151;
+    }
+    .course-details .banner .container .details .ratings p { color: #515151;}
+    .row.row-cols-md-4.row-cols-1 .card-group {
+        flex: 0 0 50%;
+        height: 100%;
+        display: flex;
+        margin-bottom: 20px;
+        /* background: #fff; */
+        /* box-shadow: 0px 2px 20px rgb(0 103 223 / 10%); */
+        max-width: 50%;
+    }
+    .course-details .cardStyle {
+        background: #fff;
+       width: 100%;
+  
+      
+        margin-bottom: 0;
+        height: 100%;
+       border: 1px solid #f3eeee; 
+        border-radius: 1em;
+        overflow: auto;
+        cursor: pointer;
+        box-shadow: 0px 2px 20px rgb(0 103 223 / 10%);
+        transition: all ease 200ms;
+        display: flex;
+    }
+    .course-details .course-content h6 {
+        font-size: 14px;
+        font-weight: 600;
+    }
+    .course-details .course-content p {
+        font-size: 12px;
+    }
+    .course-content-over  .col-sm-3{ width: 50%; max-width: 50%; margin-bottom: 20px;}
+    .sidebar-container .flex-column{    flex-direction: row!important;
+        flex-wrap: inherit;}
+    
+    .course-details .side-nave .sidebar-container .nav a {
+        color: var(--bs-indigo);
+        padding: 0.9375rem;
+        font-size: 1.25rem;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        white-space: nowrap;
+    }
+    .course-details .side-nave .sidebar-container { background: transparent; box-shadow: none; border: 0;}
+    .course-details .flex-column.list.nav a {
+        border:0;
+        border: 1px solid #C3C6CF;
+    border-radius: 8px;
+    margin-right: 10px;
+    padding: 10px;
+    }
+    .course-details h2.text-left-align.faq-title.accordion-header button {
+        font-size: 16px;
+    }
+}

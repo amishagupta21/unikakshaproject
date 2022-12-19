@@ -2,8 +2,7 @@ import React from 'react';
 import Loginbanner from '../../../assets/images/login/banner.png';
 import { Carousel } from 'react-bootstrap';
 
-const LeftBox = () => {
-  return (
+const LeftBox = () => (
 
 
   <div className="left_box 12">
@@ -37,7 +36,6 @@ experience.</h3>
       </Carousel.Item>
     </Carousel>
       </div>
-  )
-}
+  );
 
-export default LeftBox
+export default LeftBox;

@@ -1,45 +1,83 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import facebookIcon from '../assets/images/Facebook-icon.svg';
 import googleIcon from '../assets/images/Google-icon.svg';
-import { toast } from 'react-toastify';
 import { signInWithFacebook, signInWithGoogle } from '../firebase/firebaseAuth';
-import { useNavigate } from 'react-router-dom';
-import { setLoading } from '../redux/actions/LoaderActions';
-import { useDispatch } from 'react-redux';
-import { Button } from 'react-bootstrap';
+import { firebase } from '../firebase/firebase';
 import ApiService from '../services/ApiService';
+import { toast } from 'react-toastify';
+import { setLoading } from '../redux/actions/LoaderActions';
 
-const SocialLogin = () => {
+
+const SocialLogin = ({ setFieldValue }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const checkIfUserExists = async (email, phone) => {
+    const result = await ApiService('user/check-exists', 'POST', { email, phone }, true);
+    return result?.data?.data?.user;
+  }
+
+  const configureCaptcha = () => {
+    return (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('social-login', {
+      size: 'invisible',
+      callback: (response) => {},
+      defaultCountry: 'IN',
+    }));
+  };
+
   const dualAuth = async (userDetail) => {
-    console.log('userDetail', userDetail);
     let data = {
       uid: userDetail?.uid,
       email: userDetail?.email,
-      phone: '1238071892',
+      fullName: userDetail?.displayName
     };
-    const response = await ApiService('user/create', 'POST', data);
-    if (response?.data?.code === 200) {
-      navigate('/dashboard');
+    const user = await checkIfUserExists(userDetail?.email, null);
+    if(user?.uid) {
+        const appVerifier = configureCaptcha();
+        // dispatch(setLoading(true))
+        firebase
+          .auth()
+          .signInWithPhoneNumber(`${user.phone}`, appVerifier)
+          .then(async (confirmationResult) => {
+            window.confirmationResult = confirmationResult;
+            // dispatch(setLoading(false))
+            toast.success('OTP has been Sent to Mobile Number', {
+              theme: 'colored',
+            });
+    
+            navigate('/signin-otp', {
+              state: {
+                phoneNumber: user.phone,
+              },
+            });
+          })
+          .catch((error) => {
+            toast.error(`${error}`, {
+              theme: 'colored',
+            });
+            dispatch(setLoading(false));
+          });
+    } else {
+      navigate('/signup', {
+        state: data
+      });
     }
   };
   return (
     <>
+      <div id='social-login'></div>
       <div className="d-flex justify-content-between mt-4">
         <Button
           className="social-btn"
           variant="outline-dark"
           onClick={async () => {
-            dispatch(setLoading(true));
             const res = await signInWithGoogle();
-            console.log('response latest=>>', res);
-            dispatch(setLoading(false));
             if (res?.user) {
               localStorage.setItem('user', JSON.stringify(res?.user));
               dualAuth(res?.user);
-              //   navigate('/home');
             }
           }}>
           <img className="mx-2" src={googleIcon} alt="google" />
@@ -50,6 +88,8 @@ const SocialLogin = () => {
           variant="outline-dark"
           onClick={async () => {
             const res = await signInWithFacebook();
+            setFieldValue('email', 'test@yopmail.com');
+            setFieldValue('fullName', 'Testng');
             if (res?.user) {
               localStorage.setItem('user', JSON.stringify(res?.user));
               navigate('/dashboard');

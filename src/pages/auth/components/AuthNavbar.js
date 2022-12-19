@@ -1,8 +1,8 @@
 import React from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
-import BrandLogo from '../../../assets/images/unikakha-logo.svg';
+import BrandLogo from '../../../assets/images/unikaksha-logo.svg';
 import '../../../custom.css';
-import '../auth.css';
+import '../auth.scss';
 
 const AuthNavbar = () => (
   <Navbar bg="light" variant="light">

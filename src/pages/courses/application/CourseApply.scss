@@ -1,0 +1,204 @@
+* {
+    font-family: 'Roboto';
+}
+
+.course-application {
+    .back-btn {
+        img {
+            cursor: pointer;
+        }
+    }
+
+    .step-header {
+        color        : var(--bs-teal);
+        font-style   : normal;
+        font-weight  : 600;
+        font-size    : 24px;
+        line-height  : 28px;
+        margin-bottom: unset !important;
+    }
+
+    .stepper-sub-header {
+        color      : var(--bs-teal);
+        font-size  : 16px;
+        font-weight: 500;
+    }
+
+    .view-course {
+        border-width : 1px !important;
+        padding      : 30px;
+        border-radius: 15px;
+        border-color : var(--bs-orange) !important;
+    }
+
+    .view-course:hover {
+        cursor          : pointer;
+        background-color: #f5f6fa;
+    }
+
+    .react-tel-input {
+        margin-bottom: unset !important;
+        position     : relative;
+    }
+
+    .form-control, .form-select {
+        border : 2px solid #ced4da !important;
+        padding: 0.675rem 0.75rem !important;
+    }
+
+    .form-check {
+        padding-left: 1.5em !important;
+        margin-left : unset;
+    }
+
+    .react-tel-input .form-control {
+        display         : block !important;
+        width           : 100% !important;
+        padding-left    : 48px !important;
+        font-size       : 1rem !important;
+        font-weight     : 400 !important;
+        line-height     : 1.5 !important;
+        color           : #212529 !important;
+        background-color: #fff !important;
+        background-clip : padding-box !important;
+        border          : 2px solid #ced4da !important;
+        appearance      : none !important;
+        border-radius   : 0.375rem !important;
+        height          : 47px !important;
+        transition      : border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+    }
+
+    .radio-buttons {
+        border-color : #bec1c9 !important;
+        border-radius: 22px !important;
+    }
+
+    .options {
+        color: #bec1c9;
+    }
+
+    .cancel-btn {
+        outline: 1px solid var(--bs-orange);
+        color  : var(--bs-orange);
+    }
+
+    .next-btn {
+        background: var(--bs-orange);
+        color     : white
+    }
+
+    .form-label {
+        font-size  : 14px;
+        font-weight: 500;
+        color      : var(--bs-indigo);
+    }
+
+    .form-check-label {
+        font-weight: 400;
+        color      : var(--bs-gray-600) !important;
+        font-size  : 12px !important;
+    }
+
+    .form-check-input:checked {
+        background-color: var(--bs-orange);
+        border-color    : var(--bs-orange);
+    }
+
+    .not-eligible-msg {
+        color      : var(--bs-orange);
+        font-weight: 500;
+        font-size  : 20px;
+        text-align : center;
+    }
+
+    .sections {
+        width    : unset !important;
+        color    : var(--bs-gray-600) !important;
+        font-size: 16px;
+    }
+
+    .test-btn {
+        border-color: var(--bs-orange);
+        color       : var(--bs-orange);
+    }
+
+    .copy-container {
+        position : absolute;
+        top      : 50%;
+        left     : 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .label {
+        padding  : 10px;
+        font-size: 18px;
+        color    : #111;
+    }
+
+    .copy-text {
+        position        : relative;
+        padding         : 10px;
+        background-color: var(--bs-orange);
+        border-radius   : 3px;
+        display         : flex;
+
+        input.text {
+            padding         : 10px;
+            background-color: #F9A980;
+            font-size       : 12px;
+            border          : none !important;
+            outline         : none !important;
+            padding-right   : 50px;
+            border-radius   : 0.375rem 0px 0px 0.375rem;
+        }
+
+        button {
+            padding      : 10px 15px;
+            color        : #fff;
+            font-size    : 18px;
+            border       : none;
+            outline      : none;
+            border-radius: 0px 0.375rem 0.375rem 0px;
+            cursor       : pointer;
+        }
+    }
+
+    .copy-text button:before {
+        content      : "Copied";
+        position     : absolute;
+        top          : -45px;
+        right        : 0px;
+        padding      : 8px 10px;
+        border-radius: 20px;
+        font-size    : 15px;
+        display      : none;
+    }
+
+    .copy-text button:after {
+        content  : "";
+        position : absolute;
+        top      : -20px;
+        right    : 25px;
+        width    : 10px;
+        height   : 10px;
+        transform: rotate(45deg);
+        display  : none;
+    }
+
+    .copy-text.active button:before,
+    .copy-text.active button:after {
+        display: block;
+    }
+
+    .error {
+        border: 2px solid #FF6565;
+    }
+
+    .error-message {
+        color    : #FF6565;
+        padding  : .5em .2em;
+        height   : 1em;
+        position : absolute;
+        font-size: .8em;
+    }
+}
