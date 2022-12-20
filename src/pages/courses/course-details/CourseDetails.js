@@ -101,8 +101,8 @@ function CourseDetails() {
     const courseOverview = courseDetails?.course_variant_sections?.courseOverview?.value;
     const items = courseOverview?.map((element, index) => {
       return (
-        <CardGroup key={index}>
-          <Col>
+        
+          <Col key={index}  sm={3}>
             <Card className="cardStyle overview">
               <Card.Body className="text-left-align">
                 <span className="circle">
@@ -113,7 +113,7 @@ function CourseDetails() {
               </Card.Body>
             </Card>
           </Col>
-        </CardGroup>
+      
       );
     });
     return items;
@@ -122,8 +122,8 @@ function CourseDetails() {
   const getBatches = () => {
     let items = courseVariantBatches?.map((element, index) => {
       return (
-        <CardGroup key={index}>
-          <Col>
+      
+        <Col key={index}  sm={3}>
             <Card className="batch-card-style">
               <Card.Body className="text-left-align">
                 <h6 className="font-color text-left-align mtb5"> Starts From </h6>
@@ -143,7 +143,7 @@ function CourseDetails() {
               </Card.Body>
             </Card>
           </Col>
-        </CardGroup>
+       
       );
     });
     return items;
@@ -154,22 +154,22 @@ function CourseDetails() {
     let items = Eligibility?.map((element, index) => {
       return (
         <CardGroup key={index}>
-          <Col>
+          <Col  sm={12}>
             <Card className="eligibility-card-style">
-              <Card.Body className="text-left-align">
-                <Row>
-                  <Col lg={1} md={2} sm={4}>
+              <div className="text-left-align eligibility-card-style-container">
+               
+                  <div className="eligibilityCriteria-media">
                     <span className="Squre">
                       <img src={computer} alt="Computer" className="computer-icon" />
                     </span>
-                  </Col>
-                  <Col lg={11} md={10} sm={8} className="eligibility-content">
+                  </div>
+                  <div className="eligibility-content">
                     <span className="font-color">{element.key}</span>
 
                     {parse(element.value)}
-                  </Col>
-                </Row>
-              </Card.Body>
+                  </div>
+               
+              </div>
             </Card>
           </Col>
         </CardGroup>
@@ -228,10 +228,10 @@ function CourseDetails() {
     let items = hiringPartners?.map((element, index) => {
       return (
         <CardGroup key={index}>
-          <Col>
-            <Card className=" partners">
+         
+            <div className=" partners">
               <Card.Body className="text-left-align">
-                <h5 className="font-color text-left-align mtb5">
+                <h5 className="font-color text-left-align ">
                   {element == 'microsoft.com' && (
                     <img src={microsoft} alt="microsoft" className="microsoft-icon" />
                   )}
@@ -250,8 +250,8 @@ function CourseDetails() {
                   )}
                 </h5>
               </Card.Body>
-            </Card>
-          </Col>
+            </div>
+          
         </CardGroup>
       );
     });
@@ -264,7 +264,7 @@ function CourseDetails() {
         <CardGroup key={index}>
           <Col>
             <Card className="EligibilitycardStyle">
-              <Card.Body className="text-left-align">{element}</Card.Body>
+              <Card.Body className="text-center">{element}</Card.Body>
             </Card>
           </Col>
         </CardGroup>
@@ -371,14 +371,14 @@ function CourseDetails() {
                 </Nav>
               </div>
             </Col>
-            <Col lg={9} className="course-content" id="overview">
+            <Col lg={9} className="course-content  course-content-over" id="overview">
               <h4 className="font-color mb2">Course Overview</h4>
               <Row xs={1} md={4}>
                 {getCourseOverview()}
               </Row>
               <Row className="mtb5" id="about">
                 <h4 className="font-color">About The Course</h4>
-                <p className="text-left-align plr5 mt2">{courseDetails?.about_course}</p>
+                <p className="text-left-align  mt2">{courseDetails?.about_course}</p>
               </Row>
               <h4 className="font-color mb2" id="batches">
                 Batches
