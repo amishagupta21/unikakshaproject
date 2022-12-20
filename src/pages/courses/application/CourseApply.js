@@ -502,7 +502,9 @@ const CourseApplication = () => {
                 <Payments
                   nextPage={nextPage}
                   course={courseDetails}
-                  orderData={orderData}></Payments>
+                  orderData={orderData}
+                  application={applicationDetails}
+                  ></Payments>
               </>
             )}
             {page === 6 && (

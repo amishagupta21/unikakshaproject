@@ -9,21 +9,31 @@ import './Payments.scss';
   
 const Payments = (params) => {
 
-    console.log(params);
     const [paymentResponse, setpaymentResponse] = React.useState();
     const [paymentStatus, setpaymentStatus] = React.useState();
+    const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
+    const [userProfile, setUserProfile ] = React.useState();
 
     const courseData = params.course;
     const nextPage = params.nextPage;
     const orderData = params.orderData;
     const applicationDetails = params.application;
-console.log(applicationDetails);
-console.log(applicationDetails?._id)
 
+    useEffect(() => {
 
-useEffect(() => {
-    displayRazorpay();
-  }, []);
+        fetchUserDetails(user?.uid);
+        displayRazorpay();
+
+    }, []);
+
+    const fetchUserDetails = async (uid) => {
+       
+        const response = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
+
+        // console.log(response?.data?.data?.userProfile?.personal_details);
+       
+        setUserProfile(response?.data?.data?.userProfile?.personal_details)
+    };
 
     const getCurrentDateTime = () => {
         let cdate = new Date().toLocaleString()
@@ -52,7 +62,7 @@ useEffect(() => {
         };
         const response = await ApiService('/order/create-payment', `POST`, payload, true);
         if (response?.data.code === 200) {
-            // nextPage();
+            nextPage();
         }
       };
 
@@ -108,17 +118,12 @@ useEffect(() => {
                     razorpaySignature: response.razorpay_signature,
                 };
 
-                // const result = await axios.post("http://localhost:5000/payment/success", data);
-
-                
-                console.log(data.razorpayOrderId);
-                console.log(data.razorpaySignature);
-                nextPage();
+                // nextPage();
             },
             prefill: {
-                name: "Velmurugan K",
-                email: "velmurugan.k@codeshastra.com",
-                contact: "8778697740",
+                name: userProfile?.full_name,
+                email: userProfile?.email,
+                contact: userProfile?.mobile_number,
             },
             notes: {
                 address: "Corporate Office",
