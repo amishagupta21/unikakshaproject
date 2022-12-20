@@ -16,7 +16,9 @@ const Payments = (params) => {
     const courseData = params.course;
     const nextPage = params.nextPage;
     const orderData = params.orderData;
-console.log(orderData);
+    const applicationDetails = params.application;
+console.log(applicationDetails);
+console.log(applicationDetails?._id)
 
 
 useEffect(() => {
@@ -30,10 +32,10 @@ useEffect(() => {
 
     const createPaymant = async (paymentResponse, status) => {
         const payload = {
-            uid: "c0ea2207-fa9b-4c5c-aeba-90f836072d14",
+            uid: applicationDetails?.uid,
             "orderItems": [
                 {
-                    application_id: "6385e9554909c4eac2b89f9c",
+                    application_id: applicationDetails?._id,
                     course_variant_id: courseData?.id,
                     batch_id: "02f810b9-df35-4a8c-86c4-27408eac840a",
                     registration_fee: 2500,
