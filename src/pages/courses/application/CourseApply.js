@@ -250,7 +250,8 @@ const CourseApplication = () => {
   return (
     <>
       {!isLoading && (
-        <div className="px-5 my-5 mx-5 course-application">
+        <div className="course-application">
+          <div className="container">
           <div className="d-flex mt-5 back-btn">
             <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
             <p className="step-header">{stepperTitle}</p>
@@ -293,8 +294,8 @@ const CourseApplication = () => {
               <>
                 <Form onSubmit={formik.handleSubmit}>
                   <>
-                    <Row className="mb-5">
-                      <Form.Group as={Col} controlId="full_name">
+                    <Row className="row-bottom">
+                      <Form.Group as={Col} sm={4} controlId="full_name">
                         <Form.Label>
                           Full Name
                           <span className="text-danger">*</span>
@@ -318,7 +319,7 @@ const CourseApplication = () => {
                         ) : null}
                       </Form.Group>
 
-                      <Form.Group as={Col} controlId="email">
+                      <Form.Group as={Col} sm={4} controlId="email">
                         <Form.Label>
                           Email
                           <span className="text-danger">*</span>
@@ -339,7 +340,11 @@ const CourseApplication = () => {
                         ) : null}
                       </Form.Group>
 
+<<<<<<< HEAD
                       <Form.Group as={Col} controlId="mobile_number"> 
+=======
+                      <Form.Group as={Col} sm={4} controlId="mobile_number">
+>>>>>>> c7192c34d0c6748f76b5a6f9d07ba07fe08c22f8
                         <Form.Label>
                           Mobile Number<span className="text-danger">*</span>
                         </Form.Label>
@@ -362,8 +367,8 @@ const CourseApplication = () => {
                       </Form.Group>
                     </Row>
 
-                    <Row className="mb-5">
-                      <Form.Group as={Col} controlId="whatsapp_number">
+                    <Row className="row-bottom">
+                      <Form.Group as={Col} sm={4} controlId="whatsapp_number">
                         <Form.Label>
                           Whatsapp Number<span className="text-danger">*</span>
                         </Form.Label>
@@ -390,7 +395,7 @@ const CourseApplication = () => {
                         />
                       </Form.Group>
 
-                      <Form.Group as={Col} controlId="gender">
+                      <Form.Group as={Col} sm={4} controlId="gender">
                         <Form.Label>
                           Gender<span className="text-danger">*</span>
                         </Form.Label>
@@ -425,7 +430,7 @@ const CourseApplication = () => {
                         </Row>
                       </Form.Group>
 
-                      <Form.Group as={Col} controlId="dob">
+                      <Form.Group as={Col} sm={4} controlId="dob">
                         <Form.Label>
                           Date of Birth<span className="text-danger">*</span>
                         </Form.Label>
@@ -441,9 +446,9 @@ const CourseApplication = () => {
                         ) : null}
                       </Form.Group>
                     </Row>
-
-                    <Row className="mb-5" md={3}>
-                      <Form.Group as={Col} controlId="guardian_details">
+                  
+                    <Row className="row-bottom" md={3}>
+                      <Form.Group as={Col} sm={4} controlId="guardian_details">
                         <Form.Label>Guardian Detail</Form.Label>
                         <Form.Control
                           name="guardian_details"
@@ -455,7 +460,7 @@ const CourseApplication = () => {
                       </Form.Group>
                     </Row>
 
-                    <Row className="d-flex justify-content-end">
+                    <Row className="d-flex row-align-buttongroups">
                       <Button
                         className="col-1 me-2 btn btn-outline-secondary"
                         variant="outline-secondary"
@@ -509,7 +514,9 @@ const CourseApplication = () => {
                 <Payments
                   nextPage={nextPage}
                   course={courseDetails}
-                  orderData={orderData}></Payments>
+                  orderData={orderData}
+                  application={applicationDetails}
+                  ></Payments>
               </>
             )}
             {page === 6 && (
@@ -538,6 +545,7 @@ const CourseApplication = () => {
               </>
             )}
           </div>
+        </div>
         </div>
       )}
     </>

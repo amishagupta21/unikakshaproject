@@ -13,13 +13,14 @@
         background-repeat  : no-repeat;
         background-position: right center;
         height             : 100%;
+        padding: 20px 0;
 
         .container {
             display    : flex;
             flex-wrap  : wrap;
             align-items: center;
             margin     : 0 auto;
-            height     : 22em;
+         
 
             .details,
             .carousel-container {
@@ -156,11 +157,11 @@
 
     .cardStyle {
         background   : #fff;
-        width        : 95%;
-        margin       : 5%;
-        min-height   : 266px;
+        width        : 100%;
+       
+       
         margin-bottom: 1%;
-        height       : auto;
+        height       : 100%;
         border       : 1px solid #f3eeee;
         border-radius: 1em;
         overflow     : auto;
@@ -235,24 +236,40 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        padding: 5.46566px 14.2107px;
-        gap: 5.47px;
+        margin-bottom: 43px;
+      
         
         // position: absolute;
-        width: 110px;
+        width: 100%;
         height: 44px;
-        margin-bottom: 26px;
-        // left: 16px;
-        // top: 2857px;
+ 
+    
         
         background: #FFFFFF;
         border: none !important;
-        // box-shadow: 0px 2.54217px 12.7108px rgba(0, 103, 223, 0.15);
+        
         // border-radius: 8px;
         // min-height: 0px !important;
+
+        .text-left-align{ width: 100%; }
     }
-
-
+    .course-details h2.text-left-align.faq-title.accordion-header button {
+        background: transparent;
+        font-size: 22px;
+        box-shadow: none;
+        color: #363F5E; border: 0;
+    }
+    .flex-column.list.nav a {
+        border-bottom: #E7E7E7 1px solid;}
+    .eligibility-card-style.payment-card.card {
+        border: 0;
+    }
+    h2.text-left-align.faq-title.accordion-header button {
+        font-size: 22px;
+    }
+    .course-acc .accordion-item {
+       border:0;
+    }
     .cardStyle.card.learn {
         // position: absolute;
         width: 380px;
@@ -307,14 +324,12 @@
     }
     .eligibility-card-style {
         position: relative;
-        width: 830px;
-        height: auto !important;
-        // left: 488px;
-        top: 10px;
+     
+     
         margin-bottom: 10px;
         background: #FFFFFF;
         box-shadow: 0px 2px 20px rgba(0, 103, 223, 0.1);
-        border-radius: 15px;
+        border-radius: 15px; padding: 15px;
         
     }
     .payment-card {
@@ -328,7 +343,7 @@
         height: auto !important;
         font-size: 16px;
         font-weight: 400;
-        padding-left: 1% !important; 
+        padding-left: 2% !important; 
         display: list-item !important;
         align-items: center;
         border-bottom: none !important;
@@ -430,5 +445,141 @@
         margin: 5px;
     }
 
+.eligibilityCriteria-media {
+    position: absolute;
+    left: 14px;
+    top: 13px;
+}
+.text-left-align.eligibility-card-style-container {
+    margin-left: 87px;
+}
+.eligibility-content ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.eligibility-content span {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    color: #363F5E;
+}
 
+.eligibility-content p {
+    display: none;
+}
+.eligibility-content {
+    ul{
+        li{ position: relative;
+        }
+        li:after{    content: "";
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            top: 11px;
+            left: 0;
+            background: #000;
+            border-radius: 100px;}
+    }
+}
+.d-flex.row-align-buttongroups.row {
+    justify-content: end;
+}
+}
+@media (max-width: 767px) {  
+    .d-flex.row-align-buttongroups.row .btn {
+        width: 100px;
+    }
+    
+    .d-flex.row-align-buttongroups.row {
+        justify-content: center;
+    }
+    .d-flex.row-align-buttongroups.row {
+        justify-content: center;
+    }
+    .course-details .course-content h4 {
+        font-size: 20px;
+        font-weight: 500;
+        text-align: left;
+    }
+    .course-details .banner .container .details, .course-details .banner .container .carousel-container {
+        max-width: 100%;
+        flex: 0 0 100%;
+    }
+    .course-details .banner .container .carousel-container  { display: flex; order:1;flex-direction: column;}
+    .course-details .banner .container .details { order:2; display: flex; flex-direction: column; padding: 20px;}
+    .course-details .banner .container{ padding: 0 !important;}
+    .course-details .banner .carousel .carousel-inner .carousel-item video, .course-details .banner .carousel .carousel-inner .carousel-item img, .course-details .banner .carousel .carousel-inner .carousel-item iframe {
+        height: 202px !important;
+        width: 100%!important;
+        border-radius: 0;
+        border: 2px #fff solid;
+    }
+    .course-details .banner{  padding: 0 !important; background-image: none; background-color: #fff; border:0;}
+    .course-details .banner .container .details h4 {
+      
+        color: #363F5E; text-transform: uppercase;
+    }
+    .hightlights.my-2 p {
+        color: #515151;
+    }
+    .course-details .banner .container .details span {
+        color: #515151;
+    }
+    .course-details .banner .container .details .ratings p { color: #515151;}
+    .row.row-cols-md-4.row-cols-1 .card-group {
+        flex: 0 0 50%;
+        height: 100%;
+        display: flex;
+        margin-bottom: 20px;
+        /* background: #fff; */
+        /* box-shadow: 0px 2px 20px rgb(0 103 223 / 10%); */
+        max-width: 50%;
+    }
+    .course-details .cardStyle {
+        background: #fff;
+       width: 100%;
+  
+      
+        margin-bottom: 0;
+        height: 100%;
+       border: 1px solid #f3eeee; 
+        border-radius: 1em;
+        overflow: auto;
+        cursor: pointer;
+        box-shadow: 0px 2px 20px rgb(0 103 223 / 10%);
+        transition: all ease 200ms;
+        display: flex;
+    }
+    .course-details .course-content h6 {
+        font-size: 14px;
+        font-weight: 600;
+    }
+    .course-details .course-content p {
+        font-size: 12px;
+    }
+    .course-content-over  .col-sm-3{ width: 50%; max-width: 50%; margin-bottom: 20px;}
+    .sidebar-container .flex-column{    flex-direction: row!important;
+        flex-wrap: inherit;}
+    
+    .course-details .side-nave .sidebar-container .nav a {
+        color: var(--bs-indigo);
+        padding: 0.9375rem;
+        font-size: 1.25rem;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        white-space: nowrap;
+    }
+    .course-details .side-nave .sidebar-container { background: transparent; box-shadow: none; border: 0;}
+    .course-details .flex-column.list.nav a {
+        border:0;
+        border: 1px solid #C3C6CF;
+    border-radius: 8px;
+    margin-right: 10px;
+    padding: 10px;
+    }
+    .course-details h2.text-left-align.faq-title.accordion-header button {
+        font-size: 16px;
+    }
 }
