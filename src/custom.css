@@ -1404,7 +1404,7 @@ div#RFS-StepContainer span#RFS-Label {
   }
 }
 .auth_form.otp-form p{ margin-top: 10px;}
-section.auth_layout.login_screen.auth-unikaksha .otp-input input{ width: 40px  !important;}
+section.auth_layout.login_screen.auth-unikaksha .otp-input input{ width: 40px  !important;    padding: 5px !important;}
 .space-or:after , .space-or:before{ width: 79px;}
 
 section.auth_layout.login_screen.auth-unikaksha .right_box_container {
