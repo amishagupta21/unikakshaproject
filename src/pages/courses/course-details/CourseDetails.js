@@ -106,7 +106,7 @@ function CourseDetails() {
             <Card className="cardStyle overview">
               <Card.Body className="text-left-align">
                 <span className="circle">
-                  <img src={overview} alt="Course Overview" className="overview-icon" />
+                  <img src={element?.icon} alt="Course Overview" className="overview-icon" />
                 </span>
                 <h6 className="font-color text-left-align mtb5">{element?.label}</h6>
                 <p className="text-left-align mtb5">{element?.content}</p>
@@ -160,7 +160,7 @@ function CourseDetails() {
                 <Row>
                   <Col lg={1} md={2} sm={4}>
                     <span className="Squre">
-                      <img src={computer} alt="Computer" className="computer-icon" />
+                      <img src={element.icon} alt="Computer" className="computer-icon" />
                     </span>
                   </Col>
                   <Col lg={11} md={10} sm={8} className="eligibility-content">
@@ -194,6 +194,24 @@ function CourseDetails() {
                     </h6>
                     <span className="payment-content">{parse(element.value)}</span>
                   </Col>
+                  <Button
+                className="pay_apply_btn"
+                style={{ padding: '8px 15px' }}
+                variant="secondary"
+                onClick={() => {
+                  apply(courseDetails);
+                }}>
+                Apply Now
+              </Button>
+              <Button
+                className="pay_apply_btn"
+                style={{ padding: '8px 15px' }}
+                variant="secondary"
+                onClick={() => {
+                  
+                }}>
+                Download Full Curriculum
+              </Button>
                 </Row>
               </Card.Body>
             </Card>
@@ -427,7 +445,7 @@ function CourseDetails() {
                 )}
 
               <h4 className="font-color mb2" id="hiring-partners">
-                Hiring Partners
+                Meet Our Hiring Partners
               </h4>
               <Row xs={2} md={5} className="mtb5">
                 {getHiringPartners()}

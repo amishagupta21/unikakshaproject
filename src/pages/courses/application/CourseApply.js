@@ -150,13 +150,14 @@ const CourseApplication = () => {
       nextPage();
     }
   };
+  const phoneRegExp = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{6})/;
 
   const formik = useFormik({
     validationSchema: Yup.object().shape({
       full_name: Yup.string().required('Name is required'),
       email: Yup.string().email('Invalid email').required('Email is required'),
-      mobile_number: Yup.string().required(),
-      whatsapp_number: Yup.string().required(),
+      mobile_number: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required(),
+      whatsapp_number: Yup.string().matches(phoneRegExp, 'Whatsapp number is not valid').required(),
       gender: Yup.string().required(),
       dob: Yup.date().required('Date of birth is requied'),
       guardian_details: Yup.string(),
@@ -165,7 +166,7 @@ const CourseApplication = () => {
       let errors = {};
       if (!values?.mobile_number) {
         errors.mobile_number = '*Mobile number required';
-      } else if (!values?.whatsapp_number) {
+      } if (!values?.whatsapp_number) {
         errors.whatsapp_number = '*Whatsapp number required';
       }
       return errors;
@@ -236,7 +237,7 @@ const CourseApplication = () => {
 
   const copyFromMobileNumber = (value) => {
     if (value.target.checked) {
-      setWhatsAppNumber(mobileState);
+      setWhatsAppNumber(mobileState.phone);
       formik.setFieldValue('whatsapp_number', mobileState.phone);
     }
   };
@@ -310,7 +311,7 @@ const CourseApplication = () => {
                           }
                           onBlur={formik.handleBlur}
                           value={formik.values?.full_name}
-                          placeholder="Full name"
+                          placeholder="Enter you full name"
                         />
                         {formik.touched.full_name && formik.errors.full_name ? (
                           <div className="error-message">{formik.errors.full_name}</div>
@@ -330,7 +331,7 @@ const CourseApplication = () => {
                             formik.touched.email && formik.errors.email ? 'is-invalid' : null
                           }
                           onBlur={formik.handleBlur}
-                          placeholder="Email"
+                          placeholder="Enter your Email"
                           value={formik.values?.email}
                         />
                         {formik.touched.email && formik.errors.email ? (
@@ -338,7 +339,7 @@ const CourseApplication = () => {
                         ) : null}
                       </Form.Group>
 
-                      <Form.Group as={Col} controlId="mobile_number">
+                      <Form.Group as={Col} controlId="mobile_number"> 
                         <Form.Label>
                           Mobile Number<span className="text-danger">*</span>
                         </Form.Label>
@@ -350,7 +351,10 @@ const CourseApplication = () => {
                             formik.setFieldValue('mobile_number', phone);
                             setMobileNumber({ phone, data });
                           }}
+                          countryCodeEditable={false}
                           onBlur={formik.handleBlur('mobile_number')}
+                          placeholder="Enter your Mobile number"
+                        
                         />
                         {formik.touched.mobile_number && formik.errors.mobile_number ? (
                           <div className="error-message">{formik.errors.mobile_number}</div>
@@ -370,8 +374,11 @@ const CourseApplication = () => {
                             setWhatsAppNumber({ phone, data });
                             formik.setFieldValue('whatsapp_number', phone);
                           }}
+                          countryCodeEditable={false}
                           onBlur={formik.handleBlur('whatsapp_number')}
+                          placeholder="Enter your Whatsapp number"
                         />
+
                         {formik.touched.whatsapp_number && formik.errors.whatsapp_number ? (
                           <div className="error-message  mt-3">{formik.errors.whatsapp_number}</div>
                         ) : null}
@@ -538,3 +545,4 @@ const CourseApplication = () => {
 };
 
 export default CourseApplication;
+

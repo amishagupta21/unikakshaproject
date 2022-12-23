@@ -52,7 +52,7 @@ const CourseList = ({ courses }) => {
   return (
     <>
       <div className="d-flex justify-content-between">
-        <div>
+        <div id = "course_list">
           <h5>Top Techfit Courses</h5>
           <p>These are the top 3 courses provided by UniKaksha</p>
         </div>
