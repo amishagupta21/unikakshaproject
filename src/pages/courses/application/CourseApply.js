@@ -340,11 +340,7 @@ const CourseApplication = () => {
                         ) : null}
                       </Form.Group>
 
-<<<<<<< HEAD
-                      <Form.Group as={Col} controlId="mobile_number"> 
-=======
                       <Form.Group as={Col} sm={4} controlId="mobile_number">
->>>>>>> c7192c34d0c6748f76b5a6f9d07ba07fe08c22f8
                         <Form.Label>
                           Mobile Number<span className="text-danger">*</span>
                         </Form.Label>
