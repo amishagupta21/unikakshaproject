@@ -9,19 +9,31 @@ import './Payments.scss';
   
 const Payments = (params) => {
 
-    console.log(params);
     const [paymentResponse, setpaymentResponse] = React.useState();
     const [paymentStatus, setpaymentStatus] = React.useState();
+    const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
+    const [userProfile, setUserProfile ] = React.useState();
 
     const courseData = params.course;
     const nextPage = params.nextPage;
     const orderData = params.orderData;
-console.log(orderData);
+    const applicationDetails = params.application;
 
+    useEffect(() => {
 
-useEffect(() => {
-    displayRazorpay();
-  }, []);
+        fetchUserDetails(user?.uid);
+        displayRazorpay();
+
+    }, []);
+
+    const fetchUserDetails = async (uid) => {
+       
+        const response = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
+
+        // console.log(response?.data?.data?.userProfile?.personal_details);
+       
+        setUserProfile(response?.data?.data?.userProfile?.personal_details)
+    };
 
     const getCurrentDateTime = () => {
         let cdate = new Date().toLocaleString()
@@ -30,10 +42,10 @@ useEffect(() => {
 
     const createPaymant = async (paymentResponse, status) => {
         const payload = {
-            uid: "c0ea2207-fa9b-4c5c-aeba-90f836072d14",
+            uid: applicationDetails?.uid,
             "orderItems": [
                 {
-                    application_id: "6385e9554909c4eac2b89f9c",
+                    application_id: applicationDetails?._id,
                     course_variant_id: courseData?.id,
                     batch_id: "02f810b9-df35-4a8c-86c4-27408eac840a",
                     registration_fee: 2500,
@@ -50,7 +62,7 @@ useEffect(() => {
         };
         const response = await ApiService('/order/create-payment', `POST`, payload, true);
         if (response?.data.code === 200) {
-            // nextPage();
+            nextPage();
         }
       };
 
@@ -106,17 +118,12 @@ useEffect(() => {
                     razorpaySignature: response.razorpay_signature,
                 };
 
-                // const result = await axios.post("http://localhost:5000/payment/success", data);
-
-                
-                console.log(data.razorpayOrderId);
-                console.log(data.razorpaySignature);
-                nextPage();
+                // nextPage();
             },
             prefill: {
-                name: "Velmurugan K",
-                email: "velmurugan.k@codeshastra.com",
-                contact: "8778697740",
+                name: userProfile?.full_name,
+                email: userProfile?.email,
+                contact: userProfile?.mobile_number,
             },
             notes: {
                 address: "Corporate Office",

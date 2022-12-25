@@ -7,9 +7,19 @@ import ApiService from '../../../services/ApiService';
 
 const PaymentPopup = ({nextPage, setOrderData, courseId, setopenpayment}) => {        
     const [ batches, setbatches ] = React.useState();
+    const [selectedBatch, setSelectedBatch] = React.useState();
+
+    console.log(selectedBatch);
+
     useEffect(() => {
         fetchVariantBatches(courseId);
     },[]) 
+    
+
+  function onChangeBatch(event) {
+    setSelectedBatch(event.target.value);
+    console.log(event.target.value);
+  }
     const fetchVariantBatches = async(courseVariantId) => {
         const res = await ApiService(`courses/${courseVariantId}/batch/list`);
         console.log("res",res)
@@ -35,13 +45,14 @@ const PaymentPopup = ({nextPage, setOrderData, courseId, setopenpayment}) => {
     }
 
     const getbatches = () => {
+        
         let items = batches.map((element, index) => {
           return (
             <CardGroup key={index}>
               <Col>                
                 <div className='batch-list'>
                     <div className="starte-style">                    
-                    <input type="radio" defaultChecked></input>
+                    <input type="radio" name="batch" onChange={onChangeBatch}  value={element.id}></input>
                     <label style={{marginTop : '5px'}}>
                          Starting from
                     </label>
