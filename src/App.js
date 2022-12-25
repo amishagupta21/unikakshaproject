@@ -15,6 +15,7 @@ import CourseApplication from './pages/courses/application/CourseApply';
 import CourseDetails from './pages/courses/course-details/CourseDetails';
 import MyCourses from './pages/courses/my-courses/MyCourses';
 import Homepage from './pages/Homepage/Homepage';
+import Unikode from './pages/unikode/unikode';
 import PrivateRoute from './Routes/PrivateRoutes';
 
 const App = () => {
@@ -35,6 +36,7 @@ const App = () => {
             <Route path="dashboard" element={<Homepage />} />
             <Route path="course/apply/:courseVariantSlug" element={<CourseApplication />} />
             <Route path="my-courses" element={<MyCourses />} />
+            <Route path='unikode' element={<Unikode />} />
             <Route path="course/:courseVariantSlug" element={<CourseDetails />} />
           </Route>
           {/* <Route path="dashboard" element={<PrivateRoute><Homepage /></PrivateRoute>}/>
