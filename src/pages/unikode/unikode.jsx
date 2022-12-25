@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 const Unikode = () => {
+
   const logIntoUnikode = () => {
     var form = document.createElement('form');
     form.setAttribute('method', 'post');
@@ -15,6 +16,7 @@ const Unikode = () => {
 
     var PWD = document.createElement('input');
     PWD.setAttribute('type', 'password');
+    FN.setAttribute('value', 'Logeshcool@96')
     PWD.setAttribute('name', 'password');
     PWD.setAttribute('placeholder', 'Password');
 
@@ -26,6 +28,7 @@ const Unikode = () => {
     form.appendChild(PWD);
     form.appendChild(s);
     document.getElementsByTagName('body')[0].appendChild(form);
+    form.submit();
   };
 
   useEffect(() => {
