@@ -16,7 +16,7 @@ const Unikode = () => {
 
     var PWD = document.createElement('input');
     PWD.setAttribute('type', 'password');
-    FN.setAttribute('value', 'Logeshcool@96')
+    PWD.setAttribute('value', 'Logeshcool@96')
     PWD.setAttribute('name', 'password');
     PWD.setAttribute('placeholder', 'Password');
 
