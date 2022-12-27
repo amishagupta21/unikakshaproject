@@ -54,7 +54,11 @@ const PaymentPopup = ({nextPage, setOrderData, courseId, setopenpayment, setSele
               <Col>                
                 <div className='batch-list'>
                     <div className="starte-style">                    
-                    <input type="radio" name="batch" onChange={onChangeBatch} value={element.id}></input>
+                    <input type="radio" name="batch" 
+                        onChange={onChangeBatch} 
+                        defaultChecked
+                        value={element.id}
+                        ></input>
                     <label style={{marginTop : '5px'}}>
                          Starting from
                     </label>

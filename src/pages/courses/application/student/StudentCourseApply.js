@@ -109,9 +109,9 @@ const StudentCourseApplication = () => {
         nextPageNumber(1);
       } else if (application_stage === 'education_details') {
         nextPageNumber(2);
-      } else if (application_stage === 'test_result') {
-        nextPageNumber(3);
       } else if (application_stage === 'application_status') {
+        nextPageNumber(3);
+      } else if (application_stage === 'payment') {
         nextPageNumber(4);
       }
     }
