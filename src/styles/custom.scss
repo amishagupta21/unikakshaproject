@@ -1403,6 +1403,16 @@ div#RFS-StepContainer span#RFS-Label {
     padding: 25px 0;
   }
 }
+@media (min-width:767px) {
+  section.auth_layout.login_screen.auth-unikaksha .right_box_container {
+    max-width: 100%;
+    padding: 0 20px;
+    align-items: inherit;
+    max-width: 386px;
+  
+    margin-left: 50px;
+  }
+  }
 .auth_form.otp-form p{ margin-top: 10px;}
 section.auth_layout.login_screen.auth-unikaksha .otp-input input{ width: 40px  !important;    padding: 5px !important;}
 .space-or:after , .space-or:before{ width: 79px;}
@@ -1436,16 +1446,7 @@ section.auth_layout.login_screen.auth-unikaksha .custom-tabs-container.nav.nav-p
 
 
 
-@media (min-width: 767px) {
-section.auth_layout.login_screen.auth-unikaksha .right_box_container {
-  max-width: 100%;
-  padding: 0 20px;
-  align-items: inherit;
-  max-width: 386px;
-  /* margin: 0 auto; */
-  margin-left: 50px;
-}
-}
+
 
 .custom-footer .footer-social-services.list-group a.list-group-item {
     background-color: transparent;
