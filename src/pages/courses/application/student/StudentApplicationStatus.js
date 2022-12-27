@@ -33,7 +33,9 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
 
     const [ status, setStatus ] = React.useState();
     const [ statusContent, setStatusContent ] = React.useState({});
-    const [ openpayment, setopenpayment ] = React.useState(false);   
+    const [ openpayment, setopenpayment ] = React.useState(false);  
+    
+    console.log(application);
 
     useEffect(() => {
         const { m_applicationstatus: appStatus } = application;
@@ -47,7 +49,7 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
             setStatus(app_status)
         }
         if(appStatus === 'Pending') {
-            app_status = 'approved'
+            app_status = 'review'
             setStatus(app_status)
         }
         
