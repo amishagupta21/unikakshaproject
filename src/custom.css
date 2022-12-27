@@ -1415,7 +1415,7 @@ section.auth_layout.login_screen.auth-unikaksha .right_box{ height:auto; padding
 section.auth_layout.login_screen.auth-unikaksha .resetpassword.create-account{ display: block;}
 section.auth_layout.login_screen.auth-unikaksha .log-in-title{ margin-top: 20px; margin-bottom: 0; }
 section.auth_layout.login_screen.auth-unikaksha .auth_form { padding:0;}
-section.auth_layout.login_screen.auth-unikaksha .custom-tabs-container.nav.nav-pills .nav-item{ width:50%;}
+section.auth_layout.login_screen.auth-unikaksha .custom-tabs-container.nav.nav-pills .nav-item{ width:47%;}
 section.auth_layout.login_screen.auth-unikaksha .custom-tabs-container.nav.nav-pills .nav-link {
  
   width: 100%;
@@ -1433,3 +1433,33 @@ section.auth_layout.login_screen.auth-unikaksha .custom-tabs-container.nav.nav-p
   margin-top: 10px;
 }
 
+.custom-footer .footer-social-services.list-group a.list-group-item {
+  background-color: transparent;
+  border: 0px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 22px;
+  color: rgb(102, 102, 102);
+  position: relative;
+  padding-left: 29px;
+}
+.footer-social-services.list-group img {
+  position: absolute;
+  left: -1px;
+}
+
+@media (min-width:767px) {
+  section.auth_layout.login_screen.auth-unikaksha .right_box_container {
+    max-width: 100%;
+    padding: 0 20px;
+    align-items: inherit;
+    max-width: 386px;
+  
+    margin-left: 50px;
+  }
+  section.auth_layout.login_screen.auth-unikaksha.otp-screen .right_box_container {
+  
+    max-width: 451px;
+   
+}
+}
