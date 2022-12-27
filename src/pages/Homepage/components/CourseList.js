@@ -22,8 +22,15 @@ const RatingComponent = ({ rating }) => {
 };
 
 const CourseList = ({ courses }) => {
+  
   const apply = (course) => {
-    navigate(`/course/apply/${course.course_url}`, { state: course });
+   
+    if ( course?.target_audience == "{Students}" ) {
+       navigate(`/course/apply/student/${course.course_url}`, { state: course });
+    } else {
+       navigate(`/course/apply/${course.course_url}`, { state: course });
+    }
+   
   };
 
   const viewDetails = (course) => {
@@ -41,9 +48,7 @@ const CourseList = ({ courses }) => {
         <p key={index} style={{ 'font-size': '14px' }}>
           <img className="me-1" src={tick} /> {element.value}
         </p>
-        // <p className="font-color text-left-align mtb5"  style={{ "font-size": '14px' }}>
-        //   <img src={WaitClockIcon} alt="Wait-Clock-Icon" /> <span className="ms-2 mb-0">{element.value}</span>
-        // </p>
+        
       );
     });
     return items;
@@ -60,6 +65,7 @@ const CourseList = ({ courses }) => {
       </div>
       <Row>
         {courses?.map((course, idx) => (
+         
           <Col md="4" key={course?.id}>
             <Card className="my-4 card-custom" style={{ width: '100%' }}>
               <Card.Img

@@ -50,6 +50,9 @@ const PrimaryNavbar = () => {
               <Nav.Link href="#course_list">Courses</Nav.Link>
               <Nav.Link href="https://unikode.unikaksha.com">Unikode</Nav.Link>
               <Nav.Link href="https://www.unikaksha.com/events/">Event & Content</Nav.Link>
+              <Nav.Link href="/dashboard">Courses</Nav.Link>
+              {/* <Nav.Link href="/unikode">Unikode</Nav.Link> */}
+              <Nav.Link href="#features">Event & Content</Nav.Link>
               <Nav.Link href="#features" className="refer-frd">
                 Refer a Friend
               </Nav.Link>
