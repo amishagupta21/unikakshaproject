@@ -389,7 +389,7 @@ function CourseDetails() {
               <h4 className="font-color mb2" id="eligibility">
                 Eligiblility Criteria
               </h4>
-              <Row xs={1} md={1} className="mtb5">
+              <Row xs={1} md={1} className="mtb5 ">
                 {getEligibility()}
               </Row>
 
@@ -408,7 +408,7 @@ function CourseDetails() {
               <h4 className="font-color mb2" id="paymode">
                 Choose A Payment Plan That Works For You
               </h4>
-              <Row xs={1} md={1} className="mtb5">
+              <Row xs={1} md={1} className="mtb5 eligible-group-chat">
                 {getPaymentsPlans()}
               </Row>
               {courseDetails?.course_type == 'PartTime' &&
