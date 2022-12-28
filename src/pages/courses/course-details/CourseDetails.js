@@ -207,9 +207,7 @@ function CourseDetails() {
                 className="pay_apply_btn"
                 style={{ padding: '8px 15px' }}
                 variant="secondary"
-                onClick={() => {
-                  
-                }}>
+                href={element.curriculum_brochure_url}>
                 Download Full Curriculum
               </Button>
                 </Row>
