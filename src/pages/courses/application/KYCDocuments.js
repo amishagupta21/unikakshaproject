@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import { Col, Row } from 'react-bootstrap';
+import { Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import { useDispatch } from 'react-redux';
 import { circleTick, Icon, signDoc, trash, upload, view } from '../../../assets/images';
 import ApiService from '../../../services/ApiService';
 import { openToaster } from '../../../redux/actions/ToastAction';
 import './KYCDocuments.scss';
+import { firebase } from '../../../firebase/firebase';
 
 const staticContents = {
   uploadBtnText: 'Upload',
@@ -24,10 +25,17 @@ const MandatorySymbol = () => {
   return <span className="text-danger">*</span>;
 };
 
-const ActionButtons = ({ property, fileKey, uploadFile, viewDocument, deleteDocument }) => {
+const ActionButtons = ({
+  property,
+  fileKey,
+  uploadFile,
+  viewDocument,
+  deleteDocument,
+  fileName,
+}) => {
   return (
     <>
-      {property.percentage == 0 && (
+      {property.percentage == 0 && !fileName && (
         <>
           <p onClick={() => uploadFile(fileKey)}>
             {' '}
@@ -35,27 +43,38 @@ const ActionButtons = ({ property, fileKey, uploadFile, viewDocument, deleteDocu
           </p>
         </>
       )}
-      {property.percentage == 100 && (
+      {(property.percentage == 100 || fileName) && (
         <>
-          <img onClick={() => viewDocument(fileKey)} height="12rem" src={view}></img>
-          <img onClick={() => deleteDocument(fileKey)} height="20rem" src={trash}></img>
+          <OverlayTrigger
+            placement="top"
+            overlay={<Tooltip id={`view-tooltip`}>View Document!</Tooltip>}>
+            <img onClick={() => viewDocument(fileKey)} height="12rem" src={view}></img>
+          </OverlayTrigger>
+          <OverlayTrigger
+            placement="top"
+            overlay={<Tooltip id={`delete-tooltip`}>Delete Document!</Tooltip>}>
+            <img onClick={() => deleteDocument(fileKey)} height="20rem" src={trash}></img>
+          </OverlayTrigger>
         </>
       )}
     </>
   );
 };
 
-const FieldLabel = ({ label, property }) => {
+const FieldLabel = ({ label, property, fileName }) => {
+  const fn = fileName?.split('/').pop();
+  const fieldPlaceHolder = fileName ? fn : property.placeholder;
+
   return (
     <>
       <div className="uploadbtn-text">
-        {property.percentage == 100 && <CirleTick />}
+        {(property.percentage == 100 || fileName) && <CirleTick />}
         <div>
           <h3>
             {label} <MandatorySymbol />
           </h3>
           {property.percentage == 0 || property.percentage == 100 ? (
-            <p>{property.placeholder}</p>
+            <p>{fieldPlaceHolder}</p>
           ) : (
             <ProgressBar
               variant="secondary"
@@ -91,8 +110,22 @@ const KYCDocuments = () => {
     placeholder: staticContents.sscPlaceholder,
     percentage: 0,
   });
+  const [kycDetails, setKycDetails] = React.useState();
 
   const dispatch = useDispatch();
+
+  const fetchInitialData = () => {
+    const uid = firebase.auth().currentUser.uid;
+    ApiService(`/user/${uid}/detail`, 'GET', {}, true)
+      .then((response) => {
+        setKycDetails(response.data.data.userProfile.kyc);
+      })
+      .catch((err) => {});
+  };
+
+  useEffect(() => {
+    fetchInitialData();
+  }, []);
 
   const uploadFile = (docType) => {
     const input = document.createElement('input');
@@ -115,47 +148,64 @@ const KYCDocuments = () => {
     };
   };
 
+  const deleteAPI = async (docType) => {
+    const response = await ApiService(
+      '/student/delete-document',
+      `DELETE`,
+      { document_type: docType },
+      true
+    );
+    return response.data.data.deleted;
+  };
+
   const viewDocument = (fileKey) => {};
 
-  const deleteDocument = (docType) => {
-    switch (docType) {
-      case 'pan_card':
-        setPanCard({
-          placeholder: staticContents.panCardPlaceholder,
-          percentage: 0
-        });
-        break;
+  const deleteDocument = async (docType) => {
+    if (await deleteAPI(docType)) {
+      switch (docType) {
+        case 'pan_card':
+          setPanCard({
+            placeholder: staticContents.panCardPlaceholder,
+            percentage: 0,
+          });
+          setKycDetails({...kycDetails, pan_card: ''})
+          break;
 
-      case 'aadhar_card':
-        setAadhaarCard({
-          placeholder: staticContents.aadhaarPlaceholder,
-          percentage: 0
-        });
-        break;
+        case 'aadhar_card':
+          setAadhaarCard({
+            placeholder: staticContents.aadhaarPlaceholder,
+            percentage: 0,
+          });
+          setKycDetails({...kycDetails, aadhar_card: ''})
+          break;
 
-      case 'qualification_certificate':
-        setQualificationCertificate({
-          placeholder: staticContents.qcPlaceholder,
-          percentage: 0
-        });
-        break;
+        case 'qualification_certificate':
+          setQualificationCertificate({
+            placeholder: staticContents.qcPlaceholder,
+            percentage: 0,
+          });
+          setKycDetails({...kycDetails, qualification_certificate: ''})
+          break;
 
-      case 'hsc_certificate':
-        setHSCCertificate({
-          placeholder: staticContents.hscPlaceholder,
-          percentage: 0
-        });
-        break;
+        case 'hsc_certificate':
+          setHSCCertificate({
+            placeholder: staticContents.hscPlaceholder,
+            percentage: 0,
+          });
+          setKycDetails({...kycDetails, hsc_certificate: ''})
+          break;
 
-      case 'ssc_certificate':
-        setSSCCertificate({
-          placeholder: staticContents.sscPlaceholder,
-          percentage: 0
-        });
-        break;
+        case 'ssc_certificate':
+          setSSCCertificate({
+            placeholder: staticContents.sscPlaceholder,
+            percentage: 0,
+          });
+          setKycDetails({...kycDetails, ssc_certificate: ''})
+          break;
 
-      default:
-        break;
+        default:
+          break;
+      }
     }
   };
 
@@ -248,9 +298,9 @@ const KYCDocuments = () => {
           <Col>
             <div
               className={`upload-container ${panCard.percentage > 0 ? 'uploading' : ''} ${
-                panCard.percentage == 100 ? 'success' : ''
+                (panCard.percentage == 100 || kycDetails?.pan_card) ? 'success' : ''
               }`}>
-              <FieldLabel label="PAN Card" property={panCard} />
+              <FieldLabel label="PAN Card" property={panCard} fileName={kycDetails?.pan_card} />
               <div className="upload-btn">
                 <ActionButtons
                   fileKey="pan_card"
@@ -258,6 +308,7 @@ const KYCDocuments = () => {
                   viewDocument={viewDocument}
                   deleteDocument={deleteDocument}
                   uploadFile={uploadFile}
+                  fileName={kycDetails?.pan_card}
                 />
               </div>
             </div>
@@ -265,9 +316,13 @@ const KYCDocuments = () => {
           <Col>
             <div
               className={`upload-container ${aadhaarCard.percentage > 0 ? 'uploading' : ''} ${
-                aadhaarCard.percentage == 100 ? 'success' : ''
+                (aadhaarCard.percentage == 100 || kycDetails?.aadhar_card) ? 'success' : ''
               }`}>
-              <FieldLabel label="Aadhaar Card" property={aadhaarCard} />
+              <FieldLabel
+                label="Aadhaar Card"
+                property={aadhaarCard}
+                fileName={kycDetails?.aadhar_card}
+              />
               <div className="upload-btn">
                 <ActionButtons
                   fileKey="aadhar_card"
@@ -275,6 +330,7 @@ const KYCDocuments = () => {
                   viewDocument={viewDocument}
                   deleteDocument={deleteDocument}
                   uploadFile={uploadFile}
+                  fileName={kycDetails?.aadhar_card}
                 />
               </div>
             </div>
@@ -283,10 +339,11 @@ const KYCDocuments = () => {
             <div
               className={`upload-container ${
                 qualificationCertificate.percentage > 0 ? 'uploading' : ''
-              } ${qualificationCertificate.percentage == 100 ? 'success' : ''}`}>
+              } ${(qualificationCertificate.percentage == 100 || kycDetails?.qualification_certificate) ? 'success' : ''}`}>
               <FieldLabel
                 label="Latest Qualification Certificate"
                 property={qualificationCertificate}
+                fileName={kycDetails?.qualification_certificate}
               />
               <div className="upload-btn">
                 <ActionButtons
@@ -295,6 +352,7 @@ const KYCDocuments = () => {
                   viewDocument={viewDocument}
                   deleteDocument={deleteDocument}
                   uploadFile={uploadFile}
+                  fileName={kycDetails?.qualification_certificate}
                 />
               </div>
             </div>
@@ -302,12 +360,16 @@ const KYCDocuments = () => {
         </Row>
 
         <Row className="my-4">
-          <Col>
+          <Col md={4}>
             <div
               className={`upload-container ${hscCertificate.percentage > 0 ? 'uploading' : ''} ${
-                hscCertificate.percentage == 100 ? 'success' : ''
+                (hscCertificate.percentage == 100 || kycDetails?.hsc_certificate) ? 'success' : ''
               }`}>
-              <FieldLabel label="HSC Certificate" property={hscCertificate} />
+              <FieldLabel
+                label="HSC Certificate"
+                property={hscCertificate}
+                fileName={kycDetails?.hsc_certificate}
+              />
               <div className="upload-btn">
                 <ActionButtons
                   fileKey="hsc_certificate"
@@ -315,16 +377,21 @@ const KYCDocuments = () => {
                   viewDocument={viewDocument}
                   deleteDocument={deleteDocument}
                   uploadFile={uploadFile}
+                  fileName={kycDetails?.hsc_certificate}
                 />
               </div>
             </div>
           </Col>
-          <Col>
+          <Col md={4}>
             <div
               className={`upload-container ${sscCertificate.percentage > 0 ? 'uploading' : ''} ${
-                sscCertificate.percentage == 100 ? 'success' : ''
+                (sscCertificate.percentage == 100 || kycDetails?.ssc_certificate) ? 'success' : ''
               }`}>
-              <FieldLabel label="SSC Certificate" property={sscCertificate} />
+              <FieldLabel
+                label="SSC Certificate"
+                property={sscCertificate}
+                fileName={kycDetails?.ssc_certificate}
+              />
               <div className="upload-btn">
                 <ActionButtons
                   fileKey="ssc_certificate"
@@ -332,11 +399,12 @@ const KYCDocuments = () => {
                   viewDocument={viewDocument}
                   deleteDocument={deleteDocument}
                   uploadFile={uploadFile}
+                  fileName={kycDetails?.ssc_certificate}
                 />
               </div>
             </div>
           </Col>
-          <Col>
+          {/* <Col>
             <div className="upload-container tc">
               <div className="uploadbtn-text">
                 <div>
@@ -351,7 +419,7 @@ const KYCDocuments = () => {
                 <p className="sign">Sign</p>
               </div>
             </div>
-          </Col>
+          </Col> */}
         </Row>
       </div>
     </>
