@@ -329,7 +329,7 @@
         margin-bottom: 10px;
         background: #FFFFFF;
         box-shadow: 0px 2px 20px rgba(0, 103, 223, 0.1);
-        border-radius: 15px; padding: 15px;
+        border-radius: 15px; padding: 15px;padding-bottom: 30px;
         
     }
     .payment-card {
@@ -583,3 +583,57 @@
         font-size: 16px;
     }
 }
+
+.eligible-group-chat .card-group {
+    padding: 20px;
+    flex: 0 0 45%;
+    display: inline-block;
+    width: 45%;
+    box-sizing: border-box;
+    background: #f7f5ff;
+    border-radius: 13.9504px;
+    margin: 0 10px;
+  }
+  .eligible-group-chat .payment-content  ul li { 
+    list-style: none;
+    padding-left: 24px;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #363f5e;
+    position: relative;}
+    .eligible-group-chat .payment-content  ul li:after{position: absolute;
+      content: "";
+      background-image: url('https://www.unikaksha.com/wp-content/uploads/2022/11/Group-1.svg');
+      background-repeat: no-repeat;
+      width: 17px;
+      height: 17px;
+      left: -29px;
+      top: 6px;
+  }
+  ul.faqs-list.nav.nav-tabs {
+    border-bottom: 0;
+    li{ border-bottom: 0; position: relative;border-bottom: 1px #222380 solid;    padding: 1% !important;}
+    li:after{     position: absolute;
+        right: 0;
+        height: 21px;
+        top: 10px;
+        content: "";
+        width: 2px;
+        background: #C3C6CF;}
+}
+
+.faqs .faqs-list li .nav-link.active {
+    background-color: #222380;
+    color: white;
+    border: 0;
+}
+.faqs .tab-content .tab-pane .accordion .accordion-item .accordion-header button {
+    font-weight: 500;
+    color: #222380;
+    padding-left: 0;
+}
+
+.tab-content .accordion .accordion-item {
+    border: 0;
+}
+ .faqs .faqs-list li .nav-link{ border: 0;}

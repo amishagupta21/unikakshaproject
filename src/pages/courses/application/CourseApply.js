@@ -289,7 +289,7 @@ const CourseApplication = () => {
               </div>
             </Card.Body>
           </Card>
-          <div className="my-4">
+          <div className="my-4 course-fully-form">
             {page === 0 && (
               <>
                 <Form onSubmit={formik.handleSubmit}>

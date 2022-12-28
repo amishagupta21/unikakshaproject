@@ -109,9 +109,9 @@ const StudentCourseApplication = () => {
         nextPageNumber(1);
       } else if (application_stage === 'education_details') {
         nextPageNumber(2);
-      } else if (application_stage === 'test_result') {
-        nextPageNumber(3);
       } else if (application_stage === 'application_status') {
+        nextPageNumber(3);
+      } else if (application_stage === 'payment') {
         nextPageNumber(4);
       }
     }
@@ -236,7 +236,8 @@ const StudentCourseApplication = () => {
   return (
     <>
       {!isLoading && (
-        <div className="px-5 my-5 mx-5 course-application">
+        <div className="my-5  course-application">
+          <div className="container">
           <div className="d-flex mt-5 back-btn">
             <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
             <p className="step-header">{stepperTitle}</p>
@@ -267,7 +268,7 @@ const StudentCourseApplication = () => {
                 <Form onSubmit={formik.handleSubmit}>
                   <>
                     <Row className="mb-5">
-                      <Form.Group as={Col} controlId="full_name">
+                      <Form.Group as={Col} sm={4} controlId="full_name">
                         <Form.Label>
                           Full Name
                           <span className="text-danger">*</span>
@@ -291,7 +292,7 @@ const StudentCourseApplication = () => {
                         ) : null}
                       </Form.Group>
 
-                      <Form.Group as={Col} controlId="email">
+                      <Form.Group as={Col} sm={4} controlId="email">
                         <Form.Label>
                           Email
                           <span className="text-danger">*</span>
@@ -312,7 +313,7 @@ const StudentCourseApplication = () => {
                         ) : null}
                       </Form.Group>
 
-                      <Form.Group as={Col} controlId="mobile_number">
+                      <Form.Group as={Col} sm={4} controlId="mobile_number">
                         <Form.Label>
                           Mobile Number<span className="text-danger">*</span>
                         </Form.Label>
@@ -333,7 +334,7 @@ const StudentCourseApplication = () => {
                     </Row>
 
                     <Row className="mb-5">
-                      <Form.Group as={Col} controlId="whatsapp_number">
+                      <Form.Group as={Col} sm={4} controlId="whatsapp_number">
                         <Form.Label>
                           Whatsapp Number<span className="text-danger">*</span>
                         </Form.Label>
@@ -357,7 +358,7 @@ const StudentCourseApplication = () => {
                         />
                       </Form.Group>
 
-                      <Form.Group as={Col} controlId="gender">
+                      <Form.Group as={Col} sm={4} controlId="gender">
                         <Form.Label>
                           Gender<span className="text-danger">*</span>
                         </Form.Label>
@@ -392,7 +393,7 @@ const StudentCourseApplication = () => {
                         </Row>
                       </Form.Group>
 
-                      <Form.Group as={Col} controlId="dob">
+                      <Form.Group as={Col}  sm={4} controlId="dob">
                         <Form.Label>
                           Date of Birth<span className="text-danger">*</span>
                         </Form.Label>
@@ -422,16 +423,16 @@ const StudentCourseApplication = () => {
                       </Form.Group>
                     </Row>
 
-                    <Row className="d-flex justify-content-end">
+                    <Row className="d-flex justify-content-end my-btn-styles">
                       <Button
-                        className="col-1 me-2 btn btn-outline-secondary"
+                        className="btn btn-outline-secondary"
                         variant="outline-secondary"
                         type="button"
                         onClick={returnToDashboard}>
                         Cancel
                       </Button>
                       <Button
-                        className="col-1"
+                        className=""
                         disabled={!(formik.isValid && formik.dirty) || isNextLoading}
                         variant="secondary"
                         type="submit">
@@ -491,6 +492,7 @@ const StudentCourseApplication = () => {
               </>
             )}
           </div>
+        </div>
         </div>
       )}
     </>
