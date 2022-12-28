@@ -106,7 +106,7 @@ function CourseDetails() {
             <Card className="cardStyle overview">
               <Card.Body className="text-left-align">
                 <span className="circle">
-                  <img src={overview} alt="Course Overview" className="overview-icon" />
+                  <img src={element?.icon} alt="Course Overview" className="overview-icon" />
                 </span>
                 <h6 className="font-color text-left-align mtb5">{element?.label}</h6>
                 <p className="text-left-align mtb5">{element?.content}</p>
@@ -160,7 +160,7 @@ function CourseDetails() {
                
                   <div className="eligibilityCriteria-media">
                     <span className="Squre">
-                      <img src={computer} alt="Computer" className="computer-icon" />
+                      <img src={element.icon} alt="Computer" className="computer-icon" />
                     </span>
                   </div>
                   <div className="eligibility-content">
@@ -194,6 +194,22 @@ function CourseDetails() {
                     </h6>
                     <span className="payment-content">{parse(element.value)}</span>
                   </Col>
+                  <Button
+                className="pay_apply_btn"
+                style={{ padding: '8px 15px' }}
+                variant="secondary"
+                onClick={() => {
+                  apply(courseDetails);
+                }}>
+                Apply Now
+              </Button>
+              <Button
+                className="pay_apply_btn"
+                style={{ padding: '8px 15px' }}
+                variant="secondary"
+                href={element.curriculum_brochure_url}>
+                Download Full Curriculum
+              </Button>
                 </Row>
               </Card.Body>
             </Card>
@@ -389,7 +405,7 @@ function CourseDetails() {
               <h4 className="font-color mb2" id="eligibility">
                 Eligiblility Criteria
               </h4>
-              <Row xs={1} md={1} className="mtb5">
+              <Row xs={1} md={1} className="mtb5 ">
                 {getEligibility()}
               </Row>
 
@@ -408,7 +424,7 @@ function CourseDetails() {
               <h4 className="font-color mb2" id="paymode">
                 Choose A Payment Plan That Works For You
               </h4>
-              <Row xs={1} md={1} className="mtb5">
+              <Row xs={1} md={1} className="mtb5 eligible-group-chat">
                 {getPaymentsPlans()}
               </Row>
               {courseDetails?.course_type == 'PartTime' &&
@@ -427,7 +443,7 @@ function CourseDetails() {
                 )}
 
               <h4 className="font-color mb2" id="hiring-partners">
-                Hiring Partners
+                Meet Our Hiring Partners
               </h4>
               <Row xs={2} md={5} className="mtb5">
                 {getHiringPartners()}

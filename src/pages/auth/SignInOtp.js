@@ -136,7 +136,7 @@ const SignInOtp = () => {
   };
   return (
     <>
-      <section className="auth_layout login_screen auth-unikaksha">
+      <section className="auth_layout login_screen auth-unikaksha otp-screen">
         <LeftBox />
         <div className="right_box">
           <div id="signin-otp-container"></div>

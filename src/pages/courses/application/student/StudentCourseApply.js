@@ -5,31 +5,27 @@ import PhoneInput from 'react-phone-input-2';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
-import { arrowBack, femaleIcon, maleIcon } from '../../../assets/images';
-import { setLoading } from '../../../redux/actions/LoaderActions';
-import ApiService from '../../../services/ApiService';
-import ApplicationStatus from './ApplicationStatus';
-import './CourseApply.scss';
-import EducationDetails from './EducationDetails';
-import EnrollmentStatus from './EnrollmentStatus';
-import EntranceTest from './EntranceTest';
-import MultiStepBar from './FormProgress';
-import KYCDocuments from './KYCDocuments';
-import Payments from './Payments';
-import TestResult from './TestResult';
+import { arrowBack, femaleIcon, maleIcon } from '../../../../assets/images';
+import { setLoading } from '../../../../redux/actions/LoaderActions';
+import ApiService from '../../../../services/ApiService';
+import ApplicationStatus from './StudentApplicationStatus';
+import './StudentCourseApply.scss';
+import EducationDetails from './StudentEducationDetails';
+import EnrollmentStatus from './StudentEnrollmentStatus';
+import MultiStepBar from './StudentFormProgress';
+import Payments from './StudentPayments';
+
 
 const steps = [
   'personal_details',
   'education_details',
-  'entrance_test',
-  'test_result',
   'application_status',
   'payment',
-  'kyc_documents',
   'enrollment_status',
 ];
 
-const CourseApplication = () => {
+const StudentCourseApplication = () => {
+  
   const [page, setPage] = React.useState();
   const [stepperTitle, setStepperTitle] = React.useState('');
   const [mobileState, setMobileNumber] = React.useState({ phone: '', data: '' });
@@ -44,6 +40,7 @@ const CourseApplication = () => {
   const [isNextLoading, setIsNextLoading] = React.useState(false);
   const [applicationDetails, setApplicationDetails] = React.useState();
   const [batches, setBatches] = React.useState([]);
+  const [selectedBatch, setSelectedBatch] = React.useState();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -112,9 +109,9 @@ const CourseApplication = () => {
         nextPageNumber(1);
       } else if (application_stage === 'education_details') {
         nextPageNumber(2);
-      } else if (application_stage === 'test_result') {
-        nextPageNumber(3);
       } else if (application_stage === 'application_status') {
+        nextPageNumber(3);
+      } else if (application_stage === 'payment') {
         nextPageNumber(4);
       }
     }
@@ -150,14 +147,13 @@ const CourseApplication = () => {
       nextPage();
     }
   };
-  const phoneRegExp = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{6})/;
 
   const formik = useFormik({
     validationSchema: Yup.object().shape({
       full_name: Yup.string().required('Name is required'),
       email: Yup.string().email('Invalid email').required('Email is required'),
-      mobile_number: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required(),
-      whatsapp_number: Yup.string().matches(phoneRegExp, 'Whatsapp number is not valid').required(),
+      mobile_number: Yup.string().required(),
+      whatsapp_number: Yup.string().required(),
       gender: Yup.string().required(),
       dob: Yup.date().required('Date of birth is requied'),
       guardian_details: Yup.string(),
@@ -166,7 +162,7 @@ const CourseApplication = () => {
       let errors = {};
       if (!values?.mobile_number) {
         errors.mobile_number = '*Mobile number required';
-      } if (!values?.whatsapp_number) {
+      } else if (!values?.whatsapp_number) {
         errors.whatsapp_number = '*Whatsapp number required';
       }
       return errors;
@@ -194,30 +190,20 @@ const CourseApplication = () => {
         break;
       case 1:
         setPage(1);
-        setStepperTitle('Education & Work Details');
+        setStepperTitle('Education Details');
         break;
+     
       case 2:
         setPage(2);
-        setStepperTitle('Entrance Test');
+        setStepperTitle('Application Status');
         break;
       case 3:
         setPage(3);
-        setStepperTitle('Test Result');
-        break;
-      case 4:
-        setPage(4);
-        setStepperTitle('Application Status');
-        break;
-      case 5:
-        setPage(5);
         setStepperTitle('Payment');
         break;
-      case 6:
-        setPage(6);
-        setStepperTitle('KYC & Documents');
-        break;
-      case 7:
-        setPage(7);
+      
+      case 4:
+        setPage(4);
         setStepperTitle('Enrollment Status');
         break;
       default:
@@ -237,7 +223,7 @@ const CourseApplication = () => {
 
   const copyFromMobileNumber = (value) => {
     if (value.target.checked) {
-      setWhatsAppNumber(mobileState.phone);
+      setWhatsAppNumber(mobileState);
       formik.setFieldValue('whatsapp_number', mobileState.phone);
     }
   };
@@ -250,7 +236,7 @@ const CourseApplication = () => {
   return (
     <>
       {!isLoading && (
-        <div className="course-application">
+        <div className="my-5  course-application">
           <div className="container">
           <div className="d-flex mt-5 back-btn">
             <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
@@ -265,20 +251,7 @@ const CourseApplication = () => {
                 <Card.Title style={{ fontWeight: '600', color: '#222380', marginBottom: 'unset' }}>
                   {courseDetails.course_title}
                 </Card.Title>
-                {/* <Card.Subtitle style={{ fontFamily: 'Roboto' }} className="mb-2 text-muted d-flex">
-                  <div style={{ fontSize: '12px', paddingRight: '24px' }}>
-                    <img className="me-2" src={hourGlass} alt="back-arrow" />
-                    <span style={{ fontWeight: '400' }}>Duration, </span>
-                    <span style={{ fontWeight: '600' }}>6 Months</span>
-                  </div>
-                  <div style={{ fontSize: '12px' }}>
-                    <img className="me-2" src={calendar1} alt="back-arrow" />
-                    <span style={{ fontWeight: '400' }}>Starts, </span>
-                    <span style={{ fontWeight: '600' }}>
-                      {courseDetails.course_variant_sections?.batches?.value[0][0].value}
-                    </span>
-                  </div>
-                </Card.Subtitle> */}
+                
               </div>
               <div>
                 <Card.Link
@@ -289,12 +262,12 @@ const CourseApplication = () => {
               </div>
             </Card.Body>
           </Card>
-          <div className="my-4 course-fully-form">
+          <div className="my-4">
             {page === 0 && (
               <>
                 <Form onSubmit={formik.handleSubmit}>
                   <>
-                    <Row className="row-bottom">
+                    <Row className="mb-5">
                       <Form.Group as={Col} sm={4} controlId="full_name">
                         <Form.Label>
                           Full Name
@@ -312,7 +285,7 @@ const CourseApplication = () => {
                           }
                           onBlur={formik.handleBlur}
                           value={formik.values?.full_name}
-                          placeholder="Enter you full name"
+                          placeholder="Full name"
                         />
                         {formik.touched.full_name && formik.errors.full_name ? (
                           <div className="error-message">{formik.errors.full_name}</div>
@@ -332,7 +305,7 @@ const CourseApplication = () => {
                             formik.touched.email && formik.errors.email ? 'is-invalid' : null
                           }
                           onBlur={formik.handleBlur}
-                          placeholder="Enter your Email"
+                          placeholder="Email"
                           value={formik.values?.email}
                         />
                         {formik.touched.email && formik.errors.email ? (
@@ -352,10 +325,7 @@ const CourseApplication = () => {
                             formik.setFieldValue('mobile_number', phone);
                             setMobileNumber({ phone, data });
                           }}
-                          countryCodeEditable={false}
                           onBlur={formik.handleBlur('mobile_number')}
-                          placeholder="Enter your Mobile number"
-                        
                         />
                         {formik.touched.mobile_number && formik.errors.mobile_number ? (
                           <div className="error-message">{formik.errors.mobile_number}</div>
@@ -363,7 +333,7 @@ const CourseApplication = () => {
                       </Form.Group>
                     </Row>
 
-                    <Row className="row-bottom">
+                    <Row className="mb-5">
                       <Form.Group as={Col} sm={4} controlId="whatsapp_number">
                         <Form.Label>
                           Whatsapp Number<span className="text-danger">*</span>
@@ -375,11 +345,8 @@ const CourseApplication = () => {
                             setWhatsAppNumber({ phone, data });
                             formik.setFieldValue('whatsapp_number', phone);
                           }}
-                          countryCodeEditable={false}
                           onBlur={formik.handleBlur('whatsapp_number')}
-                          placeholder="Enter your Whatsapp number"
                         />
-
                         {formik.touched.whatsapp_number && formik.errors.whatsapp_number ? (
                           <div className="error-message  mt-3">{formik.errors.whatsapp_number}</div>
                         ) : null}
@@ -426,7 +393,7 @@ const CourseApplication = () => {
                         </Row>
                       </Form.Group>
 
-                      <Form.Group as={Col} sm={4} controlId="dob">
+                      <Form.Group as={Col}  sm={4} controlId="dob">
                         <Form.Label>
                           Date of Birth<span className="text-danger">*</span>
                         </Form.Label>
@@ -442,9 +409,9 @@ const CourseApplication = () => {
                         ) : null}
                       </Form.Group>
                     </Row>
-                  
-                    <Row className="row-bottom" md={3}>
-                      <Form.Group as={Col} sm={4} controlId="guardian_details">
+
+                    <Row className="mb-5" md={3}>
+                      <Form.Group as={Col} controlId="guardian_details">
                         <Form.Label>Guardian Detail</Form.Label>
                         <Form.Control
                           name="guardian_details"
@@ -456,16 +423,16 @@ const CourseApplication = () => {
                       </Form.Group>
                     </Row>
 
-                    <Row className="d-flex row-align-buttongroups">
+                    <Row className="d-flex justify-content-end my-btn-styles">
                       <Button
-                        className="col-1 me-2 btn btn-outline-secondary"
+                        className="btn btn-outline-secondary"
                         variant="outline-secondary"
                         type="button"
                         onClick={returnToDashboard}>
                         Cancel
                       </Button>
                       <Button
-                        className="col-1"
+                        className=""
                         disabled={!(formik.isValid && formik.dirty) || isNextLoading}
                         variant="secondary"
                         type="submit">
@@ -485,7 +452,7 @@ const CourseApplication = () => {
                 setEducationalDetails={setEducationalDetails}
               />
             )}
-            {page === 2 && <EntranceTest nextPage={nextPage} course={courseDetails} user={user} />}
+            {/* {page === 2 && <EntranceTest nextPage={nextPage} course={courseDetails} user={user} />}
             {page === 3 && (
               <>
                 <TestResult
@@ -495,47 +462,31 @@ const CourseApplication = () => {
                   userName={user.displayName}
                 />
               </>
-            )}
-            {page === 4 && (
+            )} */}
+            {page === 2 && (
               <>
                 <ApplicationStatus
                   nextPage={nextPage}
                   application={applicationDetails}
                   setOrderData={setOrderData}
-                  courseId={courseDetails?.id}></ApplicationStatus>
+                  courseId={courseDetails?.id}
+                  setSelectedBatch={setSelectedBatch}
+                  ></ApplicationStatus>
               </>
             )}
-            {page === 5 && (
+            {page === 3 && (
               <>
                 <Payments
                   nextPage={nextPage}
                   course={courseDetails}
                   orderData={orderData}
                   application={applicationDetails}
+                  selectedBatch={selectedBatch}
                   ></Payments>
               </>
             )}
-            {page === 6 && (
-              <>
-                <KYCDocuments nextPage={nextPage}></KYCDocuments>
-                <Row className="d-flex justify-content-end">
-                  <Button
-                    className="col-1 me-2 btn btn-outline-secondary"
-                    variant="outline-secondary"
-                    type="button">
-                    Cancel
-                  </Button>
-                  <Button
-                    className="col-1"
-                    variant="secondary"
-                    type="button"
-                    onClick={() => nextPage()}>
-                    Save
-                  </Button>
-                </Row>
-              </>
-            )}
-            {page === 7 && (
+            
+            {page === 4 && (
               <>
                 <EnrollmentStatus nextPage={nextPage}></EnrollmentStatus>
               </>
@@ -548,5 +499,4 @@ const CourseApplication = () => {
   );
 };
 
-export default CourseApplication;
-
+export default StudentCourseApplication;

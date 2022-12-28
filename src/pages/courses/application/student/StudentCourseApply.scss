@@ -197,9 +197,14 @@
 
 	.error-message {
 		color: #FF6565;
-		padding: 1em .2em;
+		padding: .5em .2em;
 		height: 1em;
 		position: absolute;
 		font-size: .8em;
 	}
+}
+
+.d-flex.justify-content-end.my-btn-styles.row .btn {
+    max-width: 120px;
+    margin: 0 8px;
 }

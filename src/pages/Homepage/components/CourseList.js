@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { emptystar, fullstar, tick } from '../../../assets/images';
 import righrMark from '../../../assets/images/courses/icons/right-mark.svg';
 import WaitClockIcon from '../../../assets/images/courses/icons/wait-sandclock-icon.svg';
+import './CourseList.scss';
 
 const RatingComponent = ({ rating }) => {
   const ratingInDecimal = rating?.value.split('/')[0];
@@ -22,8 +23,15 @@ const RatingComponent = ({ rating }) => {
 };
 
 const CourseList = ({ courses }) => {
+  
   const apply = (course) => {
-    navigate(`/course/apply/${course.course_url}`, { state: course });
+   
+    if ( course?.target_audience == "{Students}" ) {
+       navigate(`/course/apply/student/${course.course_url}`, { state: course });
+    } else {
+       navigate(`/course/apply/${course.course_url}`, { state: course });
+    }
+   
   };
 
   const viewDetails = (course) => {
@@ -41,9 +49,18 @@ const CourseList = ({ courses }) => {
         <p key={index} style={{ 'font-size': '14px' }}>
           <img className="me-1" src={tick} /> {element.value}
         </p>
-        // <p className="font-color text-left-align mtb5"  style={{ "font-size": '14px' }}>
-        //   <img src={WaitClockIcon} alt="Wait-Clock-Icon" /> <span className="ms-2 mb-0">{element.value}</span>
-        // </p>
+        
+      );
+    });
+    return items;
+  };
+
+  const getPaymentMode = (course) => {
+    
+    const paymentmode = course?.course_variant_sections?.feesStructure?.value;
+    const items = paymentmode?.map((element, index) => {
+      return (
+        <span className='bannerlabel_span' key={index}>{element.key}</span>
       );
     });
     return items;
@@ -52,7 +69,7 @@ const CourseList = ({ courses }) => {
   return (
     <>
       <div className="d-flex justify-content-between">
-        <div>
+        <div id = "course_list">
           <h5>Top Techfit Courses</h5>
           <p>These are the top 3 courses provided by UniKaksha</p>
         </div>
@@ -60,8 +77,10 @@ const CourseList = ({ courses }) => {
       </div>
       <Row>
         {courses?.map((course, idx) => (
+         
           <Col md="4" key={course?.id}>
             <Card className="my-4 card-custom" style={{ width: '100%' }}>
+            <Card className="bannerlable">{getPaymentMode(course)}</Card>
               <Card.Img
                 style={{ width: 'fit-content', margin: 'auto', maxHeight: '246px' }}
                 variant="top"
