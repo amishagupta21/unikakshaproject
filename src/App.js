@@ -21,7 +21,6 @@ import PrivateRoute from './Routes/PrivateRoutes';
 
 const App = () => {
   const isLoader = useSelector((state) => state?.loader?.isLoading);
-  console.log(`isLoader`, isLoader);
   const isAuthenticated =
     useSelector((state) => state?.auth?.isAuthenticated) || localStorage.getItem('isAuthenticated');
 

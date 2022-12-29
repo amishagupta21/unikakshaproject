@@ -7,6 +7,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 import { arrowBack, femaleIcon, maleIcon } from '../../../../assets/images';
 import { setLoading } from '../../../../redux/actions/LoaderActions';
+import Loader from '../../../../components/util-comonents/Loader';
 import ApiService from '../../../../services/ApiService';
 import ApplicationStatus from './StudentApplicationStatus';
 import './StudentCourseApply.scss';
@@ -41,6 +42,7 @@ const StudentCourseApplication = () => {
   const [applicationDetails, setApplicationDetails] = React.useState();
   const [batches, setBatches] = React.useState([]);
   const [selectedBatch, setSelectedBatch] = React.useState();
+  const [userData, setUserData] = React.useState();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -48,41 +50,48 @@ const StudentCourseApplication = () => {
   const params = useParams();
 
   const fetchUserDetails = async (uid) => {
-    setIsLoading(true);
     let personalDetails = {};
     let educationalDetails = {};
-    const userProfile = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
-    personalDetails = userProfile?.data?.data?.userProfile?.personal_details ?? personalDetails;
+    const userDetails = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
+    setInitialData(userDetails?.data?.data?.user);
+    setUserData(userDetails?.data?.data?.user);
+    personalDetails = userDetails?.data?.data?.userProfile?.personal_details ?? personalDetails;
     educationalDetails.education_details =
-      userProfile?.data?.data?.userProfile?.education_details ?? educationalDetails;
-    educationalDetails.work_details = userProfile?.data?.data?.userProfile?.work_details ?? [];
+      userDetails?.data?.data?.userProfile?.education_details ?? educationalDetails;
+    educationalDetails.work_details = userDetails?.data?.data?.userProfile?.work_details ?? [];
     nextPageNumber(0);
-    if (personalDetails) {
+    if (!isEmpty(personalDetails)) {
       setPersonalDetailsInForm(personalDetails);
     }
-    if (educationalDetails) {
+    if (!isEmpty(educationalDetails)) {
       setEducationalDetails(educationalDetails);
     }
-    setIsLoading(false);
   };
 
   const setPersonalDetailsInForm = (details) => {
     formik.setValues(details);
     setGenderValue(details?.gender);
   };
-
+  
   const fetchCourseDetails = async (params) => {
     const { courseVariantSlug } = params;
     const res = await ApiService(`courses/course_url/${courseVariantSlug}/detail`);
     return res?.data?.data?.course;
   };
+  
+  const setInitialData = (initData) => {
+    formik.setValues({ email: initData?.email, mobile_number: initData?.phone});
+    setMobileNumber({ phone: initData?.phone})
+  }
 
   const fetchInitialData = async (uid) => {
+    setIsLoading(true);
     const courseData = state ? state : await fetchCourseDetails(params);
     setCourseDetails(courseData);
-    await fetchUserDetails(uid);
-    await fetchVariantBatches(courseData.id);
+    fetchUserDetails(uid);
     await fetchApplicationDetails(uid, courseData.id);
+    fetchVariantBatches(courseData.id);
+    setIsLoading(false);
   };
 
   const fetchApplicationDetails = async (uid, courseId) => {
@@ -104,7 +113,6 @@ const StudentCourseApplication = () => {
         marks: ((m_candidatescore / m_totalscore) * 100).toFixed(2),
       };
       settestResults(obj);
-      console.log(applicationDetails?.data?.data.application);
       setApplicationDetails(applicationDetails?.data?.data.application);
       if (application_stage === 'personal_details') {
         nextPageNumber(1);
@@ -238,7 +246,7 @@ const StudentCourseApplication = () => {
 
   return (
     <>
-      {!isLoading && (
+      {!isLoading ? (
         <div className="my-5  course-application">
           <div className="container">
           <div className="d-flex mt-5 back-btn">
@@ -310,6 +318,7 @@ const StudentCourseApplication = () => {
                           onBlur={formik.handleBlur}
                           placeholder="Email"
                           value={formik.values?.email}
+                          disabled={ userData?.email }
                         />
                         {formik.touched.email && formik.errors.email ? (
                           <div className="error-message">{formik.errors.email}</div>
@@ -329,6 +338,7 @@ const StudentCourseApplication = () => {
                             setMobileNumber({ phone, data });
                           }}
                           onBlur={formik.handleBlur('mobile_number')}
+                          disabled={ userData?.phone }
                         />
                         {formik.touched.mobile_number && formik.errors.mobile_number ? (
                           <div className="error-message">{formik.errors.mobile_number}</div>
@@ -497,6 +507,8 @@ const StudentCourseApplication = () => {
           </div>
         </div>
         </div>
+       ): (
+        <Loader />
       )}
     </>
   );

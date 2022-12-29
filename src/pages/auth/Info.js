@@ -136,7 +136,6 @@ const Info = () => {
       formik.setFieldValue('collegeName', res.data.data._id);
 
       const newOption = createOption(inputValue, res.data.data._id);
-      console.log('🚀 ~ setTimeout ~ newOption', newOption);
       setCollegeList((prev) => [...prev, newOption]);
       setcolVal(newOption);
       getCollegeList();
@@ -160,7 +159,6 @@ const Info = () => {
                 validationSchema={validationSchema}
                 onSubmit={onSubmit}>
                 {(formik) => {
-                  console.log(`formik`, formik);
                   setocc(formik.values.occupation);
                   return (
                     <Form>

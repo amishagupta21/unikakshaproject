@@ -45,6 +45,11 @@
 	.form-select {
 		border: 2px solid #ced4da !important;
 		padding: 0.675rem 0.75rem !important;
+
+		&:disabled {
+			cursor: not-allowed;
+			background-color: #fff;
+		}
 	}
 
 	.form-check {

@@ -49,7 +49,6 @@ h2.title-head {
 }
 
 section {
-  float: left;
   width: 100%;
 }
 
@@ -100,7 +99,7 @@ a.resetpassword a {
 }
 
 .auth_layout {
-  display: inline-flex;
+  display: flex;
 }
 
 .auth_layout .left_box {
@@ -637,6 +636,29 @@ button.menu-bar {
 }
 
 @media (max-width: 768px) {
+  .custom-footer .copy-right {
+    height: 168px;
+  }
+
+  .custom-footer .copy-right .container > div {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  .custom-footer .copy-right .container > div .follow-us {
+    margin-bottom: 18px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .whatsapp-cta {
+    margin-top: 10px !important;
+  }
+
+  .follow-us ul {
+    margin-top: 10px !important;
+  }
+
   .button.d-flex.clearfix.otp {
     position: relative;
     margin: 0;
@@ -1006,12 +1028,6 @@ a.refer-frd.nav-link {
   border-radius: 8px;
 }
 
-.custom-footer {
-  background: #eef4ff;
-  padding: 30px 0;
-  padding-bottom: 0;
-}
-
 .custom-footer a.list-group-item {
   background-color: transparent;
   border: 0;
@@ -1051,6 +1067,11 @@ a.refer-frd.nav-link {
   padding: 0 3px;
 }
 
+.whatsapp-cta {
+  text-decoration: none;
+  color: #003194;
+}
+
 .newletter button {
   background: #ef6b29;
   border-radius: 0px 3px 3px 0px;
@@ -1078,11 +1099,9 @@ a.refer-frd.nav-link {
 
 .copy-right {
   background: #e1ebff;
-
-  margin-top: 20px;
   display: flex;
   align-items: center;
-  height: 65px;
+  height: 98px;
 }
 
 .copy-right p {

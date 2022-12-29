@@ -121,7 +121,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <>
       {/* <AuthNavbar /> */}
       <section className="auth_layout login_screen auth-unikaksha">
         <LeftBox />
@@ -280,7 +280,7 @@ const Login = () => {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 };
 
