@@ -111,8 +111,12 @@ const StudentCourseApplication = () => {
       } else if (application_stage === 'education_details') {
         nextPageNumber(2);
       } else if (application_stage === 'application_status') {
-        nextPageNumber(3);
-      } 
+        nextPageNumber(2);
+      } else if ( application_stage === 'payment_status' && m_applicationstatus === 'Payment Failed' ) {
+        nextPageNumber(2);
+      } else if ( application_stage === 'payment_status' && m_applicationstatus === 'Payment Successfull' ) {
+        nextPageNumber(4);
+      }
     }
   };
 

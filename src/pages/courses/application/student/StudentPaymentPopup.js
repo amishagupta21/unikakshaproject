@@ -9,6 +9,7 @@ const PaymentPopup = ({nextPage, setOrderData, courseId, setopenpayment, setSele
 {        
     
     const [ batches, setbatches ] = React.useState();
+    const [ defaultBatch, setDefaultBatch ] = React.useState();
 
     useEffect(() => {
         fetchVariantBatches(courseId);
@@ -19,14 +20,17 @@ const PaymentPopup = ({nextPage, setOrderData, courseId, setopenpayment, setSele
     
     const batch = batches.filter((e) => e.id === event.target.value);
 
-    setSelectedBatch(batch);
+    setDefaultBatch(batch[0]?.id);
+    setSelectedBatch(batch[0]);
   
   }
     const fetchVariantBatches = async(courseVariantId) => {
         const res = await ApiService(`courses/${courseVariantId}/batch/list`);
         console.log("res",res)
         if(res?.data.code === 200) {
-            setbatches(res.data.data.result);        
+            setbatches(res.data.data.result);     
+            setDefaultBatch(res.data.data.result[0]?.id);  
+            setSelectedBatch(res.data.data.result[0]);   
         }
     } 
     const togglepayment = () => {
@@ -55,8 +59,8 @@ const PaymentPopup = ({nextPage, setOrderData, courseId, setopenpayment, setSele
                 <div className='batch-list'>
                     <div className="starte-style">                    
                     <input type="radio" name="batch" 
-                        onChange={onChangeBatch} 
-                        defaultChecked
+                         onChange={onChangeBatch} 
+                         checked={defaultBatch == element.id }
                         value={element.id}
                         ></input>
                     <label style={{marginTop : '5px'}}>

@@ -58,7 +58,7 @@ const Payments = (params) => {
                 {
                     application_id: applicationDetails?._id,
                     course_variant_id: courseData?.id,
-                    batch_id: selectedBatch[0]?.id,
+                    batch_id: selectedBatch?.id,
                     registration_fee: 2500,
                     discount_coupon: "",
                     discount_amount: 0,
