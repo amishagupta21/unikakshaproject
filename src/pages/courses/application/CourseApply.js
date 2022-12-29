@@ -110,6 +110,7 @@ const CourseApplication = () => {
         marks: ((m_candidatescore / m_totalscore) * 100).toFixed(2),
       };
       settestResults(obj);
+      console.log(applicationDetails?.data?.data.application);
       setApplicationDetails(applicationDetails?.data?.data.application);
       if (application_stage === 'personal_details') {
         nextPageNumber(1);
