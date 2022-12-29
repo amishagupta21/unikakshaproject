@@ -178,7 +178,7 @@ const Payments = (params) => {
                     <p className='text-primary text-center message1'> Course details</p>
                     <p className='text-primary text-center message2'>Batch name: {courseData?.course_title}</p>
                     <p className='text-primary text-center message3'>Batch type : {courseData?.variant_name}</p>
-                    <p className='text-primary text-center message3'>Batch Time : { convertDate(selectedBatch[0]?.start_date)}</p>
+                    <p className='text-primary text-center message3'>Batch Time : { convertDate(selectedBatch?.start_date)}</p>
                 </div>
                 <div className='mt-5 d-flex align-items-center justify-content-center footer-content'>
                     <p>We have sent you the transaction details on your email and whatsapp.</p>
