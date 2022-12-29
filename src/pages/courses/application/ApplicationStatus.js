@@ -4,6 +4,8 @@ import { badge, cancelRe, engineeringTeam, working } from '../../../assets/image
 import PaymentPopup from './PaymentPopup';
 import ApiService from '../../../services/ApiService';
 import './ApplicationStatus.scss';
+import { useDispatch } from 'react-redux';
+import { setLoading } from '../../../redux/actions/LoaderActions';
 
 const applicationStatus = {
     review: {
@@ -31,6 +33,7 @@ const applicationStatus = {
 
 const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSelectedBatch}) => {
 
+    const dispatch = useDispatch();
     const [ status, setStatus ] = React.useState();
     const [ statusContent, setStatusContent ] = React.useState({});
     const [ openpayment, setopenpayment ] = React.useState(false);   
@@ -38,9 +41,48 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
     console.log(application);
 
     useEffect(() => {
-        const { m_applicationstatus: appStatus } = application;
+
+        dispatch(setLoading(true));
+
+        fetchApplicationDetails();
+
+        dispatch(setLoading(false));
+        // const { m_applicationstatus: appStatus } = application;
+        // let app_status ='';
+        // if(appStatus === 'Application Approved') {
+        //     app_status = 'approved'
+        //     setStatus(app_status)
+        // }
+        // if(appStatus === 'Application Rejected') {
+        //     app_status = 'rejected'
+        //     setStatus(app_status)
+        // }
+        // if(appStatus === 'Application In Review') {
+        //     app_status = 'review'
+        //     setStatus(app_status)
+        // }
+        // setStatusContent(applicationStatus[app_status]);      
+    }, [])
+
+    const fetchApplicationDetails = async () => {
+        console.log(application?.uid)
+        const payload = {
+          uid: application?.uid,
+          course_variant_id: courseId,
+        };
+        let applicationDetails = await ApiService(
+          '/student/application/detail-by-user-course',
+          `POST`,
+          payload,
+          true
+        );
+        // if (applicationDetails?.data?.data.application) {
+          const applicationData = applicationDetails?.data?.data.application;
+        // setApplication(applicationDetails?.data?.data.application);
+       console.log(applicationData)
+        const { m_applicationstatus: appStatus } = applicationData;
         let app_status ='';
-        if(appStatus === 'Application Approved') {
+        if(appStatus === 'Application Approved' || appStatus === 'Application In Review') {
             app_status = 'approved'
             setStatus(app_status)
         }
@@ -48,12 +90,14 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
             app_status = 'rejected'
             setStatus(app_status)
         }
-        if(appStatus === 'Application In Review') {
+        if(appStatus === 'Pending' ) {
             app_status = 'review'
             setStatus(app_status)
         }
-        setStatusContent(applicationStatus[app_status]);      
-    }, [])
+        
+        setStatusContent(applicationStatus[app_status]);  
+        // }
+    }
 
     const openPayment = () => {
         setopenpayment(true);
