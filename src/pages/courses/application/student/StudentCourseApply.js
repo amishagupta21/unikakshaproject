@@ -104,6 +104,7 @@ const StudentCourseApplication = () => {
         marks: ((m_candidatescore / m_totalscore) * 100).toFixed(2),
       };
       settestResults(obj);
+      console.log(applicationDetails?.data?.data.application);
       setApplicationDetails(applicationDetails?.data?.data.application);
       if (application_stage === 'personal_details') {
         nextPageNumber(1);
@@ -111,9 +112,7 @@ const StudentCourseApplication = () => {
         nextPageNumber(2);
       } else if (application_stage === 'application_status') {
         nextPageNumber(3);
-      } else if (application_stage === 'payment') {
-        nextPageNumber(4);
-      }
+      } 
     }
   };
 

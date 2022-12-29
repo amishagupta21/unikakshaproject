@@ -44,6 +44,7 @@ const CourseApplication = () => {
   const [isNextLoading, setIsNextLoading] = React.useState(false);
   const [applicationDetails, setApplicationDetails] = React.useState();
   const [batches, setBatches] = React.useState([]);
+  const [selectedBatch, setSelectedBatch] = React.useState();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -99,6 +100,8 @@ const CourseApplication = () => {
       payload,
       true
     );
+    console.log(applicationDetails?.data?.data.application);
+
     if (applicationDetails?.data?.data.application) {
       const { application_stage, m_applicationstatus, m_totalscore, m_candidatescore } =
         applicationDetails?.data?.data.application;
@@ -116,6 +119,10 @@ const CourseApplication = () => {
         nextPageNumber(3);
       } else if (application_stage === 'application_status') {
         nextPageNumber(4);
+      } else if ( application_stage === 'payment_status' && m_applicationstatus === 'Payment Failed' ) {
+        nextPageNumber(4);
+      } else if ( application_stage === 'payment_status' && m_applicationstatus === 'Payment Successfull' ) {
+        nextPageNumber(6);
       }
     }
   };
@@ -495,7 +502,8 @@ const CourseApplication = () => {
                   nextPage={nextPage}
                   application={applicationDetails}
                   setOrderData={setOrderData}
-                  courseId={courseDetails?.id}></ApplicationStatus>
+                  courseId={courseDetails?.id}
+                  setSelectedBatch={setSelectedBatch}></ApplicationStatus>
               </>
             )}
             {page === 5 && (
@@ -505,6 +513,7 @@ const CourseApplication = () => {
                   course={courseDetails}
                   orderData={orderData}
                   application={applicationDetails}
+                  selectedBatch={selectedBatch}
                   ></Payments>
               </>
             )}

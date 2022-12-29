@@ -48,7 +48,7 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
             app_status = 'rejected'
             setStatus(app_status)
         }
-        if(appStatus === 'Pending') {
+        if(appStatus === 'Pending' || appStatus === 'Application In Review') {
             app_status = 'review'
             setStatus(app_status)
         }
