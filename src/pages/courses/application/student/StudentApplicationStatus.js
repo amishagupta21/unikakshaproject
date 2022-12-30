@@ -55,6 +55,7 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
     //   };
 
     const fetchApplicationDetails = async () => {
+        console.log(application?.uid)
         const payload = {
           uid: application?.uid,
           course_variant_id: courseId,
