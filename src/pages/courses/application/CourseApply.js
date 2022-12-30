@@ -85,8 +85,8 @@ const CourseApplication = () => {
   };
 
   const setInitialData = (initData) => {
-    formik.setValues({ email: initData?.email, mobile_number: initData?.phone});
-    setMobileNumber({ phone: initData?.phone})
+    formik.setValues({ email: initData?.email }); //mobile_number: initData?.phone
+    // setMobileNumber({ phone: initData?.phone})
   }
 
   const fetchInitialData = async (uid) => {
