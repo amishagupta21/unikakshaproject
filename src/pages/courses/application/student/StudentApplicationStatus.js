@@ -38,6 +38,7 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
     const [ statusContent, setStatusContent ] = React.useState({});
     const [ openpayment, setopenpayment ] = React.useState(false);  
     const [applicationD, setApplication] = React.useState();
+    const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
     
     useEffect(() => {
 
@@ -48,16 +49,12 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
        
     }, [])
 
-    // const fetchInitialData = async (uid) => {
-        
-    //     fetchApplicationDetails(uid, courseId);
-        
-    //   };
+ 
 
     const fetchApplicationDetails = async () => {
-        console.log(application?.uid)
+        console.log(user?.uid)
         const payload = {
-          uid: application?.uid,
+          uid: user?.uid,
           course_variant_id: courseId,
         };
         let applicationDetails = await ApiService(
