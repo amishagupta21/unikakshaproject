@@ -65,13 +65,16 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
           payload,
           true
         );
-        // if (applicationDetails?.data?.data.application) {
-          const applicationData = applicationDetails?.data?.data.application;
-          console.log(applicationData);
-        // setApplication(applicationDetails?.data?.data.application);
+       
+
+        const applicationData = applicationDetails?.data?.data.application;
+        
+        console.log(applicationData);
+        
         const { m_applicationstatus: appStatus } = applicationData;
         let app_status = 'review'
         setStatus(app_status)
+        
         if(appStatus === 'Application Approved' || appStatus === 'Application In Review') {
             app_status = 'approved'
             setStatus(app_status)
