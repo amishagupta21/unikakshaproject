@@ -15,6 +15,7 @@ import EducationDetails from './StudentEducationDetails';
 import EnrollmentStatus from './StudentEnrollmentStatus';
 import MultiStepBar from './StudentFormProgress';
 import Payments from './StudentPayments';
+import { isEmpty } from 'lodash';
 
 
 const steps = [

@@ -45,7 +45,7 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
 
         fetchApplicationDetails();
 
-        dispatch(setLoading(false));
+       
     }, [])
 
     // const fetchInitialData = async (uid) => {
@@ -67,9 +67,11 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
         );
         // if (applicationDetails?.data?.data.application) {
           const applicationData = applicationDetails?.data?.data.application;
+          console.log(applicationData);
         // setApplication(applicationDetails?.data?.data.application);
         const { m_applicationstatus: appStatus } = applicationData;
-        let app_status ='';
+        let app_status = 'review'
+        setStatus(app_status)
         if(appStatus === 'Application Approved' || appStatus === 'Application In Review') {
             app_status = 'approved'
             setStatus(app_status)
@@ -84,7 +86,7 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
         }
         
         setStatusContent(applicationStatus[app_status]);  
-        // }
+        dispatch(setLoading(false));
     }
 
 
