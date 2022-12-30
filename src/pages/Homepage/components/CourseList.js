@@ -9,6 +9,7 @@ import { emptystar, fullstar, tick } from '../../../assets/images';
 import righrMark from '../../../assets/images/courses/icons/right-mark.svg';
 import WaitClockIcon from '../../../assets/images/courses/icons/wait-sandclock-icon.svg';
 import './CourseList.scss';
+import ApiService from '../../../services/ApiService';
 
 const RatingComponent = ({ rating }) => {
   const ratingInDecimal = rating?.value.split('/')[0];
@@ -23,10 +24,20 @@ const RatingComponent = ({ rating }) => {
 };
 
 const CourseList = ({ courses }) => {
+
+  const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
+  const [occupation, setOccupation] = React.useState([]);
+
+  const fetchUserDetails = async (uid) => {
+       
+    const response = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
+
+    setOccupation(response?.data?.data?.userProfile?.occupation)
+  }
   
   const apply = (course) => {
-   
-    if ( course?.target_audience == "{Students}" ) {
+  //  console.log(occupation);
+    if ( occupation === 'STUDENT' ) {
        navigate(`/course/apply/student/${course.course_url}`, { state: course });
     } else {
        navigate(`/course/apply/${course.course_url}`, { state: course });
@@ -38,7 +49,9 @@ const CourseList = ({ courses }) => {
     navigate(`/course/${course.course_url}`, { state: course });
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    fetchUserDetails(user?.uid);
+  }, [occupation]);
 
   const navigate = useNavigate();
 
