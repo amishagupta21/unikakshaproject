@@ -1483,3 +1483,50 @@ section.auth_layout.login_screen.auth-unikaksha .custom-tabs-container.nav.nav-p
    
 }
 }
+
+.container_follow_us {
+  display: flex;
+}
+.container_footer {
+  background: #e1ebff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+}
+.container_rights{
+  display: flex;
+  flex-direction: column;
+  align-content: center;  font-weight: 600;
+  font-size: 16px;
+  justify-content: center;
+  padding-top: 12px;
+}
+.container_footer1{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 100px;
+}
+.container_footer2{
+  display: flex;
+  justify-content: space-between;
+  width: 600px;
+  padding-right: 100px;
+}
+
+.container_help {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.container_help, .container_number, .container_follow_us{
+  display: flex;
+  align-items: center;
+}
+
+.container_follow_us{
+  display: flex;
+  justify-content: space-between;
+  width: 150px;
+}
