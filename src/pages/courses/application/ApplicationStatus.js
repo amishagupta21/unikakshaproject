@@ -37,6 +37,7 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
     const [ status, setStatus ] = React.useState();
     const [ statusContent, setStatusContent ] = React.useState({});
     const [ openpayment, setopenpayment ] = React.useState(false);   
+    const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
 
     console.log(application);
 
@@ -46,30 +47,17 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
 
         fetchApplicationDetails();
 
-        dispatch(setLoading(false));
-        // const { m_applicationstatus: appStatus } = application;
-        // let app_status ='';
-        // if(appStatus === 'Application Approved') {
-        //     app_status = 'approved'
-        //     setStatus(app_status)
-        // }
-        // if(appStatus === 'Application Rejected') {
-        //     app_status = 'rejected'
-        //     setStatus(app_status)
-        // }
-        // if(appStatus === 'Application In Review') {
-        //     app_status = 'review'
-        //     setStatus(app_status)
-        // }
-        // setStatusContent(applicationStatus[app_status]);      
+       
     }, [])
 
     const fetchApplicationDetails = async () => {
-        console.log(application?.uid)
+        
+        console.log(user?.uid)
         const payload = {
-          uid: application?.uid,
+          uid: user?.uid,
           course_variant_id: courseId,
         };
+
         let applicationDetails = await ApiService(
           '/student/application/detail-by-user-course',
           `POST`,
@@ -96,7 +84,7 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
         }
         
         setStatusContent(applicationStatus[app_status]);  
-        // }
+        dispatch(setLoading(false));
     }
 
     const openPayment = () => {

@@ -6,6 +6,7 @@ import InviteNow from '../../../components/InviteNow';
 import { firebase } from '../../../firebase/firebase';
 import ApiService from '../../../services/ApiService';
 import MultiStepBar from '../application/FormProgress';
+import StudentMultiStepBar from '../application/student/StudentFormProgress';
 import './MyCourses.scss';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,63 +14,106 @@ const Hand = () => {
   return <img className="me-2" src={hand}></img>;
 };
 
-const steps = [
-  'personal_details',
-  'education_details',
-  'entrance_test',
-  'test_result',
-  'application_status',
-  'payment',
-  'kyc_documents',
-  'enrollment_status',
-];
+
 
 const MyCourses = () => {
   const [userName, setUserName] = React.useState(firebase.auth().currentUser?.displayName);
   const [applicationList, setApplicationList] = React.useState([]);
+  const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
+  const [occupation, setOccupation] = React.useState([]);
 
   const navigate = useNavigate();
+
+  let steps = [
+    'personal_details',
+    'education_details',
+    'entrance_test',
+    'test_result',
+    'application_status',
+    'payment',
+    'kyc_documents',
+    'enrollment_status',
+  ];
 
   const fetchInitialData = async () => {
     const response = await ApiService('/student/application/list', 'GET', {}, true);
     const { data } = response;
+    // console.log(data);
     setApplicationList(data?.data);
   };
 
   const setStepperStage = (stage) => {
     return steps.indexOf(stage);
+   
   };
 
+  const fetchUserDetails = async (uid) => {
+       
+    const response = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
+
+    setOccupation(response?.data?.data?.userProfile?.occupation)
+
+    if( occupation === 'STUDENT') {
+      console.log(occupation);
+       steps = [
+        'personal_details',
+        'education_details',
+        'application_status',
+        'payment',
+        'enrollment_status',
+        ];
+    }
+
+    // console.log(steps);
+    // console.log(...steps, ...s)
+    // setOccupation(response?.data?.data?.userProfile?.occupation);
+
+   
+
+};
+
+
+
   useEffect(() => {
-    const fetchApplicationDetails = async (uid, courseId) => {
-      const payload = {
-        uid: uid,
-        course_variant_id: courseId,
-      };
-      let applicationDetails = await ApiService(
-        '/student/application/detail-by-user-course',
-        `POST`,
-        payload,
-        true
-      );
-      const { application_stage, m_applicationstatus, m_totalscore, m_candidatescore } =
-        applicationDetails?.data?.data.application;
-      const obj = {
-        applicationStatus: 'Application Approved',
-        marks: (m_candidatescore / m_totalscore) * 100,
-      };
-      settestResults(obj);
-      if (application_stage === 'personal_details') {
-        nextPageNumber(1);
-      } else if (application_stage === 'education_details') {
-        nextPageNumber(2);
-      } else if (application_stage === 'test_result') {
-        nextPageNumber(3);
-      }
-    };
+    
+    fetchUserDetails(user?.uid);
 
     fetchInitialData();
-  }, []);
+
+    // const fetchApplicationDetails = async (uid, courseId) => {
+      
+    //   const payload = {
+    //     uid: uid,
+    //     course_variant_id: courseId,
+    //   };
+
+    //   let applicationDetails = await ApiService(
+    //     '/student/application/detail-by-user-course',
+    //     `POST`,
+    //     payload,
+    //     true
+    //   );
+    //   const { application_stage, m_applicationstatus, m_totalscore, m_candidatescore } =
+    //     applicationDetails?.data?.data.application;
+    //   const obj = {
+    //     applicationStatus: 'Application Approved',
+    //     marks: (m_candidatescore / m_totalscore) * 100,
+    //   };
+    //   settestResults(obj);
+
+      
+    //   console.log(occupation);
+    //   if (application_stage === 'personal_details') {
+    //     nextPageNumber(1);
+    //   } else if (application_stage === 'education_details') {
+    //     nextPageNumber(2);
+    //   } else if (application_stage === 'test_result') {
+    //     nextPageNumber(3);
+    //   }
+    // };
+
+   
+  }, [occupation]);
 
   return (
     <>
@@ -130,7 +174,12 @@ const MyCourses = () => {
                           </div>
                         </Card.Subtitle>
                         <Card.Body className="application-status">
-                          <MultiStepBar page={setStepperStage(application?.application_stage)} />
+                          { occupation !== 'STUDENT' && (
+                            <MultiStepBar page={setStepperStage(application?.application_stage)} />
+                          )}
+                          { occupation === 'STUDENT' && (
+                            <StudentMultiStepBar page={setStepperStage(application?.application_stage)} />
+                          )}
                         </Card.Body>
                       </div>
                     </div>
@@ -138,7 +187,8 @@ const MyCourses = () => {
                       {/* <Button variant='secondary' type="button" onClick={() => nextPage()}>
                                             Start Learning
                                         </Button> */}
-                      {application?.application_stage !== 'enrollment_status' && (
+                      {application?.application_stage !== 'enrollment_status' && occupation !== 'STUDENT' && (
+                       
                         <Button
                           variant="secondary"
                           type="button"
@@ -148,6 +198,19 @@ const MyCourses = () => {
                           Complete Application
                         </Button>
                       )}
+
+                        {application?.application_stage !== 'enrollment_status' && occupation === 'STUDENT' && (
+                          <Button
+                            variant="secondary"
+                            type="button"
+                            onClick={() => {
+                              navigate(`/course/apply/student/${application?.courseDetail?.course_url}`);
+                            }}>
+                            Complete Application
+                          </Button>
+                          )}
+                        
+                      
                       {application?.application_status === 'rejected' && (
                         <div>
                           <p>Enrollment is rejected</p>

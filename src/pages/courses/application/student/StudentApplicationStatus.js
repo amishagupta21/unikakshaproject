@@ -38,6 +38,7 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
     const [ statusContent, setStatusContent ] = React.useState({});
     const [ openpayment, setopenpayment ] = React.useState(false);  
     const [applicationD, setApplication] = React.useState();
+    const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
     
     useEffect(() => {
 
@@ -48,15 +49,12 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
        
     }, [])
 
-    // const fetchInitialData = async (uid) => {
-        
-    //     fetchApplicationDetails(uid, courseId);
-        
-    //   };
+ 
 
     const fetchApplicationDetails = async () => {
+        console.log(user?.uid)
         const payload = {
-          uid: application?.uid,
+          uid: user?.uid,
           course_variant_id: courseId,
         };
         let applicationDetails = await ApiService(
@@ -65,13 +63,16 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
           payload,
           true
         );
-        // if (applicationDetails?.data?.data.application) {
-          const applicationData = applicationDetails?.data?.data.application;
-          console.log(applicationData);
-        // setApplication(applicationDetails?.data?.data.application);
+       
+
+        const applicationData = applicationDetails?.data?.data.application;
+        
+        console.log(applicationData);
+        
         const { m_applicationstatus: appStatus } = applicationData;
         let app_status = 'review'
         setStatus(app_status)
+        
         if(appStatus === 'Application Approved' || appStatus === 'Application In Review') {
             app_status = 'approved'
             setStatus(app_status)
