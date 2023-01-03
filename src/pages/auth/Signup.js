@@ -6,6 +6,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import FormGroup from 'react-bootstrap/FormGroup';
 import FormLabel from 'react-bootstrap/FormLabel';
 import Row from 'react-bootstrap/Row';
+import Alert from 'react-bootstrap/Alert';
 import PhoneInput from 'react-phone-input-2';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -24,6 +25,7 @@ const Signup = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const [userDetails, setUserDetails] = React.useState({});
+  const [authError, setAuthError] = React.useState();
 
   const setInitialData = async () => {
     setUserDetails(location.state);
@@ -61,7 +63,7 @@ const Signup = () => {
       sendOTP(values);
       setloading(false);
     } else {
-      alert('User already exists');
+      setAuthError('User already exists');
       dispatch(setLoading(false));
       setloading(false);
       setTimeout(() => {
@@ -95,7 +97,7 @@ const Signup = () => {
         setloading(false);
       })
       .catch((error) => {
-        alert(error);
+        setAuthError(error);
         dispatch(setLoading(false));
         toast.error(`${error}`, {
           theme: 'colored',
@@ -116,6 +118,11 @@ const Signup = () => {
             </div>
             <div className="auth_form">
               <div id="signup-container"> </div>
+              {authError && (
+                <Alert key="danger" variant="danger">
+                  {authError}
+                </Alert>
+              )}
               <Formik
                 enableReinitialize={true}
                 initialValues={{
@@ -209,6 +216,7 @@ const Signup = () => {
                           <PhoneInput
                             placeholder="Enter mobile number"
                             country={'in'}
+                            preferredCountries={['in']}
                             value={field.value}
                             onChange={(phone, data) => {
                               setFieldValue('mobileNumber', phone);
