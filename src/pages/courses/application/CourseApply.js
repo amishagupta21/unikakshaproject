@@ -474,7 +474,7 @@ const CourseApplication = () => {
                       </Form.Group>
                     </Row>
 
-                    <Row className="d-flex row-align-buttongroups">
+                    <Row className="d-flex justify-content-end my-btn-styles">
                       <Button
                         className="col-1 me-2 btn btn-outline-secondary"
                         variant="outline-secondary"

@@ -5,6 +5,7 @@ import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
+import Alert from 'react-bootstrap/Alert';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,6 +27,7 @@ const Login = () => {
   const [loading, setloading] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [authError, setAuthError] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const cookie = new Cookies();
 
@@ -61,7 +63,7 @@ const Login = () => {
       setloading(false);
       dispatch(setLoading(false));
     } else {
-      alert('User Not Found');
+      setAuthError('User not found');
       setloading(false);
       dispatch(setLoading(false));
     }
@@ -80,7 +82,7 @@ const Login = () => {
       setloading(false);
       dispatch(setLoading(false));
     } else {
-      alert('User Not Found');
+      setAuthError('User not found')
       setloading(false);
       dispatch(setLoading(false));
     }
@@ -181,7 +183,12 @@ const Login = () => {
                           }) => (
                             <Form>
                               <h2 className="title-head">Sign in to Unikaksha</h2>
-                              <div id="signin-container"> </div>
+                              <div id="signin-container"></div>
+                              {authError && (
+                                <Alert key="danger" variant="danger">
+                                  {authError}
+                                </Alert>
+                              )}
                               <Field
                                 name="mobileNumber"
                                 render={({ field, formProps }) => (
@@ -189,6 +196,7 @@ const Login = () => {
                                     <FormLabel>Enter Number</FormLabel>
                                     <PhoneInput
                                       placeholder="Enter mobile number"
+                                      preferredCountries={['in']}
                                       country={'in'}
                                       value={field.value}
                                       onChange={(phone, data) => {

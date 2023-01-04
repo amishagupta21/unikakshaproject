@@ -11627,6 +11627,10 @@ code {
   max-width: 900px;
 }
 
+.react-tel-input .selected-flag {
+  background-color: unset !important;
+}
+
 /*# sourceMappingURL=index.css.map */
 
 /* .react-tel-input .selected-flag .arrow{
