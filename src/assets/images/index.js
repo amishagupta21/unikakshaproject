@@ -66,14 +66,18 @@ import failedbadge from './failedbadge.svg';
 import upload from './upload.svg';
 import hand from './Hand.svg';
 import wrappedGift from './courses/emojione_wrapped-gift.svg';
+import trash from './trash.svg';
+import view from './view.svg';
+
 import SuccessTick from './CourseApplication/success-tick.svg';
 import PaymentTick from './CourseApplication/payment-tick.svg';
 import PaymentFailure from './CourseApplication/payment-failure.svg';
-
+import circleTick from './CourseApplication/charm_circle-tick.svg';
 import cancelRe from './CourseApplication/cancelre.svg';
 import engineeringTeam from './CourseApplication/engineeringteam.svg';
 import working from './CourseApplication/working.svg';
 import undrawFriends from './CourseApplication/undraw_friends_r511.svg';
+import signDoc from './CourseApplication/edit.svg';
 
 import tick from './CourseDetails/circle-tick.svg';
 import fullstar from './CourseDetails/fullstar.svg';
@@ -87,6 +91,15 @@ import slack from './CourseDetails/slack.svg';
 import xbo from './CourseDetails/xbo.svg';
 import netflix from './CourseDetails/netflix.svg';
 import linkedin from './CourseDetails/linkedin.svg';
+
+export const Icon = ({ icon, ...props }) => {
+    return (
+     <div {...props}>
+       {icon}
+     </div>
+    );
+  };
+
 
 
 export {
@@ -175,5 +188,9 @@ export {
     linkedin,
     SuccessTick,
     PaymentTick,
-    PaymentFailure
+    PaymentFailure,
+    circleTick,
+    trash,
+    view,
+    signDoc,
 };
