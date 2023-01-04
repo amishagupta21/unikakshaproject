@@ -75,8 +75,8 @@ const PrimaryNavbar = () => {
                         <img src={Course} alt="my-courses" />
                         My Courses
                       </Dropdown.Item>
-                      <Dropdown.Item href="#/action">
-                        {' '}
+                      
+                      <Dropdown.Item href="/my-profile" onClick={() => navigate('/my-profile')}>
                         <img src={Profile} alt="profile" />
                         My Profile
                       </Dropdown.Item>

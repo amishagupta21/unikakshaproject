@@ -19,6 +19,8 @@ import Homepage from './pages/Homepage/Homepage';
 import Unikode from './pages/unikode/unikode';
 import PrivateRoute from './Routes/PrivateRoutes';
 
+import PersonalDetails from './pages/my-profile/PersonalDetails'
+
 const App = () => {
   const isLoader = useSelector((state) => state?.loader?.isLoading);
   const isAuthenticated =
@@ -39,6 +41,7 @@ const App = () => {
             <Route path="my-courses" element={<MyCourses />} />
             <Route path='unikode' element={<Unikode />} />
             <Route path="course/:courseVariantSlug" element={<CourseDetails />} />
+            <Route path="my-profile" element={<PersonalDetails/>} />
           </Route>
           {/* <Route path="dashboard" element={<PrivateRoute><Homepage /></PrivateRoute>}/>
               <Route path="course/apply" element={<PrivateRoute> <CourseApplication /> </PrivateRoute>} />
