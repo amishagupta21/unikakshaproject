@@ -5,26 +5,36 @@ import moment from 'moment';
 import ApiService from '../../../services/ApiService';
 
 
-const PaymentPopup = ({nextPage, setOrderData, courseId, setopenpayment}) => {        
+const PaymentPopup = ({nextPage, setOrderData, courseId, setopenpayment, setSelectedBatch}) => 
+{        
+    
     const [ batches, setbatches ] = React.useState();
-    const [selectedBatch, setSelectedBatch] = React.useState();
-
-    console.log(selectedBatch);
+    const [ defaultBatch, setDefaultBatch ] = React.useState();
 
     useEffect(() => {
         fetchVariantBatches(courseId);
+       
     },[]) 
     
 
   function onChangeBatch(event) {
-    setSelectedBatch(event.target.value);
-    console.log(event.target.value);
+    
+    const batch = batches.filter((e) => e.id === event.target.value);
+    setDefaultBatch(batch[0]?.id);
+    setSelectedBatch(batch[0]);
+  
   }
+
+  
     const fetchVariantBatches = async(courseVariantId) => {
         const res = await ApiService(`courses/${courseVariantId}/batch/list`);
-        console.log("res",res)
+        
         if(res?.data.code === 200) {
-            setbatches(res.data.data.result);        
+            setbatches(res.data.data.result); 
+            
+            setDefaultBatch(res.data.data.result[0]?.id);  
+            setSelectedBatch(res.data.data.result[0]);
+            // console.log()     
         }
     } 
     const togglepayment = () => {
@@ -52,7 +62,12 @@ const PaymentPopup = ({nextPage, setOrderData, courseId, setopenpayment}) => {
               <Col>                
                 <div className='batch-list'>
                     <div className="starte-style">                    
-                    <input type="radio" name="batch" onChange={onChangeBatch}  value={element.id}></input>
+                    <input type="radio" name="batch" 
+                        onChange={onChangeBatch} 
+                        checked={defaultBatch == element.id }
+                        
+                        value={element.id}
+                        ></input>
                     <label style={{marginTop : '5px'}}>
                          Starting from
                     </label>

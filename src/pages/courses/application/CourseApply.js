@@ -7,6 +7,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 import { arrowBack, femaleIcon, maleIcon } from '../../../assets/images';
 import { setLoading } from '../../../redux/actions/LoaderActions';
+import Loader from '../../../components/util-comonents/Loader';
 import ApiService from '../../../services/ApiService';
 import ApplicationStatus from './ApplicationStatus';
 import './CourseApply.scss';
@@ -17,6 +18,7 @@ import MultiStepBar from './FormProgress';
 import KYCDocuments from './KYCDocuments';
 import Payments from './Payments';
 import TestResult from './TestResult';
+import { isEmpty } from 'lodash';
 
 const steps = [
   'personal_details',
@@ -44,6 +46,8 @@ const CourseApplication = () => {
   const [isNextLoading, setIsNextLoading] = React.useState(false);
   const [applicationDetails, setApplicationDetails] = React.useState();
   const [batches, setBatches] = React.useState([]);
+  const [userData, setUserData] = React.useState();
+  const [selectedBatch, setSelectedBatch] = React.useState();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -51,22 +55,22 @@ const CourseApplication = () => {
   const params = useParams();
 
   const fetchUserDetails = async (uid) => {
-    setIsLoading(true);
     let personalDetails = {};
     let educationalDetails = {};
-    const userProfile = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
-    personalDetails = userProfile?.data?.data?.userProfile?.personal_details ?? personalDetails;
+    const userDetails = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
+    setInitialData(userDetails?.data?.data?.user);
+    setUserData(userDetails?.data?.data?.user);
+    personalDetails = userDetails?.data?.data?.userProfile?.personal_details ?? personalDetails;
     educationalDetails.education_details =
-      userProfile?.data?.data?.userProfile?.education_details ?? educationalDetails;
-    educationalDetails.work_details = userProfile?.data?.data?.userProfile?.work_details ?? [];
+      userDetails?.data?.data?.userProfile?.education_details ?? educationalDetails;
+    educationalDetails.work_details = userDetails?.data?.data?.userProfile?.work_details ?? [];
     nextPageNumber(0);
-    if (personalDetails) {
+    if (!isEmpty(personalDetails)) {
       setPersonalDetailsInForm(personalDetails);
     }
-    if (educationalDetails) {
+    if (!isEmpty(educationalDetails)) {
       setEducationalDetails(educationalDetails);
     }
-    setIsLoading(false);
   };
 
   const setPersonalDetailsInForm = (details) => {
@@ -80,12 +84,19 @@ const CourseApplication = () => {
     return res?.data?.data?.course;
   };
 
+  const setInitialData = (initData) => {
+    formik.setValues({ email: initData?.email }); //mobile_number: initData?.phone
+    // setMobileNumber({ phone: initData?.phone})
+  }
+
   const fetchInitialData = async (uid) => {
+    setIsLoading(true);
     const courseData = state ? state : await fetchCourseDetails(params);
     setCourseDetails(courseData);
-    await fetchUserDetails(uid);
-    await fetchVariantBatches(courseData.id);
+    fetchUserDetails(uid);
     await fetchApplicationDetails(uid, courseData.id);
+    fetchVariantBatches(courseData.id);
+    setIsLoading(false);
   };
 
   const fetchApplicationDetails = async (uid, courseId) => {
@@ -99,7 +110,9 @@ const CourseApplication = () => {
       payload,
       true
     );
+
     if (applicationDetails?.data?.data.application) {
+      console.log(applicationDetails?.data?.data.application);
       const { application_stage, m_applicationstatus, m_totalscore, m_candidatescore } =
         applicationDetails?.data?.data.application;
       const obj = {
@@ -116,6 +129,10 @@ const CourseApplication = () => {
         nextPageNumber(3);
       } else if (application_stage === 'application_status') {
         nextPageNumber(4);
+      } else if ( application_stage === 'payment_status' && m_applicationstatus === 'Payment Failed' ) {
+        nextPageNumber(4);
+      } else if ( application_stage === 'payment_status' && m_applicationstatus === 'Payment Successfull' ) {
+        nextPageNumber(6);
       }
     }
   };
@@ -183,7 +200,7 @@ const CourseApplication = () => {
         ...rest,
       };
       formPersonalDetailsPayload(personalDetails);
-    },
+    }
   });
 
   const nextPageNumber = (pageNumber) => {
@@ -249,7 +266,7 @@ const CourseApplication = () => {
 
   return (
     <>
-      {!isLoading && (
+      {!isLoading ? (
         <div className="course-application">
           <div className="container">
           <div className="d-flex mt-5 back-btn">
@@ -334,6 +351,7 @@ const CourseApplication = () => {
                           onBlur={formik.handleBlur}
                           placeholder="Enter your Email"
                           value={formik.values?.email}
+                          disabled={ userData?.email }
                         />
                         {formik.touched.email && formik.errors.email ? (
                           <div className="error-message">{formik.errors.email}</div>
@@ -355,7 +373,7 @@ const CourseApplication = () => {
                           countryCodeEditable={false}
                           onBlur={formik.handleBlur('mobile_number')}
                           placeholder="Enter your Mobile number"
-                        
+                          disabled={ userData?.phone }
                         />
                         {formik.touched.mobile_number && formik.errors.mobile_number ? (
                           <div className="error-message">{formik.errors.mobile_number}</div>
@@ -456,7 +474,7 @@ const CourseApplication = () => {
                       </Form.Group>
                     </Row>
 
-                    <Row className="d-flex row-align-buttongroups justify-content-end">
+                    <Row className="d-flex justify-content-end my-btn-styles">
                       <Button
                         className="col-1 me-2 btn btn-outline-secondary"
                         variant="outline-secondary"
@@ -502,7 +520,8 @@ const CourseApplication = () => {
                   nextPage={nextPage}
                   application={applicationDetails}
                   setOrderData={setOrderData}
-                  courseId={courseDetails?.id}></ApplicationStatus>
+                  courseId={courseDetails?.id}
+                  setSelectedBatch={setSelectedBatch}></ApplicationStatus>
               </>
             )}
             {page === 5 && (
@@ -512,6 +531,7 @@ const CourseApplication = () => {
                   course={courseDetails}
                   orderData={orderData}
                   application={applicationDetails}
+                  selectedBatch={selectedBatch}
                   ></Payments>
               </>
             )}
@@ -543,6 +563,8 @@ const CourseApplication = () => {
           </div>
         </div>
         </div>
+      ): (
+        <Loader />
       )}
     </>
   );

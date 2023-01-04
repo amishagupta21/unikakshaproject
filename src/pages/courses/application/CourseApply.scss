@@ -45,6 +45,11 @@
 	.form-select {
 		border: 2px solid #ced4da !important;
 		padding: 0.675rem 0.75rem !important;
+
+		&:disabled {
+			cursor: not-allowed;
+			background-color: #fff;
+		}
 	}
 
 	.form-check {
@@ -202,4 +207,9 @@
 		position: absolute;
 		font-size: .8em;
 	}
+}
+
+.d-flex.justify-content-end.my-btn-styles.row .btn {
+    max-width: 120px;
+    margin: 0 8px;
 }

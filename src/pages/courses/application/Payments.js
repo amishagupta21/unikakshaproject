@@ -18,6 +18,9 @@ const Payments = (params) => {
     const nextPage = params.nextPage;
     const orderData = params.orderData;
     const applicationDetails = params.application;
+    const selectedBatch = params.selectedBatch;
+
+    console.log(applicationDetails);
 
     useEffect(() => {
 
@@ -29,8 +32,6 @@ const Payments = (params) => {
     const fetchUserDetails = async (uid) => {
        
         const response = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
-
-        // console.log(response?.data?.data?.userProfile?.personal_details);
        
         setUserProfile(response?.data?.data?.userProfile?.personal_details)
     };
@@ -40,6 +41,16 @@ const Payments = (params) => {
         return cdate;
     };
 
+    const convertDate = (dateInput) => {
+        const date = new Date(dateInput);
+        const formattedDate = date.toLocaleDateString('en-GB', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+        });
+        return formattedDate;
+    };
+
     const createPaymant = async (paymentResponse, status) => {
         const payload = {
             uid: applicationDetails?.uid,
@@ -47,7 +58,7 @@ const Payments = (params) => {
                 {
                     application_id: applicationDetails?._id,
                     course_variant_id: courseData?.id,
-                    batch_id: "02f810b9-df35-4a8c-86c4-27408eac840a",
+                    batch_id: selectedBatch?.id,
                     registration_fee: 2500,
                     discount_coupon: "",
                     discount_amount: 0,
@@ -60,6 +71,7 @@ const Payments = (params) => {
         
          
         };
+        console.log(payload);
         const response = await ApiService('/order/create-payment', `POST`, payload, true);
         if (response?.data.code === 200) {
             nextPage();
@@ -167,7 +179,7 @@ const Payments = (params) => {
                     <p className='text-primary text-center message1'> Course details</p>
                     <p className='text-primary text-center message2'>Batch name: {courseData?.course_title}</p>
                     <p className='text-primary text-center message3'>Batch type : {courseData?.variant_name}</p>
-                    <p className='text-primary text-center message3'>Batch Time : 09:00 AM, 11/12/2022</p>
+                    <p className='text-primary text-center message3'>Batch Time : { convertDate(selectedBatch?.start_date)}</p>
                 </div>
                 <div className='mt-5 d-flex align-items-center justify-content-center footer-content'>
                     <p>We have sent you the transaction details on your email and whatsapp.</p>

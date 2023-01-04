@@ -10806,7 +10806,6 @@ h2.title-head, .title-head.h2 {
 }
 
 section {
-  float: left;
   width: 100%;
 }
 
@@ -11626,6 +11625,10 @@ code {
 
 .add-popup .modal-dialog.modal-lg {
   max-width: 900px;
+}
+
+.react-tel-input .selected-flag {
+  background-color: unset !important;
 }
 
 /*# sourceMappingURL=index.css.map */
