@@ -116,7 +116,7 @@ const EducationalDetails = (educationalInfo) => {
         }
       });
     }
-    console.log(educationalDetails);
+    // console.log(educationalDetails);
     // if (educationalDetails && educationalDetails?.work_details.length) {
     //   formData.position = educationalDetails.work_details[0].position;
     //   formData.organization_name = educationalDetails.work_details[0].organization_name;
@@ -145,7 +145,40 @@ const EducationalDetails = (educationalInfo) => {
     }),
     validate: (values) => {
       let errors = {};
-      
+      if (!values.schoolDiplomaCollegeName) {
+        errors.schoolDiplomaCollegeName = '*School Name is Required';
+      }
+      if (!values.schoolYearOfCompletion) {
+        errors.schoolYearOfCompletion = '*12th/Diplomo completion year is required';
+      }
+      if (!values.schoolMarks) {
+        errors.schoolMarks = '*12th/Diplomo Mark is required';
+      }
+      if (highestQualification === 'UG' || highestQualification === 'PG') {
+        if (!values.ugCollegeName) {
+          errors.ugCollegeName = '*College Name is Required';
+        }
+        if (!values.ugYOC) {
+          errors.ugYOC = '*UG completion year is required';
+        }
+        if (
+          (!values.ugMarks && highestQualification === 'PG') ||
+          (!values.ugMarks && highestQualification === 'UG' && graduatedYesOrNo === 'yes')
+        ) {
+          errors.ugMarks = '*UG Mark is required';
+        }
+      }
+      if (highestQualification === 'PG') {
+        if (!values.pgCollegeName) {
+          errors.pgCollegeName = '*College Name is Required';
+        }
+        if (!values.pgYOC) {
+          errors.pgYOC = '*PG completion year is required';
+        }
+        if (!values.pgMarks && graduatedYesOrNo === 'yes') {
+          errors.pgMarks = '*PG Mark is required';
+        }
+      }
       if (
         is_enrolled_other_program === 'yes' &&
         (highestQualification === 'UG' || highestQualification === 'PG')

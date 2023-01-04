@@ -40,7 +40,7 @@ const PersonalDetails = () => {
     const [userData, setUserData] = React.useState();
     const [isLoading, setIsLoading] = React.useState(false);
     const [EducationalData, setEducationalDetails] = React.useState({});
-    
+    const [KYCData, setKYCDetails] = React.useState({});
     
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -111,22 +111,24 @@ const PersonalDetails = () => {
         dispatch(setLoading(true));
         window.scrollTo(0, 0);
         fetchInitialData(user?.uid);
-        dispatch(setLoading(false));
+       
     }, []);
 
     const fetchInitialData = async (uid) => {
 
-        setIsLoading(true);
+       
        
         fetchUserDetails(uid);
        
-        setIsLoading(false);
+        dispatch(setLoading(false));
       };
 
     const fetchUserDetails = async (uid) => {
         let personalDetails = {};
         let educationalDetails = {};
         const userDetails = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
+        console.log(userDetails);
+        setKYCDetails(userDetails?.data?.data?.userProfile?.kyc);
         setInitialData(userDetails?.data?.data?.user);
         setUserData(userDetails?.data?.data?.user);
         personalDetails = userDetails?.data?.data?.userProfile?.personal_details ?? personalDetails;
@@ -430,8 +432,8 @@ const PersonalDetails = () => {
             </div>
 
             <div className="course-application-list" id="kyc">
-                <h3 className="text-primary">Work Details </h3>
-                <KYC />
+                <h3 className="text-primary">Documents & KYC Details </h3>
+                <KYC kycDetails={KYCData}/>
             </div>
                     
         </Col>

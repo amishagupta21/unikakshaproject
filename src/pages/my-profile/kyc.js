@@ -14,7 +14,7 @@ const MandatorySymbol = () => {
     return (<span className="text-danger">*</span>);
 };
 
-const KYC = () => {
+const KYC = ({kycDetails}) => {
 
     const [ panCard, setPanCard ] = React.useState('(Scanned copy of PAN Card)');  
     const [ aadhaarCard, setAadhaarCard ] = React.useState('(Front & back side of your Aadhaar)');  
@@ -22,6 +22,8 @@ const KYC = () => {
     const [ hscCertificate, setHSCCertificate ] = React.useState('(HSC Marksheet / Ceritificate)');
     const [ sscCertificate, setSSCCertificate ] = React.useState('(SSC Marksheet / Ceritificate)');
     const now = 100;
+
+    console.log(kycDetails);
 
     const uploadFile = (docType) => {
    

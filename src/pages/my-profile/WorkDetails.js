@@ -10,8 +10,8 @@ const workDetails = ({educationalDetails}) => {
     const [workingPositionList, setworkingPositionList] = React.useState([]);
 
     //  const educationalDetails = workInfo?.work_details;
-
-     console.log(educationalDetails)
+ 
+    //  console.log(educationalDetails)
 
     useEffect(() => {
        
@@ -22,7 +22,7 @@ const workDetails = ({educationalDetails}) => {
 
         // console.log(await getWorkingPosition());
         setworkingPositionList(await getWorkingPosition());
-        console.log(workingPositionList);
+        // console.log(workingPositionList);
 
         let formData = {};
        
@@ -55,54 +55,21 @@ const workDetails = ({educationalDetails}) => {
         }),
         validate: (values) => {
           let errors = {};
-          if (!values.schoolDiplomaCollegeName) {
-            errors.schoolDiplomaCollegeName = '*School Name is Required';
-          }
-          if (!values.schoolYearOfCompletion) {
-            errors.schoolYearOfCompletion = '*12th/Diplomo completion year is required';
-          }
-          if (!values.schoolMarks) {
-            errors.schoolMarks = '*12th/Diplomo Mark is required';
-          }
-          if (highestQualification === 'UG' || highestQualification === 'PG') {
-            if (!values.ugCollegeName) {
-              errors.ugCollegeName = '*College Name is Required';
-            }
-            if (!values.ugYOC) {
-              errors.ugYOC = '*UG completion year is required';
-            }
-            if (
-              (!values.ugMarks && highestQualification === 'PG') ||
-              (!values.ugMarks && highestQualification === 'UG' && graduatedYesOrNo === 'yes')
-            ) {
-              errors.ugMarks = '*UG Mark is required';
-            }
-          }
-          if (highestQualification === 'PG') {
-            if (!values.pgCollegeName) {
-              errors.pgCollegeName = '*College Name is Required';
-            }
-            if (!values.pgYOC) {
-              errors.pgYOC = '*PG completion year is required';
-            }
-            if (!values.pgMarks && graduatedYesOrNo === 'yes') {
-              errors.pgMarks = '*PG Mark is required';
-            }
-          }
-          if (
-            is_enrolled_other_program === 'yes' &&
-            (highestQualification === 'UG' || highestQualification === 'PG')
-          ) {
-            if (!values.other_program_name) {
-              errors.other_program_name = '*School Name is Required';
-            }
-            if (!values.other_program_college_name) {
-              errors.other_program_college_name = '*College Name is Required';
-            }
-            if (!values.other_program_course_duration) {
-              errors.other_program_course_duration = 'Duration is required';
-            }
-          }
+          
+        //   if (
+        //     is_enrolled_other_program === 'yes' &&
+        //     (highestQualification === 'UG' || highestQualification === 'PG')
+        //   ) {
+        //     if (!values.other_program_name) {
+        //       errors.other_program_name = '*School Name is Required';
+        //     }
+        //     if (!values.other_program_college_name) {
+        //       errors.other_program_college_name = '*College Name is Required';
+        //     }
+        //     if (!values.other_program_course_duration) {
+        //       errors.other_program_course_duration = 'Duration is required';
+        //     }
+        //   }
           return errors;
         },
         onSubmit: (values) => {
