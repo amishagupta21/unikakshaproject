@@ -19,7 +19,6 @@ const Homepage = () => {
     dispatch(setLoading(true));
     data = data['top-courses']?.item;
     let res = await ApiService('home/top-courses', `POST`, { course_variant_ids: data }, true);
-    console.log(`res`, res);
     if (res?.data?.code === 200) {
       setTopCourses(res?.data?.data?.result);
       dispatch(setLoading(false));
@@ -32,6 +31,9 @@ const Homepage = () => {
     const responseData = await JSON.parse(temp3._value);
     setData(responseData);
     fetchCourseDetails(responseData);
+    const uid = JSON.parse(localStorage.getItem('user')).uid;
+    const response = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
+    localStorage.setItem('userData', JSON.stringify(response?.data?.data))
   };
 
   useEffect(() => {
