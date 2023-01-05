@@ -157,7 +157,7 @@ const PersonalDetails = () => {
     
     return (
         <>
-        <div className="my-courses d-flex flex-row mx-auto my-5">
+        <div className="profile-personal d-flex flex-row mx-auto my-5">
         <Col lg={3}>
             <Container>
             <Row className="course-body">
