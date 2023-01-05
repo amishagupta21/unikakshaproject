@@ -9,6 +9,11 @@ const AuthModal = ({ show, handleClose, email, sendOTP }) => {
   const [mobileNumber, setMobileNumber] = React.useState({ phone: '', data: '' });
   const [addMobileError, setAddMobileError] = React.useState('');
 
+  const onExit = () => {
+    setAddMobileError('');
+    handleClose();
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const payload = {
@@ -22,6 +27,7 @@ const AuthModal = ({ show, handleClose, email, sendOTP }) => {
         }
       } else {
         if(response?.data?.code === 200) {
+          onExit();
           sendOTP(payload.phone);
         } else {
           setAddMobileError(response?.data.message);
@@ -30,11 +36,6 @@ const AuthModal = ({ show, handleClose, email, sendOTP }) => {
     }).catch(error => {
       console.log(error)
     });
-  };
-
-  const onExit = () => {
-    setAddMobileError('');
-    handleClose();
   };
 
   return (
