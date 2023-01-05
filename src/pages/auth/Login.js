@@ -19,17 +19,20 @@ import ApiService from '../../services/ApiService';
 import SocialLogin from '../../utils-componets/SocialLogin';
 import './auth.scss';
 import LeftBox from './components/LeftBox';
+import AuthModal from './components/AuthModal';
 
 const Login = () => {
   let isAuth =
     useSelector((state) => state?.auth?.isAuthenticated) ||
     JSON.parse(localStorage.getItem('isAuthenticated'));
   const [loading, setloading] = useState();
+  const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [authError, setAuthError] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const cookie = new Cookies();
+  const [userData, setUserData] = React.useState();
 
   const configureCaptcha = () => {
     return (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signin-container', {
@@ -38,6 +41,9 @@ const Login = () => {
       defaultCountry: 'IN',
     }));
   };
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   useEffect(() => {
     if (isAuth) {
@@ -51,14 +57,19 @@ const Login = () => {
   };
 
   const singInwithEmail = async (values) => {
+    setAuthError();
     setloading(true);
     dispatch(setLoading(true));
     const { email } = values;
     const user = await checkIfUserExists(email, null);
     if (user) {
-      const { phone, uid } = user;
+      const { phone } = user;
       if (phone) {
         sendOTP(phone);
+      } else {
+        const user = await firebase.auth().signInWithEmailAndPassword(email, email);
+        setUserData(email);
+        handleShow();
       }
       setloading(false);
       dispatch(setLoading(false));
@@ -70,6 +81,7 @@ const Login = () => {
   };
 
   const signInWithNumber = async (values) => {
+    setAuthError();
     dispatch(setLoading(true));
     setloading(true);
     const { mobileNumber } = values;
@@ -125,6 +137,9 @@ const Login = () => {
   return (
     <>
       {/* <AuthNavbar /> */}
+      <div className='auth-modal'>
+        <AuthModal show={show} handleClose={handleClose} handleShow={handleShow} email={userData} sendOTP={sendOTP}/>
+      </div>
       <section className="auth_layout login_screen auth-unikaksha">
         <LeftBox />
         <div className="right_box">
@@ -240,6 +255,11 @@ const Login = () => {
                           render={({ values, errors, touched, validateForm }) => (
                             <Form>
                               <h2 className="title-head">Sign in to Unikaksha</h2>
+                              {authError && (
+                                <Alert key="danger" variant="danger">
+                                  {authError}
+                                </Alert>
+                              )}
                               <Field
                                 name="email"
                                 render={({ field, formProps }) => (
