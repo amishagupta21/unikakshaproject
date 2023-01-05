@@ -25,6 +25,23 @@ const KYC = ({kycDetails}) => {
 
     console.log(kycDetails);
 
+    let aadhaarCardName = kycDetails?.aadhar_card ? kycDetails?.aadhar_card.split('/')[3] : '';
+    // setAadhaarCard(aadhaarCardName);
+
+    let hscCertificateName = kycDetails?.hsc_certificate ? kycDetails?.hsc_certificate.split('/')[3] : '';
+    // setHSCCertificate(hscCertificateName);
+
+    let panCardName = kycDetails?.pan_card ? kycDetails?.pan_card.split('/')[3] : '';
+    // setPanCard(panCardName);
+
+    let qCertificateName = kycDetails?.qualification_certificate ? kycDetails?.qualification_certificate.split('/')[3] : '';
+    // setQualificationCertificate(qCertificateName);
+   
+    let sscCertificateName =  kycDetails?.ssc_certificate ? kycDetails?.ssc_certificate.split('/')[3] : '';
+    // setSSCCertificate(sscCertificateName);
+
+    console.log(hscCertificateName);
+
     const uploadFile = (docType) => {
    
         const input = document.createElement("input")
@@ -113,7 +130,7 @@ const KYC = ({kycDetails}) => {
                                 
                                 <h3>PAN Card <MandatorySymbol /></h3>
                                
-                                <p>{panCard}</p>
+                                <p>{ panCardName ? panCardName : panCard }</p>
                                
                             </div>
                             <div className='upload-btn'>
@@ -130,7 +147,7 @@ const KYC = ({kycDetails}) => {
                             <input className="file-upload-input" type='file' onClick={() => uploadFile('aadhar_card')} accept="image/*" />
                             <div className="uploadbtn-text">
                                 <h3>Aadhar Card <MandatorySymbol /></h3>
-                                <p>{ aadhaarCard }</p>
+                                <p>{ aadhaarCardName ? aadhaarCardName : aadhaarCard }</p>
                             </div>
                             <div className='upload-btn'>
                                 <img src={upload}></img>
@@ -143,7 +160,7 @@ const KYC = ({kycDetails}) => {
                             <input className="file-upload-input" type='file'onClick={() => uploadFile('qualification_certificate')} accept="image/*" />
                             <div className="uploadbtn-text">
                                 <h3>Latest Qualification Certificate <MandatorySymbol /></h3>
-                                <p>{qualificationCertificate}</p>
+                                <p>{ qCertificateName ? qCertificateName : qualificationCertificate}</p>
                             </div>
                             <div className='upload-btn'>
                                 <img src={upload}></img>
@@ -159,7 +176,7 @@ const KYC = ({kycDetails}) => {
                             <input className="file-upload-input" type='file'onClick={() => uploadFile('hsc_certificate')} accept="image/*" />
                             <div className="uploadbtn-text">
                                 <h3>HSC Certificate <MandatorySymbol /></h3>
-                                <p>{hscCertificate}</p>
+                                <p>{ hscCertificateName ? hscCertificateName : hscCertificate}</p>
                             </div>
                             <div className='upload-btn'>
                                 <img src={upload}></img>
@@ -172,7 +189,7 @@ const KYC = ({kycDetails}) => {
                             <input className="file-upload-input" type='file'onClick={() => uploadFile('ssc_certificate')} accept="image/*" />
                             <div className="uploadbtn-text">
                                 <h3>SSC Certificate <MandatorySymbol /></h3>
-                                <p>{sscCertificate}</p>
+                                <p>{ sscCertificateName ? sscCertificateName : sscCertificate}</p>
                             </div>
                             <div className='upload-btn'>
                                 <img src={upload}></img>

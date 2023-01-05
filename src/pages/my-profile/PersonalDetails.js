@@ -40,7 +40,7 @@ const PersonalDetails = () => {
     const [userData, setUserData] = React.useState();
     const [isLoading, setIsLoading] = React.useState(false);
     const [EducationalData, setEducationalDetails] = React.useState({});
-    const [KYCData, setKYCDetails] = React.useState({});
+    const [KYCData, setKYCDetails] = React.useState();
     
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -127,7 +127,7 @@ const PersonalDetails = () => {
         let personalDetails = {};
         let educationalDetails = {};
         const userDetails = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
-        console.log(userDetails);
+        // console.log(userDetails);
         setKYCDetails(userDetails?.data?.data?.userProfile?.kyc);
         setInitialData(userDetails?.data?.data?.user);
         setUserData(userDetails?.data?.data?.user);
