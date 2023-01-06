@@ -16,7 +16,7 @@ const workDetails = ({educationalDetails}) => {
     useEffect(() => {
        
         setInitialData();
-      }, [workingPositionList]);
+      }, []);
 
     const setInitialData = async () => {
 

@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import { useDispatch } from 'react-redux';
-import { circleTick, Icon, signDoc, trash, upload, view } from '../../../assets/images';
-import ApiService from '../../../services/ApiService';
-import { openToaster } from '../../../redux/actions/ToastAction';
-import './KYCDocuments.scss';
-import { firebase } from '../../../firebase/firebase';
-import { setLoading } from '../../../redux/actions/LoaderActions';
+import { circleTick, Icon, signDoc, trash, upload, view } from '../../assets/images';
+import ApiService from '../../services/ApiService';
+import { openToaster } from '../../redux/actions/ToastAction';
+import './ProfileKYC.scss';
+import { firebase } from '../../firebase/firebase';
+import { setLoading } from '../../redux/actions/LoaderActions';
 
 const staticContents = {
   uploadBtnText: 'Upload',
@@ -49,7 +49,9 @@ const ActionButtons = ({
           <OverlayTrigger
             placement="top"
             overlay={<Tooltip id={`view-tooltip`}>View Document!</Tooltip>}>
-            <img onClick={() => viewDocument(fileKey)} height="12rem" src={view}></img>
+            <img onClick={() => viewDocument(fileKey)} target="_blank" height="12rem" src={view}></img>
+            {/* <img  onClick={()=> window.open(viewDocument(fileKey), "_blank")} height="12rem" src={view}></img> */}
+           
           </OverlayTrigger>
           <OverlayTrigger
             placement="top"
@@ -90,7 +92,7 @@ const FieldLabel = ({ label, property, fileName }) => {
   );
 };
 
-const KYCDocuments = () => {
+const ProfileKYC = ({kycData}) => {
   const [panCard, setPanCard] = React.useState({
     placeholder: staticContents.panCardPlaceholder,
     percentage: 0,
@@ -112,11 +114,12 @@ const KYCDocuments = () => {
     percentage: 0,
   });
   const [kycDetails, setKycDetails] = React.useState();
+  const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
 
   const dispatch = useDispatch();
 
   const fetchInitialData = () => {
-    const uid = firebase.auth().currentUser.uid;
+    const uid = user?.uid;
     ApiService(`/user/${uid}/detail`, 'GET', {}, true)
       .then((response) => {
         setKycDetails(response.data.data.userProfile.kyc);
@@ -150,14 +153,12 @@ const KYCDocuments = () => {
   };
 
   const deleteAPI = async (docType) => {
-    dispatch(setLoading(true));
     const response = await ApiService(
       '/student/delete-document',
       `DELETE`,
       { document_type: docType },
       true
     );
-    dispatch(setLoading(false));
     return response.data.data.deleted;
   };
 
@@ -175,6 +176,9 @@ const KYCDocuments = () => {
   };
 
   const deleteDocument = async (docType) => {
+
+    dispatch(setLoading(true));
+
     if (await deleteAPI(docType)) {
       switch (docType) {
         case 'pan_card':
@@ -221,6 +225,7 @@ const KYCDocuments = () => {
           break;
       }
     }
+    dispatch(setLoading(false));
   };
 
   const setLoader = (docType, loaded, total) => {
@@ -305,141 +310,144 @@ const KYCDocuments = () => {
 
   return (
     <>
-      <div className="my-4">
+      <div className="my-4 profile-kyc">
         <p className="note">
           Note: Kindly refer <span className="text-secondary">Max: 2 MB, Mini: 500 KB</span> file
           size and format must be JPEG, JPG, PNG, PDF, ZIP file while uploading the documents.
         </p>
         <Row className="my-2">
-          <Col>
-            <div
-              className={`upload-container ${panCard.percentage > 0 ? 'uploading' : ''} ${
-                (panCard.percentage == 100 || kycDetails?.pan_card) ? 'success' : ''
-              }`}>
-              <FieldLabel label="PAN Card" property={panCard} fileName={kycDetails?.pan_card} />
-              <div className="upload-btn">
-                <ActionButtons
-                  fileKey="pan_card"
-                  property={panCard}
-                  viewDocument={viewDocument}
-                  deleteDocument={deleteDocument}
-                  uploadFile={uploadFile}
-                  fileName={kycDetails?.pan_card}
-                />
-              </div>
-            </div>
-          </Col>
-          <Col>
-            <div
-              className={`upload-container ${aadhaarCard.percentage > 0 ? 'uploading' : ''} ${
-                (aadhaarCard.percentage == 100 || kycDetails?.aadhar_card) ? 'success' : ''
-              }`}>
-              <FieldLabel
-                label="Aadhaar Card"
-                property={aadhaarCard}
-                fileName={kycDetails?.aadhar_card}
-              />
-              <div className="upload-btn">
-                <ActionButtons
-                  fileKey="aadhar_card"
-                  property={aadhaarCard}
-                  viewDocument={viewDocument}
-                  deleteDocument={deleteDocument}
-                  uploadFile={uploadFile}
-                  fileName={kycDetails?.aadhar_card}
-                />
-              </div>
-            </div>
-          </Col>
-          <Col>
-            <div
-              className={`upload-container ${
-                qualificationCertificate.percentage > 0 ? 'uploading' : ''
-              } ${(qualificationCertificate.percentage == 100 || kycDetails?.qualification_certificate) ? 'success' : ''}`}>
-              <FieldLabel
-                label="Latest Qualification Certificate"
-                property={qualificationCertificate}
-                fileName={kycDetails?.qualification_certificate}
-              />
-              <div className="upload-btn">
-                <ActionButtons
-                  fileKey="qualification_certificate"
-                  property={qualificationCertificate}
-                  viewDocument={viewDocument}
-                  deleteDocument={deleteDocument}
-                  uploadFile={uploadFile}
-                  fileName={kycDetails?.qualification_certificate}
-                />
-              </div>
-            </div>
-          </Col>
-        </Row>
-
-        <Row className="my-4">
-          <Col md={4}>
-            <div
-              className={`upload-container ${hscCertificate.percentage > 0 ? 'uploading' : ''} ${
-                (hscCertificate.percentage == 100 || kycDetails?.hsc_certificate) ? 'success' : ''
-              }`}>
-              <FieldLabel
-                label="HSC Certificate"
-                property={hscCertificate}
-                fileName={kycDetails?.hsc_certificate}
-              />
-              <div className="upload-btn">
-                <ActionButtons
-                  fileKey="hsc_certificate"
-                  property={hscCertificate}
-                  viewDocument={viewDocument}
-                  deleteDocument={deleteDocument}
-                  uploadFile={uploadFile}
-                  fileName={kycDetails?.hsc_certificate}
-                />
-              </div>
-            </div>
-          </Col>
-          <Col md={4}>
-            <div
-              className={`upload-container ${sscCertificate.percentage > 0 ? 'uploading' : ''} ${
-                (sscCertificate.percentage == 100 || kycDetails?.ssc_certificate) ? 'success' : ''
-              }`}>
-              <FieldLabel
-                label="SSC Certificate"
-                property={sscCertificate}
-                fileName={kycDetails?.ssc_certificate}
-              />
-              <div className="upload-btn">
-                <ActionButtons
-                  fileKey="ssc_certificate"
-                  property={sscCertificate}
-                  viewDocument={viewDocument}
-                  deleteDocument={deleteDocument}
-                  uploadFile={uploadFile}
-                  fileName={kycDetails?.ssc_certificate}
-                />
-              </div>
-            </div>
-          </Col>
-          {/* <Col>
-            <div className="upload-container tc">
-              <div className="uploadbtn-text">
-                <div>
-                  <h3>
-                    PAP Terms & Conditions <MandatorySymbol />
-                  </h3>
-                  <p>(Read & Sign the payment and placement T&C)</p>
+            <Col  md={6}>
+              <div
+                className={`upload-container ${panCard.percentage > 0 ? 'uploading' : ''} ${
+                  (panCard.percentage == 100 || kycDetails?.pan_card) ? 'success' : ''
+                }`}>
+                <FieldLabel label="PAN Card" property={panCard} fileName={kycDetails?.pan_card} />
+                <div className="upload-btn">
+                  <ActionButtons
+                    fileKey="pan_card"
+                    property={panCard}
+                    viewDocument={viewDocument}
+                    deleteDocument={deleteDocument}
+                    uploadFile={uploadFile}
+                    fileName={kycDetails?.pan_card}
+                  />
                 </div>
               </div>
-              <div className="upload-btn sign-btn">
-                <img src={signDoc}></img>
-                <p className="sign">Sign</p>
+            </Col>
+            <Col  md={6}>
+              <div
+                className={`upload-container ${aadhaarCard.percentage > 0 ? 'uploading' : ''} ${
+                  (aadhaarCard.percentage == 100 || kycDetails?.aadhar_card) ? 'success' : ''
+                }`}>
+                <FieldLabel
+                  label="Aadhaar Card"
+                  property={aadhaarCard}
+                  fileName={kycDetails?.aadhar_card}
+                />
+                <div className="upload-btn">
+                  <ActionButtons
+                    fileKey="aadhar_card"
+                    property={aadhaarCard}
+                    viewDocument={viewDocument}
+                    deleteDocument={deleteDocument}
+                    uploadFile={uploadFile}
+                    fileName={kycDetails?.aadhar_card}
+                  />
+                </div>
               </div>
-            </div>
-          </Col> */}
+            </Col>
+          </Row>
+
+          <Row className="my-2">
+            <Col  md={6}>
+              <div
+                className={`upload-container ${
+                  qualificationCertificate.percentage > 0 ? 'uploading' : ''
+                } ${(qualificationCertificate.percentage == 100 || kycDetails?.qualification_certificate) ? 'success' : ''}`}>
+                <FieldLabel
+                  label="Latest Qualification Certificate"
+                  property={qualificationCertificate}
+                  fileName={kycDetails?.qualification_certificate}
+                />
+                <div className="upload-btn">
+                  <ActionButtons
+                    fileKey="qualification_certificate"
+                    property={qualificationCertificate}
+                    viewDocument={viewDocument}
+                    deleteDocument={deleteDocument}
+                    uploadFile={uploadFile}
+                    fileName={kycDetails?.qualification_certificate}
+                  />
+                </div>
+              </div>
+            </Col>
+       
+            <Col md={6}>
+              <div
+                className={`upload-container ${hscCertificate.percentage > 0 ? 'uploading' : ''} ${
+                  (hscCertificate.percentage == 100 || kycDetails?.hsc_certificate) ? 'success' : ''
+                }`}>
+                <FieldLabel
+                  label="HSC Certificate"
+                  property={hscCertificate}
+                  fileName={kycDetails?.hsc_certificate}
+                />
+                <div className="upload-btn">
+                  <ActionButtons
+                    fileKey="hsc_certificate"
+                    property={hscCertificate}
+                    viewDocument={viewDocument}
+                    deleteDocument={deleteDocument}
+                    uploadFile={uploadFile}
+                    fileName={kycDetails?.hsc_certificate}
+                  />
+                </div>
+              </div>
+            </Col>
+          </Row>
+          <Row className="my-4">
+            <Col md={6}>
+              <div
+                className={`upload-container ${sscCertificate.percentage > 0 ? 'uploading' : ''} ${
+                  (sscCertificate.percentage == 100 || kycDetails?.ssc_certificate) ? 'success' : ''
+                }`}>
+                <FieldLabel
+                  label="SSC Certificate"
+                  property={sscCertificate}
+                  fileName={kycDetails?.ssc_certificate}
+                />
+                <div className="upload-btn">
+                  <ActionButtons
+                    fileKey="ssc_certificate"
+                    property={sscCertificate}
+                    viewDocument={viewDocument}
+                    deleteDocument={deleteDocument}
+                    uploadFile={uploadFile}
+                    fileName={kycDetails?.ssc_certificate}
+                  />
+                </div>
+              </div>
+            </Col>
+            {/* <Col>
+              <div className="upload-container tc">
+                <div className="uploadbtn-text">
+                  <div>
+                    <h3>
+                      PAP Terms & Conditions <MandatorySymbol />
+                    </h3>
+                    <p>(Read & Sign the payment and placement T&C)</p>
+                  </div>
+                </div>
+                <div className="upload-btn sign-btn">
+                  <img src={signDoc}></img>
+                  <p className="sign">Sign</p>
+                </div>
+              </div>
+            </Col> */}
         </Row>
       </div>
     </>
   );
 };
 
-export default KYCDocuments;
+export default ProfileKYC;

@@ -23,12 +23,12 @@ import {
     ToggleButton
 } from 'react-bootstrap';
 
-import { arrowBack, femaleIcon, maleIcon } from '../../assets/images';
+import { arrowBack, femaleIcon, maleIcon, profilePicture } from '../../assets/images';
 import './PersonalDetails.scss';
 
 import EducationalDetails from './EducationalDetails';
 import WorkDetails from './WorkDetails';
-import KYC from './kyc';
+import ProfileKYC from './ProfileKYC';
 
 
 
@@ -41,6 +41,7 @@ const PersonalDetails = () => {
     const [isLoading, setIsLoading] = React.useState(false);
     const [EducationalData, setEducationalDetails] = React.useState({});
     const [KYCData, setKYCDetails] = React.useState();
+    const [profilePic, setProfilePic] = React.useState(profilePicture);
     
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -116,8 +117,6 @@ const PersonalDetails = () => {
 
     const fetchInitialData = async (uid) => {
 
-       
-       
         fetchUserDetails(uid);
        
         dispatch(setLoading(false));
@@ -154,14 +153,109 @@ const PersonalDetails = () => {
         formik.setValues({ email: initData?.email }); //mobile_number: initData?.phone
         // setMobileNumber({ phone: initData?.phone})
     }
+
+    const uploadFile = (docType) => {
+        const input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.click();
+        input.onchange = async () => {
+          const file = input.files[0];
+          if (file.size / 1e6 > 2) {
+            dispatch(
+              openToaster({
+                show: true,
+                header: 'Warning!',
+                variant: 'warning',
+                body: 'File size exceeds the max. allowed size : 2 Mb',
+              })
+            );
+            return;
+          }
+          uploadToS3(file, docType);
+        };
+    };
+
+    const uploadToS3 = (inputFile, docType) => {
+        dispatch(setLoading(true));
+        if (inputFile) {
+          let promise = new Promise(async (resolve, reject) => {
+            let payload = {
+              file_name: inputFile.name,
+              type: inputFile.type,
+              document_type: docType,
+            };
+    
+            const response = await ApiService('/user/upload/profile-picture', `POST`, payload, true);
+            if (response.data) {
+              uploadUsingSignedUrl(response.data.data.signedUrl, inputFile, docType)
+              
+                .then((res) => {
+                    viewProfilePic('profile_picture')
+                  resolve(true);
+                })
+                .catch((error) => {});
+            }
+          });
+        }
+    };
+
+    const uploadUsingSignedUrl = async (url, data, docType) => {
+        var myHeaders = new Headers();
+        myHeaders.append('Content-Type', data.type);
+        var file = data;
+        const xhr = new XMLHttpRequest();
+        xhr.upload.onprogress = (event) => {
+          setLoader(docType, event.loaded, event.total);
+        };
+        xhr.upload.onload = () => {
+        //   if (docType == 'pan_card') {
+        //     setPanCard((old) => ({ ...old, placeholder: data.name }));
+        //   } else if (docType == 'aadhar_card') {
+        //     setAadhaarCard((old) => ({ ...old, placeholder: data.name }));
+        //   } else if (docType == 'qualification_certificate') {
+        //     setQualificationCertificate((old) => ({ ...old, placeholder: data.name }));
+        //   } else if (docType == 'hsc_certificate') {
+        //     setHSCCertificate((old) => ({ ...old, placeholder: data.name }));
+        //   } else if (docType == 'ssc_certificate') {
+        //     setSSCCertificate((old) => ({ ...old, placeholder: data.name }));
+        //   }
+          return Promise.resolve(true);
+        };
+        xhr.onerror = () => {};
+    
+        xhr.open('PUT', url);
+        xhr.setRequestHeader('Content-Type', data.type);
+        xhr.send(file);
+       
+    };
+
+    const viewProfilePic = async (fileKey) => {
+        
+        const result = await ApiService(
+          '/user/get-profile-picture',
+          `POST`,
+          { document_type: fileKey },
+          true
+        );
+        console.log(result);
+        setProfilePic(result?.data?.data?.signedUrl);
+        dispatch(setLoading(false));
+    
+      };
     
     return (
         <>
         <div className="profile-personal d-flex flex-row mx-auto my-5">
+       
         <Col lg={3}>
+            
             <Container>
             <Row className="course-body">
+
+                
+
                 <Col lg={3} className="side-nave">
+                    
                 <div className="sidebar-container mb5">
                     <Nav defaultActiveKey="#overview" className="flex-column list">
                     <Nav.Link href="#personal">Personal Details </Nav.Link>
@@ -186,6 +280,13 @@ const PersonalDetails = () => {
             {/* {applicationList?.length > 0 ? ( */}
               {/* applicationList.map((application, idx) => {
                 return ( */}
+                   <img src={profilePic} alt="profile" className="profile-avatar" onClick={() => uploadFile('profile_picture')} />
+            
+                    <span className="avatar-name">Profile Picture</span>
+
+            
+
+
                   <Card key="" className="p-3 my-3">
                     <div className="d-flex flex-row">
                       <div className="course-image">
@@ -433,7 +534,7 @@ const PersonalDetails = () => {
 
             <div className="course-application-list" id="kyc">
                 <h3 className="text-primary">Documents & KYC Details </h3>
-                <KYC kycDetails={KYCData}/>
+                <ProfileKYC kycData={KYCData}/>
             </div>
                     
         </Col>
