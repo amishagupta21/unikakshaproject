@@ -59,7 +59,7 @@ const CourseList = ({ courses }) => {
     const highlights = course?.course_variant_sections?.highlights?.value;
     const items = highlights?.map((element, index) => {
       return (
-        <p key={index} style={{ 'font-size': '14px' }}>
+        <p key={index} style={{ 'fontSize': '14px' }}>
           <img className="me-1" src={tick} /> {element.value}
         </p>
         
