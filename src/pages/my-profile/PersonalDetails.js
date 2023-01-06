@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import PhoneInput from 'react-phone-input-2';
-import { setLoading } from '../../redux/actions/LoaderActions';
 import { useDispatch } from 'react-redux';
+import { setLoading } from '../../redux/actions/LoaderActions';
+
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ApiService from '../../services/ApiService';
 import { isEmpty } from 'lodash';
@@ -23,7 +24,7 @@ import {
     ToggleButton
 } from 'react-bootstrap';
 
-import { arrowBack, femaleIcon, maleIcon, profilePicture } from '../../assets/images';
+import { arrowBack, femaleIcon, maleIcon, profilePicture, profileEditIcon } from '../../assets/images';
 import './PersonalDetails.scss';
 
 import EducationalDetails from './EducationalDetails';
@@ -109,24 +110,31 @@ const PersonalDetails = () => {
     };
 
     useEffect(() => {
+
         dispatch(setLoading(true));
+
+        viewProfilePic('profile_picture');
+
         window.scrollTo(0, 0);
         fetchInitialData(user?.uid);
        
     }, []);
 
+    
+   
+
     const fetchInitialData = async (uid) => {
 
         fetchUserDetails(uid);
        
-        dispatch(setLoading(false));
+       
       };
 
     const fetchUserDetails = async (uid) => {
         let personalDetails = {};
         let educationalDetails = {};
         const userDetails = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
-        // console.log(userDetails);
+        
         setKYCDetails(userDetails?.data?.data?.userProfile?.kyc);
         setInitialData(userDetails?.data?.data?.user);
         setUserData(userDetails?.data?.data?.user);
@@ -135,6 +143,7 @@ const PersonalDetails = () => {
           userDetails?.data?.data?.userProfile?.education_details ?? educationalDetails;
         educationalDetails.work_details = userDetails?.data?.data?.userProfile?.work_details ?? [];
         // nextPageNumber(0);
+       
         if (!isEmpty(personalDetails)) {
           setPersonalDetailsInForm(personalDetails);
         }
@@ -281,8 +290,12 @@ const PersonalDetails = () => {
               {/* applicationList.map((application, idx) => {
                 return ( */}
                    <img src={profilePic} alt="profile" className="profile-avatar" onClick={() => uploadFile('profile_picture')} />
-            
-                    <span className="avatar-name">Profile Picture</span>
+                
+                   
+                    <span className="avatar-name">
+                      Profile Picture
+                    <img src={profileEditIcon} alt="profile-edit-icon" onClick={() => uploadFile('profile_picture')} />
+                    </span>
 
             
 

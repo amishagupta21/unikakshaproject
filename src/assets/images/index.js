@@ -20,6 +20,7 @@ import iconGit from './icon-git.png';
 import selectImg from './selectImg.png';
 import iconActivity from './icon-activity.png';
 import editIcon from './edit-icon.svg';
+import profileEditIcon from './profile-edit-icon.svg';
 import iconNetworkSvg from './icon-network.svg';
 import bannerLogo from './banner-logo.png';
 import iconFacebookNew from './icon-facebook-new.png';
@@ -121,6 +122,7 @@ export {
     selectImg,
     iconActivity,
     editIcon,
+    profileEditIcon,
     iconNetworkSvg,
     bannerLogo,
     iconFacebookNew,
