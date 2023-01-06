@@ -214,7 +214,7 @@ const CourseApplication = () => {
         setStepperTitle('Education & Work Details');
         break;
       case 2:
-        setPage(6);
+        setPage(2);
         setStepperTitle('Entrance Test');
         break;
       case 3:
