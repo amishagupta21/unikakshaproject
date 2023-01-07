@@ -1,23 +1,22 @@
 import { useEffect } from 'react';
 
 const Unikode = () => {
-
   const logIntoUnikode = async () => {
-    const email = JSON.parse(localStorage.getItem('userData')).user.email;
+    const username = JSON.parse(localStorage.getItem('userData')).user.moodle_username;
     var form = document.createElement('form');
     form.setAttribute('method', 'post');
     form.setAttribute('action', `${process.env.REACT_APP_UNIKODE_URL}/login/index.php`);
 
     var FN = document.createElement('input');
     FN.setAttribute('type', 'text');
-    FN.setAttribute('value', email)
+    FN.setAttribute('value', username);
     FN.setAttribute('name', 'username');
-    FN.setAttribute('hidden', true)
+    FN.setAttribute('hidden', true);
     FN.setAttribute('placeholder', 'Full Name');
 
     var PWD = document.createElement('input');
     PWD.setAttribute('type', 'password');
-    PWD.setAttribute('value', 'oblXgA8o39#B')
+    PWD.setAttribute('value', 'oblXgA8o39#B');
     PWD.setAttribute('name', 'password');
     PWD.setAttribute('hidden', true);
     PWD.setAttribute('placeholder', 'Password');
@@ -38,7 +37,11 @@ const Unikode = () => {
     logIntoUnikode();
   });
 
-  return <p id="unikode" hidden>'Hello'</p>;
+  return (
+    <p id="unikode" hidden>
+      'Hello'
+    </p>
+  );
 };
 
 export default Unikode;
