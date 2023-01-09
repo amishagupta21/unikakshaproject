@@ -82,21 +82,21 @@ const SocialLogin = ({ setFieldValue }) => {
           <img className="mx-2" src={googleIcon} alt="google" />
           Google
         </Button>
-        {/* <Button
+        <Button
           className="social-btn"
           variant="outline-dark"
           onClick={async () => {
             const res = await signInWithFacebook();
-            setFieldValue('email', 'test@yopmail.com');
-            setFieldValue('fullName', 'Testng');
-            if (res?.user) {
-              localStorage.setItem('user', JSON.stringify(res?.user));
-              navigate('/dashboard');
-            }
+            // setFieldValue('email', 'test@yopmail.com');
+            // setFieldValue('fullName', 'Testng');
+            // if (res?.user) {
+            //   localStorage.setItem('user', JSON.stringify(res?.user));
+            //   navigate('/dashboard');
+            // }
           }}>
           <img className="mx-2" src={facebookIcon} alt="facebook" />
           Facebook
-        </Button> */}
+        </Button>
       </div>
     </>
   );
