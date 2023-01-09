@@ -154,11 +154,11 @@ const StudentCourseApplication = () => {
       course_start_date: new Date(batches[0].start_date).toLocaleDateString(),
       personal_details: personalDetails,
     };
-    // const response = await ApiService('/student/personal-details', `POST`, payload, true);
-    // setIsNextLoading(false);
-    // if (response?.data.code === 200) {
+    const response = await ApiService('/student/personal-details', `POST`, payload, true);
+    setIsNextLoading(false);
+    if (response?.data.code === 200) {
       nextPage();
-    // }
+    }
   };
 
   const formik = useFormik({
