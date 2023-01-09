@@ -254,12 +254,12 @@ const PersonalDetails = () => {
     
     return (
         <>
-        <div className="profile-personal d-flex flex-row mx-auto my-5">
+        <div className="profile-personal d-flex flex-row mx-auto my-5 profile-personal-form">
+       <div className="container">
        
-        <Col lg={3}>
             
-            <Container>
-            <Row className="course-body">
+        
+            <Row>
 
                 
 
@@ -277,11 +277,11 @@ const PersonalDetails = () => {
                 </div>
                 </Col>
                 
-            </Row>
-            </Container>
+         
+          
           {/* <InviteNow /> */}
-        </Col>
-        <Col className="applied-courses me-4" lg={9}>
+      
+        <Col className="applied-courses " lg={9}>
          
          
           <div className="course-application-list" id="personal">
@@ -300,7 +300,7 @@ const PersonalDetails = () => {
             
 
 
-                  <Card key="" className="p-3 my-3">
+                
                     <div className="d-flex flex-row">
                       <div className="course-image">
                         {/* <img
@@ -311,7 +311,7 @@ const PersonalDetails = () => {
                               ?.value[0].url
                           }></img> */}
                       </div>
-                      <div className="ps-3 w-100">
+                      <div className="w-100">
                         <Card.Title className="d-flex justify-content-between align-items-center">
                           {/* <div>
                             <p>course_title</p>
@@ -404,7 +404,7 @@ const PersonalDetails = () => {
                                         
 
                                        
-                                        <Form.Group as={Col} sm={6} controlId="whatsapp_number">
+                                        <Form.Group as={Col} sm={6} controlId="whatsapp_number" class="no-whatsapp">
                                             <Form.Label>
                                             Whatsapp Number<span className="text-danger">*</span>
                                             </Form.Label>
@@ -423,13 +423,15 @@ const PersonalDetails = () => {
                                             {formik.touched.whatsapp_number && formik.errors.whatsapp_number ? (
                                             <div className="error-message  mt-3">{formik.errors.whatsapp_number}</div>
                                             ) : null}
-                                            <Form.Check
-                                            style={{ paddingLeft: '1.5em !important', marginTop: '5px' }}
+                                            
+                                            <Form.Check 
+                                            style={{  marginTop: '5px' }}
                                             type="checkbox"
                                             onChange={(value) => copyFromMobileNumber(value)}
-                                            label="Same as mobile number"
+                                            label="Same as mobile number" className="my-code-check"
                                             />
                                         </Form.Group>
+                                       
 
                                         <Form.Group as={Col} sm={6} controlId="gender">
                                             <Form.Label>
@@ -483,7 +485,7 @@ const PersonalDetails = () => {
                                         </Form.Group>
                                         </Row>
                                     
-                                        <Row className="row-bottom" md={3}>
+                                        <Row className="row-bottom" >
                                         <Form.Group as={Col} sm={6} controlId="guardian_details">
                                             <Form.Label>Guardian Detail</Form.Label>
                                             <Form.Control
@@ -496,16 +498,16 @@ const PersonalDetails = () => {
                                         </Form.Group>
                                         </Row>
 
-                                        <Row className="d-flex row-align-buttongroups">
+                                        <Row className="d-flex justify-content-end my-btn-styles row">
                                         <Button
-                                            className="col-1 me-2 btn btn-outline-secondary"
+                                            className=" btn btn-outline-secondary"
                                             variant="outline-secondary"
                                             type="button"
                                             onClick={returnToDashboard}>
                                             Cancel
                                         </Button>
                                         <Button
-                                            className="col-1"
+                                            className="btn"
                                             disabled={!(formik.isValid && formik.dirty) || isNextLoading}
                                             variant="secondary"
                                             type="submit">
@@ -531,7 +533,7 @@ const PersonalDetails = () => {
                       
                       
                     </Card.Footer>
-                  </Card>
+               
                
           </div>
 
@@ -551,8 +553,9 @@ const PersonalDetails = () => {
             </div>
                     
         </Col>
+        </Row>
         {/* <InviteNow /> */}
-       
+        </div>
       </div>
         </>
     )
