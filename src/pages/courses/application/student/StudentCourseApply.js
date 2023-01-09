@@ -81,8 +81,9 @@ const StudentCourseApplication = () => {
   };
   
   const setInitialData = (initData) => {
+
     formik.setValues({ email: initData?.email }); //mobile_number: initData?.phone
-    // setMobileNumber({ phone: initData?.phone})
+    setMobileNumber({ phone: initData?.phone})
   }
 
   const fetchInitialData = async (uid) => {
@@ -153,11 +154,11 @@ const StudentCourseApplication = () => {
       course_start_date: new Date(batches[0].start_date).toLocaleDateString(),
       personal_details: personalDetails,
     };
-    const response = await ApiService('/student/personal-details', `POST`, payload, true);
-    setIsNextLoading(false);
-    if (response?.data.code === 200) {
+    // const response = await ApiService('/student/personal-details', `POST`, payload, true);
+    // setIsNextLoading(false);
+    // if (response?.data.code === 200) {
       nextPage();
-    }
+    // }
   };
 
   const formik = useFormik({
@@ -165,7 +166,7 @@ const StudentCourseApplication = () => {
       full_name: Yup.string().required('Name is required'),
       email: Yup.string().email('Invalid email').required('Email is required'),
       mobile_number: Yup.string().required(),
-      whatsapp_number: Yup.string().required(),
+      whatsapp_number: Yup.string().required('Whatsapp number is required'),
       gender: Yup.string().required(),
       dob: Yup.date().required('Date of birth is requied'),
       guardian_details: Yup.string(),
@@ -339,7 +340,7 @@ const StudentCourseApplication = () => {
                             setMobileNumber({ phone, data });
                           }}
                           onBlur={formik.handleBlur('mobile_number')}
-                          disabled={ userData?.phone }
+                          // disabled={ userData?.phone }
                         />
                         {formik.touched.mobile_number && formik.errors.mobile_number ? (
                           <div className="error-message">{formik.errors.mobile_number}</div>

@@ -52,6 +52,8 @@ const EducationalDetails = (educationalInfo) => {
     const [is_enrolled_other_program, setis_enrolled_other_program] = React.useState('no');
    
     const [isNextLoading, setIsNextLoading] = React.useState(false);
+    const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
+    const [EducationalData, setEducationalDetails] = React.useState({});
 
    
     const educationalDetails = educationalInfo?.educationalInfo;
@@ -229,14 +231,15 @@ const EducationalDetails = (educationalInfo) => {
         },
       ];
       const payload = {
-        education_details: {
-          highest_qualification: highestQualification,
-          qualification: qualification,
-          is_enrolled_other_program: is_enrolled_other_program === 'yes' ? true : false,
-        },
-        work_details: workDetails,
-        uid: user?.uid,
-        course_id: course?.id,
+        uid : user?.uid,
+        "education_details": {
+            highest_qualification : highestQualification,
+            qualification : qualification,
+            is_enrolled_other_program : is_enrolled_other_program === 'yes' ? true : false,
+            other_program_name : "React Js",
+            other_program_college_name : "A. D. Patel Institute of Technology",
+            other_program_course_duration: 60
+        }
       };
       if (is_enrolled_other_program === 'yes') {
         payload.education_details.other_program_name = values.other_program_name;
@@ -250,12 +253,15 @@ const EducationalDetails = (educationalInfo) => {
   });
 
   const submitEducationalDetails = async (payload) => {
-    const response = await ApiService('/student/educational-details', `PUT`, payload, true);
-    setIsNextLoading(false);
+    dispatch(setLoading(true));
+    console.log(payload)
+    const response = await ApiService('/student/update-educational-details', `PATCH`, payload, true);
+    // setIsNextLoading(false);
     if (response?.data.code === 200) {
       setEducationalDetails(payload);
-      nextPage();
+      // nextPage();
     }
+    dispatch(setLoading(false));
   };
 
     return (
