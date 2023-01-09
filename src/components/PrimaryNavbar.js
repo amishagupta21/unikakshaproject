@@ -49,7 +49,7 @@ const PrimaryNavbar = () => {
             <Nav className="ms-auto nav-customs">
               <Nav.Link href="/dashboard#course_list">Courses</Nav.Link>
               {/* <Nav.Link href="https://unikode.unikaksha.com">Unikode</Nav.Link> */}
-              <Nav.Link href="/unikode">Unikode</Nav.Link>
+              <Nav.Link onClick={() => navigate('/unikode')}>Unikode</Nav.Link>
               <Nav.Link href="https://www.unikaksha.com/events/">Event & Content</Nav.Link>
               {/* <Nav.Link href="/dashboard">Courses</Nav.Link> */}
               <Nav.Link href="#features" className="refer-frd">
@@ -75,7 +75,7 @@ const PrimaryNavbar = () => {
                         <img src={Course} alt="my-courses" />
                         My Courses
                       </Dropdown.Item>
-                      
+
                       <Dropdown.Item href="/my-profile" onClick={() => navigate('/my-profile')}>
                         <img src={Profile} alt="profile" />
                         My Profile
