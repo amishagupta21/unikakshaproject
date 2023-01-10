@@ -44,7 +44,7 @@ const PersonalDetails = () => {
     const [isLoading, setIsLoading] = React.useState(false);
     const [EducationalData, setEducationalDetails] = React.useState({});
     const [KYCData, setKYCDetails] = React.useState();
-    const [profilePic, setProfilePic] = React.useState(profilePicture);
+    const [profilePic, setProfilePic] = React.useState();
     
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -307,7 +307,7 @@ const PersonalDetails = () => {
             {/* {applicationList?.length > 0 ? ( */}
               {/* applicationList.map((application, idx) => {
                 return ( */}
-                   <img src={profilePic} alt="profile" className="profile-avatar" onClick={() => uploadFile('profile_picture')} />
+                   <img src={profilePic ? profilePic: profilePicture } alt="profile" className="profile-avatar" onClick={() => uploadFile('profile_picture')} />
                 
                    
                     <span className="avatar-name">

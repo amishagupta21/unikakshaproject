@@ -155,6 +155,7 @@ const StudentCourseApplication = () => {
       personal_details: personalDetails,
     };
     const response = await ApiService('/student/personal-details', `POST`, payload, true);
+    
     setIsNextLoading(false);
     if (response?.data.code === 200) {
       nextPage();
@@ -185,12 +186,13 @@ const StudentCourseApplication = () => {
       const personalDetails = {
         full_name: full_name,
         mobile_number: mobile_number,
-        mobile_cc: `+${mobileState.data.dialCode}`,
+        mobile_cc: `+${mobileState.data}`,
         whatsapp_number: whatsapp_number,
-        whatsapp_cc: `+${whatsAppState.data.dialCode}`,
+        whatsapp_cc: `+${whatsAppState.data}`,
         guardian_details: guardian_details,
         ...rest,
       };
+      // console.log(personalDetails);
       formPersonalDetailsPayload(personalDetails);
     },
   });
