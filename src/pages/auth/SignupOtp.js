@@ -186,7 +186,7 @@ const SignupOtp = () => {
                   <a
                     style={{ cursor: !minutes && !seconds ? 'pointer' : 'not-allowed' }}
                     className={isResendDisabled ? 'resend-otp disabled' : 'resend-otp'}
-                    onClick={() => resendOTP(userSignUpData.phoneNumber)}></a>
+                    onClick={() => resendOTP(userSignUpData.phoneNumber)}>Resend OTP</a>
                   <span>
                     {' '}
                     in {minutes < 10 ? `0${minutes}` : minutes}:{' '}
