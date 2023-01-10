@@ -11,7 +11,7 @@ const workDetails = ({educationalDetails}) => {
 
     //  const educationalDetails = workInfo?.work_details;
  
-    //  console.log(educationalDetails)
+     console.log(educationalDetails)
 
     useEffect(() => {
        

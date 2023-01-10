@@ -49,7 +49,6 @@ const Signup = () => {
       { email, phone: `+${phone}` },
       true
     );
-    console.log(`result check-exists`, result);
     return result?.data?.data?.user;
   };
 

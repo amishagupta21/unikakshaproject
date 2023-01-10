@@ -36,6 +36,8 @@ import ProfileKYC from './ProfileKYC';
 
 const PersonalDetails = () => {
 
+    const [mobileState, setMobileNumber] = React.useState({ phone: '', data: '' });
+    const [whatsAppState, setWhatsAppNumber] = React.useState({ phone: '', data: '' });
     const [genderValue, setGenderValue] = React.useState('');
     const [isNextLoading, setIsNextLoading] = React.useState(false);
     const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
@@ -43,7 +45,7 @@ const PersonalDetails = () => {
     const [isLoading, setIsLoading] = React.useState(false);
     const [EducationalData, setEducationalDetails] = React.useState({});
     const [KYCData, setKYCDetails] = React.useState();
-    const [profilePic, setProfilePic] = React.useState(profilePicture);
+    const [profilePic, setProfilePic] = React.useState();
     
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -52,6 +54,13 @@ const PersonalDetails = () => {
         { name: 'Male', value: 'male', icon: maleIcon },
         { name: 'Female', value: 'female', icon: femaleIcon },
     ];
+
+    const copyFromMobileNumber = (value) => {
+      if (value.target.checked) {
+        setWhatsAppNumber(mobileState.phone);
+        formik.setFieldValue('whatsapp_number', mobileState.phone);
+      }
+    };
 
     const returnToDashboard = () => {
         navigate('/dashboard');
@@ -94,20 +103,29 @@ const PersonalDetails = () => {
     });
 
     const formPersonalDetailsPayload = async (personalDetails) => {
-        setIsNextLoading(true);
+    
+      dispatch(setLoading(true));
         const payload = {
-          uid: user?.uid,
-          course_id: courseDetails?.id,
-          course_title: courseDetails?.course_title,
-          course_duration: courseDetails?.course_variant_sections?.duration,
-          course_start_date: new Date(batches[0].start_date).toLocaleDateString(),
-          personal_details: personalDetails,
+            uid: user?.uid,
+            "personal_details": {
+              full_name: personalDetails?.full_name,
+              email: personalDetails?.email,
+              mobile_number: personalDetails?.mobile_number,
+              mobile_cc: personalDetails?.mobile_cc,
+              whatsapp_number: personalDetails?.whatsapp_number,
+              whatsapp_cc: personalDetails?.whatsapp_cc,
+              gender: personalDetails?.gender,
+              dob: personalDetails?.dob,
+              guardian_details: personalDetails?.guardian_details
+            }
+
         };
-        const response = await ApiService('/student/personal-details', `POST`, payload, true);
-        setIsNextLoading(false);
-        if (response?.data.code === 200) {
-          nextPage();
-        }
+        const response = await ApiService('student/update-personal-details', `PATCH`, payload, true);
+        // setIsNextLoading(false);
+        // if (response?.data.code === 200) {
+        //   nextPage();
+        // }
+        dispatch(setLoading(false));
     };
 
     useEffect(() => {
@@ -135,7 +153,7 @@ const PersonalDetails = () => {
         let personalDetails = {};
         let educationalDetails = {};
         const userDetails = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
-        
+        console.log(userDetails);
         setKYCDetails(userDetails?.data?.data?.userProfile?.kyc);
         setInitialData(userDetails?.data?.data?.user);
         setUserData(userDetails?.data?.data?.user);
@@ -247,7 +265,7 @@ const PersonalDetails = () => {
           { document_type: fileKey },
           true
         );
-        console.log(result);
+       
         setProfilePic(result?.data?.data?.signedUrl);
         dispatch(setLoading(false));
     
@@ -288,8 +306,11 @@ const PersonalDetails = () => {
             {/* {applicationList?.length > 0 ? ( */}
               {/* applicationList.map((application, idx) => {
                 return ( */}
+
                  <div className="upload-area">
-                   <img src={profilePic} alt="profile" className="profile-avatar" onClick={() => uploadFile('profile_picture')} />
+
+                   <img src={profilePic ? profilePic: profilePicture } alt="profile" className="profile-avatar" onClick={() => uploadFile('profile_picture')} />
+
                 
                    
                     <span className="avatar-name">

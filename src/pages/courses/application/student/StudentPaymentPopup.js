@@ -113,7 +113,7 @@ const PaymentPopup = ({nextPage, setOrderData, courseId, setopenpayment, setSele
                     </Row>
                 </div>                                
                 </div>
-                <div className='mt-3 coupon-div'>
+                {/* <div className='mt-3 coupon-div'>
                     <div className="model-body pb-2">
                         <Row>
                             <span className='mtb-10'>
@@ -132,7 +132,7 @@ const PaymentPopup = ({nextPage, setOrderData, courseId, setopenpayment, setSele
                         </span>                            
                         </Row>
                     </div>
-                </div>    
+                </div>     */}
                 <div className="mt-3 model-body">
                     <Row className="mt-2 nomargin amnt-list">
                         <Col md="7 nopadd">

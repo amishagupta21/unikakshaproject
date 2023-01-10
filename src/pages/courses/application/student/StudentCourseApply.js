@@ -81,8 +81,9 @@ const StudentCourseApplication = () => {
   };
   
   const setInitialData = (initData) => {
+
     formik.setValues({ email: initData?.email }); //mobile_number: initData?.phone
-    // setMobileNumber({ phone: initData?.phone})
+    setMobileNumber({ phone: initData?.phone})
   }
 
   const fetchInitialData = async (uid) => {
@@ -154,6 +155,7 @@ const StudentCourseApplication = () => {
       personal_details: personalDetails,
     };
     const response = await ApiService('/student/personal-details', `POST`, payload, true);
+    
     setIsNextLoading(false);
     if (response?.data.code === 200) {
       nextPage();
@@ -165,7 +167,7 @@ const StudentCourseApplication = () => {
       full_name: Yup.string().required('Name is required'),
       email: Yup.string().email('Invalid email').required('Email is required'),
       mobile_number: Yup.string().required(),
-      whatsapp_number: Yup.string().required(),
+      whatsapp_number: Yup.string().required('Whatsapp number is required'),
       gender: Yup.string().required(),
       dob: Yup.date().required('Date of birth is requied'),
       guardian_details: Yup.string(),
@@ -184,12 +186,13 @@ const StudentCourseApplication = () => {
       const personalDetails = {
         full_name: full_name,
         mobile_number: mobile_number,
-        mobile_cc: `+${mobileState.data.dialCode}`,
+        mobile_cc: `+${mobileState.data}`,
         whatsapp_number: whatsapp_number,
-        whatsapp_cc: `+${whatsAppState.data.dialCode}`,
+        whatsapp_cc: `+${whatsAppState.data}`,
         guardian_details: guardian_details,
         ...rest,
       };
+      // console.log(personalDetails);
       formPersonalDetailsPayload(personalDetails);
     },
   });
@@ -339,7 +342,7 @@ const StudentCourseApplication = () => {
                             setMobileNumber({ phone, data });
                           }}
                           onBlur={formik.handleBlur('mobile_number')}
-                          disabled={ userData?.phone }
+                          // disabled={ userData?.phone }
                         />
                         {formik.touched.mobile_number && formik.errors.mobile_number ? (
                           <div className="error-message">{formik.errors.mobile_number}</div>

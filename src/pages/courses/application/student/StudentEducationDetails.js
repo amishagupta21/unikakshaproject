@@ -1,11 +1,12 @@
 import { Button, ButtonGroup, Col, Container, Form, Row, ToggleButton } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import { workingRemote } from '../../../../assets/images';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import ApiService from '../../../../services/ApiService';
 import React, { useEffect } from 'react';
 import lodash from 'lodash';
-import { studentYearsOptions } from '../../../../utils-componets/static-content/DateMonthContent';
+import { studentYearsOptions, studentDiplomaYearsOptions } from '../../../../utils-componets/static-content/DateMonthContent';
 import { getWorkingPosition } from '../../../../services/ReuseableFun';
 
 const highestQualificationOption = [
@@ -82,6 +83,8 @@ const EducationDetails = ({
   // const [yearOfStudyingOption, setYearOfStudyingOption] = React.useState('');
   const [yearOfStudying, setyearOfStudying] = React.useState('');
 
+  const navigate = useNavigate();
+
 
   const yesNo = [
     { name: 'Yes', value: 'yes' },
@@ -91,6 +94,10 @@ const EducationDetails = ({
   useEffect(() => {
     setInitialData();
   }, []);
+
+  const returnToDashboard = () => {
+    navigate('/dashboard');
+  };
 
   const onQualificationChange = (value) => {
     const option = yearOfStudyingOption.filter((e) => e.value === value.target.value);
@@ -250,15 +257,15 @@ const EducationDetails = ({
         },
         {
           level: 'UG',
-          college_name: values.ugCollegeName,
-          year_of_completion: values.ugYOC,
-          passing_marks: values.ugMarks,
+          college_name: 'Test',
+          year_of_completion: '2023',
+          passing_marks: 70,
         },
         {
           level: 'PG',
           college_name: values.pgCollegeName,
           year_of_completion: values.pgYOC,
-          passing_marks: values.pgMarks,
+          passing_marks: 0,
         },
       ];
       if (highestQualification === 'UG') {
@@ -295,8 +302,10 @@ const EducationDetails = ({
   });
 
   const submitEducationalDetails = async (payload) => {
+    console.log(payload);
     const response = await ApiService('/student/educational-details', `PUT`, payload, true);
     setIsNextLoading(false);
+    console.log(response);
     if (response?.data.code === 200) {
       setEducationalDetails(payload);
       nextPage();
@@ -492,7 +501,7 @@ const EducationDetails = ({
                         onChange={formik.handleChange}
                         defaultValue={formik.values?.schoolYearOfCompletion}>
                         <option value="">Select completion Year</option>
-                        {studentYearsOptions.map((option, index) => (
+                        {studentDiplomaYearsOptions.map((option, index) => (
                           <option key={index} value={option.value}>
                             {option.label}
                           </option>
@@ -655,7 +664,8 @@ const EducationDetails = ({
             <Button
               className="col-1 me-2 btn btn-outline-secondary"
               variant="outline-secondary"
-              type="button">
+              type="button"
+              onClick={returnToDashboard}>
               Cancel
             </Button>
             <Button

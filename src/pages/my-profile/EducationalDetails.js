@@ -10,8 +10,10 @@ import { isEmpty } from 'lodash';
 import { yearsOptions } from '../../utils-componets/static-content/DateMonthContent';
 import { Button, ButtonGroup, Col, Container, Form, Row, ToggleButton } from 'react-bootstrap';
 import { workingRemote } from '../../assets/images';
-
+import './EducationalDetails.scss';
 import lodash from 'lodash';
+
+
 
 const highestQualificationOption = [
     { value: '', label: 'Please select' },
@@ -52,12 +54,18 @@ const EducationalDetails = (educationalInfo) => {
     const [is_enrolled_other_program, setis_enrolled_other_program] = React.useState('no');
    
     const [isNextLoading, setIsNextLoading] = React.useState(false);
+    const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
+    const [EducationalData, setEducationalDetails] = React.useState({});
+    const [occupation, setOccupation] = React.useState([]);
 
    
     const educationalDetails = educationalInfo?.educationalInfo;
     // const workDetails = educationalInfo?.educationalData?.work_details;
     // console.log(educationalDetails);
     // console.log(educationalDetails?.work_details);
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const yesNo = [
         { name: 'Yes', value: 'yes' },
@@ -69,6 +77,16 @@ const EducationalDetails = (educationalInfo) => {
     setInitialData();
   }, [educationalDetails]);
 
+  const fetchUserDetails = async (uid) => {
+       
+    const response = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
+
+    setOccupation(response?.data?.data?.userProfile?.occupation)
+
+    
+  }
+
+
   const onQualificationChange = (value) => {
     const option = highestQualificationOption.filter((e) => e.value === value.target.value);
     setYesOrNoLabel(option[0].yesNoLabel);
@@ -78,6 +96,7 @@ const EducationalDetails = (educationalInfo) => {
 
   const setInitialData = async () => {
 
+    fetchUserDetails(user?.uid);
     // setworkingPositionList(await getWorkingPosition());
     let formData = {};
     // console.log(educationalDetails?.work_details);
@@ -85,6 +104,10 @@ const EducationalDetails = (educationalInfo) => {
    
     if (educationData) {
       setHighestQualification(educationData.highest_qualification);
+      if ( educationData.is_enrolled_other_program) {
+        setis_enrolled_other_program('yes');
+      }
+
       const option = highestQualificationOption.filter(
         (e) => e.value === educationData.highest_qualification
       );
@@ -229,36 +252,42 @@ const EducationalDetails = (educationalInfo) => {
         },
       ];
       const payload = {
-        education_details: {
-          highest_qualification: highestQualification,
-          qualification: qualification,
-          is_enrolled_other_program: is_enrolled_other_program === 'yes' ? true : false,
-        },
-        work_details: workDetails,
-        uid: user?.uid,
-        course_id: course?.id,
+        uid : user?.uid,
+        "education_details": {
+            highest_qualification : highestQualification,
+            qualification : qualification,
+            is_enrolled_other_program : is_enrolled_other_program === 'yes' ? true : false,
+            other_program_name : values.other_program_name,
+            other_program_college_name : values.other_program_college_name,
+            other_program_course_duration: values.other_program_course_duration
+        }
       };
-      if (is_enrolled_other_program === 'yes') {
-        payload.education_details.other_program_name = values.other_program_name;
-        payload.education_details.other_program_college_name = values.other_program_college_name;
-        payload.education_details.other_program_course_duration =
-          values.other_program_course_duration;
-      }
-      setIsNextLoading(true);
+      // if (is_enrolled_other_program === 'yes') {
+      //   payload.education_details.other_program_name = values.other_program_name;
+      //   payload.education_details.other_program_college_name = values.other_program_college_name;
+      //   payload.education_details.other_program_course_duration =
+      //     values.other_program_course_duration;
+      // }
+      // setIsNextLoading(true);
+      console.log(payload);
       submitEducationalDetails(payload);
     },
   });
 
   const submitEducationalDetails = async (payload) => {
-    const response = await ApiService('/student/educational-details', `PUT`, payload, true);
-    setIsNextLoading(false);
+    dispatch(setLoading(true));
+    console.log(payload)
+    const response = await ApiService('/student/update-educational-details', `PATCH`, payload, true);
+    // setIsNextLoading(false);
     if (response?.data.code === 200) {
       setEducationalDetails(payload);
-      nextPage();
+      // nextPage();
     }
+    dispatch(setLoading(false));
   };
 
     return (
+      <div className='profile-education-details'>
         <>
             <Form onSubmit={formik.handleSubmit}>
         <>
@@ -723,12 +752,14 @@ const EducationalDetails = (educationalInfo) => {
               disabled={(!formik.isValid && !formik.dirty) || isNextLoading}
               variant="secondary"
               type="submit">
-              {isNextLoading ? 'Saving..' : 'Next'}
+              {isNextLoading ? 'Saving..' : 'Update'}
             </Button>
           </Row>
         </>
       </Form>
+      
         </>
+        </div>
     )
 }
 
