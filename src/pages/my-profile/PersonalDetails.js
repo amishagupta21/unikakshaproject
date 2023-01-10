@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import PhoneInput from 'react-phone-input-2';
 import { useDispatch } from 'react-redux';
 import { setLoading } from '../../redux/actions/LoaderActions';
+import Tab from 'react-bootstrap/Tab';
 
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ApiService from '../../services/ApiService';
@@ -272,42 +273,44 @@ const PersonalDetails = () => {
     
     return (
         <>
-        <div className="profile-personal d-flex flex-row mx-auto my-5 profile-personal-form">
-       <div className="container">
-       
-            
-        
+
+
+<div className="top-dashboard-profiles profile-personal d-flex flex-row mx-auto my-5 profile-personal-form">
+        <Container>
+          <Tab.Container id="left-tabs-example" defaultActiveKey="first">
             <Row>
-
-                
-
-                <Col lg={3} className="side-nave">
-                    
-                <div className="sidebar-container mb5">
-                    <Nav defaultActiveKey="#overview" className="flex-column list">
-                    <Nav.Link href="#personal">Personal Details </Nav.Link>
-                    <Nav.Link href="#educational">Educational Details</Nav.Link>
-                    <Nav.Link href="#work">Work Details</Nav.Link>
-                    <Nav.Link href="#kyc">Documents & KYC</Nav.Link>
-                    {/* <Nav.Link href="#paymode">Payment Structure</Nav.Link> */}
-                   
-                    </Nav>
+              <Col sm={3}>
+                <div className="my-profile-tabs">
+                  <Nav variant="pills" className="flex-column">
+                    <Nav.Item>
+                      <Nav.Link eventKey="first">Personal Details</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="second">Educational Details</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="third">Work Details</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="fourth"> Documents & KYC</Nav.Link>
+                    </Nav.Item>
+                  </Nav>
                 </div>
-                </Col>
-                
-         
-          
-          {/* <InviteNow /> */}
-      
-        <Col className="applied-courses " lg={9}>
-         
-         
-          <div className="course-application-list" id="personal">
+              </Col>
+              <Col sm={9}>
+                <div className='tab-content-right'>
+                <Tab.Content>
+                  <Tab.Pane eventKey="first">
+                  <div className="course-application-list" id="personal">
             <h3 className="text-primary">Personal Details </h3>
             {/* {applicationList?.length > 0 ? ( */}
               {/* applicationList.map((application, idx) => {
                 return ( */}
+
+                 <div className="upload-area">
+
                    <img src={profilePic ? profilePic: profilePicture } alt="profile" className="profile-avatar" onClick={() => uploadFile('profile_picture')} />
+
                 
                    
                     <span className="avatar-name">
@@ -316,7 +319,7 @@ const PersonalDetails = () => {
                     </span>
 
             
-
+                    </div>
 
                 
                     <div className="d-flex flex-row">
@@ -504,6 +507,25 @@ const PersonalDetails = () => {
                                         </Row>
                                     
                                         <Row className="row-bottom" >
+
+                                        <Form.Group as={Col} sm={6}>
+                          <Form.Label>Your occupation*</Form.Label>
+                          <div className="mb-3 occupation-label-group">
+                            <Form.Check inline label="Student." name="group1" type="radio" />
+                            <Form.Check
+                              inline
+                              label="Working professional."
+                              name="group1"
+                              type="radio"
+                            />
+                            <Form.Check
+                              inline
+                              label="I'm currently not working"
+                              name="group1"
+                              type="radio"
+                            />
+                          </div>
+                        </Form.Group>
                                         <Form.Group as={Col} sm={6} controlId="guardian_details">
                                             <Form.Label>Guardian Detail</Form.Label>
                                             <Form.Control
@@ -554,27 +576,30 @@ const PersonalDetails = () => {
                
                
           </div>
-
-            <div className="course-application-list" id="educational">
+                  </Tab.Pane>
+                  <Tab.Pane eventKey="second">   
+                  <div className="course-application-list" id="educational">
                 <h3 className="text-primary">Educational Details </h3>
                 <EducationalDetails  educationalInfo={EducationalData}/>
-            </div>
-
-            <div className="course-application-list" id="work">
+            </div>         
+</Tab.Pane>
+                  <Tab.Pane eventKey="third"> <div className="course-application-list" id="work">
                 <h3 className="text-primary">Work Details </h3>
                 <WorkDetails educationalDetails={EducationalData}/>
-            </div>
-
-            <div className="course-application-list" id="kyc">
+            </div></Tab.Pane>
+                  <Tab.Pane eventKey="fourth"> <div className="course-application-list" id="kyc">
                 <h3 className="text-primary">Documents & KYC Details </h3>
                 <ProfileKYC kycData={KYCData}/>
-            </div>
-                    
-        </Col>
-        </Row>
-        {/* <InviteNow /> */}
-        </div>
+            </div></Tab.Pane>
+                </Tab.Content>
+                </div>
+              </Col>
+            </Row>
+         
+          </Tab.Container>
+        </Container>
       </div>
+    
         </>
     )
 
