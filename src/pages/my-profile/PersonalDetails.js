@@ -486,6 +486,25 @@ const PersonalDetails = () => {
                                         </Row>
                                     
                                         <Row className="row-bottom" >
+
+                                        <Form.Group as={Col} sm={6}>
+                          <Form.Label>Your occupation*</Form.Label>
+                          <div className="mb-3 occupation-label-group">
+                            <Form.Check inline label="Student." name="group1" type="radio" />
+                            <Form.Check
+                              inline
+                              label="Working professional."
+                              name="group1"
+                              type="radio"
+                            />
+                            <Form.Check
+                              inline
+                              label="I'm currently not working"
+                              name="group1"
+                              type="radio"
+                            />
+                          </div>
+                        </Form.Group>
                                         <Form.Group as={Col} sm={6} controlId="guardian_details">
                                             <Form.Label>Guardian Detail</Form.Label>
                                             <Form.Control

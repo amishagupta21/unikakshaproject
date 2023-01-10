@@ -81,3 +81,19 @@
     max-width: 120px;
     margin: 0 8px;
 }
+
+.occupation-label-group .form-check.form-check-inline {
+    margin: 0;
+}
+
+.occupation-label-group .form-check  .form-check-input:checked {
+    background-color: white;
+    border-color: #363F5E;width: 20px;
+    height: 20px;position: relative;
+   
+}
+.occupation-label-group .form-check  .form-check-input:checked:after{     content: "";
+    position: absolute;
+    content: "";
+    background-color: #EF6B29;
+    width: 12px;}
