@@ -17,7 +17,7 @@ const workDetails = ({educationalDetails}) => {
 
     //  const educationalDetails = workInfo?.work_details;
 
-	console.log(educationalDetails);
+	// console.log(educationalDetails);
  
     const dispatch = useDispatch();
 
@@ -39,12 +39,13 @@ const workDetails = ({educationalDetails}) => {
        
         if (educationalDetails && educationalDetails?.work_details.length) {
 			console.log(educationalDetails?.work_details[0]?.position);
-			formData.position = educationalDetails.work_details[0].position;
-			formData.organization_name = educationalDetails.work_details[0].organization_name;
-			formData.experience = educationalDetails.work_details[0].experience;
+			formData.position = educationalDetails.work_details[0]?.position;
+			formData.organization_name = educationalDetails.work_details[0]?.organization_name;
+			formData.experience = educationalDetails.work_details[0]?.experience;
         }
-        // console.log(formData);
+        console.log(formData);
         formik.setValues(formData);
+		
       
     }
 
@@ -110,31 +111,32 @@ const workDetails = ({educationalDetails}) => {
         }
     };
 
+	console.log(formik.values)
+
     return (
         <>
             <div>
 				
 				<Form onSubmit={formik.handleSubmit}>
 				
-					<Row className="d-flex flex-column">
-						<p className="stepper-sub-header">Work Details</p>
-					</Row>
+					
 					<Row className="mb-5">
 					<Form.Group as={Col} controlId="position">
-						<Form.Label>Your current working position</Form.Label>
-						<Form.Select
-						name="position"
-						onBlur={formik.handleBlur}
-						onChange={formik.handleChange}
+                      <Form.Label>Your current working position</Form.Label>
+                      <Form.Select
+                        name="position"
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+						value={formik.values?.position}
 						defaultValue={formik.values?.position}>
-						<option value="">Select your Position</option>
-						{workingPositionList.map((option, index) => (
-							<option key={index} value={option.value}>
-							{option.label}
-							</option>
-						))}
-						;
-						</Form.Select>
+                        <option value="">Select your Position</option>
+                        {workingPositionList.map((option, index) => (
+                          <option key={index} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                        ;
+                      </Form.Select>
 					</Form.Group>
 					<Form.Group as={Col} controlId="experience">
 						<Form.Label>Total technical experience in years</Form.Label>
