@@ -276,7 +276,7 @@ const EducationalDetails = (educationalInfo) => {
 
   const submitEducationalDetails = async (payload) => {
     dispatch(setLoading(true));
-    console.log(payload)
+   
     const response = await ApiService('/student/update-educational-details', `PATCH`, payload, true);
     // setIsNextLoading(false);
     if (response?.data.code === 200) {
