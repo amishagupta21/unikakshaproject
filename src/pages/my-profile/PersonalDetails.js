@@ -25,12 +25,14 @@ import {
     ToggleButton
 } from 'react-bootstrap';
 
-import { arrowBack, femaleIcon, maleIcon, profilePicture, profileEditIcon } from '../../assets/images';
+import { arrowBack, femaleIcon, maleIcon, profilePicture, profileEditIcon, upload, trash } from '../../assets/images';
 import './PersonalDetails.scss';
 
 import EducationalDetails from './EducationalDetails';
 import WorkDetails from './WorkDetails';
 import ProfileKYC from './ProfileKYC';
+import ProfilePopup from  './ProfilePopup'
+import PrimaryNavbar from '../../components/PrimaryNavbar'
 
 
 
@@ -46,9 +48,13 @@ const PersonalDetails = () => {
     const [EducationalData, setEducationalDetails] = React.useState({});
     const [KYCData, setKYCDetails] = React.useState();
     const [profilePic, setProfilePic] = React.useState();
+    const [ profilePopup, setProfilePopup ] = React.useState(false);  
+    
     
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+   
 
     const genderOptions = [
         { name: 'Male', value: 'male', icon: maleIcon },
@@ -233,7 +239,7 @@ const PersonalDetails = () => {
         var file = data;
         const xhr = new XMLHttpRequest();
         xhr.upload.onprogress = (event) => {
-          setLoader(docType, event.loaded, event.total);
+          // setLoader(docType, event.loaded, event.total);
         };
         xhr.upload.onload = () => {
         //   if (docType == 'pan_card') {
@@ -267,9 +273,20 @@ const PersonalDetails = () => {
         );
        
         setProfilePic(result?.data?.data?.signedUrl);
+
+       
         dispatch(setLoading(false));
     
       };
+
+      const viewProfilePhoto = () => {
+        setProfilePopup(true);
+      }
+      const togglePopup = () => {
+        setProfilePopup(false);
+    }
+
+     
     
     return (
         <>
@@ -309,17 +326,56 @@ const PersonalDetails = () => {
 
                  <div className="upload-area">
 
-                   <img src={profilePic ? profilePic: profilePicture } alt="profile" className="profile-avatar" onClick={() => uploadFile('profile_picture')} />
-
-                
+                   <img src={profilePic ? profilePic: profilePicture } alt="profile" className="profile-avatar" onClick={() => viewProfilePhoto()} />
                    
                     <span className="avatar-name">
                       Profile Picture
                     <img src={profileEditIcon} alt="profile-edit-icon" onClick={() => uploadFile('profile_picture')} />
                     </span>
+                    {profilePopup && (
+                      <>
+                          {/* <ProfilePopup profilePhoto={profilePic ? profilePic: profilePicture }/> */}
+                          <div className='profile-popup modal display-block'>
+                            <section className="modal-main">
+                                <div className="model-body">
+                                <div className='modalheader'>
+                                    <span>Upload Photo</span>
+                                    <span className="floatRight close-btn" onClick={() => togglePopup()}>x</span>
+                                </div>
+                                <div className="mt-3">
+                                    <Row className='nomargin batch-head'>
+                                    <img src={ profilePic ? profilePic: profilePicture } alt="profile" className="" onClick={() => viewProfilePhoto()} />
+                                    </Row>  
+                                    
+                                </div>                                
+                                </div>
+                                <div className="mt-3 model-body">
+                                    <Row className="d-flex justify-content-end">
+                                    <Button
+                                        className="col-3 me-2 btn btn-outline-secondary"
+                                        variant="outline-secondary"
+                                        type="button"
+                                        onClick={() => uploadFile('profile_picture')}>
+                                        <img src={upload}></img> Upload
+                                    </Button>
 
+                                    <Button
+                                        className="col-3"
+                                        variant="secondary"
+                                        type="button"
+                                        onClick={() => togglePopup()}>
+                                        <img src={trash}></img> Delete
+                                    </Button>
+                                    </Row>
+                                </div>
+                                  
+                                
+                            </section>
+                            </div>  
+                      </>
+                      )}  
             
-                    </div>
+                  </div>
 
                 
                     <div className="d-flex flex-row">
