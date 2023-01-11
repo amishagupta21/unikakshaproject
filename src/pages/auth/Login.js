@@ -67,7 +67,7 @@ const Login = () => {
       if (phone) {
         sendOTP(phone);
       } else {
-        const user = await firebase.auth().signInWithEmailAndPassword(email, email);
+        const user = await firebase.auth().signInWithEmailAndPassword(email, 'oblXgA8o39#B');
         setUserData(email);
         handleShow();
       }
