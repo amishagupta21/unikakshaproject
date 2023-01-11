@@ -4,51 +4,58 @@ import * as Yup from 'yup';
 import { Button, ButtonGroup, Col, Container, Form, Row, ToggleButton } from 'react-bootstrap';
 
 import { getWorkingPosition } from '../../services/ReuseableFun';
+import ApiService from '../../services/ApiService';
+import { setLoading } from '../../redux/actions/LoaderActions';
+import { useDispatch } from 'react-redux';
 
 const workDetails = ({educationalDetails}) => {
 
     const [workingPositionList, setworkingPositionList] = React.useState([]);
+	const [isNextLoading, setIsNextLoading] = React.useState(false);
+	const [workData, setWorkDetails] = React.useState({});
+	const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
 
     //  const educationalDetails = workInfo?.work_details;
+
+	console.log(educationalDetails);
  
-     console.log(educationalDetails)
+    const dispatch = useDispatch();
 
     useEffect(() => {
+		dispatch(setLoading(true));
        
         setInitialData();
-      }, []);
+
+		dispatch(setLoading(false));
+      }, [educationalDetails]);
 
     const setInitialData = async () => {
 
         // console.log(await getWorkingPosition());
         setworkingPositionList(await getWorkingPosition());
-        // console.log(workingPositionList);
+        // console.log(educationalDetails?.work_details);
 
         let formData = {};
        
         if (educationalDetails && educationalDetails?.work_details.length) {
-          formData.position = educationalDetails.work_details[0].position;
-          formData.organization_name = educationalDetails.work_details[0].organization_name;
-          formData.experience = educationalDetails.work_details[0].experience;
+			console.log(educationalDetails?.work_details[0]?.position);
+			formData.position = educationalDetails.work_details[0].position;
+			formData.organization_name = educationalDetails.work_details[0].organization_name;
+			formData.experience = educationalDetails.work_details[0].experience;
         }
+        // console.log(formData);
         formik.setValues(formData);
       
     }
 
     const formik = useFormik({
+        initialValues: {
+          position: '',
+          experience: '',
+          organization_name: '',
+        },
         validationSchema: Yup.object().shape({
-          schoolDiplomaCollegeName: Yup.string().required(),
-          schoolYearOfCompletion: Yup.date().required(),
-          schoolMarks: Yup.number().typeError('School marks should be numeric').required(),
-          ugCollegeName: Yup.string(),
-          ugYOC: Yup.date(),
-          ugMarks: Yup.number().typeError('Marks should be numeric'),
-          pgCollegeName: Yup.string(),
-          pgYOC: Yup.date(),
-          pgMarks: Yup.number().typeError('Marks should be numeric'),
-          other_program_name: Yup.string(),
-          other_program_college_name: Yup.string(),
-          other_program_course_duration: Yup.string(),
+          
           position: Yup.string(),
           experience: Yup.number(),
           organization_name: Yup.string(),
@@ -73,116 +80,102 @@ const workDetails = ({educationalDetails}) => {
           return errors;
         },
         onSubmit: (values) => {
-          let qualification = [
-            {
-              level: 'Diploma_or_12th',
-              college_name: values.schoolDiplomaCollegeName,
-              year_of_completion: values.schoolYearOfCompletion,
-              passing_marks: values.schoolMarks,
-            },
-            {
-              level: 'UG',
-              college_name: values.ugCollegeName,
-              year_of_completion: values.ugYOC,
-              passing_marks: values.ugMarks,
-            },
-            {
-              level: 'PG',
-              college_name: values.pgCollegeName,
-              year_of_completion: values.pgYOC,
-              passing_marks: values.pgMarks,
-            },
-          ];
-          if (highestQualification === 'UG') {
-            qualification = qualification.slice(0, 2);
-          } else if (highestQualification === 'Diploma_or_12th') {
-            qualification = qualification.slice(0, 1);
-          }
-          let workDetails = [
-            {
-              position: values.position,
-              experience: values.experience,
-              organization_name: values.organization_name,
-            },
-          ];
+         
+          
           const payload = {
-            education_details: {
-              highest_qualification: highestQualification,
-              qualification: qualification,
-              is_enrolled_other_program: is_enrolled_other_program === 'yes' ? true : false,
-            },
-            work_details: workDetails,
-            uid: user?.uid,
-            course_id: course?.id,
-          };
-          if (is_enrolled_other_program === 'yes') {
-            payload.education_details.other_program_name = values.other_program_name;
-            payload.education_details.other_program_college_name = values.other_program_college_name;
-            payload.education_details.other_program_course_duration =
-              values.other_program_course_duration;
-          }
+			uid : user?.uid,
+			"work_details": [{
+				position: values.position,
+              	experience: values.experience,
+              	organization_name: values.organization_name,
+				
+			}]
+		}
+          
+		dispatch(setLoading(true));
           setIsNextLoading(true);
-          submitEducationalDetails(payload);
+
+          submitWorkDetails(payload);
         },
       });
     
-    const submitEducationalDetails = async (payload) => {
-        const response = await ApiService('/student/educational-details', `PUT`, payload, true);
+    const submitWorkDetails = async (payload) => {
+		console.log(payload);
+        const response = await ApiService('student/update-work-details', `PATCH`, payload, true);
         setIsNextLoading(false);
+		dispatch(setLoading(false));
         if (response?.data.code === 200) {
-          setEducationalDetails(payload);
-          nextPage();
+			setWorkDetails(payload);
+         
         }
     };
 
     return (
         <>
             <div>
-            <Row className="d-flex flex-column">
-                    <p className="stepper-sub-header">Work Details</p>
-                  </Row>
-                  <Row className="mb-5">
-                    <Form.Group as={Col} controlId="position">
-                      <Form.Label>Your current working position</Form.Label>
-                      <Form.Select
-                        name="position"
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        defaultValue={formik.values?.position}>
-                        <option value="">Select your Position</option>
-                        {workingPositionList.map((option, index) => (
-                          <option key={index} value={option.value}>
-                            {option.label}
-                          </option>
-                        ))}
-                        ;
-                      </Form.Select>
-                    </Form.Group>
-                    <Form.Group as={Col} controlId="experience">
-                      <Form.Label>Total technical experience in years</Form.Label>
-                      <Form.Control
-                        name="experience"
-                        type="text"
-                        placeholder="Total technical experience"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values?.experience}
-                      />
-                    </Form.Group>
+				
+				<Form onSubmit={formik.handleSubmit}>
+				
+					<Row className="d-flex flex-column">
+						<p className="stepper-sub-header">Work Details</p>
+					</Row>
+					<Row className="mb-5">
+					<Form.Group as={Col} controlId="position">
+						<Form.Label>Your current working position</Form.Label>
+						<Form.Select
+						name="position"
+						onBlur={formik.handleBlur}
+						onChange={formik.handleChange}
+						defaultValue={formik.values?.position}>
+						<option value="">Select your Position</option>
+						{workingPositionList.map((option, index) => (
+							<option key={index} value={option.value}>
+							{option.label}
+							</option>
+						))}
+						;
+						</Form.Select>
+					</Form.Group>
+					<Form.Group as={Col} controlId="experience">
+						<Form.Label>Total technical experience in years</Form.Label>
+						<Form.Control
+						name="experience"
+						type="text"
+						placeholder="Total technical experience"
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
+						value={formik.values?.experience}
+						/>
+					</Form.Group>
 
-                    <Form.Group as={Col} controlId="currentOrganization">
-                      <Form.Label>Organization you are working in</Form.Label>
-                      <Form.Control
-                        name="organization_name"
-                        type="text"
-                        placeholder="Current organization"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values?.organization_name}
-                      />
-                    </Form.Group>
-                  </Row> 
-                  
+					<Form.Group as={Col} controlId="currentOrganization">
+						<Form.Label>Organization you are working in</Form.Label>
+						<Form.Control
+						name="organization_name"
+						type="text"
+						placeholder="Current organization"
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
+						value={formik.values?.organization_name}
+						/>
+					</Form.Group>
+					</Row> 	
+					<Row className="d-flex justify-content-end">
+						<Button
+						className="col-1 me-2 btn btn-outline-secondary"
+						variant="outline-secondary"
+						type="button">
+						Cancel
+						</Button>
+						<Button
+						className="col-1"
+						disabled={(!formik.isValid && !formik.dirty) || isNextLoading}
+						variant="secondary"
+						type="submit">
+						{isNextLoading ? 'Saving..' : 'Save'}
+						</Button>
+					</Row>
+				</Form>
             </div>
         </>
     )
