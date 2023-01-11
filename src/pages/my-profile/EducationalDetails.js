@@ -752,7 +752,7 @@ const EducationalDetails = (educationalInfo) => {
               disabled={(!formik.isValid && !formik.dirty) || isNextLoading}
               variant="secondary"
               type="submit">
-              {isNextLoading ? 'Saving..' : 'Update'}
+              {isNextLoading ? 'Saving..' : 'Save'}
             </Button>
           </Row>
         </>

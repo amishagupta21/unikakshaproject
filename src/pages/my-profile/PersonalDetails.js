@@ -551,7 +551,7 @@ const PersonalDetails = () => {
                                             disabled={!(formik.isValid && formik.dirty) || isNextLoading}
                                             variant="secondary"
                                             type="submit">
-                                            {isNextLoading ? 'Saving.. ' : 'Next'}
+                                            {isNextLoading ? 'Saving.. ' : 'Save'}
                                         </Button>
                                         </Row>
                                     </>
