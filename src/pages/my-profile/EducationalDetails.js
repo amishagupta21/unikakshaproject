@@ -295,9 +295,7 @@ const EducationalDetails = (educationalInfo) => {
         <>
             <Form onSubmit={formik.handleSubmit}>
         <>
-          <Row className="d-flex flex-column">
-            <p className="stepper-sub-header">Educational Details</p>
-          </Row>
+          
           <Row className="mb-5">
             <Form.Group as={Col} md={4} controlId="qualification">
               <Form.Label>
