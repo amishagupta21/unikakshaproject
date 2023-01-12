@@ -339,7 +339,6 @@ const StudentCourseApplication = () => {
                             setMobileNumber({ phone, data });
                           }}
                           onBlur={formik.handleBlur('mobile_number')}
-                          disabled={ userData?.phone }
                         />
                         {formik.touched.mobile_number && formik.errors.mobile_number ? (
                           <div className="error-message">{formik.errors.mobile_number}</div>
