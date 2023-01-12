@@ -43,7 +43,7 @@ const PrimaryNavbar = () => {
       { document_type: 'profile_picture' },
       true
     );
-   console.log(result?.data?.data?.signedUrl);
+  //  console.log(result?.data?.data?.signedUrl);
     setProfilePic(result?.data?.data?.signedUrl);
 
     

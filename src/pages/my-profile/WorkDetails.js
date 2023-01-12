@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Button, ButtonGroup, Col, Container, Form, Row, ToggleButton } from 'react-bootstrap';
-
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getWorkingPosition } from '../../services/ReuseableFun';
 import ApiService from '../../services/ApiService';
 import { setLoading } from '../../redux/actions/LoaderActions';
@@ -20,6 +20,7 @@ const workDetails = ({educationalDetails}) => {
 	// console.log(educationalDetails);
  
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
 		dispatch(setLoading(true));
@@ -48,6 +49,10 @@ const workDetails = ({educationalDetails}) => {
 		
       
     }
+
+    const returnToDashboard = () => {
+      navigate('/dashboard');
+  };
 
     const formik = useFormik({
         initialValues: {
@@ -111,7 +116,7 @@ const workDetails = ({educationalDetails}) => {
         }
     };
 
-	console.log(formik.values)
+	// console.log(formik.values)
 
     return (
         <>
@@ -166,7 +171,8 @@ const workDetails = ({educationalDetails}) => {
 						<Button
 						className="col-1 me-2 btn btn-outline-secondary"
 						variant="outline-secondary"
-						type="button">
+						type="button"
+            onClick={returnToDashboard}>
 						Cancel
 						</Button>
 						<Button

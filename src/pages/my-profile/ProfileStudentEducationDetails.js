@@ -1,112 +1,138 @@
-import React, { useEffect } from 'react';
+import { Button, ButtonGroup, Col, Container, Form, Row, ToggleButton } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { workingRemote } from '../../assets/images';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import PhoneInput from 'react-phone-input-2';
-import { setLoading } from '../../redux/actions/LoaderActions';
-import { useDispatch } from 'react-redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ApiService from '../../services/ApiService';
-import { isEmpty } from 'lodash';
-import { yearsOptions } from '../../utils-componets/static-content/DateMonthContent';
-import { Button, ButtonGroup, Col, Container, Form, Row, ToggleButton } from 'react-bootstrap';
-import { workingRemote } from '../../assets/images';
-import './EducationalDetails.scss';
+import React, { useEffect } from 'react';
 import lodash from 'lodash';
-
-
+import { studentYearsOptions, studentDiplomaYearsOptions } from '../../utils-componets/static-content/DateMonthContent';
+import { getWorkingPosition } from '../../services/ReuseableFun';
+import { useDispatch } from 'react-redux';
+import { setLoading } from '../../redux/actions/LoaderActions';
 
 const highestQualificationOption = [
-    { value: '', label: 'Please select' },
-    {
-      value: 'Diploma_or_12th',
-      label: '12th / Diploma Graduate',
-      yesNoLabel: '12th / Diploma graduated?',
-    },
-    {
-      value: 'UG',
-      label: 'UG / Bachelors degree Completed',
-      yesNoLabel: 'UG / Bachelors degree completed?',
-    },
-    { value: 'PG', label: 'PG Graduated', yesNoLabel: 'PG Completed?' },
+  { value: '', label: 'Please select' },
+  {
+    value: 'Diploma_or_12th',
+    label: '12th / Diploma Graduate',
+    yesNoLabel: '12th / Diploma graduated?',
+  },
+  {
+    value: 'UG',
+    label: 'UG / Bachelors degree Completed',
+    yesNoLabel: 'UG / Bachelors degree completed?',
+  },
+  { value: 'PG', label: 'PG Graduated', yesNoLabel: 'PG Completed?' },
+];
+
+const yearOfStudyingOption = [
+  { value: '', label: 'Please select' },
+  {
+    value: 'First_year',
+    label: '1st Year',
+    yesNoLabel: '1st Year?',
+  },
+  {
+    value: 'Second_year',
+    label: '2nd Year',
+    yesNoLabel: '2nd Year?',
+  },
+  {
+    value: 'Pre_Final',
+    label: 'Pre Final Year',
+    yesNoLabel: 'Pre Final Year?',
+  },
+  {
+    value: 'Final_Year',
+    label: 'Final Year',
+    yesNoLabel: 'Final Year?',
+  }
+  
+
+ 
+];
+
+const staticContents = {
+  notEligible: `Sorry, You're not eligible at the moment!`,
+};
+
+// eslint-disable-next-line react/prop-types
+const ColoredLine = ({ color }) => (
+  <hr
+    style={{
+      color: color,
+      backgroundColor: color,
+      height: 2,
+    }}
+  />
+);
+
+const ProfileEducationDetails = (
+  educationalInfo
+) => {
+  const [graduatedYesOrNo, setGraduatedYesOrNo] = React.useState('nill');
+  const [yesOrNoLabel, setYesOrNoLabel] = React.useState('');
+  const [highestQualification, setHighestQualification] = React.useState('');
+  const [is_enrolled_other_program, setis_enrolled_other_program] = React.useState('no');
+  const [workingPositionList, setworkingPositionList] = React.useState('');
+  const [isNextLoading, setIsNextLoading] = React.useState(false);
+  const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
+
+  // const [yearOfStudyingOption, setYearOfStudyingOption] = React.useState('');
+  const [yearOfStudying, setyearOfStudying] = React.useState('');
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const educationalDetails = educationalInfo?.educationalInfo;
+  console.log(educationalDetails);
+
+  const yesNo = [
+    { name: 'Yes', value: 'yes' },
+    { name: 'No', value: 'no' },
   ];
-  
-  const staticContents = {
-    notEligible: `Sorry, You're not eligible at the moment!`,
-  };
-  
-  // eslint-disable-next-line react/prop-types
-  const ColoredLine = ({ color }) => (
-    <hr
-      style={{
-        color: color,
-        backgroundColor: color,
-        height: 2,
-      }}
-    />
-  );
-
-
-const EducationalDetails = (educationalInfo) => {
-
-    const [graduatedYesOrNo, setGraduatedYesOrNo] = React.useState('nill');
-    const [yesOrNoLabel, setYesOrNoLabel] = React.useState('');
-    const [highestQualification, setHighestQualification] = React.useState('');
-    const [is_enrolled_other_program, setis_enrolled_other_program] = React.useState('no');
-   
-    const [isNextLoading, setIsNextLoading] = React.useState(false);
-    const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
-    const [EducationalData, setEducationalDetails] = React.useState({});
-    const [occupation, setOccupation] = React.useState([]);
-
-   
-    const educationalDetails = educationalInfo?.educationalInfo;
-    // const workDetails = educationalInfo?.educationalData?.work_details;
-    // console.log(educationalDetails);
-    // console.log(educationalDetails?.work_details);
-
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-
-    const yesNo = [
-        { name: 'Yes', value: 'yes' },
-        { name: 'No', value: 'no' },
-    ];
 
   useEffect(() => {
-    // console.log(educationalInfo)
     setInitialData();
   }, [educationalDetails]);
 
-  const fetchUserDetails = async (uid) => {
-       
-    const response = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
-
-    setOccupation(response?.data?.data?.userProfile?.occupation)
-
-    
-  }
-
   const returnToDashboard = () => {
     navigate('/dashboard');
-};
-
+  };
 
   const onQualificationChange = (value) => {
-    const option = highestQualificationOption.filter((e) => e.value === value.target.value);
+    const option = yearOfStudyingOption.filter((e) => e.value === value.target.value);
     setYesOrNoLabel(option[0].yesNoLabel);
-    setHighestQualification(option[0].value);
+    setyearOfStudying(option[0].value);
     setGraduatedYesOrNo('yes');
   };
 
+  const onYearOfStudyingChange = (value) => {
+    
+    const option = yearOfStudyingOption.filter((e) => e.value === value.target.value);
+    // console.log(option);
+    // setYesOrNoLabel(option[0].yesNoLabel);
+    setyearOfStudying(option[0].value);
+    
+    setHighestQualification(option[0].value);
+   
+    setGraduatedYesOrNo('no');
+  };
+  
   const setInitialData = async () => {
 
-    fetchUserDetails(user?.uid);
-    // setworkingPositionList(await getWorkingPosition());
+    setworkingPositionList(await getWorkingPosition());
+
     let formData = {};
-    // console.log(educationalDetails?.work_details);
+
     let educationData = educationalDetails.education_details;
-   
+
+    console.log(educationData);
+
     if (educationData) {
+
+      setyearOfStudying(educationData.highest_qualification);
       setHighestQualification(educationData.highest_qualification);
       if ( educationData.is_enrolled_other_program) {
         setis_enrolled_other_program('yes');
@@ -115,7 +141,9 @@ const EducationalDetails = (educationalInfo) => {
       const option = highestQualificationOption.filter(
         (e) => e.value === educationData.highest_qualification
       );
+
       setYesOrNoLabel(option[0]?.yesNoLabel);
+      
       setGraduatedYesOrNo(
         educationData.qualification[educationData.qualification.length - 1]?.passing_marks
           ? 'yes'
@@ -143,8 +171,7 @@ const EducationalDetails = (educationalInfo) => {
         }
       });
     }
-    // console.log(educationalDetails);
-    // if (educationalDetails && educationalDetails?.work_details.length) {
+    // if (educationalDetails.work_details.length) {
     //   formData.position = educationalDetails.work_details[0].position;
     //   formData.organization_name = educationalDetails.work_details[0].organization_name;
     //   formData.experience = educationalDetails.work_details[0].experience;
@@ -232,15 +259,15 @@ const EducationalDetails = (educationalInfo) => {
         },
         {
           level: 'UG',
-          college_name: values.ugCollegeName,
-          year_of_completion: values.ugYOC,
-          passing_marks: values.ugMarks,
+          college_name: 'Test',
+          year_of_completion: '2023',
+          passing_marks: 70,
         },
         {
           level: 'PG',
           college_name: values.pgCollegeName,
           year_of_completion: values.pgYOC,
-          passing_marks: values.pgMarks,
+          passing_marks: 0,
         },
       ];
       if (highestQualification === 'UG') {
@@ -272,28 +299,26 @@ const EducationalDetails = (educationalInfo) => {
         payload.education_details.other_program_course_duration =
           values.other_program_course_duration;
       }
-      // setIsNextLoading(true);
-      console.log(payload);
+      setIsNextLoading(true);
       submitEducationalDetails(payload);
     },
   });
 
   const submitEducationalDetails = async (payload) => {
     dispatch(setLoading(true));
-   
     const response = await ApiService('/student/update-educational-details', `PATCH`, payload, true);
-    // setIsNextLoading(false);
+    setIsNextLoading(false);
+    
     if (response?.data.code === 200) {
-      setEducationalDetails(payload);
+      // setEducationalDetails(payload);
       // nextPage();
-    }
+    } 
     dispatch(setLoading(false));
   };
 
-    return (
-      <div className='profile-education-details'>
-        <>
-            <Form onSubmit={formik.handleSubmit}>
+  return (
+    <div>
+      <Form onSubmit={formik.handleSubmit}>
         <>
           <Row className="d-flex flex-column">
             <p className="stepper-sub-header">Educational Details</p>
@@ -301,17 +326,17 @@ const EducationalDetails = (educationalInfo) => {
           <Row className="mb-5">
             <Form.Group as={Col} md={4} controlId="qualification">
               <Form.Label>
-                What is your highest qualification?
+              Year you are studying in?
                 <span className="text-danger">*</span>
               </Form.Label>
               <Form.Select
                 className="form-control"
                 aria-label="highest-qualification"
-                onChange={(value) => onQualificationChange(value)}
+                onChange={(value) => onYearOfStudyingChange(value)}
                 placeholder="Please select"
                 name="qualification"
-                value={highestQualification}>
-                {highestQualificationOption.map((option, index) => (
+                value={yearOfStudying}>
+                {yearOfStudyingOption.map((option, index) => (
                   <option key={index} value={option.value}>
                     {option.label}
                   </option>
@@ -319,37 +344,21 @@ const EducationalDetails = (educationalInfo) => {
                 ;
               </Form.Select>
             </Form.Group>
-            {highestQualification && (
-              <Form.Group as={Col} md={3} controlId="yesOrNo">
-                <Form.Label>
-                  {yesOrNoLabel}
-                  <span className="text-danger">*</span>
-                </Form.Label>
-                <Row>
-                  <ButtonGroup aria-label="select-button">
-                    {yesNo.map((option, idx) => (
-                      <ToggleButton
-                        className="border border-secondary radio-buttons me-2"
-                        key={idx}
-                        style={{ maxWidth: '30%' }}
-                        id={`option-${idx}`}
-                        type="radio"
-                        variant="outline-primary"
-                        name="yesOrNo"
-                        value={option.value}
-                        checked={graduatedYesOrNo === option.value}
-                        onChange={(e) => {
-                          setGraduatedYesOrNo(e.currentTarget.value);
-                        }}>
-                        <span className="options">{option.name}</span>
-                      </ToggleButton>
-                    ))}
-                  </ButtonGroup>
-                </Row>
-              </Form.Group>
-            )}
+            
           </Row>
-          {highestQualification && (
+          {yearOfStudying === 'Final_Year' && (
+            <>
+               
+                <Container className="d-flex flex-row justify-content-center">
+                  <div>
+                    <img style={{ maxWidth: 'max-content' }} src={workingRemote}></img>
+                    <p className="not-eligible-msg">{staticContents.notEligible}</p>
+                  </div>
+                </Container>
+              
+            </>
+          )}
+          {yearOfStudying !== 'Final_Year' && yearOfStudying !== '' && (
             <>
               {graduatedYesOrNo === 'no' && highestQualification === 'Diploma_or_12th' && (
                 <Container className="d-flex flex-row justify-content-center">
@@ -359,10 +368,10 @@ const EducationalDetails = (educationalInfo) => {
                   </div>
                 </Container>
               )}
-              {highestQualification === 'PG' && (
-                <>
+             
+                
                   <Row className="d-flex mb-2 justify-content-center align-items-center">
-                    <span className="sections">PG Degree Details</span>
+                    <span className="sections">UG / Bachelors degree details</span>
                     <Col>
                       <ColoredLine color="grey" />
                     </Col>
@@ -371,7 +380,7 @@ const EducationalDetails = (educationalInfo) => {
                   <Row className="mb-5">
                     <Form.Group as={Col} controlId="pgCollegeName">
                       <Form.Label>
-                        PG college name
+                        UG / Bachelors College name*
                         <span className="text-danger">*</span>
                       </Form.Label>
                       <Form.Control
@@ -394,7 +403,7 @@ const EducationalDetails = (educationalInfo) => {
 
                     <Form.Group as={Col} controlId="pgYOC">
                       <Form.Label>
-                        PG year of completion<span className="text-danger">*</span>
+                      UG/Bachelors Year of completion*<span className="text-danger">*</span>
                       </Form.Label>
                       <Form.Select
                         name="pgYOC"
@@ -405,7 +414,7 @@ const EducationalDetails = (educationalInfo) => {
                         onChange={formik.handleChange}
                         defaultValue={formik.values?.pgYOC}>
                         <option value="">Select completion Year</option>
-                        {yearsOptions.map((option, index) => (
+                        {studentYearsOptions.map((option, index) => (
                           <option key={index} value={option.value}>
                             {option.label}
                           </option>
@@ -441,97 +450,10 @@ const EducationalDetails = (educationalInfo) => {
                       </>
                     )}
                   </Row>
-                </>
-              )}
-              {(highestQualification === 'UG' || highestQualification === 'PG') && (
-                <>
-                  <Row className="d-flex mb-2 justify-content-center align-items-center">
-                    <span className="sections">UG / Bachelors Degree Details</span>
-                    <Col>
-                      <ColoredLine color="grey" />
-                    </Col>
-                  </Row>
-
-                  <Row className="mb-5">
-                    <Form.Group as={Col} controlId="ugCollegeName">
-                      <Form.Label>
-                        UG college name
-                        <span className="text-danger">*</span>
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="UG college name"
-                        name="ugCollegeName"
-                        onChange={formik.handleChange}
-                        className={
-                          formik.touched.ugCollegeName && formik.errors.ugCollegeName
-                            ? 'is-invalid'
-                            : null
-                        }
-                        onBlur={formik.handleBlur}
-                        value={formik.values?.ugCollegeName}
-                      />
-                      {formik.touched.ugCollegeName && formik.errors.ugCollegeName ? (
-                        <div className="error-message">{formik.errors.ugCollegeName}</div>
-                      ) : null}
-                    </Form.Group>
-
-                    <Form.Group as={Col} controlId="ugYOC">
-                      <Form.Label>
-                        UG year of completion<span className="text-danger">*</span>
-                      </Form.Label>
-                      <Form.Select
-                        name="ugYOC"
-                        className={
-                          formik.touched.ugYOC && formik.errors.ugYOC ? 'is-invalid' : null
-                        }
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        defaultValue={formik.values?.ugYOC}>
-                        <option value="">Select completion Year</option>
-                        {yearsOptions.map((option, index) => (
-                          <option key={index} value={option.value}>
-                            {option.label}
-                          </option>
-                        ))}
-                        ;
-                      </Form.Select>
-                      {formik.touched.ugYOC && formik.errors.ugYOC ? (
-                        <div className="error-message">{formik.errors.ugYOC}</div>
-                      ) : null}
-                    </Form.Group>
-                    {(highestQualification === 'PG' ||
-                      (highestQualification === 'UG' && graduatedYesOrNo === 'yes')) && (
-                      <>
-                        <Form.Group as={Col} controlId="ugMarks">
-                          <Form.Label>
-                            UG passing marks
-                            <span className="text-danger">*</span>
-                          </Form.Label>
-                          <Form.Control
-                            type="numeric"
-                            placeholder="UG passing marks"
-                            name="ugMarks"
-                            onChange={formik.handleChange}
-                            className={
-                              formik.touched.ugMarks && formik.errors.ugMarks ? 'is-invalid' : null
-                            }
-                            onBlur={formik.handleBlur}
-                            value={formik.values?.ugMarks}
-                          />
-                          {formik.touched.ugMarks && formik.errors.ugMarks ? (
-                            <div className="error-message">{formik.errors.ugMarks}</div>
-                          ) : null}
-                        </Form.Group>
-                      </>
-                    )}
-                  </Row>
-                </>
-              )}
-              {(highestQualification === 'UG' ||
-                highestQualification === 'PG' ||
-                (graduatedYesOrNo === 'yes' && highestQualification === 'Diploma_or_12th')) && (
-                <>
+              
+            
+              
+             
                   <Row className="d-flex mb-2 justify-content-center align-items-center">
                     <span className="sections">12th / Diploma Course Details</span>
                     <Col>
@@ -583,7 +505,7 @@ const EducationalDetails = (educationalInfo) => {
                         onChange={formik.handleChange}
                         defaultValue={formik.values?.schoolYearOfCompletion}>
                         <option value="">Select completion Year</option>
-                        {yearsOptions.map((option, index) => (
+                        {studentDiplomaYearsOptions.map((option, index) => (
                           <option key={index} value={option.value}>
                             {option.label}
                           </option>
@@ -619,10 +541,8 @@ const EducationalDetails = (educationalInfo) => {
                       ) : null}
                     </Form.Group>
                   </Row>
-                </>
-              )}
-              {(highestQualification === 'UG' || highestQualification === 'PG') && (
-                <>
+                
+              
                   <Row className="d-flex mb-2 justify-content-center align-items-center">
                     <span className="sections">Additional Course Details</span>
                     <Col>
@@ -740,10 +660,10 @@ const EducationalDetails = (educationalInfo) => {
                     </>
                   )}
                   
-                </>
-              )}
+               
             </>
           )}
+           {yearOfStudying !== 'Final_Year' && yearOfStudying !== '' && (
           <Row className="d-flex justify-content-end">
             <Button
               className="col-1 me-2 btn btn-outline-secondary"
@@ -760,12 +680,11 @@ const EducationalDetails = (educationalInfo) => {
               {isNextLoading ? 'Saving..' : 'Save'}
             </Button>
           </Row>
+           )}
         </>
       </Form>
-      
-        </>
-        </div>
-    )
-}
+    </div>
+  );
+};
 
-export default EducationalDetails;
+export default ProfileEducationDetails;

@@ -29,6 +29,7 @@ import { arrowBack, femaleIcon, maleIcon, profilePicture, profileEditIcon, uploa
 import './PersonalDetails.scss';
 
 import EducationalDetails from './EducationalDetails';
+import ProfileStudentEducationDetails from './ProfileStudentEducationDetails'
 import WorkDetails from './WorkDetails';
 import ProfileKYC from './ProfileKYC';
 import ProfilePopup from  './ProfilePopup'
@@ -49,7 +50,7 @@ const PersonalDetails = () => {
     const [KYCData, setKYCDetails] = React.useState();
     const [profilePic, setProfilePic] = React.useState();
     const [ profilePopup, setProfilePopup ] = React.useState(false);  
-    
+    const [occupation, setOccupation] = React.useState([]);
     
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -159,7 +160,8 @@ const PersonalDetails = () => {
         let personalDetails = {};
         let educationalDetails = {};
         const userDetails = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
-        console.log(userDetails);
+       
+        setOccupation(userDetails?.data?.data?.userProfile?.occupation)
         setKYCDetails(userDetails?.data?.data?.userProfile?.kyc);
         setInitialData(userDetails?.data?.data?.user);
         setUserData(userDetails?.data?.data?.user);
@@ -305,12 +307,16 @@ const PersonalDetails = () => {
                     <Nav.Item>
                       <Nav.Link eventKey="second">Educational Details</Nav.Link>
                     </Nav.Item>
+                    { occupation && occupation !== 'STUDENT' && (
                     <Nav.Item>
                       <Nav.Link eventKey="third">Work Details</Nav.Link>
                     </Nav.Item>
+                    )}
+                    { occupation && occupation !== 'STUDENT' && (
                     <Nav.Item>
                       <Nav.Link eventKey="fourth"> Documents & KYC</Nav.Link>
                     </Nav.Item>
+                     )}
                   </Nav>
                 </div>
               </Col>
@@ -565,23 +571,28 @@ const PersonalDetails = () => {
                                         <Row className="row-bottom" >
 
                                         <Form.Group as={Col} sm={6}>
-                          <Form.Label>Your occupation*</Form.Label>
-                          <div className="mb-3 occupation-label-group">
-                            <Form.Check inline label="Student." name="group1" type="radio" />
-                            <Form.Check
-                              inline
-                              label="Working professional."
-                              name="group1"
-                              type="radio"
-                            />
-                            <Form.Check
-                              inline
-                              label="I'm currently not working"
-                              name="group1"
-                              type="radio"
-                            />
-                          </div>
-                        </Form.Group>
+                                            <Form.Label>Your occupation*</Form.Label>
+                                            <div className="mb-3 occupation-label-group">
+                                              <Form.Check inline 
+                                              label="Student." 
+                                              name="occupation"
+                                              value="STUDENT"
+                                              type="radio" />
+                                              <Form.Check
+                                                inline
+                                                label="Working professional."
+                                                name="occupation"
+                                                value="STUDENT"
+                                                type="radio"
+                                              />
+                                              <Form.Check
+                                                inline
+                                                label="I'm currently not working"
+                                                name="group1"
+                                                type="radio"
+                                              />
+                                            </div>
+                                        </Form.Group>
                                         <Form.Group as={Col} sm={6} controlId="guardian_details">
                                             <Form.Label>Guardian Detail</Form.Label>
                                             <Form.Control
@@ -636,7 +647,12 @@ const PersonalDetails = () => {
                   <Tab.Pane eventKey="second">   
                   <div className="course-application-list" id="educational">
                 <h3 className="text-primary">Educational Details </h3>
-                <EducationalDetails  educationalInfo={EducationalData}/>
+                { occupation && occupation === 'STUDENT' && (
+                <ProfileStudentEducationDetails  educationalInfo={EducationalData}/>
+                )}
+                { occupation && occupation !== 'STUDENT' && (
+                  <EducationalDetails  educationalInfo={EducationalData}/>
+                )}
             </div>         
 </Tab.Pane>
                   <Tab.Pane eventKey="third"> <div className="course-application-list" id="work">
