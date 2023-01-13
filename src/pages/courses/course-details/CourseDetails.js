@@ -30,6 +30,7 @@ import {
 import ApiService from '../../../services/ApiService';
 import './CourseDetails.scss';
 import Faqs from './Faqs';
+import LearnerPaymentPopup from './LearnerPaymentPopup'
 
 function CourseDetails() {
   const [courseDetails, setCourseDetails] = React.useState();
@@ -37,6 +38,8 @@ function CourseDetails() {
   const params = useParams();
   const [courseVariantBatches, setVariantCourseBatches] = React.useState([]);
   const [eligibilityCriteria, setEligibilityCriteria] = React.useState([]);
+  const [ openpayment, setopenpayment ] = React.useState(false);   
+
   const navigate = useNavigate();
 
   const fetchCourseDetails = async (params) => {
@@ -54,6 +57,7 @@ function CourseDetails() {
     const courseData = state ? state : await fetchCourseDetails(params);
     const variantBatches = await fetchVariantBatches(courseData.id);
     setCourseDetails(courseData);
+    
     setVariantCourseBatches(variantBatches);
   };
 
@@ -68,8 +72,15 @@ function CourseDetails() {
   };
 
   const apply = (course) => {
-    navigate(`/course/apply/${course.course_url}`, { state: course });
+
+    if ( course?.target_audience === "{Learners}" ) {
+      setopenpayment(true);
+    } else {
+      // setopenpayment(true);
+      navigate(`/course/apply/${course.course_url}`, { state: course });
+    }
   };
+
 
   useEffect(() => {
     fetchInitialData(params);
@@ -119,6 +130,8 @@ function CourseDetails() {
     return items;
   };
 
+ 
+
   const getBatches = () => {
     let items = courseVariantBatches?.map((element, index) => {
       return (
@@ -131,6 +144,7 @@ function CourseDetails() {
                   <img src={calendar1} alt="Calendar" className="calendar-icon" />
                   <span className="text-left-align mtb5">{convertDate(element.start_date)}</span>
                 </p>
+                
                 <Button
                   variant="secondary"
                   className={index == 0 ? '' : 'upcoming-btn'}
@@ -140,6 +154,7 @@ function CourseDetails() {
                   {' '}
                   {index == 0 ? 'Apply Now' : 'Upcoming'}{' '}
                 </Button>
+              
               </Card.Body>
             </Card>
           </Col>
@@ -292,6 +307,11 @@ function CourseDetails() {
   return (
     <>
       <div className="course-details my-5">
+      {openpayment && (
+        <>
+            <LearnerPaymentPopup courseId={courseDetails?.id} courseInfo={courseDetails} />
+        </>
+        )}  
         <Container fluid={true} className="banner">
           <div className="container mx-auto my-4">
             <div className="details my-auto">

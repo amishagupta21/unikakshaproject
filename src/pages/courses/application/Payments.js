@@ -20,7 +20,7 @@ const Payments = (params) => {
     const applicationDetails = params.application;
     const selectedBatch = params.selectedBatch;
 
-    console.log(applicationDetails);
+    // console.log(applicationDetails);
 
     useEffect(() => {
 
@@ -71,7 +71,7 @@ const Payments = (params) => {
         
          
         };
-        console.log(payload);
+        // console.log(payload);
         const response = await ApiService('/order/create-payment', `POST`, payload, true);
         if (response?.data.code === 200) {
             nextPage();
@@ -116,7 +116,7 @@ const Payments = (params) => {
             image: { bannerLogoSvg },
             order_id: orderId,
             handler: async function (response) {
-                console.log(response);
+                
                 if ( response.razorpay_payment_id ) {
                     createPaymant(response, 'Success');
                 } 

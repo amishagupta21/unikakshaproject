@@ -21,6 +21,7 @@ import PrivateRoute from './Routes/PrivateRoutes';
 import Toaster from './components/custom-ui-components/Toaster';
 
 import PersonalDetails from './pages/my-profile/PersonalDetails'
+import LearnerPayments from './pages/courses/course-details/LearnerPayments'
 
 const App = () => {
   const isLoader = useSelector((state) => state?.loader?.isLoading);
@@ -44,6 +45,7 @@ const App = () => {
             <Route path='unikode' element={<Unikode />} />
             <Route path="course/:courseVariantSlug" element={<CourseDetails />} />
             <Route path="my-profile" element={<PersonalDetails/>} />
+            <Route path="payment" element={<LearnerPayments/>} />
           </Route>
           {/* <Route path="dashboard" element={<PrivateRoute><Homepage /></PrivateRoute>}/>
               <Route path="course/apply" element={<PrivateRoute> <CourseApplication /> </PrivateRoute>} />

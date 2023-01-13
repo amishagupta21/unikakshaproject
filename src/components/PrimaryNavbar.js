@@ -33,7 +33,7 @@ const PrimaryNavbar = () => {
   useEffect(() => {
     getProfilePic();
     setUser(JSON.parse(localStorage.getItem('user')));
-  }, [isAuth, profilePic]);
+  }, [isAuth]);
 
   const getProfilePic = async () => {
         

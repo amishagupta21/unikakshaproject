@@ -2,39 +2,68 @@ import React, { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import {
     bannerLogoSvg, PaymentFailure, SuccessTick
-} from '../../../../assets/images';
-import ApiService from '../../../../services/ApiService';
-import './StudentPayments.scss';
+} from '../../../assets/images';
+import ApiService from '../../../services/ApiService';
+import { useDispatch } from 'react-redux';
+import { setLoading } from '../../../redux/actions/LoaderActions';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+// import './Payments.scss';
 
   
-const Payments = (params) => {
+const LearnerPayments = (params) => {
 
     const [paymentResponse, setpaymentResponse] = React.useState();
     const [paymentStatus, setpaymentStatus] = React.useState();
     const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
-    const [userProfile, setUserProfile ] = React.useState();
+    // const [userProfile, setUserProfile ] = React.useState();
+    
+    
+    const [applicationData, setApplication] = React.useState();
+    const [ openpayment, setopenpayment ] = React.useState(true);  
+    
+    // const navigate = useNavigate();
+    
+    const location = useLocation();
 
-    const courseData = params.course;
-    const nextPage = params.nextPage;
-    const orderData = params.orderData;
-    const applicationDetails = params.application;
-    const selectedBatch = params.selectedBatch;
+    const dispatch = useDispatch();
+
+    // console.log(location.state.courseInfo);
+
+    const courseData = location.state.courseInfo;
+    const selectedBatch = location.state.userData
+    const userData = location.state.userData;
+    const orderData = location.state.orderData;
+    console.log(selectedBatch)
+
+
+    // const courseData = params.course;
+    
+    // const orderData = params.orderData;
+    // const applicationDetails = params.application;
+    // const selectedBatch = params.selectedBatch;
+
+    // console.log(applicationDetails);
 
     useEffect(() => {
-        // console.log(selectedBatch[0]);
-        fetchUserDetails(user?.uid);
+
+        dispatch(setLoading(true));
+        
         displayRazorpay();
+
+        dispatch(setLoading(false));
 
     }, []);
 
-    const fetchUserDetails = async (uid) => {
+    // const fetchUserDetails = async (uid) => {
        
-        const response = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
+    //     const response = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
+       
+    //     setUserData(response?.data?.data?.userProfile?.personal_details)
+    //     console.log(userData)
+    //     createOrder();
+    // };
 
-        // console.log(response?.data?.data?.userProfile?.personal_details);
-       
-        setUserProfile(response?.data?.data?.userProfile?.personal_details)
-    };
+    
 
     const getCurrentDateTime = () => {
         let cdate = new Date().toLocaleString()
@@ -49,14 +78,14 @@ const Payments = (params) => {
           year: 'numeric',
         });
         return formattedDate;
-      };
+    };
 
     const createPaymant = async (paymentResponse, status) => {
         const payload = {
-            uid: applicationDetails?.uid,
+            uid: applicationData?.uid,
             "orderItems": [
                 {
-                    application_id: applicationDetails?._id,
+                    application_id: applicationData?._id,
                     course_variant_id: courseData?.id,
                     batch_id: selectedBatch?.id,
                     registration_fee: 2500,
@@ -71,11 +100,12 @@ const Payments = (params) => {
         
          
         };
+        // console.log(payload);
         const response = await ApiService('/order/create-payment', `POST`, payload, true);
         if (response?.data.code === 200) {
-            nextPage();
+            // nextPage();
         }
-      };
+    };
 
     function loadScript(src) {
         return new Promise((resolve) => {
@@ -115,7 +145,7 @@ const Payments = (params) => {
             image: { bannerLogoSvg },
             order_id: orderId,
             handler: async function (response) {
-                // console.log(response);
+                
                 if ( response.razorpay_payment_id ) {
                     createPaymant(response, 'Success');
                 } 
@@ -132,9 +162,9 @@ const Payments = (params) => {
                 // nextPage();
             },
             prefill: {
-                name: userProfile?.full_name,
-                email: userProfile?.email,
-                contact: userProfile?.mobile_number,
+                name: userData?.full_name,
+                email: userData?.email,
+                contact: userData?.mobile_number,
             },
             notes: {
                 address: "Corporate Office",
@@ -230,4 +260,4 @@ const Payments = (params) => {
     );
 }
 
-export default Payments;
+export default LearnerPayments;
