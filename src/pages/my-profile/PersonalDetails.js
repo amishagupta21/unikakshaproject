@@ -83,8 +83,8 @@ const PersonalDetails = () => {
         mobile_number: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required(),
         whatsapp_number: Yup.string().matches(phoneRegExp, 'Whatsapp number is not valid').required(),
         gender: Yup.string().required(),
-        birth_date: Yup.number().required('Date of birth is requied'),
-        birth_month: Yup.number().required('Mont of birth is requied'),
+        birth_date: Yup.number(),
+        birth_month: Yup.number(),
         birth_year: Yup.number().required('Year of birth is requied'),
         guardian_details: Yup.string(),
         occupation: Yup.string().required('Occupation is requied'),
@@ -566,20 +566,20 @@ const PersonalDetails = () => {
                                             </Row>
                                         </Form.Group>
 
-                                        <Form.Group as={Col} lg={2} >
-                                       
+                                        <Form.Group as={Col} lg={4} style={{display: 'flex',justifyContent: 'space-around'}}>
+                                        <div>
                                         <Form.Label>
                                             Day
                                           </Form.Label>
                                           <Form.Select 
                                             name="birth_date"
-                                            // style={{width: '100px'}}
+                                            style={{width: '100px'}}
                                             className={
                                               formik.touched.birth_date && formik.errors.birth_date ? 'is-invalid' : null
                                             }
                                             onBlur={formik.handleBlur}
                                             onChange={formik.handleChange}
-                                            value={formik.values?.birth_date}>
+                                            defaultValue={formik.values?.birth_date}>
                                             <option value=""></option>
                                             {optionsday.map((option, index) => (
                                               <option key={index} value={option.value}>
@@ -591,22 +591,22 @@ const PersonalDetails = () => {
                                           {formik.touched.birth_date && formik.errors.birth_date ? (
                                             <div className="error-message">{formik.errors.birth_date}</div>
                                           ) : null}
-                                        </Form.Group>
+                                        </div>
 
 
-                                        <Form.Group as={Col} lg={2} >
+                                          <div>
                                           <Form.Label>
                                             Month
                                           </Form.Label>
                                           <Form.Select
                                             name="birth_month"
-                                            // style={{width: '170px'}}
+                                            style={{width: '170px'}}
                                             className={
                                               formik.touched.birth_month && formik.errors.birth_month ? 'is-invalid' : null
                                             }
                                             onBlur={formik.handleBlur}
                                             onChange={formik.handleChange}
-                                            value={formik.values?.birth_month}>
+                                            defaultValue={formik.values?.birth_month}>
                                             <option value=""></option>
                                             {optionsmonth.map((option, index) => (
                                               <option key={index} value={option.value}>
@@ -618,22 +618,22 @@ const PersonalDetails = () => {
                                           {formik.touched.birth_month && formik.errors.birth_month ? (
                                             <div className="error-message">{formik.errors.birth_month}</div>
                                           ) : null}
-                                         </Form.Group>
+                                          </div>
 
-                                          
-                                         <Form.Group as={Col} lg={2} >
+
+                                        <div>
                                         <Form.Label>
                                             Year<span className="text-danger">*</span>
                                           </Form.Label>
                                           <Form.Select
                                             name="birth_year"
-                                            // style={{width: '120px', padding: '10px'}}
+                                            style={{width: '120px', padding: '10px'}}
                                             className={
                                               formik.touched.birth_year && formik.errors.birth_year ? 'is-invalid' : null
                                             }
                                             onBlur={formik.handleBlur}
                                             onChange={formik.handleChange}
-                                            value={formik.values?.birth_year}>
+                                            defaultValue={formik.values?.birth_year}>
                                             <option value=""></option>
                                             {yearsOptions.map((option, index) => (
                                               <option key={index} value={option.value}>
@@ -645,9 +645,9 @@ const PersonalDetails = () => {
                                           {formik.touched.birth_year && formik.errors.birth_year ? (
                                             <div className="error-message">{formik.errors.birth_year}</div>
                                           ) : null} 
-                                        
+                                        </div>
                                         </Form.Group>
-                                        </Row>
+                                      </Row>
                                     
                                       <Row className="row-bottom" >
 

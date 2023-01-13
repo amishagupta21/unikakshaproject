@@ -16,6 +16,7 @@ import EnrollmentStatus from './StudentEnrollmentStatus';
 import MultiStepBar from './StudentFormProgress';
 import Payments from './StudentPayments';
 import { isEmpty } from 'lodash';
+import { yearsOptions,optionsmonth,optionsday } from '../../../.././utils-componets/static-content/DateMonthContent';
 
 
 const steps = [
@@ -145,6 +146,7 @@ const StudentCourseApplication = () => {
   };
 
   const formPersonalDetailsPayload = async (personalDetails) => {
+    delete personalDetails.dob;
     setIsNextLoading(true);
     const payload = {
       uid: user?.uid,
@@ -169,7 +171,9 @@ const StudentCourseApplication = () => {
       mobile_number: Yup.string().required(),
       whatsapp_number: Yup.string().required('Whatsapp number is required'),
       gender: Yup.string().required(),
-      dob: Yup.date().required('Date of birth is requied'),
+      birth_date: Yup.number(),
+      birth_month: Yup.number(),
+      birth_year: Yup.number().required('Year of birth is requied'),
       guardian_details: Yup.string(),
     }),
     validate: (values) => {
@@ -192,7 +196,6 @@ const StudentCourseApplication = () => {
         guardian_details: guardian_details,
         ...rest,
       };
-      // console.log(personalDetails);
       formPersonalDetailsPayload(personalDetails);
     },
   });
@@ -410,21 +413,87 @@ const StudentCourseApplication = () => {
                         </Row>
                       </Form.Group>
 
-                      <Form.Group as={Col}  sm={4} controlId="dob">
-                        <Form.Label>
-                          Date of Birth<span className="text-danger">*</span>
-                        </Form.Label>
-                        <Form.Control
-                          type="date"
-                          name="dob"
-                          onChange={formik.handleChange}
-                          value={formik.values?.dob}
-                          className={formik.touched.dob && formik.errors.dob ? 'is-invalid' : null}
-                          onBlur={formik.handleBlur}></Form.Control>
-                        {formik.touched.dob && formik.errors.dob ? (
-                          <div className="error-message">{formik.errors.dob}</div>
-                        ) : null}
-                      </Form.Group>
+                      <Form.Group as={Col} lg={4} style={{display: 'flex',justifyContent: 'space-around'}}>
+                     <div>
+                     <Form.Label>
+                        Day
+                      </Form.Label>
+                      <Form.Select 
+                        name="birth_date"
+                        style={{width: '100px'}}
+                        className={
+                          formik.touched.birth_date && formik.errors.birth_date ? 'is-invalid' : null
+                        }
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        defaultValue={formik.values?.birth_date}>
+                        <option value=""></option>
+                        {optionsday.map((option, index) => (
+                          <option key={index} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                        ;
+                      </Form.Select>
+                      {formik.touched.birth_date && formik.errors.birth_date ? (
+                        <div className="error-message">{formik.errors.birth_date}</div>
+                      ) : null}
+                     </div>
+
+
+                      <div>
+                      <Form.Label>
+                        Month
+                      </Form.Label>
+                      <Form.Select
+                        name="birth_month"
+                        style={{width: '170px'}}
+                        className={
+                          formik.touched.birth_month && formik.errors.birth_month ? 'is-invalid' : null
+                        }
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        defaultValue={formik.values?.birth_month}>
+                        <option value=""></option>
+                        {optionsmonth.map((option, index) => (
+                          <option key={index} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                        ;
+                      </Form.Select>
+                      {formik.touched.birth_month && formik.errors.birth_month ? (
+                        <div className="error-message">{formik.errors.birth_month}</div>
+                      ) : null}
+                      </div>
+
+
+                     <div>
+                     <Form.Label>
+                        Year<span className="text-danger">*</span>
+                      </Form.Label>
+                      <Form.Select
+                        name="birth_year"
+                        style={{width: '120px', padding: '10px'}}
+                        className={
+                          formik.touched.birth_year && formik.errors.birth_year ? 'is-invalid' : null
+                        }
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        defaultValue={formik.values?.birth_year}>
+                        <option value=""></option>
+                        {yearsOptions.map((option, index) => (
+                          <option key={index} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                        ;
+                      </Form.Select>
+                      {formik.touched.birth_year && formik.errors.birth_year ? (
+                        <div className="error-message">{formik.errors.birth_year}</div>
+                      ) : null} 
+                     </div>
+                     </Form.Group>
                     </Row>
 
                     <Row className="mb-5" md={3}>
