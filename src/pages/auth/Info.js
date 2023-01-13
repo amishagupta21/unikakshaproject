@@ -19,6 +19,11 @@ import FormSelectField from './../../Shared-Component-formik/select/form-select-
 import LeftBox from './components/LeftBox';
 import CreatableSelect from 'react-select/creatable';
 import { setLoading } from './../../redux/actions/LoaderActions';
+import {
+  yearsOptions,
+  optionsmonth,
+  optionsday,
+} from '../../utils-componets/static-content/DateMonthContent';
 
 const MandatorySymbol = () => {
   return <span className="text-danger">*</span>;
@@ -37,7 +42,9 @@ const Info = () => {
 
   const initialValues = {
     occupation: 'UNEMPLOYED',
-    birthYear: '',
+    birth_date: '',
+    birth_month: '',
+    birth_year: '',
     referalCode: '',
     collegeName: '',
     graduationMonth: '',
@@ -48,7 +55,9 @@ const Info = () => {
   };
   let validationSchema = Yup.object({
     occupation: SchemaList[0].required('Please select an occupation'),
-    birthYear: SchemaList[0].required('Birth year is a required field'),
+    birth_date: Yup.number(),
+    birth_month: Yup.number(),
+    birth_year: Yup.number().required('Year of birth is requied'),
     // referalCode: SchemaList[0],
     ...(occ == 'STUDENT' && {
       collegeName: SchemaList[0].required('Collage name is a required field'),
@@ -79,14 +88,17 @@ const Info = () => {
       uid: loginData.uid,
       occupation: values.occupation,
       information_data: {
-        ...(values.referalCode && { referral_code: values.referalCode }), 
-        birth_year: parseInt(values?.birthYear?.getFullYear()),
+        ...(values.referalCode && { referral_code: values.referalCode }),
+        birth_date: values.birth_date,
+        birth_month: values.birth_month,
+        birth_year: values.birth_year,
         ...(occ == 'STUDENT' && { college_name: values.collegeName }),
         ...(occ == 'STUDENT' && { month_year_of_graduation: values.graduationMonth }),
         ...(occ == 'PROFESSIONAL' && { position: values.position }),
         ...(occ == 'PROFESSIONAL' && { experience_in_years: values.experience }),
         ...(occ == 'PROFESSIONAL' && { organization_name: values.organization }),
-        ...(occ == 'PROFESSIONAL' && values.organizationCode && { organizational_code: values.organizationCode }),
+        ...(occ == 'PROFESSIONAL' &&
+          values.organizationCode && { organizational_code: values.organizationCode }),
       },
     };
 
@@ -143,14 +155,11 @@ const Info = () => {
 
   return (
     <>
-     <section className="auth_layout login_screen auth-unikaksha">
+      <section className="auth_layout login_screen auth-unikaksha">
         <LeftBox />
         <div className="right_box">
           <div className="right_box_container right_box_infostudents">
-            <div className="log-in-title login-head">
-              {/* <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" /> */}
-              Let's get to know you a little better!
-            </div>
+            <div className="log-in-title login-head">Let's get to know you a little better!</div>
 
             <div className="auth_form">
               <Formik
@@ -271,12 +280,7 @@ const Info = () => {
                                   <FormLabel>
                                     Your month & year of graduation <MandatorySymbol />
                                   </FormLabel>
-                                  <DatePickerField
-                                    name="graduationMonth"
-                                    maxDetail="year"
-                                    minDate={new Date('2012-03')}
-                                    maxDate={new Date()}
-                                  />
+                                  <FormControl type="month" name="graduationMonth"></FormControl>
                                 </FormGroup>
                               </Row>
                             )}
@@ -388,34 +392,70 @@ const Info = () => {
                         </div>
                       ) : null}
 
-                      <Field
-                        name="birthYear"
-                        render={({ field, formProps }) => (
-                          <Row className="mb-0">
-                            <FormGroup
-                              controlId="birthYear"
-                              className="form-group-1 mb-3"
+                      <FormGroup style={{paddingBottom: "16px" }}>
+                        <div style={{ display: 'flex',justifyContent: 'space-between' }}>
+                            <FormSelectField
+                              name="birth_date"
+                              controlId="birth_date"
                               as={Col}
-                              md="12">
-                              <FormLabel>
-                                Your birth year <MandatorySymbol />
-                              </FormLabel>
-                              <br />
-
-                              <DatePickerField
-                                name="birthYear"
-                                className="form-group-1 mb-3"
-                                maxDetail="decade"
-                                minDate={new Date('01/01/1950')}
-                                maxDate={new Date()}
-                              />
-                            </FormGroup>
-                          </Row>
-                        )}
-                      />
-                      {formik?.errors?.birthYear && formik?.touched?.birthYear ? (
-                        <div className="error-text">{formik?.errors?.birthYear}</div>
-                      ) : null}
+                              className="form-day"
+                              label={
+                                <>
+                                  <span>Day</span>
+                                </>
+                              }
+                              type="text"
+                              md="4">
+                              <option value=""></option>
+                              {optionsday.map((option, index) => (
+                                <option key={index} value={option.value}>
+                                  {option.label}
+                                </option>
+                              ))}
+                            </FormSelectField>
+                            <FormSelectField
+                              name="birth_month"
+                              controlId="birth_month"
+                              as={Col}
+                              className="form-group-1 mb-2"
+                              label={
+                                <>
+                                  <span>Month</span>
+                                </>
+                              }
+                              type="text"
+                              md="4">
+                              <option value=""></option>
+                              {optionsmonth.map((option, index) => (
+                                <option key={index} value={option.value}>
+                                  {option.label}
+                                </option>
+                              ))}
+                            </FormSelectField>
+                            <FormSelectField
+                              name="birth_year"
+                              as={Col}
+                              className="form-group-1 mb-2"
+                              label={
+                                <>
+                                  <span>Year</span>
+                                  <MandatorySymbol />
+                                </>
+                              }
+                              type="text"
+                              md="3">
+                              <option value=""></option>
+                              {yearsOptions.map((option, index) => (
+                                <option key={index} value={option.value}>
+                                  {option.label}
+                                </option>
+                              ))}
+                            </FormSelectField>
+                        </div>
+                        {formik.touched.birth_year && formik.errors.birth_year ? (
+                              <div className="error-message">{formik.errors.birth_year}</div>
+                            ) : null}
+                      </FormGroup>
 
                       {formik.values.occupation === 'STUDENT' || (
                         <>
@@ -483,8 +523,7 @@ const Info = () => {
                         <Button
                           type="submit"
                           variant="secondary"
-                          disabled={!formik.isValid || loading}
-                          >
+                          disabled={!formik.isValid || loading}>
                           {loading ? 'Loading...' : 'Get Started'}
                         </Button>
                       </div>

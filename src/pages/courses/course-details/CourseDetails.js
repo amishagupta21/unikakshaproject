@@ -466,7 +466,20 @@ function CourseDetails() {
                 Meet Our Hiring Partners
               </h4>
               <Row xs={2} md={5} className="mtb5">
-                {getHiringPartners()}
+                
+                <img src={"https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/google.svg"} alt="google" className="google-icon hiring_partner_icon" />
+                <img src={"https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/shopify.svg"} alt="shopify" className="shopify-icon hiring_partner_icon" />
+                <img src={"https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/adobe.svg"} alt="adobe" className="adobe-icon hiring_partner_icon" />
+                <img src={"https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/slack.svg"} alt="slack" className="slack-icon hiring_partner_icon" />
+                <img src={"https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/mallchimp.svg"} alt="mallchimp" className="mallchimp-icon hiring_partner_icon" />
+                <img src={"https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/microsoft.svg"} alt="microsoft" className="microsoft-icon hiring_partner_icon" />
+                <img src={"https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/zoom.svg"} alt="zoom" className="zoom-icon hiring_partner_icon" />
+                <img src={"https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/hubspot.svg"} alt="hubspot" className="hubspot-icon hiring_partner_icon" />
+                <img src={"https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/dropbox.svg"} alt="dropbox" className="dropbox-icon hiring_partner_icon" />
+                <img src={"https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/lastpass.svg"} alt="lastpass" className="lastpass-icon hiring_partner_icon" />
+                <img src={"https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/aws.svg"} alt="aws" className="aws-icon hiring_partner_icon" />
+                <img src={"https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/ringcentral.svg"} alt="rincentral" className="ringcentral-icon hiring_partner_icon" />
+                
               </Row>
 
               <h4 className="font-color mb2" id="eligibility">
