@@ -65,9 +65,9 @@ const Info = () => {
     ...(occ == 'PROFESSIONAL' && {
       organization: SchemaList[0].required('Organization is a required field'),
     }),
-    ...(occ == 'PROFESSIONAL' && {
-      organizational_code: SchemaList[0].required('Organizational code is a required field'),
-    }),
+    // ...(occ == 'PROFESSIONAL' && {
+    //   organizational_code: SchemaList[0].required('Organizational code is a required field'),
+    // }),
   });
 
   const onSubmit = async (values) => {
@@ -79,15 +79,14 @@ const Info = () => {
       uid: loginData.uid,
       occupation: values.occupation,
       information_data: {
-        ...(values.referalCode && { referral_code: values.referalCode }),
+        ...(values.referalCode && { referral_code: values.referalCode }), 
         birth_year: parseInt(values?.birthYear?.getFullYear()),
         ...(occ == 'STUDENT' && { college_name: values.collegeName }),
         ...(occ == 'STUDENT' && { month_year_of_graduation: values.graduationMonth }),
         ...(occ == 'PROFESSIONAL' && { position: values.position }),
         ...(occ == 'PROFESSIONAL' && { experience_in_years: values.experience }),
         ...(occ == 'PROFESSIONAL' && { organization_name: values.organization }),
-        ...(occ == 'PROFESSIONAL' &&
-          values.organizationCode && { organizational_code: values.organizationCode }),
+        ...(occ == 'PROFESSIONAL' && values.organizationCode && { organizational_code: values.organizationCode }),
       },
     };
 
@@ -274,8 +273,8 @@ const Info = () => {
                                   </FormLabel>
                                   <DatePickerField
                                     name="graduationMonth"
-                                    views={['year', 'month']}
-                                    minDate={new Date('2012-03-01')}
+                                    maxDetail="year"
+                                    minDate={new Date('2012-03')}
                                     maxDate={new Date()}
                                   />
                                 </FormGroup>
@@ -484,7 +483,8 @@ const Info = () => {
                         <Button
                           type="submit"
                           variant="secondary"
-                          disabled={!formik.isValid || loading}>
+                          disabled={!formik.isValid || loading}
+                          >
                           {loading ? 'Loading...' : 'Get Started'}
                         </Button>
                       </div>
