@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { useFormik } from 'formik';
+import { useFormik, Field } from 'formik';
 import * as Yup from 'yup';
 import PhoneInput from 'react-phone-input-2';
 import { useDispatch } from 'react-redux';
 import { setLoading } from '../../redux/actions/LoaderActions';
 import Tab from 'react-bootstrap/Tab';
+import { yearsOptions,optionsmonth,optionsday } from '../../utils-componets/static-content/DateMonthContent';
 
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ApiService from '../../services/ApiService';
@@ -50,7 +51,7 @@ const PersonalDetails = () => {
     const [KYCData, setKYCDetails] = React.useState();
     const [profilePic, setProfilePic] = React.useState();
     const [ profilePopup, setProfilePopup ] = React.useState(false);  
-    const [occupation, setOccupation] = React.useState([]);
+    const [userOccupation, setOccupation] = React.useState([]);
     
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -82,8 +83,11 @@ const PersonalDetails = () => {
         mobile_number: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required(),
         whatsapp_number: Yup.string().matches(phoneRegExp, 'Whatsapp number is not valid').required(),
         gender: Yup.string().required(),
-        dob: Yup.date().required('Date of birth is requied'),
+        birth_date: Yup.number().required('Date of birth is requied'),
+        birth_month: Yup.number().required('Mont of birth is requied'),
+        birth_year: Yup.number().required('Year of birth is requied'),
         guardian_details: Yup.string(),
+        occupation: Yup.string().required('Occupation is requied'),
         }),
         validate: (values) => {
         let errors = {};
@@ -95,7 +99,7 @@ const PersonalDetails = () => {
         return errors;
         },
         onSubmit: (values) => {
-        const { full_name, mobile_number, whatsapp_number, guardian_details, ...rest } = values;
+        const { full_name, mobile_number, whatsapp_number, guardian_details, occupation,...rest } = values;
         const personalDetails = {
             full_name: full_name,
             mobile_number: mobile_number,
@@ -103,6 +107,7 @@ const PersonalDetails = () => {
             whatsapp_number: whatsapp_number,
             whatsapp_cc: `+${whatsAppState.data.dialCode}`,
             guardian_details: guardian_details,
+            occupation:occupation,
             ...rest,
         };
         formPersonalDetailsPayload(personalDetails);
@@ -114,6 +119,7 @@ const PersonalDetails = () => {
       dispatch(setLoading(true));
         const payload = {
             uid: user?.uid,
+            occupation:userOccupation,
             "personal_details": {
               full_name: personalDetails?.full_name,
               email: personalDetails?.email,
@@ -122,8 +128,11 @@ const PersonalDetails = () => {
               whatsapp_number: personalDetails?.whatsapp_number,
               whatsapp_cc: personalDetails?.whatsapp_cc,
               gender: personalDetails?.gender,
-              dob: personalDetails?.dob,
+              birth_date: personalDetails?.birth_date,
+              birth_month: personalDetails?.birth_month,
+              birth_year: personalDetails?.birth_year,
               guardian_details: personalDetails?.guardian_details
+              
             }
 
         };
@@ -147,7 +156,9 @@ const PersonalDetails = () => {
     }, []);
 
     
-   
+    const handleWeekdayChange = (event) => {
+      setOccupation(event.target.value)    
+    }
 
     const fetchInitialData = async (uid) => {
 
@@ -166,6 +177,9 @@ const PersonalDetails = () => {
         setInitialData(userDetails?.data?.data?.user);
         setUserData(userDetails?.data?.data?.user);
         personalDetails = userDetails?.data?.data?.userProfile?.personal_details ?? personalDetails;
+        personalDetails.occupation = userDetails?.data?.data?.userProfile?.occupation;
+        console.log(personalDetails);
+        console.log(userDetails?.data?.data?.userProfile);
         educationalDetails.education_details =
           userDetails?.data?.data?.userProfile?.education_details ?? educationalDetails;
         educationalDetails.work_details = userDetails?.data?.data?.userProfile?.work_details ?? [];
@@ -181,6 +195,7 @@ const PersonalDetails = () => {
     };
 
     const setPersonalDetailsInForm = (details) => {
+      console.log(details);
         formik.setValues(details);
         setGenderValue(details?.gender);
     };
@@ -307,12 +322,12 @@ const PersonalDetails = () => {
                     <Nav.Item>
                       <Nav.Link eventKey="second">Educational Details</Nav.Link>
                     </Nav.Item>
-                    { occupation && occupation !== 'STUDENT' && (
+                    { userOccupation && userOccupation !== 'STUDENT' && (
                     <Nav.Item>
                       <Nav.Link eventKey="third">Work Details</Nav.Link>
                     </Nav.Item>
                     )}
-                    { occupation && occupation !== 'STUDENT' && (
+                    { userOccupation && userOccupation !== 'STUDENT' && (
                     <Nav.Item>
                       <Nav.Link eventKey="fourth"> Documents & KYC</Nav.Link>
                     </Nav.Item>
@@ -551,48 +566,125 @@ const PersonalDetails = () => {
                                             </Row>
                                         </Form.Group>
 
-                                        <Form.Group as={Col} sm={6} controlId="dob">
-                                            <Form.Label>
-                                            Date of Birth<span className="text-danger">*</span>
-                                            </Form.Label>
-                                            <Form.Control
-                                            type="date"
-                                            name="dob"
+                                        <Form.Group as={Col} lg={2} >
+                                       
+                                        <Form.Label>
+                                            Day
+                                          </Form.Label>
+                                          <Form.Select 
+                                            name="birth_date"
+                                            // style={{width: '100px'}}
+                                            className={
+                                              formik.touched.birth_date && formik.errors.birth_date ? 'is-invalid' : null
+                                            }
+                                            onBlur={formik.handleBlur}
                                             onChange={formik.handleChange}
-                                            value={formik.values?.dob}
-                                            className={formik.touched.dob && formik.errors.dob ? 'is-invalid' : null}
-                                            onBlur={formik.handleBlur}></Form.Control>
-                                            {formik.touched.dob && formik.errors.dob ? (
-                                            <div className="error-message">{formik.errors.dob}</div>
-                                            ) : null}
+                                            value={formik.values?.birth_date}>
+                                            <option value=""></option>
+                                            {optionsday.map((option, index) => (
+                                              <option key={index} value={option.value}>
+                                                {option.label}
+                                              </option>
+                                            ))}
+                                            ;
+                                          </Form.Select>
+                                          {formik.touched.birth_date && formik.errors.birth_date ? (
+                                            <div className="error-message">{formik.errors.birth_date}</div>
+                                          ) : null}
+                                        </Form.Group>
+
+
+                                        <Form.Group as={Col} lg={2} >
+                                          <Form.Label>
+                                            Month
+                                          </Form.Label>
+                                          <Form.Select
+                                            name="birth_month"
+                                            // style={{width: '170px'}}
+                                            className={
+                                              formik.touched.birth_month && formik.errors.birth_month ? 'is-invalid' : null
+                                            }
+                                            onBlur={formik.handleBlur}
+                                            onChange={formik.handleChange}
+                                            value={formik.values?.birth_month}>
+                                            <option value=""></option>
+                                            {optionsmonth.map((option, index) => (
+                                              <option key={index} value={option.value}>
+                                                {option.label}
+                                              </option>
+                                            ))}
+                                            ;
+                                          </Form.Select>
+                                          {formik.touched.birth_month && formik.errors.birth_month ? (
+                                            <div className="error-message">{formik.errors.birth_month}</div>
+                                          ) : null}
+                                         </Form.Group>
+
+                                          
+                                         <Form.Group as={Col} lg={2} >
+                                        <Form.Label>
+                                            Year<span className="text-danger">*</span>
+                                          </Form.Label>
+                                          <Form.Select
+                                            name="birth_year"
+                                            // style={{width: '120px', padding: '10px'}}
+                                            className={
+                                              formik.touched.birth_year && formik.errors.birth_year ? 'is-invalid' : null
+                                            }
+                                            onBlur={formik.handleBlur}
+                                            onChange={formik.handleChange}
+                                            value={formik.values?.birth_year}>
+                                            <option value=""></option>
+                                            {yearsOptions.map((option, index) => (
+                                              <option key={index} value={option.value}>
+                                                {option.label}
+                                              </option>
+                                            ))}
+                                            ;
+                                          </Form.Select>
+                                          {formik.touched.birth_year && formik.errors.birth_year ? (
+                                            <div className="error-message">{formik.errors.birth_year}</div>
+                                          ) : null} 
+                                        
                                         </Form.Group>
                                         </Row>
                                     
-                                        <Row className="row-bottom" >
+                                      <Row className="row-bottom" >
 
                                         <Form.Group as={Col} sm={6}>
                                             <Form.Label>Your occupation*</Form.Label>
-                                            <div className="mb-3 occupation-label-group">
+                                            <div className="mb-3 occupation-label-group" onChange={handleWeekdayChange}>
                                               <Form.Check inline 
-                                              label="Student." 
+                                              type="radio"
                                               name="occupation"
                                               value="STUDENT"
-                                              type="radio" />
+                                              checked={userOccupation === 'STUDENT'}
+                                              label="I’m a student."
+                                              disabled
+                                               />
                                               <Form.Check
                                                 inline
-                                                label="Working professional."
-                                                name="occupation"
-                                                value="STUDENT"
                                                 type="radio"
+                                                name="occupation"
+                                                checked={userOccupation === 'PROFESSIONAL'}
+                                                value="PROFESSIONAL"
+                                                label="I'm a working professional."
+                                                disabled
                                               />
                                               <Form.Check
                                                 inline
-                                                label="I'm currently not working"
-                                                name="group1"
                                                 type="radio"
+                                                name="occupation"
+                                                value="UNEMPLOYED"
+                                                // defaultChecked={formik.values.occupation}
+                                                checked={userOccupation === 'UNEMPLOYED'}
+                                                
+                                                label="Unemployed"
+                                                disabled
                                               />
                                             </div>
                                         </Form.Group>
+                                        
                                         <Form.Group as={Col} sm={6} controlId="guardian_details">
                                             <Form.Label>Guardian Detail</Form.Label>
                                             <Form.Control
@@ -647,10 +739,10 @@ const PersonalDetails = () => {
                   <Tab.Pane eventKey="second">   
                   <div className="course-application-list" id="educational">
                 <h3 className="text-primary">Educational Details </h3>
-                { occupation && occupation === 'STUDENT' && (
+                { userOccupation && userOccupation === 'STUDENT' && (
                 <ProfileStudentEducationDetails  educationalInfo={EducationalData}/>
                 )}
-                { occupation && occupation !== 'STUDENT' && (
+                { userOccupation && userOccupation !== 'STUDENT' && (
                   <EducationalDetails  educationalInfo={EducationalData}/>
                 )}
             </div>         
