@@ -83,8 +83,8 @@ const PersonalDetails = () => {
         mobile_number: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required(),
         whatsapp_number: Yup.string().matches(phoneRegExp, 'Whatsapp number is not valid').required(),
         gender: Yup.string().required(),
-        birth_date: Yup.number(),
-        birth_month: Yup.number(),
+        birth_date: Yup.number().required('Date of birth is requied'),
+        birth_month: Yup.number().required('Mont of birth is requied'),
         birth_year: Yup.number().required('Year of birth is requied'),
         guardian_details: Yup.string(),
         occupation: Yup.string().required('Occupation is requied'),
@@ -566,8 +566,8 @@ const PersonalDetails = () => {
                                             </Row>
                                         </Form.Group>
 
-                                        <Form.Group as={Col} lg={4}>
-                                        <div>
+                                        <Form.Group as={Col} lg={2} >
+                                       
                                         <Form.Label>
                                             Day
                                           </Form.Label>
@@ -591,10 +591,10 @@ const PersonalDetails = () => {
                                           {formik.touched.birth_date && formik.errors.birth_date ? (
                                             <div className="error-message">{formik.errors.birth_date}</div>
                                           ) : null}
-                                        </div>
+                                        </Form.Group>
 
 
-                                          <div>
+                                        <Form.Group as={Col} lg={2} >
                                           <Form.Label>
                                             Month
                                           </Form.Label>
@@ -618,10 +618,10 @@ const PersonalDetails = () => {
                                           {formik.touched.birth_month && formik.errors.birth_month ? (
                                             <div className="error-message">{formik.errors.birth_month}</div>
                                           ) : null}
-                                          </div>
+                                         </Form.Group>
 
-
-                                        <div>
+                                          
+                                         <Form.Group as={Col} lg={2} >
                                         <Form.Label>
                                             Year<span className="text-danger">*</span>
                                           </Form.Label>
@@ -648,9 +648,9 @@ const PersonalDetails = () => {
                                           {formik.touched.birth_year && formik.errors.birth_year ? (
                                             <div className="error-message">{formik.errors.birth_year}</div>
                                           ) : null} 
-                                        </div>
+                                        
                                         </Form.Group>
-                                      </Row>
+                                        </Row>
                                     
                                       <Row className="row-bottom" >
 
