@@ -634,7 +634,9 @@ const PersonalDetails = () => {
                                             onBlur={formik.handleBlur}
                                             onChange={formik.handleChange}
                                             value={formik.values?.birth_year}>
-                                            <option value=""></option>
+                                            <option value="">
+                                            </option>
+
                                             {yearsOptions.map((option, index) => (
                                               <option key={index} value={option.value}>
                                                 {option.label}
@@ -642,6 +644,7 @@ const PersonalDetails = () => {
                                             ))}
                                             ;
                                           </Form.Select>
+                                          
                                           {formik.touched.birth_year && formik.errors.birth_year ? (
                                             <div className="error-message">{formik.errors.birth_year}</div>
                                           ) : null} 
