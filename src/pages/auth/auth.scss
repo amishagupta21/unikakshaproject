@@ -325,3 +325,7 @@ select.form-control {
 		width: 79px;
 	}
 }
+
+.react-date-picker--open {
+	z-index: 3;
+}

@@ -65,9 +65,9 @@ const Info = () => {
     ...(occ == 'PROFESSIONAL' && {
       organization: SchemaList[0].required('Organization is a required field'),
     }),
-    ...(occ == 'PROFESSIONAL' && {
-      organizational_code: SchemaList[0].required('Organizational code is a required field'),
-    }),
+    // ...(occ == 'PROFESSIONAL' && {
+    //   organizational_code: SchemaList[0].required('Organizational code is a required field'),
+    // }),
   });
 
   const onSubmit = async (values) => {
@@ -274,8 +274,8 @@ const Info = () => {
                                   </FormLabel>
                                   <DatePickerField
                                     name="graduationMonth"
-                                    views={['year', 'month']}
-                                    minDate={new Date('2012-03-01')}
+                                    maxDetail="year"
+                                    minDate={new Date('2012-03')}
                                     maxDate={new Date()}
                                   />
                                 </FormGroup>
@@ -372,7 +372,7 @@ const Info = () => {
                                   className="form-group-1 mb-3"
                                   as={Col}
                                   md="12">
-                                  <FormLabel>Ogranization you are working in</FormLabel>
+                                  <FormLabel>Ogranization you are working in <MandatorySymbol /></FormLabel>
                                   <FormControl
                                     placeholder="Eg, Amazon"
                                     type={'text'}
