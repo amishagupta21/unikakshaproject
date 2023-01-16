@@ -29,7 +29,7 @@ const ProfilePopup = ({profilePhoto}) =>
     return(
         <>
         
-            <div className='profile-popup modal display-block'>
+            <div className='profile-popup modal display-block popp'>
             <section className="modal-main">
                 <div className="model-body">
                 <div className='modalheader'>
@@ -46,14 +46,14 @@ const ProfilePopup = ({profilePhoto}) =>
                 <div className="mt-3 model-body">
                     <Row className="d-flex justify-content-end">
                     <Button
-                        className="col-3 me-2 btn btn-outline-secondary"
+                        className="col-5  btn btn-outline-secondary"
                         variant="outline-secondary"
                         type="button"
                         onClick={() => togglePopup()}>
                         Upload
                     </Button>
                     <Button
-                        className="col-3"
+                        className="col-5"
                         variant="secondary"
                         type="button"
                         onClick={() => togglePopup()}>

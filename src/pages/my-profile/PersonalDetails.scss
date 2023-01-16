@@ -1,13 +1,37 @@
+*{ font-family: 'Roboto', sans-serif;}
+
 .profile-personal {
     .profile-avatar {
-        width: 10% !important;
+      
+         
+            max-width: 100%;
+            border-radius: 100px;
+            width: 70px;
+            height: 70px;
+         
+        
     }
+    span.avatar-name {margin-left: 20px;font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        
+        color: #363F5E;
+        img{ margin-left: 20px;}
+        }
     .course-body {
         margin-top: 5%;
         width     : 100%;
     }
     .side-nave { 
      
+    }
+    .text-muted {
+        --bs-text-opacity: 1;
+      
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        color: #363F5E !important;
     }
     .side-nave {
         .sidebar-container {
@@ -46,12 +70,12 @@
         color: #363F5E;
     }
     input.form-control{border: 1px solid rgba(54, 63, 94, 0.4);
-        border-radius: 6px; height: 44px;}
+        border-radius: 6px; height: 44px; font-weight: 500;}
         .row-bottom.row {
             margin-bottom: 20px;
         }
 }
-
+.form-select{ border: 1px solid rgba(54, 63, 94, 0.4);}
 .sidebar-container.mb5 .list.nav a {
     border-bottom: #E7E7E7 1px solid;
     padding: 0.9375rem;
@@ -164,3 +188,42 @@
 .upload-area {
     margin: 30px 0;
 }
+
+
+
+.profile-personal-form input.form-control::-webkit-input-placeholder { /* Edge */
+    color: #363F5E; opacity: 1;
+  }
+  
+  .profile-personal-form input.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #363F5E; opacity: 1;
+  }
+  
+  .profile-personal-form input.form-control::placeholder {
+    color: #363F5E; opacity: 1;
+  }
+
+  .profile-popup.modal .btn {
+    width: 100%;
+    
+}
+.profile-popup.modal button.btn.btn-outline-primary {
+    border: #222380 solid 1px;
+    color: #222380;
+}
+.profile-popup.modal button.btn.btn-outline-primary:hover {
+    border: #222380 solid 1px; background-color:#222380 ;
+    color: #fff;
+}
+.profile-popup.modal button.btn.btn-outline-primary:hover svg path{fill:#fff;}
+.profile-popup.modal button.btn.btn-outline-secondary{
+    border: #FF3838 solid 1px;
+    color: #FF3838;
+}
+
+.profile-popup.modal button.btn.btn-outline-secondary:hover {
+    border: #FF3838 solid 1px; background-color:#FF3838 ;
+    color: #fff;
+}
+.profile-popup.modal button.btn.btn-outline-secondary:hover svg path{fill:#fff;}
+
