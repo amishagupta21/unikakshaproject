@@ -127,7 +127,7 @@ const Signup = () => {
                 initialValues={{
                   fullName: userDetails ? userDetails.fullName : '',
                   email: userDetails ? userDetails.email : '',
-                  mobileNumber: '',
+                  mobileNumber: userDetails? userDetails.mobileNumber : '',
                   whatsappoptin: true,
                 }}
                 validationSchema={Yup.object().shape({

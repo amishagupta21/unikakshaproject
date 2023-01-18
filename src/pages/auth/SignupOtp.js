@@ -164,7 +164,20 @@ const SignupOtp = () => {
                   <span style={{ font: 'Poppins', color: '#363F5E' }}>
                     +{userSignUpData?.phoneNumber}
                   </span>
-                  <img className="ms-2" src={editGray}></img>
+                  <img
+                    className="ms-2 edit"
+                    onClick={() =>
+                      navigate('/signup', {
+                        state: {
+                          mobileNumber: userSignUpData.phoneNumber,
+                          email: userSignUpData.email,
+                          fullName: userSignUpData.displayName,
+                          whatsappoptin: userSignUpData.whatsappoptin,
+                        },
+                      })
+                    }
+                    alt="edit"
+                    src={editGray}></img>
                 </p>
               </div>
               {otpError && (
