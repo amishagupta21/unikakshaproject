@@ -235,7 +235,7 @@ const StudentCourseApplication = () => {
 
   const copyFromMobileNumber = (value) => {
     if (value.target.checked) {
-      setWhatsAppNumber(mobileState);
+      setWhatsAppNumber({phone: mobileState.phone, data: mobileState.data});
       formik.setFieldValue('whatsapp_number', mobileState.phone);
     }
   };
