@@ -1,4 +1,4 @@
-import { getValue } from 'firebase/remote-config';
+import { fetchAndActivate, getValue } from 'firebase/remote-config';
 import React, { useEffect } from 'react';
 import { Alert, Button, Col, Container, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,8 @@ const EntranceTest = ({ course, user }) => {
   const [testUrl, setTestUrl] = React.useState();
 
   const fetchInitialData = async () => {
+    await fetchAndActivate(remoteConfig);
+    const fallBackURL = getValue(remoteConfig, 'enroll_test_url').asString();
     const payload = {
       uid: user?.uid,
       course_variant_id: course?.id,
@@ -21,7 +23,11 @@ const EntranceTest = ({ course, user }) => {
       true
     );
     const { m_testurl } = applicationDetails?.data?.data.application;
-    setTestUrl(m_testurl);
+    if(m_testurl === '') {
+      setTestUrl(fallBackURL);
+    } else {
+      setTestUrl(m_testurl);
+    }
   };
 
   useEffect(() => {
