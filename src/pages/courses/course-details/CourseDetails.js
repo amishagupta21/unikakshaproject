@@ -202,7 +202,7 @@ console.log(course?.target_audience);
             <Card className="eligibility-card-style payment-card">
               <Card.Body className="text-left-align">
                 <Row>
-                  <Col lg={11} md={10} sm={8}>
+                  <Col lg={12}>
                     <h6 className="font-color text-left-align mtb1 payment-title">
                       {' '}
                       {element.key}{' '}
