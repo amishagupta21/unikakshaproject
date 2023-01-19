@@ -24,6 +24,7 @@ import {
   optionsmonth,
   optionsday,
 } from '../../utils-componets/static-content/DateMonthContent';
+import { CalendarWeek } from 'react-bootstrap-icons';
 
 const MandatorySymbol = () => {
   return <span className="text-danger">*</span>;
@@ -80,8 +81,8 @@ const Info = () => {
   });
 
   const onSubmit = async (values) => {
-    setloading(true);
-    dispatch(setLoading(true));
+    // setloading(true);
+    // dispatch(setLoading(true));
 
     let loginData = await JSON.parse(localStorage.getItem('user'));
     let data = {
@@ -89,9 +90,9 @@ const Info = () => {
       occupation: values.occupation,
       information_data: {
         ...(values.referalCode && { referral_code: values.referalCode }),
-        birth_date: values.birth_date,
-        birth_month: values.birth_month,
-        birth_year: values.birth_year,
+        ...(Number(values.birth_date) && {birth_date: Number(values.birth_date)}),
+        ...(Number(values.birth_month) && {birth_month: Number(values.birth_month)}),
+        birth_year: Number(values.birth_year),
         ...(occ == 'STUDENT' && { college_name: values.collegeName }),
         ...(occ == 'STUDENT' && { month_year_of_graduation: values.graduationMonth }),
         ...(occ == 'PROFESSIONAL' && { position: values.position }),
@@ -280,7 +281,16 @@ const Info = () => {
                                   <FormLabel>
                                     Your month & year of graduation <MandatorySymbol />
                                   </FormLabel>
-                                  <FormControl type="month" name="graduationMonth"></FormControl>
+                                  <DatePickerField
+                                    calendarIcon={<CalendarWeek />}
+                                    monthPlaceholder="MM"
+                                    yearPlaceholder="YYYY"
+                                    clearIcon={null}	
+                                    name="graduationMonth"
+                                    maxDetail="year"
+                                    minDate={new Date('2012-03')}
+                                    maxDate={new Date()}
+                                  />                                
                                 </FormGroup>
                               </Row>
                             )}

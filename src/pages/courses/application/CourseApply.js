@@ -304,9 +304,9 @@ const CourseApplication = () => {
                 </Card.Subtitle> */}
               </div>
               <div>
-                <Card.Link
+                <Card.Link as='div'
                   style={{ fontSize: '18px', fontWeight: '500', color: '#EF6B29' }}
-                  href={`../${courseDetails.course_url}`}>
+                  onClick={() => navigate(`../course/${courseDetails.course_url}`)}>
                   View Course
                 </Card.Link>
               </div>

@@ -88,7 +88,10 @@
 	border: 1px solid rgba(54, 63, 94, 0.4);
 	box-shadow: 0px 6px 10px rgb(54 63 94 / 6%);
 	border-radius: 6px;
+}
 
+.edit {
+	cursor: pointer;
 }
 
 .log-in-title.login-head img {
@@ -335,5 +338,5 @@ select.form-control {
 }
 
 .css-b62m3t-container{ 
-	z-index: 5;
+	z-index: 2;
 }
