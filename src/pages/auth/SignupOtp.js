@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import OtpInput from 'react-otp-input';
-import { arrowBack } from '../../assets/images';
+import { arrowBack, editGray } from '../../assets/images';
 import { firebase } from '../../firebase/firebase';
 import { setLoading } from '../../redux/actions/LoaderActions';
 import ApiService from '../../services/ApiService';
@@ -163,7 +163,20 @@ const SignupOtp = () => {
                 <span style={{ font: 'Poppins', color: '#363F5E' }}>
                   +{userSignUpData?.phoneNumber}
                 </span>
-                .
+                <img
+                    className="ms-2 edit"
+                    onClick={() =>
+                      navigate('/signup', {
+                        state: {
+                          mobileNumber: userSignUpData.phoneNumber,
+                          email: userSignUpData.email,
+                          fullName: userSignUpData.displayName,
+                          whatsappoptin: userSignUpData.whatsappoptin,
+                        },
+                      })
+                    }
+                    alt="edit"
+                    src={editGray}></img>
               </p>
               {otpError && (
                 <Alert key="danger" variant="danger">

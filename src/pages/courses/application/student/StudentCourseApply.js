@@ -17,7 +17,6 @@ import MultiStepBar from './StudentFormProgress';
 import Payments from './StudentPayments';
 import { isEmpty } from 'lodash';
 
-
 const steps = [
   'personal_details',
   'education_details',
@@ -27,7 +26,6 @@ const steps = [
 ];
 
 const StudentCourseApplication = () => {
-  
   const [page, setPage] = React.useState();
   const [stepperTitle, setStepperTitle] = React.useState('');
   const [mobileState, setMobileNumber] = React.useState({ phone: '', data: '' });
@@ -73,17 +71,17 @@ const StudentCourseApplication = () => {
     formik.setValues(details);
     setGenderValue(details?.gender);
   };
-  
+
   const fetchCourseDetails = async (params) => {
     const { courseVariantSlug } = params;
     const res = await ApiService(`courses/course_url/${courseVariantSlug}/detail`);
     return res?.data?.data?.course;
   };
-  
+
   const setInitialData = (initData) => {
     formik.setValues({ email: initData?.email }); //mobile_number: initData?.phone
     // setMobileNumber({ phone: initData?.phone})
-  }
+  };
 
   const fetchInitialData = async (uid) => {
     setIsLoading(true);
@@ -121,9 +119,15 @@ const StudentCourseApplication = () => {
         nextPageNumber(2);
       } else if (application_stage === 'application_status') {
         nextPageNumber(2);
-      } else if ( application_stage === 'payment_status' && m_applicationstatus === 'Payment Failed' ) {
+      } else if (
+        application_stage === 'payment_status' &&
+        m_applicationstatus === 'Payment Failed'
+      ) {
         nextPageNumber(2);
-      } else if ( application_stage === 'payment_status' && m_applicationstatus === 'Payment Successfull' ) {
+      } else if (
+        application_stage === 'payment_status' &&
+        m_applicationstatus === 'Payment Successfull'
+      ) {
         nextPageNumber(4);
       }
     }
@@ -204,7 +208,7 @@ const StudentCourseApplication = () => {
         setPage(1);
         setStepperTitle('Education Details');
         break;
-     
+
       case 2:
         setPage(2);
         setStepperTitle('Application Status');
@@ -213,7 +217,7 @@ const StudentCourseApplication = () => {
         setPage(3);
         setStepperTitle('Payment');
         break;
-      
+
       case 4:
         setPage(4);
         setStepperTitle('Enrollment Status');
@@ -235,7 +239,7 @@ const StudentCourseApplication = () => {
 
   const copyFromMobileNumber = (value) => {
     if (value.target.checked) {
-      setWhatsAppNumber({phone: mobileState.phone, data: mobileState.data});
+      setWhatsAppNumber({ phone: mobileState.phone, data: mobileState.data });
       formik.setFieldValue('whatsapp_number', mobileState.phone);
     }
   };
@@ -250,222 +254,227 @@ const StudentCourseApplication = () => {
       {!isLoading ? (
         <div className="my-5  course-application">
           <div className="container">
-          <div className="d-flex mt-5 back-btn">
-            <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
-            <p className="step-header">{stepperTitle}</p>
-          </div>
-          <MultiStepBar page={page} onPageNumberClick={nextPageNumber} />
-          <Card className="view-course border">
-            <Card.Body
-              style={{ padding: 'unset' }}
-              className="d-flex justify-content-between rounded align-items-center">
-              <div>
-                <Card.Title style={{ fontWeight: '600', color: '#222380', marginBottom: 'unset' }}>
-                  {courseDetails.course_title}
-                </Card.Title>
-                
-              </div>
-              <div>
-                <Card.Link
-                  style={{ fontSize: '18px', fontWeight: '500', color: '#EF6B29' }}
-                  href={`../${courseDetails.course_url}`}>
-                  View Course
-                </Card.Link>
-              </div>
-            </Card.Body>
-          </Card>
-          <div className="my-4">
-            {page === 0 && (
-              <>
-                <Form onSubmit={formik.handleSubmit}>
-                  <>
-                    <Row className="mb-5">
-                      <Form.Group as={Col} sm={4} controlId="full_name">
-                        <Form.Label>
-                          Full Name
-                          <span className="text-danger">*</span>
-                          <span className="text-muted"> (As per PAN)</span>
-                        </Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="full_name"
-                          onChange={formik.handleChange}
-                          className={
-                            formik.touched.full_name && formik.errors.full_name
-                              ? 'is-invalid'
-                              : null
-                          }
-                          onBlur={formik.handleBlur}
-                          value={formik.values?.full_name}
-                          placeholder="Full name"
-                        />
-                        {formik.touched.full_name && formik.errors.full_name ? (
-                          <div className="error-message">{formik.errors.full_name}</div>
-                        ) : null}
-                      </Form.Group>
-
-                      <Form.Group as={Col} sm={4} controlId="email">
-                        <Form.Label>
-                          Email
-                          <span className="text-danger">*</span>
-                        </Form.Label>
-                        <Form.Control
-                          type="email"
-                          name="email"
-                          onChange={formik.handleChange}
-                          className={
-                            formik.touched.email && formik.errors.email ? 'is-invalid' : null
-                          }
-                          onBlur={formik.handleBlur}
-                          placeholder="Email"
-                          value={formik.values?.email}
-                          disabled={ userData?.email }
-                        />
-                        {formik.touched.email && formik.errors.email ? (
-                          <div className="error-message">{formik.errors.email}</div>
-                        ) : null}
-                      </Form.Group>
-
-                      <Form.Group as={Col} sm={4} controlId="mobile_number">
-                        <Form.Label>
-                          Mobile Number<span className="text-danger">*</span>
-                        </Form.Label>
-                        <PhoneInput
-                          country={'in'}
-                          name="mobile_number"
-                          value={formik.values?.mobile_number}
-                          onChange={(phone, data) => {
-                            formik.setFieldValue('mobile_number', phone);
-                            setMobileNumber({ phone, data });
-                          }}
-                          onBlur={formik.handleBlur('mobile_number')}
-                        />
-                        {formik.touched.mobile_number && formik.errors.mobile_number ? (
-                          <div className="error-message">{formik.errors.mobile_number}</div>
-                        ) : null}
-                      </Form.Group>
-                    </Row>
-
-                    <Row className="mb-5">
-                      <Form.Group as={Col} sm={4} controlId="whatsapp_number">
-                        <Form.Label>
-                          Whatsapp Number<span className="text-danger">*</span>
-                        </Form.Label>
-                        <PhoneInput
-                          country={'in'}
-                          value={formik.values?.whatsapp_number}
-                          onChange={(phone, data) => {
-                            setWhatsAppNumber({ phone, data });
-                            formik.setFieldValue('whatsapp_number', phone);
-                          }}
-                          onBlur={formik.handleBlur('whatsapp_number')}
-                        />
-                        {formik.touched.whatsapp_number && formik.errors.whatsapp_number ? (
-                          <div className="error-message  mt-3">{formik.errors.whatsapp_number}</div>
-                        ) : null}
-                        <Form.Check
-                          style={{ paddingLeft: '1.5em !important', marginTop: '5px' }}
-                          type="checkbox"
-                          onChange={(value) => copyFromMobileNumber(value)}
-                          label="Same as mobile number"
-                        />
-                      </Form.Group>
-
-                      <Form.Group as={Col} sm={4} controlId="gender">
-                        <Form.Label>
-                          Gender<span className="text-danger">*</span>
-                        </Form.Label>
-                        <Row>
-                          <ButtonGroup aria-label="select-button">
-                            {genderOptions.map((gender, idx) => (
-                              <ToggleButton
-                                className="border border-secondary radio-buttons me-2"
-                                key={idx}
-                                style={{ maxWidth: '30%' }}
-                                id={`gender-${idx}`}
-                                type="radio"
-                                variant="outline-primary"
-                                name="gender"
-                                onBlur={formik.handleBlur}
-                                value={gender.value}
-                                checked={genderValue === gender.value}
-                                onChange={(e) => {
-                                  setGenderValue(e.currentTarget.value);
-                                  formik.handleChange(e);
-                                }}>
-                                <span className="options">
-                                  <img src={gender.icon} aria-label={gender.value}></img>
-                                  {gender.name}
-                                </span>
-                              </ToggleButton>
-                            ))}
-                          </ButtonGroup>
-                          {formik.touched.gender && formik.errors.gender ? (
-                            <div className="error-message">{formik.errors.gender}</div>
+            <div className="d-flex mt-5 back-btn">
+              <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
+              <p className="step-header">{stepperTitle}</p>
+            </div>
+            <MultiStepBar page={page} onPageNumberClick={nextPageNumber} />
+            <Card className="view-course border">
+              <Card.Body
+                style={{ padding: 'unset' }}
+                className="d-flex justify-content-between rounded align-items-center">
+                <div>
+                  <Card.Title
+                    style={{ fontWeight: '600', color: '#222380', marginBottom: 'unset' }}>
+                    {courseDetails.course_title}
+                  </Card.Title>
+                </div>
+                <div>
+                  <Card.Link
+                    as="div"
+                    style={{ fontSize: '18px', fontWeight: '500', color: '#EF6B29' }}
+                    onClick={() => navigate(`../course/${courseDetails.course_url}`)}>
+                    View Course
+                  </Card.Link>
+                </div>
+              </Card.Body>
+            </Card>
+            <div className="my-4">
+              {page === 0 && (
+                <>
+                  <Form onSubmit={formik.handleSubmit}>
+                    <>
+                      <Row className="mb-5">
+                        <Form.Group as={Col} sm={4} controlId="full_name">
+                          <Form.Label>
+                            Full Name
+                            <span className="text-danger">*</span>
+                            <span className="text-muted"> (As per PAN)</span>
+                          </Form.Label>
+                          <Form.Control
+                            type="text"
+                            name="full_name"
+                            onChange={formik.handleChange}
+                            className={
+                              formik.touched.full_name && formik.errors.full_name
+                                ? 'is-invalid'
+                                : null
+                            }
+                            onBlur={formik.handleBlur}
+                            value={formik.values?.full_name}
+                            placeholder="Full name"
+                          />
+                          {formik.touched.full_name && formik.errors.full_name ? (
+                            <div className="error-message">{formik.errors.full_name}</div>
                           ) : null}
-                        </Row>
-                      </Form.Group>
+                        </Form.Group>
 
-                      <Form.Group as={Col}  sm={4} controlId="dob">
-                        <Form.Label>
-                          Date of Birth<span className="text-danger">*</span>
-                        </Form.Label>
-                        <Form.Control
-                          type="date"
-                          name="dob"
-                          onChange={formik.handleChange}
-                          value={formik.values?.dob}
-                          className={formik.touched.dob && formik.errors.dob ? 'is-invalid' : null}
-                          onBlur={formik.handleBlur}></Form.Control>
-                        {formik.touched.dob && formik.errors.dob ? (
-                          <div className="error-message">{formik.errors.dob}</div>
-                        ) : null}
-                      </Form.Group>
-                    </Row>
+                        <Form.Group as={Col} sm={4} controlId="email">
+                          <Form.Label>
+                            Email
+                            <span className="text-danger">*</span>
+                          </Form.Label>
+                          <Form.Control
+                            type="email"
+                            name="email"
+                            onChange={formik.handleChange}
+                            className={
+                              formik.touched.email && formik.errors.email ? 'is-invalid' : null
+                            }
+                            onBlur={formik.handleBlur}
+                            placeholder="Email"
+                            value={formik.values?.email}
+                            disabled={userData?.email}
+                          />
+                          {formik.touched.email && formik.errors.email ? (
+                            <div className="error-message">{formik.errors.email}</div>
+                          ) : null}
+                        </Form.Group>
 
-                    <Row className="mb-5" md={3}>
-                      <Form.Group as={Col} controlId="guardian_details">
-                        <Form.Label>Guardian Detail</Form.Label>
-                        <Form.Control
-                          name="guardian_details"
-                          onChange={formik.handleChange}
-                          value={formik.values?.guardian_details}
-                          type="text"
-                          placeholder="Guardian detail"
-                        />
-                      </Form.Group>
-                    </Row>
+                        <Form.Group as={Col} sm={4} controlId="mobile_number">
+                          <Form.Label>
+                            Mobile Number<span className="text-danger">*</span>
+                          </Form.Label>
+                          <PhoneInput
+                            country={'in'}
+                            name="mobile_number"
+                            value={formik.values?.mobile_number}
+                            onChange={(phone, data) => {
+                              formik.setFieldValue('mobile_number', phone);
+                              setMobileNumber({ phone, data });
+                            }}
+                            onBlur={formik.handleBlur('mobile_number')}
+                          />
+                          {formik.touched.mobile_number && formik.errors.mobile_number ? (
+                            <div className="error-message">{formik.errors.mobile_number}</div>
+                          ) : null}
+                        </Form.Group>
+                      </Row>
 
-                    <Row className="d-flex justify-content-end my-btn-styles">
-                      <Button
-                        className="btn btn-outline-secondary"
-                        variant="outline-secondary"
-                        type="button"
-                        onClick={returnToDashboard}>
-                        Cancel
-                      </Button>
-                      <Button
-                        className=""
-                        disabled={!(formik.isValid && formik.dirty) || isNextLoading}
-                        variant="secondary"
-                        type="submit">
-                        {isNextLoading ? 'Saving.. ' : 'Next'}
-                      </Button>
-                    </Row>
-                  </>
-                </Form>
-              </>
-            )}
-            {page === 1 && (
-              <EducationDetails
-                nextPage={nextPage}
-                course={courseDetails}
-                user={user}
-                educationalDetails={EducationalDetails}
-                setEducationalDetails={setEducationalDetails}
-              />
-            )}
-            {/* {page === 2 && <EntranceTest nextPage={nextPage} course={courseDetails} user={user} />}
+                      <Row className="mb-5">
+                        <Form.Group as={Col} sm={4} controlId="whatsapp_number">
+                          <Form.Label>
+                            Whatsapp Number<span className="text-danger">*</span>
+                          </Form.Label>
+                          <PhoneInput
+                            country={'in'}
+                            value={formik.values?.whatsapp_number}
+                            onChange={(phone, data) => {
+                              setWhatsAppNumber({ phone, data });
+                              formik.setFieldValue('whatsapp_number', phone);
+                            }}
+                            onBlur={formik.handleBlur('whatsapp_number')}
+                          />
+                          {formik.touched.whatsapp_number && formik.errors.whatsapp_number ? (
+                            <div className="error-message  mt-3">
+                              {formik.errors.whatsapp_number}
+                            </div>
+                          ) : null}
+                          <Form.Check
+                            style={{ paddingLeft: '1.5em !important', marginTop: '5px' }}
+                            type="checkbox"
+                            onChange={(value) => copyFromMobileNumber(value)}
+                            label="Same as mobile number"
+                          />
+                        </Form.Group>
+
+                        <Form.Group as={Col} sm={4} controlId="gender">
+                          <Form.Label>
+                            Gender<span className="text-danger">*</span>
+                          </Form.Label>
+                          <Row>
+                            <ButtonGroup aria-label="select-button">
+                              {genderOptions.map((gender, idx) => (
+                                <ToggleButton
+                                  className="border border-secondary radio-buttons me-2"
+                                  key={idx}
+                                  style={{ maxWidth: '30%' }}
+                                  id={`gender-${idx}`}
+                                  type="radio"
+                                  variant="outline-primary"
+                                  name="gender"
+                                  onBlur={formik.handleBlur}
+                                  value={gender.value}
+                                  checked={genderValue === gender.value}
+                                  onChange={(e) => {
+                                    setGenderValue(e.currentTarget.value);
+                                    formik.handleChange(e);
+                                  }}>
+                                  <span className="options">
+                                    <img src={gender.icon} aria-label={gender.value}></img>
+                                    {gender.name}
+                                  </span>
+                                </ToggleButton>
+                              ))}
+                            </ButtonGroup>
+                            {formik.touched.gender && formik.errors.gender ? (
+                              <div className="error-message">{formik.errors.gender}</div>
+                            ) : null}
+                          </Row>
+                        </Form.Group>
+
+                        <Form.Group as={Col} sm={4} controlId="dob">
+                          <Form.Label>
+                            Date of Birth<span className="text-danger">*</span>
+                          </Form.Label>
+                          <Form.Control
+                            type="date"
+                            name="dob"
+                            onChange={formik.handleChange}
+                            value={formik.values?.dob}
+                            className={
+                              formik.touched.dob && formik.errors.dob ? 'is-invalid' : null
+                            }
+                            onBlur={formik.handleBlur}></Form.Control>
+                          {formik.touched.dob && formik.errors.dob ? (
+                            <div className="error-message">{formik.errors.dob}</div>
+                          ) : null}
+                        </Form.Group>
+                      </Row>
+
+                      <Row className="mb-5" md={3}>
+                        <Form.Group as={Col} controlId="guardian_details">
+                          <Form.Label>Guardian Detail</Form.Label>
+                          <Form.Control
+                            name="guardian_details"
+                            onChange={formik.handleChange}
+                            value={formik.values?.guardian_details}
+                            type="text"
+                            placeholder="Guardian detail"
+                          />
+                        </Form.Group>
+                      </Row>
+
+                      <Row className="d-flex justify-content-end my-btn-styles">
+                        <Button
+                          className="btn btn-outline-secondary"
+                          variant="outline-secondary"
+                          type="button"
+                          onClick={returnToDashboard}>
+                          Cancel
+                        </Button>
+                        <Button
+                          className=""
+                          disabled={!(formik.isValid && formik.dirty) || isNextLoading}
+                          variant="secondary"
+                          type="submit">
+                          {isNextLoading ? 'Saving.. ' : 'Next'}
+                        </Button>
+                      </Row>
+                    </>
+                  </Form>
+                </>
+              )}
+              {page === 1 && (
+                <EducationDetails
+                  nextPage={nextPage}
+                  course={courseDetails}
+                  user={user}
+                  educationalDetails={EducationalDetails}
+                  setEducationalDetails={setEducationalDetails}
+                />
+              )}
+              {/* {page === 2 && <EntranceTest nextPage={nextPage} course={courseDetails} user={user} />}
             {page === 3 && (
               <>
                 <TestResult
@@ -476,38 +485,36 @@ const StudentCourseApplication = () => {
                 />
               </>
             )} */}
-            {page === 2 && (
-              <>
-                <ApplicationStatus
-                  nextPage={nextPage}
-                  application={applicationDetails}
-                  setOrderData={setOrderData}
-                  courseId={courseDetails?.id}
-                  setSelectedBatch={setSelectedBatch}
-                  ></ApplicationStatus>
-              </>
-            )}
-            {page === 3 && (
-              <>
-                <Payments
-                  nextPage={nextPage}
-                  course={courseDetails}
-                  orderData={orderData}
-                  application={applicationDetails}
-                  selectedBatch={selectedBatch}
-                  ></Payments>
-              </>
-            )}
-            
-            {page === 4 && (
-              <>
-                <EnrollmentStatus nextPage={nextPage}></EnrollmentStatus>
-              </>
-            )}
+              {page === 2 && (
+                <>
+                  <ApplicationStatus
+                    nextPage={nextPage}
+                    application={applicationDetails}
+                    setOrderData={setOrderData}
+                    courseId={courseDetails?.id}
+                    setSelectedBatch={setSelectedBatch}></ApplicationStatus>
+                </>
+              )}
+              {page === 3 && (
+                <>
+                  <Payments
+                    nextPage={nextPage}
+                    course={courseDetails}
+                    orderData={orderData}
+                    application={applicationDetails}
+                    selectedBatch={selectedBatch}></Payments>
+                </>
+              )}
+
+              {page === 4 && (
+                <>
+                  <EnrollmentStatus nextPage={nextPage}></EnrollmentStatus>
+                </>
+              )}
+            </div>
           </div>
         </div>
-        </div>
-       ): (
+      ) : (
         <Loader />
       )}
     </>
