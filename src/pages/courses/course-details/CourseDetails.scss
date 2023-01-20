@@ -4,6 +4,10 @@
 }
 
 .course-details {
+    .promo-banner {
+        padding: unset !important;
+    }
+
     .banner {
         border             : 1px solid grey;
         background         : #222380;
@@ -502,6 +506,11 @@
         font-weight: 500;
         text-align: left;
     }
+
+    .course-details > .promo-banner {
+        padding: unset !important;
+    }
+
     .course-details .banner .container .details, .course-details .banner .container .carousel-container {
         max-width: 100%;
         flex: 0 0 100%;
