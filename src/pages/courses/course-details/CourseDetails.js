@@ -72,7 +72,6 @@ function CourseDetails() {
   };
 
   const apply = (course) => {
-console.log(course?.target_audience);
     if ( course?.target_audience === "{Learners}" ) {
       setopenpayment(true);
     } else {

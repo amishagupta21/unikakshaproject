@@ -273,7 +273,6 @@ const EducationalDetails = (educationalInfo) => {
           values.other_program_course_duration;
       }
       // setIsNextLoading(true);
-      console.log(payload);
       submitEducationalDetails(payload);
     },
   });

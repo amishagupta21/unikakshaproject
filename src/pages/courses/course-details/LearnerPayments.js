@@ -33,7 +33,6 @@ const LearnerPayments = (params) => {
     const selectedBatch = location.state.userData
     const userData = location.state.userData;
     const orderData = location.state.orderData;
-    console.log(selectedBatch)
 
 
     // const courseData = params.course;

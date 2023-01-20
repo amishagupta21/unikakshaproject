@@ -10,7 +10,6 @@ const Toaster = ({ header, variant, body, show }) => {
 
     useEffect(() => {
         setShow(show);
-        console.log(header, variant, body, show, showToast)
     },[show])
 
     const closeToaster = () => {

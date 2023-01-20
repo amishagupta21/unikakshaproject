@@ -39,7 +39,6 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
     const [ openpayment, setopenpayment ] = React.useState(false);   
     const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
 
-    console.log(application);
 
     useEffect(() => {
 
@@ -52,7 +51,6 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
 
     const fetchApplicationDetails = async () => {
         
-        console.log(user?.uid)
         const payload = {
           uid: user?.uid,
           course_variant_id: courseId,
@@ -67,7 +65,6 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
         // if (applicationDetails?.data?.data.application) {
           const applicationData = applicationDetails?.data?.data.application;
         // setApplication(applicationDetails?.data?.data.application);
-       console.log(applicationData)
         const { m_applicationstatus: appStatus } = applicationData;
         let app_status ='';
         if(appStatus === 'Application Approved' || appStatus === 'Application In Review') {

@@ -26,7 +26,6 @@ const PaymentPopup = ({nextPage, setOrderData, courseId, setopenpayment, setSele
   }
     const fetchVariantBatches = async(courseVariantId) => {
         const res = await ApiService(`courses/${courseVariantId}/batch/list`);
-        console.log("res",res)
         if(res?.data.code === 200) {
             setbatches(res.data.data.result);     
             setDefaultBatch(res.data.data.result[0]?.id);  

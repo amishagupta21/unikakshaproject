@@ -40,12 +40,12 @@ h2.title-head {
   justify-content: center;
 }
 
-.btn:hover,
+/* .btn:hover,
 .btn:focus {
   background-color: var(--blue);
   border-color    : var(--blue);
   color           : var(--white);
-}
+} */
 
 .button.d-flex {
   flex-direction: column;

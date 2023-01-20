@@ -38,7 +38,6 @@ const MyCourses = () => {
   const fetchInitialData = async () => {
     const response = await ApiService('/student/application/list', 'GET', {}, true);
     const { data } = response;
-    console.log(data);
     setApplicationList(data?.data);
   };
 
@@ -54,7 +53,6 @@ const MyCourses = () => {
     setOccupation(response?.data?.data?.userProfile?.occupation)
 
     if( occupation === 'STUDENT') {
-      console.log(occupation);
        steps = [
         'personal_details',
         'education_details',
