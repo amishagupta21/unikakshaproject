@@ -249,7 +249,7 @@ const Info = () => {
                           </FormSelectField> */}
 
                           <label className="form-label">
-                            Enter college name <span class="text-danger">*</span>
+                            Enter college name <span className="text-danger">*</span>
                           </label>
                           <CreatableSelect
                             isClearable

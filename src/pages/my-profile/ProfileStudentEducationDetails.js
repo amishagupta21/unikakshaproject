@@ -86,7 +86,6 @@ const ProfileEducationDetails = (
   const dispatch = useDispatch();
 
   const educationalDetails = educationalInfo?.educationalInfo;
-  console.log(educationalDetails);
 
   const yesNo = [
     { name: 'Yes', value: 'yes' },
@@ -128,7 +127,6 @@ const ProfileEducationDetails = (
 
     let educationData = educationalDetails.education_details;
 
-    console.log(educationData);
 
     if (educationData) {
 

@@ -114,7 +114,6 @@ const CourseApplication = () => {
     );
 
     if (applicationDetails?.data?.data.application) {
-      console.log(applicationDetails?.data?.data.application);
       const { application_stage, m_applicationstatus, m_totalscore, m_candidatescore } =
         applicationDetails?.data?.data.application;
       const obj = {
@@ -373,7 +372,6 @@ const CourseApplication = () => {
                           name="mobile_number"
                           value={formik.values?.mobile_number}
                           onChange={(phone, data) => {
-                            console.log(phone, data)
                             formik.setFieldValue('mobile_number', phone);
                             setMobileNumber({ phone, data });
                           }}

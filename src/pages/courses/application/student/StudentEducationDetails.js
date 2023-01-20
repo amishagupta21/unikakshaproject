@@ -109,7 +109,6 @@ const EducationDetails = ({
   const onYearOfStudyingChange = (value) => {
     
     const option = yearOfStudyingOption.filter((e) => e.value === value.target.value);
-    console.log(option);
     // setYesOrNoLabel(option[0].yesNoLabel);
     setyearOfStudying(option[0].value);
     
@@ -126,7 +125,6 @@ const EducationDetails = ({
 
     let educationData = educationalDetails.education_details;
 
-    console.log(educationData);
 
     if (educationData) {
 
@@ -302,10 +300,8 @@ const EducationDetails = ({
   });
 
   const submitEducationalDetails = async (payload) => {
-    console.log(payload);
     const response = await ApiService('/student/educational-details', `PUT`, payload, true);
     setIsNextLoading(false);
-    console.log(response);
     if (response?.data.code === 200) {
       setEducationalDetails(payload);
       nextPage();

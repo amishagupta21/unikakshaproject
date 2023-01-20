@@ -38,13 +38,11 @@ const workDetails = ({educationalDetails}) => {
 
         let formData = {};
        
-        if (educationalDetails && educationalDetails?.work_details.length) {
-			console.log(educationalDetails?.work_details[0]?.position);
+        if (educationalDetails && educationalDetails?.work_details?.length) {
 			formData.position = educationalDetails.work_details[0]?.position;
 			formData.organization_name = educationalDetails.work_details[0]?.organization_name;
 			formData.experience = educationalDetails.work_details[0]?.experience;
         }
-        console.log(formData);
         formik.setValues(formData);
 		
       
@@ -106,7 +104,6 @@ const workDetails = ({educationalDetails}) => {
       });
     
     const submitWorkDetails = async (payload) => {
-		console.log(payload);
         const response = await ApiService('student/update-work-details', `PATCH`, payload, true);
         setIsNextLoading(false);
 		dispatch(setLoading(false));

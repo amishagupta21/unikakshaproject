@@ -109,7 +109,6 @@ const LearnerPaymentPopup = ({courseId, courseInfo}) =>
         const response = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
        
         setUserData(response?.data?.data?.userProfile?.personal_details)
-        console.log(userData)
      
     };
     
