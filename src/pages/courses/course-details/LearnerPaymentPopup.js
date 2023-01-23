@@ -9,7 +9,7 @@ import { setLoading } from '../../../redux/actions/LoaderActions';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 
-const LearnerPaymentPopup = ({courseId, courseInfo}) => 
+const LearnerPaymentPopup = ({courseId, courseInfo, setopenpayment}) => 
 {        
     
     const [ batches, setbatches ] = React.useState();
@@ -19,10 +19,10 @@ const LearnerPaymentPopup = ({courseId, courseInfo}) =>
     const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
     const [userData, setUserData] = React.useState();
     const [applicationData, setApplication] = React.useState();
-    const [openpayment, setopenpayment] = React.useState(false);
+    // const [openpayment, setopenpayment] = React.useState(false);
     // const [orderData, setOrderData] = React.useState();
     
-console.log(courseId, courseInfo);
+// console.log(courseId, courseInfo);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -79,7 +79,7 @@ console.log(courseId, courseInfo);
             setApplication(applicationDetails?.data?.data?.application)
         
             let payload = {
-                amount: 2500,
+                amount: 15000,
                 currency: "INR",
                 receipt: (Math.random() + 1).toString(36).substring(7)
             }        
@@ -249,7 +249,7 @@ console.log(courseId, courseInfo);
                         </Col>
                         <Col md="5 nopadd">
                             <span className="floatRight">  
-                            2500
+                            15000
                             </span>                            
                         </Col>
                     </Row>        
@@ -269,7 +269,7 @@ console.log(courseId, courseInfo);
                         </Col>
                         <Col md="5 nopadd">
                             <span className="floatRight">  
-                            2500
+                            15000
                             </span>                            
                         </Col>
                     </Row>                    

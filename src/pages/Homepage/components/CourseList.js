@@ -99,7 +99,7 @@ const CourseList = ({ courses }) => {
 
           {openpayment && (
               <>
-                <LearnerPaymentPopup courseId={courseData?.id} courseInfo={courseData} />
+                <LearnerPaymentPopup courseId={courseData?.id} courseInfo={courseData} setopenpayment={setopenpayment}/>
               </>
             )}
 

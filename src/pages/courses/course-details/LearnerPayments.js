@@ -88,10 +88,10 @@ console.log(applicationData);
                     application_id: applicationData?._id,
                     course_variant_id: courseData?.id,
                     batch_id: selectedBatch?.id,
-                    registration_fee: 2500,
+                    registration_fee: 15000,
                     discount_coupon: "",
                     discount_amount: 0,
-                    final_amount: 2500,
+                    final_amount: 15000,
                     payment_id: paymentResponse.razorpay_payment_id,
                     order_id: paymentResponse.razorpay_order_id,
                     payment_status: status
@@ -138,7 +138,7 @@ console.log(applicationData);
 
         const options = {
             key: "rzp_test_xOikuguYnrmtYd", // Enter the Key ID generated from the Dashboard
-            amount: orderData?.amount,
+            amount: 15000,
             currency: orderData?.currency,
             name: "Code Shastra",
             description: "Test Transaction",
@@ -157,9 +157,15 @@ console.log(applicationData);
                     razorpayPaymentId: response.razorpay_payment_id,
                     razorpayOrderId: response.razorpay_order_id,
                     razorpaySignature: response.razorpay_signature,
-                };
+                }
 
                 // nextPage();
+            },
+            "modal": {
+                "ondismiss": function() {
+                    setpaymentStatus('Failed');
+                    // createPaymant(response, 'Failed');
+                }
             },
             prefill: {
                 name: userData?.full_name,
@@ -175,8 +181,10 @@ console.log(applicationData);
         };
 
         const paymentObject = new window.Razorpay(options);
+      
         paymentObject.on('payment.failed', function (response) 
         {
+            
             setpaymentStatus('Failed');
             createPaymant(response, 'Failed');
             // alert(response.error.code);
@@ -241,7 +249,37 @@ console.log(applicationData);
                         <span>
                         <p>Any query about payment please feel free connect with us.</p>
                        
-                        <p>Call us - (+91) 9310575018</p> <p>Mail us - support@unikaksha.com</p>
+                        <p>Call us - (+91) 93105 75018</p> <p>Mail us - support@unikaksha.com</p>
+                        </span>
+                        
+                    </div> 
+                   
+                </div>
+            </div>
+        );
+    }
+
+    const getPaymentCancelled = () => {
+        return (
+            <div className='d-flex align-items-center justify-content-center'>
+                <div>
+                    <div className='mt-2 mb-4 d-flex align-items-center justify-content-center'>
+                    <img src={PaymentFailure} className="payment-tick"></img>
+                        
+                    </div>
+                    <h3 className='payment-failed text-center header mt-2 mb-4 '>Payment Cancelled!</h3>
+                    <div className='content-box fail' >
+                      
+                        <p className='text-primary text-center fail-content'>Your transaction has been cancelled. Please retry the payment.</p>
+                        <p className='text-center'>
+                        <Button className='mt-2 ' style={{padding: '8px 30px'}} variant='secondary' onClick={displayRazorpay}>Retry Payment</Button>
+                        </p>
+                    </div>
+                    <div className='mt-5 d-flex align-items-center justify-content-center footer-content'>
+                        <span>
+                        <p>Any query about payment please feel free connect with us.</p>
+                       
+                        <p>Call us - (+91) 93105 75018</p> <p>Mail us - support@unikaksha.com</p>
                         </span>
                         
                     </div> 
@@ -254,6 +292,7 @@ console.log(applicationData);
     return (
         
         <div className='payments'>
+             {/* { paymentStatus == 'Cancelled' ? getPaymentCancelled() : "" } */}
              { paymentStatus == 'Success' ? getPaymentSuccess() : "" }
              { paymentStatus == 'Failed' ? getPaymentFailure() : "" }
         </div>

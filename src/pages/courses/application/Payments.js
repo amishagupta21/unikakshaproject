@@ -132,6 +132,12 @@ const Payments = (params) => {
 
                 // nextPage();
             },
+            "modal": {
+                "ondismiss": function() {
+                    setpaymentStatus('Failed');
+                    // createPaymant(response, 'Failed');
+                }
+            },
             prefill: {
                 name: userProfile?.full_name,
                 email: userProfile?.email,

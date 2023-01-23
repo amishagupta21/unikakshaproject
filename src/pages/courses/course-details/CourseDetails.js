@@ -85,6 +85,8 @@ function CourseDetails() {
     }
   };
 
+  
+
   useEffect(() => {
     window.scrollTo(0, 0);
     fetchInitialData(params);
@@ -302,7 +304,7 @@ function CourseDetails() {
       <div className="course-details my-5">
         {openpayment && (
           <>
-            <LearnerPaymentPopup courseId={courseDetails?.id} courseInfo={courseDetails} />
+            <LearnerPaymentPopup courseId={courseDetails?.id} courseInfo={courseDetails} setopenpayment={setopenpayment}/>
           </>
         )}
         {promoBanner ? (
