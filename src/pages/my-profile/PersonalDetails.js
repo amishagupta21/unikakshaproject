@@ -280,6 +280,22 @@ const PersonalDetails = () => {
     dispatch(setLoading(false));
   };
 
+  const deleteProfilePic = async (fileKey) => {
+    
+    dispatch(setLoading(true));
+
+    const result = await ApiService(
+      '/user/delete-profile-picture',
+      `DELETE`,
+      { document_type: fileKey },
+      true
+    );
+
+    setProfilePic(profilePicture);
+
+    dispatch(setLoading(false));
+  };
+
   const viewProfilePhoto = () => {
     setProfilePopup(true);
   };
@@ -418,7 +434,7 @@ const PersonalDetails = () => {
                                           className="btn"
                                           variant="outline-secondary"
                                           type="button"
-                                          onClick={() => togglePopup()}>
+                                          onClick={() => deleteProfilePic('profile_picture')()}>
                                           <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="21"
