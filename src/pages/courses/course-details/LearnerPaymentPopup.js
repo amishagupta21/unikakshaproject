@@ -7,6 +7,8 @@ import LearnerPayments from './LearnerPayments'
 import { useDispatch } from 'react-redux';
 import { setLoading } from '../../../redux/actions/LoaderActions';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bookReader } from '../../../assets/images';
+import WaitClockIcon from '../../../assets/images/courses/icons/wait-sandclock-icon.svg';
 
 
 const LearnerPaymentPopup = ({courseId, courseInfo, setopenpayment}) => 
@@ -119,6 +121,7 @@ const LearnerPaymentPopup = ({courseId, courseInfo, setopenpayment}) =>
     
     const batch = batches.filter((e) => e.id === event.target.value);
     setDefaultBatch(batch[0]?.id);
+   
     setSelectedBatch(batch[0]);
   
   }
@@ -210,10 +213,25 @@ const LearnerPaymentPopup = ({courseId, courseInfo, setopenpayment}) =>
             <section className="modal-main">
                 <div className="model-body">
                 <div className='modalheader'>
-                    <span>Please choose batch schedule below</span>
+                    <span>Batch Selection</span>
                     <span className="floatRight close-btn" onClick={() => togglepayment()}>x</span>
                 </div>
                 <div className="mt-3">
+                    <Row xs={1} md={1} className="nomargin mt-2">
+
+                        <span>
+                            <img src={bookReader} alt="bookReader-Icon" />
+                            { courseInfo?.course_title }
+                        </span>
+                        <div className="d-flex">
+                        <img src={WaitClockIcon} alt="Wait-Clock-Icon" />
+                        <p style={{ fontSize: '14px' }} className="ms-2 mb-0">
+                            <span>Duration: </span> {selectedBatch?.duration} Months |{' '}
+                           
+                            <span> {courseInfo?.variant_name}</span>
+                        </p>
+                        </div>
+                    </Row>
                     <Row className='nomargin batch-head'>
                         Batch Schedule
                     </Row>  
