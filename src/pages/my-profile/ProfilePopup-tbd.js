@@ -6,7 +6,8 @@ const ProfilePopup = ({ profilePhoto }) => {
   useEffect(() => {}, []);
 
   const togglePopup = () => {
-    setProfilePopup(false);
+    // setProfilePopup(false);
+    window.location.reload();
   };
 
   return (

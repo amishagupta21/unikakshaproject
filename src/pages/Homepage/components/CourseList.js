@@ -10,6 +10,7 @@ import righrMark from '../../../assets/images/courses/icons/right-mark.svg';
 import WaitClockIcon from '../../../assets/images/courses/icons/wait-sandclock-icon.svg';
 import './CourseList.scss';
 import ApiService from '../../../services/ApiService';
+import LearnerPaymentPopup from '../../courses/course-details/LearnerPaymentPopup'
 
 const RatingComponent = ({ rating }) => {
   const ratingInDecimal = rating?.value.split('/')[0];
@@ -27,6 +28,8 @@ const CourseList = ({ courses }) => {
 
   const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
   const [occupation, setOccupation] = React.useState([]);
+  const [openpayment, setopenpayment] = React.useState(false);
+  const [courseData, setcourseData] = React.useState();
 
   const fetchUserDetails = async (uid) => {
        
@@ -36,11 +39,22 @@ const CourseList = ({ courses }) => {
   }
   
   const apply = (course) => {
-  //  console.log(occupation);
+    
+    setcourseData(course);
+    
     if ( occupation === 'STUDENT' ) {
+      if (course?.target_audience === '{Learners}') {
+        setopenpayment(true);
+      } else {
        navigate(`/course/apply/student/${course.course_url}`, { state: course });
+      }
     } else {
-       navigate(`/course/apply/${course.course_url}`, { state: course });
+      if (course?.target_audience === '{Learners}') {
+        setopenpayment(true);
+      } else {
+        navigate(`/course/apply/${course.course_url}`, { state: course });
+      }
+       
     }
    
   };
@@ -82,6 +96,13 @@ const CourseList = ({ courses }) => {
   return (
     <>
       <div className="d-flex justify-content-between">
+
+          {openpayment && (
+              <>
+                <LearnerPaymentPopup courseId={courseData?.id} courseInfo={courseData} />
+              </>
+            )}
+
         <div id = "course_list">
           <h5>Top Techfit Courses</h5>
           <p>These are the top 3 courses provided by UniKaksha</p>
@@ -90,8 +111,11 @@ const CourseList = ({ courses }) => {
       </div>
       <Row>
         {courses?.map((course, idx) => (
+
+          
          
           <Col md="4" key={course?.id}>
+             
             <Card className="my-4 card-custom" style={{ width: '100%' }}>
             <Card className="bannerlable">{getPaymentMode(course)}</Card>
               <Card.Img

@@ -18,7 +18,7 @@ const LearnerPayments = (params) => {
     // const [userProfile, setUserProfile ] = React.useState();
     
     
-    const [applicationData, setApplication] = React.useState();
+    // const [applicationData, setApplication] = React.useState();
     const [ openpayment, setopenpayment ] = React.useState(true);  
     
     // const navigate = useNavigate();
@@ -30,10 +30,11 @@ const LearnerPayments = (params) => {
     // console.log(location.state.courseInfo);
 
     const courseData = location.state.courseInfo;
-    const selectedBatch = location.state.userData
+    const selectedBatch = location.state.batch
     const userData = location.state.userData;
     const orderData = location.state.orderData;
-
+    const applicationData = location.state.applicationData;
+console.log(applicationData);
 
     // const courseData = params.course;
     

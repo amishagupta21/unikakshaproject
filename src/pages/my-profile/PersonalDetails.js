@@ -286,6 +286,7 @@ const PersonalDetails = () => {
 
   const togglePopup = () => {
     setProfilePopup(false);
+    window.location.reload();
   };
 
   const logOutHandler = async () => {

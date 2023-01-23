@@ -19,9 +19,10 @@ const LearnerPaymentPopup = ({courseId, courseInfo}) =>
     const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
     const [userData, setUserData] = React.useState();
     const [applicationData, setApplication] = React.useState();
+    const [openpayment, setopenpayment] = React.useState(false);
     // const [orderData, setOrderData] = React.useState();
     
-
+console.log(courseId, courseInfo);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -94,7 +95,8 @@ const LearnerPaymentPopup = ({courseId, courseInfo}) =>
                         batch: selectedBatch,
                         courseInfo: courseInfo,
                         userData: userData,
-                        orderData: orderDetails?.data?.data
+                        orderData: orderDetails?.data?.data,
+                        applicationData: applicationDetails?.data?.data?.application
                     },
                 });
                 // console.log(openPaymentScreen)
