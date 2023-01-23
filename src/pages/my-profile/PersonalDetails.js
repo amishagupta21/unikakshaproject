@@ -504,7 +504,7 @@ const PersonalDetails = () => {
                                         <Form.Group as={Col} sm={6} controlId="full_name">
                                           <Form.Label>
                                             Full Name
-                                            <span className="text-danger">*</span>
+                                            <span className="text-danger"> *</span>
                                             <span className="text-muted"> (As per PAN)</span>
                                           </Form.Label>
                                           <Form.Control
@@ -530,7 +530,7 @@ const PersonalDetails = () => {
                                         <Form.Group as={Col} sm={6} controlId="email">
                                           <Form.Label>
                                             Email
-                                            <span className="text-danger">*</span>
+                                            <span className="text-danger"> *</span>
                                           </Form.Label>
                                           <Form.Control
                                             type="email"
@@ -557,7 +557,7 @@ const PersonalDetails = () => {
                                       <Row className="row-bottom">
                                         <Form.Group as={Col} sm={6} controlId="mobile_number">
                                           <Form.Label>
-                                            Mobile Number<span className="text-danger">*</span>
+                                            Mobile Number<span className="text-danger"> *</span>
                                           </Form.Label>
                                           <PhoneInput
                                             country={'in'}
@@ -586,7 +586,7 @@ const PersonalDetails = () => {
                                           controlId="whatsapp_number"
                                           className="no-whatsapp">
                                           <Form.Label>
-                                            Whatsapp Number<span className="text-danger">*</span>
+                                            Whatsapp Number<span className="text-danger"> *</span>
                                           </Form.Label>
                                           <PhoneInput
                                             country={'in'}
@@ -618,7 +618,7 @@ const PersonalDetails = () => {
 
                                         <Form.Group as={Col} sm={6} controlId="gender">
                                           <Form.Label>
-                                            Gender<span className="text-danger">*</span>
+                                            Gender<span className="text-danger"> *</span>
                                           </Form.Label>
                                           <Row>
                                             <ButtonGroup aria-label="select-button">
@@ -715,7 +715,7 @@ const PersonalDetails = () => {
 
                                         <Form.Group as={Col} lg={2}>
                                           <Form.Label>
-                                            Year<span className="text-danger">*</span>
+                                            Year<span className="text-danger"> *</span>
                                           </Form.Label>
                                           <Form.Select
                                             name="birth_year"
@@ -747,7 +747,7 @@ const PersonalDetails = () => {
 
                                       <Row className="row-bottom">
                                         <Form.Group as={Col} sm={6}>
-                                          <Form.Label>Your occupation*</Form.Label>
+                                          <Form.Label>Your occupation <span className="text-danger">*</span></Form.Label>
                                           <div
                                             className="mb-3 occupation-label-group"
                                             onChange={handleWeekdayChange}>
