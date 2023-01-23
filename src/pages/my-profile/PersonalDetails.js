@@ -230,6 +230,7 @@ const PersonalDetails = () => {
           uploadUsingSignedUrl(response.data.data.signedUrl, inputFile, docType)
             .then((res) => {
               viewProfilePic('profile_picture');
+              window.location.reload();
               resolve(true);
             })
             .catch((error) => {});
