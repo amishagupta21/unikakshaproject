@@ -53,6 +53,7 @@ const PersonalDetails = () => {
   const [profilePopup, setProfilePopup] = React.useState(false);
   const [userOccupation, setOccupation] = React.useState([]);
   const [showDeleteModal, setShowDeleteModal] = React.useState(false);
+  const [showConfirmModal, setShowConfirmModal] = React.useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -230,6 +231,7 @@ const PersonalDetails = () => {
           uploadUsingSignedUrl(response.data.data.signedUrl, inputFile, docType)
             .then((res) => {
               viewProfilePic('profile_picture');
+              window.location.reload();
               resolve(true);
             })
             .catch((error) => {});
@@ -280,6 +282,22 @@ const PersonalDetails = () => {
     dispatch(setLoading(false));
   };
 
+  // const deleteProfilePic = async (fileKey) => {
+    
+  //   dispatch(setLoading(true));
+
+  //   const result = await ApiService(
+  //     '/user/delete-profile-picture',
+  //     `DELETE`,
+  //     { document_type: fileKey },
+  //     true
+  //   );
+
+  //   setProfilePic(profilePicture);
+
+  //   dispatch(setLoading(false));
+  // };
+
   const viewProfilePhoto = () => {
     setProfilePopup(true);
   };
@@ -294,6 +312,8 @@ const PersonalDetails = () => {
     dispatch(setIsAuthenticated(false));
     navigate('/');
   };
+
+  
 
   const onDeleteFail = () => {
     dispatch(openToaster({
@@ -418,7 +438,9 @@ const PersonalDetails = () => {
                                           className="btn"
                                           variant="outline-secondary"
                                           type="button"
-                                          onClick={() => togglePopup()}>
+                                          onClick={() => setShowConfirmModal(true)}
+                                          // onClick={() => deleteProfilePic('profile_picture')()}
+                                          >
                                           <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="21"
@@ -487,7 +509,7 @@ const PersonalDetails = () => {
                                         <Form.Group as={Col} sm={6} controlId="full_name">
                                           <Form.Label>
                                             Full Name
-                                            <span className="text-danger">*</span>
+                                            <span className="text-danger"> *</span>
                                             <span className="text-muted"> (As per PAN)</span>
                                           </Form.Label>
                                           <Form.Control
@@ -513,7 +535,7 @@ const PersonalDetails = () => {
                                         <Form.Group as={Col} sm={6} controlId="email">
                                           <Form.Label>
                                             Email
-                                            <span className="text-danger">*</span>
+                                            <span className="text-danger"> *</span>
                                           </Form.Label>
                                           <Form.Control
                                             type="email"
@@ -540,7 +562,7 @@ const PersonalDetails = () => {
                                       <Row className="row-bottom">
                                         <Form.Group as={Col} sm={6} controlId="mobile_number">
                                           <Form.Label>
-                                            Mobile Number<span className="text-danger">*</span>
+                                            Mobile Number<span className="text-danger"> *</span>
                                           </Form.Label>
                                           <PhoneInput
                                             country={'in'}
@@ -569,7 +591,7 @@ const PersonalDetails = () => {
                                           controlId="whatsapp_number"
                                           className="no-whatsapp">
                                           <Form.Label>
-                                            Whatsapp Number<span className="text-danger">*</span>
+                                            Whatsapp Number<span className="text-danger"> *</span>
                                           </Form.Label>
                                           <PhoneInput
                                             country={'in'}
@@ -601,7 +623,7 @@ const PersonalDetails = () => {
 
                                         <Form.Group as={Col} sm={6} controlId="gender">
                                           <Form.Label>
-                                            Gender<span className="text-danger">*</span>
+                                            Gender<span className="text-danger"> *</span>
                                           </Form.Label>
                                           <Row>
                                             <ButtonGroup aria-label="select-button">
@@ -698,7 +720,7 @@ const PersonalDetails = () => {
 
                                         <Form.Group as={Col} lg={2}>
                                           <Form.Label>
-                                            Year<span className="text-danger">*</span>
+                                            Year<span className="text-danger"> *</span>
                                           </Form.Label>
                                           <Form.Select
                                             name="birth_year"
@@ -730,7 +752,7 @@ const PersonalDetails = () => {
 
                                       <Row className="row-bottom">
                                         <Form.Group as={Col} sm={6}>
-                                          <Form.Label>Your occupation*</Form.Label>
+                                          <Form.Label>Your occupation <span className="text-danger">*</span></Form.Label>
                                           <div
                                             className="mb-3 occupation-label-group"
                                             onChange={handleWeekdayChange}>
@@ -840,6 +862,7 @@ const PersonalDetails = () => {
               </Col>
             </Row>
             <DeleteAccountModal onDeleteFail={onDeleteFail} show={showDeleteModal} toggle={setShowDeleteModal} />
+            <DeleteProfilePicModal onDeleteFail={onDeleteFail} show={showConfirmModal} toggle={setShowConfirmModal} />
           </Tab.Container>
         </Container>
       </div>
@@ -890,3 +913,54 @@ const DeleteAccountModal = ({ show, toggle, onDeleteFail }) => {
     </>
   );
 };
+
+const DeleteProfilePicModal = ({ show, toggle, onDeleteFail }) => {
+  const handleClose = () => toggle(false);
+
+  const dispatch = useDispatch();
+
+  const deleteProfilePic = async () => {
+    
+    dispatch(setLoading(true));
+
+    const result = await ApiService(
+      '/user/delete-profile-picture',
+      `DELETE`,
+      { document_type: 'profile_picture' },
+      true
+    );
+
+    // setProfilePic(profilePicture);
+    dispatch(setLoading(false));
+    window.location.reload();
+  };
+
+  return (
+    <>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+        centered
+        dialogClassName="delete-modal">
+        <Modal.Header closeButton>
+          <Modal.Title>
+            <h5>Delete Profile picture</h5></Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure want to delete your profile picture?
+        </Modal.Body>
+        <Modal.Footer className='justify-content-around'>
+            <Button variant="danger" style={{ width: '120px' }} onClick={deleteProfilePic}>
+              Delete
+            </Button>
+            <Button variant="outline-primary" style={{ width: '120px' }} onClick={handleClose}>
+              Cancel
+            </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+};
+

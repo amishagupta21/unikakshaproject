@@ -69,6 +69,7 @@ import hand from './Hand.svg';
 import wrappedGift from './courses/emojione_wrapped-gift.svg';
 import trash from './trash.svg';
 import view from './view.svg';
+import bookReader from './book-reader.svg';
 
 import SuccessTick from './CourseApplication/success-tick.svg';
 import PaymentTick from './CourseApplication/payment-tick.svg';
@@ -195,4 +196,5 @@ export {
     trash,
     view,
     signDoc,
+    bookReader,
 };
