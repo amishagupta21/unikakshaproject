@@ -53,6 +53,7 @@ const PersonalDetails = () => {
   const [profilePopup, setProfilePopup] = React.useState(false);
   const [userOccupation, setOccupation] = React.useState([]);
   const [showDeleteModal, setShowDeleteModal] = React.useState(false);
+  const [showConfirmModal, setShowConfirmModal] = React.useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -281,21 +282,21 @@ const PersonalDetails = () => {
     dispatch(setLoading(false));
   };
 
-  const deleteProfilePic = async (fileKey) => {
+  // const deleteProfilePic = async (fileKey) => {
     
-    dispatch(setLoading(true));
+  //   dispatch(setLoading(true));
 
-    const result = await ApiService(
-      '/user/delete-profile-picture',
-      `DELETE`,
-      { document_type: fileKey },
-      true
-    );
+  //   const result = await ApiService(
+  //     '/user/delete-profile-picture',
+  //     `DELETE`,
+  //     { document_type: fileKey },
+  //     true
+  //   );
 
-    setProfilePic(profilePicture);
+  //   setProfilePic(profilePicture);
 
-    dispatch(setLoading(false));
-  };
+  //   dispatch(setLoading(false));
+  // };
 
   const viewProfilePhoto = () => {
     setProfilePopup(true);
@@ -311,6 +312,8 @@ const PersonalDetails = () => {
     dispatch(setIsAuthenticated(false));
     navigate('/');
   };
+
+  
 
   const onDeleteFail = () => {
     dispatch(openToaster({
@@ -435,7 +438,9 @@ const PersonalDetails = () => {
                                           className="btn"
                                           variant="outline-secondary"
                                           type="button"
-                                          onClick={() => deleteProfilePic('profile_picture')()}>
+                                          onClick={() => setShowConfirmModal(true)}
+                                          // onClick={() => deleteProfilePic('profile_picture')()}
+                                          >
                                           <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="21"
@@ -857,6 +862,7 @@ const PersonalDetails = () => {
               </Col>
             </Row>
             <DeleteAccountModal onDeleteFail={onDeleteFail} show={showDeleteModal} toggle={setShowDeleteModal} />
+            <DeleteProfilePicModal onDeleteFail={onDeleteFail} show={showConfirmModal} toggle={setShowConfirmModal} />
           </Tab.Container>
         </Container>
       </div>
@@ -907,3 +913,54 @@ const DeleteAccountModal = ({ show, toggle, onDeleteFail }) => {
     </>
   );
 };
+
+const DeleteProfilePicModal = ({ show, toggle, onDeleteFail }) => {
+  const handleClose = () => toggle(false);
+
+  const dispatch = useDispatch();
+
+  const deleteProfilePic = async () => {
+    
+    dispatch(setLoading(true));
+
+    const result = await ApiService(
+      '/user/delete-profile-picture',
+      `DELETE`,
+      { document_type: 'profile_picture' },
+      true
+    );
+
+    // setProfilePic(profilePicture);
+    dispatch(setLoading(false));
+    window.location.reload();
+  };
+
+  return (
+    <>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+        centered
+        dialogClassName="delete-modal">
+        <Modal.Header closeButton>
+          <Modal.Title>
+            <h5>Delete Profile picture</h5></Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure want to delete your profile picture?
+        </Modal.Body>
+        <Modal.Footer className='justify-content-around'>
+            <Button variant="danger" style={{ width: '120px' }} onClick={deleteProfilePic}>
+              Delete
+            </Button>
+            <Button variant="outline-primary" style={{ width: '120px' }} onClick={handleClose}>
+              Cancel
+            </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+};
+
