@@ -212,7 +212,20 @@ const PersonalDetails = () => {
         );
         return;
       }
-      uploadToS3(file, docType);
+      console.log(file.type);
+      if ( file.type == 'image/png' || file.type == 'image/jpg' || file.type == 'image/jpeg') {
+        uploadToS3(file, docType);
+      } else {
+        dispatch(
+          openToaster({
+            show: true,
+            header: 'Error!',
+            variant: 'danger',
+            body: 'File format only allowed these types PNG, JPG, JPEG',
+          })
+        );
+        return;
+      }
     };
   };
 
@@ -344,11 +357,12 @@ const PersonalDetails = () => {
                         <Nav.Link eventKey="third">Work Details</Nav.Link>
                       </Nav.Item>
                     )}
-                    {userOccupation && userOccupation !== 'STUDENT' && (
+                    
                       <Nav.Item>
                         <Nav.Link eventKey="fourth"> Documents & KYC</Nav.Link>
                       </Nav.Item>
-                    )}
+                      {/* {userOccupation && userOccupation !== 'STUDENT' && (
+                      )} */}
                     <Nav.Item>
                       <Nav.Link onClick={logOutHandler}>Logout</Nav.Link>
                     </Nav.Item>
@@ -382,7 +396,7 @@ const PersonalDetails = () => {
                               src={profileEditIcon}
                               alt="profile-edit-icon"
                               onClick={() => uploadFile('profile_picture')}
-                            />
+                            /> <span>Allowed File Format : (PNG, JPG, JPEG)</span>
                           </span>
                           {profilePopup && (
                             <>
