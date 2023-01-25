@@ -172,7 +172,7 @@ const Payments = (params) => {
         // let items = coureseVariantBatches?.map((element, index) => {
             
         return (
-            <div className='d-flex align-items-center justify-content-center'>
+            <div className='d-flex align-items-center justify-content-center pay-align'>
             <div>
                 <div className='mt-2 mb-4 d-flex align-items-center justify-content-center'>
                     <img src={SuccessTick}></img>
@@ -200,7 +200,7 @@ const Payments = (params) => {
 
     const getPaymentFailure = () => {
         return (
-            <div className='d-flex align-items-center justify-content-center'>
+            <div className='d-flex align-items-center justify-content-center payment-failed'>
                 <div>
                     <div className='mt-2 mb-4 d-flex align-items-center justify-content-center'>
                     <img src={PaymentFailure} className="payment-tick"></img>

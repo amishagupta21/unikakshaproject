@@ -1711,3 +1711,48 @@ section.auth_layout.login_screen.auth-unikaksha .custom-tabs-container.nav.nav-p
   }
 }
 
+.day-block {
+  display: flex;
+  flex-direction: row;
+  margin: 0 -11px;
+}
+.day-form {
+  max-width: 33.3%;
+  flex: 0 0 33.3%;
+  padding: 0 11px;
+}
+
+@media (max-width: 991px){
+.custom-header .nav-customs {
+  
+    box-shadow: 0px 6px 8px rgb(0 0 0 / 15%);
+}
+.course-application .view-course{ padding: 30px 10px;}
+.navbar-nav .notification-link-dp .dropdown-menu {
+  position: absolute;
+  z-index: 99999;
+  right: 3px;
+  left: auto;
+}
+.navbar-nav .notification-link-dp  img{ width:30px !important;}
+.custom-header .navbar .ms-auto.navbar-nav a.notification-link img {
+  width: 14px;
+}
+.my-courses.d-flex.flex-row.mx-auto.my-5.my-courses-apllied-uni .course-application-list .flex-row {
+  flex-direction: column !important;
+}
+.my-courses.d-flex.flex-row.mx-auto.my-5.my-courses-apllied-uni .course-application-list .flex-row .ps-3 {
+  padding-left: 0 !important; padding-top: 20px !important;
+}
+.my-courses.d-flex.flex-row.mx-auto.my-5.my-courses-apllied-uni .application-status #RFS-StepperContainer #RFS-StepContainer {
+  padding: 0 10px;
+}
+.my-courses.d-flex.flex-row.mx-auto.my-5.my-courses-apllied-uni .application-status #RFS-StepperContainer {
+  padding: unset !important;
+  margin: 12px 0px;
+  justify-content: start;
+}
+.my-courses.d-flex.flex-row.mx-auto.my-5.my-courses-apllied-uni  .application-status #RFS-StepperContainer #RFS-StepContainer {
+  padding: 0 10px;
+}
+}
