@@ -4,8 +4,8 @@ import Button from 'react-bootstrap/Button';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import OtpInput from 'react18-input-otp';
-import { arrowBack } from '../../assets/images';
+import OtpInput from 'react-otp-input';
+import { arrowBack, editGray } from '../../assets/images';
 import { firebase } from '../../firebase/firebase';
 import { setLoading } from '../../redux/actions/LoaderActions';
 import ApiService from '../../services/ApiService';
@@ -81,8 +81,8 @@ const SignupOtp = () => {
     const userData = {
       uid: user.uid,
       email: userSignUpData.email,
-      phone: `+${userSignUpData.phoneNumber}`,
-      whatsappoptin: userSignUpData.whatsappoptin,
+      phone: `+${userSignUpData?.phoneNumber}`,
+      whatsappoptin: userSignUpData?.whatsappoptin,
     };
     const result = await ApiService(`user/create`, `POST`, userData);
     localStorage.setItem('user', JSON.stringify(user));
@@ -94,7 +94,7 @@ const SignupOtp = () => {
 
   const sendOTP = async (phoneNumber) => {
     setloading(true);
-    // dispatch(setLoading(true));
+    dispatch(setLoading(true));
 
     const appVerifier = configureCaptcha();
     firebase
@@ -106,14 +106,14 @@ const SignupOtp = () => {
           theme: 'colored',
         });
         setloading(false);
-        // dispatch(setLoading(false));
+        dispatch(setLoading(false));
       })
       .catch((error) => {
         toast.error(`${error}`, {
           theme: 'colored',
         });
         setloading(false);
-        // dispatch(setLoading(false));
+        dispatch(setLoading(false));
       });
   };
 
@@ -121,6 +121,7 @@ const SignupOtp = () => {
     setloading(true);
     setIsButtonLoading(true);
     e.preventDefault();
+
     window.confirmationResult
       .confirm(otp && otp)
       .then(async (response) => {
@@ -151,19 +152,34 @@ const SignupOtp = () => {
               <div className="log-in-title login-head">
                 <img
                   className="me-2"
-                  onClick={() => navigate(-1)}
+                  onClick={() => navigate('/signup')}
                   src={arrowBack}
                   alt="back-arrow"
                 />
                 Verify OTP
               </div>
-              <p>
-                Enter OTP sent to your mobile number{' '}
-                <span style={{ font: 'Poppins', color: '#363F5E' }}>
-                  +{userSignUpData.phoneNumber}
-                </span>
-                .
-              </p>
+              <div className="d-flex">
+                <p>
+                  Enter OTP sent to your mobile{' '}
+                  <span style={{ font: 'Poppins', color: '#363F5E' }}>
+                    +{userSignUpData?.phoneNumber}
+                  </span>
+                  <img
+                    className="ms-2 edit"
+                    onClick={() =>
+                      navigate('/signup', {
+                        state: {
+                          mobileNumber: userSignUpData.phoneNumber,
+                          email: userSignUpData.email,
+                          fullName: userSignUpData.displayName,
+                          whatsappoptin: userSignUpData.whatsappoptin,
+                        },
+                      })
+                    }
+                    alt="edit"
+                    src={editGray}></img>
+                </p>
+              </div>
               {otpError && (
                 <Alert key="danger" variant="danger">
                   {otpError}
@@ -177,7 +193,15 @@ const SignupOtp = () => {
                   <span>Didn't receive code?</span>
                 </div>
                 <div>
-                  <a className={isResendDisabled ? 'resend-otp disabled' : 'resend-otp'} onClick={() => resendOTP(userSignUpData.phoneNumber)}>
+                  {/* <a
+                    className="resend-otp"
+                    style={{ cursor: !minutes && !seconds ? 'pointer' : 'not-allowed' }}
+                    onClick={() => !minutes && !seconds && resendOTP(phoneNumber)}>
+                    Resend OTP */}
+                  <a
+                    style={{ cursor: !minutes && !seconds ? 'pointer' : 'not-allowed' }}
+                    className={isResendDisabled ? 'resend-otp disabled' : 'resend-otp'}
+                    onClick={() => resendOTP(userSignUpData.phoneNumber)}>
                     Resend OTP
                   </a>
                   <span>

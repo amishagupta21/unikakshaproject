@@ -12,45 +12,56 @@ import SignInOtp from './pages/auth/SignInOtp';
 import Signup from './pages/auth/Signup';
 import SignupOtp from './pages/auth/SignupOtp';
 import CourseApplication from './pages/courses/application/CourseApply';
+import StudentCourseApplication from './pages/courses/application/student/StudentCourseApply';
 import CourseDetails from './pages/courses/course-details/CourseDetails';
 import MyCourses from './pages/courses/my-courses/MyCourses';
 import Homepage from './pages/Homepage/Homepage';
+import Unikode from './pages/unikode/unikode';
 import PrivateRoute from './Routes/PrivateRoutes';
+import Toaster from './components/custom-ui-components/Toaster';
+
+import PersonalDetails from './pages/my-profile/PersonalDetails'
+import LearnerPayments from './pages/courses/course-details/LearnerPayments'
 
 const App = () => {
   const isLoader = useSelector((state) => state?.loader?.isLoading);
-  const isAuthenticated = useSelector((state) => state?.auth?.isAuthenticated) || localStorage.getItem('isAuthenticated');
+  const toaster = useSelector((state) => state?.toaster?.toasterData);
+  const isAuthenticated =
+    useSelector((state) => state?.auth?.isAuthenticated) || localStorage.getItem('isAuthenticated');
 
   return (
     <div>
-      
-      {!isLoader ? (
-        <BrowserRouter>
-            <PrimaryNavbar />
-            <Routes>
-              <Route exact={true} path="/" element={<Login /> } />
-              <Route element={<PrivateRoute />}>
-                <Route path="dashboard" element={<Homepage />}/>
-                <Route path="course/apply/:courseVariantSlug" element={ <CourseApplication /> } />
-                <Route path='my-courses' element={<MyCourses/>} />
-                <Route path='course/:courseVariantSlug' element={<CourseDetails />}/>
-              </Route>
-              {/* <Route path="dashboard" element={<PrivateRoute><Homepage /></PrivateRoute>}/>
+      {isLoader && <Loader />}
+      <BrowserRouter>
+        <PrimaryNavbar />
+        { toaster?.show && <Toaster header={toaster?.header} variant={toaster?.variant} body={toaster?.body} show={toaster?.show}/> }
+        <div style={{minHeight: '75vh'}}>
+        <Routes>
+          <Route exact={true} path="/" element={<Login />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="dashboard" element={<Homepage />} />
+            <Route path="course/apply/:courseVariantSlug" element={<CourseApplication />} />
+            <Route path="course/apply/student/:courseVariantSlug" element={<StudentCourseApplication />} />
+            <Route path="my-courses" element={<MyCourses />} />
+            <Route path='unikode' element={<Unikode />} />
+            <Route path="course/:courseVariantSlug" element={<CourseDetails />} />
+            <Route path="my-profile" element={<PersonalDetails/>} />
+            <Route path="payment" element={<LearnerPayments/>} />
+          </Route>
+          {/* <Route path="dashboard" element={<PrivateRoute><Homepage /></PrivateRoute>}/>
               <Route path="course/apply" element={<PrivateRoute> <CourseApplication /> </PrivateRoute>} />
               <Route path='my-courses' element={<PrivateRoute><MyCourses/></PrivateRoute>} />
               <Route path='course/:courseVariantSlug/:courseId' element={<PrivateRoute><CourseDetails /></PrivateRoute>}/> */}
-              <Route path="login" element={<Login /> } />
-              <Route path="signup" element={<Signup />} />
-              <Route path="info" element={<Info />} />
-              <Route path="signin-otp" element={<SignInOtp />} />
-              <Route path="signup-otp" element={<SignupOtp />} />
-              <Route path="*" element={<Error />} />
-            </Routes>
-            <Footer />
-        </BrowserRouter>
-      ) : (
-        <Loader />
-      )}
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="info" element={<Info />} />
+          <Route path="signin-otp" element={<SignInOtp />} />
+          <Route path="signup-otp" element={<SignupOtp />} />
+          <Route path="*" element={<Error />} />
+        </Routes>
+        </div>
+        <Footer />
+      </BrowserRouter>
     </div>
   );
 };

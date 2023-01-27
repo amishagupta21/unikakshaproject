@@ -5,16 +5,36 @@ import moment from 'moment';
 import ApiService from '../../../services/ApiService';
 
 
-const PaymentPopup = ({nextPage, setOrderData, courseId, setopenpayment}) => {        
+const PaymentPopup = ({nextPage, setOrderData, courseId, setopenpayment, setSelectedBatch}) => 
+{        
+    
     const [ batches, setbatches ] = React.useState();
+    const [ defaultBatch, setDefaultBatch ] = React.useState();
+
     useEffect(() => {
         fetchVariantBatches(courseId);
+       
     },[]) 
+    
+
+  function onChangeBatch(event) {
+    
+    const batch = batches.filter((e) => e.id === event.target.value);
+    setDefaultBatch(batch[0]?.id);
+    setSelectedBatch(batch[0]);
+  
+  }
+
+  
     const fetchVariantBatches = async(courseVariantId) => {
         const res = await ApiService(`courses/${courseVariantId}/batch/list`);
-        console.log("res",res)
+        
         if(res?.data.code === 200) {
-            setbatches(res.data.data.result);        
+            setbatches(res.data.data.result); 
+            
+            setDefaultBatch(res.data.data.result[0]?.id);  
+            setSelectedBatch(res.data.data.result[0]);
+            // console.log()     
         }
     } 
     const togglepayment = () => {
@@ -29,18 +49,25 @@ const PaymentPopup = ({nextPage, setOrderData, courseId, setopenpayment}) => {
         let orderDetails = await ApiService('/order/create-order', `POST`, payload, true);        
         if(orderDetails?.data?.code === 200) {
             setOrderData(orderDetails.data.data);
+            setopenpayment(false);
             nextPage();
         }
     }
 
     const getbatches = () => {
+        
         let items = batches.map((element, index) => {
           return (
             <CardGroup key={index}>
               <Col>                
                 <div className='batch-list'>
                     <div className="starte-style">                    
-                    <input type="radio" defaultChecked></input>
+                    <input type="radio" name="batch" 
+                        onChange={onChangeBatch} 
+                        checked={defaultBatch == element.id }
+                        
+                        value={element.id}
+                        ></input>
                     <label style={{marginTop : '5px'}}>
                          Starting from
                     </label>
@@ -80,7 +107,9 @@ const PaymentPopup = ({nextPage, setOrderData, courseId, setopenpayment}) => {
                 <div className="model-body">
                 <div className='modalheader'>
                     <span>Please choose batch schedule below</span>
-                    <span className="floatRight close-btn" onClick={() => togglepayment()}>x</span>
+                    <span className="floatRight close-btn" onClick={() => togglepayment()}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+</svg></span>
                 </div>
                 <div className="mt-3">
                     <Row className='nomargin batch-head'>
@@ -111,7 +140,7 @@ const PaymentPopup = ({nextPage, setOrderData, courseId, setopenpayment}) => {
                         </Row>
                     </div>
                 </div>    
-                <div className="mt-3 model-body">
+                <div className="mt-3 model-body model-body-register">
                     <Row className="mt-2 nomargin amnt-list">
                         <Col md="7 nopadd">
                             Registartion Fee

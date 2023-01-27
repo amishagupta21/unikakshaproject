@@ -8,53 +8,102 @@ import { useNavigate } from 'react-router-dom';
 import { emptystar, fullstar, tick } from '../../../assets/images';
 import righrMark from '../../../assets/images/courses/icons/right-mark.svg';
 import WaitClockIcon from '../../../assets/images/courses/icons/wait-sandclock-icon.svg';
+import './CourseList.scss';
+import ApiService from '../../../services/ApiService';
+import LearnerPaymentPopup from '../../courses/course-details/LearnerPaymentPopup'
 
-const RatingComponent = ({rating}) => {
+const RatingComponent = ({ rating }) => {
   const ratingInDecimal = rating?.value.split('/')[0];
   return (
-      <Rating
-          initialRating={ratingInDecimal}
-          readonly
-          emptySymbol={<img src={emptystar} className="icon" />}
-          fullSymbol={<img src={fullstar} className="icon" />}
-      />
-  )
-}
+    <Rating
+      initialRating={ratingInDecimal}
+      readonly
+      emptySymbol={<img src={emptystar} className="icon" />}
+      fullSymbol={<img src={fullstar} className="icon" />}
+    />
+  );
+};
 
 const CourseList = ({ courses }) => {
 
-  const apply = (course) => {
-    navigate(`/course/apply/${course.course_url}`, { state: course });
+  const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
+  const [occupation, setOccupation] = React.useState([]);
+  const [openpayment, setopenpayment] = React.useState(false);
+  const [courseData, setcourseData] = React.useState();
+
+  const fetchUserDetails = async (uid) => {
+       
+    const response = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
+
+    setOccupation(response?.data?.data?.userProfile?.occupation)
   }
+  
+  const apply = (course) => {
+    
+    setcourseData(course);
+    
+    if ( occupation === 'STUDENT' ) {
+      if (course?.target_audience === '{Learners}') {
+        setopenpayment(true);
+      } else {
+       navigate(`/course/apply/student/${course.course_url}`, { state: course });
+      }
+    } else {
+      if (course?.target_audience === '{Learners}') {
+        setopenpayment(true);
+      } else {
+        navigate(`/course/apply/${course.course_url}`, { state: course });
+      }
+       
+    }
+   
+  };
 
   const viewDetails = (course) => {
     navigate(`/course/${course.course_url}`, { state: course });
-  }
+  };
 
   useEffect(() => {
-  }, [])
+    fetchUserDetails(user?.uid);
+  }, [occupation]);
 
   const navigate = useNavigate();
 
   const getHighlights = (course) => {
     const highlights = course?.course_variant_sections?.highlights?.value;
     const items = highlights?.map((element, index) => {
-      
-        return (
-          <p key={index} style={{ "font-size": '14px' }}><img className='me-1' src={tick} /> {element.value}</p>
-          // <p className="font-color text-left-align mtb5"  style={{ "font-size": '14px' }}> 
-          //   <img src={WaitClockIcon} alt="Wait-Clock-Icon" /> <span className="ms-2 mb-0">{element.value}</span>
-          // </p>
-          
-        );
+      return (
+        <p key={index} style={{ 'fontSize': '14px' }}>
+          <img className="me-1" src={tick} /> {element.value}
+        </p>
+        
+      );
     });
     return items;
-}
+  };
+
+  const getPaymentMode = (course) => {
+    
+    const paymentmode = course?.course_variant_sections?.feesStructure?.value;
+    const items = paymentmode?.map((element, index) => {
+      return (
+        <span className='bannerlabel_span' key={index}>{element.key}</span>
+      );
+    });
+    return items;
+  };
 
   return (
     <>
       <div className="d-flex justify-content-between">
-        <div>
+
+          {openpayment && (
+              <>
+                <LearnerPaymentPopup courseId={courseData?.id} courseInfo={courseData} setopenpayment={setopenpayment}/>
+              </>
+            )}
+
+        <div id = "course_list">
           <h5>Top Techfit Courses</h5>
           <p>These are the top 3 courses provided by UniKaksha</p>
         </div>
@@ -62,28 +111,42 @@ const CourseList = ({ courses }) => {
       </div>
       <Row>
         {courses?.map((course, idx) => (
+
+          
+         
           <Col md="4" key={course?.id}>
+             
             <Card className="my-4 card-custom" style={{ width: '100%' }}>
-              <Card.Img style={{ width: 'fit-content', margin: 'auto' ,maxHeight: '246px' }} variant="top" src={course?.course_variant_sections?.bannerAsset?.value[0].url} />
+            <Card className="bannerlable">{getPaymentMode(course)}</Card>
+              <Card.Img
+                style={{ width: 'fit-content', margin: 'auto', maxHeight: '246px' }}
+                variant="top"
+                src={course?.course_variant_sections?.bannerAsset?.value[0].url}
+              />
               <Card.Body>
                 <div className="d-flex justify-content-between align-items-center course-title-section">
                   <Card.Title>{course?.course_title}</Card.Title>
                   {/* <img src={HeartIcon} style={{cursor: 'pointer'}} alt="heart-icon" /> */}
                 </div>
-                <Card.Subtitle style={{fontSize:'12px', fontStyle: 'italic', fontWeight: 'normal'}} className='mb-2'>{course?.variant_subtitle}</Card.Subtitle>
+                <Card.Subtitle
+                  style={{ fontSize: '12px', fontStyle: 'italic', fontWeight: 'normal' }}
+                  className="mb-2">
+                  {course?.variant_subtitle}
+                </Card.Subtitle>
                 <div className="d-flex align-items-center mb-3 ">
                   <p className="mb-0">Ratings {course?.course_variant_sections?.ratings.value}</p>
                   <div className="d-flex ms-2 mb-1">
                     <RatingComponent rating={course?.course_variant_sections?.ratings} />
                   </div>
-                </div> 
-                
+                </div>
+
                 <div className="mb-3">
                   <div className="d-flex justify-content-between mb-3">
                     <div className="d-flex">
                       <img src={WaitClockIcon} alt="Wait-Clock-Icon" />
                       <p style={{ fontSize: '14px' }} className="ms-2 mb-0">
-                        Duration, {course?.course_variant_sections?.duration} Months | {course?.variant_name} 
+                        Duration, {course?.course_variant_sections?.duration} Months |{' '}
+                        {course?.variant_name}
                       </p>
                     </div>
                     <div className="d-flex">
@@ -110,19 +173,28 @@ const CourseList = ({ courses }) => {
                 </div>
 
                 <div className=" align-items-center">
-                  <div className="">
-                  
-                    {getHighlights(course)}
-                  </div>
+                  <div className="">{getHighlights(course)}</div>
                 </div>
 
                 <div className="button-group">
                   <div className="row">
                     <div className="col-sm-6">
-                      <Button variant="outline-warning" onClick={() => {viewDetails(course)}}>View Details</Button>
+                      <Button
+                        variant="outline-warning"
+                        onClick={() => {
+                          viewDetails(course);
+                        }}>
+                        View Details
+                      </Button>
                     </div>
                     <div className="col-sm-6">
-                      <Button variant="warning" onClick={() => {apply(course)}}>Apply Now</Button>
+                      <Button
+                        variant="warning"
+                        onClick={() => {
+                          apply(course);
+                        }}>
+                        Apply Now
+                      </Button>
                     </div>
                   </div>
                 </div>

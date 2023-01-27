@@ -19,6 +19,12 @@ import FormSelectField from './../../Shared-Component-formik/select/form-select-
 import LeftBox from './components/LeftBox';
 import CreatableSelect from 'react-select/creatable';
 import { setLoading } from './../../redux/actions/LoaderActions';
+import {
+  yearsOptions,
+  optionsmonth,
+  optionsday,
+} from '../../utils-componets/static-content/DateMonthContent';
+import { CalendarWeek } from 'react-bootstrap-icons';
 
 const MandatorySymbol = () => {
   return <span className="text-danger">*</span>;
@@ -36,8 +42,10 @@ const Info = () => {
   const [colVal, setcolVal] = useState();
 
   const initialValues = {
-    occupation: '',
-    birthYear: '',
+    occupation: 'UNEMPLOYED',
+    birth_date: '',
+    birth_month: '',
+    birth_year: '',
     referalCode: '',
     collegeName: '',
     graduationMonth: '',
@@ -47,18 +55,33 @@ const Info = () => {
     organizationCode: '',
   };
   let validationSchema = Yup.object({
-    occupation: SchemaList[0].required('Please select an occupation.'),
-    birthYear: SchemaList[0],
+    occupation: SchemaList[0].required('Please select an occupation'),
+    birth_date: Yup.number(),
+    birth_month: Yup.number(),
+    birth_year: Yup.number().required('Year of birth is requied'),
     // referalCode: SchemaList[0],
-    ...(occ == 'STUDENT' && { collegeName: SchemaList[0] }),
-    ...(occ == 'STUDENT' && { graduationMonth: SchemaList[0] }),
-    ...(occ == 'PROFESSIONAL' && { position: SchemaList[0] }),
-    ...(occ == 'PROFESSIONAL' && { experience: SchemaList[0] }),
-    ...(occ == 'PROFESSIONAL' && { organization: SchemaList[0] }),
+    ...(occ == 'STUDENT' && {
+      collegeName: SchemaList[0].required('Collage name is a required field'),
+    }),
+    ...(occ == 'STUDENT' && {
+      graduationMonth: SchemaList[0].required('Graduation month is a required field'),
+    }),
+    ...(occ == 'PROFESSIONAL' && {
+      position: SchemaList[0].required('Position is a required field'),
+    }),
+    ...(occ == 'PROFESSIONAL' && {
+      experience: SchemaList[0].required('Experience is a required field'),
+    }),
+    ...(occ == 'PROFESSIONAL' && {
+      organization: SchemaList[0].required('Organization is a required field'),
+    }),
+    // ...(occ == 'PROFESSIONAL' && {
+    //   organizational_code: SchemaList[0].required('Organizational code is a required field'),
+    // }),
   });
 
   const onSubmit = async (values) => {
-    setloading(true);
+    // setloading(true);
     // dispatch(setLoading(true));
 
     let loginData = await JSON.parse(localStorage.getItem('user'));
@@ -67,26 +90,28 @@ const Info = () => {
       occupation: values.occupation,
       information_data: {
         ...(values.referalCode && { referral_code: values.referalCode }),
-        birth_year: parseInt(values?.birthYear?.getFullYear()),
+        ...(Number(values.birth_date) && {birth_date: Number(values.birth_date)}),
+        ...(Number(values.birth_month) && {birth_month: Number(values.birth_month)}),
+        birth_year: Number(values.birth_year),
         ...(occ == 'STUDENT' && { college_name: values.collegeName }),
         ...(occ == 'STUDENT' && { month_year_of_graduation: values.graduationMonth }),
         ...(occ == 'PROFESSIONAL' && { position: values.position }),
         ...(occ == 'PROFESSIONAL' && { experience_in_years: values.experience }),
         ...(occ == 'PROFESSIONAL' && { organization_name: values.organization }),
-        ...(occ == 'PROFESSIONAL' &&  values.organizationCode && { organizational_code: values.organizationCode }),
+        ...(occ == 'PROFESSIONAL' &&
+          values.organizationCode && { organizational_code: values.organizationCode }),
       },
     };
 
     let res = await ApiService(`on-boarding/update-information`, `PUT`, data);
     if (res?.data?.code === 200) {
+      dispatch(setLoading(false));
       navigate('/dashboard');
       setloading(false);
-      // dispatch(setloading(false));
-
       dispatch(setIsAuthenticated(true));
     } else {
       setloading(false);
-      // dispatch(setLoading(false));
+      dispatch(setLoading(false));
     }
   };
 
@@ -99,8 +124,13 @@ const Info = () => {
   };
 
   useEffect(() => {
-    getCollegeList();
-    getWorkingPositionList();
+    let loginData = JSON.parse(localStorage.getItem('user'));
+    if (loginData?.uid) {
+      getCollegeList();
+      getWorkingPositionList();
+    } else {
+      navigate('/signup');
+    }
   }, []);
 
   const createOption = (label, val) => ({
@@ -116,8 +146,8 @@ const Info = () => {
     let res = await ApiService(`on-boarding/college/create`, `POST`, obj);
     if (res.data.code) {
       formik.setFieldValue('collegeName', res.data.data._id);
+
       const newOption = createOption(inputValue, res.data.data._id);
-      console.log('🚀 ~ setTimeout ~ newOption', newOption);
       setCollegeList((prev) => [...prev, newOption]);
       setcolVal(newOption);
       getCollegeList();
@@ -130,10 +160,7 @@ const Info = () => {
         <LeftBox />
         <div className="right_box">
           <div className="right_box_container right_box_infostudents">
-            <div className="log-in-title login-head">
-              <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
-              We need a few more information about you
-            </div>
+            <div className="log-in-title login-head">Let's get to know you a little better!</div>
 
             <div className="auth_form">
               <Formik
@@ -141,7 +168,6 @@ const Info = () => {
                 validationSchema={validationSchema}
                 onSubmit={onSubmit}>
                 {(formik) => {
-                  console.log(`formik val`, formik);
                   setocc(formik.values.occupation);
                   return (
                     <Form>
@@ -182,6 +208,7 @@ const Info = () => {
                                   type="radio"
                                   name="occupation"
                                   value="UNEMPLOYED"
+                                  defaultChecked={formik.values.occupation}
                                   onChange={(e) => {
                                     field.onChange(e);
                                     formik.setTouched({});
@@ -221,7 +248,9 @@ const Info = () => {
                             })}
                           </FormSelectField> */}
 
-                          <label className="required">Enter college name</label>
+                          <label className="form-label">
+                            Enter college name <span className="text-danger">*</span>
+                          </label>
                           <CreatableSelect
                             isClearable
                             name="collegeName"
@@ -253,11 +282,15 @@ const Info = () => {
                                     Your month & year of graduation <MandatorySymbol />
                                   </FormLabel>
                                   <DatePickerField
+                                    calendarIcon={<CalendarWeek />}
+                                    monthPlaceholder="MM"
+                                    yearPlaceholder="YYYY"
+                                    clearIcon={null}	
                                     name="graduationMonth"
-                                    views={['year', 'month']}
-                                    minDate={new Date('2012-03-01')}
+                                    maxDetail="year"
+                                    minDate={new Date('2012-03')}
                                     maxDate={new Date()}
-                                  />
+                                  />                                
                                 </FormGroup>
                               </Row>
                             )}
@@ -352,7 +385,7 @@ const Info = () => {
                                   className="form-group-1 mb-3"
                                   as={Col}
                                   md="12">
-                                  <FormLabel>Ogranization you are working in <MandatorySymbol /> </FormLabel>
+                                  <FormLabel>Ogranization you are working in</FormLabel>
                                   <FormControl
                                     placeholder="Eg, Amazon"
                                     type={'text'}
@@ -369,64 +402,103 @@ const Info = () => {
                         </div>
                       ) : null}
 
-                      <Field
-                        name="birthYear"
-                        render={({ field, formProps }) => (
-                          <Row className="mb-0">
-                            <FormGroup
-                              controlId="birthYear"
-                              className="form-group-1 mb-3"
+                      <FormGroup style={{paddingBottom: "16px" }}>
+                        <div style={{ display: 'flex',justifyContent: 'space-between' }}>
+                            <FormSelectField
+                              name="birth_date"
+                              controlId="birth_date"
                               as={Col}
-                              md="12">
-                              <FormLabel>
-                                Your birth year <MandatorySymbol />
-                              </FormLabel>
-                              <br />
-
-                              <DatePickerField
-                                name="birthYear"
-                                className="form-group-1 mb-3"
-                                maxDetail="decade"
-                                minDate={new Date('01/01/1950')}
-                                maxDate={new Date()}
-                              />
-                            </FormGroup>
-                          </Row>
-                        )}
-                      />
-
-                      {formik?.errors?.birthYear && formik?.touched?.birthYear ? (
-                        <div className="error-text">{formik?.errors?.birthYear}</div>
-                      ) : null}
-
-                      <Field
-                        name="referalCode"
-                        render={({ field, formProps }) => (
-                          <Row className="mb-0">
-                            <FormGroup
-                              controlId="referalCode"
-                              className="form-group-1 mb-3"
+                              className="form-day"
+                              label={
+                                <>
+                                  <span>Day</span>
+                                </>
+                              }
+                              type="text"
+                              md="4">
+                              <option value=""></option>
+                              {optionsday.map((option, index) => (
+                                <option key={index} value={option.value}>
+                                  {option.label}
+                                </option>
+                              ))}
+                            </FormSelectField>
+                            <FormSelectField
+                              name="birth_month"
+                              controlId="birth_month"
                               as={Col}
-                              md="12">
-                              <FormLabel style={{ marginBottom: 'unset' }}>
-                                Do you have any referral code?
-                              </FormLabel>
-                              <FormLabel className="formlabel-helper">
-                                Enter referral code recieved from your Friend.
-                              </FormLabel>
-                              <FormControl
-                                placeholder="Enter a referral code here"
-                                type={'text'}
-                                value={field.value}
-                                onChange={field.onChange}
-                              />
-                            </FormGroup>
-                          </Row>
-                        )}
-                      />
-                      {formik?.errors?.referalCode && formik?.touched?.referalCode ? (
-                        <div className="error-text">{formik?.errors?.referalCode}</div>
-                      ) : null}
+                              className="form-group-1 mb-2"
+                              label={
+                                <>
+                                  <span>Month</span>
+                                </>
+                              }
+                              type="text"
+                              md="4">
+                              <option value=""></option>
+                              {optionsmonth.map((option, index) => (
+                                <option key={index} value={option.value}>
+                                  {option.label}
+                                </option>
+                              ))}
+                            </FormSelectField>
+                            <FormSelectField
+                              name="birth_year"
+                              as={Col}
+                              className="form-group-1 mb-2"
+                              label={
+                                <>
+                                  <span>Year</span>
+                                  <MandatorySymbol />
+                                </>
+                              }
+                              type="text"
+                              md="3">
+                              <option value=""></option>
+                              {yearsOptions.map((option, index) => (
+                                <option key={index} value={option.value}>
+                                  {option.label}
+                                </option>
+                              ))}
+                            </FormSelectField>
+                        </div>
+                        {formik.touched.birth_year && formik.errors.birth_year ? (
+                              <div className="error-message">{formik.errors.birth_year}</div>
+                            ) : null}
+                      </FormGroup>
+
+                      {formik.values.occupation === 'STUDENT' || (
+                        <>
+                          <Field
+                            name="referalCode"
+                            render={({ field, formProps }) => (
+                              <Row className="mb-0">
+                                <FormGroup
+                                  controlId="referalCode"
+                                  className="form-group-1 mb-3"
+                                  as={Col}
+                                  md="12">
+                                  <FormLabel style={{ marginBottom: 'unset' }}>
+                                    Do you have any referral code?
+                                  </FormLabel>
+                                  <FormLabel className="formlabel-helper">
+                                    Enter referral code recieved from your Friend.
+                                  </FormLabel>
+                                  <FormControl
+                                    placeholder="Enter a referral code here"
+                                    type={'text'}
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                  />
+                                </FormGroup>
+                              </Row>
+                            )}
+                          />
+                          {formik?.errors?.referalCode && formik?.touched?.referalCode ? (
+                            <div className="error-text">{formik?.errors?.referalCode}</div>
+                          ) : null}
+                        </>
+                      )}
 
                       <Field
                         name="organizationCode"
@@ -440,9 +512,9 @@ const Info = () => {
                               <FormLabel style={{ marginBottom: 'unset' }}>
                                 Do you have any Organization code?
                               </FormLabel>
-                              <FormLabel className="formlabel-helper">
+                              {/* <FormLabel className="formlabel-helper">
                                 Enter referral code recieved from your Institute.
-                              </FormLabel>
+                              </FormLabel> */}
                               <FormControl
                                 placeholder="Enter a organization code here"
                                 type={'text'}
@@ -458,7 +530,10 @@ const Info = () => {
                       ) : null}
 
                       <div className="d-grid gap-2 my-3">
-                        <Button type="submit" variant="secondary" disabled={loading}>
+                        <Button
+                          type="submit"
+                          variant="secondary"
+                          disabled={!formik.isValid || loading}>
                           {loading ? 'Loading...' : 'Get Started'}
                         </Button>
                       </div>

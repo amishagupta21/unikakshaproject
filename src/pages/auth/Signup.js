@@ -6,6 +6,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import FormGroup from 'react-bootstrap/FormGroup';
 import FormLabel from 'react-bootstrap/FormLabel';
 import Row from 'react-bootstrap/Row';
+import Alert from 'react-bootstrap/Alert';
 import PhoneInput from 'react-phone-input-2';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -24,6 +25,7 @@ const Signup = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const [userDetails, setUserDetails] = React.useState({});
+  const [authError, setAuthError] = React.useState();
 
   const setInitialData = async () => {
     setUserDetails(location.state);
@@ -41,25 +43,36 @@ const Signup = () => {
     }));
 
   const checkIfUserExists = async (email, phone) => {
-    const result = await ApiService('user/check-exists', 'POST', { email, phone }, true);
+    const result = await ApiService(
+      'user/check-exists',
+      'POST',
+      { email, phone: `+${phone}` },
+      true
+    );
     return result?.data?.data?.user;
   };
 
   const createUser = async (values) => {
+    setloading(true);
+    dispatch(setLoading(true));
+
     const { email, mobileNumber: phone } = values;
     const user = await checkIfUserExists(email, phone);
     if (!user) {
-      setloading(true);
       sendOTP(values);
-      // dispatch(setLoading(false));
+      setloading(false);
     } else {
-      alert('User already exists');
-      // dispatch(setLoading(false));
-      // setloading(true);
+      setAuthError('User already exists');
+      dispatch(setLoading(false));
+      setloading(false);
+      setTimeout(() => {
+        navigate('/login');
+      }, 500);
     }
   };
 
   const sendOTP = async (values) => {
+    setloading(true);
     const appVerifier = configureCaptcha();
     firebase
       .auth()
@@ -69,6 +82,7 @@ const Signup = () => {
         toast.success('OTP has been Sent to Mobile Number', {
           theme: 'colored',
         });
+        dispatch(setLoading(false));
         navigate('/signup-otp', {
           state: {
             values: {
@@ -82,10 +96,11 @@ const Signup = () => {
         setloading(false);
       })
       .catch((error) => {
+        setAuthError(error);
+        dispatch(setLoading(false));
         toast.error(`${error}`, {
           theme: 'colored',
         });
-        // dispatch(setLoading(false));
         setloading(false);
       });
   };
@@ -102,18 +117,27 @@ const Signup = () => {
             </div>
             <div className="auth_form">
               <div id="signup-container"> </div>
+              {authError && (
+                <Alert key="danger" variant="danger">
+                  {authError}
+                </Alert>
+              )}
               <Formik
                 enableReinitialize={true}
                 initialValues={{
                   fullName: userDetails ? userDetails.fullName : '',
                   email: userDetails ? userDetails.email : '',
-                  mobileNumber: '',
+                  mobileNumber: userDetails? userDetails.mobileNumber : '',
                   whatsappoptin: true,
                 }}
                 validationSchema={Yup.object().shape({
-                  fullName: Yup.string().required('Required'),
-                  email: Yup.string().email('Invalid email').required('Required'),
-                  mobileNumber: Yup.string().min(8, 'Too short').required('Required'),
+                  fullName: Yup.string().required('Full name is a required field'),
+                  email: Yup.string()
+                    .email('Please enter a valid email')
+                    .required('Email is a required field'),
+                  mobileNumber: Yup.string()
+                    .min(10, 'Too short')
+                    .required('Mobile number is a required field'),
                 })}
                 onSubmit={(values) => {
                   createUser(values);
@@ -180,6 +204,7 @@ const Signup = () => {
                     {errors.email && touched.email ? (
                       <div className="error-text">{errors.email}</div>
                     ) : null}
+
                     <Field
                       name="mobileNumber"
                       render={({ field, formProps }) => (
@@ -190,24 +215,33 @@ const Signup = () => {
                           <PhoneInput
                             placeholder="Enter mobile number"
                             country={'in'}
+                            preferredCountries={['in']}
                             value={field.value}
                             onChange={(phone, data) => {
                               setFieldValue('mobileNumber', phone);
                               setFieldValue('mobileLength', data.dialCode.length);
                             }}
+                            countryCodeEditable={false}
                           />
-                          <small className="sml-size">
+                          <small className="sml-size text-start">
                             We will send you OTP on mobile number and WhatsApp.
                           </small>
                         </Row>
                       )}
                     />
+                    <br />
                     {errors.mobileNumber && touched.mobileNumber ? (
                       <div className="error-text">{errors.mobileNumber}</div>
                     ) : null}
 
                     <label className="mb-3 mt-3 custom-check-lable">
-                      <Field className="me-2" type="checkbox" name="whatsappoptin" />
+                      <input
+                        className="me-2"
+                        type="checkbox"
+                        name="whatsappoptin"
+                        defaultChecked={values.whatsappoptin}
+                      />
+                      {/* <Field className="me-2" type="checkbox" name="whatsappoptin" /> */}
                       <span>By sign up you subcribe to have WhatsApp updates.</span>
                     </label>
 
@@ -227,7 +261,12 @@ const Signup = () => {
                     <div className="policy-terms text-center mt-4">
                       By clicking sign up you will be agree with our
                       <br />
-                      <a href="https://unikaksha.com/terms-and-conditions"> terms & conditions </a> and <a href="https://unikaksha.com/privacy-policy"> privacy policy. </a>                    </div>
+                      <a href="https://unikaksha.com/terms-and-conditions">
+                        {' '}
+                        terms & conditions{' '}
+                      </a>{' '}
+                      and <a href="https://unikaksha.com/privacy-policy"> privacy policy. </a>{' '}
+                    </div>
                   </Form>
                 )}
               />

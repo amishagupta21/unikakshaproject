@@ -5,6 +5,7 @@ import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
+import Alert from 'react-bootstrap/Alert';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,14 +19,20 @@ import ApiService from '../../services/ApiService';
 import SocialLogin from '../../utils-componets/SocialLogin';
 import './auth.scss';
 import LeftBox from './components/LeftBox';
+import AuthModal from './components/AuthModal';
 
 const Login = () => {
-  let isAuth = useSelector((state) => state?.auth?.isAuthenticated) || JSON.parse(localStorage.getItem("isAuthenticated"));
+  let isAuth =
+    useSelector((state) => state?.auth?.isAuthenticated) ||
+    JSON.parse(localStorage.getItem('isAuthenticated'));
   const [loading, setloading] = useState();
+  const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [authError, setAuthError] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const cookie = new Cookies();
+  const [userData, setUserData] = React.useState();
 
   const configureCaptcha = () => {
     return (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signin-container', {
@@ -35,11 +42,14 @@ const Login = () => {
     }));
   };
 
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   useEffect(() => {
-    if(isAuth) {
+    if (isAuth) {
       navigate('/dashboard');
     }
-  },[])
+  }, []);
 
   const checkIfUserExists = async (email, phone) => {
     const result = await ApiService('user/check-exists', 'POST', { email, phone }, true);
@@ -47,28 +57,32 @@ const Login = () => {
   };
 
   const singInwithEmail = async (values) => {
+    setAuthError();
     setloading(true);
-    // dispatch(setLoading(true));
+    dispatch(setLoading(true));
     const { email } = values;
     const user = await checkIfUserExists(email, null);
     if (user) {
-      const { phone, uid } = user;
+      const { phone } = user;
       if (phone) {
         sendOTP(phone);
+      } else {
+        const user = await firebase.auth().signInWithEmailAndPassword(email, 'oblXgA8o39#B');
+        setUserData(email);
+        handleShow();
       }
       setloading(false);
-      // dispatch(setLoading(false));
+      dispatch(setLoading(false));
     } else {
-      // TODO
-      // user not found
+      setAuthError('User not found');
       setloading(false);
-      alert('User Not Found');
-      // dispatch(setLoading(false));
+      dispatch(setLoading(false));
     }
   };
 
   const signInWithNumber = async (values) => {
-    // dispatch(setLoading(true));
+    setAuthError();
+    dispatch(setLoading(true));
     setloading(true);
     const { mobileNumber } = values;
     const user = await checkIfUserExists(null, `+${mobileNumber}`);
@@ -78,16 +92,16 @@ const Login = () => {
         sendOTP(phone);
       }
       setloading(false);
-      // dispatch(setLoading(false));
+      dispatch(setLoading(false));
     } else {
-      alert('User Not Found');
+      setAuthError('User not found')
       setloading(false);
-      // dispatch(setLoading(false));
+      dispatch(setLoading(false));
     }
   };
 
   const sendOTP = async (phoneNumber) => {
-    // dispatch(setLoading(true));
+    dispatch(setLoading(true));
     setloading(true);
     const appVerifier = configureCaptcha();
     firebase
@@ -108,7 +122,7 @@ const Login = () => {
             phoneNumber: phoneNumber,
           },
         });
-        // dispatch(setLoading(false));
+        dispatch(setLoading(false));
         setloading(false);
       })
       .catch((error) => {
@@ -116,13 +130,16 @@ const Login = () => {
           theme: 'colored',
         });
         setloading(false);
-        // dispatch(setLoading(false));
+        dispatch(setLoading(false));
       });
   };
 
   return (
-    <div>
+    <>
       {/* <AuthNavbar /> */}
+      <div className='auth-modal'>
+        <AuthModal show={show} handleClose={handleClose} handleShow={handleShow} email={userData} sendOTP={sendOTP}/>
+      </div>
       <section className="auth_layout login_screen auth-unikaksha">
         <LeftBox />
         <div className="right_box">
@@ -161,7 +178,9 @@ const Login = () => {
                             mobileLength: null,
                           }}
                           validationSchema={Yup.object().shape({
-                            mobileNumber: Yup.number().required('A phone number is required'),
+                            mobileNumber: Yup.number().required(
+                              'Mobile number is a required field'
+                            ),
                             // ((values.mobileNumber.length-values.mobileLength) === 10)
                           })}
                           onSubmit={(values) => {
@@ -179,21 +198,27 @@ const Login = () => {
                           }) => (
                             <Form>
                               <h2 className="title-head">Sign in to Unikaksha</h2>
-                              <div id="signin-container"> </div>
+                              <div id="signin-container"></div>
+                              {authError && (
+                                <Alert key="danger" variant="danger">
+                                  {authError}
+                                </Alert>
+                              )}
                               <Field
                                 name="mobileNumber"
                                 render={({ field, formProps }) => (
                                   <Row className="mb-0">
                                     <FormLabel>Enter Number</FormLabel>
                                     <PhoneInput
-                                      country={'in'}
                                       placeholder="Enter mobile number"
+                                      preferredCountries={['in']}
+                                      country={'in'}
                                       value={field.value}
                                       onChange={(phone, data) => {
                                         setFieldValue('mobileNumber', phone);
                                         setFieldValue('mobileLength', data.dialCode.length);
                                       }}
-                                      // disableCountryCode
+                                      countryCodeEditable={false}
                                     />
                                   </Row>
                                 )}
@@ -230,6 +255,11 @@ const Login = () => {
                           render={({ values, errors, touched, validateForm }) => (
                             <Form>
                               <h2 className="title-head">Sign in to Unikaksha</h2>
+                              {authError && (
+                                <Alert key="danger" variant="danger">
+                                  {authError}
+                                </Alert>
+                              )}
                               <Field
                                 name="email"
                                 render={({ field, formProps }) => (
@@ -278,7 +308,7 @@ const Login = () => {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 };
 

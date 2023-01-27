@@ -7,6 +7,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 import { arrowBack, femaleIcon, maleIcon } from '../../../assets/images';
 import { setLoading } from '../../../redux/actions/LoaderActions';
+import Loader from '../../../components/util-comonents/Loader';
 import ApiService from '../../../services/ApiService';
 import ApplicationStatus from './ApplicationStatus';
 import './CourseApply.scss';
@@ -17,6 +18,8 @@ import MultiStepBar from './FormProgress';
 import KYCDocuments from './KYCDocuments';
 import Payments from './Payments';
 import TestResult from './TestResult';
+import { isEmpty } from 'lodash';
+import { yearsOptions,optionsmonth,optionsday } from '../../.././utils-componets/static-content/DateMonthContent';
 
 const steps = [
   'personal_details',
@@ -38,12 +41,14 @@ const CourseApplication = () => {
   const [courseDetails, setCourseDetails] = React.useState({});
   const [EducationalDetails, setEducationalDetails] = React.useState({});
   const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
-  const [isLoading, setIsLoading] = React.useState(false);  
+  const [isLoading, setIsLoading] = React.useState(false);
   const [testResults, settestResults] = React.useState('');
   const [orderData, setOrderData] = React.useState();
   const [isNextLoading, setIsNextLoading] = React.useState(false);
   const [applicationDetails, setApplicationDetails] = React.useState();
   const [batches, setBatches] = React.useState([]);
+  const [userData, setUserData] = React.useState();
+  const [selectedBatch, setSelectedBatch] = React.useState();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -51,21 +56,22 @@ const CourseApplication = () => {
   const params = useParams();
 
   const fetchUserDetails = async (uid) => {
-    setIsLoading(true);
-    let personalDetails = {}; 
-    let educationalDetails = {};        
-    const userProfile = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
-    personalDetails = userProfile?.data?.data?.userProfile?.personal_details ?? personalDetails;
-    educationalDetails.education_details = userProfile?.data?.data?.userProfile?.education_details ?? educationalDetails;
-    educationalDetails.work_details = userProfile?.data?.data?.userProfile?.work_details ?? [];
+    let personalDetails = {};
+    let educationalDetails = {};
+    const userDetails = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
+    setInitialData(userDetails?.data?.data?.user);
+    setUserData(userDetails?.data?.data?.user);
+    personalDetails = userDetails?.data?.data?.userProfile?.personal_details ?? personalDetails;
+    educationalDetails.education_details =
+      userDetails?.data?.data?.userProfile?.education_details ?? educationalDetails;
+    educationalDetails.work_details = userDetails?.data?.data?.userProfile?.work_details ?? [];
     nextPageNumber(0);
-    if(personalDetails) {
-      setPersonalDetailsInForm(personalDetails); 
+    if (!isEmpty(personalDetails)) {
+      setPersonalDetailsInForm(personalDetails);
     }
-    if(educationalDetails) {
-      setEducationalDetails(educationalDetails)
-    }     
-    setIsLoading(false);
+    if (!isEmpty(educationalDetails)) {
+      setEducationalDetails(educationalDetails);
+    }
   };
 
   const setPersonalDetailsInForm = (details) => {
@@ -79,37 +85,58 @@ const CourseApplication = () => {
     return res?.data?.data?.course;
   };
 
+  const setInitialData = (initData) => {
+    formik.setValues({ email: initData?.email }); 
+    //mobile_number: initData?.phone
+    // setMobileNumber({ phone: initData?.phone})
+  }
+
   const fetchInitialData = async (uid) => {
+    setIsLoading(true);
     const courseData = state ? state : await fetchCourseDetails(params);
     setCourseDetails(courseData);
-    await fetchUserDetails(uid);   
-    await fetchVariantBatches(courseData.id);
-    await fetchApplicationDetails(uid, courseData.id);  
+    fetchUserDetails(uid);
+    await fetchApplicationDetails(uid, courseData.id);
+    fetchVariantBatches(courseData.id);
+    setIsLoading(false);
   };
 
   const fetchApplicationDetails = async (uid, courseId) => {
     const payload = {
-      uid : uid,
-      course_variant_id : courseId,
+      uid: uid,
+      course_variant_id: courseId,
     };
-    let applicationDetails = await ApiService('/student/application/detail-by-user-course', `POST`, payload, true);
-    const { application_stage, m_applicationstatus, m_totalscore, m_candidatescore } = applicationDetails?.data?.data.application;    
-    const obj = {
-      applicationStatus : m_applicationstatus,
-      marks : ((m_candidatescore / m_totalscore) * 100).toFixed(2),
-    };
-    settestResults(obj);
-    setApplicationDetails(applicationDetails?.data?.data.application);
-    if(application_stage === "personal_details") {
-      nextPageNumber(1);
-    } else if(application_stage === "education_details") {
-      nextPageNumber(2);
-    } else if(application_stage === "test_result") {
-      nextPageNumber(3);
-    } else if(application_stage === "application_status") {
-      nextPageNumber(4);
+    let applicationDetails = await ApiService(
+      '/student/application/detail-by-user-course',
+      `POST`,
+      payload,
+      true
+    );
+
+    if (applicationDetails?.data?.data.application) {
+      const { application_stage, m_applicationstatus, m_totalscore, m_candidatescore } =
+        applicationDetails?.data?.data.application;
+      const obj = {
+        applicationStatus: m_applicationstatus,
+        marks: ((m_candidatescore / m_totalscore) * 100).toFixed(2),
+      };
+      settestResults(obj);
+      setApplicationDetails(applicationDetails?.data?.data.application);
+      if (application_stage === 'personal_details') {
+        nextPageNumber(1);
+      } else if (application_stage === 'education_details') {
+        nextPageNumber(2);
+      } else if (application_stage === 'test_result') {
+        nextPageNumber(3);
+      } else if (application_stage === 'application_status') {
+        nextPageNumber(4);
+      } else if ( application_stage === 'payment_status' && m_applicationstatus === 'Payment Failed' ) {
+        nextPageNumber(4);
+      } else if ( application_stage === 'payment_status' && m_applicationstatus === 'Payment Successfull' ) {
+        nextPageNumber(6);
+      }
     }
-  }
+  };
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -118,20 +145,21 @@ const CourseApplication = () => {
     dispatch(setLoading(false));
   }, []);
 
-  const fetchVariantBatches = async(courseVariantId) => {
+  const fetchVariantBatches = async (courseVariantId) => {
     const res = await ApiService(`courses/${courseVariantId}/batch/list`);
-    if(res?.data.code === 200) {
-        setBatches(res.data.data.result);        
+    if (res?.data.code === 200) {
+      setBatches(res.data.data.result);
     }
-  }
+  };
 
   const formPersonalDetailsPayload = async (personalDetails) => {
+    delete personalDetails.dob;
     setIsNextLoading(true);
     const payload = {
       uid: user?.uid,
       course_id: courseDetails?.id,
       course_title: courseDetails?.course_title,
-      course_duration: courseDetailCs?.course_variant_sections?.duration,
+      course_duration: courseDetails?.course_variant_sections?.duration,
       course_start_date: new Date(batches[0].start_date).toLocaleDateString(),
       personal_details: personalDetails,
     };
@@ -141,22 +169,25 @@ const CourseApplication = () => {
       nextPage();
     }
   };
+  const phoneRegExp = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{6})/;
 
   const formik = useFormik({
     validationSchema: Yup.object().shape({
       full_name: Yup.string().required('Name is required'),
       email: Yup.string().email('Invalid email').required('Email is required'),
-      mobile_number: Yup.string().required(),
-      whatsapp_number: Yup.string().required(),
+      mobile_number: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required(),
+      whatsapp_number: Yup.string().matches(phoneRegExp, 'Whatsapp number is not valid').required(),
       gender: Yup.string().required(),
-      dob: Yup.date().required('Date of birth is requied'),
+      birth_date: Yup.number(),
+      birth_month: Yup.number(),
+      birth_year: Yup.number().required('Year of birth is requied'),
       guardian_details: Yup.string(),
     }),
     validate: (values) => {
       let errors = {};
       if (!values?.mobile_number) {
         errors.mobile_number = '*Mobile number required';
-      } else if (!values?.whatsapp_number) {
+      } if (!values?.whatsapp_number) {
         errors.whatsapp_number = '*Whatsapp number required';
       }
       return errors;
@@ -166,14 +197,14 @@ const CourseApplication = () => {
       const personalDetails = {
         full_name: full_name,
         mobile_number: mobile_number,
-        mobile_cc: `+${mobileState.data.dialCode}`,
+        mobile_cc: `+${mobileState?.data.dialCode}`,
         whatsapp_number: whatsapp_number,
-        whatsapp_cc: `+${whatsAppState.data.dialCode}`,
+        whatsapp_cc: `+${whatsAppState?.data.dialCode}`,
         guardian_details: guardian_details,
         ...rest,
       };
       formPersonalDetailsPayload(personalDetails);
-    },
+    }
   });
 
   const nextPageNumber = (pageNumber) => {
@@ -227,8 +258,9 @@ const CourseApplication = () => {
 
   const copyFromMobileNumber = (value) => {
     if (value.target.checked) {
-      setWhatsAppNumber(mobileState);
+      setWhatsAppNumber({phone: mobileState.phone, data: mobileState.data});
       formik.setFieldValue('whatsapp_number', mobileState.phone);
+      
     }
   };
 
@@ -239,7 +271,7 @@ const CourseApplication = () => {
 
   return (
     <>
-      {!isLoading && (
+      {!isLoading ? (
         <div className="course-application">
           <div className="container">
           <div className="d-flex mt-5 back-btn">
@@ -271,15 +303,15 @@ const CourseApplication = () => {
                 </Card.Subtitle> */}
               </div>
               <div>
-                <Card.Link
+                <Card.Link as='div'
                   style={{ fontSize: '18px', fontWeight: '500', color: '#EF6B29' }}
-                  href={`../${courseDetails.course_url}`}>
+                  onClick={() => navigate(`../course/${courseDetails.course_url}`)}>
                   View Course
                 </Card.Link>
               </div>
             </Card.Body>
           </Card>
-          <div className="my-4">
+          <div className="my-4 course-fully-form">
             {page === 0 && (
               <>
                 <Form onSubmit={formik.handleSubmit}>
@@ -302,7 +334,7 @@ const CourseApplication = () => {
                           }
                           onBlur={formik.handleBlur}
                           value={formik.values?.full_name}
-                          placeholder="Full name"
+                          placeholder="Enter you full name"
                         />
                         {formik.touched.full_name && formik.errors.full_name ? (
                           <div className="error-message">{formik.errors.full_name}</div>
@@ -322,8 +354,9 @@ const CourseApplication = () => {
                             formik.touched.email && formik.errors.email ? 'is-invalid' : null
                           }
                           onBlur={formik.handleBlur}
-                          placeholder="Email"
+                          placeholder="Enter your Email"
                           value={formik.values?.email}
+                          disabled={ userData?.email }
                         />
                         {formik.touched.email && formik.errors.email ? (
                           <div className="error-message">{formik.errors.email}</div>
@@ -342,7 +375,10 @@ const CourseApplication = () => {
                             formik.setFieldValue('mobile_number', phone);
                             setMobileNumber({ phone, data });
                           }}
+                          countryCodeEditable={false}
                           onBlur={formik.handleBlur('mobile_number')}
+                          placeholder="Enter your Mobile number"
+                          // disabled={ userData?.phone }
                         />
                         {formik.touched.mobile_number && formik.errors.mobile_number ? (
                           <div className="error-message">{formik.errors.mobile_number}</div>
@@ -362,8 +398,11 @@ const CourseApplication = () => {
                             setWhatsAppNumber({ phone, data });
                             formik.setFieldValue('whatsapp_number', phone);
                           }}
+                          countryCodeEditable={false}
                           onBlur={formik.handleBlur('whatsapp_number')}
+                          placeholder="Enter your Whatsapp number"
                         />
+
                         {formik.touched.whatsapp_number && formik.errors.whatsapp_number ? (
                           <div className="error-message  mt-3">{formik.errors.whatsapp_number}</div>
                         ) : null}
@@ -410,21 +449,87 @@ const CourseApplication = () => {
                         </Row>
                       </Form.Group>
 
-                      <Form.Group as={Col} sm={4} controlId="dob">
-                        <Form.Label>
-                          Date of Birth<span className="text-danger">*</span>
-                        </Form.Label>
-                        <Form.Control
-                          type="date"
-                          name="dob"
-                          onChange={formik.handleChange}
-                          value={formik.values?.dob}
-                          className={formik.touched.dob && formik.errors.dob ? 'is-invalid' : null}
-                          onBlur={formik.handleBlur}></Form.Control>
-                        {formik.touched.dob && formik.errors.dob ? (
-                          <div className="error-message">{formik.errors.dob}</div>
-                        ) : null}
-                      </Form.Group>
+                      <Form.Group as={Col} lg={4} controlId="dob" style={{display: 'flex',justifyContent: 'space-around'}}>
+                     <div>
+                     <Form.Label>
+                        Day
+                      </Form.Label>
+                      <Form.Select 
+                        name="birth_date"
+                        style={{width: '100px'}}
+                        className={
+                          formik.touched.birth_date && formik.errors.birth_date ? 'is-invalid' : null
+                        }
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        defaultValue={formik.values?.birth_date}>
+                        <option value=""></option>
+                        {optionsday.map((option, index) => (
+                          <option key={index} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                        ;
+                      </Form.Select>
+                      {formik.touched.birth_date && formik.errors.birth_date ? (
+                        <div className="error-message">{formik.errors.birth_date}</div>
+                      ) : null}
+                     </div>
+
+
+                      <div>
+                      <Form.Label>
+                        Month
+                      </Form.Label>
+                      <Form.Select
+                        name="birth_month"
+                        style={{width: '170px'}}
+                        className={
+                          formik.touched.birth_month && formik.errors.birth_month ? 'is-invalid' : null
+                        }
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        defaultValue={formik.values?.birth_month}>
+                        <option value=""></option>
+                        {optionsmonth.map((option, index) => (
+                          <option key={index} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                        ;
+                      </Form.Select>
+                      {formik.touched.birth_month && formik.errors.birth_month ? (
+                        <div className="error-message">{formik.errors.birth_month}</div>
+                      ) : null}
+                      </div>
+
+
+                     <div>
+                     <Form.Label>
+                        Year<span className="text-danger">*</span>
+                      </Form.Label>
+                      <Form.Select
+                        name="birth_year"
+                        style={{width: '120px', padding: '10px'}}
+                        className={
+                          formik.touched.birth_year && formik.errors.birth_year ? 'is-invalid' : null
+                        }
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        defaultValue={formik.values?.birth_year}>
+                        <option value=""></option>
+                        {yearsOptions.map((option, index) => (
+                          <option key={index} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                        ;
+                      </Form.Select>
+                      {formik.touched.birth_year && formik.errors.birth_year ? (
+                        <div className="error-message">{formik.errors.birth_year}</div>
+                      ) : null} 
+                     </div>
+                     </Form.Group>
                     </Row>
                   
                     <Row className="row-bottom" md={3}>
@@ -440,7 +545,7 @@ const CourseApplication = () => {
                       </Form.Group>
                     </Row>
 
-                    <Row className="d-flex row-align-buttongroups">
+                    <Row className="d-flex justify-content-end my-btn-styles">
                       <Button
                         className="col-1 me-2 btn btn-outline-secondary"
                         variant="outline-secondary"
@@ -450,7 +555,7 @@ const CourseApplication = () => {
                       </Button>
                       <Button
                         className="col-1"
-                        disabled={(!(formik.isValid && formik.dirty)) || isNextLoading}
+                        disabled={!(formik.isValid && formik.dirty) || isNextLoading}
                         variant="secondary"
                         type="submit">
                         {isNextLoading ? 'Saving.. ' : 'Next'}
@@ -460,22 +565,45 @@ const CourseApplication = () => {
                 </Form>
               </>
             )}
-            {page === 1 && <EducationDetails nextPage={nextPage} course={courseDetails} user={user} 
-            educationalDetails={EducationalDetails} setEducationalDetails={setEducationalDetails}/>}
-            {page === 2 && <EntranceTest nextPage={nextPage} course={courseDetails} user={user}/>}
+            {page === 1 && (
+              <EducationDetails
+                nextPage={nextPage}
+                course={courseDetails}
+                user={user}
+                educationalDetails={EducationalDetails}
+                setEducationalDetails={setEducationalDetails}
+              />
+            )}
+            {page === 2 && <EntranceTest nextPage={nextPage} course={courseDetails} user={user} />}
             {page === 3 && (
               <>
-                <TestResult nextPage={nextPage} testResult={testResults} application={applicationDetails} userName={user.displayName}/>
+                <TestResult
+                  nextPage={nextPage}
+                  testResult={testResults}
+                  application={applicationDetails}
+                  userName={user.displayName}
+                />
               </>
             )}
             {page === 4 && (
               <>
-                <ApplicationStatus nextPage={nextPage} application={applicationDetails} setOrderData={setOrderData} courseId={courseDetails?.id}></ApplicationStatus>
+                <ApplicationStatus
+                  nextPage={nextPage}
+                  application={applicationDetails}
+                  setOrderData={setOrderData}
+                  courseId={courseDetails?.id}
+                  setSelectedBatch={setSelectedBatch}></ApplicationStatus>
               </>
             )}
             {page === 5 && (
               <>
-                <Payments nextPage={nextPage} course={courseDetails}  orderData={orderData}></Payments>
+                <Payments
+                  nextPage={nextPage}
+                  course={courseDetails}
+                  orderData={orderData}
+                  application={applicationDetails}
+                  selectedBatch={selectedBatch}
+                  ></Payments>
               </>
             )}
             {page === 6 && (
@@ -506,9 +634,12 @@ const CourseApplication = () => {
           </div>
         </div>
         </div>
+      ): (
+        <Loader />
       )}
     </>
   );
 };
 
 export default CourseApplication;
+

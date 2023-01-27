@@ -21,7 +21,7 @@ function PrivateRoute({ children }) {
       </div>
     </div>
   ) : (
-    <Navigate to="/" replace/>
+    <Navigate to="/" replace />
   );
 }
 

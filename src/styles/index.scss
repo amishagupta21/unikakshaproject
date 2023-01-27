@@ -1,7 +1,7 @@
 $theme-colors: ("primary": #5352A3,
   "secondary": #EF6B29,
   "info": #2BBEAA,
-  "danger": red,
+  "danger": #FF3838,
   "success": #6c757d,
   "warning": #ffc107,
   "light": #f8f9fa,
@@ -11,7 +11,7 @@ $theme-colors: ("primary": #5352A3,
 $colors: ("indigo": #5352A3,
   "orange": #EF6B29,
   "teal": #2BBEAA,
-  "red": red,
+  "red": #FF3838,
 );
 
 @import '../../node_modules/bootstrap/scss/bootstrap';
@@ -68,30 +68,3 @@ code {
 .add-popup .modal-dialog.modal-lg {
   max-width: 900px;
 }
-
-// .react-tel-input .selected-flag .arrow{
-//   display: none;
-// }
-// .react-tel-input .form-control{
-//   padding-left: 84px !important;
-// }
-// .country-code{
-//   top: 12px;
-//   left: 44px;
-//   display: flex;
-//   align-items: center;
-// }
-// .react-tel-input .flag-dropdown.open .selected-flag{
-//   background-color: transparent !important;
-// }
-// .country-code:after {
-//   content: '';
-//   display: block;
-//   border-left: 5px solid transparent;
-//   border-right: 5px solid transparent;
-//   border-top: 5px solid #6A6A6A;
-//   width: 0;
-//   height: 0;
-//   margin-left: 7px;
-//   flex-shrink: 0;
-// }

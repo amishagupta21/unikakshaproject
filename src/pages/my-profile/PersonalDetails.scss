@@ -1,0 +1,293 @@
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+.profile-personal {
+    .profile-avatar {
+        max-width    : 100%;
+        border-radius: 100px;
+        width        : 70px;
+        height       : 70px;
+    }
+
+    span.avatar-name {
+        margin-left: 20px;
+        font-weight: 500;
+        font-size  : 14px;
+        line-height: 16px;
+
+        color: #363F5E;
+
+        img {
+            margin-left: 20px;
+        }
+    }
+
+    .course-body {
+        margin-top: 5%;
+        width     : 100%;
+    }
+
+    .side-nave {}
+
+    .text-muted {
+        --bs-text-opacity: 1;
+
+        font-weight: 500;
+        font-size  : 14px;
+        line-height: 16px;
+        color      : #363F5E !important;
+    }
+
+    .side-nave {
+        .sidebar-container {
+            background   : #fff;
+            height       : auto;
+            border       : 1px solid #f3eeee;
+            border-radius: 0.625rem;
+            overflow     : auto;
+            cursor       : pointer;
+            box-shadow   : 0px 2px 20px rgb(0 103 223 / 10%);
+            transition   : all ease 200ms;
+            position     : sticky;
+            top          : 20px;
+
+            .nav {
+                a {
+                    color    : var(--bs-indigo);
+                    padding  : toRem(15);
+                    font-size: toRem(20);
+
+                    &.active {
+                        font-weight: 600;
+                        background : rgba(34, 35, 128, 0.12);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.profile-personal-form {
+    .delete-link {
+        margin-top: 8px;
+        font-size : 14px;
+        color     : red;
+        font-style: italic;
+        border    : none;
+    }
+
+    .left-nav {
+        position: sticky;
+        top     : 20px;
+        height  : max-content;
+    }
+
+    .modal-50w {
+        max-width: 25% !important;
+    }
+
+    label.form-label {
+        font-weight: 500;
+        font-size  : 14px;
+        line-height: 16px;
+        color      : #363F5E;
+    }
+
+    input.form-control {
+        border       : 1px solid rgba(54, 63, 94, 0.4);
+        border-radius: 6px;
+        height       : 44px;
+        font-weight  : 500;
+    }
+
+    .row-bottom.row {
+        margin-bottom: 20px;
+    }
+}
+
+.form-select {
+    border: 1px solid rgba(54, 63, 94, 0.4);
+}
+
+.sidebar-container.mb5 .list.nav a {
+    border-bottom: #E7E7E7 1px solid;
+    padding      : 0.9375rem;
+    font-size    : 16px;
+
+}
+
+.sidebar-container.mb5 .list.nav a.active {
+    font-weight: 600;
+    background : rgba(34, 35, 128, 0.12);
+}
+
+.my-code-check.form-check {
+    margin-left: -6px;
+}
+
+.my-code-check.form-check label {
+    color      : #8F8799;
+    font-weight: normal;
+}
+
+.btn-group label {
+
+    border       : 1px solid #AFB2BF !important;
+    border-radius: 22px !important;
+}
+
+.d-flex.justify-content-end.my-btn-styles.row .btn {
+    max-width: 120px;
+    margin   : 0 8px;
+}
+
+.occupation-label-group .form-check.form-check-inline {
+    margin: 0;
+}
+
+.occupation-label-group .form-check .form-check-input:checked {
+    background-color: white;
+    border-color    : #363F5E;
+    width           : 20px;
+    height          : 20px;
+    position        : relative;
+    background-image: url("../../assets/images/dot-circle.svg") !important;
+
+}
+
+.occupation-label-group .form-check .form-check-input:checked:after {
+    content         : "";
+    position        : absolute;
+    content         : "";
+    background-color: #EF6B29;
+    width           : 12px;
+    height          : 12px;
+    border-radius   : 100px;
+    top             : calc(50% - 6px);
+    left            : calc(50% - 6px);
+}
+
+.occupation-label-group .form-check .form-check-input {
+    width : 20px;
+    height: 20px;
+}
+
+.occupation-label-group .form-check-label {
+
+    font-weight: 500;
+    font-size  : 12px;
+    line-height: 14px;
+    color      : #8F8799;
+}
+
+.top-dashboard-profiles .my-profile-tabs .nav-pills .nav-link {
+    font-weight: 400;
+    position   : relative;
+}
+
+.top-dashboard-profiles .my-profile-tabs .nav-pills .nav-link.active:after {
+    background   : #222380;
+    border-radius: 10px;
+    position     : absolute;
+    right        : 0;
+    top          : 14px;
+    height       : 38px;
+    width        : 9px;
+    content      : '';
+}
+
+.top-dashboard-profiles .my-profile-tabs .nav-pills .nav-link.active {
+    background   : rgba(34, 35, 128, .12);
+    border-radius: 10px;
+    margin-top   : 0;
+    font-weight  : 700;
+}
+
+.my-profile-tabs {
+    background   : #fff;
+    height       : auto;
+    border       : 1px solid #f3eeee;
+    border-radius: 0.625rem;
+    overflow     : auto;
+    cursor       : pointer;
+    box-shadow   : 0px 2px 20px rgb(0 103 223 / 10%);
+    transition   : all ease 200ms;
+}
+
+.my-profile-tabs .nav-pills .nav-link {
+    background   : none;
+    border       : 0;
+    border-radius: var(--bs-nav-pills-border-radius);
+    font-weight  : 600;
+    /* background: rgba(34, 35, 128, 0.12); */
+    border-bottom: #E7E7E7 1px solid;
+    padding      : 0.9375rem;
+    font-size    : 1.25rem;
+    color        : #222380 !important;
+}
+
+div#personal h3 {
+    font-weight: 600;
+    font-size  : 24px;
+    line-height: 28px;
+    color      : #222380;
+}
+
+.upload-area {
+    margin: 30px 0;
+}
+
+
+
+.profile-personal-form input.form-control::-webkit-input-placeholder {
+    /* Edge */
+    color  : #363F5E;
+    opacity: 1;
+}
+
+.profile-personal-form input.form-control:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color  : #363F5E;
+    opacity: 1;
+}
+
+.profile-personal-form input.form-control::placeholder {
+    color  : #363F5E;
+    opacity: 1;
+}
+
+.profile-popup.modal .btn {
+    width: 100%;
+
+}
+
+.profile-popup.modal button.btn.btn-outline-primary {
+    border: #222380 solid 1px;
+    color : #222380;
+}
+
+.profile-popup.modal button.btn.btn-outline-primary:hover {
+    border          : #222380 solid 1px;
+    background-color: #222380;
+    color           : #fff;
+}
+
+.profile-popup.modal button.btn.btn-outline-primary:hover svg path {
+    fill: #fff;
+}
+
+.profile-popup.modal button.btn.btn-outline-secondary {
+    border: #FF3838 solid 1px;
+    color : #FF3838;
+}
+
+.profile-popup.modal button.btn.btn-outline-secondary:hover {
+    border          : #FF3838 solid 1px;
+    background-color: #FF3838;
+    color           : #fff;
+}
+
+.profile-popup.modal button.btn.btn-outline-secondary:hover svg path {
+    fill: #fff;
+}

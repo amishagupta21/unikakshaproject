@@ -2,12 +2,12 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth'; //v9
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCFVhwmTpxsk7WGaTduDkQOcmVSRN77SYA',
-  authDomain: 'unikaksha2022.firebaseapp.com',
-  projectId: 'unikaksha2022',
-  storageBucket: 'unikaksha2022.appspot.com',
-  messagingSenderId: '891970569376',
-  appId: '1:891970569376:web:ed6b939ba2de39d2ce75c5',
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);

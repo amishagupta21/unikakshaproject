@@ -15,7 +15,7 @@ const SchemaList = [
     .matches(
       // /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
       // 'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character',
-      'Use 8 or more characters with a mix of letters, numbers & symbols.',
+      'Use 8 or more characters with a mix of letters, numbers & symbols.'
     )
     .min(8),
   // CONFIRM PASSWORD => SchemaList[3]

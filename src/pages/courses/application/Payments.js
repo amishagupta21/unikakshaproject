@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import {
     bannerLogoSvg, PaymentFailure, SuccessTick
@@ -11,23 +11,54 @@ const Payments = (params) => {
 
     const [paymentResponse, setpaymentResponse] = React.useState();
     const [paymentStatus, setpaymentStatus] = React.useState();
+    const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
+    const [userProfile, setUserProfile ] = React.useState();
 
     const courseData = params.course;
     const nextPage = params.nextPage;
+    const orderData = params.orderData;
+    const applicationDetails = params.application;
+    const selectedBatch = params.selectedBatch;
+
+    // console.log(applicationDetails);
+
+    useEffect(() => {
+
+        fetchUserDetails(user?.uid);
+        displayRazorpay();
+
+    }, []);
+
+    const fetchUserDetails = async (uid) => {
+       
+        const response = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
+       
+        setUserProfile(response?.data?.data?.userProfile?.personal_details)
+    };
 
     const getCurrentDateTime = () => {
         let cdate = new Date().toLocaleString()
         return cdate;
     };
 
+    const convertDate = (dateInput) => {
+        const date = new Date(dateInput);
+        const formattedDate = date.toLocaleDateString('en-GB', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+        });
+        return formattedDate;
+    };
+
     const createPaymant = async (paymentResponse, status) => {
         const payload = {
-            uid: "c0ea2207-fa9b-4c5c-aeba-90f836072d14",
+            uid: applicationDetails?.uid,
             "orderItems": [
                 {
-                    application_id: "6385e9554909c4eac2b89f9c",
+                    application_id: applicationDetails?._id,
                     course_variant_id: courseData?.id,
-                    batch_id: "02f810b9-df35-4a8c-86c4-27408eac840a",
+                    batch_id: selectedBatch?.id,
                     registration_fee: 2500,
                     discount_coupon: "",
                     discount_amount: 0,
@@ -40,9 +71,10 @@ const Payments = (params) => {
         
          
         };
+        // console.log(payload);
         const response = await ApiService('/order/create-payment', `POST`, payload, true);
         if (response?.data.code === 200) {
-            // nextPage();
+            nextPage();
         }
       };
 
@@ -73,18 +105,18 @@ const Payments = (params) => {
 
         // const result = await axios.post("https://api.razorpay.com/v1/orders")
 
-        const orderId = "order_Kq9Gow9wSupdlN";
+        const orderId = orderData?.id;
 
         const options = {
             key: "rzp_test_xOikuguYnrmtYd", // Enter the Key ID generated from the Dashboard
-            amount: 2500,
-            currency: "INR",
+            amount: orderData?.amount,
+            currency: orderData?.currency,
             name: "Code Shastra",
             description: "Test Transaction",
             image: { bannerLogoSvg },
             order_id: orderId,
             handler: async function (response) {
-                console.log(response);
+                
                 if ( response.razorpay_payment_id ) {
                     createPaymant(response, 'Success');
                 } 
@@ -98,16 +130,18 @@ const Payments = (params) => {
                     razorpaySignature: response.razorpay_signature,
                 };
 
-                // const result = await axios.post("http://localhost:5000/payment/success", data);
-
-                
-                console.log(data.razorpayOrderId);
-                console.log(data.razorpaySignature);
+                // nextPage();
+            },
+            "modal": {
+                "ondismiss": function() {
+                    setpaymentStatus('Failed');
+                    // createPaymant(response, 'Failed');
+                }
             },
             prefill: {
-                name: "Velmurugan K",
-                email: "velmurugan.k@codeshastra.com",
-                contact: "8778697740",
+                name: userProfile?.full_name,
+                email: userProfile?.email,
+                contact: userProfile?.mobile_number,
             },
             notes: {
                 address: "Corporate Office",
@@ -138,7 +172,7 @@ const Payments = (params) => {
         // let items = coureseVariantBatches?.map((element, index) => {
             
         return (
-            <div className='d-flex align-items-center justify-content-center'>
+            <div className='d-flex align-items-center justify-content-center pay-align'>
             <div>
                 <div className='mt-2 mb-4 d-flex align-items-center justify-content-center'>
                     <img src={SuccessTick}></img>
@@ -151,7 +185,7 @@ const Payments = (params) => {
                     <p className='text-primary text-center message1'> Course details</p>
                     <p className='text-primary text-center message2'>Batch name: {courseData?.course_title}</p>
                     <p className='text-primary text-center message3'>Batch type : {courseData?.variant_name}</p>
-                    <p className='text-primary text-center message3'>Batch Time : 09:00 AM, 11/12/2022</p>
+                    <p className='text-primary text-center message3'>Batch Time : { convertDate(selectedBatch?.start_date)}</p>
                 </div>
                 <div className='mt-5 d-flex align-items-center justify-content-center footer-content'>
                     <p>We have sent you the transaction details on your email and whatsapp.</p>
@@ -166,7 +200,7 @@ const Payments = (params) => {
 
     const getPaymentFailure = () => {
         return (
-            <div className='d-flex align-items-center justify-content-center'>
+            <div className='d-flex align-items-center justify-content-center payment-failed'>
                 <div>
                     <div className='mt-2 mb-4 d-flex align-items-center justify-content-center'>
                     <img src={PaymentFailure} className="payment-tick"></img>
