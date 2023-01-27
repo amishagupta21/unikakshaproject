@@ -403,6 +403,7 @@ const Info = () => {
                       ) : null}
 
                       <FormGroup style={{paddingBottom: "16px" }}>
+                        <FormLabel>Your date of birth</FormLabel>
                         <div style={{ display: 'flex',justifyContent: 'space-between' }}>
                             <FormSelectField
                               name="birth_date"
@@ -411,12 +412,12 @@ const Info = () => {
                               className="form-day"
                               label={
                                 <>
-                                  <span>Day</span>
+                                  {/* <span>Day</span> */}
                                 </>
                               }
                               type="text"
                               md="4">
-                              <option value=""></option>
+                              <option value="" disabled selected hidden>Day</option>
                               {optionsday.map((option, index) => (
                                 <option key={index} value={option.value}>
                                   {option.label}
@@ -430,12 +431,12 @@ const Info = () => {
                               className="form-group-1 mb-2"
                               label={
                                 <>
-                                  <span>Month</span>
+                                  {/* <span>Month</span> */}
                                 </>
                               }
                               type="text"
                               md="4">
-                              <option value=""></option>
+                              <option value="" disabled selected hidden>Month</option>
                               {optionsmonth.map((option, index) => (
                                 <option key={index} value={option.value}>
                                   {option.label}
@@ -448,13 +449,13 @@ const Info = () => {
                               className="form-group-1 mb-2"
                               label={
                                 <>
-                                  <span>Year</span>
-                                  <MandatorySymbol />
+                                  {/* <span>Year</span> */}
+                                  {/* <MandatorySymbol /> */}
                                 </>
                               }
                               type="text"
                               md="3">
-                              <option value=""></option>
+                              <option value="" disabled selected hidden>Year<MandatorySymbol /> </option>
                               {yearsOptions.map((option, index) => (
                                 <option key={index} value={option.value}>
                                   {option.label}
