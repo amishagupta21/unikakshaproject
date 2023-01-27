@@ -302,22 +302,6 @@ const PersonalDetails = () => {
     dispatch(setLoading(false));
   };
 
-  // const deleteProfilePic = async (fileKey) => {
-    
-  //   dispatch(setLoading(true));
-
-  //   const result = await ApiService(
-  //     '/user/delete-profile-picture',
-  //     `DELETE`,
-  //     { document_type: fileKey },
-  //     true
-  //   );
-
-  //   setProfilePic(profilePicture);
-
-  //   dispatch(setLoading(false));
-  // };
-
   const viewProfilePhoto = () => {
     setProfilePopup(true);
   };
@@ -332,8 +316,6 @@ const PersonalDetails = () => {
     dispatch(setIsAuthenticated(false));
     navigate('/');
   };
-
-  
 
   const onDeleteFail = () => {
     dispatch(openToaster({
@@ -882,7 +864,7 @@ const PersonalDetails = () => {
                 </div>
               </Col>
             </Row>
-            <DeleteAccountModal onDeleteFail={onDeleteFail} show={showDeleteModal} toggle={setShowDeleteModal} />
+            <DeleteAccountModal onDeleteFail={onDeleteFail} show={showDeleteModal} toggle={setShowDeleteModal} logOutHandler={logOutHandler}/>
             <DeleteProfilePicModal onDeleteFail={onDeleteFail} show={showConfirmModal} toggle={setShowConfirmModal} />
           </Tab.Container>
         </Container>
@@ -893,16 +875,19 @@ const PersonalDetails = () => {
 
 export default PersonalDetails;
 
-const DeleteAccountModal = ({ show, toggle, onDeleteFail }) => {
+const DeleteAccountModal = ({ show, toggle, onDeleteFail, logOutHandler }) => {
   const handleClose = () => toggle(false);
+  const dispatch = useDispatch();
 
   const deleteAccount = async () => {
+    dispatch(setLoading(true));
     const user = firebase.auth().currentUser;
     const res = await ApiService(`user/uid/${user.uid}/delete`, 'DELETE', {}, true);
-    if(res?.code === 200) {
-      logout();
+    dispatch(setLoading(false));
+    handleClose();
+    if(res?.data?.code === 200) {
+      logOutHandler();
     } else {
-      toggle(false);
       onDeleteFail();
     }
   }
