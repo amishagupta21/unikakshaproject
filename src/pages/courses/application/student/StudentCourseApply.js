@@ -254,7 +254,7 @@ const StudentCourseApplication = () => {
   return (
     <>
       {!isLoading ? (
-        <div className="my-5  course-application">
+        <div className="my-5  course-application  course-application-ui">
           <div className="container">
           <div className="d-flex mt-5 back-btn">
             <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
@@ -272,8 +272,8 @@ const StudentCourseApplication = () => {
                 
               </div>
               <div>
-                <Card.Link
-                  style={{ fontSize: '18px', fontWeight: '500', color: '#EF6B29' }}
+                <Card.Link classname="my-card-links"
+                  style={{  fontWeight: '500', color: '#EF6B29' }}
                   href={`../${courseDetails.course_url}`}>
                   View Course
                 </Card.Link>
@@ -382,7 +382,7 @@ const StudentCourseApplication = () => {
                         <Form.Label>
                           Gender<span className="text-danger">*</span>
                         </Form.Label>
-                        <Row>
+                        <Row className="row-form">
                           <ButtonGroup aria-label="select-button">
                             {genderOptions.map((gender, idx) => (
                               <ToggleButton
@@ -413,14 +413,15 @@ const StudentCourseApplication = () => {
                         </Row>
                       </Form.Group>
 
-                      <Form.Group as={Col} lg={4} style={{display: 'flex',justifyContent: 'space-around'}}>
-                     <div>
+                      <Form.Group as={Col} lg={4} >
+                      <div className='day-block'>
+                     <div className='day-form'>
                      <Form.Label>
                         Day
                       </Form.Label>
                       <Form.Select 
                         name="birth_date"
-                        style={{width: '100px'}}
+                       
                         className={
                           formik.touched.birth_date && formik.errors.birth_date ? 'is-invalid' : null
                         }
@@ -441,13 +442,13 @@ const StudentCourseApplication = () => {
                      </div>
 
 
-                      <div>
+                     <div className='day-form'>
                       <Form.Label>
                         Month
                       </Form.Label>
                       <Form.Select
                         name="birth_month"
-                        style={{width: '170px'}}
+                      
                         className={
                           formik.touched.birth_month && formik.errors.birth_month ? 'is-invalid' : null
                         }
@@ -468,13 +469,13 @@ const StudentCourseApplication = () => {
                       </div>
 
 
-                     <div>
+                    <div className='day-form'>
                      <Form.Label>
                         Year<span className="text-danger">*</span>
                       </Form.Label>
                       <Form.Select
                         name="birth_year"
-                        style={{width: '120px', padding: '10px'}}
+                       
                         className={
                           formik.touched.birth_year && formik.errors.birth_year ? 'is-invalid' : null
                         }
@@ -492,7 +493,7 @@ const StudentCourseApplication = () => {
                       {formik.touched.birth_year && formik.errors.birth_year ? (
                         <div className="error-message">{formik.errors.birth_year}</div>
                       ) : null} 
-                     </div>
+                     </div></div>
                      </Form.Group>
                     </Row>
 
