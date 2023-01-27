@@ -83,8 +83,8 @@ const PersonalDetails = () => {
       mobile_number: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required(),
       whatsapp_number: Yup.string().matches(phoneRegExp, 'Whatsapp number is not valid').required(),
       gender: Yup.string().required(),
-      birth_date: Yup.number().required('Date of birth is requied'),
-      birth_month: Yup.number().required('Mont of birth is requied'),
+      birth_date: Yup.number(),
+      birth_month: Yup.number(),
       birth_year: Yup.number().required('Year of birth is requied'),
       guardian_details: Yup.string(),
       occupation: Yup.string().required('Occupation is requied'),
@@ -129,8 +129,10 @@ const PersonalDetails = () => {
         whatsapp_number: personalDetails?.whatsapp_number,
         whatsapp_cc: personalDetails?.whatsapp_cc,
         gender: personalDetails?.gender,
-        birth_date: personalDetails?.birth_date,
-        birth_month: personalDetails?.birth_month,
+        ...(Number(personalDetails.birth_date) && {birth_date: Number(personalDetails.birth_date)}),
+        ...(Number(personalDetails.birth_month) && {birth_month: Number(personalDetails.birth_month)}),
+        // birth_date: personalDetails?.birth_date,
+        // birth_month: personalDetails?.birth_month,
         birth_year: personalDetails?.birth_year,
         guardian_details: personalDetails?.guardian_details,
       },
@@ -694,7 +696,7 @@ const PersonalDetails = () => {
                                             onBlur={formik.handleBlur}
                                             onChange={formik.handleChange}
                                             value={formik.values?.birth_date}>
-                                            <option value=""></option>
+                                            <option></option>
                                             {optionsday.map((option, index) => (
                                               <option key={index} value={option.value}>
                                                 {option.label}
@@ -723,7 +725,7 @@ const PersonalDetails = () => {
                                             onBlur={formik.handleBlur}
                                             onChange={formik.handleChange}
                                             value={formik.values?.birth_month}>
-                                            <option value=""></option>
+                                            <option></option>
                                             {optionsmonth.map((option, index) => (
                                               <option key={index} value={option.value}>
                                                 {option.label}
