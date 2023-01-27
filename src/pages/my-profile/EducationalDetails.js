@@ -282,8 +282,17 @@ const EducationalDetails = (educationalInfo) => {
    
     const response = await ApiService('/student/update-educational-details', `PATCH`, payload, true);
     // setIsNextLoading(false);
+    
     if (response?.data.code === 200) {
       setEducationalDetails(payload);
+      dispatch(
+        openToaster({
+          show: true,
+          header: 'Success!',
+          variant: 'info',
+          body: 'Educational details updated successfully!',
+        })
+      );
       // nextPage();
     }
     dispatch(setLoading(false));

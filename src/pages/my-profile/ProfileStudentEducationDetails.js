@@ -10,6 +10,7 @@ import { studentYearsOptions, studentDiplomaYearsOptions } from '../../utils-com
 import { getWorkingPosition } from '../../services/ReuseableFun';
 import { useDispatch } from 'react-redux';
 import { setLoading } from '../../redux/actions/LoaderActions';
+import { openToaster } from '../../redux/actions/ToastAction';
 
 const highestQualificationOption = [
   { value: '', label: 'Please select' },
@@ -297,7 +298,7 @@ const ProfileEducationDetails = (
         payload.education_details.other_program_course_duration =
           values.other_program_course_duration;
       }
-      setIsNextLoading(true);
+      setIsNextLoading(false);
       submitEducationalDetails(payload);
     },
   });
@@ -305,11 +306,17 @@ const ProfileEducationDetails = (
   const submitEducationalDetails = async (payload) => {
     dispatch(setLoading(true));
     const response = await ApiService('/student/update-educational-details', `PATCH`, payload, true);
-    setIsNextLoading(false);
+    // setIsNextLoading(false);
     
     if (response?.data.code === 200) {
-      // setEducationalDetails(payload);
-      // nextPage();
+      dispatch(
+        openToaster({
+          show: true,
+          header: 'Success!',
+          variant: 'info',
+          body: 'Educational details updated successfully!',
+        })
+      );
     } 
     dispatch(setLoading(false));
   };
@@ -378,8 +385,8 @@ const ProfileEducationDetails = (
                   <Row className="mb-5">
                     <Form.Group as={Col} controlId="pgCollegeName">
                       <Form.Label>
-                        UG / Bachelors College name*
-                        <span className="text-danger">*</span>
+                        UG / Bachelors College name
+                          <span className="text-danger">*</span>
                       </Form.Label>
                       <Form.Control
                         type="text"
@@ -401,7 +408,7 @@ const ProfileEducationDetails = (
 
                     <Form.Group as={Col} controlId="pgYOC">
                       <Form.Label>
-                      UG/Bachelors Year of completion*<span className="text-danger">*</span>
+                      UG/Bachelors Year of completion <span className="text-danger">*</span>
                       </Form.Label>
                       <Form.Select
                         name="pgYOC"

@@ -137,9 +137,16 @@ const PersonalDetails = () => {
     };
     const response = await ApiService('student/update-personal-details', `PATCH`, payload, true);
     // setIsNextLoading(false);
-    // if (response?.data.code === 200) {
-    //   nextPage();
-    // }
+    if (response?.data.code === 200) {
+      dispatch(
+        openToaster({
+          show: true,
+          header: 'Success!',
+          variant: 'info',
+          body: 'Personal details updated successfully!',
+        })
+      );
+    }
     dispatch(setLoading(false));
   };
 
