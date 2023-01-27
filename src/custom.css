@@ -1690,6 +1690,7 @@ section.auth_layout.login_screen.auth-unikaksha .custom-tabs-container.nav.nav-p
   left    : -1px;
 }
 
+
 @media (max-width: 980px) {
   .container_footer {
     display: none;
