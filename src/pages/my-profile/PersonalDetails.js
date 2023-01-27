@@ -176,7 +176,7 @@ const PersonalDetails = () => {
     const userDetails = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
 
     setInitialDobData(userDetails?.data?.data?.userProfile?.information_data);
-    setDobData(userDetails?.data?.data?.userProfile?.information_data);  console.log(user); 
+    setDobData(userDetails?.data?.data?.userProfile?.information_data);  //console.log(user); 
     setOccupation(userDetails?.data?.data?.userProfile?.occupation);
     setKYCDetails(userDetails?.data?.data?.userProfile?.kyc);
     setInitialData(userDetails?.data?.data?.user);
