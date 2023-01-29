@@ -4,6 +4,10 @@
 }
 
 .course-details {
+    .promo-banner {
+        padding: unset !important;
+    }
+
     .banner {
         border             : 1px solid grey;
         background         : #222380;
@@ -372,7 +376,7 @@
 
         background: #FFFFFF;
         box-shadow: 0px 2px 20px rgba(0, 103, 223, 0.1);
-        border-radius: 15px;
+        border-radius: 15px;    margin-bottom: 20px;
     }
     .eligibility-content {
         padding-left: 28px;
@@ -502,6 +506,11 @@
         font-weight: 500;
         text-align: left;
     }
+
+    .course-details > .promo-banner {
+        padding: unset !important;
+    }
+
     .course-details .banner .container .details, .course-details .banner .container .carousel-container {
         max-width: 100%;
         flex: 0 0 100%;
@@ -637,3 +646,48 @@
     border: 0;
 }
  .faqs .faqs-list li .nav-link{ border: 0;}
+
+ .hiring_partner_icon{
+    width: 140px;
+    height: 50px;
+    padding: 5px;
+    margin: 10px;
+    border-radius: 15px;
+    box-shadow: 0px 5px 25px 0px #0067DF26;
+ } 
+
+ .eligibility-card-style.payment-card.card .btn {
+    width: 47%;
+    font-size: 14px;
+}
+
+.course-details .eligibility-card-style.payment-card.card {
+    border: 0;
+}
+
+@media screen and ( max-width:767px) {
+    .eligible-group-chat .card-group {
+        padding: 20px;
+        flex: 0 0 100%;
+        display: inline-block;
+        width: 100%;}
+        .eligibility-card-style.payment-card.card .btn {
+            width: 45%;
+            font-size: 14px;
+        }
+
+        .course-details .batch-card-style {
+            width: 100% !important;
+            height: 176px !important;
+            left: 10px !important;
+            top: 10px !important;
+            background: #FFFFFF;
+            box-shadow: 0px 2px 20px rgb(0 103 223 / 10%);
+            border-radius: 15px;
+            margin-bottom: 10px;
+        }
+        .hiring_partner_icon {
+            width: 19%;}
+            .course-details .eligibility-card-style{ padding-bottom: 0;}
+    
+}

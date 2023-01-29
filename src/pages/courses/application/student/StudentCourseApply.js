@@ -16,6 +16,7 @@ import EnrollmentStatus from './StudentEnrollmentStatus';
 import MultiStepBar from './StudentFormProgress';
 import Payments from './StudentPayments';
 import { isEmpty } from 'lodash';
+import { yearsOptions,optionsmonth,optionsday } from '../../../.././utils-componets/static-content/DateMonthContent';
 
 const steps = [
   'personal_details',
@@ -42,6 +43,7 @@ const StudentCourseApplication = () => {
   const [batches, setBatches] = React.useState([]);
   const [selectedBatch, setSelectedBatch] = React.useState();
   const [userData, setUserData] = React.useState();
+  // const [userDOBData, setDobData] = React.useState();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -52,6 +54,8 @@ const StudentCourseApplication = () => {
     let personalDetails = {};
     let educationalDetails = {};
     const userDetails = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
+    // setInitialDobData(userDetails?.data?.data?.userProfile?.information_data);
+    // setDobData(userDetails?.data?.data?.userProfile?.information_data);
     setInitialData(userDetails?.data?.data?.user);
     setUserData(userDetails?.data?.data?.user);
     personalDetails = userDetails?.data?.data?.userProfile?.personal_details ?? personalDetails;
@@ -79,7 +83,9 @@ const StudentCourseApplication = () => {
   };
 
   const setInitialData = (initData) => {
-    formik.setValues({ email: initData?.email }); //mobile_number: initData?.phone
+    formik.setValues({ email: initData?.email});
+ 
+    // mobile_number: initData?.phone;
     // setMobileNumber({ phone: initData?.phone})
   };
 
@@ -148,6 +154,7 @@ const StudentCourseApplication = () => {
   };
 
   const formPersonalDetailsPayload = async (personalDetails) => {
+    delete personalDetails.dob;
     setIsNextLoading(true);
     const payload = {
       uid: user?.uid,
@@ -158,6 +165,7 @@ const StudentCourseApplication = () => {
       personal_details: personalDetails,
     };
     const response = await ApiService('/student/personal-details', `POST`, payload, true);
+    
     setIsNextLoading(false);
     if (response?.data.code === 200) {
       nextPage();
@@ -169,9 +177,11 @@ const StudentCourseApplication = () => {
       full_name: Yup.string().required('Name is required'),
       email: Yup.string().email('Invalid email').required('Email is required'),
       mobile_number: Yup.string().required(),
-      whatsapp_number: Yup.string().required(),
+      whatsapp_number: Yup.string().required('Whatsapp number is required'),
       gender: Yup.string().required(),
-      dob: Yup.date().required('Date of birth is requied'),
+      birth_date: Yup.number(),
+      birth_month: Yup.number(),
+      birth_year: Yup.number().required('Year of birth is requied'),
       guardian_details: Yup.string(),
     }),
     validate: (values) => {
@@ -188,9 +198,9 @@ const StudentCourseApplication = () => {
       const personalDetails = {
         full_name: full_name,
         mobile_number: mobile_number,
-        mobile_cc: `+${mobileState.data.dialCode}`,
+        mobile_cc: `+${mobileState.data}`,
         whatsapp_number: whatsapp_number,
-        whatsapp_cc: `+${whatsAppState.data.dialCode}`,
+        whatsapp_cc: `+${whatsAppState.data}`,
         guardian_details: guardian_details,
         ...rest,
       };
@@ -252,7 +262,7 @@ const StudentCourseApplication = () => {
   return (
     <>
       {!isLoading ? (
-        <div className="my-5  course-application">
+        <div className="my-5  course-application  course-application-ui">
           <div className="container">
             <div className="d-flex mt-5 back-btn">
               <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
@@ -270,9 +280,9 @@ const StudentCourseApplication = () => {
                   </Card.Title>
                 </div>
                 <div>
-                  <Card.Link
+                  <Card.Link classname="my-card-links"
                     as="div"
-                    style={{ fontSize: '18px', fontWeight: '500', color: '#EF6B29' }}
+                    style={{  fontWeight: '500', color: '#EF6B29' }}
                     onClick={() => navigate(`../course/${courseDetails.course_url}`)}>
                     View Course
                   </Card.Link>
@@ -301,7 +311,8 @@ const StudentCourseApplication = () => {
                                 : null
                             }
                             onBlur={formik.handleBlur}
-                            value={formik.values?.full_name}
+                            // defaultValue={user.displayName}
+                          value={formik.values?.full_name}
                             placeholder="Full name"
                           />
                           {formik.touched.full_name && formik.errors.full_name ? (
@@ -378,59 +389,124 @@ const StudentCourseApplication = () => {
                           />
                         </Form.Group>
 
-                        <Form.Group as={Col} sm={4} controlId="gender">
-                          <Form.Label>
-                            Gender<span className="text-danger">*</span>
-                          </Form.Label>
-                          <Row>
-                            <ButtonGroup aria-label="select-button">
-                              {genderOptions.map((gender, idx) => (
-                                <ToggleButton
-                                  className="border border-secondary radio-buttons me-2"
-                                  key={idx}
-                                  style={{ maxWidth: '30%' }}
-                                  id={`gender-${idx}`}
-                                  type="radio"
-                                  variant="outline-primary"
-                                  name="gender"
-                                  onBlur={formik.handleBlur}
-                                  value={gender.value}
-                                  checked={genderValue === gender.value}
-                                  onChange={(e) => {
-                                    setGenderValue(e.currentTarget.value);
-                                    formik.handleChange(e);
-                                  }}>
-                                  <span className="options">
-                                    <img src={gender.icon} aria-label={gender.value}></img>
-                                    {gender.name}
-                                  </span>
-                                </ToggleButton>
-                              ))}
-                            </ButtonGroup>
-                            {formik.touched.gender && formik.errors.gender ? (
-                              <div className="error-message">{formik.errors.gender}</div>
-                            ) : null}
-                          </Row>
-                        </Form.Group>
-
-                        <Form.Group as={Col} sm={4} controlId="dob">
-                          <Form.Label>
-                            Date of Birth<span className="text-danger">*</span>
-                          </Form.Label>
-                          <Form.Control
-                            type="date"
-                            name="dob"
-                            onChange={formik.handleChange}
-                            value={formik.values?.dob}
-                            className={
-                              formik.touched.dob && formik.errors.dob ? 'is-invalid' : null
-                            }
-                            onBlur={formik.handleBlur}></Form.Control>
-                          {formik.touched.dob && formik.errors.dob ? (
-                            <div className="error-message">{formik.errors.dob}</div>
+                      <Form.Group as={Col} sm={4} controlId="gender">
+                        <Form.Label>
+                          Gender<span className="text-danger">*</span>
+                        </Form.Label>
+                        <Row className="row-form">
+                          <ButtonGroup aria-label="select-button">
+                            {genderOptions.map((gender, idx) => (
+                              <ToggleButton
+                                className="border border-secondary radio-buttons me-2"
+                                key={idx}
+                                style={{ maxWidth: '30%' }}
+                                id={`gender-${idx}`}
+                                type="radio"
+                                variant="outline-primary"
+                                name="gender"
+                                onBlur={formik.handleBlur}
+                                value={gender.value}
+                                checked={genderValue === gender.value}
+                                onChange={(e) => {
+                                  setGenderValue(e.currentTarget.value);
+                                  formik.handleChange(e);
+                                }}>
+                                <span className="options">
+                                  <img src={gender.icon} aria-label={gender.value}></img>
+                                  {gender.name}
+                                </span>
+                              </ToggleButton>
+                            ))}
+                          </ButtonGroup>
+                          {formik.touched.gender && formik.errors.gender ? (
+                            <div className="error-message">{formik.errors.gender}</div>
                           ) : null}
-                        </Form.Group>
-                      </Row>
+                        </Row>
+                      </Form.Group>
+
+                      <Form.Group as={Col} lg={4} >
+                      <div className='day-block'>
+                     <div className='day-form'>
+                     <Form.Label>
+                        Day
+                      </Form.Label>
+                      <Form.Select 
+                        name="birth_date"
+                       
+                        className={
+                          formik.touched.birth_date && formik.errors.birth_date ? 'is-invalid' : null
+                        }
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}>
+                        {/* defaultValue={userDOBData?.birth_date}> */}
+                        <option value="">Day</option>
+                        {optionsday.map((option, index) => (
+                          <option key={index} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                        ;
+                      </Form.Select>
+                      {formik.touched.birth_date && formik.errors.birth_date ? (
+                        <div className="error-message">{formik.errors.birth_date}</div>
+                      ) : null}
+                     </div>
+
+
+                     <div className='day-form'>
+                      <Form.Label>
+                        Month
+                      </Form.Label>
+                      <Form.Select
+                        name="birth_month"
+                      
+                        className={
+                          formik.touched.birth_month && formik.errors.birth_month ? 'is-invalid' : null
+                        }
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}>
+                        {/* defaultValue={userDOBData?.birth_month}> */}
+                        <option value="">Month</option>
+                        {optionsmonth.map((option, index) => (
+                          <option key={index} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                        ;
+                      </Form.Select>
+                      {formik.touched.birth_month && formik.errors.birth_month ? (
+                        <div className="error-message">{formik.errors.birth_month}</div>
+                      ) : null}
+                      </div>
+
+
+                    <div className='day-form'>
+                     <Form.Label>
+                        Year<span className="text-danger">*</span>
+                      </Form.Label>
+                      <Form.Select
+                        name="birth_year"
+                       
+                        className={
+                          formik.touched.birth_year && formik.errors.birth_year ? 'is-invalid' : null
+                        }
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}>
+                        {/* defaultValue={userDOBData?.birth_year}> */}
+                        <option value="">Year</option>
+                        {yearsOptions.map((option, index) => (
+                          <option key={index} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                        ;
+                      </Form.Select>
+                      {formik.touched.birth_year && formik.errors.birth_year ? (
+                        <div className="error-message">{formik.errors.birth_year}</div>
+                      ) : null} 
+                     </div></div>
+                     </Form.Group>
+                    </Row>
 
                       <Row className="mb-5" md={3}>
                         <Form.Group as={Col} controlId="guardian_details">

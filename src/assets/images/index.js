@@ -20,6 +20,7 @@ import iconGit from './icon-git.png';
 import selectImg from './selectImg.png';
 import iconActivity from './icon-activity.png';
 import editIcon from './edit-icon.svg';
+import profileEditIcon from './profile-edit-icon.svg';
 import iconNetworkSvg from './icon-network.svg';
 import bannerLogo from './banner-logo.png';
 import iconFacebookNew from './icon-facebook-new.png';
@@ -57,7 +58,8 @@ import loginBanner from './login-banner.svg';
 import progressIcon from './progress-icon.svg';
 import iconPdf from './icon-pdf.svg';
 import iconLinkedSvg from './icon-linked.svg';
-import profilePicture from './profile-picture.png';
+// import profilePicture from './profile-picture.png';
+import profilePicture from './profile-pic.svg';
 import loginShapeLeft from './login-shape-left.svg';
 import iconEnroll from './icon-enroll.svg';
 import editGray from './edit-gray.svg';
@@ -66,14 +68,19 @@ import failedbadge from './failedbadge.svg';
 import upload from './upload.svg';
 import hand from './Hand.svg';
 import wrappedGift from './courses/emojione_wrapped-gift.svg';
+import trash from './trash.svg';
+import view from './view.svg';
+import bookReader from './book-reader.svg';
+
 import SuccessTick from './CourseApplication/success-tick.svg';
 import PaymentTick from './CourseApplication/payment-tick.svg';
 import PaymentFailure from './CourseApplication/payment-failure.svg';
-
+import circleTick from './CourseApplication/charm_circle-tick.svg';
 import cancelRe from './CourseApplication/cancelre.svg';
 import engineeringTeam from './CourseApplication/engineeringteam.svg';
 import working from './CourseApplication/working.svg';
 import undrawFriends from './CourseApplication/undraw_friends_r511.svg';
+import signDoc from './CourseApplication/edit.svg';
 
 import tick from './CourseDetails/circle-tick.svg';
 import fullstar from './CourseDetails/fullstar.svg';
@@ -87,6 +94,15 @@ import slack from './CourseDetails/slack.svg';
 import xbo from './CourseDetails/xbo.svg';
 import netflix from './CourseDetails/netflix.svg';
 import linkedin from './CourseDetails/linkedin.svg';
+
+export const Icon = ({ icon, ...props }) => {
+    return (
+     <div {...props}>
+       {icon}
+     </div>
+    );
+  };
+
 
 
 export {
@@ -108,6 +124,7 @@ export {
     selectImg,
     iconActivity,
     editIcon,
+    profileEditIcon,
     iconNetworkSvg,
     bannerLogo,
     iconFacebookNew,
@@ -175,5 +192,10 @@ export {
     linkedin,
     SuccessTick,
     PaymentTick,
-    PaymentFailure
+    PaymentFailure,
+    circleTick,
+    trash,
+    view,
+    signDoc,
+    bookReader,
 };

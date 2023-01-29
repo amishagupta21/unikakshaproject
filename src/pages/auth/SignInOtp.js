@@ -151,7 +151,7 @@ const SignInOtp = () => {
                 />
                 Verify OTP
               </div>
-              <p>Enter the OTP sent to your registered email id and mobile number.</p>
+              <p>Enter the OTP sent to your registered mobile number.</p>
               {otpError && (
                 <Alert key="danger" variant="danger">
                   {otpError}

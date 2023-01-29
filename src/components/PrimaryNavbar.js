@@ -3,7 +3,7 @@ import { Container, Nav, Navbar } from 'react-bootstrap';
 import Dropdown from 'react-bootstrap/Dropdown';
 import BrandLogo from '../assets/images/unikaksha-logo.svg';
 import Notify from '../assets/images/icon-notify.svg';
-import Profileimg from '../assets/images/img-profile-pic.svg';
+import { Profileimg, profilePicture } from '../assets/images';
 import Course from '../assets/images/icon-mycourse.svg';
 import Profile from '../assets/images/icon-myprofile.svg';
 import Logout from '../assets/images/icon-logout.svg';
@@ -14,8 +14,12 @@ import { logout } from '../firebase/firebaseAuth';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsAuthenticated } from '../redux/actions/AuthAction';
+import ApiService from '../services/ApiService';
 
 const PrimaryNavbar = () => {
+
+  const [profilePic, setProfilePic] = React.useState();
+
   let isAuth =
     useSelector((state) => state?.auth?.isAuthenticated) ||
     JSON.parse(localStorage.getItem('isAuthenticated'));
@@ -27,8 +31,24 @@ const PrimaryNavbar = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    getProfilePic();
     setUser(JSON.parse(localStorage.getItem('user')));
   }, [isAuth]);
+
+  const getProfilePic = async () => {
+        
+    const result = await ApiService(
+      '/user/get-profile-picture',
+      `POST`,
+      { document_type: 'profile_picture' },
+      true
+    );
+  //  console.log(result?.data?.data?.signedUrl);
+    setProfilePic(result?.data?.data?.signedUrl);
+
+    
+
+  };
 
   const logOutHandler = async () => {
     await logout();
@@ -48,8 +68,8 @@ const PrimaryNavbar = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto nav-customs">
               <Nav.Link href="/dashboard#course_list">Courses</Nav.Link>
-              {/* <Nav.Link href="https://unikode.unikaksha.com">Unikode</Nav.Link> */}
-              <Nav.Link href="/unikode">Unikode</Nav.Link>
+              <Nav.Link href="https://unikode.unikaksha.com">Unikode</Nav.Link>
+              {/* <Nav.Link onClick={() => navigate('/unikode')}>Unikode</Nav.Link> */}
               <Nav.Link href="https://www.unikaksha.com/events/">Event & Content</Nav.Link>
               {/* <Nav.Link href="/dashboard">Courses</Nav.Link> */}
               <Nav.Link href="#features" className="refer-frd">
@@ -66,7 +86,7 @@ const PrimaryNavbar = () => {
                 <Nav.Link className="notification-link-dp">
                   <Dropdown>
                     <Dropdown.Toggle id="dropdown-basic" className="dropdown-design">
-                      <img src={Profileimg} alt="profile" className="profile-avatar" />
+                      <img src={profilePic ? profilePic: profilePicture } alt="profile" style={{width:'50px'}} />
                       <span className="avatar-name">{user?.displayName}</span>
                     </Dropdown.Toggle>
 
@@ -75,8 +95,8 @@ const PrimaryNavbar = () => {
                         <img src={Course} alt="my-courses" />
                         My Courses
                       </Dropdown.Item>
-                      <Dropdown.Item href="#/action">
-                        {' '}
+
+                      <Dropdown.Item href="/my-profile" onClick={() => navigate('/my-profile')}>
                         <img src={Profile} alt="profile" />
                         My Profile
                       </Dropdown.Item>

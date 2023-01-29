@@ -52,7 +52,6 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
  
 
     const fetchApplicationDetails = async () => {
-        console.log(user?.uid)
         const payload = {
           uid: user?.uid,
           course_variant_id: courseId,
@@ -67,7 +66,6 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
 
         const applicationData = applicationDetails?.data?.data.application;
         
-        console.log(applicationData);
         
         const { m_applicationstatus: appStatus } = applicationData;
         let app_status = 'review'
