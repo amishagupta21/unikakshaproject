@@ -45,7 +45,7 @@ const StudentCourseApplication = () => {
   const [batches, setBatches] = React.useState([]);
   const [selectedBatch, setSelectedBatch] = React.useState();
   const [userData, setUserData] = React.useState();
-  const [userDOBData, setDobData] = React.useState();
+  // const [userDOBData, setDobData] = React.useState();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -56,8 +56,8 @@ const StudentCourseApplication = () => {
     let personalDetails = {};
     let educationalDetails = {};
     const userDetails = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
-    setInitialDobData(userDetails?.data?.data?.userProfile?.information_data);
-    setDobData(userDetails?.data?.data?.userProfile?.information_data);
+    // setInitialDobData(userDetails?.data?.data?.userProfile?.information_data);
+    // setDobData(userDetails?.data?.data?.userProfile?.information_data);
     setInitialData(userDetails?.data?.data?.user);
     setUserData(userDetails?.data?.data?.user);
     personalDetails = userDetails?.data?.data?.userProfile?.personal_details ?? personalDetails;
@@ -85,17 +85,17 @@ const StudentCourseApplication = () => {
   };
   
   const setInitialData = (initData) => {
-    formik.setValues({ email: initData?.email, mobile_number: initData?.phone });
+    formik.setValues({ email: initData?.email});
  
-    mobile_number: initData?.phone;
-    setMobileNumber({ phone: initData?.phone})
+    // mobile_number: initData?.phone;
+    // setMobileNumber({ phone: initData?.phone})
   }
 
-  const setInitialDobData = (initlData) => {
-    formik.setValues({ birth_date: initlData?.birth_date });
-    formik.setValues({ birth_month: initlData?.birth_month });
-    formik.setValues({ birth_year: initlData?.birth_year }); 
-  }
+  // const setInitialDobData = (initlData) => {
+  //   formik.setValues({ birth_date: initlData?.birth_date });
+  //   formik.setValues({ birth_month: initlData?.birth_month });
+  //   formik.setValues({ birth_year: initlData?.birth_year }); 
+  // }
 
   const fetchInitialData = async (uid) => {
     setIsLoading(true);
@@ -312,7 +312,7 @@ const StudentCourseApplication = () => {
                               : null
                           }
                           onBlur={formik.handleBlur}
-                          defaultValue={user.displayName}
+                          // defaultValue={user.displayName}
                           value={formik.values?.full_name}
                           placeholder="Full name"
                         />
@@ -356,8 +356,8 @@ const StudentCourseApplication = () => {
                             setMobileNumber({ phone, data });
                           }}
                           onBlur={formik.handleBlur('mobile_number')}
-                          defaultValue={userData?.phone}
-                          disabled={ userData?.phone }
+                          // defaultValue={userData?.phone}
+                          // disabled={ userData?.phone }
                         />
                         {formik.touched.mobile_number && formik.errors.mobile_number ? (
                           <div className="error-message">{formik.errors.mobile_number}</div>
@@ -438,8 +438,8 @@ const StudentCourseApplication = () => {
                           formik.touched.birth_date && formik.errors.birth_date ? 'is-invalid' : null
                         }
                         onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        defaultValue={userDOBData?.birth_date}>
+                        onChange={formik.handleChange}>
+                        {/* defaultValue={userDOBData?.birth_date}> */}
                         <option value="">Day</option>
                         {optionsday.map((option, index) => (
                           <option key={index} value={option.value}>
@@ -465,8 +465,8 @@ const StudentCourseApplication = () => {
                           formik.touched.birth_month && formik.errors.birth_month ? 'is-invalid' : null
                         }
                         onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        defaultValue={userDOBData?.birth_month}>
+                        onChange={formik.handleChange}>
+                        {/* defaultValue={userDOBData?.birth_month}> */}
                         <option value="">Month</option>
                         {optionsmonth.map((option, index) => (
                           <option key={index} value={option.value}>
@@ -492,8 +492,8 @@ const StudentCourseApplication = () => {
                           formik.touched.birth_year && formik.errors.birth_year ? 'is-invalid' : null
                         }
                         onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        defaultValue={userDOBData?.birth_year}>
+                        onChange={formik.handleChange}>
+                        {/* defaultValue={userDOBData?.birth_year}> */}
                         <option value="">Year</option>
                         {yearsOptions.map((option, index) => (
                           <option key={index} value={option.value}>

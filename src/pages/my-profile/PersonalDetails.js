@@ -46,7 +46,7 @@ const PersonalDetails = () => {
   const [isNextLoading, setIsNextLoading] = React.useState(false);
   const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
   const [userData, setUserData] = React.useState();
-  const [userDOBData, setDobData] = React.useState();
+  // const [userDOBData, setDobData] = React.useState();
   const [isLoading, setIsLoading] = React.useState(false);
   const [EducationalData, setEducationalDetails] = React.useState({});
   const [KYCData, setKYCDetails] = React.useState();
@@ -84,8 +84,8 @@ const PersonalDetails = () => {
       mobile_number: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required(),
       whatsapp_number: Yup.string().matches(phoneRegExp, 'Whatsapp number is not valid').required(),
       gender: Yup.string().required(),
-      birth_date: Yup.number(),
-      birth_month: Yup.number(),
+      birth_date: Yup.number().required('Date of birth is requied'),
+      birth_month: Yup.number().required('Mont of birth is requied'),
       birth_year: Yup.number().required('Year of birth is requied'),
       guardian_details: Yup.string(),
       occupation: Yup.string().required('Occupation is requied'),
@@ -175,8 +175,8 @@ const PersonalDetails = () => {
     let educationalDetails = {};
     const userDetails = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
 
-    setInitialDobData(userDetails?.data?.data?.userProfile?.information_data);
-    setDobData(userDetails?.data?.data?.userProfile?.information_data);  //console.log(user); 
+    // setInitialDobData(userDetails?.data?.data?.userProfile?.information_data);
+    // setDobData(userDetails?.data?.data?.userProfile?.information_data);  //console.log(user); 
     setOccupation(userDetails?.data?.data?.userProfile?.occupation);
     setKYCDetails(userDetails?.data?.data?.userProfile?.kyc);
     setInitialData(userDetails?.data?.data?.user);
@@ -203,17 +203,17 @@ const PersonalDetails = () => {
   };
 
   const setInitialData = (initData) => {
-    formik.setValues({ email: initData?.email, mobile_number: initData?.phone });
+    formik.setValues({ email: initData?.email});
 
-    mobile_number: initData?.phone
-    setMobileNumber({ phone: initData?.phone})
+    // mobile_number: initData?.phone
+    // setMobileNumber({ phone: initData?.phone})
   };
 
-  const setInitialDobData = (initlData) => {
-    formik.setValues({ birth_date: initlData?.birth_date });
-    formik.setValues({ birth_month: initlData?.birth_month });
-    formik.setValues({ birth_year: initlData?.birth_year }); 
-  }
+  // const setInitialDobData = (initlData) => {
+  //   formik.setValues({ birth_date: initlData?.birth_date });
+  //   formik.setValues({ birth_month: initlData?.birth_month });
+  //   formik.setValues({ birth_year: initlData?.birth_year }); 
+  // }
 
   const uploadFile = (docType) => {
     const input = document.createElement('input');
@@ -525,7 +525,7 @@ const PersonalDetails = () => {
                                                 : null
                                             }
                                             onBlur={formik.handleBlur}
-                                            defaultValue={user.displayName}
+                                            // defaultValue={user.displayName}
                                             value={formik.values?.full_name}
                                             placeholder="Enter you full name"
                                           />
@@ -544,7 +544,7 @@ const PersonalDetails = () => {
                                           <Form.Control
                                             type="email"
                                             name="email"
-                                            value={userData?.email? userData?.email: formik.values?.email}
+                                            // value={userData?.email? userData?.email: formik.values?.email}
                                             onChange={formik.handleChange}
                                             className={
                                               formik.touched.email && formik.errors.email
@@ -552,9 +552,9 @@ const PersonalDetails = () => {
                                                 : null
                                             }
                                             onBlur={formik.handleBlur}
-                                            // placeholder="Enter your Email"
-                                            // value={formik.values?.email}                                
-                                            disabled={ userData?.email }
+                                            placeholder="Enter your Email"
+                                            value={formik.values?.email}                                
+                                            // disabled={ userData?.email }
                                           />
                                           {formik.touched.email && formik.errors.email ? (
                                             <div className="error-message">{formik.errors.email}</div>
@@ -570,7 +570,8 @@ const PersonalDetails = () => {
                                           <PhoneInput
                                             country={'in'}
                                             name="mobile_number"
-                                            value={userData?.phone? userData?.phone:formik.values?.mobile_number}
+                                            // value={userData?.phone? userData?.phone:formik.values?.mobile_number}
+                                            value={formik.values?.mobile_number}
                                             onChange={(phone, data) => {
                                               formik.setFieldValue('mobile_number', phone);
                                               setMobileNumber({ phone, data });
@@ -578,7 +579,7 @@ const PersonalDetails = () => {
                                             countryCodeEditable={false}
                                             onBlur={formik.handleBlur('mobile_number')}
                                             placeholder="Enter your Mobile number"
-                                            defaultValue={userData?.phone}
+                                            // defaultValue={userData?.phone}
                                             // disabled={ userData?.phone }
                                           />
                                           {formik.touched.mobile_number &&
@@ -676,7 +677,8 @@ const PersonalDetails = () => {
                                             }
                                             onBlur={formik.handleBlur}
                                             onChange={formik.handleChange}
-                                            value={userDOBData?.birth_date? userDOBData?.birth_date:formik.values?.birth_date}>
+                                            // value={userDOBData?.birth_date? userDOBData?.birth_date:formik.values?.birth_date}>
+                                            value={formik.values?.birth_date}>
                                             <option value="">Day</option>
                                             {optionsday.map((option, index) => (
                                               <option key={index} value={option.value}>
@@ -705,7 +707,8 @@ const PersonalDetails = () => {
                                             }
                                             onBlur={formik.handleBlur}
                                             onChange={formik.handleChange}
-                                            value={userDOBData?.birth_month? userDOBData?.birth_month:formik.values?.birth_month}>
+                                            // value={userDOBData?.birth_month? userDOBData?.birth_month:formik.values?.birth_month}>
+                                            value={formik.values?.birth_month}>
                                             <option value="">Month</option>
                                             {optionsmonth.map((option, index) => (
                                               <option key={index} value={option.value}>
@@ -736,7 +739,8 @@ const PersonalDetails = () => {
                                             }
                                             onBlur={formik.handleBlur}
                                             onChange={formik.handleChange}
-                                            value={userDOBData?.birth_year? userDOBData?.birth_year:formik.values?.birth_year}>
+                                            // value={userDOBData?.birth_year? userDOBData?.birth_year:formik.values?.birth_year}>
+                                            value={formik.values?.birth_year}>
                                             <option value="">Year</option>
                                             {yearsOptions.map((option, index) => (
                                               <option key={index} value={option.value}>
