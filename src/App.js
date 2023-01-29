@@ -18,18 +18,24 @@ import MyCourses from './pages/courses/my-courses/MyCourses';
 import Homepage from './pages/Homepage/Homepage';
 import Unikode from './pages/unikode/unikode';
 import PrivateRoute from './Routes/PrivateRoutes';
+import Toaster from './components/custom-ui-components/Toaster';
+
+import PersonalDetails from './pages/my-profile/PersonalDetails'
+import LearnerPayments from './pages/courses/course-details/LearnerPayments'
 
 const App = () => {
   const isLoader = useSelector((state) => state?.loader?.isLoading);
+  const toaster = useSelector((state) => state?.toaster?.toasterData);
   const isAuthenticated =
     useSelector((state) => state?.auth?.isAuthenticated) || localStorage.getItem('isAuthenticated');
 
   return (
     <div>
       {isLoader && <Loader />}
-
       <BrowserRouter>
         <PrimaryNavbar />
+        { toaster?.show && <Toaster header={toaster?.header} variant={toaster?.variant} body={toaster?.body} show={toaster?.show}/> }
+        <div style={{minHeight: '75vh'}}>
         <Routes>
           <Route exact={true} path="/" element={<Login />} />
           <Route element={<PrivateRoute />}>
@@ -39,6 +45,8 @@ const App = () => {
             <Route path="my-courses" element={<MyCourses />} />
             <Route path='unikode' element={<Unikode />} />
             <Route path="course/:courseVariantSlug" element={<CourseDetails />} />
+            <Route path="my-profile" element={<PersonalDetails/>} />
+            <Route path="payment" element={<LearnerPayments/>} />
           </Route>
           {/* <Route path="dashboard" element={<PrivateRoute><Homepage /></PrivateRoute>}/>
               <Route path="course/apply" element={<PrivateRoute> <CourseApplication /> </PrivateRoute>} />
@@ -51,6 +59,7 @@ const App = () => {
           <Route path="signup-otp" element={<SignupOtp />} />
           <Route path="*" element={<Error />} />
         </Routes>
+        </div>
         <Footer />
       </BrowserRouter>
     </div>

@@ -37,7 +37,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set HTTPS=true&&react-scripts start",
     "serve:dev": "webpack serve --env ENVIRONMENT=development --config webpack.config.js",
     "build:dev": "webpack --env ENVIRONMENT=development --config webpack.config.js",
     "build:prod": "webpack --env ENVIRONMENT=production --config webpack.config.js",

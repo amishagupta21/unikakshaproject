@@ -52,7 +52,6 @@ const KYCDocuments = () => {
               type: inputFile.type,
               document_type: docType
             }
-            console.log(payload);
             
            ApiService('/student/upload-document', `POST`, payload, true)
               .then(response => {
@@ -60,7 +59,6 @@ const KYCDocuments = () => {
                     // console.log(response.data.data.signedUrl);
                     // console.log(inputFile);
                   uploadUsingSignedUrl(response.data.data.signedUrl, inputFile, docType).then(res => {
-                    console.log(res);
                     resolve(true)
                   })
                 }

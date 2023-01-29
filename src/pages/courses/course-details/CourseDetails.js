@@ -12,7 +12,7 @@ import {
   Row,
 } from 'react-bootstrap';
 import Rating from 'react-rating';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   calendar1,
   computer,
@@ -30,6 +30,7 @@ import {
 import ApiService from '../../../services/ApiService';
 import './CourseDetails.scss';
 import Faqs from './Faqs';
+import LearnerPaymentPopup from './LearnerPaymentPopup';
 
 function CourseDetails() {
   const [courseDetails, setCourseDetails] = React.useState();
@@ -37,6 +38,9 @@ function CourseDetails() {
   const params = useParams();
   const [courseVariantBatches, setVariantCourseBatches] = React.useState([]);
   const [eligibilityCriteria, setEligibilityCriteria] = React.useState([]);
+  const [openpayment, setopenpayment] = React.useState(false);
+  const [promoBanner, setPromoBanner] = React.useState();
+
   const navigate = useNavigate();
 
   const fetchCourseDetails = async (params) => {
@@ -52,6 +56,11 @@ function CourseDetails() {
 
   const fetchInitialData = async (params) => {
     const courseData = state ? state : await fetchCourseDetails(params);
+    courseData?.course_variant_sections?.bannerAsset?.value?.filter((e) => {
+      if (e.type === 'background-image') {
+        setPromoBanner(e);
+      }
+    });
     const variantBatches = await fetchVariantBatches(courseData.id);
     setCourseDetails(courseData);
     setVariantCourseBatches(variantBatches);
@@ -68,10 +77,18 @@ function CourseDetails() {
   };
 
   const apply = (course) => {
-    navigate(`/course/apply/${course.course_url}`, { state: course });
+    if (course?.target_audience === '{Learners}') {
+      setopenpayment(true);
+    } else {
+      // setopenpayment(true);
+      navigate(`/course/apply/${course.course_url}`, { state: course });
+    }
   };
 
+  
+
   useEffect(() => {
+    window.scrollTo(0, 0);
     fetchInitialData(params);
   }, []);
 
@@ -101,19 +118,17 @@ function CourseDetails() {
     const courseOverview = courseDetails?.course_variant_sections?.courseOverview?.value;
     const items = courseOverview?.map((element, index) => {
       return (
-        
-          <Col key={index}  sm={3}>
-            <Card className="cardStyle overview">
-              <Card.Body className="text-left-align">
-                <span className="circle">
-                  <img src={element?.icon} alt="Course Overview" className="overview-icon" />
-                </span>
-                <h6 className="font-color text-left-align mtb5">{element?.label}</h6>
-                <p className="text-left-align mtb5">{element?.content}</p>
-              </Card.Body>
-            </Card>
-          </Col>
-      
+        <Col key={index} sm={3}>
+          <Card className="cardStyle overview">
+            <Card.Body className="text-left-align">
+              <span className="circle">
+                <img src={element?.icon} alt="Course Overview" className="overview-icon" />
+              </span>
+              <h6 className="font-color text-left-align mtb5">{element?.label}</h6>
+              <p className="text-left-align mtb5">{element?.content}</p>
+            </Card.Body>
+          </Card>
+        </Col>
       );
     });
     return items;
@@ -122,28 +137,27 @@ function CourseDetails() {
   const getBatches = () => {
     let items = courseVariantBatches?.map((element, index) => {
       return (
-      
-        <Col key={index}  sm={3}>
-            <Card className="batch-card-style">
-              <Card.Body className="text-left-align">
-                <h6 className="font-color text-left-align mtb5"> Starts From </h6>
-                <p>
-                  <img src={calendar1} alt="Calendar" className="calendar-icon" />
-                  <span className="text-left-align mtb5">{convertDate(element.start_date)}</span>
-                </p>
-                <Button
-                  variant="secondary"
-                  className={index == 0 ? '' : 'upcoming-btn'}
-                  onClick={() => {
-                    apply(courseDetails);
-                  }}>
-                  {' '}
-                  {index == 0 ? 'Apply Now' : 'Upcoming'}{' '}
-                </Button>
-              </Card.Body>
-            </Card>
-          </Col>
-       
+        <Col key={index} sm={3}>
+          <Card className="batch-card-style">
+            <Card.Body className="text-left-align">
+              <h6 className="font-color text-left-align mtb5"> Starts From </h6>
+              <p>
+                <img src={calendar1} alt="Calendar" className="calendar-icon" />
+                <span className="text-left-align mtb5">{convertDate(element.start_date)}</span>
+              </p>
+
+              <Button
+                variant="secondary"
+                className={index == 0 ? '' : 'upcoming-btn'}
+                onClick={() => {
+                  apply(courseDetails);
+                }}>
+                {' '}
+                {index == 0 ? 'Apply Now' : 'Upcoming'}{' '}
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
       );
     });
     return items;
@@ -154,21 +168,19 @@ function CourseDetails() {
     let items = Eligibility?.map((element, index) => {
       return (
         <CardGroup key={index}>
-          <Col  sm={12}>
+          <Col sm={12}>
             <Card className="eligibility-card-style">
               <div className="text-left-align eligibility-card-style-container">
-               
-                  <div className="eligibilityCriteria-media">
-                    <span className="Squre">
-                      <img src={element.icon} alt="Computer" className="computer-icon" />
-                    </span>
-                  </div>
-                  <div className="eligibility-content">
-                    <span className="font-color">{element.key}</span>
+                <div className="eligibilityCriteria-media">
+                  <span className="Squre">
+                    <img src={element.icon} alt="Computer" className="computer-icon" />
+                  </span>
+                </div>
+                <div className="eligibility-content">
+                  <span className="font-color">{element.key}</span>
 
-                    {parse(element.value)}
-                  </div>
-               
+                  {parse(element.value)}
+                </div>
               </div>
             </Card>
           </Col>
@@ -187,7 +199,7 @@ function CourseDetails() {
             <Card className="eligibility-card-style payment-card">
               <Card.Body className="text-left-align">
                 <Row>
-                  <Col lg={11} md={10} sm={8}>
+                  <Col lg={12}>
                     <h6 className="font-color text-left-align mtb1 payment-title">
                       {' '}
                       {element.key}{' '}
@@ -195,21 +207,21 @@ function CourseDetails() {
                     <span className="payment-content">{parse(element.value)}</span>
                   </Col>
                   <Button
-                className="pay_apply_btn"
-                style={{ padding: '8px 15px' }}
-                variant="secondary"
-                onClick={() => {
-                  apply(courseDetails);
-                }}>
-                Apply Now
-              </Button>
-              <Button
-                className="pay_apply_btn"
-                style={{ padding: '8px 15px' }}
-                variant="secondary"
-                href={element.curriculum_brochure_url}>
-                Download Full Curriculum
-              </Button>
+                    className="pay_apply_btn"
+                    style={{ padding: '8px 15px' }}
+                    variant="secondary"
+                    onClick={() => {
+                      apply(courseDetails);
+                    }}>
+                    Apply Now
+                  </Button>
+                  <Button
+                    className="pay_apply_btn"
+                    style={{ padding: '8px 15px' }}
+                    variant="secondary"
+                    href={element.curriculum_brochure_url}>
+                    Download Full Curriculum
+                  </Button>
                 </Row>
               </Card.Body>
             </Card>
@@ -244,30 +256,28 @@ function CourseDetails() {
     let items = hiringPartners?.map((element, index) => {
       return (
         <CardGroup key={index}>
-         
-            <div className=" partners">
-              <Card.Body className="text-left-align">
-                <h5 className="font-color text-left-align ">
-                  {element == 'microsoft.com' && (
-                    <img src={microsoft} alt="microsoft" className="microsoft-icon" />
-                  )}
-                  {element == 'facebook.com' && (
-                    <img src={facebook} alt="facebook" className="facebook-icon" />
-                  )}
-                  {element == 'slack.com' && <img src={slack} alt="slack" className="slack-icon" />}
-                  {element == 'xboxone.com' && (
-                    <img src={xbo} alt="xboxone" className="xboxone-icon" />
-                  )}
-                  {element == 'netflix.com' && (
-                    <img src={netflix} alt="Netflix" className="netflix-icon" />
-                  )}
-                  {element == 'likedin.com' && (
-                    <img src={linkedin} alt="Linkedin" className="likedin-icon" />
-                  )}
-                </h5>
-              </Card.Body>
-            </div>
-          
+          <div className=" partners">
+            <Card.Body className="text-left-align">
+              <h5 className="font-color text-left-align ">
+                {element == 'microsoft.com' && (
+                  <img src={microsoft} alt="microsoft" className="microsoft-icon" />
+                )}
+                {element == 'facebook.com' && (
+                  <img src={facebook} alt="facebook" className="facebook-icon" />
+                )}
+                {element == 'slack.com' && <img src={slack} alt="slack" className="slack-icon" />}
+                {element == 'xboxone.com' && (
+                  <img src={xbo} alt="xboxone" className="xboxone-icon" />
+                )}
+                {element == 'netflix.com' && (
+                  <img src={netflix} alt="Netflix" className="netflix-icon" />
+                )}
+                {element == 'likedin.com' && (
+                  <img src={linkedin} alt="Linkedin" className="likedin-icon" />
+                )}
+              </h5>
+            </Card.Body>
+          </div>
         </CardGroup>
       );
     });
@@ -292,79 +302,95 @@ function CourseDetails() {
   return (
     <>
       <div className="course-details my-5">
-        <Container fluid={true} className="banner">
-          <div className="container mx-auto my-4">
-            <div className="details my-auto">
-              <h4>{`${courseDetails?.course_title} - ${courseDetails?.variant_name}`}</h4>
-              <div className="d-flex ratings my-2">
-                <p className="me-3">
-                  <span>Ratings:</span> {courseDetails?.course_variant_sections?.ratings?.value}
-                </p>
-                <RatingComponent />
-                <p className="ms-3">
-                  <span>Learners:</span>{' '}
-                  {courseDetails?.course_variant_sections?.learnersCount?.value}
-                </p>
-              </div>
-              <div className="d-flex">
-                <h6 className="me-1">
-                  <span>Duration:</span> {courseVariantBatches[0]?.duration} Months |{' '}
-                </h6>
-                <h6>{courseDetails?.variant_name}</h6>
-              </div>
-              <div className="hightlights my-2">
-                {courseDetails?.course_variant_sections?.highlights?.value.map((value, i) => {
-                  return (
-                    <p key={i}>
-                      <img className="me-1" src={tick} /> {value.value}
-                    </p>
-                  );
-                })}
-              </div>
-              <Button
-                className="mt-2"
-                style={{ padding: '8px 30px' }}
-                variant="secondary"
-                onClick={() => {
-                  apply(courseDetails);
-                }}>
-                Apply Now
-              </Button>
-            </div>
-            <div className="carousel-container">
-              <Carousel indicators={false} touch={true} pause="hover" controls={false}>
-                {courseDetails?.course_variant_sections?.bannerAsset?.value.map((asset, i) => {
-                  // if(asset.type === 'image') {
-                  //     return (
-                  //         <CarouselItem key={i}>
-                  //             <img src={asset.url}></img>
-                  //         </CarouselItem>
-                  //     );
-                  // }
-                  if (asset.type === 'video') {
+        {openpayment && (
+          <>
+            <LearnerPaymentPopup courseId={courseDetails?.id} courseInfo={courseDetails} setopenpayment={setopenpayment}/>
+          </>
+        )}
+        {promoBanner ? (
+          <Container fluid={true} className="promo-banner">
+            <a target={'_blank'} href={promoBanner.register_url}>
+              <img
+                src={promoBanner.url}
+                width={'100%'}
+              />
+            </a>
+          </Container>
+        ) : (
+          <Container fluid={true} className="banner">
+            <div className="container mx-auto my-4">
+              <div className="details my-auto">
+                <h4>{`${courseDetails?.course_title} - ${courseDetails?.variant_name}`}</h4>
+                <div className="d-flex ratings my-2">
+                  <p className="me-3">
+                    <span>Ratings:</span> {courseDetails?.course_variant_sections?.ratings?.value}
+                  </p>
+                  <RatingComponent />
+                  <p className="ms-3">
+                    <span>Learners:</span>{' '}
+                    {courseDetails?.course_variant_sections?.learnersCount?.value}
+                  </p>
+                </div>
+                <div className="d-flex">
+                  <h6 className="me-1">
+                    <span>Duration:</span> {courseVariantBatches[0]?.duration} Months |{' '}
+                  </h6>
+                  <h6>{courseDetails?.variant_name}</h6>
+                </div>
+                <div className="hightlights my-2">
+                  {courseDetails?.course_variant_sections?.highlights?.value.map((value, i) => {
                     return (
-                      <CarouselItem key={i}>
-                        <video src={asset.url} controls></video>
-                      </CarouselItem>
+                      <p key={i}>
+                        <img className="me-1" src={tick} /> {value.value}
+                      </p>
                     );
-                  }
+                  })}
+                </div>
+                <Button
+                  className="mt-2"
+                  style={{ padding: '8px 30px' }}
+                  variant="secondary"
+                  onClick={() => {
+                    apply(courseDetails);
+                  }}>
+                  Apply Now
+                </Button>
+              </div>
+              <div className="carousel-container">
+                <Carousel indicators={false} touch={true} pause="hover" controls={false}>
+                  {courseDetails?.course_variant_sections?.bannerAsset?.value.map((asset, i) => {
+                    // if(asset.type === 'image') {
+                    //     return (
+                    //         <CarouselItem key={i}>
+                    //             <img src={asset.url}></img>
+                    //         </CarouselItem>
+                    //     );
+                    // }
+                    if (asset.type === 'video') {
+                      return (
+                        <CarouselItem key={i}>
+                          <video src={asset.url} controls></video>
+                        </CarouselItem>
+                      );
+                    }
 
-                  if (asset.type === 'youtube') {
-                    return (
-                      <CarouselItem key={i}>
-                        <iframe
-                          src={`https://${asset.url}`}
-                          frameBorder="20px"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen={true}></iframe>
-                      </CarouselItem>
-                    );
-                  }
-                })}
-              </Carousel>
+                    if (asset.type === 'youtube') {
+                      return (
+                        <CarouselItem key={i}>
+                          <iframe
+                            src={`https://${asset.url}`}
+                            frameBorder="20px"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen={true}></iframe>
+                        </CarouselItem>
+                      );
+                    }
+                  })}
+                </Carousel>
+              </div>
             </div>
-          </div>
-        </Container>
+          </Container>
+        )}
         <Container>
           <Row className="course-body">
             <Col lg={3} className="side-nave">
@@ -446,7 +472,90 @@ function CourseDetails() {
                 Meet Our Hiring Partners
               </h4>
               <Row xs={2} md={5} className="mtb5">
-                {getHiringPartners()}
+                <img
+                  src={
+                    'https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/google.svg'
+                  }
+                  alt="google"
+                  className="google-icon hiring_partner_icon"
+                />
+                <img
+                  src={
+                    'https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/shopify.svg'
+                  }
+                  alt="shopify"
+                  className="shopify-icon hiring_partner_icon"
+                />
+                <img
+                  src={
+                    'https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/adobe.svg'
+                  }
+                  alt="adobe"
+                  className="adobe-icon hiring_partner_icon"
+                />
+                <img
+                  src={
+                    'https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/slack.svg'
+                  }
+                  alt="slack"
+                  className="slack-icon hiring_partner_icon"
+                />
+                <img
+                  src={
+                    'https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/mallchimp.svg'
+                  }
+                  alt="mallchimp"
+                  className="mallchimp-icon hiring_partner_icon"
+                />
+                <img
+                  src={
+                    'https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/microsoft.svg'
+                  }
+                  alt="microsoft"
+                  className="microsoft-icon hiring_partner_icon"
+                />
+                <img
+                  src={
+                    'https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/zoom.svg'
+                  }
+                  alt="zoom"
+                  className="zoom-icon hiring_partner_icon"
+                />
+                <img
+                  src={
+                    'https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/hubspot.svg'
+                  }
+                  alt="hubspot"
+                  className="hubspot-icon hiring_partner_icon"
+                />
+                <img
+                  src={
+                    'https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/dropbox.svg'
+                  }
+                  alt="dropbox"
+                  className="dropbox-icon hiring_partner_icon"
+                />
+                <img
+                  src={
+                    'https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/lastpass.svg'
+                  }
+                  alt="lastpass"
+                  className="lastpass-icon hiring_partner_icon"
+                />
+                <img
+                  src={
+                    'https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/aws.svg'
+                  }
+                  alt="aws"
+                  className="aws-icon hiring_partner_icon"
+                />
+                <img
+                  src={
+                    'https://unikaksha-course-contents.s3.ap-south-1.amazonaws.com/hiring_partners/ringcentral.svg'
+                  }
+                  alt="rincentral"
+                  className="ringcentral-icon hiring_partner_icon"
+                />
               </Row>
 
               <h4 className="font-color mb2" id="eligibility">

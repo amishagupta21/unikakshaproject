@@ -88,7 +88,10 @@
 	border        : 1px solid rgba(54, 63, 94, 0.4);
 	box-shadow    : 0px 6px 10px rgb(54 63 94 / 6%);
 	border-radius : 6px;
+}
 
+.edit {
+	cursor: pointer;
 }
 
 .edit {
@@ -332,4 +335,16 @@ select.form-control {
 
 .react-date-picker--open {
 	z-index: 3;
+}
+
+.modal-10w {
+	max-width: 25%;
+}
+  
+.react-date-picker--open {
+	z-index: 3;
+}
+
+.css-b62m3t-container{ 
+	z-index: 2;
 }

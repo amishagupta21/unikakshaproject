@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Alert, Button, Card, Col } from 'react-bootstrap';
+import { Alert, Button, Card, Col , Row } from 'react-bootstrap';
 import { calendar1, hand, hourGlass } from '../../../assets/images';
 import { ReactComponent as HourGlass } from '../../../assets/images/hour-glass.svg';
 import InviteNow from '../../../components/InviteNow';
@@ -38,7 +38,6 @@ const MyCourses = () => {
   const fetchInitialData = async () => {
     const response = await ApiService('/student/application/list', 'GET', {}, true);
     const { data } = response;
-    // console.log(data);
     setApplicationList(data?.data);
   };
 
@@ -54,7 +53,6 @@ const MyCourses = () => {
     setOccupation(response?.data?.data?.userProfile?.occupation)
 
     if( occupation === 'STUDENT') {
-      console.log(occupation);
        steps = [
         'personal_details',
         'education_details',
@@ -117,8 +115,9 @@ const MyCourses = () => {
 
   return (
     <>
-      <div className="my-courses d-flex flex-row mx-auto my-5">
-        <Col className="applied-courses me-4" lg={9}>
+      <div className="my-courses d-flex flex-row mx-auto my-5 my-courses-apllied-uni">
+        <Row className="w-100">
+        <Col className="applied-courses" lg={9}>
           <div className="mb-5">
             <p className="welcome-note">
               <Hand />
@@ -230,6 +229,7 @@ const MyCourses = () => {
         <Col lg={3}>
           <InviteNow />
         </Col>
+        </Row>
       </div>
     </>
   );

@@ -5,7 +5,7 @@ import './Faqs.scss';
 
 const Faqs = ({ faqs }) => {
   const [faqsList, setFaqsList] = useState([]);
-  const [key, setKey] = useState('home');
+  const [key, setKey] = useState('About Techfit Program');
 
   const categoriseFaqs = async () => {
     const list = {};
@@ -34,7 +34,7 @@ const Faqs = ({ faqs }) => {
           faqsList.map((e) => {
             return (
               <Tab eventKey={e[0]} key={e[0]} title={e[0]}>
-                <Accordion>
+                <Accordion defaultActiveKey={0} alwaysOpen>
                   {e[1].map((accItem, idx) => (
                     <Accordion.Item eventKey={idx} key={idx}>
                       <Accordion.Header>{accItem.question}</Accordion.Header>

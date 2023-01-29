@@ -19,6 +19,11 @@ import KYCDocuments from './KYCDocuments';
 import Payments from './Payments';
 import TestResult from './TestResult';
 import { isEmpty } from 'lodash';
+import {
+  yearsOptions,
+  optionsmonth,
+  optionsday,
+} from '../../.././utils-componets/static-content/DateMonthContent';
 
 const steps = [
   'personal_details',
@@ -47,6 +52,7 @@ const CourseApplication = () => {
   const [applicationDetails, setApplicationDetails] = React.useState();
   const [batches, setBatches] = React.useState([]);
   const [userData, setUserData] = React.useState();
+  // const [userDOBData, setDobData] = React.useState();
   const [selectedBatch, setSelectedBatch] = React.useState();
 
   const navigate = useNavigate();
@@ -58,6 +64,8 @@ const CourseApplication = () => {
     let personalDetails = {};
     let educationalDetails = {};
     const userDetails = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
+    // setInitialDobData(userDetails?.data?.data?.userProfile?.information_data);
+    // setDobData(userDetails?.data?.data?.userProfile?.information_data);
     setInitialData(userDetails?.data?.data?.user);
     setUserData(userDetails?.data?.data?.user);
     personalDetails = userDetails?.data?.data?.userProfile?.personal_details ?? personalDetails;
@@ -85,9 +93,17 @@ const CourseApplication = () => {
   };
 
   const setInitialData = (initData) => {
-    formik.setValues({ email: initData?.email }); //mobile_number: initData?.phone
+    formik.setValues({ email: initData?.email });
+
+    // mobile_number: initData?.phone;
     // setMobileNumber({ phone: initData?.phone})
   };
+
+  // const setInitialDobData = (initlData) => {
+  //   formik.setValues({ birth_date: initlData?.birth_date });
+  //   formik.setValues({ birth_month: initlData?.birth_month });
+  //   formik.setValues({ birth_year: initlData?.birth_year });
+  // }
 
   const fetchInitialData = async (uid) => {
     setIsLoading(true);
@@ -112,7 +128,6 @@ const CourseApplication = () => {
     );
 
     if (applicationDetails?.data?.data.application) {
-      console.log(applicationDetails?.data?.data.application);
       const { application_stage, m_applicationstatus, m_totalscore, m_candidatescore } =
         applicationDetails?.data?.data.application;
       const obj = {
@@ -158,6 +173,7 @@ const CourseApplication = () => {
   };
 
   const formPersonalDetailsPayload = async (personalDetails) => {
+    delete personalDetails.dob;
     setIsNextLoading(true);
     const payload = {
       uid: user?.uid,
@@ -182,7 +198,9 @@ const CourseApplication = () => {
       mobile_number: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required(),
       whatsapp_number: Yup.string().matches(phoneRegExp, 'Whatsapp number is not valid').required(),
       gender: Yup.string().required(),
-      dob: Yup.date().required('Date of birth is requied'),
+      birth_date: Yup.number(),
+      birth_month: Yup.number(),
+      birth_year: Yup.number().required('Year of birth is requied'),
       guardian_details: Yup.string(),
     }),
     validate: (values) => {
@@ -200,9 +218,9 @@ const CourseApplication = () => {
       const personalDetails = {
         full_name: full_name,
         mobile_number: mobile_number,
-        mobile_cc: `+${mobileState.data.dialCode}`,
+        mobile_cc: `+${mobileState?.data.dialCode}`,
         whatsapp_number: whatsapp_number,
-        whatsapp_cc: `+${whatsAppState.data.dialCode}`,
+        whatsapp_cc: `+${whatsAppState?.data.dialCode}`,
         guardian_details: guardian_details,
         ...rest,
       };
@@ -454,22 +472,93 @@ const CourseApplication = () => {
                           </Row>
                         </Form.Group>
 
-                        <Form.Group as={Col} sm={4} controlId="dob">
-                          <Form.Label>
-                            Date of Birth<span className="text-danger">*</span>
-                          </Form.Label>
-                          <Form.Control
-                            type="date"
-                            name="dob"
-                            onChange={formik.handleChange}
-                            value={formik.values?.dob}
-                            className={
-                              formik.touched.dob && formik.errors.dob ? 'is-invalid' : null
-                            }
-                            onBlur={formik.handleBlur}></Form.Control>
-                          {formik.touched.dob && formik.errors.dob ? (
-                            <div className="error-message">{formik.errors.dob}</div>
-                          ) : null}
+                        <Form.Group
+                          as={Col}
+                          lg={4}
+                          controlId="dob"
+                          style={{ display: 'flex', justifyContent: 'space-around' }}>
+                          <div>
+                            <Form.Label>Day</Form.Label>
+                            <Form.Select
+                              name="birth_date"
+                              style={{ width: '100px' }}
+                              className={
+                                formik.touched.birth_date && formik.errors.birth_date
+                                  ? 'is-invalid'
+                                  : null
+                              }
+                              onBlur={formik.handleBlur}
+                              onChange={formik.handleChange}>
+                              {/* defaultValue={userDOBData?.birth_date}> */}
+                              {/* disabled={ userDOBData?.birth_date } */}
+                              <option value="">Day</option>
+                              {optionsday.map((option, index) => (
+                                <option key={index} value={option.value}>
+                                  {option.label}
+                                </option>
+                              ))}
+                              ;
+                            </Form.Select>
+                            {formik.touched.birth_date && formik.errors.birth_date ? (
+                              <div className="error-message">{formik.errors.birth_date}</div>
+                            ) : null}
+                          </div>
+
+                          <div>
+                            <Form.Label>Month</Form.Label>
+                            <Form.Select
+                              name="birth_month"
+                              style={{ width: '170px' }}
+                              className={
+                                formik.touched.birth_month && formik.errors.birth_month
+                                  ? 'is-invalid'
+                                  : null
+                              }
+                              onBlur={formik.handleBlur}
+                              onChange={formik.handleChange}>
+                              {/* defaultValue={userDOBData?.birth_month}> */}
+                              {/* disabled={ userDOBData?.birth_month } */}
+                              <option value="">Month</option>
+                              {optionsmonth.map((option, index) => (
+                                <option key={index} value={option.value}>
+                                  {option.label}
+                                </option>
+                              ))}
+                              ;
+                            </Form.Select>
+                            {formik.touched.birth_month && formik.errors.birth_month ? (
+                              <div className="error-message">{formik.errors.birth_month}</div>
+                            ) : null}
+                          </div>
+
+                          <div>
+                            <Form.Label>
+                              Year<span className="text-danger">*</span>
+                            </Form.Label>
+                            <Form.Select
+                              name="birth_year"
+                              style={{ width: '120px', padding: '10px' }}
+                              className={
+                                formik.touched.birth_year && formik.errors.birth_year
+                                  ? 'is-invalid'
+                                  : null
+                              }
+                              onBlur={formik.handleBlur}
+                              onChange={formik.handleChange}>
+                              {/* defaultValue={userDOBData?.birth_year}> */}
+                              {/* disabled={ userDOBData?.birth_year } */}
+                              <option value="">Year</option>
+                              {yearsOptions.map((option, index) => (
+                                <option key={index} value={option.value}>
+                                  {option.label}
+                                </option>
+                              ))}
+                              ;
+                            </Form.Select>
+                            {formik.touched.birth_year && formik.errors.birth_year ? (
+                              <div className="error-message">{formik.errors.birth_year}</div>
+                            ) : null}
+                          </div>
                         </Form.Group>
                       </Row>
 
