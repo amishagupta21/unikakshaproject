@@ -453,7 +453,7 @@ const EducationDetails = ({
                     </Col>
                   </Row>
 
-                  <Row className="mb-5">
+                  <Row className="mb-5 col-column-box">
                     <Form.Group as={Col} controlId="schoolDiplomaCollegeName">
                       <Form.Label>
                         12th / Diploma college name
@@ -656,16 +656,16 @@ const EducationDetails = ({
             </>
           )}
            {yearOfStudying !== 'Final_Year' && yearOfStudying !== '' && (
-          <Row className="d-flex justify-content-end">
+            <Row className="d-flex justify-content-end my-btn-styles row">
             <Button
-              className="col-1 me-2 btn btn-outline-secondary"
+              className="btn btn-outline-secondary"
               variant="outline-secondary"
               type="button"
               onClick={returnToDashboard}>
               Cancel
             </Button>
             <Button
-              className="col-1"
+              className="btn"
               disabled={(!formik.isValid && !formik.dirty) || isNextLoading}
               variant="secondary"
               type="submit">

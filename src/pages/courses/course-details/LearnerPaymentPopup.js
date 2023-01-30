@@ -219,18 +219,18 @@ const LearnerPaymentPopup = ({courseId, courseInfo, setopenpayment}) =>
   <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
 </svg></span>
                 </div>
-                <div className="mt-3 modal-batch">
-
+                <div className='nomargin batch-head mt-3'>
                     <span>Batch Selection</span>
-                    <span className="floatRight close-btn" onClick={() => togglepayment()}>x</span>
+                   
                 </div>
                 <div className="mt-3">
-                    <Row xs={1} md={1} className="nomargin mt-2">
+                    <Row xs={1} md={1} className="nomargin mt-2 nomargin-img">
 
-                        <span>
+                    <div className="d-flex">
                             <img src={bookReader} alt="bookReader-Icon" />
-                            { courseInfo?.course_title }
-                        </span>
+                        <p style={{ fontSize: '14px' }} className="ms-2 mb-0">
+                        <span>{ courseInfo?.course_title }</span></p>
+                            </div>
                         <div className="d-flex">
                         <img src={WaitClockIcon} alt="Wait-Clock-Icon" />
                         <p style={{ fontSize: '14px' }} className="ms-2 mb-0">
@@ -244,7 +244,7 @@ const LearnerPaymentPopup = ({courseId, courseInfo, setopenpayment}) =>
                     <Row className='nomargin batch-head'>
                         Batch Schedule
                     </Row>  
-                    <Row xs={1} md={3} className="nomargin mt-4">
+                    <Row xs={1} md={3} className="nomargin mt-4 nomargin-block">
                         {getbatches()}
                     </Row>
                 </div>                                

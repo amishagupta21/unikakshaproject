@@ -291,3 +291,27 @@ div#personal h3 {
 .profile-popup.modal button.btn.btn-outline-secondary:hover svg path {
     fill: #fff;
 }
+.height-optionheight-option .form-select {
+    height: 44px;
+}
+@media screen and ( max-width:767px) {
+.profile-personal-form .left-nav {
+    position: static;
+ 
+}
+.profile-personal-form .row-bottom.row .col-sm-6 {
+    margin-bottom: 15px;
+}
+.profile-personal-form .row-bottom.row {
+  margin-bottom: 0px; 
+}
+.profile-personal-form .row-bottom.row .col-lg-2 {
+    margin-bottom:15px;
+}
+.col-column-box .col {
+    width: 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-bottom: 15px;
+}
+}
