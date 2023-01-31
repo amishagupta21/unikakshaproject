@@ -529,7 +529,8 @@ const CourseApplication = () => {
                           formik.touched.birth_year && formik.errors.birth_year ? 'is-invalid' : null
                         }
                         onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}>
+                        onChange={formik.handleChange}
+                        value={formik.values?.birth_year}>
                         {/* defaultValue={userDOBData?.birth_year}> */}
                         {/* disabled={ userDOBData?.birth_year } */}
                         <option value="">Year</option>
