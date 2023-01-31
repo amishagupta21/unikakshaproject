@@ -137,7 +137,7 @@ console.log(applicationData);
         const orderId = orderData?.id;
 
         const options = {
-            key: "rzp_test_xOikuguYnrmtYd", // Enter the Key ID generated from the Dashboard
+            key: "rzp_live_xsOESw138cvA75", // Enter the Key ID generated from the Dashboard
             amount: 15000,
             currency: orderData?.currency,
             name: "Code Shastra",
