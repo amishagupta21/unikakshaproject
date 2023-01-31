@@ -25,7 +25,16 @@ const Payments = (params) => {
     useEffect(() => {
 
         fetchUserDetails(user?.uid);
-        displayRazorpay();
+
+        if ( applicationDetails?.application_stage === 'payment_status' && applicationDetails?.m_applicationstatus === 'Payment Successfull' ) {
+            setpaymentStatus('Success');
+        } else if ( applicationDetails?.application_stage === 'payment_status' && applicationDetails?.m_applicationstatus === 'Payment Failed' ) {
+            setpaymentStatus('Failed');
+        } else if (applicationDetails?.application_stage !== 'payment_status') {
+            displayRazorpay();
+        } else {
+            nextPage();
+        }
 
     }, []);
 

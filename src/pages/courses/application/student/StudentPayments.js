@@ -23,7 +23,19 @@ const Payments = (params) => {
     useEffect(() => {
         // console.log(selectedBatch[0]);
         fetchUserDetails(user?.uid);
-        displayRazorpay();
+        console.log(orderData?.id);
+        if ( applicationDetails?.application_stage === 'payment_status' && applicationDetails?.m_applicationstatus === 'Payment Successfull' ) {
+            setpaymentStatus('Success');
+        } else if ( applicationDetails?.application_stage === 'payment_status' && applicationDetails?.m_applicationstatus === 'Payment Failed' ) {
+            setpaymentStatus('Failed');
+        } else if (applicationDetails?.application_stage !== 'payment_status') {
+            
+            displayRazorpay();
+        } else {
+            nextPage();
+        }
+
+        
 
     }, []);
 
@@ -121,6 +133,7 @@ const Payments = (params) => {
                 } 
                 
                 setpaymentStatus('Success');
+                
                 setpaymentResponse(response);
                 const data = {
                     orderCreationId: orderId,
