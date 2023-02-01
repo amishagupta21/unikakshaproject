@@ -123,3 +123,18 @@
         }
     }
 }
+
+.nomargin-block .card-group {
+    padding-left: 3px;
+}
+.nomargin.batch-head.row {
+    margin-top: 10px;
+}
+.nomargin.mt-2.nomargin-img.row.row-cols-md-1.row-cols-1 {
+    --bs-gutter-x: 0;
+}
+@media screen and ( max-width:767px) {
+    .nomargin-block .card-group {
+        margin-bottom: 10px;
+    }  
+}

@@ -741,15 +741,15 @@ const EducationDetails = ({
               )}
             </>
           )}
-          <Row className="d-flex justify-content-end">
+            <Row className="d-flex justify-content-end my-btn-styles row">
             <Button
-              className="col-1 me-2 btn btn-outline-secondary"
+              className="btn btn-outline-secondary"
               variant="outline-secondary"
               type="button">
               Cancel
             </Button>
             <Button
-              className="col-1"
+              className="btn"
               disabled={(!formik.isValid && !formik.dirty) || isNextLoading}
               variant="secondary"
               type="submit">

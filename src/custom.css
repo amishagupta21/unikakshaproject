@@ -1757,3 +1757,15 @@ section.auth_layout.login_screen.auth-unikaksha .custom-tabs-container.nav.nav-p
   padding: 0 10px;
 }
 }
+
+.d-flex.profile-sidebar-unikaksha .dropdown-design img {
+  border-radius: 100px;
+}
+.nomargin.mt-2.nomargin-img.row.row-cols-md-1.row-cols-1 {
+  --bs-gutter-x: 0;
+}
+a.notification-link-dp.nav-link .dropdown-item img {
+  margin-right: 10px;
+}
+
+.custom-header .navbar .ms-auto.navbar-nav a:active{ background-color: #e9ecef !important;}
