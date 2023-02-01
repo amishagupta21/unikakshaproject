@@ -385,7 +385,7 @@ const Info = () => {
                                   className="form-group-1 mb-3"
                                   as={Col}
                                   md="12">
-                                  <FormLabel>Ogranization you are working in</FormLabel>
+                                  <FormLabel>Ogranization you are working in <MandatorySymbol /></FormLabel>
                                   <FormControl
                                     placeholder="Eg, Amazon"
                                     type={'text'}
