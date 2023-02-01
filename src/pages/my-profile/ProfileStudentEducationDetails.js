@@ -322,7 +322,7 @@ const ProfileEducationDetails = (
   };
 
   return (
-    <div>
+    <div className='personal-my-card-detail'>
       <Form onSubmit={formik.handleSubmit}>
         <>
           {/* <Row className="d-flex flex-column">
@@ -382,7 +382,7 @@ const ProfileEducationDetails = (
                     </Col>
                   </Row>
 
-                  <Row className="mb-5">
+                  <Row className="mb-5 col-column-box">
                     <Form.Group as={Col} controlId="pgCollegeName">
                       <Form.Label>
                         UG / Bachelors College name
@@ -406,14 +406,14 @@ const ProfileEducationDetails = (
                       ) : null}
                     </Form.Group>
 
-                    <Form.Group as={Col} controlId="pgYOC">
+                    <Form.Group as={Col} controlId="pgYOC" className='height-optionheight-option'>
                       <Form.Label>
                       UG/Bachelors Year of completion <span className="text-danger">*</span>
                       </Form.Label>
                       <Form.Select
                         name="pgYOC"
                         className={
-                          formik.touched.pgYOC && formik.errors.pgYOC ? 'is-invalid' : null
+                          formik.touched.pgYOC && formik.errors.pgYOC ? 'is-invalid' : null 
                         }
                         onBlur={formik.handleBlur}
                         onChange={formik.handleChange}
@@ -466,7 +466,7 @@ const ProfileEducationDetails = (
                     </Col>
                   </Row>
 
-                  <Row className="mb-5">
+                  <Row className="mb-5 col-column-box">
                     <Form.Group as={Col} controlId="schoolDiplomaCollegeName">
                       <Form.Label>
                         12th / Diploma college name
@@ -494,7 +494,7 @@ const ProfileEducationDetails = (
                       ) : null}
                     </Form.Group>
 
-                    <Form.Group as={Col} controlId="schoolYearOfCompletion">
+                    <Form.Group as={Col} controlId="schoolYearOfCompletion" className="height-optionheight-option">
                       <Form.Label>
                         12th / Diploma year of completion<span className="text-danger">*</span>
                       </Form.Label>
@@ -669,16 +669,16 @@ const ProfileEducationDetails = (
             </>
           )}
            {yearOfStudying !== 'Final_Year' && yearOfStudying !== '' && (
-          <Row className="d-flex justify-content-end">
+           <Row className="d-flex justify-content-end my-btn-styles row">
             <Button
-              className="col-1 me-2 btn btn-outline-secondary"
+              className="btn btn-outline-secondary"
               variant="outline-secondary"
               type="button"
               onClick={returnToDashboard}>
               Cancel
             </Button>
             <Button
-              className="col-1"
+              className="btn"
               disabled={(!formik.isValid && !formik.dirty) || isNextLoading}
               variant="secondary"
               type="submit">
