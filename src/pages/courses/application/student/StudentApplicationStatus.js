@@ -103,10 +103,10 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
                         {status === 'approved' && (
                             <img src={badge} className='me-3'></img>
                         )}
-                        <h3 className='text-primary text-center header mt-2 mb-4'>{header}</h3>
+                        <h3 className='text-primary text-center header mt-2 mb-4 sml-head'>{header}</h3>
                     </div>
                     <div className='mt-2 mb-4 d-flex align-items-center justify-content-center'>
-                        <img src={imgContent}></img>
+                        <img src={imgContent} className="img-fluid"></img>
                     </div>
                     <div className={`my-2 content-box ${status}`} >
                         <p className='text-primary text-center message1'>{message1}</p>
