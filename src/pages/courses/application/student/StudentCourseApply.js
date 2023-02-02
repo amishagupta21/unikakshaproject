@@ -437,7 +437,8 @@ const StudentCourseApplication = () => {
                           formik.touched.birth_date && formik.errors.birth_date ? 'is-invalid' : null
                         }
                         onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}>
+                        onChange={formik.handleChange}
+                        value={formik.values?.birth_date}>
                         {/* defaultValue={userDOBData?.birth_date}> */}
                         <option value="">Day</option>
                         {optionsday.map((option, index) => (
@@ -464,7 +465,8 @@ const StudentCourseApplication = () => {
                           formik.touched.birth_month && formik.errors.birth_month ? 'is-invalid' : null
                         }
                         onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}>
+                        onChange={formik.handleChange}
+                        value={formik.values?.birth_month}>
                         {/* defaultValue={userDOBData?.birth_month}> */}
                         <option value="">Month</option>
                         {optionsmonth.map((option, index) => (
