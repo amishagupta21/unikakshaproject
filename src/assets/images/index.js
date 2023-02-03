@@ -94,6 +94,7 @@ import slack from './CourseDetails/slack.svg';
 import xbo from './CourseDetails/xbo.svg';
 import netflix from './CourseDetails/netflix.svg';
 import linkedin from './CourseDetails/linkedin.svg';
+import AppleIcon from './apple-icon.svg';
 
 export const Icon = ({ icon, ...props }) => {
     return (
@@ -198,4 +199,5 @@ export {
     view,
     signDoc,
     bookReader,
+    AppleIcon
 };

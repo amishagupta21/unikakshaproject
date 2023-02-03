@@ -34,6 +34,9 @@ import EducationalDetails from './EducationalDetails';
 import ProfileKYC from './ProfileKYC';
 import ProfileStudentEducationDetails from './ProfileStudentEducationDetails';
 import WorkDetails from './WorkDetails';
+import AccountSettings from './AccountSettings';
+
+
 import { firebase } from '../../firebase/firebase';
 import { setIsAuthenticated } from '../../redux/actions/AuthAction';
 import { logout } from '../../firebase/firebaseAuth';
@@ -349,6 +352,10 @@ const PersonalDetails = () => {
                     
                       <Nav.Item>
                         <Nav.Link eventKey="fourth"> Documents & KYC</Nav.Link>
+                      </Nav.Item>
+
+                      <Nav.Item>
+                        <Nav.Link eventKey="fifth"> Account Settings</Nav.Link>
                       </Nav.Item>
                       {/* {userOccupation && userOccupation !== 'STUDENT' && (
                       )} */}
@@ -863,6 +870,14 @@ const PersonalDetails = () => {
                       <div className="course-application-list" id="kyc">
                         <h3 className="text-primary">Documents & KYC Details </h3>
                         <ProfileKYC kycData={KYCData} />
+                      </div>
+                    </Tab.Pane>
+
+                    <Tab.Pane eventKey="fifth">
+                      {' '}
+                      <div className="course-application-list" id="kyc">
+                        {/* <h3 className="text-primary">Acc </h3> */}
+                        <AccountSettings/>
                       </div>
                     </Tab.Pane>
                   </Tab.Content>

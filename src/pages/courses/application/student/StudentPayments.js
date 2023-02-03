@@ -23,7 +23,7 @@ const Payments = (params) => {
     useEffect(() => {
         // console.log(selectedBatch[0]);
         fetchUserDetails(user?.uid);
-        console.log(orderData?.id);
+        
         if ( applicationDetails?.application_stage === 'payment_status' && applicationDetails?.m_applicationstatus === 'Payment Successfull' ) {
             setpaymentStatus('Success');
         } else if ( applicationDetails?.application_stage === 'payment_status' && applicationDetails?.m_applicationstatus === 'Payment Failed' ) {
