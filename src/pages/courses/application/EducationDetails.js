@@ -764,7 +764,7 @@ const EducationDetails = ({
             </Button>
             <Button
               className="btn"
-              disabled={!(formik.isValid && formik.dirty) || isNextLoading}
+              disabled={!(formik.isValid && formik.dirty) || isNextLoading || highestQualification === ''}
               variant="secondary"
               type="submit">
               {isNextLoading ? 'Saving..' : 'Next'}
