@@ -80,7 +80,7 @@ const ApplicationStatus = ({nextPage, application, setOrderData, courseId, setSe
             setStatus(app_status)
         }
         if(appStatus === 'Pending' ) {
-            app_status = 'approved'
+            app_status = 'review'
             setStatus(app_status)
         }
         
