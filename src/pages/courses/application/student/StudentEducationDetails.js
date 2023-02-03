@@ -8,6 +8,8 @@ import React, { useEffect } from 'react';
 import lodash from 'lodash';
 import { studentYearsOptions, studentDiplomaYearsOptions } from '../../../../utils-componets/static-content/DateMonthContent';
 import { getWorkingPosition } from '../../../../services/ReuseableFun';
+import { useDispatch } from 'react-redux';
+import { openToaster } from '../../../../redux/actions/ToastAction';
 
 const highestQualificationOption = [
   { value: '', label: 'Please select' },
@@ -84,6 +86,7 @@ const EducationDetails = ({
   const [yearOfStudying, setyearOfStudying] = React.useState('');
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
 
   const yesNo = [
@@ -303,6 +306,14 @@ const EducationDetails = ({
     const response = await ApiService('/student/educational-details', `PUT`, payload, true);
     setIsNextLoading(false);
     if (response?.data.code === 200) {
+      dispatch(
+        openToaster({
+          show: true,
+          header: 'Success!',
+          variant: 'info',
+          body: 'Educational details was saved successfully!',
+        })
+      );
       setEducationalDetails(payload);
       nextPage();
     }

@@ -20,6 +20,7 @@ import Payments from './Payments';
 import TestResult from './TestResult';
 import { isEmpty } from 'lodash';
 import { yearsOptions,optionsmonth,optionsday } from '../../.././utils-componets/static-content/DateMonthContent';
+import { openToaster } from '../../../redux/actions/ToastAction';
 
 const steps = [
   'personal_details',
@@ -176,6 +177,14 @@ const CourseApplication = () => {
     const response = await ApiService('/student/personal-details', `POST`, payload, true);
     setIsNextLoading(false);
     if (response?.data.code === 200) {
+      dispatch(
+        openToaster({
+          show: true,
+          header: 'Success!',
+          variant: 'info',
+          body: 'Personal details was saved successfully!',
+        })
+      );
       nextPage();
     }
   };

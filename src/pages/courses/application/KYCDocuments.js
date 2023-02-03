@@ -220,6 +220,14 @@ const KYCDocuments = () => {
         default:
           break;
       }
+      dispatch(
+        openToaster({
+          show: true,
+          header: 'Success!',
+          variant: 'info',
+          body: 'Document deleted successfully!',
+        })
+      );
     }
   };
 
@@ -293,6 +301,14 @@ const KYCDocuments = () => {
       } else if (docType == 'ssc_certificate') {
         setSSCCertificate((old) => ({ ...old, placeholder: data.name }));
       }
+      dispatch(
+        openToaster({
+          show: true,
+          header: 'Success!',
+          variant: 'info',
+          body: 'Document uploaded successfully!',
+        })
+      );
       return Promise.resolve(true);
     };
     xhr.onerror = () => {};

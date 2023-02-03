@@ -42,7 +42,7 @@ const CourseList = ({ courses }) => {
     
     setcourseData(course);
     
-    if ( occupation === 'STUDENT' ) {
+    if ( occupation === 'STUDENTs' ) {
       if (course?.target_audience === '{Learners}') {
         setopenpayment(true);
       } else {

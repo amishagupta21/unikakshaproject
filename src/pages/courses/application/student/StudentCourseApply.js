@@ -17,6 +17,7 @@ import MultiStepBar from './StudentFormProgress';
 import Payments from './StudentPayments';
 import { isEmpty } from 'lodash';
 import { yearsOptions,optionsmonth,optionsday } from '../../../.././utils-componets/static-content/DateMonthContent';
+import { openToaster } from '../../../../redux/actions/ToastAction';
 
 
 const steps = [
@@ -170,6 +171,14 @@ const StudentCourseApplication = () => {
     
     setIsNextLoading(false);
     if (response?.data.code === 200) {
+      dispatch(
+        openToaster({
+          show: true,
+          header: 'Success!',
+          variant: 'info',
+          body: 'Personal details was saved successfully!',
+        })
+      );
       nextPage();
     }
   };
