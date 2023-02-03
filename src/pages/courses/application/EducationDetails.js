@@ -135,6 +135,7 @@ const EducationDetails = ({
       organization_name: Yup.string(),
     }),
     validate: (values) => {
+      
       let errors = {};
       if (!values.schoolDiplomaCollegeName) {
         errors.schoolDiplomaCollegeName = '*School Name is Required';
@@ -170,6 +171,7 @@ const EducationDetails = ({
           errors.pgMarks = '*PG Mark is required';
         }
       }
+      
       if (
         is_enrolled_other_program === 'yes' &&
         (highestQualification === 'UG' || highestQualification === 'PG')
@@ -762,7 +764,7 @@ const EducationDetails = ({
             </Button>
             <Button
               className="btn"
-              disabled={(!formik.isValid && !formik.dirty) || isNextLoading}
+              disabled={!(formik.isValid && formik.dirty) || isNextLoading}
               variant="secondary"
               type="submit">
               {isNextLoading ? 'Saving..' : 'Next'}

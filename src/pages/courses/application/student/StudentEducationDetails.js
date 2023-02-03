@@ -232,9 +232,10 @@ const EducationDetails = ({
           errors.pgMarks = '*PG Mark is required';
         }
       }
+     
       if (
         is_enrolled_other_program === 'yes' &&
-        (highestQualification === 'UG' || highestQualification === 'PG')
+        (highestQualification === 'First_year' || highestQualification === 'Second_year' || highestQualification === 'Pre_Final')
       ) {
         if (!values.other_program_name) {
           errors.other_program_name = '*School Name is Required';
@@ -677,7 +678,7 @@ const EducationDetails = ({
             </Button>
             <Button
               className="btn"
-              disabled={(!formik.isValid && !formik.dirty) || isNextLoading}
+              disabled={!(formik.isValid && formik.dirty) || isNextLoading}
               variant="secondary"
               type="submit">
               {isNextLoading ? 'Saving..' : 'Next'}
