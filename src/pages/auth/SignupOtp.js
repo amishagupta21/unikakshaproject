@@ -34,7 +34,8 @@ const SignupOtp = () => {
 
   useEffect(() => {
     if (userCreated) {
-      navigate('/info');
+      // navigate('/info');
+      navigate('/set-password')
     }
   }, [userCreated]);
 
@@ -87,7 +88,15 @@ const SignupOtp = () => {
     const result = await ApiService(`user/create`, `POST`, userData);
     localStorage.setItem('user', JSON.stringify(user));
     if (result?.data.code === 200) {
-      navigate('/info');
+      // navigate('/info');
+      navigate('/set-password', {
+        state: {
+          values: {
+            email: userSignUpData.email
+          },
+        },
+      });
+      
     }
     setIsButtonLoading(false);
   };

@@ -23,6 +23,8 @@ import {
   Nav,
   Row,
   ToggleButton,
+  Spinner,
+  Alert
 } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import ApiService from '../../services/ApiService';
@@ -41,6 +43,9 @@ import { firebase } from '../../firebase/firebase';
 import { setIsAuthenticated } from '../../redux/actions/AuthAction';
 import { logout } from '../../firebase/firebaseAuth';
 import { openToaster } from '../../redux/actions/ToastAction';
+import { toast } from 'react-toastify';
+import OtpInput from 'react-otp-input';
+import { getAuth, updateProfile } from "firebase/auth";
 
 const PersonalDetails = () => {
   const [mobileState, setMobileNumber] = React.useState({ phone: '', data: '' });
@@ -59,8 +64,40 @@ const PersonalDetails = () => {
   const [showDeleteModal, setShowDeleteModal] = React.useState(false);
   const [showConfirmModal, setShowConfirmModal] = React.useState(false);
 
+  const [changeMobileNoPopup, setChangeMobileNoPopup] = React.useState(false);
+  const [otpPopup, setOTPPopup] = React.useState(false);
+
+  const [changeEmailPopup, setChangeEmailPopup] = React.useState(false);
+  const [otpEmailPopup, setEmailOTPPopup] = React.useState(false);
+  
+
+  const [mobileNo, setMobileNo] = React.useState();
+  const [otpError, setOtpError] = React.useState();
+  const [otp, setOtp] = React.useState('');
+  const [minutes, setMinutes] = React.useState(2);
+  const [seconds, setSeconds] = React.useState(0);
+  const [isButtonLoading, setIsButtonLoading] = React.useState();
+  const [isResendDisabled, setIsResendDisabled] = React.useState(true);
+  
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const configureCaptcha = () => {
+    return (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('profile-otp-container', {
+      size: 'invisible',
+      callback: (response) => {},
+      defaultCountry: 'IN',
+    }));
+  };
+
+  const configureCaptcha2 = () => {
+    return (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('profile-email-container', {
+      size: 'invisible',
+      callback: (response) => {},
+      defaultCountry: 'IN',
+    }));
+  };
 
   const genderOptions = [
     { name: 'Male', value: 'male', icon: maleIcon },
@@ -120,6 +157,80 @@ const PersonalDetails = () => {
     },
   });
 
+  const formik1 = useFormik({
+    initialValues: {
+      change_mobile_number: '',
+
+    },
+    validationSchema: Yup.object().shape({
+     
+      change_mobile_number: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required(),
+    
+    }),
+    validate: (values) => {
+      let errors = {};
+      if (!values?.change_mobile_number) {
+        errors.change_mobile_number = '*Mobile number required';
+      }
+      
+    },
+    onSubmit: (values) => {
+      console.log(values.change_mobile_number);
+      const { change_mobile_number, ...rest } = values;
+      sendOTP(values.change_mobile_number);
+      // const user1 = firebase.auth().currentUser;
+
+      // const a = user1.updateProfile({
+      //   phoneNumber: values.change_mobile_number
+      
+      // }).then((res) => {
+      //   console.log(user1);
+      // }).catch((error) => {
+      //   console.log(error)
+      // });
+
+    
+      // firebase.auth().currentUser.updatePhoneNumber({ phoneNumber: values.change_mobile_number });
+    },
+  });
+
+  const formik_change_email = useFormik({
+    initialValues: {
+      change_email_id: '',
+
+    },
+    validationSchema: Yup.object().shape({
+     
+      change_email_id: Yup.string().email('Invalid email').required('Email is required'),
+    
+    }),
+    validate: (values) => {
+      let errors = {};
+      if (!values?.change_email_id) {
+        errors.change_email_id = '*Mobile number required';
+      }
+      
+    },
+    onSubmit: (values) => {
+      // console.log(values.change_email_id);
+      // const { change_email_id, ...rest } = values;
+      updateEmail(values.change_email_id);
+      // const user1 = firebase.auth().currentUser;
+
+      // const a = user1.updateProfile({
+      //   phoneNumber: values.change_mobile_number
+      
+      // }).then((res) => {
+      //   console.log(user1);
+      // }).catch((error) => {
+      //   console.log(error)
+      // });
+
+    
+      // firebase.auth().currentUser.updatePhoneNumber({ phoneNumber: values.change_mobile_number });
+    },
+  });
+
   const formPersonalDetailsPayload = async (personalDetails) => {
     dispatch(setLoading(true));
     const payload = {
@@ -157,12 +268,15 @@ const PersonalDetails = () => {
   };
 
   useEffect(() => {
+    
     dispatch(setLoading(true));
 
     viewProfilePic('profile_picture');
 
     window.scrollTo(0, 0);
     fetchInitialData(user?.uid);
+
+    dispatch(setLoading(false));
   }, []);
 
   const handleWeekdayChange = (event) => {
@@ -309,6 +423,16 @@ const PersonalDetails = () => {
     setProfilePopup(true);
   };
 
+  const changeMobileNo = () => {
+    setChangeMobileNoPopup(true);
+  };
+
+  const changeMobileEmailId = () => {
+    setChangeEmailPopup(true)
+  };
+
+  
+
   const togglePopup = () => {
     setProfilePopup(false);
     window.location.reload();
@@ -328,6 +452,217 @@ const PersonalDetails = () => {
       body: 'Unable to delete account. Please try again!'
     }))
   }
+
+  const changeMobile = (event) => {
+    setMobileNo(event.target.value);
+  }
+
+  
+
+  const sendOTP = async (phoneNumber) => {
+    setMobileNo(phoneNumber);
+    dispatch(setLoading(true));
+
+    const appVerifier = configureCaptcha();
+    firebase
+      .auth()
+      .signInWithPhoneNumber(`+${phoneNumber}`, appVerifier)
+      .then(async (confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        toast.success('OTP has been sent to Mobile Number Again', {
+          theme: 'colored',
+        });
+        setChangeMobileNoPopup(false);
+        setOTPPopup(true);
+
+        dispatch(setLoading(false));
+        const interval = setInterval(() => {
+          if (seconds > 0) {
+            setSeconds(seconds - 1);
+          }
+    
+          if (seconds === 0) {
+            if (minutes === 0) {
+              setIsResendDisabled(false);
+              clearInterval(interval);
+            } else {
+              setSeconds(59);
+              setMinutes(minutes - 1);
+            }
+          }
+        }, 1000);
+        return () => {
+          clearInterval(interval);
+        };
+      })
+      .catch((error) => {
+        toast.error(`${error}`, {
+          theme: 'colored',
+        });
+        // setloading(false);
+        dispatch(setLoading(false));
+      });
+  };
+
+  const onSubmitOTP = () => {
+    // setloading(true);
+    dispatch(setLoading(true));
+
+    window.confirmationResult
+      .confirm(otp && otp)
+      .then(async (response) => {
+        const { firbase_user } = response;
+        console.log(response);
+        // if (firbase_user) {
+          // setloading(false);/
+
+          // const user = firebase.auth().currentUser;
+
+          // const auth = getAuth();
+          // updateProfile(auth.currentUser, {
+          //   phoneNumber: 
+          // })
+          setOTPPopup(false);
+          dispatch(openToaster({
+            show: true,
+            header: 'Success!', 
+            variant: 'Info',
+            body: 'Phone number was updated successfully!'
+          }))
+          firebase.auth().currentUser.updatePhoneNumber({ phoneNumber: mobileNo });
+          // await firbase_user.updatePhoneNumber(mobileNo);
+          
+          // const isBasicInfoExists = await getUserBasicInfo(user.uid);
+
+          dispatch(setLoading(false));
+
+          // if (isBasicInfoExists) {
+          //   const redirectUrl = searchParams.get('redirect');
+          //   if (redirectUrl) {
+          //     navigate(redirectUrl);
+          //   } else {
+          //     navigate('/dashboard');
+          //   }
+          // } else {
+          //   navigate('/info');
+          // }
+        // }
+      })
+      .catch((error) => {
+        // setloading(false);
+
+        console.log(error)
+        dispatch(setLoading(false));
+
+        // navigate('/login');
+        setOtpError('Invalid Code!');
+      });
+  };
+
+
+  const updateEmail = (email) => {
+
+    const user1 = firebase.auth().currentUser;
+    console.log(email);
+
+    // const user = firebase.auth().currentUser;
+    const appVerifier1 = configureCaptcha2();
+    // TODO(you): prompt the user to re-provide their sign-in credentials
+
+    
+    user1.updateEmail(email).then((res) => {
+      firebase.auth().currentUser.sendEmailVerification().then(function(isSent) {
+        console.log(isSent);
+      })
+      .catch(function(error1) {
+        console.log(error1);
+      });
+  
+    }).catch((error) => {
+      console.log(error);
+    });
+
+    dispatch(openToaster({
+      show: true,
+      header: 'Success!', 
+      variant: 'Info',
+      body: 'Verification link successfully sent to the new email address!'
+    }))
+    
+    setChangeEmailPopup(false);
+    
+  }
+
+// user1.updateEmail("velmurugan0819@gmail.com").then((res) => {
+//       firebase.auth().currentUser.sendEmailVerification()
+//   .then(() => {
+//     // Email verification sent!
+//     // ...
+//   });
+//     }).catch((error) => {
+//       console.log(error);
+//     });
+//   }
+
+  const onSubmitEmailOTP = () => {
+    // setloading(true);
+    dispatch(setLoading(true));
+
+    window.confirmationResult
+      .confirm(otp && otp)
+      .then(async (response) => {
+        const { firbase_user } = response;
+        console.log(response);
+        // if (firbase_user) {
+          // setloading(false);/
+
+          // const user = firebase.auth().currentUser;
+
+          // const auth = getAuth();
+          // updateProfile(auth.currentUser, {
+          //   phoneNumber: 
+          // })
+          setOTPPopup(false);
+          dispatch(openToaster({
+            show: true,
+            header: 'Success!', 
+            variant: 'Info',
+            body: 'Phone number was updated successfully!'
+          }))
+          firebase.auth().currentUser.updatePhoneNumber({ phoneNumber: mobileNo });
+          
+          
+          // dispatch(setIsAuthenticated(true));
+          // localStorage.setItem('user', JSON.stringify(user));
+         
+          // await firbase_user.updatePhoneNumber(mobileNo);
+          
+          // const isBasicInfoExists = await getUserBasicInfo(user.uid);
+
+          dispatch(setLoading(false));
+
+          // if (isBasicInfoExists) {
+          //   const redirectUrl = searchParams.get('redirect');
+          //   if (redirectUrl) {
+          //     navigate(redirectUrl);
+          //   } else {
+          //     navigate('/dashboard');
+          //   }
+          // } else {
+          //   navigate('/info');
+          // }
+        // }
+      })
+      .catch((error) => {
+        // setloading(false);
+
+        console.log(error)
+        dispatch(setLoading(false));
+
+        // navigate('/login');
+        setOtpError('Invalid Code!');
+      });
+  };
 
   return (
     <>
@@ -488,7 +823,7 @@ const PersonalDetails = () => {
                             </>
                           )}
                         </div>
-
+                        
                         <div className="d-flex flex-row">
                           <div className="course-image">
                             {/* <img
@@ -563,6 +898,7 @@ const PersonalDetails = () => {
                                             value={formik.values?.email}                                
                                             // disabled={ userData?.email }
                                           />
+                                           <span className='change-mobile-no'><a onClick={() => changeMobileEmailId()}>Change Email Id</a></span>
                                           {formik.touched.email && formik.errors.email ? (
                                             <div className="error-message">{formik.errors.email}</div>
                                           ) : null}
@@ -589,6 +925,11 @@ const PersonalDetails = () => {
                                             // defaultValue={userData?.phone}
                                             // disabled={ userData?.phone }
                                           />
+                                          <span className='change-mobile-no'><a onClick={() => changeMobileNo()}>Change Mobile Number</a></span>
+                                          
+                                          
+                                          
+                                          
                                           {formik.touched.mobile_number &&
                                           formik.errors.mobile_number ? (
                                             <div className="error-message">
@@ -596,6 +937,8 @@ const PersonalDetails = () => {
                                             </div>
                                           ) : null}
                                         </Form.Group>
+
+                                        
 
                                         <Form.Group
                                           as={Col}
@@ -835,6 +1178,336 @@ const PersonalDetails = () => {
                                     </>
                                   </Form>
                                 </>
+
+                                {changeMobileNoPopup && (
+                                    <>
+                                      <div className="profile-popup modal display-block">
+                                        <section className="modal-main">
+                                        <Form onSubmit={formik1.handleSubmit}>
+                                            <>
+                                          <div className="model-body">
+                                            <div className="modalheader">
+                                              <span>Change Mobile Number</span>
+                                              <span
+                                                className="floatRight close-btn"
+                                                onClick={() => togglePopup()}>
+                                                x
+                                              </span>
+                                            </div>
+                                            <div className="mt-3">
+                                            <div id="profile-otp-container"></div>
+                                            <Form.Group as={Col} sm={12} controlId="mobile_number">
+                                              <Form.Label>
+                                                Mobile Number<span className="text-danger"> *</span>
+                                              </Form.Label>
+                                              <PhoneInput
+                                                country={'in'}
+                                                name="change_mobile_number"
+                                                // value={userData?.phone? userData?.phone:formik.values?.mobile_number}
+                                                value={formik1.values?.change_mobile_number}
+                                                onChange={(phone, data) => {
+                                                  formik1.setFieldValue('change_mobile_number', phone);
+                                                  setMobileNumber({ phone, data });
+                                                }}
+                                                countryCodeEditable={false}
+                                                onBlur={formik1.handleBlur('change_mobile_number')}
+                                                placeholder="Enter your Mobile number"
+                                                // defaultValue={userData?.phone}
+                                                // disabled={ userData?.phone }
+                                              />
+
+                                                {formik1.touched.mobile_number &&
+                                                formik1.errors.mobile_number ? (
+                                                  <div className="error-message">
+                                                    {formik1.errors.mobile_number}
+                                                  </div>
+                                                ) : null}
+                                              </Form.Group>
+                                              
+                                            </div>
+                                          </div>
+                                          <div className="mt-3 model-body">
+                                            <Row className="d-flex justify-content-end">
+                                            <Button
+                                            className="btn"
+                                            // disabled={
+                                            //   !(formik1.isValid && formik1.dirty) || isNextLoading
+                                            // }
+                                            variant="secondary"
+                                            type="submit">
+                                            {isNextLoading ? 'Verify.. ' : 'Verify'}
+                                            </Button>
+                                              
+                                            </Row>
+                                          </div>
+                                          </>
+                                            </Form>
+                                        </section>
+                                      </div>
+                                    </>
+                                )}
+                                {otpPopup && (
+                                    <>
+                                      <div className="profile-popup modal display-block">
+                                        <section className="modal-main">
+                                        <Form onSubmit={formik1.handleSubmit}>
+                                            <>
+                                          <div className="model-body">
+                                            <div className="modalheader">
+                                              <span>Verify OTP</span>
+                                              <span
+                                                className="floatRight close-btn"
+                                                onClick={() => togglePopup()}>
+                                                x
+                                              </span>
+                                            </div>
+                                            <div className="mt-3">
+                                            <div id="profile-otp-container"></div>
+                                            
+                                            </div>
+                                          </div>
+                                          <div className="mt-3 model-body">
+                                          <div className="auth_form otp-form">
+                                            <div className="log-in-title login-head">
+                                              
+                                              Verify OTP
+                                            </div>
+                                            <div className="d-flex">
+                                              <p>
+                                                Enter OTP sent to your mobile{' '}
+                                                <span style={{ font: 'Poppins', color: '#363F5E' }}>
+                                                  +{mobileNo}
+                                                </span>
+                                                
+                                              </p>
+                                            </div>
+                                            {otpError && (
+                                              <Alert key="danger" variant="danger">
+                                                {otpError}
+                                              </Alert>
+                                            )}
+                                            <div className="otp-input">
+                                              <OtpInput value={otp} onChange={(e) => setOtp(e)} numInputs={6} />
+                                            </div>
+                                            <div className="d-flex justify-content-between mt-2">
+                                              <div>
+                                                <span>Didn't receive code?</span>
+                                              </div>
+                                              <div>
+                                                {/* <a
+                                                  className="resend-otp"
+                                                  style={{ cursor: !minutes && !seconds ? 'pointer' : 'not-allowed' }}
+                                                  onClick={() => !minutes && !seconds && resendOTP(phoneNumber)}>
+                                                  Resend OTP */}
+                                                <a
+                                                  style={{ cursor: !minutes && !seconds ? 'pointer' : 'not-allowed' }}
+                                                  className={isResendDisabled ? 'resend-otp disabled' : 'resend-otp'}
+                                                  onClick={() => resendOTP(userSignUpData.phoneNumber)}>
+                                                  Resend OTP
+                                                </a>
+                                                <span>
+                                                  {' '}
+                                                  in {minutes < 10 ? `0${minutes}` : minutes}:{' '}
+                                                  {seconds < 10 ? `0${seconds}` : seconds}
+                                                </span>
+                                              </div>
+                                            </div>
+                                            <div className="d-grid gap-2 mt-4">
+                                              <Button
+                                                type="submit"
+                                                variant="secondary"
+                                                onClick={onSubmitOTP}
+                                                disabled={!(otp.length === 6)}>
+                                                Verify
+                                                {isButtonLoading && (
+                                                  <>
+                                                    <Spinner
+                                                      as="span"
+                                                      animation="border"
+                                                      size="sm"
+                                                      role="status"
+                                                      aria-hidden="true"
+                                                    />
+                                                    <span className="visually-hidden">Loading...</span>
+                                                  </>
+                                                )}
+                                                {/* disabled={!(otp.length === 6) || loading}>
+                                                {loading ? 'Loading...' : 'Verify and Signup'} */}
+                                              </Button>
+                                            </div>
+                                          </div>
+                                           
+                                          </div>
+                                          </>
+                                            </Form>
+                                        </section>
+                                      </div>
+                                    </>
+                                )}
+
+{changeEmailPopup && (
+                                    <>
+                                      <div className="profile-popup modal display-block">
+                                        <section className="modal-main">
+                                        <Form onSubmit={formik_change_email.handleSubmit}>
+                                            <>
+                                          <div className="model-body">
+                                            <div className="modalheader">
+                                              <span>Change Email Id</span>
+                                              <span
+                                                className="floatRight close-btn"
+                                                onClick={() => togglePopup()}>
+                                                x
+                                              </span>
+                                            </div>
+                                            <div className="mt-3">
+                                            <div id="profile-email-container"></div>
+                                            <Form.Group as={Col} sm={12} controlId="email">
+                                          <Form.Label>
+                                            Email
+                                            <span className="text-danger"> *</span>
+                                          </Form.Label>
+                                          <Form.Control
+                                            type="email"
+                                            name="change_email_id"
+                                            // value={userData?.email? userData?.email: formik.values?.email}
+                                            onChange={formik_change_email.handleChange}
+                                            className={
+                                              formik_change_email.touched.change_email_id && formik_change_email.errors.change_email_id
+                                                ? 'is-invalid'
+                                                : null
+                                            }
+                                            onBlur={formik_change_email.handleBlur}
+                                            placeholder="Enter your Email"
+                                            value={formik_change_email.values?.change_email_id}                                
+                                            // disabled={ userData?.email }
+                                          />
+                                           
+                                          {formik_change_email.touched.change_email_id && formik_change_email.errors.change_email_id ? (
+                                            <div className="error-message">{formik_change_email.errors.change_email_id}</div>
+                                          ) : null}
+                                        </Form.Group>
+                                              
+                                            </div>
+                                          </div>
+                                          <div className="mt-3 model-body">
+                                            <Row className="d-flex justify-content-end">
+                                            <Button
+                                            className="btn"
+                                            // disabled={
+                                            //   !(formik1.isValid && formik1.dirty) || isNextLoading
+                                            // }
+                                            variant="secondary"
+                                            type="submit">
+                                            {isNextLoading ? 'Verify.. ' : 'Verify'}
+                                            </Button>
+                                              
+                                            </Row>
+                                          </div>
+                                          </>
+                                            </Form>
+                                        </section>
+                                      </div>
+                                    </>
+                                )}
+                                {otpEmailPopup && (
+                                    <>
+                                      <div className="profile-popup modal display-block">
+                                        <section className="modal-main">
+                                        <Form onSubmit={formik1.handleSubmit}>
+                                            <>
+                                          <div className="model-body">
+                                            <div className="modalheader">
+                                              <span>Verify OTP</span>
+                                              <span
+                                                className="floatRight close-btn"
+                                                onClick={() => togglePopup()}>
+                                                x
+                                              </span>
+                                            </div>
+                                            <div className="mt-3">
+                                            <div id="profile-otp-container"></div>
+                                            
+                                            </div>
+                                          </div>
+                                          <div className="mt-3 model-body">
+                                          <div className="auth_form otp-form">
+                                            <div className="log-in-title login-head">
+                                              
+                                              Verify OTP
+                                            </div>
+                                            <div className="d-flex">
+                                              <p>
+                                                Enter OTP sent to your mobile{' '}
+                                                <span style={{ font: 'Poppins', color: '#363F5E' }}>
+                                                  +{mobileNo}
+                                                </span>
+                                                
+                                              </p>
+                                            </div>
+                                            {otpError && (
+                                              <Alert key="danger" variant="danger">
+                                                {otpError}
+                                              </Alert>
+                                            )}
+                                            <div className="otp-input">
+                                              <OtpInput value={otp} onChange={(e) => setOtp(e)} numInputs={6} />
+                                            </div>
+                                            <div className="d-flex justify-content-between mt-2">
+                                              <div>
+                                                <span>Didn't receive code?</span>
+                                              </div>
+                                              <div>
+                                                {/* <a
+                                                  className="resend-otp"
+                                                  style={{ cursor: !minutes && !seconds ? 'pointer' : 'not-allowed' }}
+                                                  onClick={() => !minutes && !seconds && resendOTP(phoneNumber)}>
+                                                  Resend OTP */}
+                                                <a
+                                                  style={{ cursor: !minutes && !seconds ? 'pointer' : 'not-allowed' }}
+                                                  className={isResendDisabled ? 'resend-otp disabled' : 'resend-otp'}
+                                                  onClick={() => resendOTP(userSignUpData.phoneNumber)}>
+                                                  Resend OTP
+                                                </a>
+                                                <span>
+                                                  {' '}
+                                                  in {minutes < 10 ? `0${minutes}` : minutes}:{' '}
+                                                  {seconds < 10 ? `0${seconds}` : seconds}
+                                                </span>
+                                              </div>
+                                            </div>
+                                            <div className="d-grid gap-2 mt-4">
+                                              <Button
+                                                type="submit"
+                                                variant="secondary"
+                                                onClick={onSubmitEmailOTP}
+                                                disabled={!(otp.length === 6)}>
+                                                Verify
+                                                {isButtonLoading && (
+                                                  <>
+                                                    <Spinner
+                                                      as="span"
+                                                      animation="border"
+                                                      size="sm"
+                                                      role="status"
+                                                      aria-hidden="true"
+                                                    />
+                                                    <span className="visually-hidden">Loading...</span>
+                                                  </>
+                                                )}
+                                                {/* disabled={!(otp.length === 6) || loading}>
+                                                {loading ? 'Loading...' : 'Verify and Signup'} */}
+                                              </Button>
+                                            </div>
+                                          </div>
+                                           
+                                          </div>
+                                          </>
+                                            </Form>
+                                        </section>
+                                      </div>
+                                    </>
+                                )}
                                 {/* )} */}
                               </div>
                             </Card.Body>

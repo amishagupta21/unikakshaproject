@@ -11,6 +11,7 @@ import Login from './pages/auth/Login';
 import SignInOtp from './pages/auth/SignInOtp';
 import Signup from './pages/auth/Signup';
 import SignupOtp from './pages/auth/SignupOtp';
+import SetPassword from './pages/auth/SetPassword';
 import CourseApplication from './pages/courses/application/CourseApply';
 import StudentCourseApplication from './pages/courses/application/student/StudentCourseApply';
 import CourseDetails from './pages/courses/course-details/CourseDetails';
@@ -54,6 +55,7 @@ const App = () => {
               <Route path='course/:courseVariantSlug/:courseId' element={<PrivateRoute><CourseDetails /></PrivateRoute>}/> */}
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
+          <Route path="set-password" element={<SetPassword />} />
           <Route path="info" element={<Info />} />
           <Route path="signin-otp" element={<SignInOtp />} />
           <Route path="signup-otp" element={<SignupOtp />} />
