@@ -20,6 +20,8 @@ import AuthNavbar from './components/AuthNavbar';
 import LeftBox from './components/LeftBox';
 import { arrowBack, editGray } from '../../assets/images';
 
+import './SetPassword.scss';
+
 const Signup = () => {
   const [loading, setloading] = useState();
   const navigate = useNavigate();
@@ -29,12 +31,15 @@ const Signup = () => {
   const [authError, setAuthError] = React.useState();
 
   const userSignUpData = location.state?.values;
-console.log(userSignUpData);
+
   const setInitialData = async () => {
     setUserDetails(location.state);
   };
 
   useEffect(() => {
+    if (!userSignUpData?.email) {
+      navigate('/signup');
+    }
     setInitialData();
   }, []);
 
@@ -99,7 +104,7 @@ console.log(userSignUpData);
   
   return (
     <>
-      <section className="auth_layout login_screen auth-unikaksha">
+      <section className="auth_layout login_screen auth-unikaksha set-password">
         <LeftBox />
         <div className="right_box">
           <div className="right_box_container">
@@ -116,7 +121,7 @@ console.log(userSignUpData);
               </div>
               <div id="set-password-container"> </div>
 
-              <div className="d-flex">
+              <div className="">
               {authError && (
                 <Alert key="danger" variant="danger">
                   {authError}
