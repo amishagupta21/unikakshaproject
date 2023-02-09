@@ -21,6 +21,7 @@ import './auth.scss';
 import LeftBox from './components/LeftBox';
 import AuthModal from './components/AuthModal';
 import { setIsAuthenticated } from '../../redux/actions/AuthAction';
+import './Login.scss';
 
 const Login = () => {
   let isAuth =
@@ -31,6 +32,8 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [authError, setAuthError] = useState('');
+  const [authErrorNotRegistered , setAuthErrorNotRegistered] = useState(false);
+  const [authErrorRegistered , setAuthErrorRegistered] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const cookie = new Cookies();
   const [userData, setUserData] = React.useState();
@@ -72,6 +75,7 @@ const Login = () => {
     const userisExist = await checkIfUserExists(email, null);
     
     if (userisExist) {
+      setAuthErrorNotRegistered(false);
       // const { phone } = user;
       // if (phone) {
       //   sendOTP(phone);
@@ -110,7 +114,8 @@ const Login = () => {
           var errorCode = error.code;
           var errorMessage = error.message;
           console.log(errorMessage);
-          setAuthError('This e-mail is not registered with us. Please sign up.');
+          // setAuthError('This e-mail is not registered with us. Please sign up.');
+          setAuthErrorNotRegistered(true);
           setloading(false);
           dispatch(setLoading(false));
         });
@@ -119,7 +124,8 @@ const Login = () => {
       setloading(false);
       dispatch(setLoading(false));
     } else {
-      setAuthError('This e-mail is not registered with us. Please sign up.');
+      setAuthErrorNotRegistered(true);
+      // setAuthError('This e-mail is not registered with us. Please sign up.');
       setloading(false);
       dispatch(setLoading(false));
     }
@@ -185,7 +191,7 @@ const Login = () => {
       <div className='auth-modal'>
         <AuthModal show={show} handleClose={handleClose} handleShow={handleShow} email={userData} sendOTP={sendOTP}/>
       </div>
-      <section className="auth_layout login_screen auth-unikaksha">
+      <section className="auth_layout login_screen auth-unikaksha login">
         <LeftBox />
         <div className="right_box">
           <div className="right_box_container">
@@ -244,11 +250,11 @@ const Login = () => {
                             <Form>
                               <h2 className="title-head">Sign in to Unikaksha</h2>
                               <div id="signin-container"></div>
-                              {authError && (
+                              {/* {authError && (
                                 <Alert key="danger" variant="danger">
                                   {authError}
                                 </Alert>
-                              )}
+                              )} */}
                               <Field
                                 name="mobileNumber"
                                 render={({ field, formProps }) => (
@@ -303,11 +309,11 @@ const Login = () => {
                           render={({ values, errors, touched, validateForm }) => (
                             <Form>
                               <h2 className="title-head">Sign in to Unikaksha</h2>
-                              {authError && (
+                              {/* {authError && (
                                 <Alert key="danger" variant="danger">
                                   {authError}
                                 </Alert>
-                              )}
+                              )} */}
                               <Field
                                 name="email"
                                 render={({ field, formProps }) => (
@@ -331,6 +337,8 @@ const Login = () => {
                               {errors.email && touched.email ? (
                                 <div className="error-text">{errors.email}</div>
                               ) : null}
+
+                              
 
                               <Field
                                 name="password"
@@ -357,6 +365,19 @@ const Login = () => {
                               {errors.password && touched.password ? (
                                 <div className="error-text">{errors.password}</div>
                               ) : null}
+                              <div>
+                                
+                              {authErrorNotRegistered && (
+                                <>
+                                <div className="error-text">This e-mail is not registered with us. Please <Link to="/signup" state={searchParams}>
+                                &nbsp;Sign up
+                              </Link>. </div>
+                              
+                                <div className="error-text">If you have previously logged in to your account. Please try log in using your mobile number.  </div>
+                                </>
+                                )}
+                                
+                              </div>
                               <div className="d-grid gap-2">
                                 <Button
                                   type="submit"
