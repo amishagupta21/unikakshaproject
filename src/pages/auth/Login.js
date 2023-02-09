@@ -69,33 +69,40 @@ const Login = () => {
     dispatch(setLoading(true));
     const { email, password } = values;
 
-    const user = await checkIfUserExists(email, null);
+    const userisExist = await checkIfUserExists(email, null);
     
-    if (user) {
+    if (userisExist) {
       // const { phone } = user;
       // if (phone) {
       //   sendOTP(phone);
       // } else {
+        console.log(userisExist);
         await firebase.auth().signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
-          
-          var firebaseUser = userCredential.user;
-        
+          const { user } = userCredential;
+
+          // firebase.auth().currentUser.updateProfile({ displayName: userSignUpData?.displayName });
+
+          console.log(user);
+          // var firebaseUser = userCredential.user;
+          setloading(false);
+          dispatch(setLoading(false));
           dispatch(setIsAuthenticated(true));
           localStorage.setItem('user', JSON.stringify(user));
           setUserData(email);
-          handleShow();
-          const isBasicInfoExists = getUserBasicInfo(user.uid);
-          if (isBasicInfoExists) {
-            const redirectUrl = searchParams.get('redirect');
-            if (redirectUrl) {
-              navigate(redirectUrl);
-            } else {
+          // handleShow();
+          // const isBasicInfoExists = getUserBasicInfo(user.uid);
+          // if (isBasicInfoExists) {
+          //   const redirectUrl = searchParams.get('redirect');
+          //   if (redirectUrl) {
+          //     navigate(redirectUrl);
+          //   } else {
+              console.log('ddff');
               navigate('/dashboard');
-            }
-          } else {
-            navigate('/info');
-          }
+          //   }
+          // } else {
+          //   navigate('/info');
+          // }
           
           // ...
         })
@@ -103,7 +110,7 @@ const Login = () => {
           var errorCode = error.code;
           var errorMessage = error.message;
           console.log(errorMessage);
-          setAuthError('This e-mailssss is not registered with us. Please sign up.');
+          setAuthError('This e-mail is not registered with us. Please sign up.');
           setloading(false);
           dispatch(setLoading(false));
         });

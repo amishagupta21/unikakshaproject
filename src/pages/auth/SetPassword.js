@@ -118,6 +118,7 @@ const Signup = () => {
                   alt="back-arrow"
                 />
                 Set Password
+                
               </div>
               <div id="set-password-container"> </div>
 
@@ -171,6 +172,7 @@ const Signup = () => {
                             <FormLabel>
                             Set New Password <em className="red top">*</em>
                             </FormLabel>
+                            <p className='hint'>Password must be 8 characters long</p>
                             <FormControl
                               placeholder="Enter your password here"
                               type={'text'}
