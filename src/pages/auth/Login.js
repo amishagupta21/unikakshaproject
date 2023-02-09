@@ -20,6 +20,7 @@ import SocialLogin from '../../utils-componets/SocialLogin';
 import './auth.scss';
 import LeftBox from './components/LeftBox';
 import AuthModal from './components/AuthModal';
+import { setIsAuthenticated } from '../../redux/actions/AuthAction';
 
 const Login = () => {
   let isAuth =
@@ -56,25 +57,62 @@ const Login = () => {
     return result?.data?.data?.user;
   };
 
+  const getUserBasicInfo = async (uid) => {
+    const response = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
+    return response.data.data.userProfile?.information_data ? true : false;
+  };
+
   const singInwithEmail = async (values) => {
+    console.log(values);
     setAuthError();
     setloading(true);
     dispatch(setLoading(true));
-    const { email } = values;
+    const { email, password } = values;
+
     const user = await checkIfUserExists(email, null);
+    
     if (user) {
-      const { phone } = user;
-      if (phone) {
-        sendOTP(phone);
-      } else {
-        const user = await firebase.auth().signInWithEmailAndPassword(email, 'oblXgA8o39#B');
-        setUserData(email);
-        handleShow();
-      }
+      // const { phone } = user;
+      // if (phone) {
+      //   sendOTP(phone);
+      // } else {
+        await firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          
+          var firebaseUser = userCredential.user;
+        
+          dispatch(setIsAuthenticated(true));
+          localStorage.setItem('user', JSON.stringify(user));
+          setUserData(email);
+          handleShow();
+          const isBasicInfoExists = getUserBasicInfo(user.uid);
+          if (isBasicInfoExists) {
+            const redirectUrl = searchParams.get('redirect');
+            if (redirectUrl) {
+              navigate(redirectUrl);
+            } else {
+              navigate('/dashboard');
+            }
+          } else {
+            navigate('/info');
+          }
+          
+          // ...
+        })
+        .catch((error) => {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          console.log(errorMessage);
+          setAuthError('This e-mailssss is not registered with us. Please sign up.');
+          setloading(false);
+          dispatch(setLoading(false));
+        });
+     
+      // }
       setloading(false);
       dispatch(setLoading(false));
     } else {
-      setAuthError('User not found');
+      setAuthError('This e-mail is not registered with us. Please sign up.');
       setloading(false);
       dispatch(setLoading(false));
     }
@@ -245,9 +283,12 @@ const Login = () => {
                         <Formik
                           initialValues={{
                             email: cookie.get('userName') ? cookie.get('userName') : '',
+                            password: ''
                           }}
                           validationSchema={Yup.object().shape({
                             email: Yup.string().email('Invalid email').required('Required'),
+                            password: Yup.string()
+                            .required('Please enter your password'),
                           })}
                           onSubmit={(values) => {
                             singInwithEmail(values);
@@ -269,7 +310,7 @@ const Login = () => {
                                       className="form-group-1 mb-3"
                                       as={Col}
                                       md="12">
-                                      <FormLabel>Email ID</FormLabel>
+                                      <FormLabel>Enter Email</FormLabel>
                                       <FormControl
                                         placeholder="Enter Email ID"
                                         type={'text'}
@@ -282,6 +323,32 @@ const Login = () => {
                               />
                               {errors.email && touched.email ? (
                                 <div className="error-text">{errors.email}</div>
+                              ) : null}
+
+                              <Field
+                                name="password"
+                                render={({ field, formProps }) => (
+                                  <Row className="mb-0">
+                                    <FormGroup
+                                      controlId="password"
+                                      className="form-group-1 mb-3"
+                                      as={Col}
+                                      md="12">
+                                      <FormLabel>
+                                      Enter password
+                                      </FormLabel>
+                                      <FormControl
+                                        placeholder="Enter your password here"
+                                        type={'text'}
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                      />
+                                    </FormGroup>
+                                  </Row>
+                                )}
+                              />
+                              {errors.password && touched.password ? (
+                                <div className="error-text">{errors.password}</div>
                               ) : null}
                               <div className="d-grid gap-2">
                                 <Button
