@@ -80,14 +80,14 @@ const Login = () => {
       // if (phone) {
       //   sendOTP(phone);
       // } else {
-        console.log(userisExist);
+        
         await firebase.auth().signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
           const { user } = userCredential;
 
           // firebase.auth().currentUser.updateProfile({ displayName: userSignUpData?.displayName });
 
-          console.log(user);
+          
           // var firebaseUser = userCredential.user;
           setloading(false);
           dispatch(setLoading(false));
@@ -101,7 +101,7 @@ const Login = () => {
           //   if (redirectUrl) {
           //     navigate(redirectUrl);
           //   } else {
-              console.log('ddff');
+             
               navigate('/dashboard');
           //   }
           // } else {
@@ -354,7 +354,7 @@ const Login = () => {
                                       </FormLabel>
                                       <FormControl
                                         placeholder="Enter your password here"
-                                        type={'text'}
+                                        type={'password'}
                                         value={field.value}
                                         onChange={field.onChange}
                                       />

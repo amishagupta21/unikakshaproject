@@ -563,7 +563,15 @@ const PersonalDetails = () => {
   const updateEmail = (email) => {
 
     const user1 = firebase.auth().currentUser;
-    console.log(email);
+    console.log(user1);
+
+    firebase.auth().currentUser.sendEmailVerification()
+  .then(() => {
+    // Email verification sent!
+    // ...
+  });
+
+    return;
 
     // const user = firebase.auth().currentUser;
     const appVerifier1 = configureCaptcha2();

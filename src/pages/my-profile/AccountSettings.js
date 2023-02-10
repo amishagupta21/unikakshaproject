@@ -31,53 +31,94 @@ import './AccountSettings.scss';
 import { logout } from '../../firebase/firebaseAuth';
 import { openToaster } from '../../redux/actions/ToastAction';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { setLoading } from '../../redux/actions/LoaderActions';
 
 
 const AccountSettings = () => {
 
-    const [loading, setloading] = useState();
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+    // const [loading, setloading] = useState();
+   
     const location = useLocation();
     const [authError, setAuthError] = React.useState();
     const [userDetails, setUserDetails] = React.useState({});
 
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     useEffect(() => {
      
     }, []);
+
+    const updateUserPassword = (formValues) => {
+
+        dispatch(setLoading(true));
+
+        const user = firebase.auth().currentUser;
+        // console.log(user);return;
+        const credential = firebase.auth.EmailAuthProvider.credential(
+        firebase.auth().currentUser.email,
+        formValues.current_password
+        );
+        user.reauthenticateWithCredential(credential).then(function() {
+            const newPassword = formValues.new_password;
+
+            user.updatePassword(newPassword).then(() => {
+                dispatch(
+                    openToaster({
+                      show: true,
+                      header: 'Success!',
+                      variant: 'info',
+                      body: 'Password was updated successfully!',
+                    })
+                  );
+                  dispatch(setLoading(false));
+                  window.location.reload();
+            }).catch((error) => {
+                console.log(error)
+                setAuthError('Current password is invalid, Please enter the correct password.');
+            });
+            console.log(credential)
+          }).catch(function(error) {
+            setAuthError('Current password is invalid, Please enter the correct password.');
+            console.log(error)
+          });
+          dispatch(setLoading(false));
+        
+    }
 
     return (
         <>
         <div className="account-settings right_box">
             <div className="right_box_container">
                 <div className="log-in-title 1">Reset Password</div>
-                
+                <p>Note: New Password must be 8 characters long.</p>
                 <div className="auth_form">
                 <div id="signup-container"> </div>
-                {authError && (
+                {/* {authError && (
                     <Alert key="danger" variant="danger">
                     {authError}
                     </Alert>
-                )}
+                )} */}
                 <Formik
                     enableReinitialize={true}
                     initialValues={{
-                    fullName: userDetails ? userDetails.fullName : '',
-                    email: userDetails ? userDetails.email : '',
-                    mobileNumber: userDetails? userDetails.mobileNumber : '',
-                    whatsappoptin: true,
+                        current_password: '',
+                        new_password: '',
+                        confirm_password: ''
                     }}
                     validationSchema={Yup.object().shape({
-                    fullName: Yup.string().required('Current password is a required field'),
-                    email: Yup.string()
-                        .email('Please enter a valid email')
-                        .required('New password is a required field'),
-                    mobileNumber: Yup.string()
-                        .min(10, 'Too short')
-                        .required('Confirm new password is a required field'),
+                        current_password: Yup.string().required('Current password is a required field'),
+                        new_password: Yup.string()
+                            .required('New password is a required field')
+                            .min(8, 'Password must be 8 characters long'),
+                            
+                        confirm_password: Yup.string()
+                        .min(8, 'Your password is too short.')
+                        .required('Confirm new password is a required field.')
+                        .oneOf([Yup.ref('new_password'), null], 'New password & Confirm new password both need to be the same.'),
                     })}
                     onSubmit={(values) => {
-                    createUser(values);
+                        updateUserPassword(values);
                     }}
                     render={({
                     handleChange,
@@ -92,11 +133,11 @@ const AccountSettings = () => {
                     }) => (
                     <Form>
                         <Field
-                        name="fullName"
+                        name="current_password"
                         render={({ field, formProps }) => (
                             <Row className="mb-0">
                             <FormGroup
-                                controlId="fullName"
+                                controlId="current_password"
                                 className="form-group-1 mb-3"
                                 as={Col}
                                 md="12">
@@ -105,7 +146,7 @@ const AccountSettings = () => {
                                 </FormLabel>
                                 <FormControl
                                 placeholder="Enter your current password here"
-                                type={'text'}
+                                type={'password'}
                                 value={field.value}
                                 onChange={field.onChange}
                                 />
@@ -113,15 +154,15 @@ const AccountSettings = () => {
                             </Row>
                         )}
                         />
-                        {errors.fullName && touched.fullName ? (
-                        <div className="error-text">{errors.fullName}</div>
+                        {errors.current_password && touched.current_password ? (
+                        <div className="error-text">{errors.current_password}</div>
                         ) : null}
                         <Field
-                        name="email"
+                        name="new_password"
                         render={({ field, formProps }) => (
                             <Row className="mb-0">
                             <FormGroup
-                                controlId="email"
+                                controlId="new_password"
                                 className="form-group-1 mb-3"
                                 as={Col}
                                 md="12">
@@ -130,7 +171,7 @@ const AccountSettings = () => {
                                 </FormLabel>
                                 <FormControl
                                 placeholder="Enter your new password here"
-                                type={'text'}
+                                type={'password'}
                                 value={field.value}
                                 onChange={field.onChange}
                                 />
@@ -138,41 +179,49 @@ const AccountSettings = () => {
                             </Row>
                         )}
                         />
-                        {errors.email && touched.email ? (
-                        <div className="error-text">{errors.email}</div>
+                        {errors.new_password && touched.new_password ? (
+                        <div className="error-text">{errors.new_password}</div>
                         ) : null}
 
                         <Field
-                        name="mobileNumber"
+                        name="confirm_password"
                         render={({ field, formProps }) => (
                             <Row className="mb-0">
-                            <FormLabel>
-                            Confirm New Password<em className="red top">*</em>
-                            </FormLabel>
-                            
-                            <FormControl
+                            <FormGroup
+                                controlId="confirm_password"
+                                className="form-group-1 mb-3"
+                                as={Col}
+                                md="12">
+                                <FormLabel>
+                                Confirm New Password<em className="red top">*</em>
+                                </FormLabel>
+                                <FormControl
                                 placeholder="Enter your confirm password here"
-                                type={'text'}
+                                type={'password'}
                                 value={field.value}
                                 onChange={field.onChange}
                                 />
+                            </FormGroup>
                             </Row>
                         )}
                         />
-                        <br />
-                        {errors.mobileNumber && touched.mobileNumber ? (
-                        <div className="error-text">{errors.mobileNumber}</div>
+                        {errors.confirm_password && touched.confirm_password ? (
+                        <div className="error-text">{errors.confirm_password}</div>
                         ) : null}
 
-                        
+                        {authError && (
+                            <div className="error-text">{authError}</div>
+                            
+                        )}
 
                         <div className="d-grid gap-2 mt-3 mb-3">
                         <Button
                             type="submit"
-                            disabled={!isValid || loading}
+                            disabled={!isValid }
                             style={{ fontWeight: '500' }}
                             variant="secondary">
-                            {loading ? 'Loading...' : 'Reset'}
+                            {/* {loading ? 'Loading...' : 'Reset'} */}
+                            Reset
                         </Button>
                         </div>
                         
@@ -257,7 +306,8 @@ const AccountSettings = () => {
                         // disabled={!isValid || loading}
                         style={{ fontWeight: '500' }}
                         variant="secondary">
-                        {loading ? 'Loading...' : 'Download'}
+                        {/* {loading ? 'Loading...' : 'Download'} */}
+                        Download
                     </Button>
                     </div>
             </div>
@@ -270,7 +320,8 @@ const AccountSettings = () => {
                         // disabled={!isValid || loading}
                         style={{ fontWeight: '500' }}
                         variant="secondary">
-                        {loading ? 'Loading...' : 'Delete'}
+                        {/* {loading ? 'Loading...' : 'Delete'} */}
+                        Delete
                     </Button>
                     </div>
             </div>
