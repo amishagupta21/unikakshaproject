@@ -95,18 +95,18 @@ const Login = () => {
           localStorage.setItem('user', JSON.stringify(user));
           setUserData(email);
           // handleShow();
-          // const isBasicInfoExists = getUserBasicInfo(user.uid);
-          // if (isBasicInfoExists) {
-          //   const redirectUrl = searchParams.get('redirect');
-          //   if (redirectUrl) {
-          //     navigate(redirectUrl);
-          //   } else {
+          const isBasicInfoExists = getUserBasicInfo(user.uid);
+          if (isBasicInfoExists) {
+            const redirectUrl = searchParams.get('redirect');
+            if (redirectUrl) {
+              navigate(redirectUrl);
+            } else {
              
               navigate('/dashboard');
-          //   }
-          // } else {
-          //   navigate('/info');
-          // }
+            }
+          } else {
+            navigate('/info');
+          }
           
           // ...
         })
@@ -369,9 +369,12 @@ const Login = () => {
                                 
                               {authErrorNotRegistered && (
                                 <>
-                                <div className="error-text">This e-mail is not registered with us. Please <Link to="/signup" state={searchParams}>
+                                <div className="error-text">Invalid Credentials or New user Please <Link to="/signup" state={searchParams}>
                                 &nbsp;Sign up
-                              </Link>. </div>
+                              </Link>.</div>
+                                {/* <div className="error-text">This e-mail is not registered with us. Please <Link to="/signup" state={searchParams}>
+                                &nbsp;Sign up
+                              </Link>. </div> */}
                               
                                 <div className="error-text">If you have previously logged in to your account. Please try log in using your mobile number.  </div>
                                 </>
