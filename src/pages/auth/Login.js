@@ -50,9 +50,9 @@ const Login = () => {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-    if (isAuth) {
-      navigate('/dashboard');
-    }
+    // if (isAuth) {
+    //   navigate('/dashboard');
+    // }
   }, []);
 
   const checkIfUserExists = async (email, phone) => {

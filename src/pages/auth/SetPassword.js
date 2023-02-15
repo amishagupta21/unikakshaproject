@@ -20,6 +20,7 @@ import AuthNavbar from './components/AuthNavbar';
 import LeftBox from './components/LeftBox';
 import { arrowBack, editGray } from '../../assets/images';
 
+
 import './SetPassword.scss';
 
 const Signup = () => {
@@ -138,7 +139,14 @@ const Signup = () => {
                 validationSchema={Yup.object().shape({
                   SetNewPassword: Yup.string()
                   .min(8, 'Password must be 8 characters long.')
-                  .required('Set new password is a required field'),
+                  .required('Set new password is a required field')
+                  .matches(
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+                    `Must Contain 8 Characters,  
+                    \n One Uppercase, One Lowercase,
+                    \n One Number & 
+                    One Special Case Character`
+                  ),
                   ConfirmPassword: Yup.string()
                     .min(8, 'Your password is too short.')
                     .required('Confirm password is a required field.')
