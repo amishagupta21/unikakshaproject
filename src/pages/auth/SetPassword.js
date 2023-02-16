@@ -141,11 +141,10 @@ const Signup = () => {
                   .min(8, 'Password must be 8 characters long.')
                   .required('Set new password is a required field')
                   .matches(
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+                    /^(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
                     `Must Contain 8 Characters,  
-                    \n One Uppercase, One Lowercase,
-                    \n One Number & 
-                    One Special Case Character`
+                    \n One Uppercase,
+                    \n One Number`
                   ),
                   ConfirmPassword: Yup.string()
                     .min(8, 'Your password is too short.')

@@ -29,7 +29,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import ApiService from '../../services/ApiService';
 
-import { femaleIcon, maleIcon, profileEditIcon, profilePicture } from '../../assets/images';
+import { femaleIcon, maleIcon, profileEditIcon, profilePicture, trashWhite } from '../../assets/images';
 import './PersonalDetails.scss';
 
 import EducationalDetails from './EducationalDetails';
@@ -1610,6 +1610,13 @@ const DeleteAccountModal = ({ show, toggle, onDeleteFail, logOutHandler }) => {
         </Modal.Body>
         <Modal.Footer className='justify-content-around'>
             <Button variant="danger" style={{ width: '120px' }} onClick={deleteAccount}>
+            <img
+                            src={trashWhite}
+                            alt="TrashDelete"
+                            className="trash-delete"
+                            
+                          />{' '}
+           
               Delete
             </Button>
             <Button variant="outline-primary" style={{ width: '120px' }} onClick={handleClose}>

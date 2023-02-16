@@ -69,6 +69,7 @@ import upload from './upload.svg';
 import hand from './Hand.svg';
 import wrappedGift from './courses/emojione_wrapped-gift.svg';
 import trash from './trash.svg';
+import trashWhite from './trash-white.svg';
 import view from './view.svg';
 import bookReader from './book-reader.svg';
 
@@ -199,5 +200,6 @@ export {
     view,
     signDoc,
     bookReader,
-    AppleIcon
+    AppleIcon,
+    trashWhite
 };
