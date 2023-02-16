@@ -227,7 +227,7 @@ const Signup = () => {
                     <div className="d-grid gap-2 mt-3 mb-3">
                       <Button
                         type="submit"
-                        disabled={!isValid || loading}
+                        disabled={loading}
                         style={{ fontWeight: '500' }}
                         variant="secondary">
                         {loading ? 'Loading...' : 'Set Password'}
