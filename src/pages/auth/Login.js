@@ -22,6 +22,8 @@ import LeftBox from './components/LeftBox';
 import AuthModal from './components/AuthModal';
 import { setIsAuthenticated } from '../../redux/actions/AuthAction';
 import './Login.scss';
+import { rightArrow } from '../../assets/images';
+import OtpInput from 'react-otp-input';
 
 const Login = () => {
   let isAuth =
@@ -38,6 +40,17 @@ const Login = () => {
   const cookie = new Cookies();
   const [userData, setUserData] = React.useState();
 
+  const [mobileNumberHaveValue , setMobileNumberHaveValue] = useState(false);
+
+  const [OTPSent , setOTPSent] = useState(false);
+  const [OTPLabel , setOTPLabel] = useState('Get OTP');
+  const [otp, setOtp] = useState('');
+  const [otpError, setOtpError] = useState();
+  const [minutes, setMinutes] = useState(2);
+  const [seconds, setSeconds] = useState(0);
+  const [isResendDisabled, setIsResendDisabled] = useState(true);
+  const [phoneNumber , setPhoneNumber] = useState(false);
+
   const configureCaptcha = () => {
     return (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signin-container', {
       size: 'invisible',
@@ -53,7 +66,25 @@ const Login = () => {
     // if (isAuth) {
     //   navigate('/dashboard');
     // }
-  }, []);
+    const interval = setInterval(() => {
+      if (seconds > 0) {
+        setSeconds(seconds - 1);
+      }
+
+      if (seconds === 0) {
+        if (minutes === 0) {
+          clearInterval(interval);
+          setIsResendDisabled(false);
+        } else {
+          setSeconds(59);
+          setMinutes(minutes - 1);
+        }
+      }
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [seconds, minutes]);
 
   const checkIfUserExists = async (email, phone) => {
     const result = await ApiService('user/check-exists', 'POST', { email, phone }, true);
@@ -154,6 +185,7 @@ const Login = () => {
   const sendOTP = async (phoneNumber) => {
     dispatch(setLoading(true));
     setloading(true);
+    setPhoneNumber(phoneNumber)
     const appVerifier = configureCaptcha();
     firebase
       .auth()
@@ -163,17 +195,21 @@ const Login = () => {
         toast.success('OTP has been Sent to Mobile Number', {
           theme: 'colored',
         });
+        
+        // OTPTimer();
 
-        const redirectUrl = searchParams.get('redirect');
-        const signInUrl = redirectUrl
-          ? `/signin-otp?redirect=${searchParams.get('redirect')}`
-          : '/signin-otp';
-        navigate(signInUrl, {
-          state: {
-            phoneNumber: phoneNumber,
-          },
-        });
+        // const redirectUrl = searchParams.get('redirect');
+        // const signInUrl = redirectUrl
+        //   ? `/signin-otp?redirect=${searchParams.get('redirect')}`
+        //   : '/signin-otp';
+        // navigate(signInUrl, {
+        //   state: {
+        //     phoneNumber: phoneNumber,
+        //   },
+        // });
         dispatch(setLoading(false));
+        setOTPLabel('OTP Sent')
+        setOTPSent(true);
         setloading(false);
       })
       .catch((error) => {
@@ -183,6 +219,59 @@ const Login = () => {
         setloading(false);
         dispatch(setLoading(false));
       });
+  };
+
+  const onSubmitOTP = () => {
+    setloading(true);
+    dispatch(setLoading(true));
+
+    window.confirmationResult
+      .confirm(otp && otp)
+      .then(async (response) => {
+        const { user } = response;
+        if (user) {
+          setloading(false);
+          dispatch(setLoading(false));
+
+          dispatch(setIsAuthenticated(true));
+          localStorage.setItem('user', JSON.stringify(user));
+          toast.success('Log in Succesfull', {
+            theme: 'colored',
+          });
+
+          const isBasicInfoExists = await getUserBasicInfo(user.uid);
+          if (isBasicInfoExists) {
+            const redirectUrl = searchParams.get('redirect');
+            if (redirectUrl) {
+              navigate(redirectUrl);
+            } else {
+              navigate('/dashboard');
+            }
+          } else {
+            navigate('/info');
+          }
+        }
+      })
+      .catch((error) => {
+        setloading(false);
+        dispatch(setLoading(false));
+
+        // navigate('/login');
+        setOtpError('Invalid Code!');
+      });
+  };
+
+  
+
+  const resendOTP = (phone) => {
+    if (seconds === 0 && minutes === 0) {
+      setOtp('');
+      setOtpError(null);
+      setIsResendDisabled(true);
+      setMinutes(2);
+      setSeconds(0);
+      sendOTP(phone);
+    }
   };
 
   return (
@@ -274,19 +363,79 @@ const Login = () => {
                                   </Row>
                                 )}
                               />
+                              { (values.mobileNumber.length - values.mobileLength === 10) && (
+                               
+                               
+                               <Button
+                                  type={ OTPSent ? 'button' : 'submit' }
+                                  variant="outline-primary"
+                                  className={ OTPSent ? 'otp-sent' : 'get-otp-btn' }>
+                                  
+                                  {OTPLabel} 
+                                  
+                                </Button>
+                                
+                                )}
+                            { OTPSent && (
+                              <>
+                              <div className="otp-input">
+                                <OtpInput value={otp} onChange={(e) => setOtp(e)} numInputs={6} />
+                              </div>
+
+                              <div className="d-flex justify-content-between mt-2">
+                                <div>
+                                  <span>Did not receive OTP?</span>
+                                </div>
+                                <div>
+                                  <a
+                                    style={{ cursor: !minutes && !seconds ? 'pointer' : 'not-allowed' }}
+                                    className={isResendDisabled ? 'resend-otp disabled' : 'resend-otp'}
+                                    onClick={() => resendOTP(phoneNumber)}>
+                                    Resend OTP
+                                  </a>
+                                  <span>
+                                    {' '}
+                                    in {minutes < 10 ? `0${minutes}` : minutes}:{' '}
+                                    {seconds < 10 ? `0${seconds}` : seconds}
+                                  </span>
+                                </div>
+
+                                
+                              </div>
+                              {otpError && (
+                                    <>
+                                    <div className="error-text">You have enterd Invalid OTP  </div>
+                                    </>
+                                )}
+                              </>
+                            )}
+
+                              {authError && (
+                                        <>
+                                        <div className="error-text">This mobile number is not registered with us. Please 
+                                      <Link to="/signup" state={searchParams}>
+                                        &nbsp;Sign up.
+                                      </Link>.</div>
+                                        {/* <div className="error-text">This e-mail is not registered with us. Please <Link to="/signup" state={searchParams}>
+                                        &nbsp;Sign up
+                                      </Link>. </div> */}
+                                      
+                                        <div className="error-text">If you have previously logged in to your account. Please try log in using your Email Id.  </div>
+                                        </>
+                                )}
                               {errors.mobileNumber && touched.mobileNumber ? (
                                 <div className="error-text">{errors.mobileNumber}</div>
                               ) : null}
                               <div className="d-grid gap-2 mt-4">
                                 <Button
-                                  type="submit"
+                                  type="button"
                                   variant="secondary"
-                                  disabled={
-                                    !(values.mobileNumber.length - values.mobileLength === 10) ||
-                                    loading
-                                  }>
+                                  disabled={!(otp.length === 6) || loading}
+                                  onClick={onSubmitOTP}
+                                  >
                                   {loading ? 'Loading...' : 'Log in'}
                                 </Button>
+                                
                               </div>
                             </Form>
                           )}

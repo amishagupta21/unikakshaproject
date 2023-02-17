@@ -162,7 +162,7 @@ const SignInOtp = () => {
               </div>
               <div className="d-flex justify-content-between mt-2">
                 <div>
-                  <span>Didn't receive code?</span>
+                  <span>Did not receive OTP?</span>
                 </div>
                 <div>
                   {/* <a

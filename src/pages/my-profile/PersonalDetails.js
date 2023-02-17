@@ -1611,11 +1611,11 @@ const DeleteAccountModal = ({ show, toggle, onDeleteFail, logOutHandler }) => {
         <Modal.Footer className='justify-content-around'>
             <Button variant="danger" style={{ width: '120px' }} onClick={deleteAccount}>
             <img
-                            src={trashWhite}
-                            alt="TrashDelete"
-                            className="trash-delete"
-                            
-                          />{' '}
+              src={trashWhite}
+              alt="TrashDelete"
+              className="trash-delete"
+              
+            />{' '}
            
               Delete
             </Button>

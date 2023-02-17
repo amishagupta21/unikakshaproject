@@ -2,7 +2,45 @@
     .error-text {
         color: red;
         font-size: 14px;
-        margin-top: 0px !important; 
         margin-bottom: 10px !important;
+        margin-top: 10px !important;
+    }
+    .otp-input {
+        margin-top: 15px !important;
+    }
+    .otp-sent {
+        margin-left: 250px;
+        margin-top: -39px;
+        color: #02A74D;
+        background: #FFFFFF;
+        border: 1px solid #02A74D;
+        border-radius: 4px;
+        z-index: 2;
+        position: absolute;
+        width: 85px;
+        height: 34px;
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 14px;
+    }
+    .get-otp-btn {
+        
+        margin-left: 250px;
+        margin-top: -39px;
+        color: #FF7F2E;
+        background: #FFFFFF;
+        border: 1px solid #FF7F2E;
+        border-radius: 4px;
+        z-index: 2;
+        position: absolute;
+        width: 85px;
+        height: 34px;
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 14px;
     }
 }

@@ -96,6 +96,7 @@ import xbo from './CourseDetails/xbo.svg';
 import netflix from './CourseDetails/netflix.svg';
 import linkedin from './CourseDetails/linkedin.svg';
 import AppleIcon from './apple-icon.svg';
+import rightArrow from './right-arrow.svg';
 
 export const Icon = ({ icon, ...props }) => {
     return (
@@ -201,5 +202,6 @@ export {
     signDoc,
     bookReader,
     AppleIcon,
-    trashWhite
+    trashWhite,
+    rightArrow
 };
