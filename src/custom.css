@@ -110,12 +110,12 @@ a.resetpassword a {
   width           : 40%;
   flex            : 0 0 50%;
   /* position     : relative; */
-  background-color: #dcfff8;
+  background: linear-gradient(0.04deg, #E1EBFF -6.85%, #F4F8FF 99.96%);
 }
 
 .auth_layout .left_box .carousel {
   text-align : center;
-  padding-top: 20%;
+  padding-top: 13%;
 }
 
 .auth_layout .right_box {
