@@ -1606,7 +1606,7 @@ const DeleteAccountModal = ({ show, toggle, onDeleteFail, logOutHandler }) => {
           <Modal.Title>Delete Account</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Your account will be deleted permanently you will not be able to access the data.
+          <p className="info-content">Your account will be deleted permanently you will not be able to access the data.</p>
         </Modal.Body>
         <Modal.Footer className='justify-content-around'>
             <Button variant="danger" style={{ width: '120px' }} onClick={deleteAccount}>

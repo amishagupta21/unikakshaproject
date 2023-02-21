@@ -46,6 +46,7 @@ const StudentCourseApplication = () => {
   const [batches, setBatches] = React.useState([]);
   const [selectedBatch, setSelectedBatch] = React.useState();
   const [userData, setUserData] = React.useState();
+  const [birthInfo, setBirthInfo] = React.useState();
   // const [userDOBData, setDobData] = React.useState();
 
   const navigate = useNavigate();
@@ -59,8 +60,10 @@ const StudentCourseApplication = () => {
     const userDetails = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
     // setInitialDobData(userDetails?.data?.data?.userProfile?.information_data);
     // setDobData(userDetails?.data?.data?.userProfile?.information_data);
-    setInitialData(userDetails?.data?.data?.user);
+    const birthInfo = userDetails?.data?.data?.userProfile?.information_data
+    setInitialData(userDetails?.data?.data?.user, birthInfo);
     setUserData(userDetails?.data?.data?.user);
+    
     personalDetails = userDetails?.data?.data?.userProfile?.personal_details ?? personalDetails;
     educationalDetails.education_details =
       userDetails?.data?.data?.userProfile?.education_details ?? educationalDetails;
@@ -85,8 +88,18 @@ const StudentCourseApplication = () => {
     return res?.data?.data?.course;
   };
   
-  const setInitialData = (initData) => {
-    formik.setValues({ email: initData?.email});
+  const setInitialData = (initData, birthInfo) => {
+    setBirthInfo(birthInfo);
+    formik.setValues({ 
+      email: initData?.email,
+      mobile_number: initData?.phone,
+      full_name: user?.displayName,
+      birth_date: birthInfo?.birth_date ? birthInfo?.birth_date : '',
+      birth_month: birthInfo?.birth_month ? birthInfo?.birth_month : '',
+      birth_year: birthInfo?.birth_year ? birthInfo?.birth_year : ''
+
+    });
+    setMobileNumber({ phone: initData?.phone})
  
     // mobile_number: initData?.phone;
     // setMobileNumber({ phone: initData?.phone})
@@ -208,12 +221,17 @@ const StudentCourseApplication = () => {
       const { full_name, mobile_number, whatsapp_number, guardian_details, ...rest } = values;
       const personalDetails = {
         full_name: full_name,
+        email: values?.email,
+        gender: values?.gender,
         mobile_number: mobile_number,
-        mobile_cc: `+${mobileState.data}`,
+        mobile_cc: '+91',//`+${mobileState?.data.dialCode}`,
         whatsapp_number: whatsapp_number,
-        whatsapp_cc: `+${whatsAppState.data}`,
+        whatsapp_cc: '+91',//`+${whatsAppState?.data.dialCode}`,
         guardian_details: guardian_details,
-        ...rest,
+        birth_year: values.birth_year,
+        ...(Number(values.birth_date) && {birth_date: Number(values.birth_date)}),
+        ...(Number(values.birth_month) && {birth_month: Number(values.birth_month)})
+      
       };
       formPersonalDetailsPayload(personalDetails);
     },
@@ -291,7 +309,7 @@ const StudentCourseApplication = () => {
                 
               </div>
               <div>
-                <Card.Link classname="my-card-links"
+                <Card.Link className="my-card-links"
                   style={{  fontWeight: '500', color: '#EF6B29' }}
                   href={`../${courseDetails.course_url}`}>
                   View Course
@@ -365,8 +383,9 @@ const StudentCourseApplication = () => {
                             setMobileNumber({ phone, data });
                           }}
                           onBlur={formik.handleBlur('mobile_number')}
+                          disabled="disabled"
                           // defaultValue={userData?.phone}
-                          // disabled={ userData?.phone }
+                         
                         />
                         {formik.touched.mobile_number && formik.errors.mobile_number ? (
                           <div className="error-message">{formik.errors.mobile_number}</div>
@@ -379,6 +398,7 @@ const StudentCourseApplication = () => {
                         <Form.Label>
                           Whatsapp Number<span className="text-danger">*</span>
                         </Form.Label>
+                        <div className='whatsapp-number'>
                         <PhoneInput
                           country={'in'}
                           value={formik.values?.whatsapp_number}
@@ -388,6 +408,7 @@ const StudentCourseApplication = () => {
                           }}
                           onBlur={formik.handleBlur('whatsapp_number')}
                         />
+                        </div>
                         {formik.touched.whatsapp_number && formik.errors.whatsapp_number ? (
                           <div className="error-message  mt-3">{formik.errors.whatsapp_number}</div>
                         ) : null}

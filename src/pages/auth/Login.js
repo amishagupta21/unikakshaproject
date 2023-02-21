@@ -97,13 +97,15 @@ const Login = () => {
   };
 
   const singInwithEmail = async (values) => {
-    console.log(values);
+   
     setAuthError();
     setloading(true);
     dispatch(setLoading(true));
     const { email, password } = values;
 
     const userisExist = await checkIfUserExists(email, null);
+
+    
     
     if (userisExist) {
       setAuthErrorNotRegistered(false);
@@ -113,10 +115,10 @@ const Login = () => {
       // } else {
         
         await firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          const { user } = userCredential;
+        .then((response) => {
+          const { user } = response.user.multiFactor;
 
-          // firebase.auth().currentUser.updateProfile({ displayName: userSignUpData?.displayName });
+          // firebase.auth().currentUser.updateProfile({ displayName: userisExist?.displayName });
 
           
           // var firebaseUser = userCredential.user;
@@ -124,15 +126,16 @@ const Login = () => {
           dispatch(setLoading(false));
           dispatch(setIsAuthenticated(true));
           localStorage.setItem('user', JSON.stringify(user));
-          setUserData(email);
-          // handleShow();
+          toast.success('Log in Succesfull', {
+            theme: 'colored',
+          });
+
           const isBasicInfoExists = getUserBasicInfo(user.uid);
           if (isBasicInfoExists) {
             const redirectUrl = searchParams.get('redirect');
             if (redirectUrl) {
               navigate(redirectUrl);
             } else {
-             
               navigate('/dashboard');
             }
           } else {
@@ -518,7 +521,7 @@ const Login = () => {
                                 
                               {authErrorNotRegistered && (
                                 <>
-                                <div className="error-text">Invalid Credentials or New user Please <Link to="/signup" state={searchParams}>
+                                <div className="error-text">Invalid Credentials or Don't have account? Please <Link to="/signup" state={searchParams}>
                                 &nbsp;Sign up
                               </Link>.</div>
                                 {/* <div className="error-text">This e-mail is not registered with us. Please <Link to="/signup" state={searchParams}>

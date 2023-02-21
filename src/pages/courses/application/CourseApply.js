@@ -49,6 +49,7 @@ const CourseApplication = () => {
   const [applicationDetails, setApplicationDetails] = React.useState();
   const [batches, setBatches] = React.useState([]);
   const [userData, setUserData] = React.useState();
+  const [birthInfo, setBirthInfo] = React.useState();
   // const [userDOBData, setDobData] = React.useState();
   const [selectedBatch, setSelectedBatch] = React.useState();
 
@@ -57,14 +58,25 @@ const CourseApplication = () => {
   const { state } = useLocation();
   const params = useParams();
 
+  const phoneCountry = {
+    countryCode: "in",
+    dialCode: "91",
+    format: "+.. .....-.....",
+    name: "India"
+  }
+
   const fetchUserDetails = async (uid) => {
     let personalDetails = {};
     let educationalDetails = {};
     const userDetails = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
     // setInitialDobData(userDetails?.data?.data?.userProfile?.information_data);
     // setDobData(userDetails?.data?.data?.userProfile?.information_data);
-    setInitialData(userDetails?.data?.data?.user);
+    const birthInfo = userDetails?.data?.data?.userProfile?.information_data
     setUserData(userDetails?.data?.data?.user);
+    setInitialData(userDetails?.data?.data?.user, birthInfo);
+
+    ;
+    
     personalDetails = userDetails?.data?.data?.userProfile?.personal_details ?? personalDetails;
     educationalDetails.education_details =
       userDetails?.data?.data?.userProfile?.education_details ?? educationalDetails;
@@ -89,12 +101,23 @@ const CourseApplication = () => {
     return res?.data?.data?.course;
   };
 
-  const setInitialData = (initData) => {
-    formik.setValues({ email: initData?.email});
- 
+  const setInitialData = (initData, birthInfo) => {
+    setBirthInfo(birthInfo);
+    formik.setValues({ 
+      email: initData?.email,
+      mobile_number: initData?.phone,
+      full_name: user?.displayName,
+      birth_date: birthInfo?.birth_date ? birthInfo?.birth_date : '',
+      birth_month: birthInfo?.birth_month ? birthInfo?.birth_month : '',
+      birth_year: birthInfo?.birth_year ? birthInfo?.birth_year : ''
+
+    });
+    // formik.setValues({ mobile_number: initData?.mobile_number});
     // mobile_number: initData?.phone;
-    // setMobileNumber({ phone: initData?.phone})
+    setMobileNumber({ phone: initData?.phone})
   }
+
+
 
   // const setInitialDobData = (initlData) => {
   //   formik.setValues({ birth_date: initlData?.birth_date });
@@ -164,7 +187,7 @@ const CourseApplication = () => {
   };
 
   const formPersonalDetailsPayload = async (personalDetails) => {
-    delete personalDetails.dob;
+    // delete personalDetails.dob;
     setIsNextLoading(true);
     const payload = {
       uid: user?.uid,
@@ -213,15 +236,21 @@ const CourseApplication = () => {
     },
     onSubmit: (values) => {
       const { full_name, mobile_number, whatsapp_number, guardian_details, ...rest } = values;
+   
       const personalDetails = {
         full_name: full_name,
+        email: values?.email,
+        gender: values?.gender,
         mobile_number: mobile_number,
-        mobile_cc: `+${mobileState?.data.dialCode}`,
+        mobile_cc: '+91',//`+${mobileState?.data.dialCode}`,
         whatsapp_number: whatsapp_number,
-        whatsapp_cc: `+${whatsAppState?.data.dialCode}`,
+        whatsapp_cc: '+91',//`+${whatsAppState?.data.dialCode}`,
         guardian_details: guardian_details,
-        ...rest,
+        birth_year: values.birth_year,
+        ...(Number(values.birth_date) && {birth_date: Number(values.birth_date)}),
+        ...(Number(values.birth_month) && {birth_month: Number(values.birth_month)})
       };
+      
       formPersonalDetailsPayload(personalDetails);
     }
   });
@@ -277,6 +306,9 @@ const CourseApplication = () => {
 
   const copyFromMobileNumber = (value) => {
     if (value.target.checked) {
+      console.log(phoneCountry);
+    
+      // setWhatsAppNumber({phone: '+918344498652', data: phoneCountry});
       setWhatsAppNumber({phone: mobileState.phone, data: mobileState.data});
       formik.setFieldValue('whatsapp_number', mobileState.phone);
       
@@ -353,8 +385,9 @@ const CourseApplication = () => {
                           }
                           onBlur={formik.handleBlur}
                           // defaultValue={user.displayName}
-                          value={formik.values?.full_name}
+                          value={formik.values?.full_name }
                           placeholder="Enter you full name"
+                          // disabled="disabled"
                         />
                         {formik.touched.full_name && formik.errors.full_name ? (
                           <div className="error-message">{formik.errors.full_name}</div>
@@ -383,11 +416,12 @@ const CourseApplication = () => {
                         ) : null}
                       </Form.Group>
 
-                      <Form.Group as={Col} sm={4} controlId="mobile_number">
+                      <Form.Group as={Col} sm={4} controlId="mobile_number" className='phone-input'>
                         <Form.Label>
                           Mobile Number<span className="text-danger">*</span>
                         </Form.Label>
                         <PhoneInput
+                          placeholder="Enter your Mobile number"
                           country={'in'}
                           name="mobile_number"
                           value={formik.values?.mobile_number}
@@ -396,8 +430,9 @@ const CourseApplication = () => {
                             setMobileNumber({ phone, data });
                           }}
                           //countryCodeEditable={false}
-                          onBlur={formik.handleBlur('mobile_number')}
-                          placeholder="Enter your Mobile number"
+                          // onBlur={formik.handleBlur('mobile_number')}
+                          className="disabled-field"
+                          disabled="disabled"
                           // defaultValue={userData?.phone}
                           // disabled={ userData?.phone }
                         />
@@ -411,6 +446,7 @@ const CourseApplication = () => {
                         <Form.Label>
                           Whatsapp Number<span className="text-danger">*</span>
                         </Form.Label>
+                        <div className='whatsapp-number'>
                         <PhoneInput
                           country={'in'}
                           value={formik.values?.whatsapp_number}
@@ -419,9 +455,10 @@ const CourseApplication = () => {
                             formik.setFieldValue('whatsapp_number', phone);
                           }}
                           countryCodeEditable={false}
-                          onBlur={formik.handleBlur('whatsapp_number')}
+                          // onBlur={formik.handleBlur('whatsapp_number')}
                           placeholder="Enter your Whatsapp number"
                         />
+                        </div>
 
                         {formik.touched.whatsapp_number && formik.errors.whatsapp_number ? (
                           <div className="error-message  mt-3">{formik.errors.whatsapp_number}</div>

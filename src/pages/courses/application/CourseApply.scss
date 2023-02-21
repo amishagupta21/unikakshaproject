@@ -207,6 +207,23 @@
 		position: absolute;
 		font-size: .8em;
 	}
+
+	.course-application .react-tel-input .form-control {
+		background: #f8f8f8 !important;
+	}
+	.disabled-field {
+		background: #fcf7f7 !important;
+	  }
+
+	  .course-application .form-control:disabled, .course-application .form-select:disabled {
+		background-color: #f8f8f8 !important; 
+	  }
+
+	  .whatsapp-number .react-tel-input .form-control {
+		background: #fff !important;
+	}
+
+	  
 }
 
 .d-flex.justify-content-end.my-btn-styles.row .btn {

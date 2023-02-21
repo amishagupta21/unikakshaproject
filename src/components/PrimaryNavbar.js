@@ -35,6 +35,7 @@ const PrimaryNavbar = () => {
     setUser(JSON.parse(localStorage.getItem('user')));
   }, [isAuth]);
 
+ 
   const getProfilePic = async () => {
         
     const result = await ApiService(

@@ -25,6 +25,7 @@ import {
   optionsday,
 } from '../../utils-componets/static-content/DateMonthContent';
 import { CalendarWeek } from 'react-bootstrap-icons';
+import { firebase } from '../../firebase/firebase';
 
 const MandatorySymbol = () => {
   return <span className="text-danger">*</span>;
@@ -106,9 +107,13 @@ const Info = () => {
     let res = await ApiService(`on-boarding/update-information`, `PUT`, data);
     if (res?.data?.code === 200) {
       dispatch(setLoading(false));
+      dispatch(setIsAuthenticated(true));
+      const cuser = firebase.auth().currentUser;
+      console.log(cuser)
+      localStorage.setItem('user', JSON.stringify(cuser));
       navigate('/dashboard');
       setloading(false);
-      dispatch(setIsAuthenticated(true));
+      
     } else {
       setloading(false);
       dispatch(setLoading(false));

@@ -48,7 +48,7 @@
 
 		&:disabled {
 			cursor: not-allowed;
-			background-color: #fff;
+			background-color: #f8f8f8;
 		}
 	}
 
@@ -65,13 +65,16 @@
 		font-weight: 400 !important;
 		line-height: 1.5 !important;
 		color: #212529 !important;
-		background-color: #fff !important;
+		background-color: #f8f8f8 !important;
 		background-clip: padding-box !important;
 		border: 2px solid #ced4da !important;
 		appearance: none !important;
 		border-radius: 0.375rem !important;
 		height: 47px !important;
 		transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+	}
+	.whatsapp-number .react-tel-input .form-control {
+		background: #fff !important;
 	}
 
 	.radio-buttons {
