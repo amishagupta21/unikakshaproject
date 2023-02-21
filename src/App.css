@@ -107,3 +107,7 @@ h3 {
     transform: rotate(360deg);
   }
 }
+.custom-footer {
+  padding-top: 44px;
+  background: #EEF4FF;
+}
