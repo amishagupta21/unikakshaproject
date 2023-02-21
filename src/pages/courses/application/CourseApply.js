@@ -570,6 +570,7 @@ const CourseApplication = () => {
                       </Form.Label>
                       <Form.Select
                         name="birth_year"
+                        disabled="disabled"
                         style={{width: '120px', padding: '10px'}}
                         className={
                           formik.touched.birth_year && formik.errors.birth_year ? 'is-invalid' : null

@@ -517,7 +517,7 @@ const StudentCourseApplication = () => {
                       </Form.Label>
                       <Form.Select
                         name="birth_year"
-                       
+                        disabled="disabled"
                         className={
                           formik.touched.birth_year && formik.errors.birth_year ? 'is-invalid' : null
                         }
