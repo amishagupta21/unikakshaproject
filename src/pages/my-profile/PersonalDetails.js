@@ -906,7 +906,7 @@ const PersonalDetails = () => {
                                             value={formik.values?.email}                                
                                             // disabled={ userData?.email }
                                           />
-                                           <span className='change-mobile-no'><a onClick={() => changeMobileEmailId()}>Change Email Id</a></span>
+                                           {/* <span className='change-mobile-no'><a onClick={() => changeMobileEmailId()}>Change Email Id</a></span> */}
                                           {formik.touched.email && formik.errors.email ? (
                                             <div className="error-message">{formik.errors.email}</div>
                                           ) : null}
@@ -933,7 +933,7 @@ const PersonalDetails = () => {
                                             // defaultValue={userData?.phone}
                                             // disabled={ userData?.phone }
                                           />
-                                          <span className='change-mobile-no'><a onClick={() => changeMobileNo()}>Change Mobile Number</a></span>
+                                          {/* <span className='change-mobile-no'><a onClick={() => changeMobileNo()}>Change Mobile Number</a></span> */}
                                           
                                           
                                           
