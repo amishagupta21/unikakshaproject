@@ -4,6 +4,8 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import facebookIcon from '../assets/images/Facebook-icon.svg';
 import googleIcon from '../assets/images/Google-icon.svg';
+import appleIcon from '../assets/images/icon-apple.svg';
+
 import { signInWithFacebook, signInWithGoogle } from '../firebase/firebaseAuth';
 import { firebase } from '../firebase/firebase';
 import ApiService from '../services/ApiService';
@@ -68,7 +70,7 @@ const SocialLogin = ({ setFieldValue }) => {
   return (
     <>
       <div id="social-login"></div>
-      <div className="d-flex justify-content-around mt-4">
+      <div className="d-flex justify-content-around mt-4 social-login-assets">
         <Button
           className="social-btn"
           variant="outline-dark"
@@ -94,6 +96,14 @@ const SocialLogin = ({ setFieldValue }) => {
           }}>
           <img className="mx-2" src={facebookIcon} alt="facebook" />
           Facebook
+        </Button>
+
+        <Button
+          className="social-btn"
+          variant="outline-dark"
+        >
+          <img className="mx-2" src={appleIcon} alt="facebook" />
+          Apple
         </Button>
       </div>
     </>

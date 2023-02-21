@@ -20,7 +20,7 @@ const LeftBox = () => (
       </Carousel.Item>
       <Carousel.Item>
       <img src={Loginbannernew}/>
-      <h3>Track your learning progress
+      <h3>Track your learning progress<br/>
 in real-time</h3>
         {/* <Carousel.Caption>
           <h3>Second slide label</h3>
@@ -29,8 +29,8 @@ in real-time</h3>
       </Carousel.Item>
       <Carousel.Item>
       <img src={Loginbannernewlast}/>
-      <h3>Get access to an array of
- free & paid upskilling courses in
+      <h3>Get access to an array of<br/>
+ free & paid upskilling courses in<br/>
  just one click</h3>
         {/* <Carousel.Caption>
           <h3>Second slide label</h3>

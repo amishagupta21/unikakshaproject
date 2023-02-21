@@ -114,9 +114,9 @@ const CourseList = ({ courses }) => {
 
           
          
-          <Col md="4" key={course?.id}>
+          <Col md="3" key={course?.id}>
              
-            <Card className="my-4 card-custom" style={{ width: '100%' }}>
+            <Card className="my-4 card-custom card-expore" style={{ width: '100%' }}>
             <Card className="bannerlable">{getPaymentMode(course)}</Card>
               <Card.Img
                 style={{ width: 'fit-content', margin: 'auto', maxHeight: '246px' }}

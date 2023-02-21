@@ -106,7 +106,7 @@ a.resetpassword a {
 }
 
 .auth_layout .left_box {
-  min-height      : calc(100vh - 100px);
+  min-height      : calc(100vh - 310px);
   width           : 40%;
   flex            : 0 0 50%;
   /* position     : relative; */
@@ -115,7 +115,12 @@ a.resetpassword a {
 
 .auth_layout .left_box .carousel {
   text-align : center;
-  padding-top: 13%;
+  padding-top: 8%;
+}
+.copy-right p {
+  margin: 0;
+  text-align: right;
+  font-weight: bold;
 }
 
 .auth_layout .right_box {
@@ -219,7 +224,7 @@ font-style: normal; */
 }
 
 .resetpassword.create-account a {
-  color          : #2bbeaa;
+  color          :   #5787E6;
   text-decoration: underline;
 }
 
@@ -254,7 +259,7 @@ label.form-check-label {
 }
 
 .auth_form {
-  margin-top   : 30px;
+  margin-top   : 10px;
   /* box-shadow: 0px 0px 2px rgb(0 0 0 / 25%); */
   position     : relative;
 }
@@ -678,7 +683,7 @@ button.menu-bar {
 
 @media (max-width: 768px) {
   .custom-footer .copy-right {
-    height: 168px;
+    height: 60px;
   }
 
   .custom-footer .copy-right .container>div {
@@ -1215,12 +1220,12 @@ a.refer-frd.nav-link {
 .follow-us {
   display: flex;
 }
-
+.row.align-items-center.row-top-follow  .payment{ text-align: right;}
 .copy-right {
   background : #e1ebff;
   display    : flex;
   align-items: center;
-  height     : 98px;
+  height     : 70px;
 }
 
 .copy-right p {
@@ -1648,7 +1653,7 @@ section.auth_layout.login_screen.auth-unikaksha .auth_form {
 }
 
 section.auth_layout.login_screen.auth-unikaksha .custom-tabs-container.nav.nav-pills .nav-item {
-  width: 47%;
+  width: 50%;
 }
 
 section.auth_layout.login_screen.auth-unikaksha .custom-tabs-container.nav.nav-pills .nav-link {
@@ -1657,7 +1662,7 @@ section.auth_layout.login_screen.auth-unikaksha .custom-tabs-container.nav.nav-p
 
   line-height: 15px;
 
-  margin: 3px 15px;
+  margin: 0;
 }
 
 .right_box_container.right_box_infostudents .log-in-title {
@@ -1702,9 +1707,11 @@ section.auth_layout.login_screen.auth-unikaksha .custom-tabs-container.nav.nav-p
     max-width  : 100%;
     padding    : 0 20px;
     align-items: inherit;
-    max-width  : 386px;
+    max-width  : 395px;
 
-    margin-left: 50px;
+    margin-left: 100px;
+    margin-top: 55px;
+
   }
 
   section.auth_layout.login_screen.auth-unikaksha.otp-screen .right_box_container {
@@ -1769,3 +1776,75 @@ a.notification-link-dp.nav-link .dropdown-item img {
 }
 
 .custom-header .navbar .ms-auto.navbar-nav a:active{ background-color: #e9ecef !important;}
+
+.d-flex.justify-content-around.mt-4.social-login-assets .btn {
+  margin: 0 4px;
+}
+
+.d-flex.justify-content-around.mt-4.social-login-assets .social-btn {
+  width: 45%;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  justify-content: center;
+}
+
+.d-flex.justify-content-around.mt-4.social-login-assets .btn .mx-2 {
+  margin-left: 2px !important;
+  margin-right: 2px !important;
+}
+.row.align-items-center.row-top-follow {
+  padding-bottom: 20px;
+}
+
+.auth_layout .left_box .carousel img{ max-width: 50%;}
+
+@media screen  and (max-width:767px){
+  .d-flex.justify-content-around.mt-4.social-login-assets .social-btn{ font-size: 14px;}
+  .footer-social-services.list-group {
+ 
+    padding-left: 10px;
+}
+}
+
+.main-sidebar {
+  min-height: calc(100vh - 300px);
+}
+
+
+.card-expore .card-title.h5 {
+  font-size: 16px;
+}
+
+.my-4.card-custom.card-expore.card img.card-img-top {
+  height: 190px;
+  max-width: 100%;
+  background: #FFFCF7;
+}
+.card-expore .course-title-section {
+  height: 38px;
+  font-size: 14px !important;
+}
+
+.card-expore .align-items-center p {
+  margin-bottom: 5px;
+}
+
+.my-4.card-custom.card-expore.card {
+  box-shadow: none;
+
+  border: 1px solid #D6DAFF !important;
+}
+
+.my-4.card-custom.card-expore.card button.btn.btn-warning {
+  background: #EF6B29;
+  border: 1px solid #EF6B29;
+  color: #fff;
+}
+.my-4.card-custom.card-expore.card button.btn.btn-outline-warning {
+  border: 1px #EF6B29 solid;
+  color: #EF6B29;
+}
