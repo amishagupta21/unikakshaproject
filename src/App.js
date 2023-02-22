@@ -34,9 +34,10 @@ const App = () => {
     <div>
       {isLoader && <Loader />}
       <BrowserRouter>
+      <div className='main-sidebar'>
         <PrimaryNavbar />
         { toaster?.show && <Toaster header={toaster?.header} variant={toaster?.variant} body={toaster?.body} show={toaster?.show}/> }
-        <div style={{minHeight: '76vh'}}>
+        <div>
         <Routes>
           <Route exact={true} path="/" element={<Login />} />
           <Route element={<PrivateRoute />}>
@@ -61,6 +62,7 @@ const App = () => {
           <Route path="signup-otp" element={<SignupOtp />} />
           <Route path="*" element={<Error />} />
         </Routes>
+        </div>
         </div>
         <Footer />
       </BrowserRouter>

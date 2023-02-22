@@ -287,7 +287,7 @@ const Login = () => {
         <LeftBox />
         <div className="right_box">
           <div className="right_box_container">
-            <div className="log-in-title">Log in</div>
+            <div className="log-in-title">Log in to UniKaksha</div>
             <div href="#" className="resetpassword create-account">
               Don't have account?
               <Link to="/signup" state={searchParams}>
