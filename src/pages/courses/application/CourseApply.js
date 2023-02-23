@@ -306,7 +306,7 @@ const CourseApplication = () => {
 
   const copyFromMobileNumber = (value) => {
     if (value.target.checked) {
-      console.log(phoneCountry);
+   
     
       // setWhatsAppNumber({phone: '+918344498652', data: phoneCountry});
       setWhatsAppNumber({phone: mobileState.phone, data: mobileState.data});

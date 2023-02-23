@@ -63,6 +63,7 @@ const PersonalDetails = () => {
   const [userOccupation, setOccupation] = React.useState([]);
   const [showDeleteModal, setShowDeleteModal] = React.useState(false);
   const [showConfirmModal, setShowConfirmModal] = React.useState(false);
+  const [birthInfo, setBirthInfo] = React.useState();
 
   const [changeMobileNoPopup, setChangeMobileNoPopup] = React.useState(false);
   const [otpPopup, setOTPPopup] = React.useState(false);
@@ -106,7 +107,7 @@ const PersonalDetails = () => {
 
   const copyFromMobileNumber = (value) => {
     if (value.target.checked) {
-      setWhatsAppNumber(mobileState.phone);
+      setWhatsAppNumber({phone: mobileState.phone, data: mobileState.data});
       formik.setFieldValue('whatsapp_number', mobileState.phone);
     }
   };
@@ -131,6 +132,7 @@ const PersonalDetails = () => {
       occupation: Yup.string().required('Occupation is requied'),
     }),
     validate: (values) => {
+      
       let errors = {};
       if (!values?.mobile_number) {
         errors.mobile_number = '*Mobile number required';
@@ -138,6 +140,7 @@ const PersonalDetails = () => {
       if (!values?.whatsapp_number) {
         errors.whatsapp_number = '*Whatsapp number required';
       }
+     
       return errors;
     },
     onSubmit: (values) => {
@@ -157,6 +160,9 @@ const PersonalDetails = () => {
     },
   });
 
+  
+   
+
   const formik1 = useFormik({
     initialValues: {
       change_mobile_number: '',
@@ -175,22 +181,10 @@ const PersonalDetails = () => {
       
     },
     onSubmit: (values) => {
-      console.log(values.change_mobile_number);
+     
       const { change_mobile_number, ...rest } = values;
       sendOTP(values.change_mobile_number);
-      // const user1 = firebase.auth().currentUser;
-
-      // const a = user1.updateProfile({
-      //   phoneNumber: values.change_mobile_number
       
-      // }).then((res) => {
-      //   console.log(user1);
-      // }).catch((error) => {
-      //   console.log(error)
-      // });
-
-    
-      // firebase.auth().currentUser.updatePhoneNumber({ phoneNumber: values.change_mobile_number });
     },
   });
 
@@ -212,22 +206,9 @@ const PersonalDetails = () => {
       
     },
     onSubmit: (values) => {
-      // console.log(values.change_email_id);
-      // const { change_email_id, ...rest } = values;
+     
       updateEmail(values.change_email_id);
-      // const user1 = firebase.auth().currentUser;
-
-      // const a = user1.updateProfile({
-      //   phoneNumber: values.change_mobile_number
-      
-      // }).then((res) => {
-      //   console.log(user1);
-      // }).catch((error) => {
-      //   console.log(error)
-      // });
-
     
-      // firebase.auth().currentUser.updatePhoneNumber({ phoneNumber: values.change_mobile_number });
     },
   });
 
@@ -295,11 +276,19 @@ const PersonalDetails = () => {
     // setInitialDobData(userDetails?.data?.data?.userProfile?.information_data);
     // setDobData(userDetails?.data?.data?.userProfile?.information_data);  //console.log(user); 
     setOccupation(userDetails?.data?.data?.userProfile?.occupation);
+    const occu = userDetails?.data?.data?.userProfile?.occupation;
     setKYCDetails(userDetails?.data?.data?.userProfile?.kyc);
-    setInitialData(userDetails?.data?.data?.user);
+
+    const birthInfo = userDetails?.data?.data?.userProfile?.information_data
+    
+
     setUserData(userDetails?.data?.data?.user);
     personalDetails = userDetails?.data?.data?.userProfile?.personal_details ?? personalDetails;
     personalDetails.occupation = userDetails?.data?.data?.userProfile?.occupation;
+
+    setInitialData(userDetails?.data?.data?.user, birthInfo, occu, personalDetails);
+
+
     educationalDetails.education_details =
       userDetails?.data?.data?.userProfile?.education_details ?? educationalDetails;
     educationalDetails.work_details = userDetails?.data?.data?.userProfile?.work_details ?? [];
@@ -315,12 +304,28 @@ const PersonalDetails = () => {
   };
 
   const setPersonalDetailsInForm = (details) => {
-    formik.setValues(details);
+    
+    // formik.setValues(details);
     setGenderValue(details?.gender);
   };
 
-  const setInitialData = (initData) => {
-    formik.setValues({ email: initData?.email});
+  const setInitialData = (initData, birthInfo, occu, personalDetails) => {
+    // formik.setValues({ email: initData?.email});
+    console.log(personalDetails);
+    setBirthInfo(birthInfo);
+    formik.setValues({ 
+      email: personalDetails?.email ? personalDetails?.email: initData?.email,
+      mobile_number: personalDetails?.phone ? personalDetails?.phone : initData?.phone,
+      whatsapp_number: personalDetails?.whatsapp_number ? personalDetails?.whatsapp_number : initData?.phone,
+      full_name: personalDetails?.full_name ? personalDetails?.full_name : user?.displayName,
+      gender: personalDetails?.gender ? personalDetails?.gender : initData?.gender,
+      occupation:occu,
+      birth_date: personalDetails?.birth_date ? personalDetails?.birth_date : birthInfo?.birth_date,
+      birth_month: personalDetails?.birth_month ? personalDetails?.birth_month : birthInfo?.birth_month,
+      birth_year: personalDetails?.birth_year ? personalDetails?.birth_year : birthInfo?.birth_year
+
+    });
+    setMobileNumber({ phone: initData?.phone})
 
     // mobile_number: initData?.phone
     // setMobileNumber({ phone: initData?.phone})
@@ -639,27 +644,9 @@ const PersonalDetails = () => {
           }))
           firebase.auth().currentUser.updatePhoneNumber({ phoneNumber: mobileNo });
           
-          
-          // dispatch(setIsAuthenticated(true));
-          // localStorage.setItem('user', JSON.stringify(user));
-         
-          // await firbase_user.updatePhoneNumber(mobileNo);
-          
-          // const isBasicInfoExists = await getUserBasicInfo(user.uid);
 
           dispatch(setLoading(false));
 
-          // if (isBasicInfoExists) {
-          //   const redirectUrl = searchParams.get('redirect');
-          //   if (redirectUrl) {
-          //     navigate(redirectUrl);
-          //   } else {
-          //     navigate('/dashboard');
-          //   }
-          // } else {
-          //   navigate('/info');
-          // }
-        // }
       })
       .catch((error) => {
         // setloading(false);
@@ -876,7 +863,7 @@ const PersonalDetails = () => {
                                             }
                                             onBlur={formik.handleBlur}
                                             // defaultValue={user.displayName}
-                                            value={formik.values?.full_name}
+                                            value={formik.values?.full_name }
                                             placeholder="Enter you full name"
                                           />
                                           {formik.touched.full_name && formik.errors.full_name ? (
@@ -1176,7 +1163,7 @@ const PersonalDetails = () => {
                                         <Button
                                           className="btn"
                                           disabled={
-                                            !(formik.isValid && formik.dirty) || isNextLoading
+                                            !(formik.isValid && formik.dirty)
                                           }
                                           variant="secondary"
                                           type="submit">
