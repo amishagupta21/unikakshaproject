@@ -250,14 +250,15 @@ const PersonalDetails = () => {
 
   useEffect(() => {
     
-    dispatch(setLoading(true));
+    
 
     viewProfilePic('profile_picture');
 
     window.scrollTo(0, 0);
+    
     fetchInitialData(user?.uid);
-
-    dispatch(setLoading(false));
+    dispatch(setLoading(true));
+   
   }, []);
 
   const handleWeekdayChange = (event) => {
@@ -301,17 +302,19 @@ const PersonalDetails = () => {
       // console.log(educationalDetails);
       setEducationalDetails(educationalDetails);
     }
+    
   };
 
   const setPersonalDetailsInForm = (details) => {
     
     // formik.setValues(details);
     setGenderValue(details?.gender);
+    dispatch(setLoading(false));
   };
 
   const setInitialData = (initData, birthInfo, occu, personalDetails) => {
     // formik.setValues({ email: initData?.email});
-    console.log(personalDetails);
+   
     setBirthInfo(birthInfo);
     formik.setValues({ 
       email: personalDetails?.email ? personalDetails?.email: initData?.email,
@@ -326,10 +329,18 @@ const PersonalDetails = () => {
 
     });
     setMobileNumber({ phone: initData?.phone})
-
+    
     // mobile_number: initData?.phone
     // setMobileNumber({ phone: initData?.phone})
+
+    endLoder();
+   
   };
+
+  const endLoder = () => {
+    dispatch(setLoading(true));
+    dispatch(setLoading(false));
+  }
 
   // const setInitialDobData = (initlData) => {
   //   formik.setValues({ birth_date: initlData?.birth_date });
