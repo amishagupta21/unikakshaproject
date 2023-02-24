@@ -517,7 +517,7 @@ const PersonalDetails = () => {
       .confirm(otp && otp)
       .then(async (response) => {
         const { firbase_user } = response;
-        console.log(response);
+     
         // if (firbase_user) {
           // setloading(false);/
 

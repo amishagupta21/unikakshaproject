@@ -64,7 +64,7 @@ const Signup = () => {
   const setPassword = async (values) => {
 
     
-    setloading(true);
+    // setloading(true);
     dispatch(setLoading(true));
 
     
@@ -74,23 +74,23 @@ const Signup = () => {
 
       const email = userSignUpData.email;
 
-      const password = values.SetNewPassword;//getASecureRandomPassword();
+      const password = values.SetNewPassword;
 
       firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
-        // Signed in 
+        dispatch(setLoading(false));
         var user1 = userCredential.user;
         navigate('/info');
-        // ...
+      
       })
       .catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
-        // ..
+       
       });
       
-      setloading(false);
-      dispatch(setLoading(false));
+      // setloading(false);
+    
       // console.log(user);
     // } else {
     //   setAuthError('User not exists, Please signup');
@@ -118,7 +118,7 @@ const Signup = () => {
                   src={arrowBack}
                   alt="back-arrow"
                 />
-                Set Password
+                <h6 className='title'>Set Password</h6>
                 
               </div>
               <div id="set-password-container"> </div>
@@ -182,7 +182,7 @@ const Signup = () => {
                             <p className='hint'>Password must be 8 characters long</p>
                             <FormControl
                               placeholder="Enter your password here"
-                              type={'text'}
+                              type={'password'}
                               value={field.value}
                               onChange={field.onChange}
                             />
@@ -207,7 +207,7 @@ const Signup = () => {
                             </FormLabel>
                             <FormControl
                               placeholder="Enter your password here"
-                              type={'text'}
+                              type={'password'}
                               value={field.value}
                               onChange={field.onChange}
                             />
