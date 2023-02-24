@@ -77,6 +77,13 @@
 		background: #fff !important;
 	}
 
+	.verified {
+		z-index: 2;
+		position: relative;
+		margin-top: -33px;
+		float: right;
+	}
+
 	.radio-buttons {
 		border-color: #bec1c9 !important;
 		border-radius: 22px !important;

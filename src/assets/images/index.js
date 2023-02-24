@@ -97,6 +97,7 @@ import netflix from './CourseDetails/netflix.svg';
 import linkedin from './CourseDetails/linkedin.svg';
 import AppleIcon from './apple-icon.svg';
 import rightArrow from './right-arrow.svg';
+import verified from './verified.svg';
 
 export const Icon = ({ icon, ...props }) => {
     return (
@@ -203,5 +204,6 @@ export {
     bookReader,
     AppleIcon,
     trashWhite,
-    rightArrow
+    rightArrow,
+    verified
 };

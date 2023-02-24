@@ -5,7 +5,7 @@ import PhoneInput from 'react-phone-input-2';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
-import { arrowBack, femaleIcon, maleIcon } from '../../../assets/images';
+import { arrowBack, femaleIcon, maleIcon, verified } from '../../../assets/images';
 import { setLoading } from '../../../redux/actions/LoaderActions';
 import Loader from '../../../components/util-comonents/Loader';
 import ApiService from '../../../services/ApiService';
@@ -411,10 +411,15 @@ const CourseApplication = () => {
                           value={formik.values?.email}
                           disabled={ userData?.email }
                         />
+                       
                         {formik.touched.email && formik.errors.email ? (
                           <div className="error-message">{formik.errors.email}</div>
                         ) : null}
+                        <img className="me-2 verified" src={verified} alt="verified" />
                       </Form.Group>
+                     
+                         
+                         
 
                       <Form.Group as={Col} sm={4} controlId="mobile_number" className='phone-input'>
                         <Form.Label>
@@ -439,6 +444,7 @@ const CourseApplication = () => {
                         {formik.touched.mobile_number && formik.errors.mobile_number ? (
                           <div className="error-message">{formik.errors.mobile_number}</div>
                         ) : null}
+                          <img className="me-2 verified" src={verified} alt="verified" />
                       </Form.Group>
                     </Row>
                     <Row className="row-bottom">
