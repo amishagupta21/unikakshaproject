@@ -12,6 +12,7 @@ import SignInOtp from './pages/auth/SignInOtp';
 import Signup from './pages/auth/Signup';
 import SignupOtp from './pages/auth/SignupOtp';
 import SetPassword from './pages/auth/SetPassword';
+import ForgetPassword from './pages/auth/ForgetPassword';
 import CourseApplication from './pages/courses/application/CourseApply';
 import StudentCourseApplication from './pages/courses/application/student/StudentCourseApply';
 import CourseDetails from './pages/courses/course-details/CourseDetails';
@@ -57,9 +58,11 @@ const App = () => {
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="set-password" element={<SetPassword />} />
+          <Route path="forget-password" element={<ForgetPassword />} />
           <Route path="info" element={<Info />} />
           <Route path="signin-otp" element={<SignInOtp />} />
           <Route path="signup-otp" element={<SignupOtp />} />
+
           <Route path="*" element={<Error />} />
         </Routes>
         </div>

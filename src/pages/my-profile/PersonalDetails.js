@@ -579,32 +579,48 @@ const PersonalDetails = () => {
   const updateEmail = (email) => {
 
     const user1 = firebase.auth().currentUser;
-    console.log(user1);
 
-    firebase.auth().currentUser.sendEmailVerification()
-  .then(() => {
-    // Email verification sent!
-    // ...
-  });
+    // const appVerifier1 = configureCaptcha2();
+    
+    firebase.auth().sendPasswordResetEmail(email)
+    .then(() => {
+      setSentLink('We will send you a link on your registered email')
+      console.log(email);
+      dispatch(setLoading(false));
+    })
+    .catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorMessage);
+      dispatch(setLoading(false));
+      // ..
+    });
+  //   console.log(user1);
 
-    return;
+  //   firebase.auth().currentUser.sendEmailVerification()
+  // .then(() => {
+  //   // Email verification sent!
+  //   // ...
+  // });
+
+  //   return;
 
     // const user = firebase.auth().currentUser;
-    const appVerifier1 = configureCaptcha2();
+   
     // TODO(you): prompt the user to re-provide their sign-in credentials
 
     
-    user1.updateEmail(email).then((res) => {
-      firebase.auth().currentUser.sendEmailVerification().then(function(isSent) {
-        console.log(isSent);
-      })
-      .catch(function(error1) {
-        console.log(error1);
-      });
+    // user1.updateEmail(email).then((res) => {
+    //   firebase.auth().currentUser.sendEmailVerification().then(function(isSent) {
+    //     console.log(isSent);
+    //   })
+    //   .catch(function(error1) {
+    //     console.log(error1);
+    //   });
   
-    }).catch((error) => {
-      console.log(error);
-    });
+    // }).catch((error) => {
+    //   console.log(error);
+    // });
 
     dispatch(openToaster({
       show: true,
@@ -904,7 +920,7 @@ const PersonalDetails = () => {
                                             value={formik.values?.email}                                
                                             // disabled={ userData?.email }
                                           />
-                                           {/* <span className='change-mobile-no'><a onClick={() => changeMobileEmailId()}>Change Email Id</a></span> */}
+                                           <span className='change-mobile-no'><a onClick={() => changeMobileEmailId()}>Change Email Id</a></span>
                                           {formik.touched.email && formik.errors.email ? (
                                             <div className="error-message">{formik.errors.email}</div>
                                           ) : null}
@@ -931,7 +947,7 @@ const PersonalDetails = () => {
                                             // defaultValue={userData?.phone}
                                             // disabled={ userData?.phone }
                                           />
-                                          {/* <span className='change-mobile-no'><a onClick={() => changeMobileNo()}>Change Mobile Number</a></span> */}
+                                          <span className='change-mobile-no'><a onClick={() => changeMobileNo()}>Change Mobile Number</a></span>
                                           
                                           
                                           
