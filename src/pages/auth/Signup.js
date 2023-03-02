@@ -28,18 +28,18 @@ const Signup = () => {
   const [userDetails, setUserDetails] = React.useState({});
   const [authError, setAuthError] = React.useState();
 
-  const [OTPSent , setOTPSent] = useState(false);
-  const [OTPLabel , setOTPLabel] = useState('Get OTP');
+  const [OTPSent, setOTPSent] = useState(false);
+  const [OTPLabel, setOTPLabel] = useState('Get OTP');
   const [otp, setOtp] = useState('');
   const [otpError, setOtpError] = useState();
   const [minutes, setMinutes] = useState(2);
   const [seconds, setSeconds] = useState(0);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
-  const [phoneNumber , setPhoneNumber] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [formData , setFormData] = useState({});
+  const [formData, setFormData] = useState({});
 
   const setInitialData = async () => {
     setUserDetails(location.state);
@@ -66,7 +66,6 @@ const Signup = () => {
       clearInterval(interval);
     };
   }, [seconds, minutes]);
-
 
   const configureCaptcha = () =>
     (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signup-container', {
@@ -105,16 +104,13 @@ const Signup = () => {
     }
   };
 
-  
-
   const sendOTP = async (values) => {
     setFormData(values);
     setloading(true);
 
     const userExist = await checkIfUserExists(values.email, `+${values.mobileNumber}`);
 
-    if ( !userExist ) {
-
+    if (!userExist) {
       const appVerifier = configureCaptcha();
       firebase
         .auth()
@@ -125,9 +121,9 @@ const Signup = () => {
           //   theme: 'colored',
           // });
           dispatch(setLoading(false));
-          setOTPLabel('OTP Sent')
+          setOTPLabel('OTP Sent');
           setOTPSent(true);
-        
+
           // navigate('/signup-otp', {
           //   state: {
           //     values: {
@@ -167,7 +163,7 @@ const Signup = () => {
         if (response.user) {
           setloading(false);
           const { user } = response.user.multiFactor;
-         
+
           firebase.auth().currentUser.updateProfile({ displayName: formData?.fullName });
           createUserIfNotExists(user);
         }
@@ -183,6 +179,7 @@ const Signup = () => {
   const createUserIfNotExists = async (user) => {
     const userData = {
       uid: user.uid,
+      fullName: formData.fullName,
       email: formData.email,
       phone: `+${formData?.mobileNumber}`,
       whatsappoptin: formData?.whatsappoptin,
@@ -194,19 +191,17 @@ const Signup = () => {
       navigate('/set-password', {
         state: {
           values: {
-            email: formData.email
+            email: formData.email,
           },
         },
       });
-      
     }
     setIsButtonLoading(false);
   };
 
   const resendOTP = (phone) => {
     if (seconds === 0 && minutes === 0) {
-
-      setOTPLabel('Get OTP')
+      setOTPLabel('Get OTP');
       setOTPSent(false);
 
       setOtp('');
@@ -344,65 +339,58 @@ const Signup = () => {
                         </Row>
                       )}
                     />
-                    
+
                     <br />
-                    { (values.mobileNumber.length - values.mobileLength === 10) && (
-                               
-                               
-                               <Button
-                                  type={ OTPSent ? 'button' : 'submit' }
-                                  variant="outline-primary"
-                                  className={ OTPSent ? 'otp-sent' : 'get-otp-btn' }>
-                                  
-                                  {OTPLabel} 
-                                  
-                                </Button>
-                                
-                      )}
-                            { OTPSent && (
-                              <>
-                              <div className="otp-input">
-                                <OtpInput value={otp} onChange={(e) => setOtp(e)} numInputs={6} />
-                              </div>
+                    {values.mobileNumber.length - values.mobileLength === 10 && (
+                      <Button
+                        type={OTPSent ? 'button' : 'submit'}
+                        variant="outline-primary"
+                        className={OTPSent ? 'otp-sent' : 'get-otp-btn'}>
+                        {OTPLabel}
+                      </Button>
+                    )}
+                    {OTPSent && (
+                      <>
+                        <div className="otp-input">
+                          <OtpInput value={otp} onChange={(e) => setOtp(e)} numInputs={6} />
+                        </div>
 
-                              <div className="d-flex justify-content-between mt-2">
-                                <div>
-                                  <span>Did not receive OTP?</span>
-                                </div>
-                                <div>
-                                  <a
-                                    style={{ cursor: !minutes && !seconds ? 'pointer' : 'not-allowed' }}
-                                    className={isResendDisabled ? 'resend-otp disabled' : 'resend-otp'}
-                                    onClick={() => resendOTP(phoneNumber)}>
-                                    Resend OTP
-                                  </a>
-                                  <span>
-                                    {' '}
-                                    in {minutes < 10 ? `0${minutes}` : minutes}:{' '}
-                                    {seconds < 10 ? `0${seconds}` : seconds}
-                                  </span>
-                                </div>
-
-                                
-                              </div>
-                              {otpError && (
-                                    <>
-                                    <div className="error-text invalid-otp">You have enterd Invalid OTP  </div>
-                                    </>
-                                )}
-                              </>
-                            )}
+                        <div className="d-flex justify-content-between mt-2">
+                          <div>
+                            <span>Did not receive OTP?</span>
+                          </div>
+                          <div>
+                            <a
+                              style={{ cursor: !minutes && !seconds ? 'pointer' : 'not-allowed' }}
+                              className={isResendDisabled ? 'resend-otp disabled' : 'resend-otp'}
+                              onClick={() => resendOTP(phoneNumber)}>
+                              Resend OTP
+                            </a>
+                            <span>
+                              {' '}
+                              in {minutes < 10 ? `0${minutes}` : minutes}:{' '}
+                              {seconds < 10 ? `0${seconds}` : seconds}
+                            </span>
+                          </div>
+                        </div>
+                        {otpError && (
+                          <>
+                            <div className="error-text invalid-otp">
+                              You have enterd Invalid OTP{' '}
+                            </div>
+                          </>
+                        )}
+                      </>
+                    )}
                     {errors.mobileNumber && touched.mobileNumber ? (
                       <div className="error-text">{errors.mobileNumber}</div>
                     ) : null}
 
-                          {authError && (
-                                    <>
-                                    <div className="error-text invalid-otp">{authError}</div>
-                                 
-                                  
-                                    </>
-                            )}
+                    {authError && (
+                      <>
+                        <div className="error-text invalid-otp">{authError}</div>
+                      </>
+                    )}
 
                     <label className="mb-3 mt-3 custom-check-lable">
                       <input
