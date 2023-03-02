@@ -105,7 +105,11 @@ const Signup = () => {
   };
 
   const sendOTP = async (values) => {
-    setFormData(values);
+    console.log(values);
+    const countryCode = values.mobileNumber.substr(0, 2);
+    const mobileNumber = values.mobileNumber.substr(2, values.mobileNumber.length);
+    const result = { ...values, countryCode, mobileNumber };
+    setFormData(result);
     setloading(true);
 
     const userExist = await checkIfUserExists(values.email, `+${values.mobileNumber}`);
@@ -181,10 +185,12 @@ const Signup = () => {
       uid: user.uid,
       fullName: formData.fullName,
       email: formData.email,
-      phone: `+${formData?.mobileNumber}`,
+      phone: `+91${formData?.mobileNumber}`,
       whatsappoptin: formData?.whatsappoptin,
+      countryCode: formData.countryCode,
     };
     const result = await ApiService(`user/create`, `POST`, userData);
+    console.log(result);
     localStorage.setItem('user', JSON.stringify(user));
     if (result?.data.code === 200) {
       // navigate('/info');
