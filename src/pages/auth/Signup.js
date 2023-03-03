@@ -27,6 +27,29 @@ const Signup = () => {
   const location = useLocation();
   const [userDetails, setUserDetails] = React.useState({});
   const [authError, setAuthError] = React.useState();
+  const [disabled, setDisabled] = useState(false);
+  
+  const styles = {
+    container: {
+      width: '100vw',
+      height: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    button: {
+      padding: '5px 5px',
+      cursor: 'pointer',
+    },
+    buttonDisabled: {
+      padding: '5px 5px',
+      cursor: 'not-allowed',
+    
+    },
+  };
+  function handleDisableButton() {
+    setDisabled(!disabled);
+  }
 
   const [OTPSent, setOTPSent] = useState(false);
   const [OTPLabel, setOTPLabel] = useState('Get OTP');
@@ -68,11 +91,11 @@ const Signup = () => {
   }, [seconds, minutes]);
 
   const configureCaptcha = () =>
-    (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signup-container', {
-      size: 'invisible',
-      callback: (response) => {},
-      defaultCountry: 'IN',
-    }));
+  (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signup-container', {
+    size: 'invisible',
+    callback: (response) => { },
+    defaultCountry: 'IN',
+  }));
 
   const checkIfUserExists = async (email, phone) => {
     const result = await ApiService(
@@ -331,6 +354,8 @@ const Signup = () => {
                           <PhoneInput
                             placeholder="Enter mobile number"
                             country={'in'}
+                            disabled={disabled}
+
                             preferredCountries={['in']}
                             value={field.value}
                             onChange={(phone, data) => {
@@ -348,13 +373,19 @@ const Signup = () => {
 
                     <br />
                     {values.mobileNumber.length - values.mobileLength === 10 && (
+
                       <Button
+                       
+                        style={disabled ? styles.buttonDisabled : styles.button}
+                        // disabled={disabled}
+                        onClick={handleDisableButton}
                         type={OTPSent ? 'button' : 'submit'}
                         variant="outline-primary"
-                        className={OTPSent ? 'otp-sent' : 'get-otp-btn'}>
+                        className={OTPSent ? 'otp-sent' : 'get-otp-btn'} >
                         {OTPLabel}
                       </Button>
                     )}
+                    
                     {OTPSent && (
                       <>
                         <div className="otp-input">
@@ -441,6 +472,7 @@ const Signup = () => {
       </section>
     </>
   );
+
 };
 
 export default Signup;
