@@ -46,9 +46,6 @@ const PrimaryNavbar = () => {
     );
   //  console.log(result?.data?.data?.signedUrl);
     setProfilePic(result?.data?.data?.signedUrl);
-
-    
-
   };
 
   const logOutHandler = async () => {
