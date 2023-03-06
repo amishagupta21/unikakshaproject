@@ -107,8 +107,6 @@ const Login = () => {
 
     const userisExist = await checkIfUserExists(email, null);
 
-
-
     if (userisExist) {
       setAuthErrorNotRegistered(false);
       // const { phone } = user;
@@ -167,12 +165,13 @@ const Login = () => {
     }
   };
 
+  
   const signInWithNumber = async (values) => {
     setAuthError();
     dispatch(setLoading(true));
     setloading(true);
     const { mobileNumber } = values;
-    const user = await checkIfUserExists(null, `+${mobileNumber}`);
+    const user = await checkIfUserExists(null, `${mobileNumber}`);
     if (user) {
       const { phone, uid } = user;
       if (phone) {
@@ -566,7 +565,7 @@ const Login = () => {
             </div>
           </div>
         </div>
-      </section>
+           </section>
     </>
   );
 };
