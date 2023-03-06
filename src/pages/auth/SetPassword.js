@@ -112,12 +112,12 @@ const Signup = () => {
            
             <div className="auth_form">
             <div className="log-in-title login-head">
-                <img
+                {/* <img
                   className="me-2"
                   onClick={() => navigate('/signup')}
                   src={arrowBack}
                   alt="back-arrow"
-                />
+                /> */}
                 <h6 className='title'>Set Password</h6>
                 
               </div>

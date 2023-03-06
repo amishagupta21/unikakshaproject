@@ -15,6 +15,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsAuthenticated } from '../redux/actions/AuthAction';
 import ApiService from '../services/ApiService';
+import Modal from './Modal';
 
 const PrimaryNavbar = () => {
 
@@ -35,24 +36,38 @@ const PrimaryNavbar = () => {
     setUser(JSON.parse(localStorage.getItem('user')));
   }, [isAuth]);
 
- 
+
   const getProfilePic = async () => {
-        
+
     const result = await ApiService(
       '/user/get-profile-picture',
       `POST`,
       { document_type: 'profile_picture' },
       true
     );
-  //  console.log(result?.data?.data?.signedUrl);
+    //  console.log(result?.data?.data?.signedUrl);
     setProfilePic(result?.data?.data?.signedUrl);
   };
 
-  const logOutHandler = async () => {
+    const cancelHandler=()=>{
+        navigate('/dashboard')
+        setShowPopUp(!showPopUp);
+    }
+
+  const [showPopUp, setShowPopUp] = React.useState(false);
+
+  const logOutHandler =  () => {
+    // await logout();
+    // dispatch(setIsAuthenticated(false));
+    // navigate('/');
+    setShowPopUp(!showPopUp);
+  };
+  const handler=async()=>{
     await logout();
     dispatch(setIsAuthenticated(false));
     navigate('/');
-  };
+    setShowPopUp(!showPopUp);
+  }
 
   return (
     <div className="custom-header">
@@ -84,7 +99,7 @@ const PrimaryNavbar = () => {
                 <Nav.Link className="notification-link-dp">
                   <Dropdown>
                     <Dropdown.Toggle id="dropdown-basic" className="dropdown-design">
-                      <img src={profilePic ? profilePic: profilePicture } alt="profile" style={{width:'50px'}} />
+                      <img src={profilePic ? profilePic : profilePicture} alt="profile" style={{ width: '50px' }} />
                       <span className="avatar-name">{user?.displayName}</span>
                     </Dropdown.Toggle>
 
@@ -112,6 +127,8 @@ const PrimaryNavbar = () => {
           )}
         </Container>
       </Navbar>
+      {showPopUp ? <Modal cancelHandler={cancelHandler} handler={handler}/> : null};
+
     </div>
   );
 };

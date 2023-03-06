@@ -24,6 +24,7 @@ import Toaster from './components/custom-ui-components/Toaster';
 
 import PersonalDetails from './pages/my-profile/PersonalDetails'
 import LearnerPayments from './pages/courses/course-details/LearnerPayments'
+import FooterContainer from './components/FooterComponent';
 
 const App = () => {
   const isLoader = useSelector((state) => state?.loader?.isLoading);
@@ -67,7 +68,8 @@ const App = () => {
         </Routes>
         </div>
         </div>
-        <Footer />
+        {/* <Footer /> */}
+        <FooterContainer/>
       </BrowserRouter>
     </div>
   );

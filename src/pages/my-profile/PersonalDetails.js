@@ -716,14 +716,14 @@ const PersonalDetails = () => {
                       </Nav.Item>
                       {/* {userOccupation && userOccupation !== 'STUDENT' && (
                       )} */}
-                    <Nav.Item>
+                    {/* <Nav.Item>
                       <Nav.Link onClick={logOutHandler}>Logout</Nav.Link>
-                    </Nav.Item>
+                    </Nav.Item> */}
                   </Nav>
                 </div>
-                <Button className="delete-link" onClick={() => setShowDeleteModal(true)} variant="link">
+                {/* <Button className="delete-link" onClick={() => setShowDeleteModal(true)} variant="link">
                   Delete Account
-                </Button>
+                </Button> */}
               </Col>
               <Col sm={9}>
                 <div className="tab-content-right">
