@@ -275,7 +275,7 @@ const Signup = () => {
                     .email('Please enter a valid email')
                     .required('Email is a required field'),
                   mobileNumber: Yup.string()
-                    .min(10, 'Too short')
+                    .min(10)
                     .required('Mobile number is a required field'),
                 })}
                 onSubmit={(values) => {
@@ -365,7 +365,7 @@ const Signup = () => {
                             countryCodeEditable={false}
                           />
                           <small className="sml-size text-start">
-                            We will send you OTP on mobile number and WhatsApp.
+                            We will send you OTP on mobile number.
                           </small>
                         </Row>
                       )}
@@ -375,10 +375,9 @@ const Signup = () => {
                     {values.mobileNumber.length - values.mobileLength === 10 && (
 
                       <Button
-                       
-                        style={disabled ? styles.buttonDisabled : styles.button}
+                        // style={disabled ? styles.buttonDisabled : styles.button}
                         // disabled={disabled}
-                        onClick={handleDisableButton}
+                        // onClick={handleDisableButton}
                         type={OTPSent ? 'button' : 'submit'}
                         variant="outline-primary"
                         className={OTPSent ? 'otp-sent' : 'get-otp-btn'} >

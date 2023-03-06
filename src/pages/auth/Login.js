@@ -24,6 +24,8 @@ import { setIsAuthenticated } from '../../redux/actions/AuthAction';
 import './Login.scss';
 import { rightArrow } from '../../assets/images';
 import OtpInput from 'react-otp-input';
+import { getAuth, signInWithPhoneNumber } from "firebase/auth";
+
 
 const Login = () => {
   let isAuth =
@@ -34,27 +36,27 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [authError, setAuthError] = useState('');
-  const [authErrorNotRegistered , setAuthErrorNotRegistered] = useState(false);
-  const [authErrorRegistered , setAuthErrorRegistered] = useState(false);
+  const [authErrorNotRegistered, setAuthErrorNotRegistered] = useState(false);
+  const [authErrorRegistered, setAuthErrorRegistered] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const cookie = new Cookies();
   const [userData, setUserData] = React.useState();
 
-  const [mobileNumberHaveValue , setMobileNumberHaveValue] = useState(false);
+  const [mobileNumberHaveValue, setMobileNumberHaveValue] = useState(false);
 
-  const [OTPSent , setOTPSent] = useState(false);
-  const [OTPLabel , setOTPLabel] = useState('Get OTP');
+  const [OTPSent, setOTPSent] = useState(false);
+  const [OTPLabel, setOTPLabel] = useState('Get OTP');
   const [otp, setOtp] = useState('');
   const [otpError, setOtpError] = useState();
   const [minutes, setMinutes] = useState(2);
   const [seconds, setSeconds] = useState(0);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
-  const [phoneNumber , setPhoneNumber] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState(false);
 
   const configureCaptcha = () => {
     return (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signin-container', {
       size: 'invisible',
-      callback: (response) => {},
+      callback: (response) => { },
       defaultCountry: 'IN',
     }));
   };
@@ -97,7 +99,7 @@ const Login = () => {
   };
 
   const singInwithEmail = async (values) => {
-   
+
     setAuthError();
     setloading(true);
     dispatch(setLoading(true));
@@ -105,22 +107,22 @@ const Login = () => {
 
     const userisExist = await checkIfUserExists(email, null);
 
-    
-    
+
+
     if (userisExist) {
       setAuthErrorNotRegistered(false);
       // const { phone } = user;
       // if (phone) {
       //   sendOTP(phone);
       // } else {
-        
-        await firebase.auth().signInWithEmailAndPassword(email, password)
+
+      await firebase.auth().signInWithEmailAndPassword(email, password)
         .then((response) => {
           const { user } = response.user.multiFactor;
 
           // firebase.auth().currentUser.updateProfile({ displayName: userisExist?.displayName });
 
-          
+
           // var firebaseUser = userCredential.user;
           setloading(false);
           dispatch(setLoading(false));
@@ -141,7 +143,7 @@ const Login = () => {
           } else {
             navigate('/info');
           }
-          
+
           // ...
         })
         .catch((error) => {
@@ -153,7 +155,7 @@ const Login = () => {
           setloading(false);
           dispatch(setLoading(false));
         });
-     
+
       // }
       setloading(false);
       dispatch(setLoading(false));
@@ -185,20 +187,24 @@ const Login = () => {
     }
   };
 
+
+
   const sendOTP = async (phoneNumber) => {
     dispatch(setLoading(true));
     setloading(true);
     setPhoneNumber(phoneNumber)
+   
+
     const appVerifier = configureCaptcha();
     firebase
-      .auth()
-      .signInWithPhoneNumber(`${phoneNumber}`, appVerifier)
-      .then(async (confirmationResult) => {
-        window.confirmationResult = confirmationResult;
-        toast.success('OTP has been Sent to Mobile Number', {
-          theme: 'colored',
-        });
-        
+        .auth()
+        .signInWithPhoneNumber(`${phoneNumber}`, appVerifier)
+        .then(async (confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+          toast.success('OTP has been Sent to Mobile Number', {
+            theme: 'colored',
+          });
+
         // OTPTimer();
 
         // const redirectUrl = searchParams.get('redirect');
@@ -264,7 +270,7 @@ const Login = () => {
       });
   };
 
-  
+
 
   const resendOTP = (phone) => {
     if (seconds === 0 && minutes === 0) {
@@ -281,7 +287,7 @@ const Login = () => {
     <>
       {/* <AuthNavbar /> */}
       <div className='auth-modal'>
-        <AuthModal show={show} handleClose={handleClose} handleShow={handleShow} email={userData} sendOTP={sendOTP}/>
+        <AuthModal show={show} handleClose={handleClose} handleShow={handleShow} email={userData} sendOTP={sendOTP} />
       </div>
       <section className="auth_layout login_screen auth-unikaksha login">
         <LeftBox />
@@ -366,66 +372,65 @@ const Login = () => {
                                   </Row>
                                 )}
                               />
-                              { (values.mobileNumber.length - values.mobileLength === 10) && (
-                               
-                               
-                               <Button
-                                  type={ OTPSent ? 'button' : 'submit' }
+                              {(values.mobileNumber.length - values.mobileLength === 10) && (
+
+
+                                <Button
+                                  type={OTPSent ? 'button' : 'submit'}
                                   variant="outline-primary"
-                                  className={ OTPSent ? 'otp-sent' : 'get-otp-btn' }>
-                                  
-                                  {OTPLabel} 
-                                  
+                                  className={OTPSent ? 'otp-sent' : 'get-otp-btn'}>
+
+                                  {OTPLabel}
                                 </Button>
-                                
-                                )}
-                            { OTPSent && (
-                              <>
-                              <div className="otp-input">
-                                <OtpInput value={otp} onChange={(e) => setOtp(e)} numInputs={6} />
-                              </div>
 
-                              <div className="d-flex justify-content-between mt-2">
-                                <div>
-                                  <span>Did not receive OTP?</span>
-                                </div>
-                                <div>
-                                  <a
-                                    style={{ cursor: !minutes && !seconds ? 'pointer' : 'not-allowed' }}
-                                    className={isResendDisabled ? 'resend-otp disabled' : 'resend-otp'}
-                                    onClick={() => resendOTP(phoneNumber)}>
-                                    Resend OTP
-                                  </a>
-                                  <span>
-                                    {' '}
-                                    in {minutes < 10 ? `0${minutes}` : minutes}:{' '}
-                                    {seconds < 10 ? `0${seconds}` : seconds}
-                                  </span>
-                                </div>
+                              )}
+                              {OTPSent && (
+                                <>
+                                  <div className="otp-input">
+                                    <OtpInput value={otp} onChange={(e) => setOtp(e)} numInputs={6} />
+                                  </div>
 
-                                
-                              </div>
-                              {otpError && (
+                                  <div className="d-flex justify-content-between mt-2">
+                                    <div>
+                                      <span>Did not receive OTP?</span>
+                                    </div>
+                                    <div>
+                                      <a
+                                        style={{ cursor: !minutes && !seconds ? 'pointer' : 'not-allowed' }}
+                                        className={isResendDisabled ? 'resend-otp disabled' : 'resend-otp'}
+                                        onClick={() => resendOTP(phoneNumber)}>
+                                        Resend OTP
+                                      </a>
+                                      <span>
+                                        {' '}
+                                        in {minutes < 10 ? `0${minutes}` : minutes}:{' '}
+                                        {seconds < 10 ? `0${seconds}` : seconds}
+                                      </span>
+                                    </div>
+
+
+                                  </div>
+                                  {otpError && (
                                     <>
-                                    <div className="error-text">You have enterd Invalid OTP  </div>
+                                      <div className="error-text">You have enterd Invalid OTP  </div>
                                     </>
-                                )}
-                              </>
-                            )}
+                                  )}
+                                </>
+                              )}
 
                               {authError && (
-                                        <>
-                                        <div className="error-text">This mobile number is not registered with us. Please 
-                                      <Link to="/signup" state={searchParams}>
-                                        &nbsp;Sign up.
-                                      </Link>.</div>
-                                        {/* <div className="error-text">This e-mail is not registered with us. Please <Link to="/signup" state={searchParams}>
+                                <>
+                                  <div className="error-text">This mobile number is not registered with us. Please
+                                    <Link to="/signup" state={searchParams}>
+                                      &nbsp;Sign up.
+                                    </Link>.</div>
+                                  {/* <div className="error-text">This e-mail is not registered with us. Please <Link to="/signup" state={searchParams}>
                                         &nbsp;Sign up
                                       </Link>. </div> */}
-                                      
-                                        <div className="error-text">If you have previously logged in to your account. Please try log in using your Email Id.  </div>
-                                        </>
-                                )}
+
+                                  <div className="error-text">If you have previously logged in to your account. Please try log in using your Email Id.  </div>
+                                </>
+                              )}
                               {errors.mobileNumber && touched.mobileNumber ? (
                                 <div className="error-text">{errors.mobileNumber}</div>
                               ) : null}
@@ -435,10 +440,10 @@ const Login = () => {
                                   variant="secondary"
                                   disabled={!(otp.length === 6) || loading}
                                   onClick={onSubmitOTP}
-                                  >
+                                >
                                   {loading ? 'Loading...' : 'Log in'}
                                 </Button>
-                                
+
                               </div>
                             </Form>
                           )}
@@ -453,7 +458,7 @@ const Login = () => {
                           validationSchema={Yup.object().shape({
                             email: Yup.string().email('Invalid email').required('Required'),
                             password: Yup.string()
-                            .required('Please enter your password'),
+                              .required('Please enter your password'),
                           })}
                           onSubmit={(values) => {
                             singInwithEmail(values);
@@ -490,7 +495,7 @@ const Login = () => {
                                 <div className="error-text">{errors.email}</div>
                               ) : null}
 
-                              
+
 
                               <Field
                                 name="password"
@@ -502,7 +507,7 @@ const Login = () => {
                                       as={Col}
                                       md="12">
                                       <FormLabel>
-                                      Enter password
+                                        Enter password
                                       </FormLabel>
                                       <FormControl
                                         placeholder="Enter your password here"
@@ -515,27 +520,27 @@ const Login = () => {
                                 )}
                               />
                               <div>
-                              <Link to="/forget-password" className='fp'>
-                                Forgot Password?</Link>
-                                </div>
+                                <Link to="/forget-password" className='fp'>
+                                  Forgot Password?</Link>
+                              </div>
                               {errors.password && touched.password ? (
                                 <div className="error-text">{errors.password}</div>
                               ) : null}
                               <div>
-                                
-                              {authErrorNotRegistered && (
-                                <>
-                                <div className="error-text">Invalid Credentials or Don't have account? Please <Link to="/signup" state={searchParams}>
-                                &nbsp;Sign up
-                              </Link>.</div>
-                                {/* <div className="error-text">This e-mail is not registered with us. Please <Link to="/signup" state={searchParams}>
+
+                                {authErrorNotRegistered && (
+                                  <>
+                                    <div className="error-text">Invalid Credentials or Don't have account? Please <Link to="/signup" state={searchParams}>
+                                      &nbsp;Sign up
+                                    </Link>.</div>
+                                    {/* <div className="error-text">This e-mail is not registered with us. Please <Link to="/signup" state={searchParams}>
                                 &nbsp;Sign up
                               </Link>. </div> */}
-                              
-                                <div className="error-text">If you have previously logged in to your account. Please try log in using your mobile number.  </div>
-                                </>
+
+                                    <div className="error-text">If you have previously logged in to your account. Please try log in using your mobile number.  </div>
+                                  </>
                                 )}
-                                
+
                               </div>
                               <div className="d-grid gap-2">
                                 <Button
