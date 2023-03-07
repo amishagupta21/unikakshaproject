@@ -26,6 +26,7 @@ import {
 } from '../../utils-componets/static-content/DateMonthContent';
 import { CalendarWeek } from 'react-bootstrap-icons';
 import { firebase } from '../../firebase/firebase';
+import Footer from '../../components/Footer';
 
 const MandatorySymbol = () => {
   return <span className="text-danger">*</span>;
@@ -551,6 +552,7 @@ const Info = () => {
           </div>
         </div>
       </section>
+      <Footer/>
     </>
   );
 };

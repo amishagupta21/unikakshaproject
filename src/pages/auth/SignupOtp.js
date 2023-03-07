@@ -11,6 +11,7 @@ import { setLoading } from '../../redux/actions/LoaderActions';
 import ApiService from '../../services/ApiService';
 import './auth.scss';
 import LeftBox from './components/LeftBox';
+import Footer from '../../components/Footer';
 
 const SignupOtp = () => {
   const [loading, setloading] = useState();
@@ -247,6 +248,7 @@ const SignupOtp = () => {
           </div>
         </div>
       </section>
+      <Footer/>
     </>
   );
 };

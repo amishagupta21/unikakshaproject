@@ -319,10 +319,12 @@ const AccountSettings = () => {
                         type="submit"
                         // disabled={!isValid || loading}
                         style={{ fontWeight: '500' }}
-                        variant="secondary">
+                        variant="secondary"
+                        >
                         {/* {loading ? 'Loading...' : 'Delete'} */}
                         Delete
                     </Button>
+                    
                     </div>
             </div>
         </div>

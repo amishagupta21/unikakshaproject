@@ -22,6 +22,7 @@ import { arrowBack, editGray } from '../../assets/images';
 
 
 import './SetPassword.scss';
+import Footer from '../../components/Footer';
 
 const ForgetPassword = () => {
   const [loading, setloading] = useState();
@@ -198,6 +199,7 @@ const ForgetPassword = () => {
           </div>
         </div>
       </section>
+      <Footer/>
     </>
   );
 };

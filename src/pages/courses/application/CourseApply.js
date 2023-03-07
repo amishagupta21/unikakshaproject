@@ -21,6 +21,7 @@ import TestResult from './TestResult';
 import { isEmpty } from 'lodash';
 import { yearsOptions,optionsmonth,optionsday } from '../../.././utils-componets/static-content/DateMonthContent';
 import { openToaster } from '../../../redux/actions/ToastAction';
+import FooterContainer from '../../../components/FooterComponent';
 
 const steps = [
   'personal_details',
@@ -709,6 +710,7 @@ const CourseApplication = () => {
       ): (
         <Loader />
       )}
+      <FooterContainer/>
     </>
   );
 };

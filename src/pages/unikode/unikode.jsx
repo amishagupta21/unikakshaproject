@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import FooterContainer from '../../components/FooterComponent';
 
 const Unikode = () => {
   const logIntoUnikode = async () => {
@@ -38,9 +39,12 @@ const Unikode = () => {
   });
 
   return (
+    <>
     <p id="unikode" hidden>
       'Hello'
     </p>
+    <FooterContainer/>
+    </>
   );
 };
 

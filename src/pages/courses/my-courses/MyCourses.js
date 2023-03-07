@@ -9,6 +9,7 @@ import MultiStepBar from '../application/FormProgress';
 import StudentMultiStepBar from '../application/student/StudentFormProgress';
 import './MyCourses.scss';
 import { useNavigate } from 'react-router-dom';
+import FooterContainer from '../../../components/FooterComponent';
 
 const Hand = () => {
   return <img className="me-2" src={hand}></img>;
@@ -231,6 +232,7 @@ const MyCourses = () => {
         </Col>
         </Row>
       </div>
+      <FooterContainer/>
     </>
   );
 };

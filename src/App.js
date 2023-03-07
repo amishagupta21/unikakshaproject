@@ -25,15 +25,20 @@ import Toaster from './components/custom-ui-components/Toaster';
 import PersonalDetails from './pages/my-profile/PersonalDetails'
 import LearnerPayments from './pages/courses/course-details/LearnerPayments'
 import FooterContainer from './components/FooterComponent';
+import { useState } from 'react';
+
 
 const App = () => {
   const isLoader = useSelector((state) => state?.loader?.isLoading);
   const toaster = useSelector((state) => state?.toaster?.toasterData);
+  const [state,setState]=useState("/dashboard","/course/apply/:courseVariantSlug")
+  const[navigate,setNavigate]=useState("/")
+  const[dashboard,setDashboard]=useState("/dashboard")
   const isAuthenticated =
     useSelector((state) => state?.auth?.isAuthenticated) || localStorage.getItem('isAuthenticated');
-
   return (
     <div>
+      
       {isLoader && <Loader />}
       <BrowserRouter>
       <div className='main-sidebar'>
@@ -42,6 +47,7 @@ const App = () => {
         <div>
         <Routes>
           <Route exact={true} path="/" element={<Login />} />
+          
           <Route element={<PrivateRoute />}>
             <Route path="dashboard" element={<Homepage />} />
             <Route path="course/apply/:courseVariantSlug" element={<CourseApplication />} />
@@ -65,11 +71,15 @@ const App = () => {
           <Route path="signup-otp" element={<SignupOtp />} />
 
           <Route path="*" element={<Error />} />
+          
         </Routes>
         </div>
         </div>
-        {/* <Footer /> */}
-        <FooterContainer/>
+        
+        {/* {navigate&&<Footer/>} */}
+        {/* <Footer/> */}
+        {/* {dashboard&&<FooterContainer/>} */}
+        {/* <FooterContainer/> */}
       </BrowserRouter>
     </div>
   );
