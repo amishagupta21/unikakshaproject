@@ -46,6 +46,7 @@ import { openToaster } from '../../redux/actions/ToastAction';
 import { toast } from 'react-toastify';
 import OtpInput from 'react-otp-input';
 import { getAuth, updateProfile } from "firebase/auth";
+import FooterContainer from '../../components/FooterComponent';
 
 const PersonalDetails = () => {
   const [mobileState, setMobileNumber] = React.useState({ phone: '', data: '' });
@@ -721,9 +722,9 @@ const PersonalDetails = () => {
                     </Nav.Item> */}
                   </Nav>
                 </div>
-                {/* <Button className="delete-link" onClick={() => setShowDeleteModal(true)} variant="link">
+                <Button className="delete-link" onClick={() => setShowDeleteModal(true)} variant="link">
                   Delete Account
-                </Button> */}
+                </Button>
               </Col>
               <Col sm={9}>
                 <div className="tab-content-right">
@@ -1688,6 +1689,7 @@ const DeleteProfilePicModal = ({ show, toggle, onDeleteFail }) => {
             </Button>
         </Modal.Footer>
       </Modal>
+      <FooterContainer/>
     </>
   );
 };

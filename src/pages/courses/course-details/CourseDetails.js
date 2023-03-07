@@ -27,6 +27,7 @@ import {
   tick,
   xbo,
 } from '../../../assets/images';
+import FooterContainer from '../../../components/FooterComponent';
 import ApiService from '../../../services/ApiService';
 import './CourseDetails.scss';
 import Faqs from './Faqs';
@@ -568,6 +569,7 @@ function CourseDetails() {
           </Row>
         </Container>
       </div>
+      <FooterContainer/>
     </>
   );
 }

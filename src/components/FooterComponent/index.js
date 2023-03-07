@@ -7,6 +7,7 @@ import youtube from "../../assets/images/icons/youtubelogo.svg"
 import twitter from "../../assets/images/icons/twitter.svg"
 
 const FooterContainer = () => {
+ 
   return (
     <div className={styles.footerContainer}>
       <div className={styles.credit}>

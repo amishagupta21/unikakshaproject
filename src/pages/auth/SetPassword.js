@@ -22,6 +22,7 @@ import { arrowBack, editGray } from '../../assets/images';
 
 
 import './SetPassword.scss';
+import Footer from '../../components/Footer';
 
 const Signup = () => {
   const [loading, setloading] = useState();
@@ -243,6 +244,7 @@ const Signup = () => {
           </div>
         </div>
       </section>
+      <Footer/>
     </>
   );
 };

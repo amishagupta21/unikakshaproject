@@ -19,6 +19,7 @@ import SocialLogin from '../../utils-componets/SocialLogin';
 import AuthNavbar from './components/AuthNavbar';
 import LeftBox from './components/LeftBox';
 import OtpInput from 'react-otp-input';
+import Footer from '../../components/Footer';
 
 const Signup = () => {
   const [loading, setloading] = useState();
@@ -469,6 +470,7 @@ const Signup = () => {
           </div>
         </div>
       </section>
+      <Footer/>
     </>
   );
 

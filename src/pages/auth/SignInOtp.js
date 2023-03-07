@@ -12,6 +12,7 @@ import ApiService from '../../services/ApiService';
 import './auth.scss';
 import LeftBox from './components/LeftBox';
 import OtpInput from 'react-otp-input';
+import Footer from '../../components/Footer';
 
 const SignInOtp = () => {
   const [loading, setloading] = useState();
@@ -197,6 +198,7 @@ const SignInOtp = () => {
           </div>
         </div>
       </section>
+      <Footer/>
     </>
   );
 };

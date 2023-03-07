@@ -25,6 +25,7 @@ import './Login.scss';
 import { rightArrow } from '../../assets/images';
 import OtpInput from 'react-otp-input';
 import { getAuth, signInWithPhoneNumber } from "firebase/auth";
+import Footer from '../../components/Footer';
 
 
 const Login = () => {
@@ -165,7 +166,7 @@ const Login = () => {
     }
   };
 
-  
+
   const signInWithNumber = async (values) => {
     setAuthError();
     dispatch(setLoading(true));
@@ -192,17 +193,17 @@ const Login = () => {
     dispatch(setLoading(true));
     setloading(true);
     setPhoneNumber(phoneNumber)
-   
+
 
     const appVerifier = configureCaptcha();
     firebase
-        .auth()
-        .signInWithPhoneNumber(`${phoneNumber}`, appVerifier)
-        .then(async (confirmationResult) => {
-          window.confirmationResult = confirmationResult;
-          toast.success('OTP has been Sent to Mobile Number', {
-            theme: 'colored',
-          });
+      .auth()
+      .signInWithPhoneNumber(`${phoneNumber}`, appVerifier)
+      .then(async (confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        toast.success('OTP has been Sent to Mobile Number', {
+          theme: 'colored',
+        });
 
         // OTPTimer();
 
@@ -565,7 +566,9 @@ const Login = () => {
             </div>
           </div>
         </div>
-           </section>
+      </section>
+      <Footer/>
+
     </>
   );
 };

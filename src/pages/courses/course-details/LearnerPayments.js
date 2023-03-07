@@ -7,6 +7,7 @@ import ApiService from '../../../services/ApiService';
 import { useDispatch } from 'react-redux';
 import { setLoading } from '../../../redux/actions/LoaderActions';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import FooterContainer from '../../../components/FooterComponent';
 // import './Payments.scss';
 
   
@@ -295,6 +296,7 @@ console.log(applicationData);
              {/* { paymentStatus == 'Cancelled' ? getPaymentCancelled() : "" } */}
              { paymentStatus == 'Success' ? getPaymentSuccess() : "" }
              { paymentStatus == 'Failed' ? getPaymentFailure() : "" }
+             <FooterContainer/>
         </div>
     );
 }

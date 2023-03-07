@@ -18,6 +18,7 @@ import Payments from './StudentPayments';
 import { isEmpty } from 'lodash';
 import { yearsOptions,optionsmonth,optionsday } from '../../../.././utils-componets/static-content/DateMonthContent';
 import { openToaster } from '../../../../redux/actions/ToastAction';
+import FooterContainer from '../../../../components/FooterComponent';
 
 
 const steps = [
@@ -631,6 +632,7 @@ const StudentCourseApplication = () => {
        ): (
         <Loader />
       )}
+      <FooterContainer/>
     </>
   );
 };

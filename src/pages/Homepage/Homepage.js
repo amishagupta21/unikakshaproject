@@ -9,6 +9,7 @@ import HeroSection from './components/HeroSection';
 import Placementpartner from './components/Placementpartner';
 import { useDispatch } from 'react-redux';
 import { setLoading } from '../../redux/actions/LoaderActions';
+import FooterContainer from '../../components/FooterComponent';
 
 const Homepage = () => {
   const dispatch = useDispatch();
@@ -55,6 +56,7 @@ const Homepage = () => {
           <InviteNow />
         </Row>
       </div>
+      <FooterContainer/>
     </div>
   );
 };

@@ -50,7 +50,6 @@ const PrimaryNavbar = () => {
   };
 
     const cancelHandler=()=>{
-        navigate('/dashboard')
         setShowPopUp(!showPopUp);
     }
 
