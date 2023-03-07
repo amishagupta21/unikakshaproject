@@ -1853,3 +1853,36 @@ a.notification-link-dp.nav-link .dropdown-item img {
 .my-4.card-custom.card-expore.card .align-items-center p:first-child {
   font-weight: bold;
 }
+
+
+.modal-dialog.delete-modal.delete-modal-lg.modal-dialog-centered .modal-title.h4 {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 28px;
+  color: #222380;
+}
+
+
+
+.modal-dialog.delete-modal.delete-modal-lg.modal-dialog-centered .modal-header {
+  border: 0;
+}
+
+.modal-dialog.delete-modal.delete-modal-lg.modal-dialog-centered {
+  max-width: 470px;
+  width: 100%;
+}
+
+.modal-dialog.delete-modal.delete-modal-lg.modal-dialog-centered .info-content {
+  color: #FF3838;    margin: 0;
+}
+
+.modal-dialog.delete-modal.delete-modal-lg.modal-dialog-centered .justify-content-around.modal-footer {
+  justify-content: flex-end !important;
+  border: 0;
+}
+
+.modal-dialog.delete-modal.delete-modal-lg.modal-dialog-centered {
+  max-width: 400px;
+  width: 100%;
+}
