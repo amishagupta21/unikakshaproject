@@ -1848,3 +1848,8 @@ a.notification-link-dp.nav-link .dropdown-item img {
   border: 1px #EF6B29 solid;
   color: #EF6B29;
 }
+
+
+.my-4.card-custom.card-expore.card .align-items-center p:first-child {
+  font-weight: bold;
+}

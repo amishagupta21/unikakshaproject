@@ -98,13 +98,13 @@ const SocialLogin = ({ setFieldValue }) => {
           Facebook
         </Button>
 
-        <Button
+        {/* <Button
           className="social-btn"
           variant="outline-dark"
         >
           <img className="mx-2" src={appleIcon} alt="facebook" />
           Apple
-        </Button>
+        </Button> */}
       </div>
     </>
   );
