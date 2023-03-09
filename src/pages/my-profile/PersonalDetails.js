@@ -263,7 +263,7 @@ const PersonalDetails = () => {
 
       fetchInitialData(user?.uid);
       dispatch(setLoading(true));
-    },delay*900)
+    },delay*1000)
 
   }, []);
 
