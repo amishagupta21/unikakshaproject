@@ -117,7 +117,6 @@ const Signup = () => {
 
     const { email, mobileNumber: phone } = values;
     const user = await checkIfUserExists(email, phone);
-    console.log(user);
     if (!user) {
       sendOTP(values);
       setloading(false);
