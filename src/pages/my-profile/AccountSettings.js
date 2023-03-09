@@ -32,6 +32,7 @@ import { logout } from '../../firebase/firebaseAuth';
 import { openToaster } from '../../redux/actions/ToastAction';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { setLoading } from '../../redux/actions/LoaderActions';
+import DeleteModel from "../../components/DeleteModel";
 
 
 const AccountSettings = () => {
@@ -45,6 +46,7 @@ const AccountSettings = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    
     useEffect(() => {
      
     }, []);
@@ -52,6 +54,7 @@ const AccountSettings = () => {
     const updateUserPassword = (formValues) => {
 
         dispatch(setLoading(true));
+
 
         const user = firebase.auth().currentUser;
         // console.log(user);return;
@@ -316,6 +319,7 @@ const AccountSettings = () => {
                 <span>Your account will be deleted permanently you will not be able to access the data.</span>
                 <div className="d-grid gap-2 mt-3 mb-3">
                     <Button
+                   
                         type="submit"
                         // disabled={!isValid || loading}
                         style={{ fontWeight: '500' }}
@@ -324,8 +328,10 @@ const AccountSettings = () => {
                         {/* {loading ? 'Loading...' : 'Delete'} */}
                         Delete
                     </Button>
+                 
                     
                     </div>
+
             </div>
         </div>
         </>

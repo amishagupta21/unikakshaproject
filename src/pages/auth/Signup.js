@@ -20,6 +20,8 @@ import AuthNavbar from './components/AuthNavbar';
 import LeftBox from './components/LeftBox';
 import OtpInput from 'react-otp-input';
 import Footer from '../../components/Footer';
+import pencilIcon from "../../assets/images/icons/Pencil.svg"
+import { FaPencilAlt } from 'react-icons/fa';
 
 const Signup = () => {
   const [loading, setloading] = useState();
@@ -29,7 +31,7 @@ const Signup = () => {
   const [userDetails, setUserDetails] = React.useState({});
   const [authError, setAuthError] = React.useState();
   const [disabled, setDisabled] = useState(false);
-  
+
   const styles = {
     container: {
       width: '100vw',
@@ -45,7 +47,7 @@ const Signup = () => {
     buttonDisabled: {
       padding: '5px 5px',
       cursor: 'not-allowed',
-    
+
     },
   };
   function handleDisableButton() {
@@ -53,6 +55,7 @@ const Signup = () => {
   }
 
   const [OTPSent, setOTPSent] = useState(false);
+  const [pencil, setPencil] = useState(false);
   const [OTPLabel, setOTPLabel] = useState('Get OTP');
   const [otp, setOtp] = useState('');
   const [otpError, setOtpError] = useState();
@@ -151,6 +154,7 @@ const Signup = () => {
           dispatch(setLoading(false));
           setOTPLabel('OTP Sent');
           setOTPSent(true);
+          setPencil(true)
 
           // navigate('/signup-otp', {
           //   state: {
@@ -233,7 +237,7 @@ const Signup = () => {
     if (seconds === 0 && minutes === 0) {
       setOTPLabel('Get OTP');
       setOTPSent(false);
-
+      setPencil(false)
       setOtp('');
       setOtpError(null);
       setIsResendDisabled(true);
@@ -352,11 +356,11 @@ const Signup = () => {
                           <FormLabel>
                             Mobile Number<em className="red top">*</em>
                           </FormLabel>
+
                           <PhoneInput
                             placeholder="Enter mobile number"
                             country={'in'}
                             disabled={disabled}
-
                             preferredCountries={['in']}
                             value={field.value}
                             onChange={(phone, data) => {
@@ -364,28 +368,40 @@ const Signup = () => {
                               setFieldValue('mobileLength', data.dialCode.length);
                             }}
                             countryCodeEditable={false}
+
                           />
+
                           <small className="sml-size text-start">
                             We will send you OTP on mobile number.
                           </small>
+
                         </Row>
                       )}
                     />
 
                     <br />
-                    {values.mobileNumber.length - values.mobileLength === 10 && (
 
-                      <Button
-                        // style={disabled ? styles.buttonDisabled : styles.button}
-                        // disabled={disabled}
-                        // onClick={handleDisableButton}
-                        type={OTPSent ? 'button' : 'submit'}
-                        variant="outline-primary"
-                        className={OTPSent ? 'otp-sent' : 'get-otp-btn'} >
-                        {OTPLabel}
-                      </Button>
-                    )}
-                    
+                    {values.mobileNumber.length - values.mobileLength === 10 &&
+
+                      (
+                        <>
+
+                          <Button
+                            // style={disabled ? styles.buttonDisabled : styles.button}
+                            // disabled={disabled}
+                            // onClick={handleDisableButton}
+                            type={OTPSent ? 'button' : 'submit'}
+                            variant="outline-primary"
+                            className={OTPSent ? 'otp-sent' : 'get-otp-btn'} >
+                            {/* {values.mobileNumber.length - values.mobileLength === 10 && (
+                              <img src={pencilIcon} height={14} width={14} />
+                            )} */}
+                            {OTPLabel}
+                          </Button>
+
+                        </>
+                      )}
+
                     {OTPSent && (
                       <>
                         <div className="otp-input">
@@ -470,10 +486,22 @@ const Signup = () => {
           </div>
         </div>
       </section>
-      <Footer/>
+      <Footer />
     </>
   );
 
 };
 
 export default Signup;
+// const PhoneInputWithIcon = ({ value, onChange, ...rest }) => {
+//   return (
+//     <div className="phone-input-with-icon">
+//       <PhoneInput
+//         value={value}
+//         onChange={onChange}
+//         {...rest}
+//       />
+//       <FaPencilAlt className="phone-input-icon" />
+//     </div>
+//   );
+// };
