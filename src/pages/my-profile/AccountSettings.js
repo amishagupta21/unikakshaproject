@@ -20,9 +20,11 @@ import FormGroup from 'react-bootstrap/FormGroup';
 import FormLabel from 'react-bootstrap/FormLabel';
 import Row from 'react-bootstrap/Row';
 import Alert from 'react-bootstrap/Alert';
-import facebookIcon from '../../assets/images/Facebook-icon.svg';
-import googleIcon from '../../assets/images/Google-icon.svg';
+import facebookIcon from '../../assets/images/ico-io-fb.svg';
+import googleIcon from '../../assets/images/icon-io-g.svg';
 import AppleIcon from '../../assets/images/apple-icon.svg';
+import { Modal } from 'react-bootstrap'
+import {  trashWhite } from '../../assets/images';
 import './AccountSettings.scss';
   
   import ApiService from '../../services/ApiService';   
@@ -32,7 +34,6 @@ import { logout } from '../../firebase/firebaseAuth';
 import { openToaster } from '../../redux/actions/ToastAction';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { setLoading } from '../../redux/actions/LoaderActions';
-import DeleteModel from "../../components/DeleteModel";
 
 
 const AccountSettings = () => {
@@ -42,7 +43,7 @@ const AccountSettings = () => {
     const location = useLocation();
     const [authError, setAuthError] = React.useState();
     const [userDetails, setUserDetails] = React.useState({});
-
+    const [showDeleteModal, setShowDeleteModal] = React.useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -50,6 +51,21 @@ const AccountSettings = () => {
     useEffect(() => {
      
     }, []);
+
+    const onDeleteFail = () => {
+        dispatch(openToaster({
+          show: true,
+          header: 'Error!', 
+          variant: 'Danger',
+          body: 'Unable to delete account. Please try again!'
+        }))
+      }
+
+      const logOutHandler = async () => {
+        await logout();
+        dispatch(setIsAuthenticated(false));
+        navigate('/');
+      };
 
     const updateUserPassword = (formValues) => {
 
@@ -91,10 +107,10 @@ const AccountSettings = () => {
 
     return (
         <>
-        <div className="account-settings right_box">
+        <div className="account-settings right_box right_box_accounts">
             <div className="right_box_container">
-                <div className="log-in-title 1">Reset Password</div>
-                <p>Note: New Password must be 8 characters long.</p>
+                <div className="log-in-title 1 mb-5">Reset Password</div>
+                {/* <p>Note: New Password must be 8 characters long.</p> */}
                 <div className="auth_form">
                 <div id="signup-container"> </div>
                 {/* {authError && (
@@ -138,7 +154,7 @@ const AccountSettings = () => {
                         <Field
                         name="current_password"
                         render={({ field, formProps }) => (
-                            <Row className="mb-0">
+                            <Row className="mb-2">
                             <FormGroup
                                 controlId="current_password"
                                 className="form-group-1 mb-3"
@@ -163,7 +179,7 @@ const AccountSettings = () => {
                         <Field
                         name="new_password"
                         render={({ field, formProps }) => (
-                            <Row className="mb-0">
+                            <Row className="mb-2">
                             <FormGroup
                                 controlId="new_password"
                                 className="form-group-1 mb-3"
@@ -189,7 +205,7 @@ const AccountSettings = () => {
                         <Field
                         name="confirm_password"
                         render={({ field, formProps }) => (
-                            <Row className="mb-0">
+                            <Row className="mb-2">
                             <FormGroup
                                 controlId="confirm_password"
                                 className="form-group-1 mb-3"
@@ -240,7 +256,7 @@ const AccountSettings = () => {
                 
             </div>
 
-            <div className="right_box_container">
+            <div className="right_box_container mt-5">
                 <div className="log-in-title 1">Linked Account</div>
                 <Row className="my-2">
                     <Col  md={12}>
@@ -248,7 +264,7 @@ const AccountSettings = () => {
                         className='upload-container uploading' >
                         <div className="uploadbtn-text">
                         <img className="mx-2" src={googleIcon} alt="google" />
-                            <span><h6>Google</h6></span> <br />
+                            <span><h6>Google</h6></span> 
                             {/* <span><p>john.smith@gmail.com</p></span> */}
                         </div>
                         <div className="upload-btn">
@@ -263,7 +279,8 @@ const AccountSettings = () => {
                         className='upload-container uploading' >
                         <div className="uploadbtn-text">
                         <img className="mx-2" src={facebookIcon} alt="facebook" />
-                            <span><h6>Facebook</h6></span>
+                            <div class="sc-login-find"><h6>Facebook</h6>
+                            <span>Enable one click login for Seamless Login Experience.</span></div>
                             
                         </div>
                         <div className="upload-btn">
@@ -272,10 +289,7 @@ const AccountSettings = () => {
                         
                     </div>
                     </Col>
-                    <Col  md={12}>
-                    <div>
-                        <span><p>Enable one click login for Seamless Login Experience.</p></span></div>
-                    </Col>
+                  
                 </Row>
                 <Row className="my-2">
                     <Col  md={12}>
@@ -283,7 +297,9 @@ const AccountSettings = () => {
                         className='upload-container uploading' >
                         <div className="uploadbtn-text">
                         <img className="mx-2" src={AppleIcon} alt="AppleIcon" />
-                            <span><h6>Apple</h6></span>
+                        <div class="sc-login-find"><h6>Apple</h6>
+                        <span>Enable one click login for Seamless Login Experience.</span>
+                        </div>
                             {/* <span><p>Enable one click login for Seamless Login Experience.</p></span> */}
                         </div>
                         <div className="upload-btn">
@@ -291,51 +307,98 @@ const AccountSettings = () => {
                         </div>
                     </div>
                     </Col>
-                    <Col  md={12}>
-                    <div>
-                        <span><p>Enable one click login for Seamless Login Experience.</p></span></div>
-                    </Col>
+                   
                 </Row>
                 
             </div>
 
 
-            <div className="right_box_container">
+            {/* <div className="right_box_container mt-4">
                 <div className="log-in-title 1">Download Copy of your data</div>
                 <span>You will receive profile information and course related data as a Zip file in the next 24 hours on your registered email address.</span>
+                <div className="d-grid gap-2 mt-3 mb-3">
+                    <Button
+                        type="submit" className="button-sml"
+                        // disabled={!isValid || loading}
+                        style={{ fontWeight: '500' }}
+                        variant="secondary">
+                        {/* {loading ? 'Loading...' : 'Download'} */}
+                        {/* Download */}
+                    {/* </Button>
+                    </div>
+            </div> */} 
+            <div className="right_box_container">
+                <div className="log-in-title 1">Delete Account</div>
+                <span>Your account will be deleted permanently you will not be able to access the data.</span>
                 <div className="d-grid gap-2 mt-3 mb-3">
                     <Button
                         type="submit"
                         // disabled={!isValid || loading}
                         style={{ fontWeight: '500' }}
                         variant="secondary">
-                        {/* {loading ? 'Loading...' : 'Download'} */}
-                        Download
-                    </Button>
-                    </div>
-            </div>
-            <div className="right_box_container">
-                <div className="log-in-title 1">Delete Account</div>
-                <span>Your account will be deleted permanently you will not be able to access the data.</span>
-                <div className="d-grid gap-2 mt-3 mb-3">
-                    <Button
-                   
-                        type="submit"
-                        // disabled={!isValid || loading}
-                        style={{ fontWeight: '500' }}
-                        variant="secondary"
-                        >
                         {/* {loading ? 'Loading...' : 'Delete'} */}
                         Delete
                     </Button>
-                 
                     
                     </div>
 
             </div>
+            <DeleteAccountModal onDeleteFail={onDeleteFail} show={showDeleteModal} toggle={setShowDeleteModal} logOutHandler={logOutHandler}/>
         </div>
         </>
     )     
 }
 
 export default AccountSettings;
+
+const DeleteAccountModal = ({ show, toggle, onDeleteFail, logOutHandler }) => {
+    const handleClose = () => toggle(false);
+    const dispatch = useDispatch();
+  
+    const deleteAccount = async () => {
+      dispatch(setLoading(true));
+      const user = firebase.auth().currentUser;
+      const res = await ApiService(`user/uid/${user.uid}/delete`, 'DELETE', {}, true);
+      dispatch(setLoading(false));
+      handleClose();
+      if(res?.data?.code === 200) {
+        logOutHandler();
+      } else {
+        onDeleteFail();
+      }
+    }
+  
+    return (
+      <>
+        <Modal
+          show={show}
+          onHide={handleClose}
+          backdrop="static"
+          keyboard={false}
+          centered
+          dialogClassName="delete-modal delete-modal-lg">
+          <Modal.Header closeButton>
+            <Modal.Title>Delete Account</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p className="info-content">Your account will be deleted permanently you will not be able to access the data.</p>
+          </Modal.Body>
+          <Modal.Footer className='justify-content-around'>
+              <Button variant="danger" style={{ width: '120px' }} onClick={deleteAccount}>
+              <img
+                src={trashWhite}
+                alt="TrashDelete"
+                className="trash-delete"
+                
+              />{' '}
+             
+                Delete
+              </Button>
+              <Button variant="outline-primary" style={{ width: '120px' }} onClick={handleClose}>
+                Cancel
+              </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  };

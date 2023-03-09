@@ -380,3 +380,19 @@ select.form-control {
 .invalid-otp {
 	margin-top: 5px !important;
 }
+
+
+a.fp {
+    color: #8F8799 !important;
+    font-size: 12px;
+    margin-left: 0 !important;
+    text-align: right;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+.info-italic {
+    font-style: italic;
+    text-align: center;
+    font-weight: normal !important;
+}

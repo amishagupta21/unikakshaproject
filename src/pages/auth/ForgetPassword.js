@@ -174,7 +174,7 @@ const ForgetPassword = () => {
                     )}
 
                    
-                    
+                    <p className="info-tl">We will send you a link on your registered email</p>
 
                    
 
@@ -188,7 +188,7 @@ const ForgetPassword = () => {
                       </Button>
                     </div>
 
-                    <p>* If your email is registered you will get an email with a link to reset your password. Check your email.</p>
+                    <p className="info-italic">* If your email is registered you will get an email with a link to reset your password. Check your email.</p>
                     
                     
                   </Form>

@@ -1590,7 +1590,10 @@ const PersonalDetails = () => {
             <DeleteProfilePicModal onDeleteFail={onDeleteFail} show={showConfirmModal} toggle={setShowConfirmModal} />
           </Tab.Container>
         </Container>
+
+       
       </div>
+      <FooterContainer/>
     </>
   );
 };
@@ -1695,7 +1698,7 @@ const DeleteProfilePicModal = ({ show, toggle, onDeleteFail }) => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <FooterContainer />
+      <FooterContainer/>
     </>
   );
 };
