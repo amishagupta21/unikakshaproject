@@ -370,9 +370,6 @@ const Login = () => {
                                       countryCodeEditable={false}
                                     />
                                   </Row>
-                                 
-
-
                                 )}
                               />
                               {(values.mobileNumber.length - values.mobileLength === 10) && (
@@ -437,13 +434,6 @@ const Login = () => {
                               {errors.mobileNumber && touched.mobileNumber ? (
                                 <div className="error-text">{errors.mobileNumber}</div>
                               ) : null}
-
-<Row>
- <div>
-<Link to="/forget-password" className='fp'>
-Forgot Password?</Link>
-</div>
-</Row>
                               <div className="d-grid gap-2 mt-4">
                                 <Button
                                   type="button"
@@ -513,7 +503,7 @@ Forgot Password?</Link>
                                   <Row className="mb-0">
                                     <FormGroup
                                       controlId="password"
-                                      className="form-group-1 mb-0"
+                                      className="form-group-1 mb-3"
                                       as={Col}
                                       md="12">
                                       <FormLabel>
@@ -529,7 +519,7 @@ Forgot Password?</Link>
                                   </Row>
                                 )}
                               />
-                              <div className='mb-4'>
+                              <div>
                                 <Link to="/forget-password" className='fp'>
                                   Forgot Password?</Link>
                               </div>
