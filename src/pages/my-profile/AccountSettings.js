@@ -20,8 +20,8 @@ import FormGroup from 'react-bootstrap/FormGroup';
 import FormLabel from 'react-bootstrap/FormLabel';
 import Row from 'react-bootstrap/Row';
 import Alert from 'react-bootstrap/Alert';
-import facebookIcon from '../../assets/images/Facebook-icon.svg';
-import googleIcon from '../../assets/images/Google-icon.svg';
+import facebookIcon from '../../assets/images/ico-io-fb.svg';
+import googleIcon from '../../assets/images/icon-io-g.svg';
 import AppleIcon from '../../assets/images/apple-icon.svg';
 import { Modal } from 'react-bootstrap'
 import {  trashWhite } from '../../assets/images';
@@ -106,10 +106,10 @@ const AccountSettings = () => {
 
     return (
         <>
-        <div className="account-settings right_box">
+        <div className="account-settings right_box right_box_accounts">
             <div className="right_box_container">
-                <div className="log-in-title 1">Reset Password</div>
-                <p>Note: New Password must be 8 characters long.</p>
+                <div className="log-in-title 1 mb-5">Reset Password</div>
+                {/* <p>Note: New Password must be 8 characters long.</p> */}
                 <div className="auth_form">
                 <div id="signup-container"> </div>
                 {/* {authError && (
@@ -153,7 +153,7 @@ const AccountSettings = () => {
                         <Field
                         name="current_password"
                         render={({ field, formProps }) => (
-                            <Row className="mb-0">
+                            <Row className="mb-2">
                             <FormGroup
                                 controlId="current_password"
                                 className="form-group-1 mb-3"
@@ -178,7 +178,7 @@ const AccountSettings = () => {
                         <Field
                         name="new_password"
                         render={({ field, formProps }) => (
-                            <Row className="mb-0">
+                            <Row className="mb-2">
                             <FormGroup
                                 controlId="new_password"
                                 className="form-group-1 mb-3"
@@ -204,7 +204,7 @@ const AccountSettings = () => {
                         <Field
                         name="confirm_password"
                         render={({ field, formProps }) => (
-                            <Row className="mb-0">
+                            <Row className="mb-2">
                             <FormGroup
                                 controlId="confirm_password"
                                 className="form-group-1 mb-3"
@@ -255,7 +255,7 @@ const AccountSettings = () => {
                 
             </div>
 
-            <div className="right_box_container">
+            <div className="right_box_container mt-5">
                 <div className="log-in-title 1">Linked Account</div>
                 <Row className="my-2">
                     <Col  md={12}>
@@ -263,7 +263,7 @@ const AccountSettings = () => {
                         className='upload-container uploading' >
                         <div className="uploadbtn-text">
                         <img className="mx-2" src={googleIcon} alt="google" />
-                            <span><h6>Google</h6></span> <br />
+                            <span><h6>Google</h6></span> 
                             {/* <span><p>john.smith@gmail.com</p></span> */}
                         </div>
                         <div className="upload-btn">
@@ -278,7 +278,8 @@ const AccountSettings = () => {
                         className='upload-container uploading' >
                         <div className="uploadbtn-text">
                         <img className="mx-2" src={facebookIcon} alt="facebook" />
-                            <span><h6>Facebook</h6></span>
+                            <div class="sc-login-find"><h6>Facebook</h6>
+                            <span>Enable one click login for Seamless Login Experience.</span></div>
                             
                         </div>
                         <div className="upload-btn">
@@ -287,10 +288,7 @@ const AccountSettings = () => {
                         
                     </div>
                     </Col>
-                    <Col  md={12}>
-                    <div>
-                        <span><p>Enable one click login for Seamless Login Experience.</p></span></div>
-                    </Col>
+                  
                 </Row>
                 <Row className="my-2">
                     <Col  md={12}>
@@ -298,7 +296,9 @@ const AccountSettings = () => {
                         className='upload-container uploading' >
                         <div className="uploadbtn-text">
                         <img className="mx-2" src={AppleIcon} alt="AppleIcon" />
-                            <span><h6>Apple</h6></span>
+                        <div class="sc-login-find"><h6>Apple</h6>
+                        <span>Enable one click login for Seamless Login Experience.</span>
+                        </div>
                             {/* <span><p>Enable one click login for Seamless Login Experience.</p></span> */}
                         </div>
                         <div className="upload-btn">
@@ -306,16 +306,13 @@ const AccountSettings = () => {
                         </div>
                     </div>
                     </Col>
-                    <Col  md={12}>
-                    <div>
-                        <span><p>Enable one click login for Seamless Login Experience.</p></span></div>
-                    </Col>
+                   
                 </Row>
                 
             </div>
 
 
-            <div className="right_box_container">
+            {/* <div className="right_box_container mt-4">
                 <div className="log-in-title 1">Download Copy of your data</div>
                 <span>You will receive profile information and course related data as a Zip file in the next 24 hours on your registered email address.</span>
                 <div className="d-grid gap-2 mt-3 mb-3">
@@ -325,10 +322,10 @@ const AccountSettings = () => {
                         style={{ fontWeight: '500' }}
                         variant="secondary">
                         {/* {loading ? 'Loading...' : 'Download'} */}
-                        Download
-                    </Button>
+                        {/* Download */}
+                    {/* </Button>
                     </div>
-            </div>
+            </div> */} 
             <div className="right_box_container">
                 <div className="log-in-title 1">Delete Account</div>
                 <span>Your account will be deleted permanently you will not be able to access the data.</span>
@@ -349,7 +346,7 @@ const AccountSettings = () => {
 <path d="M13.3081 20.4056H7.69061C4.63686 20.4056 4.51436 18.7169 4.41811 17.3519L3.84936 8.54064C3.82311 8.18189 4.10311 7.86689 4.46186 7.84064C4.82936 7.82314 5.13561 8.09439 5.16186 8.45314L5.73061 17.2644C5.82686 18.5944 5.86186 19.0931 7.69061 19.0931H13.3081C15.1456 19.0931 15.1806 18.5944 15.2681 17.2644L15.8369 8.45314C15.8631 8.09439 16.1781 7.82314 16.5369 7.84064C16.8956 7.86689 17.1756 8.17314 17.1494 8.54064L16.5806 17.3519C16.4844 18.7169 16.3619 20.4056 13.3081 20.4056Z" fill="#FF3838"/>
 <path d="M11.9528 15.5938H9.03906C8.68031 15.5938 8.38281 15.2962 8.38281 14.9375C8.38281 14.5788 8.68031 14.2812 9.03906 14.2812H11.9528C12.3116 14.2812 12.6091 14.5788 12.6091 14.9375C12.6091 15.2962 12.3116 15.5938 11.9528 15.5938Z" fill="#FF3838"/>
 <path d="M12.6885 12.0957H8.31348C7.95473 12.0957 7.65723 11.7982 7.65723 11.4395C7.65723 11.0807 7.95473 10.7832 8.31348 10.7832H12.6885C13.0472 10.7832 13.3447 11.0807 13.3447 11.4395C13.3447 11.7982 13.0472 12.0957 12.6885 12.0957Z" fill="#FF3838"/>
-</svg>  Delete 
+</svg>  <i>Delete </i>
                 </Button>
                     </div>
             </div>

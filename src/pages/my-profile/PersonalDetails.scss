@@ -309,6 +309,11 @@ div#personal h3 {
 .height-optionheight-option .form-select {
     height: 44px;
 }
+
+.top-dashboard-profiles.profile-personal.d-flex.flex-row.mx-auto.my-5.profile-personal-form .tab-content-right .tab-content {
+
+    margin: 0;margin-left: 50px
+}
 @media screen and ( max-width:767px) {
 .profile-personal-form .left-nav {
     position: static;
