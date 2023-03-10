@@ -353,7 +353,7 @@ const AccountSettings = () => {
             </div> */}
                 <div className="right_box_container">
                     <div className="log-in-title 1">Delete Account</div>
-                    <span>Your account will be deleted permanently you will not be able to access the data.</span>
+                    <span>Your account will be deleted permanently you will not be able to access the data. </span>
                     <div className="d-grid gap-2 mt-3 mb-3">
                         <Button
                             onClick={() => { deletepopup() }}
