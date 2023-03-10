@@ -1593,6 +1593,10 @@ const PersonalDetails = () => {
 
        
       </div>
+      <div className=''>
+      <FooterContainer/>
+
+      </div>
     </>
   );
 };
@@ -1697,7 +1701,6 @@ const DeleteProfilePicModal = ({ show, toggle, onDeleteFail }) => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <FooterContainer/>
     </>
   );
 };
