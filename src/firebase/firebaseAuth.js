@@ -68,26 +68,17 @@ const logInWithEmailAndPassword = async (email, password) => {
   }
 };
 
-// const registerWithEmailAndPassword = async (name, email, password) => {
-//   try {
-//     return await createUserWithEmailAndPassword(auth, email, password);
-//   } catch (err) {
-//     console.error(err);
-//     toast.error(`${err.message}`, {
-//       theme: 'colored',
-//     });
-//   }
-// };
-// const registerWithPhoneNumber = async (name, phone) => {
-//   try {
-//     return await createUserWithPhoneNumber(auth,phone);
-//   } catch (err) {
-//     console.error(err);
-//     toast.error(`${err.message}`, {
-//       theme: 'colored',
-//     });
-//   }
-// };
+const registerWithEmailAndPassword = async (name, email, password) => {
+  try {
+    return await createUserWithEmailAndPassword(auth, email, password);
+  } catch (err) {
+    console.error(err);
+    toast.error(`${err.message}`, {
+      theme: 'colored',
+    });
+  }
+};
+
 const sendPasswordReset = async (email) => {
   try {
     await sendPasswordResetEmail(auth, email);
@@ -117,5 +108,4 @@ export {
   sendPasswordReset,
   forgotPassword,
   logout,
-  // registerWithPhoneNumber,
 };
