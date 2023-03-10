@@ -21,7 +21,8 @@ import LeftBox from './components/LeftBox';
 import OtpInput from 'react-otp-input';
 import Footer from '../../components/Footer';
 import pencilIcon from "../../assets/images/icons/Pencil.svg"
-import { FaPencilAlt } from 'react-icons/fa';
+// import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Signup = () => {
   const [loading, setloading] = useState();
@@ -117,7 +118,6 @@ const Signup = () => {
 
     const { email, mobileNumber: phone } = values;
     const user = await checkIfUserExists(email, phone);
-    console.log(user);
     if (!user) {
       sendOTP(values);
       setloading(false);
@@ -378,14 +378,12 @@ const Signup = () => {
                         </Row>
                       )}
                     />
-
-                    <br />
+                    <br/>
+                    
 
                     {values.mobileNumber.length - values.mobileLength === 10 &&
-
                       (
                         <>
-
                           <Button
                             // style={disabled ? styles.buttonDisabled : styles.button}
                             // disabled={disabled}
@@ -393,9 +391,9 @@ const Signup = () => {
                             type={OTPSent ? 'button' : 'submit'}
                             variant="outline-primary"
                             className={OTPSent ? 'otp-sent' : 'get-otp-btn'} >
-                            {/* {values.mobileNumber.length - values.mobileLength === 10 && (
-                              <img src={pencilIcon} height={14} width={14} />
-                            )} */}
+                           
+                              
+                            
                             {OTPLabel}
                           </Button>
 
