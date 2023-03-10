@@ -1,20 +1,21 @@
 import React from 'react'
+import styles from "./index.module.css"
 
-const DeleteModel = () => {
+const DeleteModel = (props) => {
   return (
     <div className={styles.modal}>
             <div className={styles.innerModal}>
-                <h1>Log Out</h1>
-                <p>You will be returned to the login <br />Screen.</p>
+                <h1>Delete Account</h1>
+                <p>Your account will be deleted permanently <br />you will not be able to access the data.</p>
                 <div className={styles.or}>
                     <div></div>
                 </div>
                 <div className={styles.buttonContainer}>
-                    <div  className={styles.cancel}>
+                    <div onClick={props.cancelHandler} className={styles.cancel}>
                         <span>Cancel</span>
                     </div>
-                    <div className={styles.logout}>
-                        <span>Log out</span>
+                    <div onClick={props.deleteHandler} className={styles.logout}>
+                        <span>Delete Account </span>
                     </div>
                 </div>
             </div>

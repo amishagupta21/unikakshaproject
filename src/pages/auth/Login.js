@@ -370,7 +370,7 @@ const Login = () => {
                                       countryCodeEditable={false}
                                     />
                                   </Row>
-                                 
+
 
 
                                 )}
@@ -438,12 +438,12 @@ const Login = () => {
                                 <div className="error-text">{errors.mobileNumber}</div>
                               ) : null}
 
-<Row>
- <div>
-<Link to="/forget-password" className='fp'>
-Forgot Password?</Link>
-</div>
-</Row>
+                              <Row>
+                                <div>
+                                  {/* <Link to="/forget-password" className='fp'>
+                                  Forgot Password?</Link> */}
+                                </div>
+                              </Row>
                               <div className="d-grid gap-2 mt-4">
                                 <Button
                                   type="button"
@@ -577,7 +577,7 @@ Forgot Password?</Link>
           </div>
         </div>
       </section>
-      <Footer/>
+      <Footer />
 
     </>
   );
