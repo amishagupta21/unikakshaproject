@@ -17,7 +17,7 @@ const DeleteModel = (props) => {
                     <div></div>
                 </div>
                 <div className={styles.buttonContainer}>
-                    <div onClick={props.cancelHandler} className={styles.cancel}>
+                    <div onClick={props.deleteHandler} className={styles.cancel}>
                     <img
               src={trashWhite}
               alt="TrashDelete"
@@ -25,7 +25,7 @@ const DeleteModel = (props) => {
               
             /> <span>Delete</span>
                     </div>
-                    <div onClick={props.deleteHandler} className={styles.logout}>
+                    <div onClick={props.cancelHandler} className={styles.logout}>
                         <span>Cancel </span>
                     </div>
                 </div>
