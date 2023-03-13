@@ -47,3 +47,14 @@
         margin-left: 235px;
     }
 }
+
+@media screen and (max-width:767px) {
+
+    .login .get-otp-btn, .login .otp-sent {
+     
+        right: 8px;
+        z-index: 2;
+    }
+    
+}
+

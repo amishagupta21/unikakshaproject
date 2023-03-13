@@ -1892,3 +1892,7 @@ a.notification-link-dp.nav-link .dropdown-item img {
     top: 29px;
     cursor: pointer;
 }
+
+.my-5.course-application.course-application-ui {
+  min-height: calc( 100vh - 300px);
+}
