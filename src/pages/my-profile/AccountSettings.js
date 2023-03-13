@@ -75,6 +75,10 @@ const AccountSettings = () => {
     const cancelHandler = () => {
         setDeletePop(!deletePop)
     }
+
+    const cancelIconHandler = () => {
+        setDeletePop(!deletePop)
+    }
     const handleClose = () => toggle(false);
 
     const deleteHandler = async () => {
@@ -364,7 +368,7 @@ const AccountSettings = () => {
                             {/* {loading ? 'Loading...' : 'Delete'} */}
                             Delete
                         </Button>
-                        {deletePop ? <DeleteModel cancelHandler={cancelHandler} deleteHandler={deleteHandler} /> : null}
+                    {deletePop ? <DeleteModel cancelHandler={cancelHandler} deleteHandler={deleteHandler} cancelIconHandler={cancelIconHandler}/> : null}
                     </div>
 
                 </div>
