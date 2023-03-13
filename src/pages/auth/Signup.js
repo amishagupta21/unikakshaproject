@@ -20,9 +20,7 @@ import AuthNavbar from './components/AuthNavbar';
 import LeftBox from './components/LeftBox';
 import OtpInput from 'react-otp-input';
 import Footer from '../../components/Footer';
-import pencilIcon from "../../assets/images/icons/Pencil.svg"
-// import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 const Signup = () => {
   const [loading, setloading] = useState();
@@ -121,6 +119,12 @@ const Signup = () => {
     if (!user) {
       sendOTP(values);
       setloading(false);
+      // const phoneAuthProvider = new firebase.auth.PhoneAuthProvider();
+      //   phoneAuthProvider.verifyPhoneNumber(phoneNumber, {
+      //     // Provide a callback to handle the verification code
+      //     // sent to the user's phone
+          
+      //   });
     } else {
       setAuthError('User already exists');
       dispatch(setLoading(false));
@@ -218,7 +222,6 @@ const Signup = () => {
       countryCode: formData.countryCode,
     };
     const result = await ApiService(`user/create`, `POST`, userData);
-    console.log(result);
     localStorage.setItem('user', JSON.stringify(user));
     if (result?.data.code === 200) {
       // navigate('/info');
