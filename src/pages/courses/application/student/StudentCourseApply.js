@@ -433,7 +433,7 @@ const StudentCourseApplication = () => {
                               <ToggleButton
                                 className="border border-secondary radio-buttons me-2"
                                 key={idx}
-                                style={{ maxWidth: '30%' }}
+                                style={{ maxWidth: '35%' }}
                                 id={`gender-${idx}`}
                                 type="radio"
                                 variant="outline-primary"
