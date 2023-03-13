@@ -12,6 +12,7 @@ import { Button, ButtonGroup, Col, Container, Form, Row, ToggleButton } from 're
 import { workingRemote } from '../../assets/images';
 import './EducationalDetails.scss';
 import lodash from 'lodash';
+import { openToaster } from '../../redux/actions/ToastAction';
 
 
 
@@ -281,7 +282,7 @@ const EducationalDetails = (educationalInfo) => {
     dispatch(setLoading(true));
    
     const response = await ApiService('/student/update-educational-details', `PATCH`, payload, true);
-    // setIsNextLoading(false);
+    // setIsNextLoading(true);
     
     if (response?.data.code === 200) {
       setEducationalDetails(payload);
@@ -755,7 +756,8 @@ const EducationalDetails = (educationalInfo) => {
               className="col-1 me-2 btn btn-outline-secondary"
               variant="outline-secondary"
               type="button"
-              onClick={returnToDashboard}>
+              onClick={returnToDashboard}
+              >
               Cancel
             </Button>
             <Button

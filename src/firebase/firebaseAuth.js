@@ -13,6 +13,7 @@ const googleProvider = new GoogleAuthProvider();
 const facebookProvider = new FacebookAuthProvider();
 const twitterProvider = new TwitterAuthProvider();
 
+
 const signInWithGoogle = async () => {
   try {
     return await signInWithPopup(auth, googleProvider);
@@ -23,6 +24,16 @@ const signInWithGoogle = async () => {
     });
   }
 };
+// const signInWithPhone = async () => {
+//   try {
+//     return await signInWithPopup(auth, provider);
+//   } catch (err) {
+//     console.error(err);
+//     toast.error(`${err.message}`, {
+//       theme: 'colored',
+//     });
+//   }
+// };
 
 const forgotPassword = async (email) => {
   try {
