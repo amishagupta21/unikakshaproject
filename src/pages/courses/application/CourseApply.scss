@@ -237,3 +237,14 @@
     max-width: 120px;
     margin: 0 8px;
 }
+
+.day-block {
+    display: flex;
+    flex-direction: row;
+    margin: 0 -11px;
+}
+.day-form {
+    max-width: 33.3%;
+    flex: 0 0 33.3%;
+    padding: 0 11px;
+}

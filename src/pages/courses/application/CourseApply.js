@@ -324,7 +324,7 @@ const CourseApplication = () => {
   return (
     <>
       {!isLoading ? (
-        <div className="course-application">
+        <div className="course-application 12">
           <div className="container">
           <div className="d-flex mt-5 back-btn">
             <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
@@ -513,14 +513,16 @@ const CourseApplication = () => {
                         </Row>
                       </Form.Group>
 
-                      <Form.Group as={Col} lg={4} controlId="dob" style={{display: 'flex',justifyContent: 'space-around'}}>
-                     <div>
+                      <Form.Group as={Col} lg={4} controlId="dob" >
+                 
+                     <div className='day-block'>
+                     <div className='day-form'>
                      <Form.Label>
                         Day
                       </Form.Label>
                       <Form.Select 
                         name="birth_date"
-                        style={{width: '100px'}}
+                      
                         className={
                           formik.touched.birth_date && formik.errors.birth_date ? 'is-invalid' : null
                         }
@@ -540,17 +542,17 @@ const CourseApplication = () => {
                       </Form.Select>
                       {formik.touched.birth_date && formik.errors.birth_date ? (
                         <div className="error-message">{formik.errors.birth_date}</div>
-                      ) : null}
-                     </div>
+                      ) : null}</div>
+                   
 
 
-                      <div>
+                     <div className='day-form'>
                       <Form.Label>
                         Month
                       </Form.Label>
                       <Form.Select
                         name="birth_month"
-                        style={{width: '170px'}}
+                      
                         className={
                           formik.touched.birth_month && formik.errors.birth_month ? 'is-invalid' : null
                         }
@@ -573,14 +575,14 @@ const CourseApplication = () => {
                       </div>
 
 
-                     <div>
+                      <div className='day-form'>
                      <Form.Label>
                         Year<span className="text-danger">*</span>
                       </Form.Label>
                       <Form.Select
                         name="birth_year"
                         disabled="disabled"
-                        style={{width: '120px', padding: '10px'}}
+       
                         className={
                           formik.touched.birth_year && formik.errors.birth_year ? 'is-invalid' : null
                         }
@@ -601,7 +603,7 @@ const CourseApplication = () => {
                       {formik.touched.birth_year && formik.errors.birth_year ? (
                         <div className="error-message">{formik.errors.birth_year}</div>
                       ) : null} 
-                     </div>
+                     </div>  </div>
                      </Form.Group>
                     </Row>
                   
@@ -618,9 +620,9 @@ const CourseApplication = () => {
                       </Form.Group>
                     </Row>
 
-                    <Row className="d-flex justify-content-end my-btn-styles">
+                    <Row className="d-flex justify-content-end my-btn-styles row">
                       <Button
-                        className="col-1 me-2 btn btn-outline-secondary"
+                        className="btn btn-outline-secondary btn "
                         variant="outline-secondary"
                         type="button"
                         onClick={returnToDashboard}>
