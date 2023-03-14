@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useState, useEffect } from 'react';
+
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import PhoneInput from 'react-phone-input-2';
@@ -58,7 +60,7 @@ const EducationalDetails = (educationalInfo) => {
     const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
     const [EducationalData, setEducationalDetails] = React.useState({});
     const [occupation, setOccupation] = React.useState([]);
-
+    
    
     const educationalDetails = educationalInfo?.educationalInfo;
     // const workDetails = educationalInfo?.educationalData?.work_details;
@@ -274,9 +276,12 @@ const EducationalDetails = (educationalInfo) => {
           values.other_program_course_duration;
       }
       // setIsNextLoading(true);
+      
       submitEducationalDetails(payload);
     },
   });
+  
+  
 
   const submitEducationalDetails = async (payload) => {
     dispatch(setLoading(true));
@@ -665,6 +670,7 @@ const EducationalDetails = (educationalInfo) => {
                       </Row>
                     </Form.Group>
                   </Row>
+                  
                   {is_enrolled_other_program !== 'no' && (
                     <>
                       <Row className="mb-5">
@@ -678,6 +684,7 @@ const EducationalDetails = (educationalInfo) => {
                             type="text"
                             placeholder="Program name"
                             onChange={formik.handleChange}
+                          
                             className={
                               formik.touched.other_program_name && formik.errors.other_program_name
                                 ? 'is-invalid'
@@ -700,6 +707,7 @@ const EducationalDetails = (educationalInfo) => {
                             name="other_program_college_name"
                             placeholder="College name"
                             onChange={formik.handleChange}
+                           
                             className={
                               formik.touched.other_program_college_name &&
                               formik.errors.other_program_college_name
@@ -727,6 +735,7 @@ const EducationalDetails = (educationalInfo) => {
                             type="text"
                             placeholder="Duration in months"
                             onChange={formik.handleChange}
+                            
                             className={
                               formik.touched.other_program_course_duration &&
                               formik.errors.other_program_course_duration
@@ -735,6 +744,7 @@ const EducationalDetails = (educationalInfo) => {
                             }
                             onBlur={formik.handleBlur}
                             value={formik.values?.other_program_course_duration}
+                            
                           />
                           {formik.touched.other_program_course_duration &&
                           formik.errors.other_program_course_duration ? (
