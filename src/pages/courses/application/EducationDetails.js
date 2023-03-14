@@ -50,7 +50,7 @@ const EducationDetails = ({
   const [graduatedYesOrNo, setGraduatedYesOrNo] = React.useState('nill');
   const [yesOrNoLabel, setYesOrNoLabel] = React.useState('');
   const [highestQualification, setHighestQualification] = React.useState('');
-  const [is_enrolled_other_program, setis_enrolled_other_program] = React.useState('no');
+  const [is_enrolled_other_program, setis_enrolled_other_program] = React.useState('yes');
   const [workingPositionList, setworkingPositionList] = React.useState('');
   const [isNextLoading, setIsNextLoading] = React.useState(false);
   const yesNo = [
@@ -619,13 +619,16 @@ const EducationDetails = ({
                               onChange={(e) => {
                                 setis_enrolled_other_program(e.currentTarget.value);
                               }}>
+                                
                               <span className="options">{enrollOption.name}</span>
                             </ToggleButton>
+                            
                           ))}
                         </ButtonGroup>
                       </Row>
                     </Form.Group>
                   </Row>
+                  
                   {is_enrolled_other_program !== 'no' && (
                     <>
                       <Row className="mb-5">

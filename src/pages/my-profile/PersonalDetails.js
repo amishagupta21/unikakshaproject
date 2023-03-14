@@ -67,6 +67,7 @@ const PersonalDetails = () => {
   const [birthInfo, setBirthInfo] = React.useState();
 
   const [changeMobileNoPopup, setChangeMobileNoPopup] = React.useState(false);
+  const [changeWhatsappNoPopup, setchangeWhatsappNoPopup] = React.useState(false);
   const [otpPopup, setOTPPopup] = React.useState(false);
 
   const [changeEmailPopup, setChangeEmailPopup] = React.useState(false);
@@ -263,7 +264,7 @@ const PersonalDetails = () => {
 
       fetchInitialData(user?.uid);
       dispatch(setLoading(true));
-    },delay*1000)
+    }, delay * 1000)
 
   }, []);
 
@@ -447,10 +448,16 @@ const PersonalDetails = () => {
 
   const changeMobileNo = () => {
     setChangeMobileNoPopup(true);
+    setDisabled(false)
   };
-
+  const [disabled, setDisabled] = React.useState(true);
+  const changeWhatsappNo = () => {
+    setchangeWhatsappNoPopup(true)
+    setDisabled(false)
+  }
   const changeMobileEmailId = () => {
     setChangeEmailPopup(true)
+    setDisabled(false)
   };
 
 
@@ -496,6 +503,7 @@ const PersonalDetails = () => {
           theme: 'colored',
         });
         setChangeMobileNoPopup(false);
+        setchangeWhatsappNoPopup(false)
         setOTPPopup(true);
 
         dispatch(setLoading(false));
@@ -925,6 +933,7 @@ const PersonalDetails = () => {
                                             onBlur={formik.handleBlur}
                                             placeholder="Enter your Email"
                                             value={formik.values?.email}
+                                            disabled={true}
                                           // disabled={ userData?.email }
                                           />
                                           <span className='change-mobile-no'><a onClick={() => changeMobileEmailId()}>Change Email Id</a></span>
@@ -951,6 +960,7 @@ const PersonalDetails = () => {
                                             countryCodeEditable={false}
                                             onBlur={formik.handleBlur('mobile_number')}
                                             placeholder="Enter your Mobile number"
+                                            disabled={true}
                                           // defaultValue={userData?.phone}
                                           // disabled={ userData?.phone }
                                           />
@@ -986,9 +996,9 @@ const PersonalDetails = () => {
                                             }}
                                             countryCodeEditable={false}
                                             onBlur={formik.handleBlur('whatsapp_number')}
-                                            placeholder="Enter your Whatsapp number"
+                                            placeholder="Enter your Whatsapp number" disabled={true}
                                           />
-
+                                          <span className='change-mobile-no'><a onClick={() => changeWhatsappNo()}>Change Whatsapp Number</a></span>
                                           {formik.touched.whatsapp_number &&
                                             formik.errors.whatsapp_number ? (
                                             <div className="error-message  mt-3">
@@ -1241,6 +1251,73 @@ const PersonalDetails = () => {
                                                     countryCodeEditable={false}
                                                     onBlur={formik1.handleBlur('change_mobile_number')}
                                                     placeholder="Enter your Mobile number"
+                                                  // defaultValue={userData?.phone}
+                                                  // disabled={ userData?.phone }
+                                                  />
+
+                                                  {formik1.touched.mobile_number &&
+                                                    formik1.errors.mobile_number ? (
+                                                    <div className="error-message">
+                                                      {formik1.errors.mobile_number}
+                                                    </div>
+                                                  ) : null}
+                                                </Form.Group>
+
+                                              </div>
+                                            </div>
+                                            <div className="mt-3 model-body">
+                                              <Row className="d-flex justify-content-end">
+                                                <Button
+                                                  className="btn"
+                                                  // disabled={
+                                                  //   !(formik1.isValid && formik1.dirty) || isNextLoading
+                                                  // }
+                                                  variant="secondary"
+                                                  type="submit">
+                                                  {isNextLoading ? 'Verify.. ' : 'Verify'}
+                                                </Button>
+
+                                              </Row>
+                                            </div>
+                                          </>
+                                        </Form>
+                                      </section>
+                                    </div>
+                                  </>
+                                )}
+                                {changeWhatsappNoPopup && (
+                                  <>
+                                    <div className="profile-popup modal display-block">
+                                      <section className="modal-main">
+                                        <Form onSubmit={formik1.handleSubmit}>
+                                          <>
+                                            <div className="model-body">
+                                              <div className="modalheader">
+                                                <span>Change Whatsapp Number</span>
+                                                <span
+                                                  className="floatRight close-btn"
+                                                  onClick={() => togglePopup()}>
+                                                  x
+                                                </span>
+                                              </div>
+                                              <div className="mt-3">
+                                                <div id="profile-otp-container"></div>
+                                                <Form.Group as={Col} sm={12} controlId="mobile_number">
+                                                  <Form.Label>
+                                                    Whatsapp Number<span className="text-danger"> *</span>
+                                                  </Form.Label>
+                                                  <PhoneInput
+                                                    country={'in'}
+                                                    name="change_mobile_number"
+                                                    // value={userData?.phone? userData?.phone:formik.values?.mobile_number}
+                                                    value={formik1.values?.change_mobile_number}
+                                                    onChange={(phone, data) => {
+                                                      formik1.setFieldValue('change_mobile_number', phone);
+                                                      setMobileNumber({ phone, data });
+                                                    }}
+                                                    countryCodeEditable={false}
+                                                    onBlur={formik1.handleBlur('change_mobile_number')}
+                                                    placeholder="Enter your whatsapp number"
                                                   // defaultValue={userData?.phone}
                                                   // disabled={ userData?.phone }
                                                   />
@@ -1591,10 +1668,10 @@ const PersonalDetails = () => {
           </Tab.Container>
         </Container>
 
-       
+
       </div>
       <div className=''>
-      <FooterContainer/>
+        <FooterContainer />
 
       </div>
     </>

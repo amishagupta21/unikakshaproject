@@ -363,7 +363,6 @@ const Signup = () => {
                           <PhoneInput
                             placeholder="Enter mobile number"
                             country={'in'}
-                            disabled={disabled}
                             preferredCountries={['in']}
                             value={field.value}
                             onChange={(phone, data) => {
@@ -386,21 +385,14 @@ const Signup = () => {
 
                     {values.mobileNumber.length - values.mobileLength === 10 &&
                       (
-                        <>
+                      
                           <Button
-                            // style={disabled ? styles.buttonDisabled : styles.button}
-                            // disabled={disabled}
-                            // onClick={handleDisableButton}
                             type={OTPSent ? 'button' : 'submit'}
                             variant="outline-primary"
                             className={OTPSent ? 'otp-sent' : 'get-otp-btn'} >
-                           
-                              
-                            
                             {OTPLabel}
                           </Button>
 
-                        </>
                       )}
 
                     {OTPSent && (
