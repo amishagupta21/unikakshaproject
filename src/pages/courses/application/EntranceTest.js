@@ -1,7 +1,6 @@
 import { fetchAndActivate, getValue } from 'firebase/remote-config';
 import React, { useEffect } from 'react';
 import { Alert, Button, Col, Container, Form } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
 import { workingRemote } from '../../../assets/images';
 import { remoteConfig } from '../../../firebase/firebaseAuth';
 import ApiService from '../../../services/ApiService';

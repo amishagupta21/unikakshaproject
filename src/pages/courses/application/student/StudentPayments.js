@@ -119,7 +119,7 @@ const Payments = (params) => {
         const orderId = orderData?.id;
 
         const options = {
-            key: "rzp_test_xOikuguYnrmtYd", // Enter the Key ID generated from the Dashboard
+            key: "rzp_live_xsOESw138cvA75", // Enter the Key ID generated from the Dashboard
             amount: orderData?.amount,
             currency: orderData?.currency,
             name: "Code Shastra",

@@ -80,8 +80,8 @@ const PrimaryNavbar = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto nav-customs">
               <Nav.Link href="/dashboard#course_list">Courses</Nav.Link>
-              {/* <Nav.Link href="https://unikode.unikaksha.com">Unikode</Nav.Link> */}
-              <Nav.Link onClick={() => navigate('/unikode')}>Unikode</Nav.Link>
+              <Nav.Link href="https://unikode.unikaksha.com">Unikode</Nav.Link>
+              {/* <Nav.Link onClick={() => navigate('/unikode')}>Unikode</Nav.Link> */}
               <Nav.Link href="https://www.unikaksha.com/events/">Event & Content</Nav.Link>
               {/* <Nav.Link href="/dashboard">Courses</Nav.Link> */}
               <Nav.Link href="#features" className="refer-frd">

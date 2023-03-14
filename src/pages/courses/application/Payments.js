@@ -117,7 +117,7 @@ const Payments = (params) => {
         const orderId = orderData?.id;
 
         const options = {
-            key: "rzp_test_xOikuguYnrmtYd", // Enter the Key ID generated from the Dashboard
+            key: "rzp_live_xsOESw138cvA75", // Enter the Key ID generated from the Dashboard
             amount: orderData?.amount,
             currency: orderData?.currency,
             name: "Code Shastra",
@@ -128,7 +128,7 @@ const Payments = (params) => {
                 
                 if ( response.razorpay_payment_id ) {
                     createPaymant(response, 'Success');
-                } 
+                }
                 
                 setpaymentStatus('Success');
                 setpaymentResponse(response);
