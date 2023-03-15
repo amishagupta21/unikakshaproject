@@ -1018,9 +1018,9 @@ a.refer-frd.nav-link {
   font-weight: 500;
   font-size: 14px;
   line-height: 22px;
-  color: #666666;
+  color: #666666; cursor: inherit;
 }
-
+.custom-footer a.list-group-item  i { font-style: normal; cursor: pointer;}
 .custom-footer .list-group-item {
   background-color: transparent;
   border: 0;

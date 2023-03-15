@@ -324,7 +324,7 @@ const CourseApplication = () => {
   return (
     <>
       {!isLoading ? (
-        <div className="course-application 12">
+             <div className="my-5  course-application  course-application-uii">
           <div className="container">
           <div className="d-flex mt-5 back-btn">
             <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
@@ -356,7 +356,7 @@ const CourseApplication = () => {
               </div>
               <div>
                 <Card.Link as='div'
-                  style={{ fontSize: '18px', fontWeight: '500', color: '#EF6B29' }}
+               className="view-card-course"
                   onClick={() => navigate(`../course/${courseDetails.course_url}`)}>
                   View Course
                 </Card.Link>

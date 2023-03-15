@@ -53,7 +53,7 @@ const Homepage = () => {
         />
         {/* <Invite /> */}
         <Row className="d-flex justify-content-center my-4" lg={2}>
-          <InviteNow />
+          {/* <InviteNow /> */}
         </Row>
       </div>
       <FooterContainer/>

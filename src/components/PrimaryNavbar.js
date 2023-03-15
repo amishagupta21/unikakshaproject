@@ -84,9 +84,9 @@ const PrimaryNavbar = () => {
               {/* <Nav.Link onClick={() => navigate('/unikode')}>Unikode</Nav.Link> */}
               <Nav.Link href="https://www.unikaksha.com/events/">Event & Content</Nav.Link>
               {/* <Nav.Link href="/dashboard">Courses</Nav.Link> */}
-              <Nav.Link href="#features" className="refer-frd">
+              {/* <Nav.Link href="#features" className="refer-frd">
                 Refer a Friend
-              </Nav.Link>
+              </Nav.Link> */}
             </Nav>
           </Navbar.Collapse>
           {isAuth === true ? (
@@ -126,7 +126,7 @@ const PrimaryNavbar = () => {
           )}
         </Container>
       </Navbar>
-      {showPopUp ? <Modal cancelHandler={cancelHandler} handler={handler}/> : null};
+      {showPopUp ? <Modal cancelHandler={cancelHandler} handler={handler}/> : null}
 
     </div>
   );

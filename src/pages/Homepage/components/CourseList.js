@@ -5,8 +5,14 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Rating from 'react-rating';
 import { useNavigate } from 'react-router-dom';
-import { emptystar, fullstar, tick } from '../../../assets/images';
+import { emptystar, fullstar } from '../../../assets/images';
 import righrMark from '../../../assets/images/courses/icons/right-mark.svg';
+import tick from '../../../assets/images/ttick.svg';
+
+import rate from '../../../assets/images/rating-star.svg';
+import liverecord from '../../../assets/images/live-streaming-bx.svg';
+
+
 import WaitClockIcon from '../../../assets/images/courses/icons/wait-sandclock-icon.svg';
 import './CourseList.scss';
 import ApiService from '../../../services/ApiService';
@@ -73,7 +79,7 @@ const CourseList = ({ courses }) => {
     const highlights = course?.course_variant_sections?.highlights?.value;
     const items = highlights?.map((element, index) => {
       return (
-        <p key={index} style={{ 'fontSize': '14px' }}>
+        <p key={index} style={{ 'fontSize': '13px' }}>
           <img className="me-1" src={tick} /> {element.value}
         </p>
         
@@ -123,38 +129,40 @@ const CourseList = ({ courses }) => {
                 variant="top"
                 src={course?.course_variant_sections?.bannerAsset?.value[0].url}
               />
-              <Card.Body>
+              <Card.Body className="body-course">
                 <div className="d-flex justify-content-between align-items-center course-title-section">
                   <Card.Title>{course?.course_title}</Card.Title>
                   {/* <img src={HeartIcon} style={{cursor: 'pointer'}} alt="heart-icon" /> */}
                 </div>
                 <Card.Subtitle
-                  style={{ fontSize: '12px', fontStyle: 'italic', fontWeight: 'normal' }}
+                  style={{ fontSize: '12px' }}
                   className="mb-2">
                   {course?.variant_subtitle}
                 </Card.Subtitle>
-                <div className="d-flex align-items-center mb-3 ">
-                  <p className="mb-0">Ratings {course?.course_variant_sections?.ratings.value}</p>
-                  <div className="d-flex ms-2 mb-1">
+                <div className="d-flex align-items-center mb-3 rating-sml">
+                <img src={rate} alt="right mark" /><p className="mb-0"> {course?.course_variant_sections?.ratings.value}</p>
+                  {/* <div className="d-flex ms-2 mb-1">
                     <RatingComponent rating={course?.course_variant_sections?.ratings} />
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="mb-3">
-                  <div className="d-flex justify-content-between mb-3">
+                  <div className="d-flex justify-content-between mb-3 rate-container">
+                 
+                  <div className="d-flex record-time">
+                      <img src={ liverecord} alt="Wait-Clock-Icon" />
+                      <p style={{ fontSize: '13px' }} className="ms-2 mb-0">
+                      LIVE Classes
+                      </p>
+                    </div>
                     <div className="d-flex">
-                      <img src={WaitClockIcon} alt="Wait-Clock-Icon" />
+                    <img src={WaitClockIcon} alt="Wait-Clock-Icon" />
                       <p style={{ fontSize: '14px' }} className="ms-2 mb-0">
-                        Duration, {course?.course_variant_sections?.duration} Months |{' '}
-                        {course?.variant_name}
+                      {course?.variant_name} ,     {course?.course_variant_sections?.duration} Months {' '}
+                        
                       </p>
                     </div>
-                    <div className="d-flex">
-                      {/* <img src={CalenderIcon} alt="Wait-Clock-Icon" /> */}
-                      <p style={{ fontSize: '12px' }} className="ms-2 mb-0">
-                        {/* Starts, <strong> {course?.sections?.batches?.value[0][0]?.value}</strong> */}
-                      </p>
-                    </div>
+                    
                   </div>
                   {course?.sections?.highlights?.value?.map((heighlight, index) => (
                     <div key={index} className="d-flex mb-1">
@@ -173,7 +181,7 @@ const CourseList = ({ courses }) => {
                 </div>
 
                 <div className=" align-items-center">
-                  <div className="">{getHighlights(course)}</div>
+                  <div className="highlight-list">{getHighlights(course)}</div>
                 </div>
 
                 <div className="button-group">
