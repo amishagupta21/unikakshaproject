@@ -934,6 +934,7 @@ const PersonalDetails = () => {
                                             placeholder="Enter your Email"
                                             value={formik.values?.email}
                                             disabled={true}
+                                            style={{ opacity: 0.5 }}
                                           // disabled={ userData?.email }
                                           />
                                           <span className='change-mobile-no'><a onClick={() => changeMobileEmailId()}>Change Email Id</a></span>
@@ -957,10 +958,12 @@ const PersonalDetails = () => {
                                               formik.setFieldValue('mobile_number', phone);
                                               setMobileNumber({ phone, data });
                                             }}
+                                           
                                             countryCodeEditable={false}
                                             onBlur={formik.handleBlur('mobile_number')}
                                             placeholder="Enter your Mobile number"
-                                            disabled={true}
+                                            disabled={disabled}
+                                            style={{ opacity: 0.5 }}
                                           // defaultValue={userData?.phone}
                                           // disabled={ userData?.phone }
                                           />
@@ -996,7 +999,9 @@ const PersonalDetails = () => {
                                             }}
                                             countryCodeEditable={false}
                                             onBlur={formik.handleBlur('whatsapp_number')}
-                                            placeholder="Enter your Whatsapp number" disabled={true}
+                                            placeholder="Enter your Whatsapp number" 
+                                            disabled={disabled}
+                                            style={{ opacity: 0.5 }}
                                           />
                                           <span className='change-mobile-no'><a onClick={() => changeWhatsappNo()}>Change Whatsapp Number</a></span>
                                           {formik.touched.whatsapp_number &&
