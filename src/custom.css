@@ -1099,8 +1099,13 @@ a.refer-frd.nav-link {
   font-size       : 14px;
   line-height     : 22px;
   color           : #666666;
+   cursor:inherit;
 }
-
+.custom-footer a.list-group-item  i { font-style: normal; cursor: pointer; display: inline;}
+.mt-3.footer-social-services.list-group a {
+  cursor: pointer;
+}
+.custom-footer a.list-group-item:hover{ color:#ef6b29;} 
 .custom-footer .list-group-item {
   background-color: transparent;
   border          : 0;
@@ -1820,9 +1825,15 @@ a.notification-link-dp.nav-link .dropdown-item img {
 }
 
 .my-4.card-custom.card-expore.card img.card-img-top {
-  height: 190px;
-  max-width: 100%;
-  background: #FFFCF7;
+
+    height: 156px;
+    max-width: 100%;
+    background: #FFFCF7;
+    border-radius: 15px 14px 0px 0px;
+    padding-top: 10px;
+    width: 100% !important;
+    object-fit: contain;
+
 }
 .card-expore .course-title-section {
   height: 38px;
@@ -1836,7 +1847,7 @@ a.notification-link-dp.nav-link .dropdown-item img {
 .my-4.card-custom.card-expore.card {
   box-shadow: none;
 
-  border: 1px solid #D6DAFF !important;
+  border: 1px solid #D6DAFF !important;height: 92%;
 }
 
 .my-4.card-custom.card-expore.card button.btn.btn-warning {

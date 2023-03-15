@@ -41,16 +41,16 @@ const Footer = () => (
           <div className='footer-menu mt-2'>
             <ListGroup>
               <ListGroup.Item action href="https://www.unikaksha.com/aboutus/" target="_blank">
-                About us
+               <i> About us</i>
               </ListGroup.Item>
               <ListGroup.Item action href="https://www.unikaksha.com/contactus/" target="_blank">
-                Contact us
+              <i>Contact us</i>
               </ListGroup.Item>
               <ListGroup.Item action href="https://developer.unikaksha.com/testimonials/" target="_blank">
-                UniKaksha stories
+              <i> UniKaksha stories</i>
               </ListGroup.Item>
               <ListGroup.Item action href="https://www.unikaksha.com/become-a-mentor/" target="_blank">
-                Become a mentor
+              <i>Become a mentor</i>
               </ListGroup.Item>
             </ListGroup>
           </div>
@@ -59,13 +59,13 @@ const Footer = () => (
           <div className='footer-menu mt-2'>
             <ListGroup>
               <ListGroup.Item action href="https://www.unikaksha.com/courses/" target="_blank">
-                Courses
+              <i> Courses</i>
               </ListGroup.Item>
               <ListGroup.Item action href="https://www.unikaksha.com/unikampus/" target="_blank">
-                UniKampus
+              <i> UniKampus</i>
               </ListGroup.Item>
               <ListGroup.Item action href="https://www.unikaksha.com/hire-from-us/" target="_blank">
-                Hire from us
+              <i> Hire from us</i>
               </ListGroup.Item>
 
             </ListGroup>
@@ -74,14 +74,18 @@ const Footer = () => (
         <div className='col-sm-2 col-sm-2-mobile'>
           <div className='footer-menu mt-2'>
             <ListGroup>
+           
+            <ListGroup.Item action href="https://www.unikaksha.com/testimonials/" target="_blank">
+            <i>  Testimonials</i>
+              </ListGroup.Item>
               <ListGroup.Item action href="https://www.unikaksha.com/pricing/" target="_blank">
-                Pricing
+              <i>  Pricing</i>
               </ListGroup.Item>
               {/* <ListGroup.Item action href="">
  Referral
  </ListGroup.Item> */}
               <ListGroup.Item action href="https://www.unikaksha.com/blog/" target="_blank">
-                Blogs
+              <i>  Blogs</i>
               </ListGroup.Item>
 
             </ListGroup>
@@ -91,13 +95,13 @@ const Footer = () => (
           <div className='footer-menu mt-2'>
             <ListGroup>
               <ListGroup.Item action href="https://www.unikaksha.com/terms-and-conditions/" target="_blank">
-                Terms & Conditions
+              <i>  Terms & Conditions</i>
               </ListGroup.Item>
               <ListGroup.Item action href="https://www.unikaksha.com/privacypolicy/" target="_blank">
-                Privacy Policy
+              <i>  Privacy Policy</i>
               </ListGroup.Item>
               <ListGroup.Item action href="https://www.unikaksha.com/refund-policy/" target="_blank">
-                Refund Policy
+              <i>  Refund Policy</i>
               </ListGroup.Item>
 
             </ListGroup>

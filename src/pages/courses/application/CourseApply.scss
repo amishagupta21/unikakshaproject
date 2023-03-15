@@ -248,3 +248,12 @@
     flex: 0 0 33.3%;
     padding: 0 11px;
 }
+
+.view-card-course.card-link {
+    font-weight: 500;
+    color: rgb(239, 107, 41);
+	text-decoration: underline;
+}
+.my-5.course-application.course-application-uii {
+    min-height: calc(100vh - 275px);
+}
