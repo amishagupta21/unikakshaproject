@@ -45,6 +45,7 @@ const Homepage = () => {
 
   return (
     <div className="course-list-api">
+         <div className="course-list-api-full">
       <HeroSection bannerDetails={data?.banner1_configure && data?.banner1_configure} />
       <div className="container">
         <CourseList courses={topCourses && topCourses} />
@@ -55,6 +56,7 @@ const Homepage = () => {
         <Row className="d-flex justify-content-center my-4" lg={2}>
           {/* <InviteNow /> */}
         </Row>
+      </div>
       </div>
       <FooterContainer/>
     </div>

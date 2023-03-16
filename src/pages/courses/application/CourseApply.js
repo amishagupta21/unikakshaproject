@@ -607,7 +607,7 @@ const CourseApplication = () => {
                      </Form.Group>
                     </Row>
                   
-                    <Row className="row-bottom" md={3}>
+                    <Row className="row-bottom row-top-bottom" md={3}>
                       <Form.Group as={Col} sm={4} controlId="guardian_details">
                         <Form.Label>Guardian Detail</Form.Label>
                         <Form.Control

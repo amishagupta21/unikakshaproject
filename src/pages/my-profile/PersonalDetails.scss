@@ -154,13 +154,16 @@ p.info-content {
 
 .d-flex.justify-content-end.my-btn-styles.row .btn {
     max-width: 120px;
-    margin   : 0 8px;
+    margin   : 0 8px; width: 100%;
 }
 
 .occupation-label-group .form-check.form-check-inline {
     margin: 0;
 }
-
+.d-flex.justify-content-end.my-btn-styles.row {
+    margin: 0;
+}
+.d-flex.justify-content-end.my-btn-styles.row  .btn{ margin-left: 10px; margin-right: 0;}
 .occupation-label-group .form-check .form-check-input:checked {
     background-color: white;
     border-color    : #363F5E;

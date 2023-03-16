@@ -323,7 +323,7 @@ const StudentCourseApplication = () => {
               <>
                 <Form onSubmit={formik.handleSubmit}>
                   <>
-                    <Row className="mb-5">
+                  <Row className="row-bottom">
                       <Form.Group as={Col} sm={4} controlId="full_name">
                         <Form.Label>
                           Full Name
@@ -396,7 +396,7 @@ const StudentCourseApplication = () => {
                       </Form.Group>
                     </Row>
 
-                    <Row className="mb-5">
+                    <Row className="row-bottom">
                       <Form.Group as={Col} sm={4} controlId="whatsapp_number">
                         <Form.Label>
                           Whatsapp Number<span className="text-danger">*</span>
@@ -545,7 +545,7 @@ const StudentCourseApplication = () => {
                      </Form.Group>
                     </Row>
 
-                    <Row className="mb-5" md={3}>
+                    <Row className="row-bottom row-top-bottom" md={3}>
                       <Form.Group as={Col} controlId="guardian_details">
                         <Form.Label>Guardian Detail</Form.Label>
                         <Form.Control
@@ -558,7 +558,7 @@ const StudentCourseApplication = () => {
                       </Form.Group>
                     </Row>
 
-                    <Row className="d-flex justify-content-end my-btn-styles">
+                    <Row className="d-flex justify-content-end my-btn-styles row-bottom row-top-bottom">
                       <Button
                         className="btn btn-outline-secondary"
                         variant="outline-secondary"

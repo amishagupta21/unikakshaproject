@@ -1905,5 +1905,13 @@ a.notification-link-dp.nav-link .dropdown-item img {
 }
 
 .my-5.course-application.course-application-ui {
-  min-height: calc( 100vh - 300px);
+  min-height: calc(100vh - 278px);
+}
+
+.my-4.card-custom.card-expore.card button.btn.btn-outline-warning:hover{
+background-color: #EF6B29; color:#fff;
+}
+
+.course-list-api-full {
+  min-height: calc( 100vh - 200px);
 }

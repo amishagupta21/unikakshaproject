@@ -257,3 +257,8 @@
 .my-5.course-application.course-application-uii {
     min-height: calc(100vh - 275px);
 }
+
+@media (max-width: 767px) {
+
+.row-top-bottom{ margin-top: 20px !important;}
+}

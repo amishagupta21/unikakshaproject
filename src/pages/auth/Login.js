@@ -561,6 +561,15 @@ const Login = () => {
                                   {loading ? 'Loading...' : 'Log in'}
                                 </Button>
                               </div>
+                              <div className="d-grid gap-2 mt-3">
+                                <Button
+                                  type="submit"
+                                  className="btn-secondary btn-secondary-out"
+                                  variant="outline-secondary"                               
+                               >Log in without password
+                                </Button>
+                                <p className="sml-info">You will receive a link to login without password if your email is registered with us</p>
+                              </div>
                             </Form>
                           )}
                         />
