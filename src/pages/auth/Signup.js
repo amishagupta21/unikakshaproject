@@ -123,7 +123,7 @@ const Signup = () => {
       //   phoneAuthProvider.verifyPhoneNumber(phoneNumber, {
       //     // Provide a callback to handle the verification code
       //     // sent to the user's phone
-          
+
       //   });
     } else {
       setAuthError('User already exists');
@@ -380,18 +380,18 @@ const Signup = () => {
                         </Row>
                       )}
                     />
-                    <br/>
-                    
+                    <br />
+
 
                     {values.mobileNumber.length - values.mobileLength === 10 &&
                       (
-                      
-                          <Button
-                            type={OTPSent ? 'button' : 'submit'}
-                            variant="outline-primary"
-                            className={OTPSent ? 'otp-sent' : 'get-otp-btn'} >
-                            {OTPLabel}
-                          </Button>
+
+                        <Button
+                          type={OTPSent ? 'button' : 'submit'}
+                          variant="outline-primary"
+                          className={OTPSent ? 'otp-sent' : 'get-otp-btn'} >
+                          {OTPLabel}
+                        </Button>
 
                       )}
 
