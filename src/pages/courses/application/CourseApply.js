@@ -23,6 +23,7 @@ import { yearsOptions,optionsmonth,optionsday } from '../../.././utils-componets
 import { openToaster } from '../../../redux/actions/ToastAction';
 import FooterContainer from '../../../components/FooterComponent';
 
+
 const steps = [
   'personal_details',
   'education_details',
@@ -51,6 +52,7 @@ const CourseApplication = () => {
   const [batches, setBatches] = React.useState([]);
   const [userData, setUserData] = React.useState();
   const [birthInfo, setBirthInfo] = React.useState();
+  const [initData, setInitData] = React.useState();
   // const [userDOBData, setDobData] = React.useState();
   const [selectedBatch, setSelectedBatch] = React.useState();
 
@@ -66,21 +68,22 @@ const CourseApplication = () => {
     name: "India"
   }
 
+
   const fetchUserDetails = async (uid) => {
     let personalDetails = {};
     let educationalDetails = {};
     const userDetails = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
     // setInitialDobData(userDetails?.data?.data?.userProfile?.information_data);
     // setDobData(userDetails?.data?.data?.userProfile?.information_data);
-    const birthInfo = userDetails?.data?.data?.userProfile?.information_data
+    const birthInfo = userDetails?.data?.data?.userProfile?.information_data;
+    // const details=userDetails?.data?.data?.user;
     setUserData(userDetails?.data?.data?.user);
     setInitialData(userDetails?.data?.data?.user, birthInfo);
-
-    ;
+    
     
     personalDetails = userDetails?.data?.data?.userProfile?.personal_details ?? personalDetails;
-    educationalDetails.education_details =
-      userDetails?.data?.data?.userProfile?.education_details ?? educationalDetails;
+    educationalDetails.education_details = 
+    userDetails?.data?.data?.userProfile?.education_details ?? educationalDetails;
     educationalDetails.work_details = userDetails?.data?.data?.userProfile?.work_details ?? [];
     nextPageNumber(0);
     if (!isEmpty(personalDetails)) {
@@ -102,12 +105,17 @@ const CourseApplication = () => {
     return res?.data?.data?.course;
   };
 
-  const setInitialData = (initData, birthInfo) => {
+  const setInitialData = (initData, birthInfo,details) => {
     setBirthInfo(birthInfo);
     formik.setValues({ 
       email: initData?.email,
       mobile_number: initData?.phone,
+      whatsapp_number: initData?.phone,
       full_name: user?.displayName,
+
+      // email: details?.email ? details?.email : '',
+      // mobile_number: details?.phone ? details?.phone : '',
+      // full_name: details?.fullname ? details?.fullname : '',
       birth_date: birthInfo?.birth_date ? birthInfo?.birth_date : '',
       birth_month: birthInfo?.birth_month ? birthInfo?.birth_month : '',
       birth_year: birthInfo?.birth_year ? birthInfo?.birth_year : ''
@@ -115,7 +123,7 @@ const CourseApplication = () => {
     });
     // formik.setValues({ mobile_number: initData?.mobile_number});
     // mobile_number: initData?.phone;
-    setMobileNumber({ phone: initData?.phone})
+    setMobileNumber({ phone: details?.phone})
   }
 
 
@@ -375,6 +383,7 @@ const CourseApplication = () => {
                           <span className="text-danger">*</span>
                           <span className="text-muted"> (As per PAN)</span>
                         </Form.Label>
+                        
                         <Form.Control
                           type="text"
                           name="full_name"
@@ -385,11 +394,14 @@ const CourseApplication = () => {
                               : null
                           }
                           onBlur={formik.handleBlur}
+                          disabled="disabled"
+                          style={{ opacity: 0.5 }}
                           // defaultValue={user.displayName}
                           value={formik.values?.full_name }
                           placeholder="Enter you full name"
                           // disabled="disabled"
                         />
+                        
                         {formik.touched.full_name && formik.errors.full_name ? (
                           <div className="error-message">{formik.errors.full_name}</div>
                         ) : null}
@@ -400,6 +412,7 @@ const CourseApplication = () => {
                           Email
                           <span className="text-danger">*</span>
                         </Form.Label>
+                        
                         <Form.Control
                           type="email"
                           name="email"
@@ -410,9 +423,12 @@ const CourseApplication = () => {
                           onBlur={formik.handleBlur}
                           placeholder="Enter your Email"
                           value={formik.values?.email}
-                          disabled={ userData?.email }
+                          // disabled={disabled}
+                          disabled="disabled"
+                          style={{ opacity: 0.5 }}
+                          // disabled={ userData?.email }
                         />
-                       
+                     
                         {formik.touched.email && formik.errors.email ? (
                           <div className="error-message">{formik.errors.email}</div>
                         ) : null}
@@ -426,6 +442,7 @@ const CourseApplication = () => {
                         <Form.Label>
                           Mobile Number<span className="text-danger">*</span>
                         </Form.Label>
+                        <div className='whatsapp-number'>
                         <PhoneInput
                           placeholder="Enter your Mobile number"
                           country={'in'}
@@ -435,13 +452,16 @@ const CourseApplication = () => {
                             formik.setFieldValue('mobile_number', phone);
                             setMobileNumber({ phone, data });
                           }}
-                          //countryCodeEditable={false}
+                          // disabled={disabled}
+                          style={{ opacity: 0.5 }}
+                          // countryCodeEditable={false}
                           // onBlur={formik.handleBlur('mobile_number')}
                           className="disabled-field"
                           disabled="disabled"
                           // defaultValue={userData?.phone}
                           // disabled={ userData?.phone }
                         />
+                        </div>
                         {formik.touched.mobile_number && formik.errors.mobile_number ? (
                           <div className="error-message">{formik.errors.mobile_number}</div>
                         ) : null}
@@ -456,12 +476,16 @@ const CourseApplication = () => {
                         <div className='whatsapp-number'>
                         <PhoneInput
                           country={'in'}
+                          name="whatsapp_number"
                           value={formik.values?.whatsapp_number}
                           onChange={(phone, data) => {
                             setWhatsAppNumber({ phone, data });
                             formik.setFieldValue('whatsapp_number', phone);
                           }}
                           countryCodeEditable={false}
+                          // disabled={disabled}
+                          disabled="disabled"
+                          style={{ opacity: 0.5 }}
                           // onBlur={formik.handleBlur('whatsapp_number')}
                           placeholder="Enter your Whatsapp number"
                         />
@@ -586,9 +610,11 @@ const CourseApplication = () => {
                         className={
                           formik.touched.birth_year && formik.errors.birth_year ? 'is-invalid' : null
                         }
+                        style={{ opacity: 0.5 }}
                         onBlur={formik.handleBlur}
                         onChange={formik.handleChange}
                         value={formik.values?.birth_year}>
+                          
                         {/* defaultValue={userDOBData?.birth_year}> */}
                         {/* disabled={ userDOBData?.birth_year } */}
                         <option value="">Year</option>

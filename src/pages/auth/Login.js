@@ -426,7 +426,7 @@ const Login = () => {
                                   <div className="error-text">This mobile number is not registered with us. Please
                                     <Link to="/signup" state={searchParams}>
                                       &nbsp;Sign up.
-                                    </Link>.</div>
+                                    </Link></div>
                                   {/* <div className="error-text">This e-mail is not registered with us. Please <Link to="/signup" state={searchParams}>
                                         &nbsp;Sign up
                                       </Link>. </div> */}

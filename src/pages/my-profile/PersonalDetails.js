@@ -937,7 +937,7 @@ const PersonalDetails = () => {
                                             style={{ opacity: 0.5 }}
                                           // disabled={ userData?.email }
                                           />
-                                          <span className='change-mobile-no'><a onClick={() => changeMobileEmailId()}>Change Email Id</a></span>
+                                          {/* <span className='change-mobile-no'><a onClick={() => changeMobileEmailId()}>Change Email Id</a></span> */}
                                           {formik.touched.email && formik.errors.email ? (
                                             <div className="error-message">{formik.errors.email}</div>
                                           ) : null}

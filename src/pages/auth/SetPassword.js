@@ -85,6 +85,8 @@ const Signup = () => {
       .then((usercred) => {
         dispatch(setLoading(false));
         const user = usercred.user;
+        navigate('/info');
+
         console.log("Account linking success", user);
       }).catch((error) => {
         dispatch(setLoading(false));
