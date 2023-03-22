@@ -7,7 +7,6 @@ import { Profileimg, profilePicture } from '../assets/images';
 import Course from '../assets/images/icon-mycourse.svg';
 import Profile from '../assets/images/icon-myprofile.svg';
 import Logout from '../assets/images/icon-logout.svg';
-
 import '../custom.css';
 import '../pages/auth/auth.scss';
 import { logout } from '../firebase/firebaseAuth';
@@ -49,24 +48,24 @@ const PrimaryNavbar = () => {
     setProfilePic(result?.data?.data?.signedUrl);
   };
 
-    const cancelHandler=()=>{
-        setShowPopUp(!showPopUp);
-    }
+    // const cancelHandler=()=>{
+    //     setShowPopUp(!showPopUp);
+    // }
 
-  const [showPopUp, setShowPopUp] = React.useState(false);
+  // const [showPopUp, setShowPopUp] = React.useState(false);
 
-  const logOutHandler =  () => {
-    // await logout();
-    // dispatch(setIsAuthenticated(false));
-    // navigate('/');
-    setShowPopUp(!showPopUp);
-  };
-  const handler=async()=>{
+  const logOutHandler = async() => {
     await logout();
     dispatch(setIsAuthenticated(false));
     navigate('/');
-    setShowPopUp(!showPopUp);
-  }
+    // setShowPopUp(!showPopUp);
+  };
+  // const handler=async()=>{
+  //   await logout();
+  //   dispatch(setIsAuthenticated(false));
+  //   navigate('/');
+  //   setShowPopUp(!showPopUp);
+  // }
 
   return (
     <div className="custom-header">
@@ -126,7 +125,7 @@ const PrimaryNavbar = () => {
           )}
         </Container>
       </Navbar>
-      {showPopUp ? <Modal cancelHandler={cancelHandler} handler={handler}/> : null}
+      {/* {showPopUp ? <Modal cancelHandler={cancelHandler} handler={handler}/> : null} */}
 
     </div>
   );

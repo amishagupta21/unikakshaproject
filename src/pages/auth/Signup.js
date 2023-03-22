@@ -1,4 +1,5 @@
 import { Field, Form, Formik } from 'formik';
+
 import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
@@ -456,7 +457,7 @@ const Signup = () => {
                         onClick={onSubmitOTP}
                         style={{ fontWeight: '500' }}
                         variant="secondary">
-                        {loading ? 'Loading...' : 'Sign Up'}
+                        {loading ? 'loading...' : 'Sign Up'}
                       </Button>
                     </div>
                     <div className="space-or">
