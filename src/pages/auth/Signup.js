@@ -188,6 +188,8 @@ const Signup = () => {
   // console.log(formData);
 
   const onSubmitOTP = (e) => {
+    dispatch(setLoading(true));
+
     setloading(true);
     setIsButtonLoading(true);
     e.preventDefault();
@@ -214,6 +216,7 @@ const Signup = () => {
   };
 
   const createUserIfNotExists = async (user) => {
+
     const userData = {
       uid: user.uid,
       fullName: formData.fullName,
@@ -226,7 +229,10 @@ const Signup = () => {
     localStorage.setItem('user', JSON.stringify(user));
     if (result?.data.code === 200) {
       // navigate('/info');
-      navigate('/set-password', {
+    dispatch(setLoading(false));
+
+      navigate('/set-password', 
+      {
         state: {
           values: {
             email: formData.email,
@@ -451,7 +457,7 @@ const Signup = () => {
                     </label>
 
                     <div className="d-grid gap-2 mt-3 mb-3">
-                      <Button
+                  <Button
                         type="button"
                         disabled={!(otp.length === 6) || loading}
                         onClick={onSubmitOTP}
