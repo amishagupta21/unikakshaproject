@@ -377,6 +377,17 @@ select.form-control {
 	font-size: 12px;
 	line-height: 14px;
 }
+
+@media screen and (max-width:767px) {
+
+    .get-otp-btn {
+       
+		margin-left: 240px;
+		width: 70px;
+    }
+    
+}
+
 .invalid-otp {
 	margin-top: 5px !important;
 }
