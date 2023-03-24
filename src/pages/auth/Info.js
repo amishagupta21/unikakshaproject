@@ -58,8 +58,8 @@ const Info = () => {
   };
   let validationSchema = Yup.object({
     occupation: SchemaList[0].required('Please select an occupation'),
-    birth_date: Yup.number(),
-    birth_month: Yup.number(),
+    birth_date: Yup.number().required('date of birth is requied'),
+    birth_month: Yup.number().required('month of birth is requied'),
     birth_year: Yup.number().required('Year of birth is requied'),
     // referalCode: SchemaList[0],
     ...(occ == 'STUDENT' && {
@@ -423,7 +423,7 @@ const Info = () => {
                               }
                               type="text"
                               md="4">
-                              <option value="" disabled selected hidden>Day</option>
+                              <option value="" disabled selected hidden>Day<MandatorySymbol /></option>
                               {optionsday.map((option, index) => (
                                 <option key={index} value={option.value}>
                                   {option.label}
@@ -442,7 +442,7 @@ const Info = () => {
                               }
                               type="text"
                               md="4">
-                              <option value="" disabled selected hidden>Month</option>
+                              <option value="" disabled selected hidden>Month<MandatorySymbol /></option>
                               {optionsmonth.map((option, index) => (
                                 <option key={index} value={option.value}>
                                   {option.label}
@@ -540,7 +540,7 @@ const Info = () => {
                         <Button
                           type="submit"
                           variant="secondary"
-                          disabled={!formik.isValid || loading}>
+                          disabled={!formik.dirty || loading}>
                           {loading ? 'Loading...' : 'Get Started'}
                         </Button>
                       </div>
