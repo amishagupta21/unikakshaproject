@@ -16,7 +16,7 @@
     line-height: 14px;
     color: #262935;
     padding: 5px 5px;
-    border-color:  #FFCE6B; display: none;
+    border-color:  #FFCE6B; 
     // display: flex;
     // flex-direction: row; 
 }
@@ -48,11 +48,12 @@
 .d-flex.record-time:after {
     position: absolute;
     content: "";
-    right: -6px;
-    top: -4px;
+    right: -8px;
+    top: -1px;
     width: 2px;
-    height: 28px;
+    height: 19px;
     background: #cdc9c9;
+
 }
 .d-flex.record-time { position: relative;}
 .mb-2.card-subtitle.h6 {
@@ -72,3 +73,31 @@
 .highlight-list {
     min-height: 98px;
 }
+
+.d-flex.record-time{ margin-right: 15px;}
+.d-flex.justify-content-between.mb-3.rate-container {
+    justify-content: start !important;
+}
+.button-group .btn {
+    font-size: 12px;
+}
+p.ms-2.mb-0.tags-course {
+    font-size: 12px;
+    display: flex;
+    /* word-break: break-word; */
+    white-space: nowrap;
+}
+p.ms-2.mb-0.live-screen {
+    font-size: 11px;
+    white-space: nowrap;
+}
+span.course-variant {
+    color: #02A74D;
+    font-weight: bold;
+    margin-right: 6px;
+}
+.see-all a {
+    color: #262626;
+    text-decoration: none;
+}
+
