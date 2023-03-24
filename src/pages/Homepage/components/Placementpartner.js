@@ -3,9 +3,9 @@ import React from 'react';
 const Placementpartner = ({ placementPartner }) => {
   return (
     <>
-      <div className="d-flex justify-content-between">
+      <div className="d-flex justify-content-between mt-4">
         <h5>Our Placement Partners</h5>
-        {/* <div>see all</div> */}
+        <div className='see-all'><a href="">see all</a></div>
       </div>
       <div className="partner-list">
         <ul>

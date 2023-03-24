@@ -1293,15 +1293,15 @@ a.refer-frd.nav-link {
   list-style   : none;
   background   : #ffffff;
   box-shadow   : 0px 15px 20px rgb(0 103 223 / 10%);
-  border-radius: 15px;
-  /* width     : 100%; */
+  border-radius: 15px;object-fit: contain;
+  width     : 100%;
 }
 
 .partner-list ul li {
-  /* max-width: 16.666%; */
+  max-width: 16.666%;
   display      : flex;
   margin-bottom: 20px;
-  /* flex      : 0 0 16.666%; */
+  flex      : 0 0 16.666%;
   padding      : 0 10px;
 }
 
@@ -1914,4 +1914,21 @@ background-color: #EF6B29; color:#fff;
 
 .course-list-api-full {
   min-height: calc( 100vh - 200px);
+}
+
+.home-page-slides .carousel-indicators [data-bs-target] {
+  background-color: #003194;
+  display: none;
+}
+.app-links a {
+  color: #003194;
+  text-decoration: none;
+  font-weight: 500;
+}
+.app-links label {
+  font-weight: 700;
+}
+.app-links {
+  margin-left: 10px;
+  color: #003194;
 }

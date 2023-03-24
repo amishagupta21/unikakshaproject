@@ -89,14 +89,9 @@ const CourseList = ({ courses }) => {
   };
 
   const getPaymentMode = (course) => {
-    
-    const paymentmode = course?.course_variant_sections?.feesStructure?.value;
-    const items = paymentmode?.map((element, index) => {
-      return (
-        <span className='bannerlabel_span' key={index}>{element.key}</span>
-      );
-    });
-    return items;
+    return (
+      <span className='bannerlabel_span'>{course?.tags}</span>
+    );
   };
 
   return (
@@ -151,14 +146,16 @@ const CourseList = ({ courses }) => {
                  
                   <div className="d-flex record-time">
                       <img src={ liverecord} alt="Wait-Clock-Icon" />
-                      <p style={{ fontSize: '13px' }} className="ms-2 mb-0">
+                      <p  className="ms-2 mb-0 live-screen">
                       LIVE Classes
                       </p>
                     </div>
                     <div className="d-flex">
                     <img src={WaitClockIcon} alt="Wait-Clock-Icon" />
-                      <p style={{ fontSize: '14px' }} className="ms-2 mb-0">
-                      {course?.variant_name} ,     {course?.course_variant_sections?.duration} Months {' '}
+                      <p className="ms-2 mb-0 tags-course">
+                      <span className="course-variant"> {(course.variant_name).trim() !=='' ? `${course.variant_name}`: ''}</span> {course.course_variant_sections.duration}  Months {' '}
+
+
                         
                       </p>
                     </div>
