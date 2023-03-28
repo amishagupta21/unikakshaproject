@@ -66,7 +66,7 @@ const CourseList = ({ courses }) => {
   };
 
   const viewDetails = (course) => {
-    navigate(`/course/${course.course_url}`, { state: course });
+    navigate(`/course/${course?.course_url}`, { state: course });
   };
 
   useEffect(() => {
@@ -122,7 +122,7 @@ const CourseList = ({ courses }) => {
               <Card.Img
                 style={{ width: 'fit-content', margin: 'auto', maxHeight: '246px' }}
                 variant="top"
-                src={course?.course_variant_sections?.bannerAsset?.value[0].url}
+                src={course?.course_variant_sections?.bannerContentDesktop?.value[0].url}
               />
               <Card.Body className="body-course">
                 <div className="d-flex justify-content-between align-items-center course-title-section">
@@ -135,7 +135,7 @@ const CourseList = ({ courses }) => {
                   {course?.variant_subtitle}
                 </Card.Subtitle>
                 <div className="d-flex align-items-center mb-3 rating-sml">
-                <img src={rate} alt="right mark" /><p className="mb-0"> {course?.course_variant_sections?.ratings.value}</p>
+                <img src={rate} alt="right mark" /><p className="mb-0"> {course?.course_variant_sections?.rating}</p>
                   {/* <div className="d-flex ms-2 mb-1">
                     <RatingComponent rating={course?.course_variant_sections?.ratings} />
                   </div> */}
@@ -144,27 +144,28 @@ const CourseList = ({ courses }) => {
                 <div className="mb-3">
                   <div className="d-flex justify-content-between mb-3 rate-container">
                  
-                  <div className="d-flex record-time">
+                  {/* <div className="d-flex record-time">
                       <img src={ liverecord} alt="Wait-Clock-Icon" />
                       <p  className="ms-2 mb-0 live-screen">
                       LIVE Classes
                       </p>
-                    </div>
-                    <div className="d-flex">
+                    </div> */}
+                    {/* <div className="d-flex">
                     <img src={WaitClockIcon} alt="Wait-Clock-Icon" />
                       <p className="ms-2 mb-0 tags-course">
-                      <span className="course-variant"> {(course.variant_name).trim() !=='' ? `${course.variant_name}`: ''}</span> {course.course_variant_sections.duration}  Months {' '}
+                      <span className="course-variant"> {(course.variant_name).trim() !=='' ? `${course.variant_name}`: ''}</span> {course.duration}  Months {' '}
 
-
+                      <p className="mb-0">  {course?.course_type}</p>
                         
                       </p>
-                    </div>
+
+                    </div> */}
                     
                   </div>
-                  {course?.sections?.highlights?.value?.map((heighlight, index) => (
+                  {course?.card_configuration?.highlights?.value?.map((heighlight, index) => (
                     <div key={index} className="d-flex mb-1">
                       <img src={righrMark} alt="right mark" />
-                      <p className="ms-2 mb-0">{heighlight.value}</p>
+                      <p className="ms-2 mb-0">{heighlight.title}</p>
                     </div>
                   ))}
                   {/* <div className="d-flex mb-1">
@@ -177,9 +178,9 @@ const CourseList = ({ courses }) => {
                 </div> */}
                 </div>
 
-                <div className=" align-items-center">
+                {/* <div className=" align-items-center">
                   <div className="highlight-list">{getHighlights(course)}</div>
-                </div>
+                </div> */}
 
                 <div className="button-group">
                   <div className="row">

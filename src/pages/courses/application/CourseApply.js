@@ -546,7 +546,8 @@ const CourseApplication = () => {
                       </Form.Label>
                       <Form.Select 
                         name="birth_date"
-                      
+                        disabled="disabled"
+                        style={{ opacity: 0.5 }}
                         className={
                           formik.touched.birth_date && formik.errors.birth_date ? 'is-invalid' : null
                         }
@@ -576,7 +577,8 @@ const CourseApplication = () => {
                       </Form.Label>
                       <Form.Select
                         name="birth_month"
-                      
+                        disabled="disabled"
+                        style={{ opacity: 0.5 }}
                         className={
                           formik.touched.birth_month && formik.errors.birth_month ? 'is-invalid' : null
                         }

@@ -116,7 +116,7 @@ function CourseDetails() {
   };
 
   const getCourseOverview = () => {
-    const courseOverview = courseDetails?.course_variant_sections?.courseOverview?.value;
+    const courseOverview = courseDetails?.course_detail_page?.overview?.value;
     const items = courseOverview?.map((element, index) => {
       return (
         <Col key={index} sm={3}>
@@ -125,8 +125,8 @@ function CourseDetails() {
               <span className="circle">
                 <img src={element?.icon} alt="Course Overview" className="overview-icon" />
               </span>
-              <h6 className="font-color text-left-align mtb5">{element?.label}</h6>
-              <p className="text-left-align mtb5">{element?.content}</p>
+              <h6 className="font-color text-left-align mtb5">{element?.title}</h6>
+              <p className="text-left-align mtb5">{element?.description}</p>
             </Card.Body>
           </Card>
         </Col>
@@ -165,7 +165,7 @@ function CourseDetails() {
   };
 
   const getEligibility = () => {
-    const Eligibility = courseDetails?.course_variant_sections?.eligibilityCriteria?.value;
+    const Eligibility = courseDetails?.course_detail_page?.eligibilityCriteria?.value;
     let items = Eligibility?.map((element, index) => {
       return (
         <CardGroup key={index}>
@@ -178,9 +178,9 @@ function CourseDetails() {
                   </span>
                 </div>
                 <div className="eligibility-content">
-                  <span className="font-color">{element.key}</span>
+                  <span className="font-color">{element.title}</span>
 
-                  {parse(element.value)}
+                  {parse(element.description)}
                 </div>
               </div>
             </Card>
@@ -203,9 +203,9 @@ function CourseDetails() {
                   <Col lg={12}>
                     <h6 className="font-color text-left-align mtb1 payment-title">
                       {' '}
-                      {element.key}{' '}
+                      {element.title}{' '}
                     </h6>
-                    <span className="payment-content">{parse(element.value)}</span>
+                    <span className="payment-content">{parse(element.description)}</span>
                   </Col>
                   <Button
                     className="pay_apply_btn"
@@ -241,8 +241,8 @@ function CourseDetails() {
           <Col>
             <Card className="learn">
               <Card.Body className="text-left-align">
-                <h6 className="font-color text-left-align mtb5 learn-label"> {element.label} </h6>
-                <p className="text-left-align mtb5">{element.content}</p>
+                <h6 className="font-color text-left-align mtb5 learn-label"> {element.title} </h6>
+                <p className="text-left-align mtb5">{element.description}</p>
               </Card.Body>
             </Card>
           </Col>
@@ -321,7 +321,8 @@ function CourseDetails() {
           <Container fluid={true} className="banner">
             <div className="container mx-auto my-4">
               <div className="details my-auto">
-                <h4>{`${courseDetails?.course_title} - ${courseDetails?.variant_name}`}</h4>
+                <h4>{`${courseDetails?.course_title} `}</h4>
+                {/* - ${courseDetails?.variant_name} */}
                 <div className="d-flex ratings my-2">
                   <p className="me-3">
                     <span>Ratings:</span> {courseDetails?.course_variant_sections?.ratings?.value}
@@ -329,7 +330,7 @@ function CourseDetails() {
                   <RatingComponent />
                   <p className="ms-3">
                     <span>Learners:</span>{' '}
-                    {courseDetails?.course_variant_sections?.learnersCount?.value}
+                    {courseDetails?.learner_count}
                   </p>
                 </div>
                 <div className="d-flex">
@@ -342,7 +343,7 @@ function CourseDetails() {
                   {courseDetails?.course_variant_sections?.highlights?.value.map((value, i) => {
                     return (
                       <p key={i}>
-                        <img className="me-1" src={tick} /> {value.value}
+                        <img className="me-1" src={tick} /> {value.title}
                       </p>
                     );
                   })}
@@ -359,7 +360,7 @@ function CourseDetails() {
               </div>
               <div className="carousel-container">
                 <Carousel indicators={false} touch={true} pause="hover" controls={false}>
-                  {courseDetails?.course_variant_sections?.bannerAsset?.value.map((asset, i) => {
+                  {courseDetails?.card_configuration?.bannerContentDesktop?.value.map((asset, i) => {
                     // if(asset.type === 'image') {
                     //     return (
                     //         <CarouselItem key={i}>
@@ -379,7 +380,7 @@ function CourseDetails() {
                       return (
                         <CarouselItem key={i}>
                           <iframe
-                            src={`https://${asset.url}`}
+                            src={`https://www.youtube.com/embed/I3OmgJmUhek`}
                             frameBorder="20px"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowFullScreen={true}></iframe>
@@ -429,7 +430,7 @@ function CourseDetails() {
               <Row xs={1} md={3} className="mtb5">
                 {getBatches()}
               </Row>
-              <h4 className="font-color mb2" id="eligibility">
+            <h4 className="font-color mb2" id="eligibility">
                 Eligiblility Criteria
               </h4>
               <Row xs={1} md={1} className="mtb5 ">
@@ -564,7 +565,7 @@ function CourseDetails() {
               </h4>
               <Row xs={1} md={1} className="mtb5 faqs">
                 {courseDetails?.faqs?.items && <Faqs faqs={courseDetails?.faqs?.items} />}
-              </Row>
+              </Row> 
             </Col>
           </Row>
         </Container>
