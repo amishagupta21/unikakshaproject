@@ -19,8 +19,7 @@ import SocialLogin from '../../utils-componets/SocialLogin';
 import AuthNavbar from './components/AuthNavbar';
 import LeftBox from './components/LeftBox';
 import { arrowBack, editGray } from '../../assets/images';
-import { EmailAuthProvider, getAuth, linkWithCredential } from "firebase/auth";
-
+import { EmailAuthProvider, getAuth, linkWithCredential } from 'firebase/auth';
 
 import './SetPassword.scss';
 import Footer from '../../components/Footer';
@@ -47,11 +46,11 @@ const Signup = () => {
   }, []);
 
   const configureCaptcha = () =>
-  (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('set-password-container', {
-    size: 'invisible',
-    callback: (response) => { },
-    defaultCountry: 'IN',
-  }));
+    (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('set-password-container', {
+      size: 'invisible',
+      callback: (response) => {},
+      defaultCountry: 'IN',
+    }));
 
   const checkIfUserExists = async (email, phone) => {
     const result = await ApiService(
@@ -64,11 +63,8 @@ const Signup = () => {
   };
 
   const setPassword = async (values) => {
-
-
     // setloading(true);
     dispatch(setLoading(true));
-
 
     // if (user) {
 
@@ -87,10 +83,11 @@ const Signup = () => {
         const user = usercred.user;
         navigate('/info');
 
-        console.log("Account linking success", user);
-      }).catch((error) => {
+        console.log('Account linking success', user);
+      })
+      .catch((error) => {
         dispatch(setLoading(false));
-        console.log("Account linking error", error);
+        console.log('Account linking error', error);
       });
 
     // firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -118,10 +115,7 @@ const Signup = () => {
     //     navigate('/signup');
     //   }, 500);
     // }
-
-
   };
-
 
   return (
     <>
@@ -129,7 +123,6 @@ const Signup = () => {
         <LeftBox />
         <div className="right_box">
           <div className="right_box_container">
-
             <div className="auth_form">
               <div className="log-in-title login-head">
                 {/* <img
@@ -138,8 +131,7 @@ const Signup = () => {
                   src={arrowBack}
                   alt="back-arrow"
                 /> */}
-                <h6 className='title'>Set Password</h6>
-
+                <h6 className="title">Set Password</h6>
               </div>
               <div id="set-password-container"> </div>
 
@@ -154,7 +146,6 @@ const Signup = () => {
                   initialValues={{
                     SetNewPassword: '',
                     ConfirmPassword: '',
-
                   }}
                   validationSchema={Yup.object().shape({
                     SetNewPassword: Yup.string()
@@ -169,8 +160,10 @@ const Signup = () => {
                     ConfirmPassword: Yup.string()
                       .min(8, 'Your password is too short.')
                       .required('Confirm password is a required field.')
-                      .oneOf([Yup.ref('SetNewPassword'), null], 'Both password need to be the same'),
-
+                      .oneOf(
+                        [Yup.ref('SetNewPassword'), null],
+                        'Both password need to be the same'
+                      ),
                   })}
                   onSubmit={(values) => {
                     setPassword(values);
@@ -199,7 +192,7 @@ const Signup = () => {
                               <FormLabel>
                                 Set New Password <em className="red top">*</em>
                               </FormLabel>
-                              <p className='hint'>Password must be 8 characters long</p>
+                              <p className="hint">Password must be 8 characters long</p>
                               <FormControl
                                 placeholder="Enter your password here"
                                 type={'password'}
@@ -239,11 +232,6 @@ const Signup = () => {
                         <div className="error-text">{errors.ConfirmPassword}</div>
                       ) : null}
 
-
-
-
-
-
                       <div className="d-grid gap-2 mt-3 mb-3">
                         <Button
                           type="submit"
@@ -253,8 +241,6 @@ const Signup = () => {
                           {loading ? 'Loading...' : 'Set Password'}
                         </Button>
                       </div>
-
-
                     </Form>
                   )}
                 />
