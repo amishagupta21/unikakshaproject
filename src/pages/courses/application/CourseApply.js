@@ -206,7 +206,7 @@ const CourseApplication = () => {
       uid: user?.uid,
       course_id: courseDetails?.id,
       course_title: courseDetails?.course_title,
-      course_duration: courseDetails?.course_variant_sections?.duration,
+      course_duration: courseDetails?.duration,
       course_start_date: new Date(batches[0].start_date).toLocaleDateString(),
       personal_details: personalDetails,
     };
@@ -503,6 +503,7 @@ const CourseApplication = () => {
                           <Form.Check
                             style={{ paddingLeft: '1.5em !important', marginTop: '5px' }}
                             type="checkbox"
+                            checked={true}
                             onChange={(value) => copyFromMobileNumber(value)}
                             label="Same as mobile number"
                           />
@@ -555,6 +556,8 @@ const CourseApplication = () => {
                                     : null
                                 }
                                 onBlur={formik.handleBlur}
+                                disabled="disabled"
+                                style={{ opacity: 0.5 }}
                                 onChange={formik.handleChange}
                                 value={formik.values?.birth_date}>
                                 {/* defaultValue={userDOBData?.birth_date}> */}
@@ -582,6 +585,8 @@ const CourseApplication = () => {
                                 }
                                 onBlur={formik.handleBlur}
                                 onChange={formik.handleChange}
+                                style={{ opacity: 0.5 }}
+                                disabled="disabled"
                                 value={formik.values?.birth_month}>
                                 {/* defaultValue={userDOBData?.birth_month}> */}
                                 {/* disabled={ userDOBData?.birth_month } */}
@@ -741,5 +746,4 @@ const CourseApplication = () => {
     </>
   );
 };
-
 export default CourseApplication;
