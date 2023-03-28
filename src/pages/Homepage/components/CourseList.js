@@ -135,7 +135,8 @@ const CourseList = ({ courses }) => {
                   {course?.variant_subtitle}
                 </Card.Subtitle>
                 <div className="d-flex align-items-center mb-3 rating-sml">
-                <img src={rate} alt="right mark" /><p className="mb-0"> {course?.course_variant_sections?.rating}</p>
+                <img src={rate} alt="right mark" />
+                <p className="mb-0">{course?.rating}</p>
                   {/* <div className="d-flex ms-2 mb-1">
                     <RatingComponent rating={course?.course_variant_sections?.ratings} />
                   </div> */}
