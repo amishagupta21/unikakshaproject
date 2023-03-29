@@ -1932,3 +1932,69 @@ background-color: #EF6B29; color:#fff;
   margin-left: 10px;
   color: #003194;
 }
+.footer-inside {
+  display: flex;
+  align-items: center;
+}
+@media (max-width: 991px){
+  .account-settings .btn-secondary{ margin: 0 auto;}
+  .mt-5.linked-right .row{ width: 100%;}
+  .account-settings.right_box.right_box_accounts .right_box_container .log-in-title.link-my{ margin-bottom: 20px !important;}
+  .account-settings.right_box.right_box_accounts .auth_form {
+    margin-right: 0;
+    margin-top: 0;
+    padding: 15px 8px;
+}
+  .account-settings.right_box.right_box_accounts .right_box_container.mt-5.linked-right 
+  .log-in-title{ margin-bottom: 20px;}
+  .mt-5.linked-right{ margin-top: 0px !important;}
+  .footer-inside{ margin-top: 10px ;}
+  .footer-inside p{margin: 0 !important;
+    padding: 0 !important;}
+.hero-banner .container {
+  
+  height: auto;
+  margin-bottom: 40px;
+}
+.partner-list ul li {
+  max-width: 33.3%;
+  display: flex;
+  margin-bottom: 20px;
+  flex: 0 0 33.3%;
+  padding: 0 10px;
+}
+.follow-us ul {
+  margin-top: 0 !important;
+}
+.my-profile-tabs {
+  background: #fff;
+  height: auto;
+  border: 1px solid #f3eeee;
+  border-radius: 0.625rem;
+  overflow: auto;
+  cursor: pointer;
+  box-shadow: 0px 2px 20px rgba(0, 103, 223, 0.1);
+  transition: all ease 200ms;
+}
+.my-profile-tabs .flex-column {
+  flex-direction: row !important;
+}
+.my-profile-tabs .flex-column.nav.nav-pills .nav-item {
+  white-space: nowrap;
+}
+.my-profile-tabs .flex-column.nav.nav-pills{ flex-wrap:inherit;}
+.tab-content-right.tab-content-right-open h3.text-primary {
+  display: none;
+}
+.personal-my-card-detail {
+  margin-top: 25px;
+}
+.account-settings.right_box.right_box_accounts .right_box_container{ max-width: 100%;}
+.account-settings.right_box.right_box_accounts .right_box_container 
+.log-in-title{ margin-top:35px; margin-bottom: 0 !important; padding-top: 0 !important;}
+.button-group.button-group-c .col-sm-6 {
+  max-width: 50%;
+  flex: 0 0 50%;
+}
+
+}

@@ -23,8 +23,10 @@ const FooterContainer = () => {
         <p>2022 Unikaksha - All Rights Reserved.</p>
       </div>
       <div className={styles.socialmedia}>
+      <div className="footer-inside">
         <p>Need  Help?</p>
-        <div className='app-links'><label>WhatsApp Us -</label><a href="https://wa.me/+919310575018?text=Hello">(+91) 9310575018</a></div> 
+        <div className='app-links'><label>WhatsApp Us -</label>
+        <a href="https://wa.me/+919310575018?text=Hello">(+91) 9310575018</a></div> </div>
         <div className={styles.icons}>
         <div className="follow-us">
              
