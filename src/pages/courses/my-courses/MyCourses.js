@@ -173,7 +173,7 @@ const MyCourses = () => {
                             </span>
                           </div>
                         </Card.Subtitle>
-                        <Card.Body className="application-status">
+                        <Card.Body className="application-status application-status-course">
                           { occupation !== 'STUDENT' && (
                             <MultiStepBar page={setStepperStage(application?.application_stage)} />
                           )}
