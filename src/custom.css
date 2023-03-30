@@ -1937,6 +1937,10 @@ background-color: #EF6B29; color:#fff;
   align-items: center;
 }
 @media (max-width: 768px){
+  .ug-steps.col-md-3 {
+    margin-top: 20px;
+}
+  .my-profile-tabs .nav-pills .nav-link{ font-size: 15px !important;}
   .account-settings .btn-secondary{ margin: 0 auto;}
   .mt-5.linked-right .row{ width: 100%;}
   .account-settings.right_box.right_box_accounts .right_box_container .log-in-title.link-my{ margin-bottom: 20px !important;}
@@ -2023,7 +2027,12 @@ background-color: #EF6B29; color:#fff;
   width: 79%;
   height: 5px;
   content: "";
-  left: -53px;
+  left: -61px;
   position: absolute;
 }
 
+
+.profile-education-details.a .col-sm-4 {
+  margin-bottom: 15px;
+}
+.profile-education-details.a{ margin-top: 20px;}
