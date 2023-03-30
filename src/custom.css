@@ -2001,3 +2001,29 @@ background-color: #EF6B29; color:#fff;
   margin-top: 20px;
 }
 }
+
+.StepContainer-0-2-2 button.completed:before {
+
+  background: #222380;
+  width: 39%;
+  height: 5px;
+  content: "";
+  left: 0;
+  position: absolute;    border-radius: 3px 0px 0px 3px;
+}
+
+.StepContainer-0-2-2:nth-child(2) button.completed:before ,
+ .StepContainer-0-2-2:nth-child(3) button.completed:before ,
+ .StepContainer-0-2-2:nth-child(4) button.completed:before , 
+ .StepContainer-0-2-2:nth-child(5) button.completed:before , 
+ .StepContainer-0-2-2:nth-child(6) button.completed:before , 
+ .StepContainer-0-2-2:nth-child(7) button.completed:before ,
+ .StepContainer-0-2-2:nth-child(8) button.completed:before{
+  background: #222380;
+  width: 79%;
+  height: 5px;
+  content: "";
+  left: -53px;
+  position: absolute;
+}
+
