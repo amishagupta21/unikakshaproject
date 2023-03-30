@@ -305,7 +305,7 @@ const EducationalDetails = (educationalInfo) => {
   };
 
     return (
-      <div className='profile-education-details'>
+      <div className='profile-education-details a'>
         <>
             <Form onSubmit={formik.handleSubmit}>
         <>
@@ -332,7 +332,7 @@ const EducationalDetails = (educationalInfo) => {
               </Form.Select>
             </Form.Group>
             {highestQualification && (
-              <Form.Group as={Col} md={3} controlId="yesOrNo">
+              <Form.Group as={Col} md={3} controlId="yesOrNo" className='ug-steps'>
                 <Form.Label>
                   {yesOrNoLabel}
                   <span className="text-danger">*</span>
@@ -381,6 +381,7 @@ const EducationalDetails = (educationalInfo) => {
                   </Row>
 
                   <Row className="mb-5">
+                  <Col sm={4}>
                     <Form.Group as={Col} controlId="pgCollegeName">
                       <Form.Label>
                         PG college name
@@ -403,7 +404,8 @@ const EducationalDetails = (educationalInfo) => {
                         <div className="error-message">{formik.errors.pgCollegeName}</div>
                       ) : null}
                     </Form.Group>
-
+</Col>
+<Col sm={4}>
                     <Form.Group as={Col} controlId="pgYOC">
                       <Form.Label>
                         PG year of completion<span className="text-danger">*</span>
@@ -427,9 +429,10 @@ const EducationalDetails = (educationalInfo) => {
                       {formik.touched.pgYOC && formik.errors.pgYOC ? (
                         <div className="error-message">{formik.errors.pgYOC}</div>
                       ) : null}
-                    </Form.Group>
+                    </Form.Group></Col>
                     {highestQualification === 'PG' && graduatedYesOrNo === 'yes' && (
                       <>
+                      <Col sm={4}>
                         <Form.Group as={Col} controlId="pgMarks">
                           <Form.Label>
                             PG passing marks
@@ -449,7 +452,7 @@ const EducationalDetails = (educationalInfo) => {
                           {formik.touched.pgMarks && formik.errors.pgMarks ? (
                             <div className="error-message">{formik.errors.pgMarks}</div>
                           ) : null}
-                        </Form.Group>
+                        </Form.Group></Col>
                       </>
                     )}
                   </Row>
@@ -465,7 +468,8 @@ const EducationalDetails = (educationalInfo) => {
                   </Row>
 
                   <Row className="mb-5">
-                    <Form.Group as={Col} controlId="ugCollegeName">
+                  <Col sm={4}>
+                    <Form.Group  controlId="ugCollegeName">
                       <Form.Label>
                         UG college name
                         <span className="text-danger">*</span>
@@ -487,8 +491,9 @@ const EducationalDetails = (educationalInfo) => {
                         <div className="error-message">{formik.errors.ugCollegeName}</div>
                       ) : null}
                     </Form.Group>
-
-                    <Form.Group as={Col} controlId="ugYOC">
+</Col>
+<Col sm={4}>
+                    <Form.Group controlId="ugYOC">
                       <Form.Label>
                         UG year of completion<span className="text-danger">*</span>
                       </Form.Label>
@@ -512,10 +517,12 @@ const EducationalDetails = (educationalInfo) => {
                         <div className="error-message">{formik.errors.ugYOC}</div>
                       ) : null}
                     </Form.Group>
+                    </Col>
                     {(highestQualification === 'PG' ||
                       (highestQualification === 'UG' && graduatedYesOrNo === 'yes')) && (
                       <>
-                        <Form.Group as={Col} controlId="ugMarks">
+                      <Col sm={4}>
+                        <Form.Group controlId="ugMarks">
                           <Form.Label>
                             UG passing marks
                             <span className="text-danger">*</span>
@@ -534,7 +541,7 @@ const EducationalDetails = (educationalInfo) => {
                           {formik.touched.ugMarks && formik.errors.ugMarks ? (
                             <div className="error-message">{formik.errors.ugMarks}</div>
                           ) : null}
-                        </Form.Group>
+                        </Form.Group></Col>
                       </>
                     )}
                   </Row>
@@ -552,6 +559,7 @@ const EducationalDetails = (educationalInfo) => {
                   </Row>
 
                   <Row className="mb-5">
+                  <Col sm={4}>
                     <Form.Group as={Col} controlId="schoolDiplomaCollegeName">
                       <Form.Label>
                         12th / Diploma college name
@@ -578,7 +586,8 @@ const EducationalDetails = (educationalInfo) => {
                         </div>
                       ) : null}
                     </Form.Group>
-
+                    </Col>
+                    <Col sm={4}>
                     <Form.Group as={Col} controlId="schoolYearOfCompletion">
                       <Form.Label>
                         12th / Diploma year of completion<span className="text-danger">*</span>
@@ -602,12 +611,13 @@ const EducationalDetails = (educationalInfo) => {
                         ))}
                         ;
                       </Form.Select>
+                      
                       {formik.touched.schoolYearOfCompletion &&
                       formik.errors.schoolYearOfCompletion ? (
                         <div className="error-message">{formik.errors.schoolYearOfCompletion}</div>
                       ) : null}
-                    </Form.Group>
-
+                    </Form.Group></Col>
+                    <Col sm={4}>
                     <Form.Group as={Col} controlId="schoolMarks">
                       <Form.Label>
                         12th / Diploma passing marks
@@ -629,7 +639,7 @@ const EducationalDetails = (educationalInfo) => {
                       {formik.touched.schoolMarks && formik.errors.schoolMarks ? (
                         <div className="error-message">{formik.errors.schoolMarks}</div>
                       ) : null}
-                    </Form.Group>
+                    </Form.Group></Col>
                   </Row>
                 </>
               )}
@@ -673,8 +683,9 @@ const EducationalDetails = (educationalInfo) => {
                   
                   {is_enrolled_other_program !== 'no' && (
                     <>
-                      <Row className="mb-5">
-                        <Form.Group as={Col} controlId="other_program_name">
+                      <Row className="mb-3">
+                      <Col sm={4}>
+                        <Form.Group  controlId="other_program_name">
                           <Form.Label>
                             Program Name
                             <span className="text-danger">*</span>
@@ -697,8 +708,9 @@ const EducationalDetails = (educationalInfo) => {
                             <div className="error-message">{formik.errors.other_program_name}</div>
                           ) : null}
                         </Form.Group>
-
-                        <Form.Group as={Col} controlId="other_program_college_name">
+</Col>
+<Col sm={4}>
+                        <Form.Group  controlId="other_program_college_name">
                           <Form.Label>
                             College/Insitute Name<span className="text-danger">*</span>
                           </Form.Label>
@@ -724,8 +736,9 @@ const EducationalDetails = (educationalInfo) => {
                             </div>
                           ) : null}
                         </Form.Group>
-
-                        <Form.Group as={Col} controlId="other_program_course_duration">
+                        </Col>
+                        <Col sm={4}>
+                        <Form.Group  controlId="other_program_course_duration">
                           <Form.Label>
                             Duration in months
                             <span className="text-danger">*</span>
@@ -753,6 +766,7 @@ const EducationalDetails = (educationalInfo) => {
                             </div>
                           ) : null}
                         </Form.Group>
+                        </Col>
                       </Row>
                     </>
                   )}
@@ -761,7 +775,7 @@ const EducationalDetails = (educationalInfo) => {
               )}
             </>
           )}
-          <Row className="d-flex justify-content-end">
+          <Row className="d-flex justify-content-end my-btn-styles row ">
             <Button
               className="col-1 me-2 btn btn-outline-secondary"
               variant="outline-secondary"

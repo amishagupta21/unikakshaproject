@@ -5,7 +5,7 @@ import { arrowBack, wrappedGift } from "../assets/images";
 const InviteNow = () => {
     return (
         <>
-        <div className='invitation'>
+        <div className='invitation dnone'>
             <Card>
                 <Card.Header>Invite your friends</Card.Header>
                 <Card.Body className='d-flex justify-content-between'>
