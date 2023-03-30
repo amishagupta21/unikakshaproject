@@ -288,7 +288,7 @@ const EducationDetails = ({
               </Form.Select>
             </Form.Group>
             {highestQualification && (
-              <Form.Group as={Col} md={3} controlId="yesOrNo">
+              <Form.Group as={Col} md={3} className="space-bottom" controlId="yesOrNo">
                 <Form.Label>
                   {yesOrNoLabel}
                   <span className="text-danger">*</span>
@@ -337,6 +337,7 @@ const EducationDetails = ({
                   </Row>
 
                   <Row className="mb-5">
+                  <Col  sm={4} >
                     <Form.Group as={Col} controlId="pgCollegeName">
                       <Form.Label>
                         PG college name
@@ -359,7 +360,8 @@ const EducationDetails = ({
                         <div className="error-message">{formik.errors.pgCollegeName}</div>
                       ) : null}
                     </Form.Group>
-
+</Col>
+<Col  sm={4} >
                     <Form.Group as={Col} controlId="pgYOC">
                       <Form.Label>
                         PG year of completion<span className="text-danger">*</span>
@@ -384,8 +386,10 @@ const EducationDetails = ({
                         <div className="error-message">{formik.errors.pgYOC}</div>
                       ) : null}
                     </Form.Group>
+                    </Col>
                     {highestQualification === 'PG' && graduatedYesOrNo === 'yes' && (
                       <>
+                      <Col  sm={4} >
                         <Form.Group as={Col} controlId="pgMarks">
                           <Form.Label>
                             PG passing marks
@@ -405,7 +409,7 @@ const EducationDetails = ({
                           {formik.touched.pgMarks && formik.errors.pgMarks ? (
                             <div className="error-message">{formik.errors.pgMarks}</div>
                           ) : null}
-                        </Form.Group>
+                        </Form.Group></Col>
                       </>
                     )}
                   </Row>
@@ -421,6 +425,7 @@ const EducationDetails = ({
                   </Row>
 
                   <Row className="mb-5">
+                  <Col  sm={4} >
                     <Form.Group as={Col} controlId="ugCollegeName">
                       <Form.Label>
                         UG college name
@@ -443,7 +448,8 @@ const EducationDetails = ({
                         <div className="error-message">{formik.errors.ugCollegeName}</div>
                       ) : null}
                     </Form.Group>
-
+</Col>
+<Col  sm={4} >
                     <Form.Group as={Col} controlId="ugYOC">
                       <Form.Label>
                         UG year of completion<span className="text-danger">*</span>
@@ -468,9 +474,11 @@ const EducationDetails = ({
                         <div className="error-message">{formik.errors.ugYOC}</div>
                       ) : null}
                     </Form.Group>
+                    </Col>
                     {(highestQualification === 'PG' ||
                       (highestQualification === 'UG' && graduatedYesOrNo === 'yes')) && (
                       <>
+                      <Col  sm={4} >
                         <Form.Group as={Col} controlId="ugMarks">
                           <Form.Label>
                             UG passing marks
@@ -491,6 +499,7 @@ const EducationDetails = ({
                             <div className="error-message">{formik.errors.ugMarks}</div>
                           ) : null}
                         </Form.Group>
+                        </Col>
                       </>
                     )}
                   </Row>
@@ -508,7 +517,8 @@ const EducationDetails = ({
                   </Row>
 
                   <Row className="mb-5">
-                    <Form.Group as={Col} controlId="schoolDiplomaCollegeName">
+                  <Col  sm={4} >
+                    <Form.Group  controlId="schoolDiplomaCollegeName">
                       <Form.Label>
                         12th / Diploma college name
                         <span className="text-danger">*</span>
@@ -534,8 +544,9 @@ const EducationDetails = ({
                         </div>
                       ) : null}
                     </Form.Group>
-
-                    <Form.Group as={Col} controlId="schoolYearOfCompletion">
+</Col>
+<Col  sm={4} >
+                    <Form.Group  controlId="schoolYearOfCompletion">
                       <Form.Label>
                         12th / Diploma year of completion<span className="text-danger">*</span>
                       </Form.Label>
@@ -563,8 +574,9 @@ const EducationDetails = ({
                         <div className="error-message">{formik.errors.schoolYearOfCompletion}</div>
                       ) : null}
                     </Form.Group>
-
-                    <Form.Group as={Col} controlId="schoolMarks">
+                    </Col>
+                    <Col  sm={4} >
+                    <Form.Group controlId="schoolMarks">
                       <Form.Label>
                         12th / Diploma passing marks
                         <span className="text-danger">*</span>
@@ -585,7 +597,7 @@ const EducationDetails = ({
                       {formik.touched.schoolMarks && formik.errors.schoolMarks ? (
                         <div className="error-message">{formik.errors.schoolMarks}</div>
                       ) : null}
-                    </Form.Group>
+                    </Form.Group>      </Col>
                   </Row>
                 </>
               )}
@@ -632,7 +644,8 @@ const EducationDetails = ({
                   {is_enrolled_other_program !== 'no' && (
                     <>
                       <Row className="mb-5">
-                        <Form.Group as={Col} controlId="other_program_name">
+                      <Col  sm={4} >
+                        <Form.Group  controlId="other_program_name">
                           <Form.Label>
                             Program Name
                             <span className="text-danger">*</span>
@@ -654,8 +667,9 @@ const EducationDetails = ({
                             <div className="error-message">{formik.errors.other_program_name}</div>
                           ) : null}
                         </Form.Group>
-
-                        <Form.Group as={Col} controlId="other_program_college_name">
+</Col>
+<Col  sm={4} >
+                        <Form.Group  controlId="other_program_college_name">
                           <Form.Label>
                             College/Insitute Name<span className="text-danger">*</span>
                           </Form.Label>
@@ -680,8 +694,9 @@ const EducationDetails = ({
                             </div>
                           ) : null}
                         </Form.Group>
-
-                        <Form.Group as={Col} controlId="other_program_course_duration">
+</Col>
+<Col  sm={4} >
+                        <Form.Group  controlId="other_program_course_duration">
                           <Form.Label>
                             Duration in months
                             <span className="text-danger">*</span>
@@ -707,6 +722,7 @@ const EducationDetails = ({
                             </div>
                           ) : null}
                         </Form.Group>
+                        </Col>
                       </Row>
                     </>
                   )}
@@ -714,7 +730,8 @@ const EducationDetails = ({
                     <p className="stepper-sub-header">Work Details</p>
                   </Row>
                   <Row className="mb-5">
-                    <Form.Group as={Col} controlId="position">
+                  <Col  sm={4} >
+                    <Form.Group  controlId="position">
                       <Form.Label>Your current working position</Form.Label>
                       <Form.Select
                         name="position"
@@ -730,7 +747,9 @@ const EducationDetails = ({
                         ;
                       </Form.Select>
                     </Form.Group>
-                    <Form.Group as={Col} controlId="experience">
+                    </Col>
+                    <Col  sm={4} >
+                    <Form.Group controlId="experience">
                       <Form.Label>Total technical experience in years</Form.Label>
                       <Form.Control
                         name="experience"
@@ -741,7 +760,8 @@ const EducationDetails = ({
                         value={formik.values?.experience}
                       />
                     </Form.Group>
-
+</Col>
+<Col  sm={4} >
                     <Form.Group as={Col} controlId="currentOrganization">
                       <Form.Label>Organization you are working in</Form.Label>
                       <Form.Control
@@ -753,6 +773,7 @@ const EducationDetails = ({
                         value={formik.values?.organization_name}
                       />
                     </Form.Group>
+                    </Col>
                   </Row>
                 </>
               )}

@@ -1936,7 +1936,7 @@ background-color: #EF6B29; color:#fff;
   display: flex;
   align-items: center;
 }
-@media (max-width: 991px){
+@media (max-width: 768px){
   .account-settings .btn-secondary{ margin: 0 auto;}
   .mt-5.linked-right .row{ width: 100%;}
   .account-settings.right_box.right_box_accounts .right_box_container .log-in-title.link-my{ margin-bottom: 20px !important;}
@@ -1997,4 +1997,7 @@ background-color: #EF6B29; color:#fff;
   flex: 0 0 50%;
 }
 
+.space-bottom.col-md-3 {
+  margin-top: 20px;
+}
 }
