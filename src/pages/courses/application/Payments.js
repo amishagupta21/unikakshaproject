@@ -3,20 +3,22 @@ import { Button } from 'react-bootstrap';
 import { bannerLogoSvg, PaymentFailure, SuccessTick } from '../../../assets/images';
 import ApiService from '../../../services/ApiService';
 import './Payments.scss';
+import { useNavigate } from 'react-router-dom';
 
 const Payments = (params) => {
   const [paymentResponse, setpaymentResponse] = React.useState();
-  const [paymentStatus, setpaymentStatus] = React.useState();
+  const [paymentStatus, setpaymentStatus] = React.useState(null);
   const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
   const [userProfile, setUserProfile] = React.useState();
+  const navigate = useNavigate();
 
   const courseData = params.course;
   const nextPage = params.nextPage;
   const orderData = params.orderData;
   const applicationDetails = params.application;
   const selectedBatch = params.selectedBatch;
-
-  // console.log(applicationDetails);
+  const onPageNumberClick = params.onPageNumberClick;
+  const page = params.page;
 
   useEffect(() => {
     fetchUserDetails(user?.uid);
@@ -111,18 +113,24 @@ const Payments = (params) => {
     const orderId = orderData?.id;
 
     const options = {
-      key: 'rzp_live_xsOESw138cvA75', // Enter the Key ID generated from the Dashboard
+      key: 'rzp_test_Lfev1HWEYekjMI', // Enter the Key ID generated from the Dashboard
+      //key: 'rzp_live_xsOESw138cvA75',
       amount: orderData?.amount,
       currency: orderData?.currency,
       name: 'Code Shastra',
       description: 'Test Transaction',
       image: { bannerLogoSvg },
+      callback_url:
+        'https://razorpay.com/docs/payments/server-integration/go/payment-gateway/build-integration/',
       // order_id: orderId,
       handler: async function (response) {
         if (response.razorpay_payment_id) {
           createPaymant(response, 'Success');
         }
-
+        params?.setApplicationDetails({
+          application_stage: 'payment_status',
+          m_applicationstatus: 'Payment Successfull',
+        });
         setpaymentStatus('Success');
         setpaymentResponse(response);
         const data = {
@@ -132,7 +140,7 @@ const Payments = (params) => {
           razorpaySignature: response.razorpay_signature,
         };
 
-        // nextPage();
+        nextPage();
       },
       modal: {
         ondismiss: function () {
@@ -154,9 +162,12 @@ const Payments = (params) => {
     };
 
     const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+
     paymentObject.on('payment.failed', function (response) {
       setpaymentStatus('Failed');
       createPaymant(response, 'Failed');
+
       // alert(response.error.code);
       // alert(response.error.description);
       // alert(response.error.source);
@@ -165,8 +176,11 @@ const Payments = (params) => {
       // alert(response.error.metadata.order_id);
       // alert(response.error.metadata.payment_id);
     });
-    paymentObject.open();
   }
+
+  const onStepperClick = (page) => {
+    onPageNumberClick(page);
+  };
 
   const getPaymentSuccess = () => {
     // let items = coureseVariantBatches?.map((element, index) => {
@@ -199,6 +213,16 @@ const Payments = (params) => {
           </div>
           <div className="mt-5 d-flex align-items-center justify-content-center footer-content">
             <p>We have sent you the transaction details on your email and whatsapp.</p>
+          </div>
+          <div className="m-auto mt-3">
+            <Button
+              size="lg"
+              className="btn-center"
+              variant="secondary"
+              type="button"
+              onClick={() => onStepperClick(6)}>
+              Next
+            </Button>
           </div>
         </div>
       </div>

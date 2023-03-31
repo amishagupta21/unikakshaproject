@@ -3,10 +3,12 @@ import { Card, Row, Col, InputGroup, FormControl, Button, CardGroup, Form } from
 import './paymentPopups.scss';
 import moment from 'moment';
 import ApiService from '../../../services/ApiService';
+import { useNavigate } from 'react-router-dom';
 
 const PaymentPopup = ({ nextPage, setOrderData, courseId, setopenpayment, setSelectedBatch }) => {
   const [batches, setbatches] = React.useState();
   const [defaultBatch, setDefaultBatch] = React.useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchVariantBatches(courseId);
@@ -158,6 +160,13 @@ const PaymentPopup = ({ nextPage, setOrderData, courseId, setopenpayment, setSel
                     onClick={() => createOrder()}>
                     Next
                   </Button>
+                  {/* <Button
+                    className="col-3"
+                    variant="secondary"
+                    type="button"
+                    onClick={() => navigate('/worldline')}>
+                    Next
+                  </Button> */}
                 </Row>
               </div>
             </section>
