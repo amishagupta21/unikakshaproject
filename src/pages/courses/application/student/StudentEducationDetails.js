@@ -382,6 +382,7 @@ const EducationDetails = ({
                   </Row>
 
                   <Row className="mb-5">
+                  <Col sm={4} >
                     <Form.Group as={Col} controlId="pgCollegeName">
                       <Form.Label>
                         UG / Bachelors College name*
@@ -404,7 +405,8 @@ const EducationDetails = ({
                         <div className="error-message">{formik.errors.pgCollegeName}</div>
                       ) : null}
                     </Form.Group>
-
+</Col>
+<Col sm={4} >
                     <Form.Group as={Col} controlId="pgYOC">
                       <Form.Label>
                       UG/Bachelors Year of completion*<span className="text-danger">*</span>
@@ -429,8 +431,10 @@ const EducationDetails = ({
                         <div className="error-message">{formik.errors.pgYOC}</div>
                       ) : null}
                     </Form.Group>
+                    </Col>
                     {highestQualification === 'PG' && graduatedYesOrNo === 'yes' && (
                       <>
+                      <Col sm={4} >
                         <Form.Group as={Col} controlId="pgMarks">
                           <Form.Label>
                             PG passing marks
@@ -450,7 +454,7 @@ const EducationDetails = ({
                           {formik.touched.pgMarks && formik.errors.pgMarks ? (
                             <div className="error-message">{formik.errors.pgMarks}</div>
                           ) : null}
-                        </Form.Group>
+                        </Form.Group> </Col>
                       </>
                     )}
                   </Row>

@@ -284,8 +284,8 @@ const AccountSettings = () => {
 
                 </div>
 
-                <div className="right_box_container mt-5">
-                    <div className="log-in-title 1">Linked Account</div>
+                <div className="right_box_container mt-5 linked-right">
+                    <div className="log-in-title link-my">Linked Account</div>
                     <Row className="my-2">
                         <Col md={12}>
                             <div
@@ -356,7 +356,7 @@ const AccountSettings = () => {
                     </div>
             </div> */}
                 <div className="right_box_container">
-                    <div className="log-in-title 1">Delete Account</div>
+                    <div className="log-in-title link-my">Delete Account</div>
                     <span>Your account will be deleted permanently you will not be able to access the data. </span>
                     <div className="d-grid gap-2 mt-3 mb-3">
                         <Button

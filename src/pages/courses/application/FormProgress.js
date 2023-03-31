@@ -1,8 +1,8 @@
 import { Step, Stepper } from 'react-form-stepper';
-import './FormProgress.scss'
+import './FormProgress.scss';
 
 const MultiStepBar = ({ page, onPageNumberClick }) => {
-  const onStepperClick = page => {
+  const onStepperClick = (page) => {
     onPageNumberClick(page);
   };
 

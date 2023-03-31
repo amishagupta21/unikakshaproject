@@ -1,22 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="./favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Web site created using create-react-app" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="./manifest.json" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-YWaAb8vZafMDwW8fA2TzTc0Hv19M9Fy8mAEsLzPTkC/ZbKP1GZlIW4oU6D3U6enG2XOyW8VAelI//SdO1naDQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- <script
+      src="https://www.paynimo.com/paynimocheckout/client/lib/jquery.min.js"
+      type="text/javascript"
+    ></script> -->
 
-<head>
-	<meta charset="utf-8" />
-	<link rel="icon" href="./favicon.ico" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta name="theme-color" content="#000000" />
-	<meta name="description" content="Web site created using create-react-app" />
-	<link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-	<link rel="manifest" href="./manifest.json" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-YWaAb8vZafMDwW8fA2TzTc0Hv19M9Fy8mAEsLzPTkC/ZbKP1GZlIW4oU6D3U6enG2XOyW8VAelI//SdO1naDQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>UniKaksha</title>
+  </head>
 
-	<title>UniKaksha</title>
-</head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!-- <script
+      type="text/javascript"
+      src="https://www.paynimo.com/paynimocheckout/server/lib/checkout.js"
+    ></script>
 
-<body>
-	<noscript>You need to enable JavaScript to run this app.</noscript>
-	<div id="root"></div>
-</body>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        function handleResponse(res) {
+          if (
+            typeof res != 'undefined' &&
+            typeof res.paymentMethod != 'undefined' &&
+            typeof res.paymentMethod.paymentTransaction != 'undefined' &&
+            typeof res.paymentMethod.paymentTransaction.statusCode != 'undefined' &&
+            res.paymentMethod.paymentTransaction.statusCode == '0300'
+          ) {
+            // success block
+          } else if (
+            typeof res != 'undefined' &&
+            typeof res.paymentMethod != 'undefined' &&
+            typeof res.paymentMethod.paymentTransaction != 'undefined' &&
+            typeof res.paymentMethod.paymentTransaction.statusCode != 'undefined' &&
+            res.paymentMethod.paymentTransaction.statusCode == '0398'
+          ) {
+            // initiated block
+          } else {
+            // error block
+          }
+        }
 
+        $(document)
+          .off('click', '#btnSubmit')
+          .on('click', '#btnSubmit', function (e) {
+            e.preventDefault();
+
+            var configJson = {
+              tarCall: false,
+              features: {
+                showPGResponseMsg: true,
+                enableAbortResponse: true,
+                enableExpressPay: true,
+                enableNewWindowFlow: false, //for hybrid applications please disable this by passing false
+              },
+              consumerData: {
+                deviceId: 'WEBSH2', //possible values 'WEBSH1' or 'WEBSH2'
+                token:
+                  '40a7ece51f4a23984ead77c956cd180354764cb3611aa37fbc4753f433ce328a053c6a08d5f07d55f63dd8f0d54aa22dce83a0c9d410b519e2c5d5cb34222fa8',
+                returnUrl:
+                  'https://www.tekprocess.co.in/MerchantIntegrationClient/MerchantResponsePage.jsp', //merchant response page URL
+                responseHandler: handleResponse,
+                paymentMode: 'all',
+                merchantLogoUrl:
+                  'https://www.paynimo.com/CompanyDocs/company-logo-vertical-light.png', //provided merchant logo will be displayed
+                merchantId: 'L3348',
+                currency: 'INR',
+                consumerId: 'c964634',
+                consumerMobileNo: '9876543210',
+                consumerEmailId: 'test@test.com',
+                txnId: '1679895437256', //Unique merchant transaction ID
+                items: [
+                  {
+                    itemId: 'test',
+                    amount: '10',
+                    comAmt: '0',
+                  },
+                ],
+                WORLD_LINE_SALT: '2661547291EDVTPU',
+                // cardNumber: '6522360050704752',
+                // expMonth: '08',
+                // expYear: '2025',
+                // cvvCode: '577',
+                // nameOnCard: 'Ankit Gupta',
+                // bankCode: '470', //bank code list provided by Worldline
+                // accountNo: '', //optional
+                // ifscCode: '', //optional
+
+                customStyle: {
+                  PRIMARY_COLOR_CODE: '#45beaa', //merchant primary color code
+                  SECONDARY_COLOR_CODE: '#FFFFFF', //provide merchant's suitable color code
+                  BUTTON_COLOR_CODE_1: '#2d8c8c', //merchant's button background color code
+                  BUTTON_COLOR_CODE_2: '#FFFFFF', //provide merchant's suitable color code for button text
+                },
+              },
+            };
+
+            $.pnCheckout(configJson);
+            if (configJson.features.enableNewWindowFlow) {
+              pnCheckoutShared.openNewWindow();
+            }
+          });
+      });
+    </script> -->
+  </body>
 </html>

@@ -741,7 +741,7 @@ const PersonalDetails = () => {
                 </Button> */}
               </Col>
               <Col sm={9}>
-                <div className="tab-content-right">
+                <div className="tab-content-right tab-content-right-open">
                   <Tab.Content>
                     <Tab.Pane eventKey="first">
                       <div className="course-application-list" id="personal">
@@ -1017,6 +1017,7 @@ const PersonalDetails = () => {
                                             onChange={(value) => copyFromMobileNumber(value)}
                                             label="Same as mobile number"
                                             className="my-code-check"
+                                            checked={true}
                                           />
                                         </Form.Group>
 
