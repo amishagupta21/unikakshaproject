@@ -117,13 +117,14 @@ const workDetails = ({ educationalDetails }) => {
 
   return (
     <>
-      <div>
+      <div className='work-space'>
 
         <Form onSubmit={formik.handleSubmit}>
 
 
           <Row className="mb-5">
-            <Form.Group as={Col} controlId="position">
+          <Col sm={4}>
+            <Form.Group controlId="position">
               <Form.Label>Your current working position</Form.Label>
               <Form.Select
                 name="position"
@@ -140,7 +141,9 @@ const workDetails = ({ educationalDetails }) => {
                 ;
               </Form.Select>
             </Form.Group>
-            <Form.Group as={Col} controlId="experience">
+            </Col>
+            <Col sm={4}>
+            <Form.Group  controlId="experience">
               <Form.Label>Total technical experience in years</Form.Label>
               <Form.Control
                 name="experience"
@@ -151,8 +154,9 @@ const workDetails = ({ educationalDetails }) => {
                 value={formik.values?.experience}
               />
             </Form.Group>
-
-            <Form.Group as={Col} controlId="currentOrganization">
+</Col>
+<Col sm={4}>
+            <Form.Group  controlId="currentOrganization">
               <Form.Label>Organization you are working in</Form.Label>
               <Form.Control
                 name="organization_name"
@@ -163,8 +167,9 @@ const workDetails = ({ educationalDetails }) => {
                 value={formik.values?.organization_name}
               />
             </Form.Group>
+            </Col>
           </Row>
-          <Row className="d-flex justify-content-end">
+          <Row className="d-flex justify-content-end my-btn-styles row  row">
             <Button
               className="col-1 me-2 btn btn-outline-secondary"
               variant="outline-secondary"

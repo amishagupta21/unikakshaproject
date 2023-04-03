@@ -1,6 +1,6 @@
 import { fetchAndActivate, getValue } from 'firebase/remote-config';
 import React, { useEffect } from 'react';
-import { Alert, Button, Col, Container, Form } from 'react-bootstrap';
+import { Alert, Button, Col, Container, Form , Row } from 'react-bootstrap';
 import { workingRemote } from '../../../assets/images';
 import { remoteConfig } from '../../../firebase/firebaseAuth';
 import ApiService from '../../../services/ApiService';
@@ -35,11 +35,12 @@ const EntranceTest = ({ course, user }) => {
 
   return (
     <>
-      <Container className="d-flex">
-        <Col className="d-flex justify-content-center">
-          <img src={workingRemote}></img>
+      <Container >
+      <Row className="mb-5">
+        <Col  sm={6} className="d-flex justify-content-center">
+          <img src={workingRemote} className="img-responsive"></img>
         </Col>
-        <Col className="d-flex flex-column justify-content-around mx-5">
+        <Col  sm={6} className="d-flex flex-column justify-content-around ">
           {testUrl ? (
             <>
               <div className="d-flex justify-content-center">
@@ -67,6 +68,7 @@ const EntranceTest = ({ course, user }) => {
             <Alert className="d-flex justify-content-center">Loading test data!</Alert>
           )}
         </Col>
+        </Row>
       </Container>
     </>
   );
