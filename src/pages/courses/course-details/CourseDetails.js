@@ -35,9 +35,11 @@ import LearnerPaymentPopup from './LearnerPaymentPopup';
 
 function CourseDetails() {
   const [courseDetails, setCourseDetails] = React.useState();
+  const [courseFaq, setCourseFaq] = React.useState();
   const { state } = useLocation();
   const params = useParams();
   const [courseVariantBatches, setVariantCourseBatches] = React.useState([]);
+  const[faq,setFaq]=React.useState([])
   const [eligibilityCriteria, setEligibilityCriteria] = React.useState([]);
   const [openpayment, setopenpayment] = React.useState(false);
   const [promoBanner, setPromoBanner] = React.useState();
@@ -47,6 +49,11 @@ function CourseDetails() {
   const fetchCourseDetails = async (params) => {
     const { courseVariantSlug } = params;
     const res = await ApiService(`courses/course_url/${courseVariantSlug}/detail`);
+    return res?.data?.data?.course;
+  };
+  const faqDetails = async (params) => {
+    const { course_id} = params;
+    const res = await ApiService(`courses/course_url/${course_id}/faq/list`);
     return res?.data?.data?.course;
   };
 
@@ -65,6 +72,9 @@ function CourseDetails() {
     const variantBatches = await fetchVariantBatches(courseData.id);
     setCourseDetails(courseData);
     setVariantCourseBatches(variantBatches);
+    const faqs=await faqDetails (courseData.id);
+    setCourseFaq(courseData)
+    setFaq(faqs)
   };
 
   const convertDate = (dateInput) => {
@@ -86,7 +96,7 @@ function CourseDetails() {
     }
   };
 
-  
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -305,7 +315,7 @@ function CourseDetails() {
       <div className="course-details my-5">
         {openpayment && (
           <>
-            <LearnerPaymentPopup courseId={courseDetails?.id} courseInfo={courseDetails} setopenpayment={setopenpayment}/>
+            <LearnerPaymentPopup courseId={courseDetails?.id} courseInfo={courseDetails} setopenpayment={setopenpayment} />
           </>
         )}
         {promoBanner ? (
@@ -430,7 +440,7 @@ function CourseDetails() {
               <Row xs={1} md={3} className="mtb5">
                 {getBatches()}
               </Row>
-            <h4 className="font-color mb2" id="eligibility">
+              <h4 className="font-color mb2" id="eligibility">
                 Eligiblility Criteria
               </h4>
               <Row xs={1} md={1} className="mtb5 ">
@@ -570,7 +580,7 @@ function CourseDetails() {
           </Row>
         </Container>
       </div>
-      <FooterContainer/>
+      <FooterContainer />
     </>
   );
 }

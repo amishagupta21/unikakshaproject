@@ -409,7 +409,7 @@ const Info = () => {
                       ) : null}
 
                       <FormGroup style={{paddingBottom: "16px" }}>
-                        <FormLabel>Your date of birth</FormLabel>
+                        <FormLabel>Your date of birth<MandatorySymbol /></FormLabel>
                         <div style={{ display: 'flex',justifyContent: 'space-between' }}>
                             <FormSelectField
                               name="birth_date"
@@ -423,7 +423,7 @@ const Info = () => {
                               }
                               type="text"
                               md="4">
-                              <option value="" disabled selected hidden>Day<MandatorySymbol /></option>
+                              <option value="" disabled selected hidden>Day</option>
                               {optionsday.map((option, index) => (
                                 <option key={index} value={option.value}>
                                   {option.label}
@@ -442,7 +442,7 @@ const Info = () => {
                               }
                               type="text"
                               md="4">
-                              <option value="" disabled selected hidden>Month<MandatorySymbol /></option>
+                              <option value="" disabled selected hidden>Month</option>
                               {optionsmonth.map((option, index) => (
                                 <option key={index} value={option.value}>
                                   {option.label}
