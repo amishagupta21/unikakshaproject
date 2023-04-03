@@ -20,7 +20,7 @@ export const yearsOptions = [
   { value: 1941, label: '1941' },
   { value: 1942, label: '1942' },
   { value: 1943, label: '1943' },
-  { value: 1944, label: '1963' },
+  { value: 1944, label: '1944' },
   { value: 1945, label: '1945' },
   { value: 1946, label: '1946' },
   { value: 1947, label: '1947' },

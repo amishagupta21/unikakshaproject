@@ -66,6 +66,7 @@ const AccountSettings = () => {
         await logout();
         dispatch(setIsAuthenticated(false));
         navigate('/');
+        
     };
 
     const [deletePop, setDeletePop] = React.useState(false);
@@ -80,6 +81,7 @@ const AccountSettings = () => {
         setDeletePop(!deletePop)
     }
     const handleClose = () => toggle(false);
+    
 
     const deleteHandler = async () => {
 
@@ -90,6 +92,7 @@ const AccountSettings = () => {
 
         if (res?.data?.code === 200) {
             await logOutHandler();
+            
             handleClose();
 
         } else {

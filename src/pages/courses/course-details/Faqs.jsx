@@ -37,7 +37,7 @@ const Faqs = ({ faqs }) => {
                 <Accordion defaultActiveKey={0} alwaysOpen>
                   {e[1].map((accItem, idx) => (
                     <Accordion.Item eventKey={idx} key={idx}>
-                      <Accordion.Header>{accItem.question}</Accordion.Header>
+                      <Accordion.Header>{accItem.questions}</Accordion.Header>
                       <Accordion.Body>{accItem.answer}</Accordion.Body>
                     </Accordion.Item>
                   ))}

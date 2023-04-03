@@ -137,7 +137,7 @@ const MyCourses = () => {
                           width={'115px'}
                           height={'90px'}
                           src={
-                            application?.courseDetail?.course_variant_sections?.bannerAsset
+                            application?.courseDetail?.course_variant_sections?.bannerContentDesktop
                               ?.value[0].url
                           }></img>
                       </div>
