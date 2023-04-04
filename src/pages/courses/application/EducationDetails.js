@@ -749,7 +749,7 @@ const EducationDetails = ({
                           defaultValue={formik.values?.position}>
                           <option value="">Select your Position</option>
                           {workingPositionList.map((option, index) => (
-                            <option key={index} value={option.label}>
+                            <option key={index} value={option.value}>
                               {option.label}
                             </option>
                           ))}

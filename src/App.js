@@ -26,6 +26,7 @@ import PersonalDetails from './pages/my-profile/PersonalDetails';
 import LearnerPayments from './pages/courses/course-details/LearnerPayments';
 import FooterContainer from './components/FooterComponent';
 import { useState } from 'react';
+import WorldLine from './pages/courses/application/WorldLine';
 
 const App = () => {
   const isLoader = useSelector((state) => state?.loader?.isLoading);
@@ -77,6 +78,7 @@ const App = () => {
               <Route path="info" element={<Info />} />
               <Route path="signin-otp" element={<SignInOtp />} />
               <Route path="signup-otp" element={<SignupOtp />} />
+              <Route path="worldline" element={<WorldLine />} />
 
               <Route path="*" element={<Error />} />
             </Routes>

@@ -108,20 +108,6 @@ const Payments = (params) => {
       return;
     }
 
-    function loadScript(src) {
-      return new Promise((resolve) => {
-        const script = document.createElement('script');
-        script.src = src;
-        script.onload = () => {
-          resolve(true);
-        };
-        script.onerror = () => {
-          resolve(false);
-        };
-        document.body.appendChild(script);
-      });
-    }
-
     // const result = await axios.post("https://api.razorpay.com/v1/orders")
 
     const orderId = orderData?.id;
