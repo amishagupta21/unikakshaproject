@@ -108,8 +108,9 @@ const Signup = () => {
       { email, phone: `+${phone}` },
       true
     );
-    return result?.data?.data?.user;
+    // return result?.data?.data?.user;
   };
+ 
 
   const createUser = async (values) => {
     setloading(true);
@@ -126,7 +127,8 @@ const Signup = () => {
       //     // sent to the user's phone
 
       //   });
-    } else {
+    } 
+    else {
       setAuthError('User already exists');
       dispatch(setLoading(false));
       setloading(false);
@@ -135,7 +137,8 @@ const Signup = () => {
       // }, 500);
     }
   };
-
+  
+  
   const sendOTP = async (values) => {
     console.log(values);
     const countryCode = values.mobileNumber.substr(0, 2);
@@ -156,11 +159,13 @@ const Signup = () => {
           // toast.success('OTP has been Sent to Mobile Number', {
           //   theme: 'colored',
           // });
+          setMinutes(1);
+          setSeconds(59);
+    
           dispatch(setLoading(false));
           setOTPLabel('OTP Sent');
           setOTPSent(true);
           setPencil(true)
-
           // navigate('/signup-otp', {
           //   state: {
           //     values: {
@@ -245,17 +250,25 @@ const Signup = () => {
 
   const resendOTP = (phone) => {
     if (seconds === 0 && minutes === 0) {
-      setOTPLabel('Get OTP');
-      setOTPSent(false);
-      setPencil(false)
       setOtp('');
       setOtpError(null);
       setIsResendDisabled(true);
-      setMinutes(2);
-      setSeconds(0);
+      setMinutes(1);
+      setSeconds(59);
       sendOTP(phone);
     }
   };
+  // const validateEmailExists = (emil) => {
+  //   // Check if email exists
+  //   const emailExists = checkIfUserExists(email, `+${values.mobileNumber}`);
+    
+  //   if (emailExists) {
+  //     return false;
+  //   }
+    
+  //   return true;
+  // };
+  
 
   return (
     <>
@@ -289,6 +302,7 @@ const Signup = () => {
                   email: Yup.string()
                     .email('Please enter a valid email')
                     .required('Email is a required field'),
+                    // .test('email-exists', 'This email is already registered', validateEmailExists),
                   mobileNumber: Yup.string()
                     .min(10)
                     .required('Mobile number is a required field'),
@@ -350,6 +364,17 @@ const Signup = () => {
                               type={'text'}
                               value={field.value}
                               onChange={field.onChange}
+                              // onSubmit={(values, { setSubmitting }) => {
+                              //   // Check if email already exists
+                              //   const emailExists = checkIfEmailExists(values.email);
+                              
+                              //   if (emailExists) {
+                              //     setSubmitting(false);
+                              //     alert('This email is already registered.');
+                              //   } else {
+                              //     createUser(values);
+                              //   }
+                              // }}
                             />
                           </FormGroup>
                         </Row>
@@ -435,9 +460,9 @@ const Signup = () => {
                         )}
                       </>
                     )}
-                    {errors.mobileNumber && touched.mobileNumber ? (
+                    {/* {errors.mobileNumber && touched.mobileNumber ? (
                       <div className="error-text">{errors.mobileNumber}</div>
-                    ) : null}
+                    ) : null} */}
 
                     {authError && (
                       <>

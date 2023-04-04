@@ -42,7 +42,6 @@ const Login = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const cookie = new Cookies();
   const [userData, setUserData] = React.useState();
-
   const [mobileNumberHaveValue, setMobileNumberHaveValue] = useState(false);
 
   const [OTPSent, setOTPSent] = useState(false);
@@ -189,13 +188,57 @@ const Login = () => {
 
 
 
+  // const sendOTP = async (phoneNumber) => {
+  //   dispatch(setLoading(true));
+  //   setloading(true);
+  //   setPhoneNumber(phoneNumber)
+
+
+  //   const appVerifier = configureCaptcha();
+  //   firebase
+  //     .auth()
+  //     .signInWithPhoneNumber(`${phoneNumber}`, appVerifier)
+  //     .then(async (confirmationResult) => {
+  //       window.confirmationResult = confirmationResult;
+  //       toast.success('OTP has been Sent to Mobile Number', {
+  //         theme: 'colored',
+  //       });
+
+  //       // OTPTimer();
+
+  //       // const redirectUrl = searchParams.get('redirect');
+  //       // const signInUrl = redirectUrl
+  //       //   ? `/signin-otp?redirect=${searchParams.get('redirect')}`
+  //       //   : '/signin-otp';
+  //       // navigate(signInUrl, {
+  //       //   state: {
+  //       //     phoneNumber: phoneNumber,
+  //       //   },
+  //       // });
+  //       dispatch(setLoading(false));
+  //       setOTPLabel('OTP Sent')
+  //       setOTPSent(true);
+  //       setloading(false);
+  //     })
+  //     .catch((error) => {
+  //       toast.error(`${error}`, {
+  //         theme: 'colored',
+  //       });
+  //       setloading(false);
+  //       dispatch(setLoading(false));
+  //     });
+  // };
+
   const sendOTP = async (phoneNumber) => {
+    // Dispatch an action to set the loading state to true
     dispatch(setLoading(true));
     setloading(true);
-    setPhoneNumber(phoneNumber)
-
-
+    setPhoneNumber(phoneNumber);
+  
+    // Configure the reCAPTCHA verifier
     const appVerifier = configureCaptcha();
+  
+    // Send the OTP to the user's phone number
     firebase
       .auth()
       .signInWithPhoneNumber(`${phoneNumber}`, appVerifier)
@@ -204,20 +247,13 @@ const Login = () => {
         toast.success('OTP has been Sent to Mobile Number', {
           theme: 'colored',
         });
-
-        // OTPTimer();
-
-        // const redirectUrl = searchParams.get('redirect');
-        // const signInUrl = redirectUrl
-        //   ? `/signin-otp?redirect=${searchParams.get('redirect')}`
-        //   : '/signin-otp';
-        // navigate(signInUrl, {
-        //   state: {
-        //     phoneNumber: phoneNumber,
-        //   },
-        // });
+  
+        // Set the OTP timer
+        setMinutes(0);
+        setSeconds(30);
+  
         dispatch(setLoading(false));
-        setOTPLabel('OTP Sent')
+        setOTPLabel('OTP Sent');
         setOTPSent(true);
         setloading(false);
       })
@@ -229,7 +265,7 @@ const Login = () => {
         dispatch(setLoading(false));
       });
   };
-
+  
   const onSubmitOTP = () => {
     setloading(true);
     dispatch(setLoading(true));
@@ -270,19 +306,43 @@ const Login = () => {
       });
   };
 
+  const countdown = () => {
+    if (seconds > 0) {
+      setSeconds((prev) => prev - 1);
+    } else if (minutes > 0) {
+      setSeconds(59);
+      setMinutes((prev) => prev - 1);
+    }
+  };
+  // useEffect(() => {
+  //   const interval = setInterval(countdown, 1000);
+  //   return () => clearInterval(interval);
+  // }, [seconds, minutes]);
 
-
+  // const resendOTP = (phone) => {
+  //   if (seconds === 0 && minutes === 0) {
+  //     setOtp('');
+  //     setOtpError(null);
+  //     setIsResendDisabled(true);
+  //     setMinutes(2);
+  //     setSeconds(0);
+  //     sendOTP(phone);
+  //   }
+  // };
+ 
   const resendOTP = (phone) => {
     if (seconds === 0 && minutes === 0) {
       setOtp('');
       setOtpError(null);
       setIsResendDisabled(true);
-      setMinutes(2);
-      setSeconds(0);
+      
+      setMinutes(0);
+      setSeconds(20);
       sendOTP(phone);
+      
+      
     }
   };
-
   return (
     <>
       {/* <AuthNavbar /> */}
@@ -397,7 +457,9 @@ const Login = () => {
                                     <div>
                                       <span>Did not receive OTP?</span>
                                     </div>
+                                    
                                     <div>
+
                                       <a
                                         style={{ cursor: !minutes && !seconds ? 'pointer' : 'not-allowed' }}
                                         className={isResendDisabled ? 'resend-otp disabled' : 'resend-otp'}

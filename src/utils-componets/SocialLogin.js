@@ -35,7 +35,7 @@ const SocialLogin = ({ setFieldValue }) => {
       email: userDetail?.email,
       fullName: userDetail?.displayName,
     };
-    const user = await checkIfUserExists(userDetail?.email, null);
+    const user = await checkIfUserExists( userDetail?.email, null);
     if (user?.uid) {
       const appVerifier = configureCaptcha();
       // dispatch(setLoading(true))
@@ -54,6 +54,7 @@ const SocialLogin = ({ setFieldValue }) => {
               phoneNumber: user.phone,
             },
           });
+          
         })
         .catch((error) => {
           toast.error(`${error}`, {

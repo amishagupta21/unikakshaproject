@@ -339,7 +339,7 @@ const CourseApplication = () => {
               <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
               <p className="step-header">{stepperTitle}</p>
             </div>
-            <MultiStepBar page={page} onPageNumberClick={nextPageNumber} className="custom-bar"/>
+            <MultiStepBar page={page} onPageNumberClick={nextPageNumber} className="custom-bar" />
             <Card className="view-course border">
               <Card.Body
                 style={{ padding: 'unset' }}
@@ -503,6 +503,7 @@ const CourseApplication = () => {
                           <Form.Check
                             style={{ paddingLeft: '1.5em !important', marginTop: '5px' }}
                             type="checkbox"
+                            checked={true}
                             onChange={(value) => copyFromMobileNumber(value)}
                             label="Same as mobile number"
                           />
@@ -555,6 +556,8 @@ const CourseApplication = () => {
                                     : null
                                 }
                                 onBlur={formik.handleBlur}
+                                disabled="disabled"
+                                style={{ opacity: 0.5 }}
                                 onChange={formik.handleChange}
                                 value={formik.values?.birth_date}>
                                 {/* defaultValue={userDOBData?.birth_date}> */}
@@ -582,6 +585,8 @@ const CourseApplication = () => {
                                 }
                                 onBlur={formik.handleBlur}
                                 onChange={formik.handleChange}
+                                style={{ opacity: 0.5 }}
+                                disabled="disabled"
                                 value={formik.values?.birth_month}>
                                 {/* defaultValue={userDOBData?.birth_month}> */}
                                 {/* disabled={ userDOBData?.birth_month } */}
@@ -703,7 +708,10 @@ const CourseApplication = () => {
                     course={courseDetails}
                     orderData={orderData}
                     application={applicationDetails}
-                    selectedBatch={selectedBatch}></Payments>
+                    selectedBatch={selectedBatch}
+                    page={page}
+                    onPageNumberClick={nextPageNumber}
+                    setApplicationDetails={setApplicationDetails}></Payments>
                 </>
               )}
               {page === 6 && (
@@ -741,5 +749,4 @@ const CourseApplication = () => {
     </>
   );
 };
-
 export default CourseApplication;

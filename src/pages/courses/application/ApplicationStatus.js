@@ -61,6 +61,7 @@ const ApplicationStatus = ({ nextPage, application, setOrderData, courseId, setS
     // setApplication(applicationDetails?.data?.data.application);
     const { m_applicationstatus: appStatus } = applicationData;
     let app_status = '';
+    // const appStatus = 'Application Approved';
     if (appStatus === 'Application Approved' || appStatus === 'Application In Review') {
       app_status = 'approved';
       setStatus(app_status);

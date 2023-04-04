@@ -135,7 +135,6 @@ const EducationDetails = ({
       organization_name: Yup.string(),
     }),
     validate: (values) => {
-      
       let errors = {};
       if (!values.schoolDiplomaCollegeName) {
         errors.schoolDiplomaCollegeName = '*School Name is Required';
@@ -171,7 +170,7 @@ const EducationDetails = ({
           errors.pgMarks = '*PG Mark is required';
         }
       }
-      
+
       if (
         is_enrolled_other_program === 'yes' &&
         (highestQualification === 'UG' || highestQualification === 'PG')
@@ -337,79 +336,82 @@ const EducationDetails = ({
                   </Row>
 
                   <Row className="mb-5">
-                  <Col  sm={4} >
-                    <Form.Group as={Col} controlId="pgCollegeName">
-                      <Form.Label>
-                        PG college name
-                        <span className="text-danger">*</span>
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="PG college name"
-                        name="pgCollegeName"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        className={
-                          formik.touched.pgCollegeName && formik.errors.pgCollegeName
-                            ? 'is-invalid'
-                            : null
-                        }
-                        value={formik.values?.pgCollegeName}
-                      />
-                      {formik.touched.pgCollegeName && formik.errors.pgCollegeName ? (
-                        <div className="error-message">{formik.errors.pgCollegeName}</div>
-                      ) : null}
-                    </Form.Group>
-</Col>
-<Col  sm={4} >
-                    <Form.Group as={Col} controlId="pgYOC">
-                      <Form.Label>
-                        PG year of completion<span className="text-danger">*</span>
-                      </Form.Label>
-                      <Form.Select
-                        name="pgYOC"
-                        className={
-                          formik.touched.pgYOC && formik.errors.pgYOC ? 'is-invalid' : null
-                        }
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        defaultValue={formik.values?.pgYOC}>
-                        <option value="">Select completion Year</option>
-                        {yearsOptions.map((option, index) => (
-                          <option key={index} value={option.value}>
-                            {option.label}
-                          </option>
-                        ))}
-                        ;
-                      </Form.Select>
-                      {formik.touched.pgYOC && formik.errors.pgYOC ? (
-                        <div className="error-message">{formik.errors.pgYOC}</div>
-                      ) : null}
-                    </Form.Group>
+                    <Col sm={4}>
+                      <Form.Group as={Col} controlId="pgCollegeName">
+                        <Form.Label>
+                          PG college name
+                          <span className="text-danger">*</span>
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          placeholder="PG college name"
+                          name="pgCollegeName"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          className={
+                            formik.touched.pgCollegeName && formik.errors.pgCollegeName
+                              ? 'is-invalid'
+                              : null
+                          }
+                          value={formik.values?.pgCollegeName}
+                        />
+                        {formik.touched.pgCollegeName && formik.errors.pgCollegeName ? (
+                          <div className="error-message">{formik.errors.pgCollegeName}</div>
+                        ) : null}
+                      </Form.Group>
+                    </Col>
+                    <Col sm={4}>
+                      <Form.Group as={Col} controlId="pgYOC">
+                        <Form.Label>
+                          PG year of completion<span className="text-danger">*</span>
+                        </Form.Label>
+                        <Form.Select
+                          name="pgYOC"
+                          className={
+                            formik.touched.pgYOC && formik.errors.pgYOC ? 'is-invalid' : null
+                          }
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          defaultValue={formik.values?.pgYOC}>
+                          <option value="">Select completion Year</option>
+                          {yearsOptions.map((option, index) => (
+                            <option key={index} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                          ;
+                        </Form.Select>
+                        {formik.touched.pgYOC && formik.errors.pgYOC ? (
+                          <div className="error-message">{formik.errors.pgYOC}</div>
+                        ) : null}
+                      </Form.Group>
                     </Col>
                     {highestQualification === 'PG' && graduatedYesOrNo === 'yes' && (
                       <>
-                      <Col  sm={4} >
-                        <Form.Group as={Col} controlId="pgMarks">
-                          <Form.Label>
-                            PG passing marks
-                            <span className="text-danger">*</span>
-                          </Form.Label>
-                          <Form.Control
-                            name="pgMarks"
-                            type="numeric"
-                            placeholder="PG passing marks"
-                            className={
-                              formik.touched.pgMarks && formik.errors.pgMarks ? 'is-invalid' : null
-                            }
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            value={formik.values?.pgMarks}
-                          />
-                          {formik.touched.pgMarks && formik.errors.pgMarks ? (
-                            <div className="error-message">{formik.errors.pgMarks}</div>
-                          ) : null}
-                        </Form.Group></Col>
+                        <Col sm={4}>
+                          <Form.Group as={Col} controlId="pgMarks">
+                            <Form.Label>
+                              PG passing marks
+                              <span className="text-danger">*</span>
+                            </Form.Label>
+                            <Form.Control
+                              name="pgMarks"
+                              type="numeric"
+                              placeholder="PG passing marks"
+                              className={
+                                formik.touched.pgMarks && formik.errors.pgMarks
+                                  ? 'is-invalid'
+                                  : null
+                              }
+                              onBlur={formik.handleBlur}
+                              onChange={formik.handleChange}
+                              value={formik.values?.pgMarks}
+                            />
+                            {formik.touched.pgMarks && formik.errors.pgMarks ? (
+                              <div className="error-message">{formik.errors.pgMarks}</div>
+                            ) : null}
+                          </Form.Group>
+                        </Col>
                       </>
                     )}
                   </Row>
@@ -425,80 +427,82 @@ const EducationDetails = ({
                   </Row>
 
                   <Row className="mb-5">
-                  <Col  sm={4} >
-                    <Form.Group as={Col} controlId="ugCollegeName">
-                      <Form.Label>
-                        UG college name
-                        <span className="text-danger">*</span>
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="UG college name"
-                        name="ugCollegeName"
-                        onChange={formik.handleChange}
-                        className={
-                          formik.touched.ugCollegeName && formik.errors.ugCollegeName
-                            ? 'is-invalid'
-                            : null
-                        }
-                        onBlur={formik.handleBlur}
-                        value={formik.values?.ugCollegeName}
-                      />
-                      {formik.touched.ugCollegeName && formik.errors.ugCollegeName ? (
-                        <div className="error-message">{formik.errors.ugCollegeName}</div>
-                      ) : null}
-                    </Form.Group>
-</Col>
-<Col  sm={4} >
-                    <Form.Group as={Col} controlId="ugYOC">
-                      <Form.Label>
-                        UG year of completion<span className="text-danger">*</span>
-                      </Form.Label>
-                      <Form.Select
-                        name="ugYOC"
-                        className={
-                          formik.touched.ugYOC && formik.errors.ugYOC ? 'is-invalid' : null
-                        }
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        defaultValue={formik.values?.ugYOC}>
-                        <option value="">Select completion Year</option>
-                        {yearsOptions.map((option, index) => (
-                          <option key={index} value={option.value}>
-                            {option.label}
-                          </option>
-                        ))}
-                        ;
-                      </Form.Select>
-                      {formik.touched.ugYOC && formik.errors.ugYOC ? (
-                        <div className="error-message">{formik.errors.ugYOC}</div>
-                      ) : null}
-                    </Form.Group>
+                    <Col sm={4}>
+                      <Form.Group as={Col} controlId="ugCollegeName">
+                        <Form.Label>
+                          UG college name
+                          <span className="text-danger">*</span>
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          placeholder="UG college name"
+                          name="ugCollegeName"
+                          onChange={formik.handleChange}
+                          className={
+                            formik.touched.ugCollegeName && formik.errors.ugCollegeName
+                              ? 'is-invalid'
+                              : null
+                          }
+                          onBlur={formik.handleBlur}
+                          value={formik.values?.ugCollegeName}
+                        />
+                        {formik.touched.ugCollegeName && formik.errors.ugCollegeName ? (
+                          <div className="error-message">{formik.errors.ugCollegeName}</div>
+                        ) : null}
+                      </Form.Group>
+                    </Col>
+                    <Col sm={4}>
+                      <Form.Group as={Col} controlId="ugYOC">
+                        <Form.Label>
+                          UG year of completion<span className="text-danger">*</span>
+                        </Form.Label>
+                        <Form.Select
+                          name="ugYOC"
+                          className={
+                            formik.touched.ugYOC && formik.errors.ugYOC ? 'is-invalid' : null
+                          }
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          defaultValue={formik.values?.ugYOC}>
+                          <option value="">Select completion Year</option>
+                          {yearsOptions.map((option, index) => (
+                            <option key={index} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                          ;
+                        </Form.Select>
+                        {formik.touched.ugYOC && formik.errors.ugYOC ? (
+                          <div className="error-message">{formik.errors.ugYOC}</div>
+                        ) : null}
+                      </Form.Group>
                     </Col>
                     {(highestQualification === 'PG' ||
                       (highestQualification === 'UG' && graduatedYesOrNo === 'yes')) && (
                       <>
-                      <Col  sm={4} >
-                        <Form.Group as={Col} controlId="ugMarks">
-                          <Form.Label>
-                            UG passing marks
-                            <span className="text-danger">*</span>
-                          </Form.Label>
-                          <Form.Control
-                            type="numeric"
-                            placeholder="UG passing marks"
-                            name="ugMarks"
-                            onChange={formik.handleChange}
-                            className={
-                              formik.touched.ugMarks && formik.errors.ugMarks ? 'is-invalid' : null
-                            }
-                            onBlur={formik.handleBlur}
-                            value={formik.values?.ugMarks}
-                          />
-                          {formik.touched.ugMarks && formik.errors.ugMarks ? (
-                            <div className="error-message">{formik.errors.ugMarks}</div>
-                          ) : null}
-                        </Form.Group>
+                        <Col sm={4}>
+                          <Form.Group as={Col} controlId="ugMarks">
+                            <Form.Label>
+                              UG passing marks
+                              <span className="text-danger">*</span>
+                            </Form.Label>
+                            <Form.Control
+                              type="numeric"
+                              placeholder="UG passing marks"
+                              name="ugMarks"
+                              onChange={formik.handleChange}
+                              className={
+                                formik.touched.ugMarks && formik.errors.ugMarks
+                                  ? 'is-invalid'
+                                  : null
+                              }
+                              onBlur={formik.handleBlur}
+                              value={formik.values?.ugMarks}
+                            />
+                            {formik.touched.ugMarks && formik.errors.ugMarks ? (
+                              <div className="error-message">{formik.errors.ugMarks}</div>
+                            ) : null}
+                          </Form.Group>
                         </Col>
                       </>
                     )}
@@ -517,87 +521,90 @@ const EducationDetails = ({
                   </Row>
 
                   <Row className="mb-5">
-                  <Col  sm={4} >
-                    <Form.Group  controlId="schoolDiplomaCollegeName">
-                      <Form.Label>
-                        12th / Diploma college name
-                        <span className="text-danger">*</span>
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="schoolDiplomaCollegeName"
-                        onChange={formik.handleChange}
-                        className={
-                          formik.touched.schoolDiplomaCollegeName &&
-                          formik.errors.schoolDiplomaCollegeName
-                            ? 'is-invalid'
-                            : null
-                        }
-                        onBlur={formik.handleBlur}
-                        value={formik.values?.schoolDiplomaCollegeName}
-                        placeholder="12th school / diploma college name"
-                      />
-                      {formik.touched.schoolDiplomaCollegeName &&
-                      formik.errors.schoolDiplomaCollegeName ? (
-                        <div className="error-message">
-                          {formik.errors.schoolDiplomaCollegeName}
-                        </div>
-                      ) : null}
-                    </Form.Group>
-</Col>
-<Col  sm={4} >
-                    <Form.Group  controlId="schoolYearOfCompletion">
-                      <Form.Label>
-                        12th / Diploma year of completion<span className="text-danger">*</span>
-                      </Form.Label>
-                      <Form.Select
-                        name="schoolYearOfCompletion"
-                        className={
-                          formik.touched.schoolYearOfCompletion &&
-                          formik.errors.schoolYearOfCompletion
-                            ? 'is-invalid'
-                            : null
-                        }
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        defaultValue={formik.values?.schoolYearOfCompletion}>
-                        <option value="">Select completion Year</option>
-                        {yearsOptions.map((option, index) => (
-                          <option key={index} value={option.value}>
-                            {option.label}
-                          </option>
-                        ))}
-                        ;
-                      </Form.Select>
-                      {formik.touched.schoolYearOfCompletion &&
-                      formik.errors.schoolYearOfCompletion ? (
-                        <div className="error-message">{formik.errors.schoolYearOfCompletion}</div>
-                      ) : null}
-                    </Form.Group>
+                    <Col sm={4}>
+                      <Form.Group controlId="schoolDiplomaCollegeName">
+                        <Form.Label>
+                          12th / Diploma college name
+                          <span className="text-danger">*</span>
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="schoolDiplomaCollegeName"
+                          onChange={formik.handleChange}
+                          className={
+                            formik.touched.schoolDiplomaCollegeName &&
+                            formik.errors.schoolDiplomaCollegeName
+                              ? 'is-invalid'
+                              : null
+                          }
+                          onBlur={formik.handleBlur}
+                          value={formik.values?.schoolDiplomaCollegeName}
+                          placeholder="12th school / diploma college name"
+                        />
+                        {formik.touched.schoolDiplomaCollegeName &&
+                        formik.errors.schoolDiplomaCollegeName ? (
+                          <div className="error-message">
+                            {formik.errors.schoolDiplomaCollegeName}
+                          </div>
+                        ) : null}
+                      </Form.Group>
                     </Col>
-                    <Col  sm={4} >
-                    <Form.Group controlId="schoolMarks">
-                      <Form.Label>
-                        12th / Diploma passing marks
-                        <span className="text-danger">*</span>
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="12th or diploma marks"
-                        name="schoolMarks"
-                        onChange={formik.handleChange}
-                        className={
-                          formik.touched.schoolMarks && formik.errors.schoolMarks
-                            ? 'is-invalid'
-                            : null
-                        }
-                        onBlur={formik.handleBlur}
-                        value={formik.values?.schoolMarks}
-                      />
-                      {formik.touched.schoolMarks && formik.errors.schoolMarks ? (
-                        <div className="error-message">{formik.errors.schoolMarks}</div>
-                      ) : null}
-                    </Form.Group>      </Col>
+                    <Col sm={4}>
+                      <Form.Group controlId="schoolYearOfCompletion">
+                        <Form.Label>
+                          12th / Diploma year of completion<span className="text-danger">*</span>
+                        </Form.Label>
+                        <Form.Select
+                          name="schoolYearOfCompletion"
+                          className={
+                            formik.touched.schoolYearOfCompletion &&
+                            formik.errors.schoolYearOfCompletion
+                              ? 'is-invalid'
+                              : null
+                          }
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          defaultValue={formik.values?.schoolYearOfCompletion}>
+                          <option value="">Select completion Year</option>
+                          {yearsOptions.map((option, index) => (
+                            <option key={index} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                          ;
+                        </Form.Select>
+                        {formik.touched.schoolYearOfCompletion &&
+                        formik.errors.schoolYearOfCompletion ? (
+                          <div className="error-message">
+                            {formik.errors.schoolYearOfCompletion}
+                          </div>
+                        ) : null}
+                      </Form.Group>
+                    </Col>
+                    <Col sm={4}>
+                      <Form.Group controlId="schoolMarks">
+                        <Form.Label>
+                          12th / Diploma passing marks
+                          <span className="text-danger">*</span>
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          placeholder="12th or diploma marks"
+                          name="schoolMarks"
+                          onChange={formik.handleChange}
+                          className={
+                            formik.touched.schoolMarks && formik.errors.schoolMarks
+                              ? 'is-invalid'
+                              : null
+                          }
+                          onBlur={formik.handleBlur}
+                          value={formik.values?.schoolMarks}
+                        />
+                        {formik.touched.schoolMarks && formik.errors.schoolMarks ? (
+                          <div className="error-message">{formik.errors.schoolMarks}</div>
+                        ) : null}
+                      </Form.Group>{' '}
+                    </Col>
                   </Row>
                 </>
               )}
@@ -631,97 +638,99 @@ const EducationDetails = ({
                               onChange={(e) => {
                                 setis_enrolled_other_program(e.currentTarget.value);
                               }}>
-                                
                               <span className="options">{enrollOption.name}</span>
                             </ToggleButton>
-                            
                           ))}
                         </ButtonGroup>
                       </Row>
                     </Form.Group>
                   </Row>
-                  
+
                   {is_enrolled_other_program !== 'no' && (
                     <>
                       <Row className="mb-5">
-                      <Col  sm={4} >
-                        <Form.Group  controlId="other_program_name">
-                          <Form.Label>
-                            Program Name
-                            <span className="text-danger">*</span>
-                          </Form.Label>
-                          <Form.Control
-                            name="other_program_name"
-                            type="text"
-                            placeholder="Program name"
-                            onChange={formik.handleChange}
-                            className={
-                              formik.touched.other_program_name && formik.errors.other_program_name
-                                ? 'is-invalid'
-                                : null
-                            }
-                            onBlur={formik.handleBlur}
-                            value={formik.values?.other_program_name}
-                          />
-                          {formik.touched.other_program_name && formik.errors.other_program_name ? (
-                            <div className="error-message">{formik.errors.other_program_name}</div>
-                          ) : null}
-                        </Form.Group>
-</Col>
-<Col  sm={4} >
-                        <Form.Group  controlId="other_program_college_name">
-                          <Form.Label>
-                            College/Insitute Name<span className="text-danger">*</span>
-                          </Form.Label>
-                          <Form.Control
-                            type="text"
-                            name="other_program_college_name"
-                            placeholder="College name"
-                            onChange={formik.handleChange}
-                            className={
-                              formik.touched.other_program_college_name &&
-                              formik.errors.other_program_college_name
-                                ? 'is-invalid'
-                                : null
-                            }
-                            onBlur={formik.handleBlur}
-                            value={formik.values?.other_program_college_name}
-                          />
-                          {formik.touched.other_program_college_name &&
-                          formik.errors.other_program_college_name ? (
-                            <div className="error-message">
-                              {formik.errors.other_program_college_name}
-                            </div>
-                          ) : null}
-                        </Form.Group>
-</Col>
-<Col  sm={4} >
-                        <Form.Group  controlId="other_program_course_duration">
-                          <Form.Label>
-                            Duration in months
-                            <span className="text-danger">*</span>
-                          </Form.Label>
-                          <Form.Control
-                            name="other_program_course_duration"
-                            type="text"
-                            placeholder="Duration in months"
-                            onChange={formik.handleChange}
-                            className={
-                              formik.touched.other_program_course_duration &&
-                              formik.errors.other_program_course_duration
-                                ? 'is-invalid'
-                                : null
-                            }
-                            onBlur={formik.handleBlur}
-                            value={formik.values?.other_program_course_duration}
-                          />
-                          {formik.touched.other_program_course_duration &&
-                          formik.errors.other_program_course_duration ? (
-                            <div className="error-message">
-                              {formik.errors.other_program_course_duration}
-                            </div>
-                          ) : null}
-                        </Form.Group>
+                        <Col sm={4}>
+                          <Form.Group controlId="other_program_name">
+                            <Form.Label>
+                              Program Name
+                              <span className="text-danger">*</span>
+                            </Form.Label>
+                            <Form.Control
+                              name="other_program_name"
+                              type="text"
+                              placeholder="Program name"
+                              onChange={formik.handleChange}
+                              className={
+                                formik.touched.other_program_name &&
+                                formik.errors.other_program_name
+                                  ? 'is-invalid'
+                                  : null
+                              }
+                              onBlur={formik.handleBlur}
+                              value={formik.values?.other_program_name}
+                            />
+                            {formik.touched.other_program_name &&
+                            formik.errors.other_program_name ? (
+                              <div className="error-message">
+                                {formik.errors.other_program_name}
+                              </div>
+                            ) : null}
+                          </Form.Group>
+                        </Col>
+                        <Col sm={4}>
+                          <Form.Group controlId="other_program_college_name">
+                            <Form.Label>
+                              College/Insitute Name<span className="text-danger">*</span>
+                            </Form.Label>
+                            <Form.Control
+                              type="text"
+                              name="other_program_college_name"
+                              placeholder="College name"
+                              onChange={formik.handleChange}
+                              className={
+                                formik.touched.other_program_college_name &&
+                                formik.errors.other_program_college_name
+                                  ? 'is-invalid'
+                                  : null
+                              }
+                              onBlur={formik.handleBlur}
+                              value={formik.values?.other_program_college_name}
+                            />
+                            {formik.touched.other_program_college_name &&
+                            formik.errors.other_program_college_name ? (
+                              <div className="error-message">
+                                {formik.errors.other_program_college_name}
+                              </div>
+                            ) : null}
+                          </Form.Group>
+                        </Col>
+                        <Col sm={4}>
+                          <Form.Group controlId="other_program_course_duration">
+                            <Form.Label>
+                              Duration in months
+                              <span className="text-danger">*</span>
+                            </Form.Label>
+                            <Form.Control
+                              name="other_program_course_duration"
+                              type="text"
+                              placeholder="Duration in months"
+                              onChange={formik.handleChange}
+                              className={
+                                formik.touched.other_program_course_duration &&
+                                formik.errors.other_program_course_duration
+                                  ? 'is-invalid'
+                                  : null
+                              }
+                              onBlur={formik.handleBlur}
+                              value={formik.values?.other_program_course_duration}
+                            />
+                            {formik.touched.other_program_course_duration &&
+                            formik.errors.other_program_course_duration ? (
+                              <div className="error-message">
+                                {formik.errors.other_program_course_duration}
+                              </div>
+                            ) : null}
+                          </Form.Group>
                         </Col>
                       </Row>
                     </>
@@ -730,65 +739,64 @@ const EducationDetails = ({
                     <p className="stepper-sub-header">Work Details</p>
                   </Row>
                   <Row className="mb-5">
-                  <Col  sm={4} >
-                    <Form.Group  controlId="position">
-                      <Form.Label>Your current working position</Form.Label>
-                      <Form.Select
-                        name="position"
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        defaultValue={formik.values?.position}>
-                        <option value="">Select your Position</option>
-                        {workingPositionList.map((option, index) => (
-                          <option key={index} value={option.value}>
-                            {option.label}
-                          </option>
-                        ))}
-                        ;
-                      </Form.Select>
-                    </Form.Group>
+                    <Col sm={4}>
+                      <Form.Group controlId="position">
+                        <Form.Label>Your current working position</Form.Label>
+                        <Form.Select
+                          name="position"
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          defaultValue={formik.values?.position}>
+                          <option value="">Select your Position</option>
+                          {workingPositionList.map((option, index) => (
+                            <option key={index} value={option.label}>
+                              {option.label}
+                            </option>
+                          ))}
+                          ;
+                        </Form.Select>
+                      </Form.Group>
                     </Col>
-                    <Col  sm={4} >
-                    <Form.Group controlId="experience">
-                      <Form.Label>Total technical experience in years</Form.Label>
-                      <Form.Control
-                        name="experience"
-                        type="text"
-                        placeholder="Total technical experience"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values?.experience}
-                      />
-                    </Form.Group>
-</Col>
-<Col  sm={4} >
-                    <Form.Group as={Col} controlId="currentOrganization">
-                      <Form.Label>Organization you are working in</Form.Label>
-                      <Form.Control
-                        name="organization_name"
-                        type="text"
-                        placeholder="Current organization"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values?.organization_name}
-                      />
-                    </Form.Group>
+                    <Col sm={4}>
+                      <Form.Group controlId="experience">
+                        <Form.Label>Total technical experience in years</Form.Label>
+                        <Form.Control
+                          name="experience"
+                          type="text"
+                          placeholder="Total technical experience"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values?.experience}
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col sm={4}>
+                      <Form.Group as={Col} controlId="currentOrganization">
+                        <Form.Label>Organization you are working in</Form.Label>
+                        <Form.Control
+                          name="organization_name"
+                          type="text"
+                          placeholder="Current organization"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values?.organization_name}
+                        />
+                      </Form.Group>
                     </Col>
                   </Row>
                 </>
               )}
             </>
           )}
-            <Row className="d-flex justify-content-end my-btn-styles row">
-            <Button
-              className="btn btn-outline-secondary"
-              variant="outline-secondary"
-              type="button">
+          <Row className="d-flex justify-content-end my-btn-styles row">
+            <Button className="btn btn-outline-secondary" variant="outline-secondary" type="button">
               Cancel
             </Button>
             <Button
               className="btn"
-              disabled={!(formik.isValid && formik.dirty) || isNextLoading || highestQualification === ''}
+              disabled={
+                !(formik.isValid && formik.dirty) || isNextLoading || highestQualification === ''
+              }
               variant="secondary"
               type="submit">
               {isNextLoading ? 'Saving..' : 'Next'}

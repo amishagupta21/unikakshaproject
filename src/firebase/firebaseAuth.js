@@ -24,6 +24,7 @@ const signInWithGoogle = async () => {
     });
   }
 };
+
 // const signInWithPhone = async () => {
 //   try {
 //     return await signInWithPopup(auth, provider);

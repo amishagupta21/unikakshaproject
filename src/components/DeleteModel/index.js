@@ -3,6 +3,7 @@ import styles from "./index.module.css"
 import { femaleIcon, maleIcon, profileEditIcon, profilePicture, trashWhite } from '../../assets/images';
 
 const DeleteModel = (props) => {
+   
     return (
         <div className={styles.modal}>
             <div className='delete-modal-popus'>

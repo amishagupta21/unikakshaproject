@@ -1017,6 +1017,7 @@ const PersonalDetails = () => {
                                             onChange={(value) => copyFromMobileNumber(value)}
                                             label="Same as mobile number"
                                             className="my-code-check"
+                                            checked={true}
                                           />
                                         </Form.Group>
 
