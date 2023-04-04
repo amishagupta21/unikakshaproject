@@ -97,7 +97,7 @@ const PrimaryNavbar = () => {
                 <Nav.Link className="notification-link-dp">
                   <Dropdown>
                     <Dropdown.Toggle id="dropdown-basic" className="dropdown-design">
-                      <img src={profilePic ? profilePic : profilePicture} alt="profile" style={{ width: '50px' }} />
+                      <img src={profilePic ? profilePic : profilePicture} alt="profile" style={{ width: '50px',height:'50px' }} />
                       <span className="avatar-name">{user?.displayName}</span>
                     </Dropdown.Toggle>
 

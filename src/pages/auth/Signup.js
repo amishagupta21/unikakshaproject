@@ -258,17 +258,7 @@ const Signup = () => {
       sendOTP(phone);
     }
   };
-  // const validateEmailExists = (emil) => {
-  //   // Check if email exists
-  //   const emailExists = checkIfUserExists(email, `+${values.mobileNumber}`);
-    
-  //   if (emailExists) {
-  //     return false;
-  //   }
-    
-  //   return true;
-  // };
-  
+
 
   return (
     <>
@@ -364,17 +354,7 @@ const Signup = () => {
                               type={'text'}
                               value={field.value}
                               onChange={field.onChange}
-                              // onSubmit={(values, { setSubmitting }) => {
-                              //   // Check if email already exists
-                              //   const emailExists = checkIfEmailExists(values.email);
-                              
-                              //   if (emailExists) {
-                              //     setSubmitting(false);
-                              //     alert('This email is already registered.');
-                              //   } else {
-                              //     createUser(values);
-                              //   }
-                              // }}
+                          
                             />
                           </FormGroup>
                         </Row>
@@ -383,6 +363,7 @@ const Signup = () => {
                     {errors.email && touched.email ? (
                       <div className="error-text">{errors.email}</div>
                     ) : null}
+                   
 
                     <Field
                       name="mobileNumber"
