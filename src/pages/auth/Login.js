@@ -249,8 +249,8 @@ const Login = () => {
         });
   
         // Set the OTP timer
-        setMinutes(0);
-        setSeconds(30);
+        setMinutes(1);
+        setSeconds(59);
   
         dispatch(setLoading(false));
         setOTPLabel('OTP Sent');
@@ -335,12 +335,9 @@ const Login = () => {
       setOtp('');
       setOtpError(null);
       setIsResendDisabled(true);
-      
-      setMinutes(0);
-      setSeconds(20);
+      setMinutes(1);
+      setSeconds(59);
       sendOTP(phone);
-      
-      
     }
   };
   return (

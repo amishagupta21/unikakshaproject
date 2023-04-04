@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // import {
 //     Button,
 //     ButtonGroup,
@@ -40,6 +40,7 @@ import DeleteModel from "../../components/DeleteModel";
 const AccountSettings = () => {
 
     // const [loading, setloading] = useState();
+    
 
     const location = useLocation();
     const [authError, setAuthError] = React.useState();
@@ -50,7 +51,6 @@ const AccountSettings = () => {
 
 
     useEffect(() => {
-
     }, []);
 
     const onDeleteFail = () => {
@@ -66,7 +66,7 @@ const AccountSettings = () => {
         await logout();
         dispatch(setIsAuthenticated(false));
         navigate('/');
-        
+          
     };
 
     const [deletePop, setDeletePop] = React.useState(false);
@@ -81,7 +81,7 @@ const AccountSettings = () => {
         setDeletePop(!deletePop)
     }
     const handleClose = () => toggle(false);
-    
+
 
     const deleteHandler = async () => {
 
@@ -91,8 +91,9 @@ const AccountSettings = () => {
         dispatch(setLoading(false));
 
         if (res?.data?.code === 200) {
+         
             await logOutHandler();
-            
+           
             handleClose();
 
         } else {
@@ -371,11 +372,11 @@ const AccountSettings = () => {
                             {/* {loading ? 'Loading...' : 'Delete'} */}
                             Delete
                         </Button>
-                    {deletePop ? <DeleteModel cancelHandler={cancelHandler} deleteHandler={deleteHandler} cancelIconHandler={cancelIconHandler}/> : null}
+                        {deletePop ? <DeleteModel cancelHandler={cancelHandler} deleteHandler={deleteHandler} cancelIconHandler={cancelIconHandler} /> : null}
                     </div>
-
+                   
                 </div>
-
+               
             </div>
         </>
     )
@@ -429,6 +430,7 @@ const DeleteAccountModal = ({ show, toggle, onDeleteFail, logOutHandler }) => {
                     <Button variant="outline-primary" style={{ width: '120px' }} onClick={handleClose}>
                         Cancel
                     </Button>
+                    
                 </Modal.Footer>
             </Modal>
         </>
