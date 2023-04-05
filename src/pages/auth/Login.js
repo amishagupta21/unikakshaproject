@@ -52,19 +52,22 @@ const Login = () => {
   const [seconds, setSeconds] = useState(0);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const [phoneNumber, setPhoneNumber] = useState(false);
-
+  const auth = getAuth;
   const configureCaptcha = () => {
-    return (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signin-container', {
+   return window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signin-container', {
       size: 'invisible',
-      callback: (response) => { },
+      callback: (response) => {},
       defaultCountry: 'IN',
-    }));
+    });
+
   };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   useEffect(() => {
+
+     
     // if (isAuth) {
     //   navigate('/dashboard');
     // }
@@ -229,15 +232,16 @@ const Login = () => {
   //     });
   // };
 
+
   const sendOTP = async (phoneNumber) => {
     // Dispatch an action to set the loading state to true
     dispatch(setLoading(true));
     setloading(true);
     setPhoneNumber(phoneNumber);
-  
+
     // Configure the reCAPTCHA verifier
     const appVerifier = configureCaptcha();
-  
+
     // Send the OTP to the user's phone number
     firebase
       .auth()
@@ -247,11 +251,11 @@ const Login = () => {
         toast.success('OTP has been Sent to Mobile Number', {
           theme: 'colored',
         });
-  
+
         // Set the OTP timer
-        setMinutes(1);
-        setSeconds(59);
-  
+        setMinutes(0);
+        setSeconds(20);
+
         dispatch(setLoading(false));
         setOTPLabel('OTP Sent');
         setOTPSent(true);
@@ -265,7 +269,7 @@ const Login = () => {
         dispatch(setLoading(false));
       });
   };
-  
+
   const onSubmitOTP = () => {
     setloading(true);
     dispatch(setLoading(true));
@@ -314,6 +318,7 @@ const Login = () => {
       setMinutes((prev) => prev - 1);
     }
   };
+
   // useEffect(() => {
   //   const interval = setInterval(countdown, 1000);
   //   return () => clearInterval(interval);
@@ -329,17 +334,19 @@ const Login = () => {
   //     sendOTP(phone);
   //   }
   // };
- 
+
   const resendOTP = (phone) => {
+   
     if (seconds === 0 && minutes === 0) {
       setOtp('');
       setOtpError(null);
       setIsResendDisabled(true);
-      setMinutes(1);
-      setSeconds(59);
-      sendOTP(phone);
+      setMinutes(0);
+      setSeconds(20);
+      window.location.reload()
     }
   };
+
   return (
     <>
       {/* <AuthNavbar /> */}
@@ -454,7 +461,7 @@ const Login = () => {
                                     <div>
                                       <span>Did not receive OTP?</span>
                                     </div>
-                                    
+
                                     <div>
 
                                       <a
@@ -624,8 +631,8 @@ const Login = () => {
                                 <Button
                                   type="submit"
                                   className="btn-secondary btn-secondary-out"
-                                  variant="outline-secondary"                               
-                               >Log in without password
+                                  variant="outline-secondary"
+                                >Log in without password
                                 </Button>
                                 <p className="sml-info">You will receive a link to login without password if your email is registered with us</p>
                               </div>
