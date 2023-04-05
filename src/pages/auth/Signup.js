@@ -108,7 +108,12 @@ const Signup = () => {
       { email, phone: `+${phone}` },
       true
     );
-    // return result?.data?.data?.user;
+    // if(result?.data.code === 400){
+    //   return true
+    // }else{
+    //   return false
+    // }
+
   };
  
 
@@ -118,6 +123,7 @@ const Signup = () => {
 
     const { email, mobileNumber: phone } = values;
     const user = await checkIfUserExists(email, phone);
+
     if (!user) {
       sendOTP(values);
       setloading(false);
@@ -125,10 +131,9 @@ const Signup = () => {
       //   phoneAuthProvider.verifyPhoneNumber(phoneNumber, {
       //     // Provide a callback to handle the verification code
       //     // sent to the user's phone
-
       //   });
     } 
-    else {
+    else{
       setAuthError('User already exists');
       dispatch(setLoading(false));
       setloading(false);
@@ -363,7 +368,6 @@ const Signup = () => {
                     {errors.email && touched.email ? (
                       <div className="error-text">{errors.email}</div>
                     ) : null}
-                   
 
                     <Field
                       name="mobileNumber"

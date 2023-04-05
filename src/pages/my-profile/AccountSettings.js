@@ -29,7 +29,7 @@ import './AccountSettings.scss';
 
 import ApiService from '../../services/ApiService';
 import { firebase } from '../../firebase/firebase';
-//   import { setIsAuthenticated } from '../../redux/actions/AuthAction';
+  import { setIsAuthenticated } from '../../redux/actions/AuthAction';
 import { logout } from '../../firebase/firebaseAuth';
 import { openToaster } from '../../redux/actions/ToastAction';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -40,7 +40,7 @@ import DeleteModel from "../../components/DeleteModel";
 const AccountSettings = () => {
 
     // const [loading, setloading] = useState();
-    
+
 
     const location = useLocation();
     const [authError, setAuthError] = React.useState();
@@ -66,7 +66,7 @@ const AccountSettings = () => {
         await logout();
         dispatch(setIsAuthenticated(false));
         navigate('/');
-          
+        window.location.reload();
     };
 
     const [deletePop, setDeletePop] = React.useState(false);
@@ -89,11 +89,8 @@ const AccountSettings = () => {
         const user = firebase.auth().currentUser;
         const res = await ApiService(`user/uid/${user.uid}/delete`, 'DELETE', {}, true);
         dispatch(setLoading(false));
-
         if (res?.data?.code === 200) {
-         
             await logOutHandler();
-           
             handleClose();
 
         } else {
@@ -374,9 +371,9 @@ const AccountSettings = () => {
                         </Button>
                         {deletePop ? <DeleteModel cancelHandler={cancelHandler} deleteHandler={deleteHandler} cancelIconHandler={cancelIconHandler} /> : null}
                     </div>
-                   
+
                 </div>
-               
+
             </div>
         </>
     )
@@ -430,7 +427,7 @@ const DeleteAccountModal = ({ show, toggle, onDeleteFail, logOutHandler }) => {
                     <Button variant="outline-primary" style={{ width: '120px' }} onClick={handleClose}>
                         Cancel
                     </Button>
-                    
+
                 </Modal.Footer>
             </Modal>
         </>

@@ -39,7 +39,6 @@ function CourseDetails() {
   const { state } = useLocation();
   const params = useParams();
   const [courseVariantBatches, setVariantCourseBatches] = React.useState([]);
-  const[faq,setFaq]=React.useState([])
   const [eligibilityCriteria, setEligibilityCriteria] = React.useState([]);
   const [openpayment, setopenpayment] = React.useState(false);
   const [promoBanner, setPromoBanner] = React.useState();
@@ -51,11 +50,7 @@ function CourseDetails() {
     const res = await ApiService(`courses/course_url/${courseVariantSlug}/detail`);
     return res?.data?.data?.course;
   };
-  const faqDetails = async (params) => {
-    const { course_id} = params;
-    const res = await ApiService(`courses/course_url/${course_id}/faq/list`);
-    return res?.data?.data?.course;
-  };
+ 
 
   const fetchVariantBatches = async (courseVariantId) => {
     const res = await ApiService(`courses/${courseVariantId}/batch/list`);
@@ -72,9 +67,7 @@ function CourseDetails() {
     const variantBatches = await fetchVariantBatches(courseData.id);
     setCourseDetails(courseData);
     setVariantCourseBatches(variantBatches);
-    const faqs=await faqDetails (courseData.id);
-    setCourseFaq(courseData)
-    setFaq(faqs)
+
   };
 
   const convertDate = (dateInput) => {

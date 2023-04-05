@@ -46,6 +46,17 @@ const forgotPassword = async (email) => {
     });
   }
 };
+const resendOTP = (phoneNumber, appVerifier) => {
+  firebase.auth().verifyPhoneNumber(phoneNumber, appVerifier)
+    .then((verificationId) => {
+      // Save the verification ID somewhere
+      // Show a message to the user that OTP has been resent
+    })
+    .catch((error) => {
+      console.log(error);
+      // Handle error
+    });
+};
 
 const signInWithFacebook = async () => {
   try {
@@ -121,4 +132,5 @@ export {
   sendPasswordReset,
   forgotPassword,
   logout,
+  resendOTP,
 };
