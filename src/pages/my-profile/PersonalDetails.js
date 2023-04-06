@@ -356,11 +356,15 @@ const PersonalDetails = () => {
   // }
 
   const uploadFile = (docType) => {
+    dispatch(setLoading(true));
+
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
     input.click();
+
     input.onchange = async () => {
       const file = input.files[0];
+
       if (file.size / 1e6 > 2) {
         dispatch(
           openToaster({
@@ -370,14 +374,15 @@ const PersonalDetails = () => {
             body: 'File size exceeds the max. allowed size : 2 Mb',
           })
         );
+        
         return;
       }
+
       uploadToS3(file, docType);
     };
   };
 
   const uploadToS3 = (inputFile, docType) => {
-    dispatch(setLoading(true));
     if (inputFile) {
       let promise = new Promise(async (resolve, reject) => {
         let payload = {
@@ -385,11 +390,13 @@ const PersonalDetails = () => {
           type: inputFile.type,
           document_type: docType,
         };
+        dispatch(setLoading(false));
 
         const response = await ApiService('/user/upload/profile-picture', `POST`, payload, true);
         if (response.data) {
           uploadUsingSignedUrl(response.data.data.signedUrl, inputFile, docType)
             .then((res) => {
+
               viewProfilePic('profile_picture');
               window.location.reload();
               resolve(true);

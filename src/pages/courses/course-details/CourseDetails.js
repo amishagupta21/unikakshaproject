@@ -35,10 +35,12 @@ import LearnerPaymentPopup from './LearnerPaymentPopup';
 
 function CourseDetails() {
   const [courseDetails, setCourseDetails] = React.useState();
+  // const [courseDetailsfaq, setCourseDetailsfaq] = React.useState();
   const [courseFaq, setCourseFaq] = React.useState();
   const { state } = useLocation();
   const params = useParams();
   const [courseVariantBatches, setVariantCourseBatches] = React.useState([]);
+  const [courseVariantBatchesfaq, setVariantCourseBatchesfaq] = React.useState([]);
   const [eligibilityCriteria, setEligibilityCriteria] = React.useState([]);
   const [openpayment, setopenpayment] = React.useState(false);
   const [promoBanner, setPromoBanner] = React.useState();
@@ -50,12 +52,18 @@ function CourseDetails() {
     const res = await ApiService(`courses/course_url/${courseVariantSlug}/detail`);
     return res?.data?.data?.course;
   };
- 
 
-  const fetchVariantBatches = async (courseVariantId) => {
-    const res = await ApiService(`courses/${courseVariantId}/batch/list`);
+
+  const fetchVariantBatches = async (course_id) => {
+    const res = await ApiService(`courses/${course_id}/batch/list`);
     return res?.data?.data?.result;
   };
+  const fetchVariantBatchesfaq = async (course_id) => {
+    const res = await ApiService(`courses/${course_id}/faq/list`);
+    console.log("working", res.data.data)
+    return res?.data?.data;
+  };
+
 
   const fetchInitialData = async (params) => {
     const courseData = state ? state : await fetchCourseDetails(params);
@@ -64,9 +72,13 @@ function CourseDetails() {
         setPromoBanner(e);
       }
     });
-    const variantBatches = await fetchVariantBatches(courseData.id);
+    const variantBatches = await fetchVariantBatches(courseData.course_id);
     setCourseDetails(courseData);
     setVariantCourseBatches(variantBatches);
+    const variantBatchesfaq = await fetchVariantBatchesfaq(courseData?.course_id);
+    setCourseDetails(courseData);
+    setVariantCourseBatchesfaq(variantBatchesfaq);
+
 
   };
 
@@ -567,8 +579,9 @@ function CourseDetails() {
                 FAQs
               </h4>
               <Row xs={1} md={1} className="mtb5 faqs">
-                {courseDetails?.faqs?.items && <Faqs faqs={courseDetails?.faqs?.items} />}
-              </Row> 
+                {courseVariantBatchesfaq &&
+                  <Faqs courseVariantBatchesfaq={courseVariantBatchesfaq} />}
+              </Row>
             </Col>
           </Row>
         </Container>

@@ -137,17 +137,17 @@ const EducationDetails = ({
     validate: (values) => {
       let errors = {};
       if (!values.schoolDiplomaCollegeName) {
-        errors.schoolDiplomaCollegeName = '*School Name is Required';
+        errors.schoolDiplomaCollegeName = '*12th/Diploma college Name should only contain alphanumeric characters';
       }
       if (!values.schoolYearOfCompletion) {
-        errors.schoolYearOfCompletion = '*12th/Diplomo completion year is required';
+        errors.schoolYearOfCompletion = '*12th/Diploma completion year is required';
       }
       if (!values.schoolMarks) {
-        errors.schoolMarks = '*12th/Diplomo Mark is required';
+        errors.schoolMarks = '*12th/Diploma Mark should be numeric';
       }
       if (highestQualification === 'UG' || highestQualification === 'PG') {
         if (!values.ugCollegeName) {
-          errors.ugCollegeName = '*College Name is Required';
+          errors.ugCollegeName = '*UG College Name should only contain alphanumeric characters';
         }
         if (!values.ugYOC) {
           errors.ugYOC = '*UG completion year is required';
@@ -156,18 +156,18 @@ const EducationDetails = ({
           (!values.ugMarks && highestQualification === 'PG') ||
           (!values.ugMarks && highestQualification === 'UG' && graduatedYesOrNo === 'yes')
         ) {
-          errors.ugMarks = '*UG Mark is required';
+          errors.ugMarks = '*UG Mark should be numeric';
         }
       }
       if (highestQualification === 'PG') {
         if (!values.pgCollegeName) {
-          errors.pgCollegeName = '*College Name is Required';
+          errors.pgCollegeName = '*College Name should only contain alphanumeric characters';
         }
         if (!values.pgYOC) {
           errors.pgYOC = '*PG completion year is required';
         }
         if (!values.pgMarks && graduatedYesOrNo === 'yes') {
-          errors.pgMarks = '*PG Mark is required';
+          errors.pgMarks = '*PG Mark should be numeric';
         }
       }
 
@@ -176,13 +176,13 @@ const EducationDetails = ({
         (highestQualification === 'UG' || highestQualification === 'PG')
       ) {
         if (!values.other_program_name) {
-          errors.other_program_name = '*School Name is Required';
+          errors.other_program_name = '*School Name should only contain alphanumeric characters';
         }
         if (!values.other_program_college_name) {
           errors.other_program_college_name = '*College Name is Required';
         }
         if (!values.other_program_course_duration) {
-          errors.other_program_course_duration = 'Duration is required';
+          errors.other_program_course_duration = 'Duration should be numeric';
         }
       }
       return errors;
@@ -348,11 +348,11 @@ const EducationDetails = ({
                           name="pgCollegeName"
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          className={
-                            formik.touched.pgCollegeName && formik.errors.pgCollegeName
-                              ? 'is-invalid'
-                              : null
-                          }
+                          // className={
+                          //   formik.touched.pgCollegeName && formik.errors.pgCollegeName
+                          //     ? 'is-invalid'
+                          //     : null
+                          // }
                           value={formik.values?.pgCollegeName}
                         />
                         {formik.touched.pgCollegeName && formik.errors.pgCollegeName ? (
@@ -367,9 +367,9 @@ const EducationDetails = ({
                         </Form.Label>
                         <Form.Select
                           name="pgYOC"
-                          className={
-                            formik.touched.pgYOC && formik.errors.pgYOC ? 'is-invalid' : null
-                          }
+                          // className={
+                          //   formik.touched.pgYOC && formik.errors.pgYOC ? 'is-invalid' : null
+                          // }
                           onBlur={formik.handleBlur}
                           onChange={formik.handleChange}
                           defaultValue={formik.values?.pgYOC}>
@@ -398,11 +398,11 @@ const EducationDetails = ({
                               name="pgMarks"
                               type="numeric"
                               placeholder="PG passing marks"
-                              className={
-                                formik.touched.pgMarks && formik.errors.pgMarks
-                                  ? 'is-invalid'
-                                  : null
-                              }
+                              // className={
+                              //   formik.touched.pgMarks && formik.errors.pgMarks
+                              //     ? 'is-invalid'
+                              //     : null
+                              // }
                               onBlur={formik.handleBlur}
                               onChange={formik.handleChange}
                               value={formik.values?.pgMarks}
@@ -438,11 +438,11 @@ const EducationDetails = ({
                           placeholder="UG college name"
                           name="ugCollegeName"
                           onChange={formik.handleChange}
-                          className={
-                            formik.touched.ugCollegeName && formik.errors.ugCollegeName
-                              ? 'is-invalid'
-                              : null
-                          }
+                          // className={
+                          //   formik.touched.ugCollegeName && formik.errors.ugCollegeName
+                          //     ? 'is-invalid'
+                          //     : null
+                          // }
                           onBlur={formik.handleBlur}
                           value={formik.values?.ugCollegeName}
                         />
@@ -458,9 +458,9 @@ const EducationDetails = ({
                         </Form.Label>
                         <Form.Select
                           name="ugYOC"
-                          className={
-                            formik.touched.ugYOC && formik.errors.ugYOC ? 'is-invalid' : null
-                          }
+                          // className={
+                          //   formik.touched.ugYOC && formik.errors.ugYOC ? 'is-invalid' : null
+                          // }
                           onBlur={formik.handleBlur}
                           onChange={formik.handleChange}
                           defaultValue={formik.values?.ugYOC}>
@@ -491,11 +491,11 @@ const EducationDetails = ({
                               placeholder="UG passing marks"
                               name="ugMarks"
                               onChange={formik.handleChange}
-                              className={
-                                formik.touched.ugMarks && formik.errors.ugMarks
-                                  ? 'is-invalid'
-                                  : null
-                              }
+                              // className={
+                              //   formik.touched.ugMarks && formik.errors.ugMarks
+                              //     ? 'is-invalid'
+                              //     : null
+                              // }
                               onBlur={formik.handleBlur}
                               value={formik.values?.ugMarks}
                             />
@@ -531,12 +531,12 @@ const EducationDetails = ({
                           type="text"
                           name="schoolDiplomaCollegeName"
                           onChange={formik.handleChange}
-                          className={
-                            formik.touched.schoolDiplomaCollegeName &&
-                            formik.errors.schoolDiplomaCollegeName
-                              ? 'is-invalid'
-                              : null
-                          }
+                          // className={
+                          //   formik.touched.schoolDiplomaCollegeName &&
+                          //   formik.errors.schoolDiplomaCollegeName
+                          //     ? 'is-invalid'
+                          //     : null
+                          // }
                           onBlur={formik.handleBlur}
                           value={formik.values?.schoolDiplomaCollegeName}
                           placeholder="12th school / diploma college name"
@@ -556,12 +556,12 @@ const EducationDetails = ({
                         </Form.Label>
                         <Form.Select
                           name="schoolYearOfCompletion"
-                          className={
-                            formik.touched.schoolYearOfCompletion &&
-                            formik.errors.schoolYearOfCompletion
-                              ? 'is-invalid'
-                              : null
-                          }
+                          // className={
+                          //   formik.touched.schoolYearOfCompletion &&
+                          //   formik.errors.schoolYearOfCompletion
+                          //     ? 'is-invalid'
+                          //     : null
+                          // }
                           onBlur={formik.handleBlur}
                           onChange={formik.handleChange}
                           defaultValue={formik.values?.schoolYearOfCompletion}>
@@ -592,11 +592,11 @@ const EducationDetails = ({
                           placeholder="12th or diploma marks"
                           name="schoolMarks"
                           onChange={formik.handleChange}
-                          className={
-                            formik.touched.schoolMarks && formik.errors.schoolMarks
-                              ? 'is-invalid'
-                              : null
-                          }
+                          // className={
+                          //   formik.touched.schoolMarks && formik.errors.schoolMarks
+                          //     ? 'is-invalid'
+                          //     : null
+                          // }
                           onBlur={formik.handleBlur}
                           value={formik.values?.schoolMarks}
                         />
@@ -660,12 +660,12 @@ const EducationDetails = ({
                               type="text"
                               placeholder="Program name"
                               onChange={formik.handleChange}
-                              className={
-                                formik.touched.other_program_name &&
-                                formik.errors.other_program_name
-                                  ? 'is-invalid'
-                                  : null
-                              }
+                              // className={
+                              //   formik.touched.other_program_name &&
+                              //   formik.errors.other_program_name
+                              //     ? 'is-invalid'
+                              //     : null
+                              // }
                               onBlur={formik.handleBlur}
                               value={formik.values?.other_program_name}
                             />
@@ -687,12 +687,12 @@ const EducationDetails = ({
                               name="other_program_college_name"
                               placeholder="College name"
                               onChange={formik.handleChange}
-                              className={
-                                formik.touched.other_program_college_name &&
-                                formik.errors.other_program_college_name
-                                  ? 'is-invalid'
-                                  : null
-                              }
+                              // className={
+                              //   formik.touched.other_program_college_name &&
+                              //   formik.errors.other_program_college_name
+                              //     ? 'is-invalid'
+                              //     : null
+                              // }
                               onBlur={formik.handleBlur}
                               value={formik.values?.other_program_college_name}
                             />
@@ -715,12 +715,12 @@ const EducationDetails = ({
                               type="text"
                               placeholder="Duration in months"
                               onChange={formik.handleChange}
-                              className={
-                                formik.touched.other_program_course_duration &&
-                                formik.errors.other_program_course_duration
-                                  ? 'is-invalid'
-                                  : null
-                              }
+                              // className={
+                              //   formik.touched.other_program_course_duration &&
+                              //   formik.errors.other_program_course_duration
+                              //     ? 'is-invalid'
+                              //     : null
+                              // }
                               onBlur={formik.handleBlur}
                               value={formik.values?.other_program_course_duration}
                             />
