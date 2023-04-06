@@ -140,7 +140,7 @@ const Payments = (params) => {
           razorpaySignature: response.razorpay_signature,
         };
 
-        nextPage();
+        // nextPage();
       },
       modal: {
         ondismiss: function () {
