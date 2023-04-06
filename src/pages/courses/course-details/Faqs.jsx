@@ -21,7 +21,7 @@ const Faqs = ({ courseVariantBatchesfaq }) => {
 
   useEffect(() => {
     categoriseFaqs();
-  }, []);
+  }, [courseVariantBatchesfaq]);
 
   return (
     <>
