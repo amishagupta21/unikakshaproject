@@ -36,6 +36,7 @@ const ApplicationStatus = ({ nextPage, application, setOrderData, courseId, setS
   const [status, setStatus] = React.useState();
   const [statusContent, setStatusContent] = React.useState({});
   const [openpayment, setopenpayment] = React.useState(false);
+
   const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
 
   useEffect(() => {

@@ -24,9 +24,8 @@ import { setIsAuthenticated } from '../../redux/actions/AuthAction';
 import './Login.scss';
 import { rightArrow } from '../../assets/images';
 import OtpInput from 'react-otp-input';
-import { getAuth, signInWithPhoneNumber } from "firebase/auth";
+import { getAuth, signInWithPhoneNumber } from 'firebase/auth';
 import Footer from '../../components/Footer';
-
 
 const Login = () => {
   let isAuth =
@@ -54,20 +53,17 @@ const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState(false);
   const auth = getAuth;
   const configureCaptcha = () => {
-   return window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signin-container', {
+    return (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signin-container', {
       size: 'invisible',
       callback: (response) => {},
       defaultCountry: 'IN',
-    });
-
+    }));
   };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-
-     
     // if (isAuth) {
     //   navigate('/dashboard');
     // }
@@ -93,7 +89,10 @@ const Login = () => {
 
   const checkIfUserExists = async (email, phone) => {
     const result = await ApiService('user/check-exists', 'POST', { email, phone }, true);
-    return result?.data?.data?.user;
+    if (email === null || email === undefined) {
+      return result?.data?.data?.byPhone?.user;
+    }
+    return result?.data?.data?.byEmail?.user;
   };
 
   const getUserBasicInfo = async (uid) => {
@@ -102,7 +101,6 @@ const Login = () => {
   };
 
   const singInwithEmail = async (values) => {
-
     setAuthError();
     setloading(true);
     dispatch(setLoading(true));
@@ -117,12 +115,13 @@ const Login = () => {
       //   sendOTP(phone);
       // } else {
 
-      await firebase.auth().signInWithEmailAndPassword(email, password)
+      await firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
         .then((response) => {
           const { user } = response.user.multiFactor;
 
           // firebase.auth().currentUser.updateProfile({ displayName: userisExist?.displayName });
-
 
           // var firebaseUser = userCredential.user;
           setloading(false);
@@ -168,13 +167,12 @@ const Login = () => {
     }
   };
 
-
   const signInWithNumber = async (values) => {
     setAuthError();
     dispatch(setLoading(true));
     setloading(true);
     const { mobileNumber } = values;
-    const user = await checkIfUserExists(null, `${mobileNumber}`);
+    const user = await checkIfUserExists(null, `+${mobileNumber}`);
     if (user) {
       const { phone, uid } = user;
       if (phone) {
@@ -183,19 +181,16 @@ const Login = () => {
       setloading(false);
       dispatch(setLoading(false));
     } else {
-      setAuthError('User not found')
+      setAuthError('User not found');
       setloading(false);
       dispatch(setLoading(false));
     }
   };
 
-
-
   // const sendOTP = async (phoneNumber) => {
   //   dispatch(setLoading(true));
   //   setloading(true);
   //   setPhoneNumber(phoneNumber)
-
 
   //   const appVerifier = configureCaptcha();
   //   firebase
@@ -231,7 +226,6 @@ const Login = () => {
   //       dispatch(setLoading(false));
   //     });
   // };
-
 
   const sendOTP = async (phoneNumber) => {
     // Dispatch an action to set the loading state to true
@@ -336,7 +330,6 @@ const Login = () => {
   // };
 
   const resendOTP = (phone) => {
-   
     if (seconds === 0 && minutes === 0) {
       setOtp('');
       setOtpError(null);
@@ -351,8 +344,14 @@ const Login = () => {
   return (
     <>
       {/* <AuthNavbar /> */}
-      <div className='auth-modal'>
-        <AuthModal show={show} handleClose={handleClose} handleShow={handleShow} email={userData} sendOTP={sendOTP} />
+      <div className="auth-modal">
+        <AuthModal
+          show={show}
+          handleClose={handleClose}
+          handleShow={handleShow}
+          email={userData}
+          sendOTP={sendOTP}
+        />
       </div>
       <section className="auth_layout login_screen auth-unikaksha login">
         <LeftBox />
@@ -435,27 +434,24 @@ const Login = () => {
                                       countryCodeEditable={false}
                                     />
                                   </Row>
-
-
-
                                 )}
                               />
-                              {(values.mobileNumber.length - values.mobileLength === 10) && (
-
-
+                              {values.mobileNumber.length - values.mobileLength === 10 && (
                                 <Button
                                   type={OTPSent ? 'button' : 'submit'}
                                   variant="outline-primary"
                                   className={OTPSent ? 'otp-sent' : 'get-otp-btn'}>
-
                                   {OTPLabel}
                                 </Button>
-
                               )}
                               {OTPSent && (
                                 <>
                                   <div className="otp-input">
-                                    <OtpInput value={otp} onChange={(e) => setOtp(e)} numInputs={6} />
+                                    <OtpInput
+                                      value={otp}
+                                      onChange={(e) => setOtp(e)}
+                                      numInputs={6}
+                                    />
                                   </div>
 
                                   <div className="d-flex justify-content-between mt-2">
@@ -464,10 +460,13 @@ const Login = () => {
                                     </div>
 
                                     <div>
-
                                       <a
-                                        style={{ cursor: !minutes && !seconds ? 'pointer' : 'not-allowed' }}
-                                        className={isResendDisabled ? 'resend-otp disabled' : 'resend-otp'}
+                                        style={{
+                                          cursor: !minutes && !seconds ? 'pointer' : 'not-allowed',
+                                        }}
+                                        className={
+                                          isResendDisabled ? 'resend-otp disabled' : 'resend-otp'
+                                        }
                                         onClick={() => resendOTP(phoneNumber)}>
                                         Resend OTP
                                       </a>
@@ -477,12 +476,10 @@ const Login = () => {
                                         {seconds < 10 ? `0${seconds}` : seconds}
                                       </span>
                                     </div>
-
-
                                   </div>
                                   {otpError && (
                                     <>
-                                      <div className="error-text">You have enterd Invalid OTP  </div>
+                                      <div className="error-text">You have enterd Invalid OTP </div>
                                     </>
                                   )}
                                 </>
@@ -490,15 +487,20 @@ const Login = () => {
 
                               {authError && (
                                 <>
-                                  <div className="error-text">This mobile number is not registered with us. Please
+                                  <div className="error-text">
+                                    This mobile number is not registered with us. Please
                                     <Link to="/signup" state={searchParams}>
                                       &nbsp;Sign up.
-                                    </Link></div>
+                                    </Link>
+                                  </div>
                                   {/* <div className="error-text">This e-mail is not registered with us. Please <Link to="/signup" state={searchParams}>
                                         &nbsp;Sign up
                                       </Link>. </div> */}
 
-                                  <div className="error-text">If you have previously logged in to your account. Please try log in using your Email Id.  </div>
+                                  <div className="error-text">
+                                    If you have previously logged in to your account. Please try log
+                                    in using your Email Id.{' '}
+                                  </div>
                                 </>
                               )}
                               {errors.mobileNumber && touched.mobileNumber ? (
@@ -516,11 +518,9 @@ const Login = () => {
                                   type="button"
                                   variant="secondary"
                                   disabled={!(otp.length === 6) || loading}
-                                  onClick={onSubmitOTP}
-                                >
+                                  onClick={onSubmitOTP}>
                                   {loading ? 'Loading...' : 'Log in'}
                                 </Button>
-
                               </div>
                             </Form>
                           )}
@@ -530,12 +530,11 @@ const Login = () => {
                         <Formik
                           initialValues={{
                             email: cookie.get('userName') ? cookie.get('userName') : '',
-                            password: ''
+                            password: '',
                           }}
                           validationSchema={Yup.object().shape({
                             email: Yup.string().email('Invalid email').required('Required'),
-                            password: Yup.string()
-                              .required('Please enter your password'),
+                            password: Yup.string().required('Please enter your password'),
                           })}
                           onSubmit={(values) => {
                             singInwithEmail(values);
@@ -572,8 +571,6 @@ const Login = () => {
                                 <div className="error-text">{errors.email}</div>
                               ) : null}
 
-
-
                               <Field
                                 name="password"
                                 render={({ field, formProps }) => (
@@ -583,9 +580,7 @@ const Login = () => {
                                       className="form-group-1 mb-0"
                                       as={Col}
                                       md="12">
-                                      <FormLabel>
-                                        Enter password
-                                      </FormLabel>
+                                      <FormLabel>Enter password</FormLabel>
                                       <FormControl
                                         placeholder="Enter your password here"
                                         type={'password'}
@@ -596,28 +591,34 @@ const Login = () => {
                                   </Row>
                                 )}
                               />
-                              <div className='mb-4'>
-                                <Link to="/forget-password" className='fp'>
-                                  Forgot Password?</Link>
+                              <div className="mb-4">
+                                <Link to="/forget-password" className="fp">
+                                  Forgot Password?
+                                </Link>
                               </div>
                               {errors.password && touched.password ? (
                                 <div className="error-text">{errors.password}</div>
                               ) : null}
                               <div>
-
                                 {authErrorNotRegistered && (
                                   <>
-                                    <div className="error-text">Invalid Credentials or Don't have account? Please <Link to="/signup" state={searchParams}>
-                                      &nbsp;Sign up
-                                    </Link>.</div>
+                                    <div className="error-text">
+                                      Invalid Credentials or Don't have account? Please{' '}
+                                      <Link to="/signup" state={searchParams}>
+                                        &nbsp;Sign up
+                                      </Link>
+                                      .
+                                    </div>
                                     {/* <div className="error-text">This e-mail is not registered with us. Please <Link to="/signup" state={searchParams}>
                                 &nbsp;Sign up
                               </Link>. </div> */}
 
-                                    <div className="error-text">If you have previously logged in to your account. Please try log in using your mobile number.  </div>
+                                    <div className="error-text">
+                                      If you have previously logged in to your account. Please try
+                                      log in using your mobile number.{' '}
+                                    </div>
                                   </>
                                 )}
-
                               </div>
                               <div className="d-grid gap-2">
                                 <Button
@@ -632,10 +633,13 @@ const Login = () => {
                                 <Button
                                   type="submit"
                                   className="btn-secondary btn-secondary-out"
-                                  variant="outline-secondary"
-                                >Log in without password
+                                  variant="outline-secondary">
+                                  Log in without password
                                 </Button>
-                                <p className="sml-info">You will receive a link to login without password if your email is registered with us</p>
+                                <p className="sml-info">
+                                  You will receive a link to login without password if your email is
+                                  registered with us
+                                </p>
                               </div>
                             </Form>
                           )}
@@ -654,7 +658,6 @@ const Login = () => {
         </div>
       </section>
       <Footer />
-
     </>
   );
 };
