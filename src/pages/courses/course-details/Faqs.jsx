@@ -3,13 +3,13 @@ import { Tab, Tabs } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import './Faqs.scss';
 
-const Faqs = ({ faqs }) => {
+const Faqs = ({ courseVariantBatchesfaq }) => {
   const [faqsList, setFaqsList] = useState([]);
   const [key, setKey] = useState('About Techfit Program');
 
   const categoriseFaqs = async () => {
     const list = {};
-    faqs.forEach((element) => {
+    courseVariantBatchesfaq.forEach((element) => {
       const category = element.category;
       if (!list[category]) {
         list[category] = [];

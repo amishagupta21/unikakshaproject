@@ -108,12 +108,13 @@ const Signup = () => {
       { email, phone: `+${phone}` },
       true
     );
+    console.log(JSON.stringify(result.data))
     // if(result?.data.code === 400){
     //   return true
     // }else{
     //   return false
     // }
-
+    // return result?.data?.data?.user
   };
  
 
@@ -123,7 +124,6 @@ const Signup = () => {
 
     const { email, mobileNumber: phone } = values;
     const user = await checkIfUserExists(email, phone);
-
     if (!user) {
       sendOTP(values);
       setloading(false);
@@ -145,6 +145,7 @@ const Signup = () => {
   
   
   const sendOTP = async (values) => {
+
     console.log(values);
     const countryCode = values.mobileNumber.substr(0, 2);
     const mobileNumber = values.mobileNumber.substr(2, values.mobileNumber.length);
@@ -153,7 +154,7 @@ const Signup = () => {
     setloading(true);
 
     const userExist = await checkIfUserExists(values.email, `+${values.mobileNumber}`);
-
+//  console.log(userExist)
     if (!userExist) {
       const appVerifier = configureCaptcha();
       firebase
@@ -236,7 +237,15 @@ const Signup = () => {
       countryCode: formData.countryCode,
     };
     const result = await ApiService(`user/create`, `POST`, userData);
+    // if(result?.data.code === 400){
+    //   return true
+    // }else{
+    //   return false
+    // }
+
     localStorage.setItem('user', JSON.stringify(user));
+    // console.log(result?.data)
+
     if (result?.data.code === 200) {
       // navigate('/info');
     dispatch(setLoading(false));

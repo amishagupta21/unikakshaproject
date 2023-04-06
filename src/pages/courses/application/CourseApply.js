@@ -200,6 +200,7 @@ const CourseApplication = () => {
   };
 
   const formPersonalDetailsPayload = async (personalDetails) => {
+    console.log(formPersonalDetailsPayload)
     // delete personalDetails.dob;
     setIsNextLoading(true);
     const payload = {
@@ -207,10 +208,11 @@ const CourseApplication = () => {
       course_id: courseDetails?.id,
       course_title: courseDetails?.course_title,
       course_duration: courseDetails?.duration,
-      course_start_date: new Date(batches[0].start_date).toLocaleDateString(),
+      course_start_date: new Date(courseDetails?.start_date).toLocaleDateString(),
       personal_details: personalDetails,
     };
     const response = await ApiService('/student/personal-details', `POST`, payload, true);
+
     setIsNextLoading(false);
     if (response?.data.code === 200) {
       dispatch(
@@ -224,6 +226,7 @@ const CourseApplication = () => {
       nextPage();
     }
   };
+  
   const phoneRegExp = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{6})/;
 
   const formik = useFormik({

@@ -205,7 +205,7 @@ const EducationDetails = ({
         errors.schoolYearOfCompletion = '*12th/Diplomo completion year is required';
       }
       if (!values.schoolMarks) {
-        errors.schoolMarks = '*12th/Diplomo Mark is required';
+        errors.schoolMarks = '*12th/Diploma Mark is required';
       }
       if (highestQualification === 'UG' || highestQualification === 'PG') {
         if (!values.ugCollegeName) {
