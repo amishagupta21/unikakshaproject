@@ -22,7 +22,6 @@ import LeftBox from './components/LeftBox';
 import OtpInput from 'react-otp-input';
 import Footer from '../../components/Footer';
 
-
 const Signup = () => {
   const [loading, setloading] = useState();
   const navigate = useNavigate();
@@ -47,7 +46,6 @@ const Signup = () => {
     buttonDisabled: {
       padding: '5px 5px',
       cursor: 'not-allowed',
-
     },
   };
   function handleDisableButton() {
@@ -95,11 +93,11 @@ const Signup = () => {
   }, [seconds, minutes]);
 
   const configureCaptcha = () =>
-  (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signup-container', {
-    size: 'invisible',
-    callback: (response) => { },
-    defaultCountry: 'IN',
-  }));
+    (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signup-container', {
+      size: 'invisible',
+      callback: (response) => {},
+      defaultCountry: 'IN',
+    }));
 
   const checkIfUserExists = async (email, phone) => {
     const result = await ApiService(
@@ -119,7 +117,6 @@ const Signup = () => {
    
     // return result?.data?.data?.user
   };
- 
 
   const createUser = async (values) => {
     setloading(true);
@@ -135,8 +132,7 @@ const Signup = () => {
       //     // Provide a callback to handle the verification code
       //     // sent to the user's phone
       //   });
-    } 
-    else{
+    } else {
       setAuthError('User already exists');
       dispatch(setLoading(false));
       setloading(false);
@@ -145,10 +141,8 @@ const Signup = () => {
       // }, 500);
     }
   };
-  
-  
-  const sendOTP = async (values) => {
 
+  const sendOTP = async (values) => {
     console.log(values);
     const countryCode = values.mobileNumber.substr(0, 2);
     const mobileNumber = values.mobileNumber.substr(2, values.mobileNumber.length);
@@ -170,11 +164,11 @@ const Signup = () => {
           // });
           setMinutes(1);
           setSeconds(59);
-    
+
           dispatch(setLoading(false));
           setOTPLabel('OTP Sent');
           setOTPSent(true);
-          setPencil(true)
+          setPencil(true);
           // navigate('/signup-otp', {
           //   state: {
           //     values: {
@@ -230,7 +224,6 @@ const Signup = () => {
   };
 
   const createUserIfNotExists = async (user) => {
-
     const userData = {
       uid: user.uid,
       fullName: formData.fullName,
@@ -251,10 +244,9 @@ const Signup = () => {
 
     if (result?.data.code === 200) {
       // navigate('/info');
-    dispatch(setLoading(false));
+      dispatch(setLoading(false));
 
-      navigate('/set-password', 
-      {
+      navigate('/set-password', {
         state: {
           values: {
             email: formData.email,
@@ -275,7 +267,6 @@ const Signup = () => {
       sendOTP(phone);
     }
   };
-
 
   return (
     <>
@@ -309,10 +300,8 @@ const Signup = () => {
                   email: Yup.string()
                     .email('Please enter a valid email')
                     .required('Email is a required field'),
-                    // .test('email-exists', 'This email is already registered', validateEmailExists),
-                  mobileNumber: Yup.string()
-                    .min(10)
-                    .required('Mobile number is a required field'),
+                  // .test('email-exists', 'This email is already registered', validateEmailExists),
+                  mobileNumber: Yup.string().min(10).required('Mobile number is a required field'),
                 })}
                 onSubmit={(values) => {
                   createUser(values);
@@ -371,7 +360,6 @@ const Signup = () => {
                               type={'text'}
                               value={field.value}
                               onChange={field.onChange}
-                          
                             />
                           </FormGroup>
                         </Row>
@@ -399,30 +387,24 @@ const Signup = () => {
                               setFieldValue('mobileLength', data.dialCode.length);
                             }}
                             countryCodeEditable={false}
-
                           />
 
                           <small className="sml-size text-start">
                             We will send you OTP on mobile number.
                           </small>
-
                         </Row>
                       )}
                     />
                     <br />
 
-
-                    {values.mobileNumber.length - values.mobileLength === 10 &&
-                      (
-
-                        <Button
-                          type={OTPSent ? 'button' : 'submit'}
-                          variant="outline-primary"
-                          className={OTPSent ? 'otp-sent' : 'get-otp-btn'} >
-                          {OTPLabel}
-                        </Button>
-
-                      )}
+                    {values.mobileNumber.length - values.mobileLength === 10 && (
+                      <Button
+                        type={OTPSent ? 'button' : 'submit'}
+                        variant="outline-primary"
+                        className={OTPSent ? 'otp-sent' : 'get-otp-btn'}>
+                        {OTPLabel}
+                      </Button>
+                    )}
 
                     {OTPSent && (
                       <>
@@ -479,7 +461,7 @@ const Signup = () => {
                     </label>
 
                     <div className="d-grid gap-2 mt-3 mb-3">
-                  <Button
+                      <Button
                         type="button"
                         disabled={!(otp.length === 6) || loading}
                         onClick={onSubmitOTP}
@@ -511,7 +493,6 @@ const Signup = () => {
       <Footer />
     </>
   );
-
 };
 
 export default Signup;

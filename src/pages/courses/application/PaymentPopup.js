@@ -80,7 +80,7 @@ const PaymentPopup = ({ nextPage, setOrderData, courseId, setopenpayment, setSel
 
   return (
     <>
-      {batches?.length && (
+      {batches?.length === 0 && (
         <>
           <div className="modal display-block">
             <section className="modal-main">
