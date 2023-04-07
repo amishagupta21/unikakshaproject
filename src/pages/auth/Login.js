@@ -597,8 +597,8 @@ const Login = () => {
                                 )}
                               />
                               <div className='mb-4'>
-                                <Link to="/forget-password" className='fp'>
-                                  Forgot Password?</Link>
+                                {/* <Link to="/forget-password" className='fp'>
+                                  Forgot Password?</Link> */}
                               </div>
                               {errors.password && touched.password ? (
                                 <div className="error-text">{errors.password}</div>
@@ -628,7 +628,7 @@ const Login = () => {
                                   {loading ? 'Loading...' : 'Log in'}
                                 </Button>
                               </div>
-                              <div className="d-grid gap-2 mt-3">
+                              {/* <div className="d-grid gap-2 mt-3">
                                 <Button
                                   type="submit"
                                   className="btn-secondary btn-secondary-out"
@@ -636,7 +636,7 @@ const Login = () => {
                                 >Log in without password
                                 </Button>
                                 <p className="sml-info">You will receive a link to login without password if your email is registered with us</p>
-                              </div>
+                              </div> */}
                             </Form>
                           )}
                         />
