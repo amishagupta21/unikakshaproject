@@ -179,7 +179,7 @@ const EducationDetails = ({
           errors.other_program_name = '*School Name should only contain alphanumeric characters';
         }
         if (!values.other_program_college_name) {
-          errors.other_program_college_name = '*College Name is Required';
+          errors.other_program_college_name = '*College Name should only contain alphanumeric characters';
         }
         if (!values.other_program_course_duration) {
           errors.other_program_course_duration = 'Duration should be numeric';
@@ -243,8 +243,9 @@ const EducationDetails = ({
 
   const submitEducationalDetails = async (payload) => {
     const response = await ApiService('/student/educational-details', `PUT`, payload, true);
+    console.log(JSON.stringify(response.config.data))
     setIsNextLoading(false);
-    if (response?.data.code === 200) {
+    if ( response?.config.data) {
       dispatch(
         openToaster({
           show: true,
