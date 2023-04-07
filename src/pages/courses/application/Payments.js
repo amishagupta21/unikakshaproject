@@ -168,6 +168,9 @@ const Payments = (params) => {
       setpaymentStatus('Failed');
       createPaymant(response, 'Failed');
 
+      // nextPage();
+      // createPaymant(response, 'Failed');
+
       // alert(response.error.code);
       // alert(response.error.description);
       // alert(response.error.source);

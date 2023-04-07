@@ -24,7 +24,7 @@ import { setIsAuthenticated } from '../../redux/actions/AuthAction';
 import './Login.scss';
 import { rightArrow } from '../../assets/images';
 import OtpInput from 'react-otp-input';
-import { getAuth, signInWithPhoneNumber } from 'firebase/auth';
+import { RecaptchaVerifier, getAuth, signInWithPhoneNumber } from 'firebase/auth';
 import Footer from '../../components/Footer';
 
 const Login = () => {
@@ -53,11 +53,25 @@ const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState(false);
   const auth = getAuth;
   const configureCaptcha = () => {
-    return (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signin-container', {
-      size: 'invisible',
-      callback: (response) => {},
-      defaultCountry: 'IN',
-    }));
+    if (!window.recaptchaVerifier) {
+      return (
+        //   window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signin-container', {
+        //   size: 'invisible',
+        //   callback: (response) => {},
+        //   defaultCountry: 'IN',
+        // }
+
+        // )
+        (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signin-container', {
+          size: 'invisible',
+          callback: (response) => {
+            console.log(response);
+          },
+          defaultCountry: 'IN',
+        }))
+      );
+    }
+    return window.recaptchaVerifier;
   };
 
   const handleClose = () => setShow(false);
@@ -65,7 +79,7 @@ const Login = () => {
 
   useEffect(() => {
     // if (isAuth) {
-    //   navigate('/dashboard');
+    //   navigate('/dashboard');SSS
     // }
     const interval = setInterval(() => {
       if (seconds > 0) {
@@ -89,6 +103,7 @@ const Login = () => {
 
   const checkIfUserExists = async (email, phone) => {
     const result = await ApiService('user/check-exists', 'POST', { email, phone }, true);
+    console.log(result, '////');
     if (email === null || email === undefined) {
       return result?.data?.data?.byPhone?.user;
     }
@@ -174,7 +189,7 @@ const Login = () => {
     const { mobileNumber } = values;
     const user = await checkIfUserExists(null, `+${mobileNumber}`);
     if (user) {
-      const { phone, uid } = user;
+      const { phone } = user;
       if (phone) {
         sendOTP(phone);
       }
@@ -232,7 +247,6 @@ const Login = () => {
     dispatch(setLoading(true));
     setloading(true);
     setPhoneNumber(phoneNumber);
-
     // Configure the reCAPTCHA verifier
     const appVerifier = configureCaptcha();
 
@@ -242,6 +256,17 @@ const Login = () => {
       .signInWithPhoneNumber(`${phoneNumber}`, appVerifier)
       .then(async (confirmationResult) => {
         window.confirmationResult = confirmationResult;
+        // console.log(confirmationResult, '//////confirmationResult');
+        // if (window.confirmationResult.verificationId === confirmationResult.verificationId) {
+        //   const index = window.confirmationResult.verificationId.length - 1;
+        //   const s =
+        //     window.confirmationResult.verificationId.substring(0, index) +
+        //     'a' +
+        //     window.confirmationResult.verificationId.substring(index + 1);
+        //   window.confirmationResult.verificationId = s;
+        // } else {
+        //   window.confirmationResult = confirmationResult;
+        // }
         toast.success('OTP has been Sent to Mobile Number', {
           theme: 'colored',
         });
@@ -329,7 +354,12 @@ const Login = () => {
   //   }
   // };
 
-  const resendOTP = (phone) => {
+  const resendOTP = async (values) => {
+    // const { mobileNumber } = values;
+    // const user = await checkIfUserExists(null, `+${mobileNumber}`);
+    // if (user) {
+    //   const { phone } = user;
+    //   if (phone) {
     if (seconds === 0 && minutes === 0) {
       setOtp('');
       setOtpError(null);
@@ -340,6 +370,13 @@ const Login = () => {
       // window.location.reload()
     }
   };
+  //   setloading(false);
+  //   dispatch(setLoading(false));
+  // } else {
+  //   setAuthError('User not found');
+  //   setloading(false);
+  //   dispatch(setLoading(false));
+  // }
 
   return (
     <>
@@ -467,7 +504,7 @@ const Login = () => {
                                         className={
                                           isResendDisabled ? 'resend-otp disabled' : 'resend-otp'
                                         }
-                                        onClick={() => resendOTP(phoneNumber)}>
+                                        onClick={() => resendOTP(values)}>
                                         Resend OTP
                                       </a>
                                       <span>
@@ -591,7 +628,7 @@ const Login = () => {
                                   </Row>
                                 )}
                               />
-                              <div className='mb-4'>
+                              <div className="mb-4">
                                 {/* <Link to="/forget-password" className='fp'>
                                   Forgot Password?</Link> */}
                               </div>
