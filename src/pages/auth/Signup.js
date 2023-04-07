@@ -106,12 +106,15 @@ const Signup = () => {
       { email, phone: `+${phone}` },
       true
     );
-    console.log(JSON.stringify(result.data));
-    // if(result?.data.code === 400){
-    //   return true
-    // }else{
-    //   return false
-    // }
+    console.log("check",JSON.stringify(result.data.data))
+    if(result?.data.data.byEmail.user != null || result?.data.data.byPhone.user != null){
+      setAuthError('User already exists');
+      // console.log("already existed")
+      return true
+    }else {
+      console.log("sucessfully created")
+    }
+   
     // return result?.data?.data?.user
   };
 
@@ -147,8 +150,8 @@ const Signup = () => {
     setFormData(result);
     setloading(true);
 
-    const userExist = await checkIfUserExists(values.email, `+${values.mobileNumber}`);
-    //  console.log(userExist)
+    const userExist = await checkIfUserExists(values.email, `${values.mobileNumber}`);
+//  console.log(userExist)
     if (!userExist) {
       const appVerifier = configureCaptcha();
       firebase

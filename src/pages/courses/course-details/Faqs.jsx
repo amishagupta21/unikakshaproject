@@ -22,6 +22,7 @@ const Faqs = ({ courseVariantBatchesfaq }) => {
   useEffect(() => {
     categoriseFaqs();
   }, [courseVariantBatchesfaq]);
+  
 
   return (
     <>
@@ -33,7 +34,7 @@ const Faqs = ({ courseVariantBatchesfaq }) => {
         {faqsList.length > 0 &&
           faqsList.map((e) => {
             return (
-              <Tab eventKey={e[0]} key={e[0]} title={e[0]}>
+              <Tab eventKey={e[0]} key={e[0]} title={e[0]} >
                 <Accordion defaultActiveKey={0} alwaysOpen>
                   {e[1].map((accItem, idx) => (
                     <Accordion.Item eventKey={idx} key={idx}>
