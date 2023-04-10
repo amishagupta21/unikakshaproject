@@ -245,7 +245,7 @@ const EducationDetails = ({
     const response = await ApiService('/student/educational-details', `PUT`, payload, true);
     console.log(JSON.stringify(response.config.data))
     setIsNextLoading(false);
-    if ( response?.config.data) {
+    if (response?.config.data) {
       dispatch(
         openToaster({
           show: true,
