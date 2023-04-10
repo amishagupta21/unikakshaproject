@@ -1075,7 +1075,32 @@ button.menu-bar {
   padding-left: 30px;
   padding-right: 0;
 }
+.notification-link .notification-wrapper {
+  position: relative;
+}
 
+.notification-link .notification-wrapper .notification-text {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: #bdcffb;
+  color: white;
+  padding: 5px;
+  width: 80px;
+  border-radius: 5px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.notification-link .notification-wrapper:hover .notification-text {
+  opacity: 1;
+}
+
+/* .notification-link img:hover {
+  opacity: 0.8;
+  border: 1px solid black;
+} */
 .dropdown-design.dropdown-toggle.btn.btn-primary {
   background: transparent;
   border: 0;
