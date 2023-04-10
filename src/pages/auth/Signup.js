@@ -196,15 +196,17 @@ const Signup = () => {
   // console.log(formData);
 
   const onSubmitOTP = (e) => {
-    dispatch(setLoading(true));
-
-    setloading(true);
     setIsButtonLoading(true);
+
     e.preventDefault();
 
     window.confirmationResult
       .confirm(otp && otp)
       .then(async (response) => {
+    setloading(true);
+    dispatch(setLoading(true));
+
+
         setIsButtonLoading(false);
         console.log(response.user);
         if (response.user) {
@@ -217,8 +219,8 @@ const Signup = () => {
       })
       .catch((error) => {
         console.log(error);
-        setloading(false);
-        setIsButtonLoading(false);
+        // setloading(false);
+        // setIsButtonLoading(false);
         setOtpError('Invalid Code!');
       });
   };
