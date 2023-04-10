@@ -29,6 +29,14 @@ const PrimaryNavbar = () => {
   const path = useLocation().pathname;
   const url = window.location.pathname.split('/').pop();
   const dispatch = useDispatch();
+  const [showNotification, setShowNotification] = React.useState(false);
+  const handleMouseEnter = () => {
+    setShowNotification(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowNotification(false);
+  };
 
   useEffect(() => {
     getProfilePic();
@@ -48,13 +56,13 @@ const PrimaryNavbar = () => {
     setProfilePic(result?.data?.data?.signedUrl);
   };
 
-    // const cancelHandler=()=>{
-    //     setShowPopUp(!showPopUp);
-    // }
+  // const cancelHandler=()=>{
+  //     setShowPopUp(!showPopUp);
+  // }
 
   // const [showPopUp, setShowPopUp] = React.useState(false);
 
-  const logOutHandler = async() => {
+  const logOutHandler = async () => {
     await logout();
     dispatch(setIsAuthenticated(false));
     navigate('/');
@@ -91,13 +99,22 @@ const PrimaryNavbar = () => {
           {isAuth === true ? (
             <div className="d-flex profile-sidebar-unikaksha">
               <Nav className="ms-auto">
-                <Nav.Link href="#features" className="notification-link">
+                {/* <Nav.Link href="#features" className="notification-link">
                   <img src={Notify} alt="notification" />
+                </Nav.Link> */}
+                <Nav.Link href="#features" className="notification-link"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <div className="notification-wrapper">
+                    <img src={Notify} alt="notification" />
+                    {showNotification && <div className="notification-text">Coming soon!</div>}
+                  </div>
                 </Nav.Link>
                 <Nav.Link className="notification-link-dp">
                   <Dropdown>
                     <Dropdown.Toggle id="dropdown-basic" className="dropdown-design">
-                      <img src={profilePic ? profilePic : profilePicture} alt="profile" style={{ width: '50px',height:'50px' }} />
+                      <img src={profilePic ? profilePic : profilePicture} alt="profile" style={{ width: '50px', height: '50px' }} />
                       <span className="avatar-name">{user?.displayName}</span>
                     </Dropdown.Toggle>
 

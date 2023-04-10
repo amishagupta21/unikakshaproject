@@ -237,7 +237,15 @@ const PersonalDetails = () => {
     };
 
     const response = await ApiService('student/update-personal-details', `PATCH`, payload, true);
-    // console.log(response)
+    // console.log(JSON.stringify(response.data.personal_details.mobile_number))
+    // if(response.data.personal_details.mobile_number!=null){
+    //   setAuthError('User already exists');
+    //   // console.log("already existed")
+    //   return true
+    // }else {
+    //   console.log("sucessfully created")
+    
+    // }
     // dispatch(setLoading(true));
     // setIsNextLoading(false);
     if (response?.data.code === 200) {

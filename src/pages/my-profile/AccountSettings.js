@@ -286,7 +286,7 @@ const AccountSettings = () => {
                 </div>
 
                 <div className="right_box_container mt-5 linked-right">
-                    <div className="log-in-title link-my">Linked Account</div>
+                    <div className="log-in-title link-my">Linked Account - (Coming Soon)</div>
                     <Row className="my-2">
                         <Col md={12}>
                             <div
