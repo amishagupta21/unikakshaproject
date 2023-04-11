@@ -31,7 +31,14 @@ const applicationStatus = {
   },
 };
 
-const ApplicationStatus = ({ nextPage, application, setOrderData, courseId, setSelectedBatch }) => {
+const ApplicationStatus = ({
+  nextPage,
+  application,
+  setOrderData,
+  courseId,
+  setSelectedBatch,
+  id,
+}) => {
   const dispatch = useDispatch();
   const [status, setStatus] = React.useState();
   const [statusContent, setStatusContent] = React.useState({});
@@ -48,7 +55,7 @@ const ApplicationStatus = ({ nextPage, application, setOrderData, courseId, setS
   const fetchApplicationDetails = async () => {
     const payload = {
       uid: user?.uid,
-      course_variant_id: courseId,
+      course_variant_id: id,
     };
 
     let applicationDetails = await ApiService(

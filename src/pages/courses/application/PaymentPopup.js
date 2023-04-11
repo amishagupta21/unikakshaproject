@@ -11,7 +11,7 @@ const PaymentPopup = ({ nextPage, setOrderData, courseId, setopenpayment, setSel
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchVariantBatches(courseId);
+    fetchVariantBatches();
   }, []);
 
   function onChangeBatch(event) {
@@ -20,15 +20,14 @@ const PaymentPopup = ({ nextPage, setOrderData, courseId, setopenpayment, setSel
     setSelectedBatch(batch[0]);
   }
 
-  const fetchVariantBatches = async (courseVariantId) => {
-    const res = await ApiService(`courses/${courseVariantId}/batch/list`);
+  const fetchVariantBatches = async () => {
+    const res = await ApiService(`courses/${courseId}/batch/list`);
 
     if (res?.data.code === 200) {
       setbatches(res.data.data.result);
 
       setDefaultBatch(res.data.data.result[0]?.id);
-      setSelectedBatch(res.data.data.result[0]);
-      // console.log()
+      setSelectedBatch(res.data.data.result[0]?.id);
     }
   };
   const togglepayment = () => {
@@ -77,10 +76,9 @@ const PaymentPopup = ({ nextPage, setOrderData, courseId, setopenpayment, setSel
     });
     return items;
   };
-
   return (
     <>
-      {batches?.length === 0 && (
+      {batches?.length && (
         <>
           <div className="modal display-block">
             <section className="modal-main">
