@@ -68,13 +68,13 @@ const Payments = (params) => {
         {
           application_id: applicationDetails?._id,
           course_variant_id: courseData?.id,
-          batch_id: selectedBatch?.id,
+          batch_id: selectedBatch,
           registration_fee: 2500,
           discount_coupon: '',
           discount_amount: 0,
           final_amount: 2500,
           payment_id: paymentResponse.razorpay_payment_id,
-          order_id: paymentResponse.razorpay_order_id,
+          order_id: orderData?.id,
           payment_status: status,
         },
       ],
@@ -82,7 +82,7 @@ const Payments = (params) => {
     // console.log(payload);
     const response = await ApiService('/order/create-payment', `POST`, payload, true);
     if (response?.data.code === 200) {
-      nextPage();
+      // nextPage();
     }
   };
 
@@ -187,7 +187,6 @@ const Payments = (params) => {
 
   const getPaymentSuccess = () => {
     // let items = coureseVariantBatches?.map((element, index) => {
-
     return (
       <div className="d-flex align-items-center justify-content-center pay-align">
         <div>

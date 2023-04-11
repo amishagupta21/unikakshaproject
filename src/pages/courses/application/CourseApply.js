@@ -138,7 +138,7 @@ const CourseApplication = () => {
     setCourseDetails(courseData);
     fetchUserDetails(uid);
     await fetchApplicationDetails(uid, courseData.id);
-    fetchVariantBatches(courseData.id);
+    fetchVariantBatches(courseData.course_id);
     setIsLoading(false);
   };
 
@@ -200,7 +200,7 @@ const CourseApplication = () => {
   };
 
   const formPersonalDetailsPayload = async (personalDetails) => {
-    console.log(formPersonalDetailsPayload)
+    console.log(formPersonalDetailsPayload);
     // delete personalDetails.dob;
     setIsNextLoading(true);
     const payload = {
@@ -226,7 +226,7 @@ const CourseApplication = () => {
       nextPage();
     }
   };
-  
+
   const phoneRegExp = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{6})/;
 
   const formik = useFormik({
@@ -700,7 +700,8 @@ const CourseApplication = () => {
                     nextPage={nextPage}
                     application={applicationDetails}
                     setOrderData={setOrderData}
-                    courseId={courseDetails?.id}
+                    id={courseDetails?.id}
+                    courseId={courseDetails?.course_id}
                     setSelectedBatch={setSelectedBatch}></ApplicationStatus>
                 </>
               )}
