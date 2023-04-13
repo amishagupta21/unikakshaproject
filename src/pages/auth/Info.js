@@ -421,6 +421,7 @@ const Info = () => {
                                   {/* <span>Day</span> */}
                                 </>
                               }
+                              
                               type="text"
                               md="4">
                               <option value="" disabled selected hidden>Day</option>
@@ -440,6 +441,7 @@ const Info = () => {
                                   {/* <span>Month</span> */}
                                 </>
                               }
+                              
                               type="text"
                               md="4">
                               <option value="" disabled selected hidden>Month</option>
@@ -450,9 +452,11 @@ const Info = () => {
                               ))}
                             </FormSelectField>
                             <FormSelectField
+                        
                               name="birth_year"
                               as={Col}
                               className="form-group-1 mb-2"
+                              
                               label={
                                 <>
                                   {/* <span>Year</span> */}
@@ -460,7 +464,9 @@ const Info = () => {
                                 </>
                               }
                               type="text"
-                              md="3">
+                              md="3"
+                              
+                              >
                               <option value="" disabled selected hidden>Year<MandatorySymbol /> </option>
                               {yearsOptions.map((option, index) => (
                                 <option key={index} value={option.value}>
@@ -540,7 +546,7 @@ const Info = () => {
                         <Button
                           type="submit"
                           variant="secondary"
-                          disabled={!formik.dirty || loading}>
+                          disabled={!formik.dirty || loading || !formik.values.birth_year}>
                           {loading ? 'Loading...' : 'Get Started'}
                         </Button>
                       </div>

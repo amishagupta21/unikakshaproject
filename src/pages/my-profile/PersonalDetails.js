@@ -82,7 +82,7 @@ const PersonalDetails = () => {
   const [isButtonLoading, setIsButtonLoading] = React.useState();
   const [isResendDisabled, setIsResendDisabled] = React.useState(true);
 
-
+  const [authError, setAuthError] = React.useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -237,14 +237,15 @@ const PersonalDetails = () => {
     };
 
     const response = await ApiService('student/update-personal-details', `PATCH`, payload, true);
-    // console.log(JSON.stringify(response.data.personal_details.mobile_number))
+    // console.log(response)
+    console.log(JSON.stringify(response.data))
     // if(response.data.personal_details.mobile_number!=null){
     //   setAuthError('User already exists');
     //   // console.log("already existed")
     //   return true
     // }else {
     //   console.log("sucessfully created")
-    
+
     // }
     // dispatch(setLoading(true));
     // setIsNextLoading(false);
@@ -363,33 +364,64 @@ const PersonalDetails = () => {
   //   formik.setValues({ birth_year: initlData?.birth_year }); 
   // }
 
+  // const uploadFile = (docType) => {
+  //   dispatch(setLoading(true));
+
+  //   const input = document.createElement('input');
+  //   input.setAttribute('type', 'file');
+  //   input.click();
+
+  //   input.onchange = async () => {
+  //     const file = input.files[0];
+
+  //     if (file.size / 1e6 > 2) {
+  //       dispatch(
+  //         openToaster({
+  //           show: true,
+  //           header: 'Warning!',
+  //           variant: 'warning',
+  //           body: 'File size exceeds the max. allowed size : 2 Mb',
+  //         })
+  //       );
+        
+  //       return;
+  //     }
+
+  //     uploadToS3(file, docType);
+  //   };
+  // };
   const uploadFile = (docType) => {
     dispatch(setLoading(true));
-
+  
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
+    input.setAttribute('multiple', true);
     input.click();
-
+  
     input.onchange = async () => {
-      const file = input.files[0];
-
-      if (file.size / 1e6 > 2) {
-        dispatch(
-          openToaster({
-            show: true,
-            header: 'Warning!',
-            variant: 'warning',
-            body: 'File size exceeds the max. allowed size : 2 Mb',
-          })
-        );
-        
-        return;
+      const files = input.files;
+  
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+  
+        if (file.size / 1e6 > 2) {
+          dispatch(
+            openToaster({
+              show: true,
+              header: 'Warning!',
+              variant: 'warning',
+              body: 'File size exceeds the max. allowed size : 2 Mb',
+            })
+          );
+          
+          continue;
+        }
+  
+        uploadToS3(file, docType);
       }
-
-      uploadToS3(file, docType);
     };
   };
-
+  
   const uploadToS3 = (inputFile, docType) => {
     if (inputFile) {
       let promise = new Promise(async (resolve, reject) => {

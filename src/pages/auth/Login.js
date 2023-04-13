@@ -188,9 +188,12 @@ const Login = () => {
     setloading(true);
     const { mobileNumber } = values;
     const user = await checkIfUserExists(null, `+${mobileNumber}`);
+    
     if (user) {
       const { phone } = user;
+     
       if (phone) {
+        
         sendOTP(phone);
       }
       setloading(false);
@@ -256,6 +259,8 @@ const Login = () => {
       .signInWithPhoneNumber(`${phoneNumber}`, appVerifier)
       .then(async (confirmationResult) => {
         window.confirmationResult = confirmationResult;
+      
+
         // console.log(confirmationResult, '//////confirmationResult');
         // if (window.confirmationResult.verificationId === confirmationResult.verificationId) {
         //   const index = window.confirmationResult.verificationId.length - 1;
@@ -270,7 +275,6 @@ const Login = () => {
         toast.success('OTP has been Sent to Mobile Number', {
           theme: 'colored',
         });
-
         // Set the OTP timer
         setMinutes(1);
         setSeconds(59);
