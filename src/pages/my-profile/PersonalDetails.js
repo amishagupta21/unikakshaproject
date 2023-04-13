@@ -390,38 +390,41 @@ const PersonalDetails = () => {
   //     uploadToS3(file, docType);
   //   };
   // };
-  const uploadFile = (docType) => {
-    dispatch(setLoading(true));
-  
-    const input = document.createElement('input');
-    input.setAttribute('type', 'file');
-    input.setAttribute('multiple', true);
-    input.click();
-  
-    input.onchange = async () => {
-      const files = input.files;
-  
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-  
-        if (file.size / 1e6 > 2) {
-          dispatch(
-            openToaster({
-              show: true,
-              header: 'Warning!',
-              variant: 'warning',
-              body: 'File size exceeds the max. allowed size : 2 Mb',
-            })
-          );
+const uploadFile = (docType) => {
+  dispatch(setLoading(true));
+
+  const input = document.createElement('input');
+  input.setAttribute('type', 'file');
+  input.setAttribute('multiple', true);
+  input.click();
+
+  input.onchange = async () => {
+    const files = input.files;
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+
+      // if (file.size / 1e6 > 2) 
+      const allowedTypes = ['image/jpeg','image/jpg', 'image/png'];
+      if (!allowedTypes.includes(file.type)) {
+        dispatch(
+          openToaster({
+            show: true,
+            header: 'Warning!',
+            variant: 'warning',
+            body: 'File size exceeds the max. allowed size : 2 Mb',
+          })
           
-          continue;
-        }
-  
-        uploadToS3(file, docType);
+        );
+        window.location.reload();
+        continue;
       }
-    };
+
+      uploadToS3(file, docType);
+    }
   };
-  
+};
+
   const uploadToS3 = (inputFile, docType) => {
     if (inputFile) {
       let promise = new Promise(async (resolve, reject) => {
