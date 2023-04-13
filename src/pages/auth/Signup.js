@@ -93,11 +93,11 @@ const Signup = () => {
   }, [seconds, minutes]);
 
   const configureCaptcha = () =>
-    (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signup-container', {
-      size: 'invisible',
-      callback: (response) => {},
-      defaultCountry: 'IN',
-    }));
+  (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signup-container', {
+    size: 'invisible',
+    callback: (response) => { },
+    defaultCountry: 'IN',
+  }));
 
   const checkIfUserExists = async (email, phone) => {
     const result = await ApiService(
@@ -106,15 +106,15 @@ const Signup = () => {
       { email, phone: `+${phone}` },
       true
     );
-    console.log("check",JSON.stringify(result.data.data))
-    if(result?.data.data.byEmail.user != null || result?.data.data.byPhone.user != null){
+    console.log("check", JSON.stringify(result.data.data))
+    if (result?.data.data.byEmail.user != null || result?.data.data.byPhone.user != null) {
       setAuthError('User already exists');
       // console.log("already existed")
       return true
-    }else {
+    } else {
       console.log("sucessfully created")
     }
-   
+
     // return result?.data?.data?.user
   };
 
@@ -151,7 +151,7 @@ const Signup = () => {
     setloading(true);
 
     const userExist = await checkIfUserExists(values.email, `${values.mobileNumber}`);
-//  console.log(userExist)
+    //  console.log(userExist)
     if (!userExist) {
       const appVerifier = configureCaptcha();
       firebase
@@ -203,8 +203,8 @@ const Signup = () => {
     window.confirmationResult
       .confirm(otp && otp)
       .then(async (response) => {
-    setloading(true);
-    dispatch(setLoading(true));
+        setloading(true);
+        dispatch(setLoading(true));
 
 
         setIsButtonLoading(false);

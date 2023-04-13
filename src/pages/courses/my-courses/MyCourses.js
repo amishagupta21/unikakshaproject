@@ -148,7 +148,7 @@ const MyCourses = () => {
                               )}
                             </div>
                           </Card.Title>
-                          <Card.Subtitle
+                          {/* <Card.Subtitle
                             style={{ fontFamily: 'Roboto' }}
                             className="mb-2 text-muted d-flex">
                             <div style={{ fontSize: '12px', paddingRight: '24px' }}>
@@ -165,7 +165,7 @@ const MyCourses = () => {
                                 {application?.course_start_date}
                               </span>
                             </div>
-                          </Card.Subtitle>
+                          </Card.Subtitle> */}
                           <Card.Body className="application-status application-status-course">
                             {occupation !== 'STUDENT' && <MultiStepBar page={stepper} />}
                             {occupation === 'STUDENT' && (

@@ -21,8 +21,14 @@ const Faqs = ({ courseVariantBatchesfaq }) => {
 
   useEffect(() => {
     categoriseFaqs();
+    
   }, [courseVariantBatchesfaq]);
   
+  useEffect(() => {
+    if (faqsList.length > 0) {
+      setKey(faqsList[0][0]);
+    }
+  }, [faqsList]);
 
   return (
     <>
