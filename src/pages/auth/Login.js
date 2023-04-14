@@ -196,8 +196,8 @@ const Login = () => {
         
         sendOTP(phone);
       }
-      setloading(false);
-      dispatch(setLoading(false));
+      // setloading(false);
+      // dispatch(setLoading(false));
     } else {
       setAuthError('User not found');
       setloading(false);
@@ -254,6 +254,7 @@ const Login = () => {
     const appVerifier = configureCaptcha();
 
     // Send the OTP to the user's phone number
+    
     firebase
       .auth()
       .signInWithPhoneNumber(`${phoneNumber}`, appVerifier)
@@ -299,8 +300,10 @@ const Login = () => {
 
     window.confirmationResult
       .confirm(otp && otp)
+      
       .then(async (response) => {
         const { user } = response;
+        
         if (user) {
           setloading(false);
           dispatch(setLoading(false));
