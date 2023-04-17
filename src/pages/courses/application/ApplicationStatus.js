@@ -90,7 +90,7 @@ const ApplicationStatus = ({
   const openPayment = () => {
     setopenpayment(true);
   };
-  const { header, imgContent, message1, message2, message3 } = statusContent;
+  // const {imgContent } = statusContent;
 
   return (
     <>
@@ -98,15 +98,15 @@ const ApplicationStatus = ({
         <div>
           <div className="d-flex align-items-center justify-content-center">
             {status === 'approved' && <img src={badge} className="me-3"></img>}
-            <h3 className="text-primary text-center header mt-2 mb-4 sml-head">{header}</h3>
+            <h3 className="text-primary text-center header mt-2 mb-4 sml-head">{statusContent?.header}</h3>
           </div>
           <div className="mt-2 mb-4 d-flex align-items-center justify-content-center">
-            <img src={imgContent} className="img-fluid"></img>
+            <img src={statusContent?.imgContent} className="img-fluid"></img>
           </div>
           <div className={`my-2 content-box ${status}`}>
-            <p className="text-primary text-center message1">{message1}</p>
-            <p className="text-primary text-center message2">{message2}</p>
-            <p className="text-primary text-center message3">{message3}</p>
+            <p className="text-primary text-center message1">{statusContent?.message1}</p>
+            <p className="text-primary text-center message2">{statusContent?.message2}</p>
+            <p className="text-primary text-center message3">{statusContent?.message3}</p>
           </div>
         </div>
       </div>
