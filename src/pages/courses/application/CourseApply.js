@@ -342,7 +342,7 @@ const CourseApplication = () => {
               <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
               <p className="step-header">{stepperTitle}</p>
             </div>
-            <MultiStepBar page={page} onPageNumberClick={nextPageNumber} className="custom-bar" />
+            <MultiStepBar testResults={testResults} page={page} onPageNumberClick={nextPageNumber} className="custom-bar" />
             <Card className="view-course border">
               <Card.Body
                 style={{ padding: 'unset' }}
