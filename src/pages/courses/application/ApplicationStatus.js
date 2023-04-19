@@ -70,7 +70,7 @@ const ApplicationStatus = ({
     const { m_applicationstatus: appStatus } = applicationData;
     let app_status = '';
     // const appStatus = 'Application Approved';
-    if (appStatus === 'Application Approved' || appStatus === 'Application In Review') {
+    if (appStatus === 'Application Approved' || appStatus === 'Assessment Passed' || appStatus === 'Application In Review') {
       app_status = 'approved';
       setStatus(app_status);
     }

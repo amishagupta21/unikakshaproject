@@ -66,6 +66,7 @@ const PrimaryNavbar = () => {
     await logout();
     dispatch(setIsAuthenticated(false));
     navigate('/');
+    window.location.reload();
     // setShowPopUp(!showPopUp);
   };
   // const handler=async()=>{

@@ -5,10 +5,12 @@ import { useState } from 'react';
 const MultiStepBar = ({ page, onPageNumberClick,testResults }) => {
 
   let hasTakenEntranceTest = false;
-  if(testResults?.applicationStatus){
+  // console.log(testResults?.applicationStatus )
+  if(testResults?.applicationStatus ){
      hasTakenEntranceTest = true
   }
 
+  console.log("here",hasTakenEntranceTest);
 
   const onStepperClick = (page) => {
     onPageNumberClick(page);

@@ -405,7 +405,7 @@ const CourseApplication = () => {
                             // defaultValue={user.displayName}
                             value={formik.values?.full_name}
                             placeholder="Enter you full name"
-                            // disabled="disabled"
+                          // disabled="disabled"
                           />
 
                           {formik.touched.full_name && formik.errors.full_name ? (
@@ -432,7 +432,7 @@ const CourseApplication = () => {
                             // disabled={disabled}
                             disabled="disabled"
                             style={{ opacity: 0.5 }}
-                            // disabled={ userData?.email }
+                          // disabled={ userData?.email }
                           />
 
                           {formik.touched.email && formik.errors.email ? (
@@ -465,8 +465,8 @@ const CourseApplication = () => {
                               // onBlur={formik.handleBlur('mobile_number')}
                               className="disabled-field"
                               disabled="disabled"
-                              // defaultValue={userData?.phone}
-                              // disabled={ userData?.phone }
+                            // defaultValue={userData?.phone}
+                            // disabled={ userData?.phone }
                             />
                           </div>
                           {formik.touched.mobile_number && formik.errors.mobile_number ? (
