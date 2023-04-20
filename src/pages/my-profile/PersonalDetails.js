@@ -57,6 +57,7 @@ const PersonalDetails = () => {
   const [userData, setUserData] = React.useState();
   // const [userDOBData, setDobData] = React.useState();
   const [isLoading, setIsLoading] = React.useState(false);
+  
   const [EducationalData, setEducationalDetails] = React.useState({});
   const [KYCData, setKYCDetails] = React.useState();
   const [profilePic, setProfilePic] = React.useState();
@@ -398,14 +399,33 @@ const uploadFile = (docType) => {
   input.setAttribute('multiple', true);
   input.click();
 
+  // input.onchange = async () => {
+  //   const files = input.files;
+
+  //   for (let i = 0; i < files.length; i++) {
+  //     const file = files[i];
+
+  //     // if (file.size / 1e6 > 2) 
+  //     const allowedTypes = ['image/jpeg','image/jpg', 'image/png'];
+  //     if (!allowedTypes.includes(file.type)) {
+  //       dispatch(
+  //         openToaster({
+  //           show: true,
+  //           header: 'Warning!',
+  //           variant: 'warning',
+  //           body: 'File size exceeds the max. allowed size : 2 Mb',
+  //         })
+          
+  //       );
+  //       window.location.reload();
+  //       continue;
   input.onchange = async () => {
     const files = input.files;
-
+  
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-
-      // if (file.size / 1e6 > 2) 
-      const allowedTypes = ['image/jpeg','image/jpg', 'image/png'];
+  
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
       if (!allowedTypes.includes(file.type)) {
         dispatch(
           openToaster({
@@ -414,10 +434,14 @@ const uploadFile = (docType) => {
             variant: 'warning',
             body: 'File size exceeds the max. allowed size : 2 Mb',
           })
-          
         );
         window.location.reload();
-        continue;
+        continue
+  
+  
+  
+  
+  
       }
 
       uploadToS3(file, docType);
@@ -425,60 +449,122 @@ const uploadFile = (docType) => {
   };
 };
 
-  const uploadToS3 = (inputFile, docType) => {
-    if (inputFile) {
-      let promise = new Promise(async (resolve, reject) => {
-        let payload = {
+  // const uploadToS3 = (inputFile, docType) => {
+  //   if (inputFile) {
+  //     let promise = new Promise(async (resolve, reject) => {
+  //       let payload = {
+  //         file_name: inputFile.name,
+  //         type: inputFile.type,
+  //         document_type: docType,
+  //       };
+  //       dispatch(setLoading(false));
+
+  //       const response = await ApiService('/user/upload/profile-picture', `POST`, payload, true);
+  //       if (response.data) {
+  //         uploadUsingSignedUrl(response.data.data.signedUrl, inputFile, docType)
+  //           .then((res) => {
+
+  //             viewProfilePic('profile_picture');
+  //             window.location.reload();
+  //             resolve(true);
+  //           })
+  //           .catch((error) => { });
+  //       }
+  //     });
+  //   }
+  // };
+
+  const uploadToS3 = async (inputFile, docType) => {
+    try {
+      if (inputFile) {
+        const payload = {
           file_name: inputFile.name,
           type: inputFile.type,
           document_type: docType,
         };
         dispatch(setLoading(false));
-
-        const response = await ApiService('/user/upload/profile-picture', `POST`, payload, true);
+  
+        const response = await ApiService('/user/upload/profile-picture', 'POST', payload, true);
         if (response.data) {
           uploadUsingSignedUrl(response.data.data.signedUrl, inputFile, docType)
             .then((res) => {
-
               viewProfilePic('profile_picture');
               window.location.reload();
-              resolve(true);
+              return true;
             })
-            .catch((error) => { });
+            .catch((error) => {
+              console.log(error); // handle error here
+            });
         }
-      });
+      }
+    } catch (error) {
+      console.log(error); // handle error here
     }
   };
+  
+  // const uploadUsingSignedUrl = async (url, data, docType) => {
+  //   var myHeaders = new Headers();
+  //   myHeaders.append('Content-Type', data.type);
+  //   var file = data;
+  //   const xhr = new XMLHttpRequest();
+  //   xhr.upload.onprogress = (event) => {
+  //     // setLoader(docType, event.loaded, event.total);
+  //   };
+  //   xhr.upload.onload = () => {
+  //     //   if (docType == 'pan_card') {
+  //     //     setPanCard((old) => ({ ...old, placeholder: data.name }));
+  //     //   } else if (docType == 'aadhar_card') {
+  //     //     setAadhaarCard((old) => ({ ...old, placeholder: data.name }));
+  //     //   } else if (docType == 'qualification_certificate') {
+  //     //     setQualificationCertificate((old) => ({ ...old, placeholder: data.name }));
+  //     //   } else if (docType == 'hsc_certificate') {
+  //     //     setHSCCertificate((old) => ({ ...old, placeholder: data.name }));
+  //     //   } else if (docType == 'ssc_certificate') {
+  //     //     setSSCCertificate((old) => ({ ...old, placeholder: data.name }));
+  //     //   }
+  //     return Promise.resolve(true);
+  //   };
+  //   xhr.onerror = () => { };
 
+  //   xhr.open('PUT', url);
+  //   xhr.setRequestHeader('Content-Type', data.type);
+  //   xhr.send(file);
+  // };
   const uploadUsingSignedUrl = async (url, data, docType) => {
-    var myHeaders = new Headers();
-    myHeaders.append('Content-Type', data.type);
-    var file = data;
-    const xhr = new XMLHttpRequest();
-    xhr.upload.onprogress = (event) => {
-      // setLoader(docType, event.loaded, event.total);
-    };
-    xhr.upload.onload = () => {
-      //   if (docType == 'pan_card') {
-      //     setPanCard((old) => ({ ...old, placeholder: data.name }));
-      //   } else if (docType == 'aadhar_card') {
-      //     setAadhaarCard((old) => ({ ...old, placeholder: data.name }));
-      //   } else if (docType == 'qualification_certificate') {
-      //     setQualificationCertificate((old) => ({ ...old, placeholder: data.name }));
-      //   } else if (docType == 'hsc_certificate') {
-      //     setHSCCertificate((old) => ({ ...old, placeholder: data.name }));
-      //   } else if (docType == 'ssc_certificate') {
-      //     setSSCCertificate((old) => ({ ...old, placeholder: data.name }));
-      //   }
-      return Promise.resolve(true);
-    };
-    xhr.onerror = () => { };
-
-    xhr.open('PUT', url);
-    xhr.setRequestHeader('Content-Type', data.type);
-    xhr.send(file);
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append('Content-Type', data.type);
+      const file = data;
+      const xhr = new XMLHttpRequest();
+      xhr.upload.onprogress = (event) => {
+        // setLoader(docType, event.loaded, event.total);
+      };
+      xhr.upload.onload = () => {
+        //   if (docType == 'pan_card') {
+        //     setPanCard((old) => ({ ...old, placeholder: data.name }));
+        //   } else if (docType == 'aadhar_card') {
+        //     setAadhaarCard((old) => ({ ...old, placeholder: data.name }));
+        //   } else if (docType == 'qualification_certificate') {
+        //     setQualificationCertificate((old) => ({ ...old, placeholder: data.name }));
+        //   } else if (docType == 'hsc_certificate') {
+        //     setHSCCertificate((old) => ({ ...old, placeholder: data.name }));
+        //   } else if (docType == 'ssc_certificate') {
+        //     setSSCCertificate((old) => ({ ...old, placeholder: data.name }));
+        //   }
+        return Promise.resolve(true);
+      };
+      xhr.onerror = (error) => {
+        console.log(error); // handle error here
+      };
+  
+      xhr.open('PUT', url);
+      xhr.setRequestHeader('Content-Type', data.type);
+      xhr.send(file);
+    } catch (error) {
+      console.log(error); // handle error here
+    }
   };
-
+  
   const viewProfilePic = async (fileKey) => {
     const result = await ApiService(
       '/user/get-profile-picture',
@@ -499,6 +585,7 @@ const uploadFile = (docType) => {
   const changeMobileNo = () => {
     setChangeMobileNoPopup(true);
     setDisabled(false)
+    
   };
   const [disabled, setDisabled] = React.useState(true);
   const changeWhatsappNo = () => {
@@ -595,7 +682,7 @@ const uploadFile = (docType) => {
         const { firbase_user } = response;
 
         // if (firbase_user) {
-        // setloading(false);/
+        // setloading(false);
 
         // const user = firebase.auth().currentUser;
 
