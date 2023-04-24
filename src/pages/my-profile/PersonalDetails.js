@@ -119,6 +119,7 @@ const PersonalDetails = () => {
     navigate('/dashboard');
   };
 
+   
   const phoneRegExp = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{6})/;
 
   const formik = useFormik({
@@ -240,6 +241,24 @@ const PersonalDetails = () => {
     const response = await ApiService('student/update-personal-details', `PATCH`, payload, true);
     // console.log(response)
     console.log(JSON.stringify(response.data))
+    // const checkIfUserExists = async (email, phone) => {
+    //   const result = await ApiService(
+    //     'user/check-exists',
+    //     'POST',
+    //     { email, phone: `+${phone}` },
+    //     true
+    //   );
+    //   console.log("check", JSON.stringify(result.data.data))
+    //   if (result?.data.data.byEmail.user != null || result?.data.data.byPhone.user != null) {
+    //     setAuthError('User already exists with same Email or Phonenumber');
+    //     // console.log("already existed")
+    //     return true
+    //   } else {
+    //     console.log("sucessfully created")
+    //   }
+  
+    //   // return result?.data?.data?.user
+    // };
     // if(response.data.personal_details.mobile_number!=null){
     //   setAuthError('User already exists');
     //   // console.log("already existed")
@@ -493,12 +512,14 @@ const uploadFile = (docType) => {
               return true;
             })
             .catch((error) => {
-              console.log(error); // handle error here
+              alert("Image not supported");//added
+              console.log(error) // handle error here
             });
         }
       }
     } catch (error) {
-      console.log(error); // handle error here
+      alert("Image not supported"); //added
+      console.log(error) // handle error here
     }
   };
   

@@ -24,15 +24,19 @@ const MyCourses = () => {
   const [page, setPage] = React.useState();
   const [stepperTitle, setStepperTitle] = React.useState('');
   const [stepper, setStepper] = useState(0);
-
+  const [testResults, settestResults] = React.useState('');
+  const status = ['Assessment Passed','Assessment Failed','Application In Review','Application Rejected','Application Approved','Payment Failed', 'Payment Successfull','Enrolment Rejected','Enrolment Approved','Enrolment Pending']
   const navigate = useNavigate();
 
   const fetchInitialData = async () => {
     const response = await ApiService('/student/application/list', 'GET', {}, true);
+    // console.log("here",response)
     const { data } = response;
     const stepper = data?.data?.[0]?.application_stage;
+    // console.log("working",stepper)
     // courseStepper[data.data.]
     courseStepper[stepper] && setStepper(courseStepper[stepper]);
+    // console.log("here2",courseStepper)
     setApplicationList(data?.data);
   };
 
@@ -53,6 +57,7 @@ const MyCourses = () => {
         'education_details',
         'application_status',
         'payment',
+        
         'enrollment_status',
       ];
     }
@@ -98,6 +103,7 @@ const MyCourses = () => {
     //   }
     // };
   }, [occupation]);
+  
 
   return (
     <>

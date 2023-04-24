@@ -72,7 +72,7 @@ const LearnerPaymentPopup = ({ courseId, courseInfo, setopenpayment }) => {
       let applicationDetails = await ApiService(
         '/student/application/detail-by-user-course',
         `POST`,
-        cpayload,
+        payload,
         true
       );
 
