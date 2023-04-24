@@ -147,6 +147,7 @@ const CourseApplication = () => {
       uid: uid,
       course_variant_id: courseId,
     };
+    
     let applicationDetails = await ApiService(
       '/student/application/detail-by-user-course',
       `POST`,
@@ -155,6 +156,7 @@ const CourseApplication = () => {
     );
 
     if (applicationDetails?.data?.data.application) {
+      // console.log(applicationDetails?.data?.data.application)
       const { application_stage, m_applicationstatus, m_totalscore, m_candidatescore } =
         applicationDetails?.data?.data.application;
       const obj = {
