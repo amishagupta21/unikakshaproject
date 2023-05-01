@@ -504,6 +504,7 @@ const uploadFile = (docType) => {
         dispatch(setLoading(false));
   
         const response = await ApiService('/user/upload/profile-picture', 'POST', payload, true);
+        // console.log("profile pic",JSON.stringify(response))
         if (response.data) {
           uploadUsingSignedUrl(response.data.data.signedUrl, inputFile, docType)
             .then((res) => {
@@ -512,13 +513,13 @@ const uploadFile = (docType) => {
               return true;
             })
             .catch((error) => {
-              alert("Image not supported");//added
+              // alert("Image not supported");//added
               console.log(error) // handle error here
             });
         }
       }
     } catch (error) {
-      alert("Image not supported"); //added
+      // alert("Image not supported"); //added
       console.log(error) // handle error here
     }
   };
@@ -1095,7 +1096,7 @@ const uploadFile = (docType) => {
                                             style={{ opacity: 0.5 }}
                                           // disabled={ userData?.email }
                                           />
-                                          {/* <span className='change-mobile-no'><a onClick={() => changeMobileEmailId()}>Change Email Id</a></span> */}
+                                          <span className='change-mobile-no'><a onClick={() => changeMobileEmailId()}>Change Email Id</a></span>
                                           {formik.touched.email && formik.errors.email ? (
                                             <div className="error-message">{formik.errors.email}</div>
                                           ) : null}
