@@ -88,6 +88,7 @@ const AccountSettings = () => {
         dispatch(setLoading(true));
         const user = firebase.auth().currentUser;
         const res = await ApiService(`user/uid/${user.uid}/delete`, 'DELETE', {}, true);
+        // console.log(res)
         dispatch(setLoading(false));
         if (res?.data?.code === 200) {
             await logOutHandler();

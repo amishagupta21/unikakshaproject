@@ -7,6 +7,7 @@ import { getWorkingPosition } from '../../services/ReuseableFun';
 import ApiService from '../../services/ApiService';
 import { setLoading } from '../../redux/actions/LoaderActions';
 import { useDispatch } from 'react-redux';
+import { openToaster } from '../../redux/actions/ToastAction';
 
 const workDetails = ({ educationalDetails }) => {
 
@@ -109,6 +110,14 @@ const workDetails = ({ educationalDetails }) => {
     dispatch(setLoading(false));
     if (response?.data.code === 200) {
       setWorkDetails(payload);
+      dispatch(
+        openToaster({
+          show: true,
+          header: 'Success!',
+          variant: 'info',
+          body: 'Work details updated successfully!',
+        })
+      );
 
     }
   };
