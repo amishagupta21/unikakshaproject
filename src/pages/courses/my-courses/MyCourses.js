@@ -25,7 +25,18 @@ const MyCourses = () => {
   const [stepperTitle, setStepperTitle] = React.useState('');
   const [stepper, setStepper] = useState(0);
   const [testResults, settestResults] = React.useState('');
-  const status = ['Assessment Passed','Assessment Failed','Application In Review','Application Rejected','Application Approved','Payment Failed', 'Payment Successfull','Enrolment Rejected','Enrolment Approved','Enrolment Pending']
+  const status = [
+    'Assessment Passed',
+    'Assessment Failed',
+    'Application In Review',
+    'Application Rejected',
+    'Application Approved',
+    'Payment Failed',
+    'Payment Successfull',
+    'Enrolment Rejected',
+    'Enrolment Approved',
+    'Enrolment Pending',
+  ];
   const navigate = useNavigate();
 
   const fetchInitialData = async () => {
@@ -57,7 +68,7 @@ const MyCourses = () => {
         'education_details',
         'application_status',
         'payment',
-        
+
         'enrollment_status',
       ];
     }
@@ -103,7 +114,6 @@ const MyCourses = () => {
     //   }
     // };
   }, [occupation]);
-  
 
   return (
     <>

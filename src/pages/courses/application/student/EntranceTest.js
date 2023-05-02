@@ -12,7 +12,7 @@ const EntranceTest = ({ course, user }) => {
   const fetchInitialData = async () => {
     const payload = {
       uid: user?.uid,
-      course_variant_id: course?.id,
+      course_id: course?.course_id,
     };
     let applicationDetails = await ApiService(
       '/student/application/detail-by-user-course',

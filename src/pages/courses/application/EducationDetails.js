@@ -137,7 +137,8 @@ const EducationDetails = ({
     validate: (values) => {
       let errors = {};
       if (!values.schoolDiplomaCollegeName) {
-        errors.schoolDiplomaCollegeName = '*12th/Diploma college Name should only contain alphanumeric characters';
+        errors.schoolDiplomaCollegeName =
+          '*12th/Diploma college Name should only contain alphanumeric characters';
       }
       if (!values.schoolYearOfCompletion) {
         errors.schoolYearOfCompletion = '*12th/Diploma completion year is required';
@@ -179,7 +180,8 @@ const EducationDetails = ({
           errors.other_program_name = '*School Name should only contain alphanumeric characters';
         }
         if (!values.other_program_college_name) {
-          errors.other_program_college_name = '*College Name should only contain alphanumeric characters';
+          errors.other_program_college_name =
+            '*College Name should only contain alphanumeric characters';
         }
         if (!values.other_program_course_duration) {
           errors.other_program_course_duration = 'Duration should be numeric';
@@ -228,7 +230,7 @@ const EducationDetails = ({
         },
         work_details: workDetails,
         uid: user?.uid,
-        course_id: course?.id,
+        course_id: course?.course_id,
       };
       if (is_enrolled_other_program === 'yes') {
         payload.education_details.other_program_name = values.other_program_name;
@@ -243,7 +245,7 @@ const EducationDetails = ({
 
   const submitEducationalDetails = async (payload) => {
     const response = await ApiService('/student/educational-details', `PUT`, payload, true);
-    console.log(JSON.stringify(response.config.data))
+    console.log(JSON.stringify(response.config.data));
     setIsNextLoading(false);
     // response?.config.data
     if (response?.config.data) {
