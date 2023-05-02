@@ -137,15 +137,16 @@ const CourseApplication = () => {
     const courseData = state ? state : await fetchCourseDetails(params);
     setCourseDetails(courseData);
     fetchUserDetails(uid);
-    await fetchApplicationDetails(uid, courseData.id);
+    if (courseDetails?.course_id) {
+      await fetchApplicationDetails(uid, courseData.id);
+    }
     fetchVariantBatches(courseData.id);
     setIsLoading(false);
   };
-
   const fetchApplicationDetails = async (uid, courseId) => {
     const payload = {
       uid: uid,
-      course_id: courseId,
+      course_id: courseDetails?.course_id,
     };
     let applicationDetails = await ApiService(
       '/student/application/detail-by-user-course',
@@ -190,7 +191,7 @@ const CourseApplication = () => {
     window.scrollTo(0, 0);
     fetchInitialData(user?.uid);
     dispatch(setLoading(false));
-  }, []);
+  }, [courseDetails]);
 
   const fetchVariantBatches = async (courseVariantId) => {
     const res = await ApiService(`courses/${courseVariantId}/batch/list`);
