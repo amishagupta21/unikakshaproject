@@ -484,7 +484,8 @@ const Login = () => {
                                 <Button
                                   type={OTPSent ? 'button' : 'submit'}
                                   variant="outline-primary"
-                                  className={OTPSent ? 'otp-sent' : 'get-otp-btn'}>
+                                  className={OTPSent ? 'otp-sent' : 'get-otp-btn'}
+                                  disabled={OTPSent}>
                                   {OTPLabel}
                                 </Button>
                               )}
