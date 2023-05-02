@@ -41,7 +41,6 @@ const ApplicationStatus = ({
   setSelectedBatch,
   setWorldLineStatus,
   worldLineStatus,
-  course_id,
   id,
 }) => {
   const dispatch = useDispatch();
