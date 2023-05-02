@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Payments = (params) => {
   const [paymentResponse, setpaymentResponse] = React.useState();
-  const [paymentStatus, setpaymentStatus] = React.useState(null);
+  const [paymentStatus, setpaymentStatus] = React.useState(params.worldLineStatus || null);
   const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
   const [userProfile, setUserProfile] = React.useState();
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ const Payments = (params) => {
     ) {
       setpaymentStatus('Failed');
     } else if (applicationDetails?.application_stage !== 'payment_status') {
-      displayRazorpay();
+      // displayRazorpay();
     } else {
       nextPage();
     }
@@ -269,8 +269,10 @@ const Payments = (params) => {
 
   return (
     <div className="payments">
-      {paymentStatus == 'Success' ? getPaymentSuccess() : ''}
-      {paymentStatus == 'Failed' ? getPaymentFailure() : ''}
+      {/* {paymentStatus == 'Success' ? getPaymentSuccess() : ''}
+      {paymentStatus == 'Failed' ? getPaymentFailure() : ''} */}
+      {params.worldLineStatus == 'Success' ? getPaymentSuccess() : ''}
+      {params.worldLineStatus == 'Failed' ? getPaymentFailure() : ''}
     </div>
   );
 };

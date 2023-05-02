@@ -36,7 +36,11 @@ const ApplicationStatus = ({
   application,
   setOrderData,
   courseId,
+  selectedBatch,
+  orderData,
   setSelectedBatch,
+  setWorldLineStatus,
+  worldLineStatus,
   id,
 }) => {
   const dispatch = useDispatch();
@@ -45,7 +49,6 @@ const ApplicationStatus = ({
   const [openpayment, setopenpayment] = React.useState(false);
 
   const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
-
   useEffect(() => {
     dispatch(setLoading(true));
 
@@ -55,7 +58,7 @@ const ApplicationStatus = ({
   const fetchApplicationDetails = async () => {
     const payload = {
       uid: user?.uid,
-      course_variant_id: id,
+      course_id: courseId,
     };
 
     let applicationDetails = await ApiService(
@@ -70,7 +73,11 @@ const ApplicationStatus = ({
     const { m_applicationstatus: appStatus } = applicationData;
     let app_status = '';
     // const appStatus = 'Application Approved';
-    if (appStatus === 'Application Approved' || appStatus === 'Assessment Passed' || appStatus === 'Application In Review') {
+    if (
+      appStatus === 'Application Approved' ||
+      appStatus === 'Assessment Passed' ||
+      appStatus === 'Application In Review'
+    ) {
       app_status = 'approved';
       setStatus(app_status);
     }
@@ -98,7 +105,9 @@ const ApplicationStatus = ({
         <div>
           <div className="d-flex align-items-center justify-content-center">
             {status === 'approved' && <img src={badge} className="me-3"></img>}
-            <h3 className="text-primary text-center header mt-2 mb-4 sml-head">{statusContent?.header}</h3>
+            <h3 className="text-primary text-center header mt-2 mb-4 sml-head">
+              {statusContent?.header}
+            </h3>
           </div>
           <div className="mt-2 mb-4 d-flex align-items-center justify-content-center">
             <img src={statusContent?.imgContent} className="img-fluid"></img>
@@ -127,8 +136,14 @@ const ApplicationStatus = ({
           <PaymentPopup
             nextPage={nextPage}
             setOrderData={setOrderData}
+            application={application}
             courseId={courseId}
+            id={id}
+            selectedBatch={selectedBatch}
+            orderData={orderData}
+            setWorldLineStatus={setWorldLineStatus}
             setopenpayment={setopenpayment}
+            worldLineStatus={worldLineStatus}
             setSelectedBatch={setSelectedBatch}
           />
         </>

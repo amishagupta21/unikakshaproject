@@ -24,12 +24,18 @@ import {
   Row,
   ToggleButton,
   Spinner,
-  Alert
+  Alert,
 } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import ApiService from '../../services/ApiService';
 
-import { femaleIcon, maleIcon, profileEditIcon, profilePicture, trashWhite } from '../../assets/images';
+import {
+  femaleIcon,
+  maleIcon,
+  profileEditIcon,
+  profilePicture,
+  trashWhite,
+} from '../../assets/images';
 import './PersonalDetails.scss';
 
 import EducationalDetails from './EducationalDetails';
@@ -38,14 +44,13 @@ import ProfileStudentEducationDetails from './ProfileStudentEducationDetails';
 import WorkDetails from './WorkDetails';
 import AccountSettings from './AccountSettings';
 
-
 import { firebase } from '../../firebase/firebase';
 import { setIsAuthenticated } from '../../redux/actions/AuthAction';
 import { logout } from '../../firebase/firebaseAuth';
 import { openToaster } from '../../redux/actions/ToastAction';
 import { toast } from 'react-toastify';
 import OtpInput from 'react-otp-input';
-import { getAuth, updateProfile } from "firebase/auth";
+import { getAuth, updateProfile } from 'firebase/auth';
 import FooterContainer from '../../components/FooterComponent';
 
 const PersonalDetails = () => {
@@ -57,7 +62,7 @@ const PersonalDetails = () => {
   const [userData, setUserData] = React.useState();
   // const [userDOBData, setDobData] = React.useState();
   const [isLoading, setIsLoading] = React.useState(false);
-  
+
   const [EducationalData, setEducationalDetails] = React.useState({});
   const [KYCData, setKYCDetails] = React.useState();
   const [profilePic, setProfilePic] = React.useState();
@@ -74,7 +79,6 @@ const PersonalDetails = () => {
   const [changeEmailPopup, setChangeEmailPopup] = React.useState(false);
   const [otpEmailPopup, setEmailOTPPopup] = React.useState(false);
 
-
   const [mobileNo, setMobileNo] = React.useState();
   const [otpError, setOtpError] = React.useState();
   const [otp, setOtp] = React.useState('');
@@ -88,19 +92,25 @@ const PersonalDetails = () => {
   const dispatch = useDispatch();
 
   const configureCaptcha = () => {
-    return (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('profile-otp-container', {
-      size: 'invisible',
-      callback: (response) => { },
-      defaultCountry: 'IN',
-    }));
+    return (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+      'profile-otp-container',
+      {
+        size: 'invisible',
+        callback: (response) => {},
+        defaultCountry: 'IN',
+      }
+    ));
   };
 
   const configureCaptcha2 = () => {
-    return (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('profile-email-container', {
-      size: 'invisible',
-      callback: (response) => { },
-      defaultCountry: 'IN',
-    }));
+    return (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+      'profile-email-container',
+      {
+        size: 'invisible',
+        callback: (response) => {},
+        defaultCountry: 'IN',
+      }
+    ));
   };
 
   const genderOptions = [
@@ -119,7 +129,6 @@ const PersonalDetails = () => {
     navigate('/dashboard');
   };
 
-   
   const phoneRegExp = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{6})/;
 
   const formik = useFormik({
@@ -136,7 +145,6 @@ const PersonalDetails = () => {
       occupation: Yup.string().required('Occupation is requied'),
     }),
     validate: (values) => {
-
       let errors = {};
       if (!values?.mobile_number) {
         errors.mobile_number = '*Mobile number required';
@@ -164,55 +172,42 @@ const PersonalDetails = () => {
     },
   });
 
-
-
-
   const formik1 = useFormik({
     initialValues: {
       change_mobile_number: '',
-
     },
     validationSchema: Yup.object().shape({
-
-      change_mobile_number: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required(),
-
+      change_mobile_number: Yup.string()
+        .matches(phoneRegExp, 'Phone number is not valid')
+        .required(),
     }),
     validate: (values) => {
       let errors = {};
       if (!values?.change_mobile_number) {
         errors.change_mobile_number = '*Mobile number required';
       }
-
     },
     onSubmit: (values) => {
-
       const { change_mobile_number, ...rest } = values;
       sendOTP(values.change_mobile_number);
-
     },
   });
 
   const formik_change_email = useFormik({
     initialValues: {
       change_email_id: '',
-
     },
     validationSchema: Yup.object().shape({
-
       change_email_id: Yup.string().email('Invalid email').required('Email is required'),
-
     }),
     validate: (values) => {
       let errors = {};
       if (!values?.change_email_id) {
         errors.change_email_id = '*Mobile number required';
       }
-
     },
     onSubmit: (values) => {
-
       updateEmail(values.change_email_id);
-
     },
   });
 
@@ -229,8 +224,12 @@ const PersonalDetails = () => {
         whatsapp_number: personalDetails?.whatsapp_number,
         whatsapp_cc: personalDetails?.whatsapp_cc,
         gender: personalDetails?.gender,
-        ...(Number(personalDetails.birth_date) && { birth_date: Number(personalDetails.birth_date) }),
-        ...(Number(personalDetails.birth_month) && { birth_month: Number(personalDetails.birth_month) }),
+        ...(Number(personalDetails.birth_date) && {
+          birth_date: Number(personalDetails.birth_date),
+        }),
+        ...(Number(personalDetails.birth_month) && {
+          birth_month: Number(personalDetails.birth_month),
+        }),
         // birth_date: personalDetails?.birth_date,
         // birth_month: personalDetails?.birth_month,
         birth_year: personalDetails?.birth_year,
@@ -240,7 +239,7 @@ const PersonalDetails = () => {
 
     const response = await ApiService('student/update-personal-details', `PATCH`, payload, true);
     // console.log(response)
-    console.log(JSON.stringify(response.data))
+    console.log(JSON.stringify(response.data));
     // const checkIfUserExists = async (email, phone) => {
     //   const result = await ApiService(
     //     'user/check-exists',
@@ -256,7 +255,7 @@ const PersonalDetails = () => {
     //   } else {
     //     console.log("sucessfully created")
     //   }
-  
+
     //   // return result?.data?.data?.user
     // };
     // if(response.data.personal_details.mobile_number!=null){
@@ -283,7 +282,6 @@ const PersonalDetails = () => {
   };
 
   useEffect(() => {
-
     const delay = 1;
 
     setTimeout(() => {
@@ -293,8 +291,7 @@ const PersonalDetails = () => {
 
       fetchInitialData(user?.uid);
       dispatch(setLoading(true));
-    }, delay * 1000)
-
+    }, delay * 1000);
   }, []);
 
   const handleWeekdayChange = (event) => {
@@ -311,20 +308,18 @@ const PersonalDetails = () => {
     const userDetails = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
 
     // setInitialDobData(userDetails?.data?.data?.userProfile?.information_data);
-    // setDobData(userDetails?.data?.data?.userProfile?.information_data);  //console.log(user); 
+    // setDobData(userDetails?.data?.data?.userProfile?.information_data);  //console.log(user);
     setOccupation(userDetails?.data?.data?.userProfile?.occupation);
     const occu = userDetails?.data?.data?.userProfile?.occupation;
     setKYCDetails(userDetails?.data?.data?.userProfile?.kyc);
 
-    const birthInfo = userDetails?.data?.data?.userProfile?.information_data
-
+    const birthInfo = userDetails?.data?.data?.userProfile?.information_data;
 
     setUserData(userDetails?.data?.data?.user);
     personalDetails = userDetails?.data?.data?.userProfile?.personal_details ?? personalDetails;
     personalDetails.occupation = userDetails?.data?.data?.userProfile?.occupation;
 
     setInitialData(userDetails?.data?.data?.user, birthInfo, occu, personalDetails);
-
 
     educationalDetails.education_details =
       userDetails?.data?.data?.userProfile?.education_details ?? educationalDetails;
@@ -338,11 +333,9 @@ const PersonalDetails = () => {
       // console.log(educationalDetails);
       setEducationalDetails(educationalDetails);
     }
-
   };
 
   const setPersonalDetailsInForm = (details) => {
-
     // formik.setValues(details);
     setGenderValue(details?.gender);
     dispatch(setLoading(false));
@@ -355,33 +348,35 @@ const PersonalDetails = () => {
     formik.setValues({
       email: personalDetails?.email ? personalDetails?.email : initData?.email,
       mobile_number: personalDetails?.phone ? personalDetails?.phone : initData?.phone,
-      whatsapp_number: personalDetails?.whatsapp_number ? personalDetails?.whatsapp_number : initData?.phone,
+      whatsapp_number: personalDetails?.whatsapp_number
+        ? personalDetails?.whatsapp_number
+        : initData?.phone,
       full_name: personalDetails?.full_name ? personalDetails?.full_name : user?.displayName,
       gender: personalDetails?.gender ? personalDetails?.gender : initData?.gender,
       occupation: occu,
       birth_date: personalDetails?.birth_date ? personalDetails?.birth_date : birthInfo?.birth_date,
-      birth_month: personalDetails?.birth_month ? personalDetails?.birth_month : birthInfo?.birth_month,
-      birth_year: personalDetails?.birth_year ? personalDetails?.birth_year : birthInfo?.birth_year
-
+      birth_month: personalDetails?.birth_month
+        ? personalDetails?.birth_month
+        : birthInfo?.birth_month,
+      birth_year: personalDetails?.birth_year ? personalDetails?.birth_year : birthInfo?.birth_year,
     });
-    setMobileNumber({ phone: initData?.phone })
+    setMobileNumber({ phone: initData?.phone });
 
     // mobile_number: initData?.phone
     // setMobileNumber({ phone: initData?.phone})
 
     endLoder();
-
   };
 
   const endLoder = () => {
     dispatch(setLoading(true));
     dispatch(setLoading(false));
-  }
+  };
 
   // const setInitialDobData = (initlData) => {
   //   formik.setValues({ birth_date: initlData?.birth_date });
   //   formik.setValues({ birth_month: initlData?.birth_month });
-  //   formik.setValues({ birth_year: initlData?.birth_year }); 
+  //   formik.setValues({ birth_year: initlData?.birth_year });
   // }
 
   // const uploadFile = (docType) => {
@@ -403,70 +398,65 @@ const PersonalDetails = () => {
   //           body: 'File size exceeds the max. allowed size : 2 Mb',
   //         })
   //       );
-        
+
   //       return;
   //     }
 
   //     uploadToS3(file, docType);
   //   };
   // };
-const uploadFile = (docType) => {
-  dispatch(setLoading(true));
+  const uploadFile = (docType) => {
+    dispatch(setLoading(true));
 
-  const input = document.createElement('input');
-  input.setAttribute('type', 'file');
-  input.setAttribute('multiple', true);
-  input.click();
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('multiple', true);
+    input.click();
 
-  // input.onchange = async () => {
-  //   const files = input.files;
+    // input.onchange = async () => {
+    //   const files = input.files;
 
-  //   for (let i = 0; i < files.length; i++) {
-  //     const file = files[i];
+    //   for (let i = 0; i < files.length; i++) {
+    //     const file = files[i];
 
-  //     // if (file.size / 1e6 > 2) 
-  //     const allowedTypes = ['image/jpeg','image/jpg', 'image/png'];
-  //     if (!allowedTypes.includes(file.type)) {
-  //       dispatch(
-  //         openToaster({
-  //           show: true,
-  //           header: 'Warning!',
-  //           variant: 'warning',
-  //           body: 'File size exceeds the max. allowed size : 2 Mb',
-  //         })
-          
-  //       );
-  //       window.location.reload();
-  //       continue;
-  input.onchange = async () => {
-    const files = input.files;
-  
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-  
-      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-      if (!allowedTypes.includes(file.type)) {
-        dispatch(
-          openToaster({
-            show: true,
-            header: 'Warning!',
-            variant: 'warning',
-            body: 'File size exceeds the max. allowed size : 2 Mb',
-          })
-        );
-        window.location.reload();
-        continue
-  
-  
-  
-  
-  
+    //     // if (file.size / 1e6 > 2)
+    //     const allowedTypes = ['image/jpeg','image/jpg', 'image/png'];
+    //     if (!allowedTypes.includes(file.type)) {
+    //       dispatch(
+    //         openToaster({
+    //           show: true,
+    //           header: 'Warning!',
+    //           variant: 'warning',
+    //           body: 'File size exceeds the max. allowed size : 2 Mb',
+    //         })
+
+    //       );
+    //       window.location.reload();
+    //       continue;
+    input.onchange = async () => {
+      const files = input.files;
+
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+        if (!allowedTypes.includes(file.type)) {
+          dispatch(
+            openToaster({
+              show: true,
+              header: 'Warning!',
+              variant: 'warning',
+              body: 'File size exceeds the max. allowed size : 2 Mb',
+            })
+          );
+          window.location.reload();
+          continue;
+        }
+
+        uploadToS3(file, docType);
       }
-
-      uploadToS3(file, docType);
-    }
+    };
   };
-};
 
   // const uploadToS3 = (inputFile, docType) => {
   //   if (inputFile) {
@@ -502,7 +492,7 @@ const uploadFile = (docType) => {
           document_type: docType,
         };
         dispatch(setLoading(false));
-  
+
         const response = await ApiService('/user/upload/profile-picture', 'POST', payload, true);
         // console.log("profile pic",JSON.stringify(response))
         if (response.data) {
@@ -512,18 +502,15 @@ const uploadFile = (docType) => {
               window.location.reload();
               return true;
             })
-            .catch((error) => {
-              // alert("Image not supported");//added
-              console.log(error) // handle error here
-            });
+            .catch((error) => {});
         }
       }
     } catch (error) {
-      // alert("Image not supported"); //added
-      console.log(error) // handle error here
+      alert('Image not supported'); //added
+      console.log(error); // handle error here
     }
   };
-  
+
   // const uploadUsingSignedUrl = async (url, data, docType) => {
   //   var myHeaders = new Headers();
   //   myHeaders.append('Content-Type', data.type);
@@ -578,7 +565,7 @@ const uploadFile = (docType) => {
       xhr.onerror = (error) => {
         console.log(error); // handle error here
       };
-  
+
       xhr.open('PUT', url);
       xhr.setRequestHeader('Content-Type', data.type);
       xhr.send(file);
@@ -586,7 +573,7 @@ const uploadFile = (docType) => {
       console.log(error); // handle error here
     }
   };
-  
+
   const viewProfilePic = async (fileKey) => {
     const result = await ApiService(
       '/user/get-profile-picture',
@@ -606,20 +593,17 @@ const uploadFile = (docType) => {
 
   const changeMobileNo = () => {
     setChangeMobileNoPopup(true);
-    setDisabled(false)
-    
+    setDisabled(false);
   };
   const [disabled, setDisabled] = React.useState(true);
   const changeWhatsappNo = () => {
-    setchangeWhatsappNoPopup(true)
-    setDisabled(false)
-  }
-  const changeMobileEmailId = () => {
-    setChangeEmailPopup(true)
-    setDisabled(false)
+    setchangeWhatsappNoPopup(true);
+    setDisabled(false);
   };
-
-
+  const changeMobileEmailId = () => {
+    setChangeEmailPopup(true);
+    setDisabled(false);
+  };
 
   const togglePopup = () => {
     setProfilePopup(false);
@@ -633,24 +617,23 @@ const uploadFile = (docType) => {
   };
 
   const onDeleteFail = () => {
-    dispatch(openToaster({
-      show: true,
-      header: 'Error!',
-      variant: 'Danger',
-      body: 'Unable to delete account. Please try again!'
-    }))
-  }
+    dispatch(
+      openToaster({
+        show: true,
+        header: 'Error!',
+        variant: 'Danger',
+        body: 'Unable to delete account. Please try again!',
+      })
+    );
+  };
 
   const changeMobile = (event) => {
     setMobileNo(event.target.value);
-  }
-
-
+  };
 
   const sendOTP = async (phoneNumber) => {
     setMobileNo(phoneNumber);
     dispatch(setLoading(true));
-
 
     const appVerifier = configureCaptcha();
     firebase
@@ -662,7 +645,7 @@ const uploadFile = (docType) => {
           theme: 'colored',
         });
         setChangeMobileNoPopup(false);
-        setchangeWhatsappNoPopup(false)
+        setchangeWhatsappNoPopup(false);
         setOTPPopup(true);
 
         dispatch(setLoading(false));
@@ -710,15 +693,17 @@ const uploadFile = (docType) => {
 
         // const auth = getAuth();
         // updateProfile(auth.currentUser, {
-        //   phoneNumber: 
+        //   phoneNumber:
         // })
         setOTPPopup(false);
-        dispatch(openToaster({
-          show: true,
-          header: 'Success!',
-          variant: 'Info',
-          body: 'Phone number was updated successfully!'
-        }))
+        dispatch(
+          openToaster({
+            show: true,
+            header: 'Success!',
+            variant: 'Info',
+            body: 'Phone number was updated successfully!',
+          })
+        );
         firebase.auth().currentUser.updatePhoneNumber({ phoneNumber: mobileNo });
         // await firbase_user.updatePhoneNumber(mobileNo);
 
@@ -741,7 +726,7 @@ const uploadFile = (docType) => {
       .catch((error) => {
         // setloading(false);
 
-        console.log(error)
+        console.log(error);
         dispatch(setLoading(false));
 
         // navigate('/login');
@@ -749,16 +734,16 @@ const uploadFile = (docType) => {
       });
   };
 
-
   const updateEmail = (email) => {
-
     const user1 = firebase.auth().currentUser;
 
     // const appVerifier1 = configureCaptcha2();
 
-    firebase.auth().sendPasswordResetEmail(email)
+    firebase
+      .auth()
+      .sendPasswordResetEmail(email)
       .then(() => {
-        setSentLink('We will send you a link on your registered email')
+        setSentLink('We will send you a link on your registered email');
         console.log(email);
         dispatch(setLoading(false));
       })
@@ -783,7 +768,6 @@ const uploadFile = (docType) => {
 
     // TODO(you): prompt the user to re-provide their sign-in credentials
 
-
     // user1.updateEmail(email).then((res) => {
     //   firebase.auth().currentUser.sendEmailVerification().then(function(isSent) {
     //     console.log(isSent);
@@ -796,16 +780,17 @@ const uploadFile = (docType) => {
     //   console.log(error);
     // });
 
-    dispatch(openToaster({
-      show: true,
-      header: 'Success!',
-      variant: 'Info',
-      body: 'Verification link successfully sent to the new email address!'
-    }))
+    dispatch(
+      openToaster({
+        show: true,
+        header: 'Success!',
+        variant: 'Info',
+        body: 'Verification link successfully sent to the new email address!',
+      })
+    );
 
     setChangeEmailPopup(false);
-
-  }
+  };
 
   // user1.updateEmail("velmurugan0819@gmail.com").then((res) => {
   //       firebase.auth().currentUser.sendEmailVerification()
@@ -834,25 +819,25 @@ const uploadFile = (docType) => {
 
         // const auth = getAuth();
         // updateProfile(auth.currentUser, {
-        //   phoneNumber: 
+        //   phoneNumber:
         // })
         setOTPPopup(false);
-        dispatch(openToaster({
-          show: true,
-          header: 'Success!',
-          variant: 'Info',
-          body: 'Phone number was updated successfully!'
-        }))
+        dispatch(
+          openToaster({
+            show: true,
+            header: 'Success!',
+            variant: 'Info',
+            body: 'Phone number was updated successfully!',
+          })
+        );
         firebase.auth().currentUser.updatePhoneNumber({ phoneNumber: mobileNo });
 
-
         dispatch(setLoading(false));
-
       })
       .catch((error) => {
         // setloading(false);
 
-        console.log(error)
+        console.log(error);
         dispatch(setLoading(false));
 
         // navigate('/login');
@@ -866,7 +851,7 @@ const uploadFile = (docType) => {
         <Container>
           <Tab.Container id="left-tabs-example" defaultActiveKey="first">
             <Row>
-              <Col sm={3} className='left-nav'>
+              <Col sm={3} className="left-nav">
                 <div className="my-profile-tabs">
                   <Nav variant="pills" className="flex-column">
                     <Nav.Item>
@@ -923,7 +908,8 @@ const uploadFile = (docType) => {
                               src={profileEditIcon}
                               alt="profile-edit-icon"
                               onClick={() => uploadFile('profile_picture')}
-                            /> <span>Allowed File Format : (PNG, JPG, JPEG)</span>
+                            />{' '}
+                            <span>Allowed File Format : (PNG, JPG, JPEG)</span>
                           </span>
                           {profilePopup && (
                             <>
@@ -980,7 +966,7 @@ const uploadFile = (docType) => {
                                           variant="outline-secondary"
                                           type="button"
                                           onClick={() => setShowConfirmModal(true)}
-                                        // onClick={() => deleteProfilePic('profile_picture')()}
+                                          // onClick={() => deleteProfilePic('profile_picture')()}
                                         >
                                           <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -1094,11 +1080,17 @@ const uploadFile = (docType) => {
                                             value={formik.values?.email}
                                             disabled={true}
                                             style={{ opacity: 0.5 }}
-                                          // disabled={ userData?.email }
+                                            // disabled={ userData?.email }
                                           />
-                                          <span className='change-mobile-no'><a onClick={() => changeMobileEmailId()}>Change Email Id</a></span>
+                                          <span className="change-mobile-no">
+                                            <a onClick={() => changeMobileEmailId()}>
+                                              Change Email Id
+                                            </a>
+                                          </span>
                                           {formik.touched.email && formik.errors.email ? (
-                                            <div className="error-message">{formik.errors.email}</div>
+                                            <div className="error-message">
+                                              {formik.errors.email}
+                                            </div>
                                           ) : null}
                                         </Form.Group>
                                       </Row>
@@ -1117,29 +1109,27 @@ const uploadFile = (docType) => {
                                               formik.setFieldValue('mobile_number', phone);
                                               setMobileNumber({ phone, data });
                                             }}
-                                           
                                             countryCodeEditable={false}
                                             onBlur={formik.handleBlur('mobile_number')}
                                             placeholder="Enter your Mobile number"
                                             disabled={disabled}
                                             style={{ opacity: 0.5 }}
-                                          // defaultValue={userData?.phone}
-                                          // disabled={ userData?.phone }
+                                            // defaultValue={userData?.phone}
+                                            // disabled={ userData?.phone }
                                           />
-                                          <span className='change-mobile-no'><a onClick={() => changeMobileNo()}>Change Mobile Number</a></span>
-
-
-
+                                          <span className="change-mobile-no">
+                                            <a onClick={() => changeMobileNo()}>
+                                              Change Mobile Number
+                                            </a>
+                                          </span>
 
                                           {formik.touched.mobile_number &&
-                                            formik.errors.mobile_number ? (
+                                          formik.errors.mobile_number ? (
                                             <div className="error-message">
                                               {formik.errors.mobile_number}
                                             </div>
                                           ) : null}
                                         </Form.Group>
-
-
 
                                         <Form.Group
                                           as={Col}
@@ -1158,13 +1148,17 @@ const uploadFile = (docType) => {
                                             }}
                                             countryCodeEditable={false}
                                             onBlur={formik.handleBlur('whatsapp_number')}
-                                            placeholder="Enter your Whatsapp number" 
+                                            placeholder="Enter your Whatsapp number"
                                             disabled={disabled}
                                             style={{ opacity: 0.5 }}
                                           />
-                                          <span className='change-mobile-no'><a onClick={() => changeWhatsappNo()}>Change Whatsapp Number</a></span>
+                                          <span className="change-mobile-no">
+                                            <a onClick={() => changeWhatsappNo()}>
+                                              Change Whatsapp Number
+                                            </a>
+                                          </span>
                                           {formik.touched.whatsapp_number &&
-                                            formik.errors.whatsapp_number ? (
+                                          formik.errors.whatsapp_number ? (
                                             <div className="error-message  mt-3">
                                               {formik.errors.whatsapp_number}
                                             </div>
@@ -1255,7 +1249,7 @@ const uploadFile = (docType) => {
                                             // style={{width: '170px'}}
                                             className={
                                               formik.touched.birth_month &&
-                                                formik.errors.birth_month
+                                              formik.errors.birth_month
                                                 ? 'is-invalid'
                                                 : null
                                             }
@@ -1272,7 +1266,7 @@ const uploadFile = (docType) => {
                                             ;
                                           </Form.Select>
                                           {formik.touched.birth_month &&
-                                            formik.errors.birth_month ? (
+                                          formik.errors.birth_month ? (
                                             <div className="error-message">
                                               {formik.errors.birth_month}
                                             </div>
@@ -1314,7 +1308,9 @@ const uploadFile = (docType) => {
 
                                       <Row className="row-bottom">
                                         <Form.Group as={Col} sm={6}>
-                                          <Form.Label>Your occupation<span className="text-danger"> *</span></Form.Label>
+                                          <Form.Label>
+                                            Your occupation<span className="text-danger"> *</span>
+                                          </Form.Label>
                                           <div
                                             className="mb-3 occupation-label-group"
                                             onChange={handleWeekdayChange}>
@@ -1371,9 +1367,7 @@ const uploadFile = (docType) => {
                                         </Button>
                                         <Button
                                           className="btn"
-                                          disabled={
-                                            !(formik.isValid && formik.dirty)
-                                          }
+                                          disabled={!(formik.isValid && formik.dirty)}
                                           variant="secondary"
                                           type="submit">
                                           {isNextLoading ? 'Saving.. ' : 'Save'}
@@ -1400,9 +1394,13 @@ const uploadFile = (docType) => {
                                               </div>
                                               <div className="mt-3">
                                                 <div id="profile-otp-container"></div>
-                                                <Form.Group as={Col} sm={12} controlId="mobile_number">
+                                                <Form.Group
+                                                  as={Col}
+                                                  sm={12}
+                                                  controlId="mobile_number">
                                                   <Form.Label>
-                                                    Mobile Number<span className="text-danger"> *</span>
+                                                    Mobile Number
+                                                    <span className="text-danger"> *</span>
                                                   </Form.Label>
                                                   <PhoneInput
                                                     country={'in'}
@@ -1410,24 +1408,28 @@ const uploadFile = (docType) => {
                                                     // value={userData?.phone? userData?.phone:formik.values?.mobile_number}
                                                     value={formik1.values?.change_mobile_number}
                                                     onChange={(phone, data) => {
-                                                      formik1.setFieldValue('change_mobile_number', phone);
+                                                      formik1.setFieldValue(
+                                                        'change_mobile_number',
+                                                        phone
+                                                      );
                                                       setMobileNumber({ phone, data });
                                                     }}
                                                     countryCodeEditable={false}
-                                                    onBlur={formik1.handleBlur('change_mobile_number')}
+                                                    onBlur={formik1.handleBlur(
+                                                      'change_mobile_number'
+                                                    )}
                                                     placeholder="Enter your Mobile number"
-                                                  // defaultValue={userData?.phone}
-                                                  // disabled={ userData?.phone }
+                                                    // defaultValue={userData?.phone}
+                                                    // disabled={ userData?.phone }
                                                   />
 
                                                   {formik1.touched.mobile_number &&
-                                                    formik1.errors.mobile_number ? (
+                                                  formik1.errors.mobile_number ? (
                                                     <div className="error-message">
                                                       {formik1.errors.mobile_number}
                                                     </div>
                                                   ) : null}
                                                 </Form.Group>
-
                                               </div>
                                             </div>
                                             <div className="mt-3 model-body">
@@ -1441,7 +1443,6 @@ const uploadFile = (docType) => {
                                                   type="submit">
                                                   {isNextLoading ? 'Verify.. ' : 'Verify'}
                                                 </Button>
-
                                               </Row>
                                             </div>
                                           </>
@@ -1467,9 +1468,13 @@ const uploadFile = (docType) => {
                                               </div>
                                               <div className="mt-3">
                                                 <div id="profile-otp-container"></div>
-                                                <Form.Group as={Col} sm={12} controlId="mobile_number">
+                                                <Form.Group
+                                                  as={Col}
+                                                  sm={12}
+                                                  controlId="mobile_number">
                                                   <Form.Label>
-                                                    Whatsapp Number<span className="text-danger"> *</span>
+                                                    Whatsapp Number
+                                                    <span className="text-danger"> *</span>
                                                   </Form.Label>
                                                   <PhoneInput
                                                     country={'in'}
@@ -1477,24 +1482,28 @@ const uploadFile = (docType) => {
                                                     // value={userData?.phone? userData?.phone:formik.values?.mobile_number}
                                                     value={formik1.values?.change_mobile_number}
                                                     onChange={(phone, data) => {
-                                                      formik1.setFieldValue('change_mobile_number', phone);
+                                                      formik1.setFieldValue(
+                                                        'change_mobile_number',
+                                                        phone
+                                                      );
                                                       setMobileNumber({ phone, data });
                                                     }}
                                                     countryCodeEditable={false}
-                                                    onBlur={formik1.handleBlur('change_mobile_number')}
+                                                    onBlur={formik1.handleBlur(
+                                                      'change_mobile_number'
+                                                    )}
                                                     placeholder="Enter your whatsapp number"
-                                                  // defaultValue={userData?.phone}
-                                                  // disabled={ userData?.phone }
+                                                    // defaultValue={userData?.phone}
+                                                    // disabled={ userData?.phone }
                                                   />
 
                                                   {formik1.touched.mobile_number &&
-                                                    formik1.errors.mobile_number ? (
+                                                  formik1.errors.mobile_number ? (
                                                     <div className="error-message">
                                                       {formik1.errors.mobile_number}
                                                     </div>
                                                   ) : null}
                                                 </Form.Group>
-
                                               </div>
                                             </div>
                                             <div className="mt-3 model-body">
@@ -1508,7 +1517,6 @@ const uploadFile = (docType) => {
                                                   type="submit">
                                                   {isNextLoading ? 'Verify.. ' : 'Verify'}
                                                 </Button>
-
                                               </Row>
                                             </div>
                                           </>
@@ -1534,22 +1542,20 @@ const uploadFile = (docType) => {
                                               </div>
                                               <div className="mt-3">
                                                 <div id="profile-otp-container"></div>
-
                                               </div>
                                             </div>
                                             <div className="mt-3 model-body">
                                               <div className="auth_form otp-form">
                                                 <div className="log-in-title login-head">
-
                                                   Verify OTP
                                                 </div>
                                                 <div className="d-flex">
                                                   <p>
                                                     Enter OTP sent to your mobile{' '}
-                                                    <span style={{ font: 'Poppins', color: '#363F5E' }}>
+                                                    <span
+                                                      style={{ font: 'Poppins', color: '#363F5E' }}>
                                                       +{mobileNo}
                                                     </span>
-
                                                   </p>
                                                 </div>
                                                 {otpError && (
@@ -1558,7 +1564,11 @@ const uploadFile = (docType) => {
                                                   </Alert>
                                                 )}
                                                 <div className="otp-input">
-                                                  <OtpInput value={otp} onChange={(e) => setOtp(e)} numInputs={6} />
+                                                  <OtpInput
+                                                    value={otp}
+                                                    onChange={(e) => setOtp(e)}
+                                                    numInputs={6}
+                                                  />
                                                 </div>
                                                 <div className="d-flex justify-content-between mt-2">
                                                   <div>
@@ -1571,14 +1581,27 @@ const uploadFile = (docType) => {
                                                   onClick={() => !minutes && !seconds && resendOTP(phoneNumber)}>
                                                   Resend OTP */}
                                                     <a
-                                                      style={{ cursor: !minutes && !seconds ? 'pointer' : 'not-allowed' }}
-                                                      className={isResendDisabled ? 'resend-otp disabled' : 'resend-otp'}
-                                                      onClick={() => resendOTP(userSignUpData.phoneNumber)}>
+                                                      style={{
+                                                        cursor:
+                                                          !minutes && !seconds
+                                                            ? 'pointer'
+                                                            : 'not-allowed',
+                                                      }}
+                                                      className={
+                                                        isResendDisabled
+                                                          ? 'resend-otp disabled'
+                                                          : 'resend-otp'
+                                                      }
+                                                      onClick={() =>
+                                                        resendOTP(userSignUpData.phoneNumber)
+                                                      }>
                                                       Resend OTP
                                                     </a>
                                                     <span>
                                                       {' '}
-                                                      in {minutes < 10 ? `0${minutes}` : minutes}:{' '}
+                                                      in {minutes < 10
+                                                        ? `0${minutes}`
+                                                        : minutes}:{' '}
                                                       {seconds < 10 ? `0${seconds}` : seconds}
                                                     </span>
                                                   </div>
@@ -1599,7 +1622,9 @@ const uploadFile = (docType) => {
                                                           role="status"
                                                           aria-hidden="true"
                                                         />
-                                                        <span className="visually-hidden">Loading...</span>
+                                                        <span className="visually-hidden">
+                                                          Loading...
+                                                        </span>
                                                       </>
                                                     )}
                                                     {/* disabled={!(otp.length === 6) || loading}>
@@ -1607,7 +1632,6 @@ const uploadFile = (docType) => {
                                                   </Button>
                                                 </div>
                                               </div>
-
                                             </div>
                                           </>
                                         </Form>
@@ -1644,21 +1668,26 @@ const uploadFile = (docType) => {
                                                     // value={userData?.email? userData?.email: formik.values?.email}
                                                     onChange={formik_change_email.handleChange}
                                                     className={
-                                                      formik_change_email.touched.change_email_id && formik_change_email.errors.change_email_id
+                                                      formik_change_email.touched.change_email_id &&
+                                                      formik_change_email.errors.change_email_id
                                                         ? 'is-invalid'
                                                         : null
                                                     }
                                                     onBlur={formik_change_email.handleBlur}
                                                     placeholder="Enter your Email"
-                                                    value={formik_change_email.values?.change_email_id}
-                                                  // disabled={ userData?.email }
+                                                    value={
+                                                      formik_change_email.values?.change_email_id
+                                                    }
+                                                    // disabled={ userData?.email }
                                                   />
 
-                                                  {formik_change_email.touched.change_email_id && formik_change_email.errors.change_email_id ? (
-                                                    <div className="error-message">{formik_change_email.errors.change_email_id}</div>
+                                                  {formik_change_email.touched.change_email_id &&
+                                                  formik_change_email.errors.change_email_id ? (
+                                                    <div className="error-message">
+                                                      {formik_change_email.errors.change_email_id}
+                                                    </div>
                                                   ) : null}
                                                 </Form.Group>
-
                                               </div>
                                             </div>
                                             <div className="mt-3 model-body">
@@ -1672,7 +1701,6 @@ const uploadFile = (docType) => {
                                                   type="submit">
                                                   {isNextLoading ? 'Verify.. ' : 'Verify'}
                                                 </Button>
-
                                               </Row>
                                             </div>
                                           </>
@@ -1698,22 +1726,20 @@ const uploadFile = (docType) => {
                                               </div>
                                               <div className="mt-3">
                                                 <div id="profile-otp-container"></div>
-
                                               </div>
                                             </div>
                                             <div className="mt-3 model-body">
                                               <div className="auth_form otp-form">
                                                 <div className="log-in-title login-head">
-
                                                   Verify OTP
                                                 </div>
                                                 <div className="d-flex">
                                                   <p>
                                                     Enter OTP sent to your mobile{' '}
-                                                    <span style={{ font: 'Poppins', color: '#363F5E' }}>
+                                                    <span
+                                                      style={{ font: 'Poppins', color: '#363F5E' }}>
                                                       +{mobileNo}
                                                     </span>
-
                                                   </p>
                                                 </div>
                                                 {otpError && (
@@ -1722,7 +1748,11 @@ const uploadFile = (docType) => {
                                                   </Alert>
                                                 )}
                                                 <div className="otp-input">
-                                                  <OtpInput value={otp} onChange={(e) => setOtp(e)} numInputs={6} />
+                                                  <OtpInput
+                                                    value={otp}
+                                                    onChange={(e) => setOtp(e)}
+                                                    numInputs={6}
+                                                  />
                                                 </div>
                                                 <div className="d-flex justify-content-between mt-2">
                                                   <div>
@@ -1735,14 +1765,27 @@ const uploadFile = (docType) => {
                                                   onClick={() => !minutes && !seconds && resendOTP(phoneNumber)}>
                                                   Resend OTP */}
                                                     <a
-                                                      style={{ cursor: !minutes && !seconds ? 'pointer' : 'not-allowed' }}
-                                                      className={isResendDisabled ? 'resend-otp disabled' : 'resend-otp'}
-                                                      onClick={() => resendOTP(userSignUpData.phoneNumber)}>
+                                                      style={{
+                                                        cursor:
+                                                          !minutes && !seconds
+                                                            ? 'pointer'
+                                                            : 'not-allowed',
+                                                      }}
+                                                      className={
+                                                        isResendDisabled
+                                                          ? 'resend-otp disabled'
+                                                          : 'resend-otp'
+                                                      }
+                                                      onClick={() =>
+                                                        resendOTP(userSignUpData.phoneNumber)
+                                                      }>
                                                       Resend OTP
                                                     </a>
                                                     <span>
                                                       {' '}
-                                                      in {minutes < 10 ? `0${minutes}` : minutes}:{' '}
+                                                      in {minutes < 10
+                                                        ? `0${minutes}`
+                                                        : minutes}:{' '}
                                                       {seconds < 10 ? `0${seconds}` : seconds}
                                                     </span>
                                                   </div>
@@ -1763,7 +1806,9 @@ const uploadFile = (docType) => {
                                                           role="status"
                                                           aria-hidden="true"
                                                         />
-                                                        <span className="visually-hidden">Loading...</span>
+                                                        <span className="visually-hidden">
+                                                          Loading...
+                                                        </span>
                                                       </>
                                                     )}
                                                     {/* disabled={!(otp.length === 6) || loading}>
@@ -1771,7 +1816,6 @@ const uploadFile = (docType) => {
                                                   </Button>
                                                 </div>
                                               </div>
-
                                             </div>
                                           </>
                                         </Form>
@@ -1828,16 +1872,22 @@ const uploadFile = (docType) => {
                 </div>
               </Col>
             </Row>
-            <DeleteAccountModal onDeleteFail={onDeleteFail} show={showDeleteModal} toggle={setShowDeleteModal} logOutHandler={logOutHandler} />
-            <DeleteProfilePicModal onDeleteFail={onDeleteFail} show={showConfirmModal} toggle={setShowConfirmModal} />
+            <DeleteAccountModal
+              onDeleteFail={onDeleteFail}
+              show={showDeleteModal}
+              toggle={setShowDeleteModal}
+              logOutHandler={logOutHandler}
+            />
+            <DeleteProfilePicModal
+              onDeleteFail={onDeleteFail}
+              show={showConfirmModal}
+              toggle={setShowConfirmModal}
+            />
           </Tab.Container>
         </Container>
-
-
       </div>
-      <div className=''>
+      <div className="">
         <FooterContainer />
-
       </div>
     </>
   );
@@ -1860,7 +1910,7 @@ const DeleteAccountModal = ({ show, toggle, onDeleteFail, logOutHandler }) => {
     } else {
       onDeleteFail();
     }
-  }
+  };
 
   return (
     <>
@@ -1875,18 +1925,13 @@ const DeleteAccountModal = ({ show, toggle, onDeleteFail, logOutHandler }) => {
           <Modal.Title>Delete Account</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p className="info-content">Your account will be deleted permanently you will not be able to access the data.</p>
+          <p className="info-content">
+            Your account will be deleted permanently you will not be able to access the data.
+          </p>
         </Modal.Body>
-        <Modal.Footer className='justify-content-around'>
+        <Modal.Footer className="justify-content-around">
           <Button variant="danger" style={{ width: '120px' }} onClick={deleteAccount}>
-            <img
-              src={trashWhite}
-              alt="TrashDelete"
-              className="trash-delete"
-
-            />{' '}
-
-            Delete
+            <img src={trashWhite} alt="TrashDelete" className="trash-delete" /> Delete
           </Button>
           <Button variant="outline-primary" style={{ width: '120px' }} onClick={handleClose}>
             Cancel
@@ -1903,7 +1948,6 @@ const DeleteProfilePicModal = ({ show, toggle, onDeleteFail }) => {
   const dispatch = useDispatch();
 
   const deleteProfilePic = async () => {
-
     dispatch(setLoading(true));
 
     const result = await ApiService(
@@ -1929,12 +1973,11 @@ const DeleteProfilePicModal = ({ show, toggle, onDeleteFail }) => {
         dialogClassName="delete-modal">
         <Modal.Header closeButton>
           <Modal.Title>
-            <h5>Delete Profile picture</h5></Modal.Title>
+            <h5>Delete Profile picture</h5>
+          </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          Are you sure want to delete your profile picture?
-        </Modal.Body>
-        <Modal.Footer className='justify-content-around'>
+        <Modal.Body>Are you sure want to delete your profile picture?</Modal.Body>
+        <Modal.Footer className="justify-content-around">
           <Button variant="danger" style={{ width: '120px' }} onClick={deleteProfilePic}>
             Delete
           </Button>
@@ -1946,4 +1989,3 @@ const DeleteProfilePicModal = ({ show, toggle, onDeleteFail }) => {
     </>
   );
 };
-

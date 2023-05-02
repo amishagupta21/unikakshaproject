@@ -67,7 +67,7 @@ const LearnerPaymentPopup = ({ courseId, courseInfo, setopenpayment }) => {
     if (response?.data?.code === 200) {
       const cpayload = {
         uid: user?.uid,
-        course_variant_id: courseInfo?.id,
+        course_id: courseInfo?.id,
       };
       let applicationDetails = await ApiService(
         '/student/application/detail-by-user-course',

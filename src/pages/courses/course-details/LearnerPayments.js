@@ -122,7 +122,6 @@ const LearnerPayments = (params) => {
     // const result = await axios.post("https://api.razorpay.com/v1/orders")
 
     const orderId = orderData?.id;
-    debugger;
     const options = {
       key: 'rzp_live_xsOESw138cvA75', // Enter the Key ID generated from the Dashboard
       amount: 15000,
