@@ -145,7 +145,7 @@ const CourseApplication = () => {
   const fetchApplicationDetails = async (uid, courseId) => {
     const payload = {
       uid: uid,
-      course_variant_id: courseId,
+      course_id: courseId,
     };
     let applicationDetails = await ApiService(
       '/student/application/detail-by-user-course',
@@ -205,7 +205,7 @@ const CourseApplication = () => {
     setIsNextLoading(true);
     const payload = {
       uid: user?.uid,
-      course_id: courseDetails?.id,
+      course_id: courseDetails?.course_id,
       course_title: courseDetails?.course_title,
       course_duration: courseDetails?.duration,
       course_start_date: new Date(courseDetails?.start_date).toLocaleDateString(),
@@ -700,7 +700,7 @@ const CourseApplication = () => {
                     nextPage={nextPage}
                     application={applicationDetails}
                     setOrderData={setOrderData}
-                    courseId={courseDetails?.id}
+                    courseId={courseDetails?.course_id}
                     setSelectedBatch={setSelectedBatch}></ApplicationStatus>
                 </>
               )}
