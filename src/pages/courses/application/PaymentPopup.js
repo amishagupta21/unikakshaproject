@@ -4,12 +4,24 @@ import './paymentPopups.scss';
 import moment from 'moment';
 import ApiService from '../../../services/ApiService';
 import { useNavigate } from 'react-router-dom';
+import Worldline from './WorldLine';
 
-const PaymentPopup = ({ nextPage, setOrderData, courseId, setopenpayment, setSelectedBatch }) => {
+const PaymentPopup = ({
+  nextPage,
+  setOrderData,
+  courseId,
+  orderData,
+  selectedBatch,
+  application,
+  setopenpayment,
+  setSelectedBatch,
+  setWorldLineStatus,
+  worldLineStatus,
+  id,
+}) => {
   const [batches, setbatches] = React.useState();
   const [defaultBatch, setDefaultBatch] = React.useState();
   const navigate = useNavigate();
-
   useEffect(() => {
     fetchVariantBatches();
   }, []);
@@ -20,9 +32,8 @@ const PaymentPopup = ({ nextPage, setOrderData, courseId, setopenpayment, setSel
     setSelectedBatch(batch[0]);
   }
 
-  const fetchVariantBatches = async () => {
+  const fetchVariantBatches = async (courseId) => {
     const res = await ApiService(`courses/${courseId}/batch/list`);
-
     if (res?.data.code === 200) {
       setbatches(res.data.data.result);
 
@@ -78,7 +89,7 @@ const PaymentPopup = ({ nextPage, setOrderData, courseId, setopenpayment, setSel
   };
   return (
     <>
-      {batches?.length && (
+      {batches && (
         <>
           <div className="modal display-block">
             <section className="modal-main">
@@ -162,9 +173,22 @@ const PaymentPopup = ({ nextPage, setOrderData, courseId, setopenpayment, setSel
                     className="col-3"
                     variant="secondary"
                     type="button"
-                    onClick={() => navigate('/worldline')}>
+                    id="btnSubmit"
+                    onClick={() => nextPage()}>
                     Next
                   </Button> */}
+                  <Worldline
+                    nextPage={nextPage}
+                    setWorldLineStatus={setWorldLineStatus}
+                    selectedBatch={selectedBatch}
+                    orderData={orderData}
+                    setopenpayment={setopenpayment}
+                    application={application}
+                    courseId={courseId}
+                    worldLineStatus={worldLineStatus}
+                    createOrder={() => createOrder()}
+                    id={id}
+                  />
                 </Row>
               </div>
             </section>

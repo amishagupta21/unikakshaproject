@@ -138,7 +138,7 @@ const CourseApplication = () => {
     setCourseDetails(courseData);
     fetchUserDetails(uid);
     await fetchApplicationDetails(uid, courseData.id);
-    fetchVariantBatches(courseData.course_id);
+    fetchVariantBatches(courseData.id);
     setIsLoading(false);
   };
 
@@ -147,7 +147,6 @@ const CourseApplication = () => {
       uid: uid,
       course_variant_id: courseId,
     };
-    
     let applicationDetails = await ApiService(
       '/student/application/detail-by-user-course',
       `POST`,
@@ -156,7 +155,6 @@ const CourseApplication = () => {
     );
 
     if (applicationDetails?.data?.data.application) {
-      // console.log(applicationDetails?.data?.data.application)
       const { application_stage, m_applicationstatus, m_totalscore, m_candidatescore } =
         applicationDetails?.data?.data.application;
       const obj = {
@@ -344,7 +342,7 @@ const CourseApplication = () => {
               <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
               <p className="step-header">{stepperTitle}</p>
             </div>
-            <MultiStepBar testResults={testResults} page={page} onPageNumberClick={nextPageNumber} className="custom-bar" />
+            <MultiStepBar page={page} onPageNumberClick={nextPageNumber} className="custom-bar" />
             <Card className="view-course border">
               <Card.Body
                 style={{ padding: 'unset' }}
@@ -407,7 +405,7 @@ const CourseApplication = () => {
                             // defaultValue={user.displayName}
                             value={formik.values?.full_name}
                             placeholder="Enter you full name"
-                          // disabled="disabled"
+                            // disabled="disabled"
                           />
 
                           {formik.touched.full_name && formik.errors.full_name ? (
@@ -434,7 +432,7 @@ const CourseApplication = () => {
                             // disabled={disabled}
                             disabled="disabled"
                             style={{ opacity: 0.5 }}
-                          // disabled={ userData?.email }
+                            // disabled={ userData?.email }
                           />
 
                           {formik.touched.email && formik.errors.email ? (
@@ -467,8 +465,8 @@ const CourseApplication = () => {
                               // onBlur={formik.handleBlur('mobile_number')}
                               className="disabled-field"
                               disabled="disabled"
-                            // defaultValue={userData?.phone}
-                            // disabled={ userData?.phone }
+                              // defaultValue={userData?.phone}
+                              // disabled={ userData?.phone }
                             />
                           </div>
                           {formik.touched.mobile_number && formik.errors.mobile_number ? (
@@ -702,8 +700,7 @@ const CourseApplication = () => {
                     nextPage={nextPage}
                     application={applicationDetails}
                     setOrderData={setOrderData}
-                    id={courseDetails?.id}
-                    courseId={courseDetails?.course_id}
+                    courseId={courseDetails?.id}
                     setSelectedBatch={setSelectedBatch}></ApplicationStatus>
                 </>
               )}

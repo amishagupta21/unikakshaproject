@@ -54,7 +54,7 @@ const ApplicationStatus = ({ nextPage, application, setOrderData, courseId, setS
   const fetchApplicationDetails = async () => {
     const payload = {
       uid: user?.uid,
-      course_variant_id: courseId,
+      course_id: courseId,
     };
     let applicationDetails = await ApiService(
       '/student/application/detail-by-user-course',
