@@ -170,14 +170,7 @@ const PaymentPopup = ({
                     onClick={() => createOrder()}>
                     Next
                   </Button> */}
-                  {/* <Button
-                    className="col-3"
-                    variant="secondary"
-                    type="button"
-                    id="btnSubmit"
-                    onClick={() => nextPage()}>
-                    Next
-                  </Button> */}
+
                   <Worldline
                     nextPage={nextPage}
                     setWorldLineStatus={setWorldLineStatus}
