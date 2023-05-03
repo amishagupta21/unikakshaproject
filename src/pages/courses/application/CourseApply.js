@@ -58,7 +58,7 @@ const CourseApplication = () => {
   const [initData, setInitData] = React.useState();
   // const [userDOBData, setDobData] = React.useState();
   const [selectedBatch, setSelectedBatch] = React.useState();
-
+console.log("random",courseDetails)
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { state } = useLocation();
