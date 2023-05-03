@@ -21,6 +21,7 @@ const PaymentPopup = ({
 }) => {
   const [batches, setbatches] = React.useState();
   const [defaultBatch, setDefaultBatch] = React.useState();
+
   const navigate = useNavigate();
   useEffect(() => {
     fetchVariantBatches();
@@ -162,21 +163,14 @@ const PaymentPopup = ({
                     onClick={() => togglepayment()}>
                     Cancel
                   </Button>
-                  <Button
+                  {/* <Button
                     className="col-3"
                     variant="secondary"
                     type="button"
                     onClick={() => createOrder()}>
                     Next
-                  </Button>
-                  {/* <Button
-                    className="col-3"
-                    variant="secondary"
-                    type="button"
-                    id="btnSubmit"
-                    onClick={() => nextPage()}>
-                    Next
                   </Button> */}
+
                   <Worldline
                     nextPage={nextPage}
                     setWorldLineStatus={setWorldLineStatus}

@@ -34,7 +34,7 @@ const Homepage = () => {
     fetchCourseDetails(responseData);
     const uid = JSON.parse(localStorage.getItem('user')).uid;
     const response = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
-    localStorage.setItem('userData', JSON.stringify(response?.data?.data))
+    localStorage.setItem('userData', JSON.stringify(response?.data?.data));
   };
 
   useEffect(() => {
@@ -45,20 +45,22 @@ const Homepage = () => {
 
   return (
     <div className="course-list-api">
-         <div className="course-list-api-full">
-      <HeroSection bannerDetails={data?.banner1_configure && data?.banner1_configure} />
-      <div className="container">
-        <CourseList courses={topCourses && topCourses} />
-        <Placementpartner
-          placementPartner={data?.placement_partner_configure && data?.placement_partner_configure}
-        />
-        {/* <Invite /> */}
-        <Row className="d-flex justify-content-center my-4" lg={2}>
-          {/* <InviteNow /> */}
-        </Row>
+      <div className="course-list-api-full">
+        <HeroSection bannerDetails={data?.banner1_configure && data?.banner1_configure} />
+        <div className="container">
+          <CourseList courses={topCourses && topCourses} />
+          <Placementpartner
+            placementPartner={
+              data?.placement_partner_configure && data?.placement_partner_configure
+            }
+          />
+          {/* <Invite /> */}
+          <Row className="d-flex justify-content-center my-4" lg={2}>
+            {/* <InviteNow /> */}
+          </Row>
+        </div>
       </div>
-      </div>
-      <FooterContainer/>
+      <FooterContainer />
     </div>
   );
 };

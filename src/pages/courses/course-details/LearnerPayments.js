@@ -30,7 +30,6 @@ const LearnerPayments = (params) => {
   const userData = location.state.userData;
   const orderData = location.state.orderData;
   const applicationData = location.state.applicationData;
-  console.log(applicationData);
 
   // const courseData = params.course;
 
@@ -78,7 +77,7 @@ const LearnerPayments = (params) => {
       orderItems: [
         {
           application_id: applicationData?._id,
-          course_variant_id: courseData?.id,
+          course_id: courseData?.course_id,
           batch_id: selectedBatch?.id,
           registration_fee: 15000,
           discount_coupon: '',

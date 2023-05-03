@@ -700,6 +700,7 @@ console.log("random",courseDetails)
                   <ApplicationStatus
                     nextPage={nextPage}
                     application={applicationDetails}
+                    selectedBatch={courseDetails?.batchesData?.batch_id}
                     setOrderData={setOrderData}
                     courseId={courseDetails?.course_id}
                     setSelectedBatch={setSelectedBatch}></ApplicationStatus>
