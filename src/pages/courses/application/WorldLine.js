@@ -4,7 +4,7 @@ import { bannerLogoSvg, PaymentFailure, SuccessTick } from '../../../assets/imag
 import ApiService from '../../../services/ApiService';
 
 const Worldline = (params) => {
-  const { application, selectedBatch, id, worldLineStatus } = params;
+  const { application, selectedBatch, id, worldLineStatus, courseId, setopenpayment } = params;
   let orderData;
   const createOrder = async () => {
     let payload = {
@@ -23,12 +23,13 @@ const Worldline = (params) => {
   };
 
   async function worldLineApi(identifier) {
+    debugger;
     const payload = {
       uid: application?.uid,
       orderItems: [
         {
           application_id: application?._id,
-          course_variant_id: id,
+          course_id: courseId,
           batch_id: selectedBatch,
           registration_fee: 5,
           discount_coupon: '',
@@ -42,6 +43,7 @@ const Worldline = (params) => {
     };
 
     let orderDetails = await ApiService('/order/create-payment', `POST`, payload, true);
+    console.log(orderDetails, '/////orderDetails');
     params.nextPage();
   }
 
@@ -54,7 +56,7 @@ const Worldline = (params) => {
         typeof res.paymentMethod.paymentTransaction.statusCode != 'undefined' &&
         res.paymentMethod.paymentTransaction.statusCode == '0300'
       ) {
-        params.setWorldLineStatus('Success');
+        params.setpaymentStatus('Success');
         worldLineApi(res?.paymentMethod?.paymentTransaction?.identifier);
         params.nextPage();
       } else if (
@@ -68,7 +70,7 @@ const Worldline = (params) => {
         // nextPage();
       } else {
         // error block
-        params.setWorldLineStatus('Failed');
+        params.setpaymentStatus('Failed');
       }
     }
 

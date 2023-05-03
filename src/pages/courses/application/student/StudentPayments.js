@@ -66,7 +66,7 @@ const Payments = (params) => {
       orderItems: [
         {
           application_id: applicationDetails?._id,
-          course_variant_id: courseData?.id,
+          course_id: courseData?.course_id,
           batch_id: selectedBatch?.id,
           registration_fee: 2500,
           discount_coupon: '',
