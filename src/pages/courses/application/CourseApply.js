@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, ButtonGroup, Card, Col, Form, Row, ToggleButton } from 'react-bootstrap';
 import PhoneInput from 'react-phone-input-2';
 import { useDispatch } from 'react-redux';
@@ -45,6 +45,7 @@ const CourseApplication = () => {
   const [whatsAppState, setWhatsAppNumber] = React.useState({ phone: '', data: '' });
   const [genderValue, setGenderValue] = React.useState('');
   const [courseDetails, setCourseDetails] = React.useState({});
+
   const [EducationalDetails, setEducationalDetails] = React.useState({});
   const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
   const [isLoading, setIsLoading] = React.useState(false);
@@ -56,9 +57,10 @@ const CourseApplication = () => {
   const [userData, setUserData] = React.useState();
   const [birthInfo, setBirthInfo] = React.useState();
   const [initData, setInitData] = React.useState();
+
   // const [userDOBData, setDobData] = React.useState();
   const [selectedBatch, setSelectedBatch] = React.useState();
-console.log("random",courseDetails)
+  const [worldLineStatus, setWorldLineStatus] = React.useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { state } = useLocation();
@@ -201,7 +203,6 @@ console.log("random",courseDetails)
   };
 
   const formPersonalDetailsPayload = async (personalDetails) => {
-    console.log(formPersonalDetailsPayload);
     // delete personalDetails.dob;
     setIsNextLoading(true);
     const payload = {
@@ -677,6 +678,8 @@ console.log("random",courseDetails)
                 <EducationDetails
                   nextPage={nextPage}
                   course={courseDetails}
+                  applicationDetails={applicationDetails}
+                  nextPageNumber={nextPageNumber}
                   user={user}
                   educationalDetails={EducationalDetails}
                   setEducationalDetails={setEducationalDetails}
@@ -702,7 +705,10 @@ console.log("random",courseDetails)
                     application={applicationDetails}
                     selectedBatch={courseDetails?.batchesData?.batch_id}
                     setOrderData={setOrderData}
+                    nextPageNumber={nextPageNumber}
                     courseId={courseDetails?.course_id}
+                    worldLineStatus={worldLineStatus}
+                    setWorldLineStatus={setWorldLineStatus}
                     setSelectedBatch={setSelectedBatch}></ApplicationStatus>
                 </>
               )}
@@ -713,8 +719,10 @@ console.log("random",courseDetails)
                     course={courseDetails}
                     orderData={orderData}
                     application={applicationDetails}
-                    selectedBatch={selectedBatch}
+                    selectedBatch={courseDetails?.batchesData?.batch_id}
                     page={page}
+                    worldLineStatus={worldLineStatus}
+                    setWorldLineStatus={setWorldLineStatus}
                     onPageNumberClick={nextPageNumber}
                     setApplicationDetails={setApplicationDetails}></Payments>
                 </>
