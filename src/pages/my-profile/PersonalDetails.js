@@ -1083,9 +1083,9 @@ const PersonalDetails = () => {
                                             // disabled={ userData?.email }
                                           />
                                           <span className="change-mobile-no">
-                                            <a onClick={() => changeMobileEmailId()}>
+                                            {/* <a onClick={() => changeMobileEmailId()}>
                                               Change Email Id
-                                            </a>
+                                            </a> */}
                                           </span>
                                           {formik.touched.email && formik.errors.email ? (
                                             <div className="error-message">

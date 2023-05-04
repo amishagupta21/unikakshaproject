@@ -89,7 +89,7 @@ const EducationDetails = ({
       formData.is_enrolled_other_program = educationData.is_enrolled_other_program;
       formData.other_program_name = educationData.other_program_name ?? '';
       formData.other_program_college_name = educationData.other_program_college_name ?? '';
-      formData.other_program_course_duration = educationData.other_program_course_duration ?? '';
+      formData.other_program_course_duration = educationData?.other_program_course_duration ?? 1;
       lodash.forEach(educationData.qualification, (each) => {
         if (each.level === 'Diploma_or_12th') {
           formData.schoolDiplomaCollegeName = each.college_name;
@@ -129,7 +129,7 @@ const EducationDetails = ({
       pgMarks: Yup.number().typeError('Marks should be numeric'),
       other_program_name: Yup.string(),
       other_program_college_name: Yup.string(),
-      other_program_course_duration: Yup.string(),
+      other_program_course_duration: Yup.number(),
       position: Yup.string(),
       experience: Yup.number(),
       organization_name: Yup.string(),
@@ -236,7 +236,7 @@ const EducationDetails = ({
         payload.education_details.other_program_name = values.other_program_name;
         payload.education_details.other_program_college_name = values.other_program_college_name;
         payload.education_details.other_program_course_duration =
-          values.other_program_course_duration;
+          values?.other_program_course_duration??1;
       }
       setIsNextLoading(true);
       submitEducationalDetails(payload);
