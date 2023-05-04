@@ -5,9 +5,11 @@ import ApiService from '../../../services/ApiService';
 
 const Worldline = (params) => {
   const { application, selectedBatch, id, worldLineStatus, courseId, setopenpayment } = params;
+
   let orderData;
   const createOrder = async () => {
     let payload = {
+      application_id: application?._id,
       amount: 2500,
       currency: 'INR',
       receipt: (Math.random() + 1).toString(36).substring(7),
@@ -23,7 +25,6 @@ const Worldline = (params) => {
   };
 
   async function worldLineApi(identifier) {
-    debugger;
     const payload = {
       uid: application?.uid,
       orderItems: [
@@ -43,7 +44,6 @@ const Worldline = (params) => {
     };
 
     let orderDetails = await ApiService('/order/create-payment', `POST`, payload, true);
-    console.log(orderDetails, '/////orderDetails');
     params.nextPage();
   }
 
@@ -56,7 +56,7 @@ const Worldline = (params) => {
         typeof res.paymentMethod.paymentTransaction.statusCode != 'undefined' &&
         res.paymentMethod.paymentTransaction.statusCode == '0300'
       ) {
-        params.setpaymentStatus('Success');
+        params.setWorldLineStatus('Success');
         worldLineApi(res?.paymentMethod?.paymentTransaction?.identifier);
         params.nextPage();
       } else if (
@@ -70,7 +70,7 @@ const Worldline = (params) => {
         // nextPage();
       } else {
         // error block
-        params.setpaymentStatus('Failed');
+        params.setWorldLineStatus('Failed');
       }
     }
 
