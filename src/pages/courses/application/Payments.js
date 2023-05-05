@@ -34,7 +34,7 @@ const Payments = (params) => {
     ) {
       setpaymentStatus('Failed');
     } else if (applicationDetails?.application_stage !== 'payment_status') {
-      //displayRazorpay();
+      displayRazorpay();
     } else {
       nextPage();
     }
@@ -276,10 +276,10 @@ const Payments = (params) => {
 
   return (
     <div className="payments">
-      {/* {paymentStatus == 'Success' ? getPaymentSuccess() : ''}
-      {paymentStatus == 'Failed' ? getPaymentFailure() : ''} */}
-      {params.worldLineStatus == 'Success' ? getPaymentSuccess() : ''}
-      {params.worldLineStatus == 'Failed' ? getPaymentFailure() : ''}
+      {paymentStatus == 'Success' ? getPaymentSuccess() : ''}
+      {paymentStatus == 'Failed' ? getPaymentFailure() : ''}
+      {/* {params.worldLineStatus == 'Success' ? getPaymentSuccess() : ''}
+      {params.worldLineStatus == 'Failed' ? getPaymentFailure() : ''} */}
     </div>
   );
 };
