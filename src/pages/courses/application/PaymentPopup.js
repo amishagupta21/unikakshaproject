@@ -163,15 +163,15 @@ const PaymentPopup = ({
                     onClick={() => togglepayment()}>
                     Cancel
                   </Button>
-                  {/* <Button
+                  <Button
                     className="col-3"
                     variant="secondary"
                     type="button"
                     onClick={() => createOrder()}>
                     Next
-                  </Button> */}
+                  </Button>
 
-                  <Worldline
+                  {/* <Worldline
                     nextPage={nextPage}
                     setWorldLineStatus={setWorldLineStatus}
                     selectedBatch={selectedBatch}
@@ -182,7 +182,7 @@ const PaymentPopup = ({
                     worldLineStatus={worldLineStatus}
                     createOrder={() => createOrder()}
                     id={id}
-                  />
+                  /> */}
                 </Row>
               </div>
             </section>
