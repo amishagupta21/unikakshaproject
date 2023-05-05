@@ -134,7 +134,7 @@ const Payments = (params) => {
         setpaymentStatus('Success');
         setpaymentResponse(response);
         const data = {
-          // orderCreationId: orderId,
+          orderCreationId: orderId,
           razorpayPaymentId: response.razorpay_payment_id,
           razorpayOrderId: response.razorpay_order_id,
           razorpaySignature: response.razorpay_signature,

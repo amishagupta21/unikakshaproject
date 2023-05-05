@@ -19,7 +19,6 @@ const MultiStepBar = ({ page, onPageNumberClick, testResults }) => {
   let hasTakenEntranceTest = true;
 
   if (status.includes(testResults?.applicationStatus)) {
-    console.log('hello');
     hasTakenEntranceTest = true;
   }
 

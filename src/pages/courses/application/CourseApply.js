@@ -45,7 +45,6 @@ const CourseApplication = () => {
   const [whatsAppState, setWhatsAppNumber] = React.useState({ phone: '', data: '' });
   const [genderValue, setGenderValue] = React.useState('');
   const [courseDetails, setCourseDetails] = React.useState({});
-
   const [EducationalDetails, setEducationalDetails] = React.useState({});
   const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
   const [isLoading, setIsLoading] = React.useState(false);
