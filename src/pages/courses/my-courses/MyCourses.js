@@ -202,7 +202,7 @@ const MyCourses = () => {
                               variant="secondary"
                               type="button"
                               onClick={() => {
-                                navigate(`/course/apply/${application?.application_stage}`);
+                                navigate(`/course/apply/${application?.courseDetail?.course_url}`);
                               }}>
                               Complete Application
                             </Button>
@@ -215,7 +215,7 @@ const MyCourses = () => {
                               type="button"
                               onClick={() => {
                                 navigate(
-                                  `/course/apply/student/${application?.application_stage}`
+                                  `/course/apply/student/${application?.courseDetail?.course_url}`
                                 );
                               }}>
                               Complete Application
