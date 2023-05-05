@@ -7,8 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Payments = (params) => {
   const [paymentResponse, setpaymentResponse] = React.useState();
-  const [paymentStatus, setpaymentStatus] = React.useState();
-  console.log(paymentStatus, '/////paymentStatus');
+  const [paymentStatus, setpaymentStatus] = React.useState(params.worldLineStatus || null);
   const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
   const [userProfile, setUserProfile] = React.useState();
   const navigate = useNavigate();
@@ -252,7 +251,8 @@ const Payments = (params) => {
                 className="mt-2 "
                 style={{ padding: '8px 30px' }}
                 variant="secondary"
-                onClick={displayRazorpay}>
+                // onClick={displayRazorpay}
+                id="btnSubmit">
                 Retry Payment
               </Button>
             </p>
@@ -268,12 +268,18 @@ const Payments = (params) => {
     );
   };
 
+  useEffect(() => {
+    if (applicationDetails?.application_stage === 'payment_status') {
+      params.setWorldLineStatus('Success');
+    }
+  }, [applicationDetails]);
+
   return (
     <div className="payments">
-      {paymentStatus == 'Success' ? getPaymentSuccess() : ''}
-      {paymentStatus == 'Failed' ? getPaymentFailure() : ''}
-      {/* {params.worldLineStatus == 'Success' ? getPaymentSuccess() : ''}
-      {params.worldLineStatus == 'Failed' ? getPaymentFailure() : ''} */}
+      {/* {paymentStatus == 'Success' ? getPaymentSuccess() : ''}
+      {paymentStatus == 'Failed' ? getPaymentFailure() : ''} */}
+      {params.worldLineStatus == 'Success' ? getPaymentSuccess() : ''}
+      {params.worldLineStatus == 'Failed' ? getPaymentFailure() : ''}
     </div>
   );
 };

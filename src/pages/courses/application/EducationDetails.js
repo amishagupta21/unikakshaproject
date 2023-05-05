@@ -46,6 +46,9 @@ const EducationDetails = ({
   user,
   educationalDetails,
   setEducationalDetails,
+  applicationDetails,
+  nextPageNumber,
+  changePage,
 }) => {
   const [graduatedYesOrNo, setGraduatedYesOrNo] = React.useState('nill');
   const [yesOrNoLabel, setYesOrNoLabel] = React.useState('');
@@ -190,62 +193,65 @@ const EducationDetails = ({
       return errors;
     },
     onSubmit: (values) => {
-      let qualification = [
-        {
-          level: 'Diploma_or_12th',
-          college_name: values.schoolDiplomaCollegeName,
-          year_of_completion: values.schoolYearOfCompletion,
-          passing_marks: values.schoolMarks,
-        },
-        {
-          level: 'UG',
-          college_name: values.ugCollegeName,
-          year_of_completion: values.ugYOC,
-          passing_marks: values.ugMarks,
-        },
-        {
-          level: 'PG',
-          college_name: values.pgCollegeName,
-          year_of_completion: values.pgYOC,
-          passing_marks: values.pgMarks,
-        },
-      ];
-      if (highestQualification === 'UG') {
-        qualification = qualification.slice(0, 2);
-      } else if (highestQualification === 'Diploma_or_12th') {
-        qualification = qualification.slice(0, 1);
+      if (applicationDetails?.application_stage === 'application_status') {
+        nextPageNumber(3);
+      } else {
+        let qualification = [
+          {
+            level: 'Diploma_or_12th',
+            college_name: values.schoolDiplomaCollegeName,
+            year_of_completion: values.schoolYearOfCompletion,
+            passing_marks: values.schoolMarks,
+          },
+          {
+            level: 'UG',
+            college_name: values.ugCollegeName,
+            year_of_completion: values.ugYOC,
+            passing_marks: values.ugMarks,
+          },
+          {
+            level: 'PG',
+            college_name: values.pgCollegeName,
+            year_of_completion: values.pgYOC,
+            passing_marks: values.pgMarks,
+          },
+        ];
+        if (highestQualification === 'UG') {
+          qualification = qualification.slice(0, 2);
+        } else if (highestQualification === 'Diploma_or_12th') {
+          qualification = qualification.slice(0, 1);
+        }
+        let workDetails = [
+          {
+            position: values.position,
+            experience: values.experience,
+            organization_name: values.organization_name,
+          },
+        ];
+        const payload = {
+          education_details: {
+            highest_qualification: highestQualification,
+            qualification: qualification,
+            is_enrolled_other_program: is_enrolled_other_program === 'yes' ? true : false,
+          },
+          work_details: workDetails,
+          uid: user?.uid,
+          course_id: course?.course_id,
+        };
+        if (is_enrolled_other_program === 'yes') {
+          payload.education_details.other_program_name = values.other_program_name;
+          payload.education_details.other_program_college_name = values.other_program_college_name;
+          payload.education_details.other_program_course_duration =
+            values?.other_program_course_duration ?? 1;
+        }
+        setIsNextLoading(true);
+        submitEducationalDetails(payload);
       }
-      let workDetails = [
-        {
-          position: values.position,
-          experience: values.experience,
-          organization_name: values.organization_name,
-        },
-      ];
-      const payload = {
-        education_details: {
-          highest_qualification: highestQualification,
-          qualification: qualification,
-          is_enrolled_other_program: is_enrolled_other_program === 'yes' ? true : false,
-        },
-        work_details: workDetails,
-        uid: user?.uid,
-        course_id: course?.course_id,
-      };
-      if (is_enrolled_other_program === 'yes') {
-        payload.education_details.other_program_name = values.other_program_name;
-        payload.education_details.other_program_college_name = values.other_program_college_name;
-        payload.education_details.other_program_course_duration =
-          values?.other_program_course_duration??1;
-      }
-      setIsNextLoading(true);
-      submitEducationalDetails(payload);
     },
   });
 
   const submitEducationalDetails = async (payload) => {
     const response = await ApiService('/student/educational-details', `PUT`, payload, true);
-    console.log(JSON.stringify(response.config.data));
     setIsNextLoading(false);
     // response?.config.data
     if (response?.config.data) {

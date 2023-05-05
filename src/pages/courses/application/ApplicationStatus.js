@@ -41,12 +41,14 @@ const ApplicationStatus = ({
   setSelectedBatch,
   setWorldLineStatus,
   worldLineStatus,
+  nextPageNumber,
   id,
 }) => {
   const dispatch = useDispatch();
   const [status, setStatus] = React.useState();
   const [statusContent, setStatusContent] = React.useState({});
   const [openpayment, setopenpayment] = React.useState(false);
+  const [isPaymentOpen, setIsPaymentOpen] = React.useState(true);
 
   const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
   useEffect(() => {
@@ -67,16 +69,21 @@ const ApplicationStatus = ({
       payload,
       true
     );
+
     // if (applicationDetails?.data?.data.application) {
     const applicationData = applicationDetails?.data?.data.application;
     // setApplication(applicationDetails?.data?.data.application);
-    const { m_applicationstatus: appStatus } = applicationData;
+    const { m_applicationstatus: appStatus, application_stage } = applicationData;
+    if (application_stage === 'payment_status') {
+      setIsPaymentOpen(false);
+    }
     let app_status = '';
     // const appStatus = 'Application Approved';
     if (
       appStatus === 'Application Approved' ||
       appStatus === 'Assessment Passed' ||
-      appStatus === 'Application In Review'
+      appStatus === 'Application In Review' ||
+      appStatus === 'Payment Successfull'
     ) {
       app_status = 'approved';
       setStatus(app_status);
@@ -126,7 +133,12 @@ const ApplicationStatus = ({
             className="btn-center"
             variant="secondary"
             type="button"
-            onClick={() => openPayment()}>
+            onClick={() => {
+              if (isPaymentOpen) openPayment();
+              else {
+                nextPageNumber(6);
+              }
+            }}>
             Next
           </Button>
         </div>
