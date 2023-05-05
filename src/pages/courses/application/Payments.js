@@ -34,7 +34,7 @@ const Payments = (params) => {
     ) {
       setpaymentStatus('Failed');
     } else if (applicationDetails?.application_stage !== 'payment_status') {
-      //displayRazorpay();
+      displayRazorpay();
     } else {
       nextPage();
     }
