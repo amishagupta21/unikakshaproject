@@ -1118,9 +1118,9 @@ const PersonalDetails = () => {
                                             // disabled={ userData?.phone }
                                           />
                                           <span className="change-mobile-no">
-                                            <a onClick={() => changeMobileNo()}>
+                                            {/* <a onClick={() => changeMobileNo()}>
                                               Change Mobile Number
-                                            </a>
+                                            </a> */}
                                           </span>
 
                                           {formik.touched.mobile_number &&
@@ -1153,9 +1153,9 @@ const PersonalDetails = () => {
                                             style={{ opacity: 0.5 }}
                                           />
                                           <span className="change-mobile-no">
-                                            <a onClick={() => changeWhatsappNo()}>
+                                            {/* <a onClick={() => changeWhatsappNo()}>
                                               Change Whatsapp Number
-                                            </a>
+                                            </a> */}
                                           </span>
                                           {formik.touched.whatsapp_number &&
                                           formik.errors.whatsapp_number ? (
