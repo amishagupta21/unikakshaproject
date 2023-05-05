@@ -47,6 +47,7 @@ const PaymentPopup = ({
   };
   const createOrder = async () => {
     let payload = {
+      application_id: application?._id,
       amount: 2500,
       currency: 'INR',
       receipt: (Math.random() + 1).toString(36).substring(7),

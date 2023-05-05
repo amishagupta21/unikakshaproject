@@ -276,10 +276,10 @@ const Payments = (params) => {
 
   return (
     <div className="payments">
-      {/* {paymentStatus == 'Success' ? getPaymentSuccess() : ''}
-      {paymentStatus == 'Failed' ? getPaymentFailure() : ''} */}
-      {params.worldLineStatus == 'Success' ? getPaymentSuccess() : ''}
-      {params.worldLineStatus == 'Failed' ? getPaymentFailure() : ''}
+      {paymentStatus == 'Success' ? getPaymentSuccess() : ''}
+      {paymentStatus == 'Failed' ? getPaymentFailure() : ''}
+      {/* {params.worldLineStatus == 'Success' ? getPaymentSuccess() : ''}
+      {params.worldLineStatus == 'Failed' ? getPaymentFailure() : ''} */}
     </div>
   );
 };
