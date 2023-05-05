@@ -6,10 +6,10 @@ const status = ['Assessment Passed','Assessment Failed','Application In Review',
 
 const MultiStepBar = ({ page, onPageNumberClick,testResults }) => {
 
-  let hasTakenEntranceTest = false;
+  let hasTakenEntranceTest = true;
 
   if(status.includes(testResults?.applicationStatus) ){
-    console.log("hello")
+    // console.log("hello")
      hasTakenEntranceTest = true
   }
 
