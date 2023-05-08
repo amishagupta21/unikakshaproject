@@ -112,9 +112,11 @@ const Payments = (params) => {
 
     const orderId = orderData?.id;
 
+    const RAZORPAY_KEY = process.env.REACT_APP_RAZORPAY_KEY
+
+
     const options = {
-      key: 'rzp_test_Lfev1HWEYekjMI', // Enter the Key ID generated from the Dashboard
-      //key: 'rzp_live_xsOESw138cvA75',
+      key: RAZORPAY_KEY, // Enter the Key ID generated from the Dashboard
       amount: orderData?.amount,
       currency: orderData?.currency,
       name: 'Code Shastra',
