@@ -359,6 +359,7 @@ const PersonalDetails = () => {
         ? personalDetails?.birth_month
         : birthInfo?.birth_month,
       birth_year: personalDetails?.birth_year ? personalDetails?.birth_year : birthInfo?.birth_year,
+      guardian_details:personalDetails?.guardian_details,
     });
     setMobileNumber({ phone: initData?.phone });
 
@@ -811,7 +812,7 @@ const PersonalDetails = () => {
       .confirm(otp && otp)
       .then(async (response) => {
         const { firbase_user } = response;
-        console.log(response);
+        // console.log(response);
         // if (firbase_user) {
         // setloading(false);/
 
@@ -1959,7 +1960,7 @@ const DeleteProfilePicModal = ({ show, toggle, onDeleteFail }) => {
 
     // setProfilePic(profilePicture);
     dispatch(setLoading(false));
-    window.location.reload();
+    // window.location.reload();
   };
 
   return (
