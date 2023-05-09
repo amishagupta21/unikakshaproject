@@ -134,6 +134,7 @@ const Signup = () => {
       //   });
     } else {
       setAuthError('User already exists');
+      window.location.reload();
       dispatch(setLoading(false));
       setloading(false);
       // setTimeout(() => {

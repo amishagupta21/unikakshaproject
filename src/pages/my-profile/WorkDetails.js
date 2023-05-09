@@ -96,7 +96,7 @@ const workDetails = ({ educationalDetails }) => {
 
         }]
       }
-
+console.log("work",payload)
       dispatch(setLoading(true));
       setIsNextLoading(true);
 
@@ -106,6 +106,7 @@ const workDetails = ({ educationalDetails }) => {
 
   const submitWorkDetails = async (payload) => {
     const response = await ApiService('student/update-work-details', `PATCH`, payload, true);
+    // console.log("work")
     setIsNextLoading(false);
     dispatch(setLoading(false));
     if (response?.data.code === 200) {
@@ -132,50 +133,51 @@ const workDetails = ({ educationalDetails }) => {
 
 
           <Row className="mb-5">
-          <Col sm={4}>
-            <Form.Group controlId="position">
-              <Form.Label>Your current working position</Form.Label>
-              <Form.Select
-                name="position"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values?.position}
-                defaultValue={formik.values?.position}>
-                <option value="">Select your Position</option>
-                {workingPositionList.map((option, index) => (
-                  <option key={index} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-                ;
-              </Form.Select>
-            </Form.Group>
+            <Col sm={4}>
+              <Form.Group controlId="position">
+                <Form.Label>Your current working position</Form.Label>
+                <Form.Control
+                  name="position"
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  value={formik.values?.position}
+                  defaultValue={formik.values?.position}>
+                  {/* <option value="">Select your Position</option>
+                  {workingPositionList.map((option, index) => (
+                    <option key={index} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                  ; */}
+                </Form.Control>
+                {/* </Form.Select> */}
+              </Form.Group>
             </Col>
             <Col sm={4}>
-            <Form.Group  controlId="experience">
-              <Form.Label>Total technical experience in years</Form.Label>
-              <Form.Control
-                name="experience"
-                type="text"
-                placeholder="Total technical experience"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values?.experience}
-              />
-            </Form.Group>
-</Col>
-<Col sm={4}>
-            <Form.Group  controlId="currentOrganization">
-              <Form.Label>Organization you are working in</Form.Label>
-              <Form.Control
-                name="organization_name"
-                type="text"
-                placeholder="Current organization"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values?.organization_name}
-              />
-            </Form.Group>
+              <Form.Group controlId="experience">
+                <Form.Label>Total technical experience in years</Form.Label>
+                <Form.Control
+                  name="experience"
+                  type="text"
+                  placeholder="Total technical experience"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values?.experience}
+                />
+              </Form.Group>
+            </Col>
+            <Col sm={4}>
+              <Form.Group controlId="currentOrganization">
+                <Form.Label>Organization you are working in</Form.Label>
+                <Form.Control
+                  name="organization_name"
+                  type="text"
+                  placeholder="Current organization"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values?.organization_name}
+                />
+              </Form.Group>
             </Col>
           </Row>
           <Row className="d-flex justify-content-end my-btn-styles row  row">
