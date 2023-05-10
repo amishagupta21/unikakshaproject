@@ -108,8 +108,6 @@ const Payments = (params) => {
       return;
     }
 
-    // const result = await axios.post("https://api.razorpay.com/v1/orders")
-
     const orderId = orderData?.id;
 
     const RAZORPAY_KEY = process.env.REACT_APP_RAZORPAY_KEY;
@@ -187,7 +185,6 @@ const Payments = (params) => {
   };
 
   const getPaymentSuccess = () => {
-    // let items = coureseVariantBatches?.map((element, index) => {
     return (
       <div className="d-flex align-items-center justify-content-center pay-align">
         <div>
