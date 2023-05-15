@@ -249,8 +249,9 @@ const Payments = (params) => {
                 className="mt-2 "
                 style={{ padding: '8px 30px' }}
                 variant="secondary"
-                // onClick={displayRazorpay}
-                id="btnSubmit">
+                onClick={displayRazorpay}
+                // id="btnSubmit"
+              >
                 Retry Payment
               </Button>
             </p>
