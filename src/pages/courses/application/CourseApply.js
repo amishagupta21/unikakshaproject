@@ -56,6 +56,10 @@ const CourseApplication = () => {
   const [userData, setUserData] = React.useState();
   const [birthInfo, setBirthInfo] = React.useState();
   const [initData, setInitData] = React.useState();
+  const [areDocumentsSubmitted, setAreDocumentsSubmitted] = useState(true);
+  const handleAllDocumentsSubmitted = (state) => {
+    setAreDocumentsSubmitted(state);
+  };
 
   // const [userDOBData, setDobData] = React.useState();
   const [selectedBatch, setSelectedBatch] = React.useState();
@@ -315,7 +319,6 @@ const CourseApplication = () => {
   const returnToDashboard = () => {
     navigate('/dashboard');
   };
-
   const nextPage = () => {
     const nextPage = page + 1;
     nextPageNumber(nextPage);
@@ -728,7 +731,9 @@ const CourseApplication = () => {
               )}
               {page === 6 && (
                 <>
-                  <KYCDocuments nextPage={nextPage}></KYCDocuments>
+                  <KYCDocuments nextPage={nextPage} 
+                   onAllDocumentsSubmitted={handleAllDocumentsSubmitted} areDocumentsSubmitted={areDocumentsSubmitted}
+                  ></KYCDocuments>
                   <Row className="d-flex justify-content-end">
                     <Button
                       className="col-1 me-2 btn btn-outline-secondary"
@@ -740,8 +745,10 @@ const CourseApplication = () => {
                       className="col-1"
                       variant="secondary"
                       type="button"
-                      onClick={() => nextPage()}>
-                      Save
+                      onClick={() => nextPage()}
+                      disabled={areDocumentsSubmitted}
+                      >
+                      Save 
                     </Button>
                   </Row>
                 </>
