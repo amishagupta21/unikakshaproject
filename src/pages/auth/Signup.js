@@ -144,7 +144,6 @@ const Signup = () => {
   };
 
   const sendOTP = async (values) => {
-    console.log(values);
     const countryCode = values.mobileNumber.substr(0, 2);
     const mobileNumber = values.mobileNumber.substr(2, values.mobileNumber.length);
     const result = { ...values, countryCode, mobileNumber };

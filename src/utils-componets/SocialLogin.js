@@ -77,6 +77,7 @@ const SocialLogin = ({ setFieldValue }) => {
           variant="outline-dark"
           onClick={async () => {
             const res = await signInWithGoogle();
+            
             if (res?.user) {
               localStorage.setItem('user', JSON.stringify(res?.user));
               dualAuth(res?.user);
