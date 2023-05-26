@@ -134,7 +134,7 @@ const Signup = () => {
       //   });
     } else {
       setAuthError('User already exists');
-      window.location.reload();
+      // window.location.reload();
       dispatch(setLoading(false));
       setloading(false);
       // setTimeout(() => {
@@ -461,7 +461,7 @@ const Signup = () => {
                         defaultChecked={values.whatsappoptin}
                       />
                       {/* <Field className="me-2" type="checkbox" name="whatsappoptin" /> */}
-                      <span>By sign up you subcribe to have WhatsApp updates.</span>
+                      <span>By signing up, you agree to receive WhatsApp updates.</span>
                     </label>
 
                     <div className="d-grid gap-2 mt-3 mb-3">
