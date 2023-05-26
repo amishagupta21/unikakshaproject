@@ -20,7 +20,6 @@ const MultiStepBar = ({ page, onPageNumberClick, testResults }) => {
 
 
   if(status.includes(testResults?.applicationStatus) ){
-    // console.log("hello")
      hasTakenEntranceTest = true
   }
 
@@ -35,7 +34,7 @@ const MultiStepBar = ({ page, onPageNumberClick, testResults }) => {
         <Step onClick={() => onStepperClick(1)} label="Education & Work Details" />
         {hasTakenEntranceTest ? (
           <Step
-            disabled={hasTakenEntranceTest}
+            // disabled={hasTakenEntranceTest}
             onClick={() => onStepperClick(3)}
             label="Entrance Test"
           />
