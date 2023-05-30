@@ -13,7 +13,7 @@ import ApplicationStatus from './StudentApplicationStatus';
 import './StudentCourseApply.scss';
 import EducationDetails from './StudentEducationDetails';
 import EnrollmentStatus from './StudentEnrollmentStatus';
-import MultiStepBar from './StudentFormProgress';
+// import MultiStepBar from './StudentFormProgress';
 import Payments from './StudentPayments';
 import { isEmpty } from 'lodash';
 import {
@@ -304,7 +304,7 @@ const StudentCourseApplication = () => {
               <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
               <p className="step-header">{stepperTitle}</p>
             </div>
-            <MultiStepBar page={page} onPageNumberClick={nextPageNumber} />
+            {/* <MultiStepBar page={page} onPageNumberClick={nextPageNumber} /> */}
             <Card className="view-course border">
               <Card.Body
                 style={{ padding: 'unset' }}
