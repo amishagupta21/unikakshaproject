@@ -392,7 +392,7 @@ const Signup = () => {
                           />
 
                           <small className="sml-size text-start">
-                            We will send you OTP on mobile number.
+                            We will send you OTP on mobile number and WhatsApp.
                           </small>
                         </Row>
                       )}
