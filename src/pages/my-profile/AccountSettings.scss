@@ -24,6 +24,27 @@
 
         color: #363F5E;
     }
+    .password-toggle {
+        position: absolute;
+        left:60%;
+        top: 14%;
+        transform: translateY(-50%);
+      }
+      
+      .password2-toggle {
+        position: absolute;
+        right: 160px;
+        top: 42%;
+        transform: translateY(-50%);
+      }
+
+      .password3-toggle {
+        position: absolute;
+        right: 160px;
+        top: 70%;
+        transform: translateY(-50%);
+      }
+      
 }
 .right_box_container .log-in-title {
    

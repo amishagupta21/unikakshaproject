@@ -29,7 +29,7 @@ import './AccountSettings.scss';
 
 import ApiService from '../../services/ApiService';
 import { firebase } from '../../firebase/firebase';
-  import { setIsAuthenticated } from '../../redux/actions/AuthAction';
+import { setIsAuthenticated } from '../../redux/actions/AuthAction';
 import { logout } from '../../firebase/firebaseAuth';
 import { openToaster } from '../../redux/actions/ToastAction';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -48,6 +48,9 @@ const AccountSettings = () => {
     const [showDeleteModal, setShowDeleteModal] = React.useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [showPassword, setShowPassword] = useState(false);
+    const [confirmShowPassword, setConfirmShowPassword] = useState(false);
+    const [confirmNewShowPassword, setConfirmNewShowPassword] = useState(false);
 
 
     useEffect(() => {
@@ -195,10 +198,22 @@ const AccountSettings = () => {
                                                     </FormLabel>
                                                     <FormControl
                                                         placeholder="Enter your current password here"
-                                                        type={'password'}
+                                                        type={showPassword ? 'text' : 'password'}
+                                                        // type={'password'}
                                                         value={field.value}
                                                         onChange={field.onChange}
                                                     />
+                                                    <Button
+                                                        variant="outline-secondary"
+                                                        className="password-toggle"
+                                                        onClick={() => setShowPassword(!showPassword)}
+                                                    >
+                                                        {showPassword ? (
+                                                            <i className="bi bi-eye-slash-fill"></i>
+                                                        ) : (
+                                                            <i className="bi bi-eye-fill"></i>
+                                                        )}
+                                                    </Button>
                                                 </FormGroup>
                                             </Row>
                                         )}
@@ -220,10 +235,22 @@ const AccountSettings = () => {
                                                     </FormLabel>
                                                     <FormControl
                                                         placeholder="Enter your new password here"
-                                                        type={'password'}
+                                                        type={confirmShowPassword ? 'text' : 'password'}
+                                                        // type={'password'}
                                                         value={field.value}
                                                         onChange={field.onChange}
                                                     />
+                                                    <Button
+                                                        variant="outline-secondary"
+                                                        className="password2-toggle"
+                                                        onClick={() => setConfirmShowPassword(!confirmShowPassword)}
+                                                    >
+                                                        {confirmShowPassword ? (
+                                                            <i className="bi bi-eye-slash-fill"></i>
+                                                        ) : (
+                                                            <i className="bi bi-eye-fill"></i>
+                                                        )}
+                                                    </Button>
                                                 </FormGroup>
                                             </Row>
                                         )}
@@ -246,10 +273,22 @@ const AccountSettings = () => {
                                                     </FormLabel>
                                                     <FormControl
                                                         placeholder="Enter your confirm password here"
-                                                        type={'password'}
+                                                        type={confirmNewShowPassword ? 'text' : 'password'}
+                                                        // type={'password'}
                                                         value={field.value}
                                                         onChange={field.onChange}
                                                     />
+                                                     <Button
+                                                        variant="outline-secondary"
+                                                        className="password3-toggle"
+                                                        onClick={() => setConfirmNewShowPassword(!confirmNewShowPassword)}
+                                                    >
+                                                        {confirmNewShowPassword ? (
+                                                            <i className="bi bi-eye-slash-fill"></i>
+                                                        ) : (
+                                                            <i className="bi bi-eye-fill"></i>
+                                                        )}
+                                                    </Button>
                                                 </FormGroup>
                                             </Row>
                                         )}

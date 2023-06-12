@@ -31,6 +31,8 @@ const Signup = () => {
   const location = useLocation();
   const [userDetails, setUserDetails] = React.useState({});
   const [authError, setAuthError] = React.useState();
+  const [showPassword, setShowPassword] = useState(false);
+  const [confirmShowPassword, setConfirmShowPassword] = useState(false);
 
   const userSignUpData = location.state?.values;
 
@@ -46,11 +48,11 @@ const Signup = () => {
   }, []);
 
   const configureCaptcha = () =>
-    (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('set-password-container', {
-      size: 'invisible',
-      callback: (response) => {},
-      defaultCountry: 'IN',
-    }));
+  (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('set-password-container', {
+    size: 'invisible',
+    callback: (response) => { },
+    defaultCountry: 'IN',
+  }));
 
   const checkIfUserExists = async (email, phone) => {
     const result = await ApiService(
@@ -195,11 +197,23 @@ const Signup = () => {
                               <p className="hint">Password must be 8 characters long</p>
                               <FormControl
                                 placeholder="Enter your password here"
-                                type={'password'}
+                                type={showPassword ? 'text' : 'password'}
+                                // type={'password'}
                                 value={field.value}
                                 onChange={field.onChange}
                               />
-                            </FormGroup>
+                              <Button
+                                variant="outline-secondary"
+                                className="password-toggle"
+                                onClick={() => setShowPassword(!showPassword)}
+                              >
+                                {showPassword ? (
+                                  <i className="bi bi-eye-slash-fill"></i>
+                                ) : (
+                                  <i className="bi bi-eye-fill"></i>
+                                )}
+                              </Button>
+                              </FormGroup>
                           </Row>
                         )}
                       />
@@ -220,10 +234,22 @@ const Signup = () => {
                               </FormLabel>
                               <FormControl
                                 placeholder="Enter your password here"
-                                type={'password'}
+                                type={confirmShowPassword ? 'text' : 'password'}
+                                // type={'password'}
                                 value={field.value}
                                 onChange={field.onChange}
                               />
+                              <Button
+                                variant="outline-secondary"
+                                className="password2-toggle"
+                                onClick={() => setConfirmShowPassword(!confirmShowPassword)}
+                              >
+                                {confirmShowPassword ? (
+                                  <i className="bi bi-eye-slash-fill"></i>
+                                ) : (
+                                  <i className="bi bi-eye-fill"></i>
+                                )}
+                              </Button>
                             </FormGroup>
                           </Row>
                         )}
