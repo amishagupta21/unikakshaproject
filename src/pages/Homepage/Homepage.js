@@ -30,6 +30,7 @@ const Homepage = () => {
     const isFetched = await fetchAndActivate(remoteConfig);
     const temp3 = await getValue(remoteConfig, 'skill_fit_data');
     const responseData = await JSON.parse(temp3._value);
+    // console.log(responseData?.banner1_configure)
     setData(responseData);
     fetchCourseDetails(responseData);
     const uid = JSON.parse(localStorage.getItem('user')).uid;

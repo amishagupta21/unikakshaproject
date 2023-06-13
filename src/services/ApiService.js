@@ -20,6 +20,7 @@ const ApiService = async (url_end_point, type, data, isToken) => {
   };
   try {
     const response = await axios(apiObj(url_end_point, type, data));
+    // console.log(response)
     return response;
   } catch (err) {
     console.log(`${err}`);
