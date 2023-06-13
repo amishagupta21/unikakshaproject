@@ -5,6 +5,7 @@ import Loginbanner from '../../../assets/images/img-home-banner.png';
 
 
 const HeroSection = ({ bannerDetails }) =>  (
+  // console.log(bannerDetails)
     <div className="hero-banner">
       <div className="container">
         <div className="row">
@@ -17,12 +18,16 @@ const HeroSection = ({ bannerDetails }) =>  (
             <div className="home-page-slides">
               <Carousel>
                 {bannerDetails?.item?.map((banner, index) => (
+                  
                   <Carousel.Item key={banner?.image + index}>
                     <div className="bootcamp-item">
                       <h2>{banner?.title}</h2>
                       <h1>Bootcamp</h1>
                       <p>
-                        Batch starting <span className="orange">{banner?.start_date}</span>
+                        Batch starting <span className="orange">
+                          2023-07-13
+                          {/* {banner?.start_date} */}
+                          </span>
                       </p>
                       <div className="btn-item">
                         <a href={banner.deeplink} target="_blank" className="enroll-now">
