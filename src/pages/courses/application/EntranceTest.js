@@ -21,6 +21,7 @@ const EntranceTest = ({ course, user }) => {
       payload,
       true
     );
+    console.log("applicationDetails",applicationDetails)
     const { m_testurl } = applicationDetails?.data?.data.application;
     if (m_testurl === '') {
       setTestUrl(fallBackURL);

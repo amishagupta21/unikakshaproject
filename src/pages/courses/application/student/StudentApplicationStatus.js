@@ -62,7 +62,7 @@ const ApplicationStatus = ({ nextPage, application, setOrderData, courseId, setS
       payload,
       true
     );
-
+console.log("applicationDetails",applicationDetails)
     const applicationData = applicationDetails?.data?.data.application;
 
     const { m_applicationstatus: appStatus } = applicationData;

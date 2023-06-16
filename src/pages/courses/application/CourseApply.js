@@ -159,7 +159,8 @@ const CourseApplication = () => {
       payload,
       true
     );
-
+    console.log("details", applicationDetails)
+    console.log("detailsuser",applicationDetails?.data?.data.application)
     if (applicationDetails?.data?.data.application) {
       const { application_stage, m_applicationstatus, m_totalscore, m_candidatescore } =
         applicationDetails?.data?.data.application;
@@ -217,6 +218,7 @@ const CourseApplication = () => {
       personal_details: personalDetails,
     };
     const response = await ApiService('/student/personal-details', `POST`, payload, true);
+    // console.log("details",response)
 
     setIsNextLoading(false);
     if (response?.data.code === 200) {
@@ -409,7 +411,7 @@ const CourseApplication = () => {
                             // defaultValue={user.displayName}
                             value={formik.values?.full_name}
                             placeholder="Enter you full name"
-                            // disabled="disabled"
+                          // disabled="disabled"
                           />
 
                           {formik.touched.full_name && formik.errors.full_name ? (
@@ -436,7 +438,7 @@ const CourseApplication = () => {
                             // disabled={disabled}
                             disabled="disabled"
                             style={{ opacity: 0.5 }}
-                            // disabled={ userData?.email }
+                          // disabled={ userData?.email }
                           />
 
                           {formik.touched.email && formik.errors.email ? (
@@ -469,8 +471,8 @@ const CourseApplication = () => {
                               // onBlur={formik.handleBlur('mobile_number')}
                               className="disabled-field"
                               disabled="disabled"
-                              // defaultValue={userData?.phone}
-                              // disabled={ userData?.phone }
+                            // defaultValue={userData?.phone}
+                            // disabled={ userData?.phone }
                             />
                           </div>
                           {formik.touched.mobile_number && formik.errors.mobile_number ? (
@@ -731,8 +733,8 @@ const CourseApplication = () => {
               )}
               {page === 6 && (
                 <>
-                  <KYCDocuments nextPage={nextPage} 
-                   onAllDocumentsSubmitted={handleAllDocumentsSubmitted} areDocumentsSubmitted={areDocumentsSubmitted}
+                  <KYCDocuments nextPage={nextPage}
+                    onAllDocumentsSubmitted={handleAllDocumentsSubmitted} areDocumentsSubmitted={areDocumentsSubmitted}
                   ></KYCDocuments>
                   <Row className="d-flex justify-content-end">
                     <Button
@@ -747,8 +749,8 @@ const CourseApplication = () => {
                       type="button"
                       onClick={() => nextPage()}
                       disabled={areDocumentsSubmitted}
-                      >
-                      Save 
+                    >
+                      Save
                     </Button>
                   </Row>
                 </>
