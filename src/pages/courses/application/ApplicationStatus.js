@@ -62,13 +62,14 @@ const ApplicationStatus = ({
       uid: user?.uid,
       course_id: courseId,
     };
-
     let applicationDetails = await ApiService(
       '/student/application/detail-by-user-course',
       `POST`,
       payload,
       true
     );
+    console.log("detailsofpages",applicationDetails)
+
 
     // if (applicationDetails?.data?.data.application) {
     const applicationData = applicationDetails?.data?.data.application;
