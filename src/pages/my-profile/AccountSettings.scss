@@ -26,23 +26,30 @@
     }
     .password-toggle {
         position: absolute;
-        left:60%;
+        left:65%;
         top: 14%;
         transform: translateY(-50%);
+        border: none;
       }
+    //   .password-toggle:focus {
+    //     outline: none; 
+    //     box-shadow: none; 
+    //   }
       
       .password2-toggle {
         position: absolute;
-        right: 160px;
+        right: 133px;
         top: 42%;
         transform: translateY(-50%);
+        border: none;
       }
 
       .password3-toggle {
         position: absolute;
-        right: 160px;
+        right: 133px;
         top: 70%;
         transform: translateY(-50%);
+        border: none;
       }
       
 }
