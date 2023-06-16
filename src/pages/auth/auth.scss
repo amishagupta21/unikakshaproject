@@ -1,3 +1,4 @@
+
 .log-in-title {
   font-family: 'Roboto', sans-serif;
   font-style: normal;
@@ -349,8 +350,26 @@ select.form-control {
   font-size: 12px;
   line-height: 14px;
 }
+.pencil-edit{
+  margin-left: 230px;
+  margin-top: -85px;
+  color: #ff7f2e;
+  background: #ffffff;
+  // border: 1px solid #ff7f2e;
+  border-radius: 4px;
+  z-index: 2;
+  position: absolute;
+  // width: 85px;
+  // height: 34px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 14px;
+  // background-color:yellow;
+}
 .get-otp-btn {
-  margin-left: 250px;
+  margin-left: 240px;
   margin-top: -80px;
   color: #ff7f2e;
   background: #ffffff;
@@ -365,6 +384,7 @@ select.form-control {
   font-weight: 500;
   font-size: 12px;
   line-height: 14px;
+  // background-color: #02a74d;
 }
 
 @media screen and (max-width: 767px) {
