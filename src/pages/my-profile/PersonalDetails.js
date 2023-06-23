@@ -10,6 +10,7 @@ import {
   optionsmonth,
   yearsOptions,
 } from '../../utils-componets/static-content/DateMonthContent';
+import { BsPencilSquare } from 'react-icons/bs';
 
 import { isEmpty } from 'lodash';
 import {
@@ -62,6 +63,8 @@ const PersonalDetails = () => {
   const [userData, setUserData] = React.useState();
   // const [userDOBData, setDobData] = React.useState();
   const [isLoading, setIsLoading] = React.useState(false);
+  const [editable, setEditable] = React.useState(false);
+
 
   const [EducationalData, setEducationalDetails] = React.useState({});
   const [KYCData, setKYCDetails] = React.useState();
@@ -96,7 +99,7 @@ const PersonalDetails = () => {
       'profile-otp-container',
       {
         size: 'invisible',
-        callback: (response) => {},
+        callback: (response) => { },
         defaultCountry: 'IN',
       }
     ));
@@ -107,7 +110,7 @@ const PersonalDetails = () => {
       'profile-email-container',
       {
         size: 'invisible',
-        callback: (response) => {},
+        callback: (response) => { },
         defaultCountry: 'IN',
       }
     ));
@@ -239,7 +242,7 @@ const PersonalDetails = () => {
 
     const response = await ApiService('student/update-personal-details', `PATCH`, payload, true);
     // console.log(response)
-    console.log(JSON.stringify(response.data));
+    // console.log(JSON.stringify(response.data));
     // const checkIfUserExists = async (email, phone) => {
     //   const result = await ApiService(
     //     'user/check-exists',
@@ -359,7 +362,7 @@ const PersonalDetails = () => {
         ? personalDetails?.birth_month
         : birthInfo?.birth_month,
       birth_year: personalDetails?.birth_year ? personalDetails?.birth_year : birthInfo?.birth_year,
-      guardian_details:personalDetails?.guardian_details,
+      guardian_details: personalDetails?.guardian_details,
     });
     setMobileNumber({ phone: initData?.phone });
 
@@ -503,7 +506,7 @@ const PersonalDetails = () => {
               window.location.reload();
               return true;
             })
-            .catch((error) => {});
+            .catch((error) => { });
         }
       }
     } catch (error) {
@@ -866,6 +869,11 @@ const PersonalDetails = () => {
                         <Nav.Link eventKey="third">Work Details</Nav.Link>
                       </Nav.Item>
                     )}
+                       {userOccupation && userOccupation === 'STUDENT' && (
+                      <Nav.Item>
+                        <Nav.Link eventKey="third">Work Details</Nav.Link>
+                      </Nav.Item>
+                    )}
 
                     <Nav.Item>
                       <Nav.Link eventKey="fourth"> Documents & KYC</Nav.Link>
@@ -967,7 +975,7 @@ const PersonalDetails = () => {
                                           variant="outline-secondary"
                                           type="button"
                                           onClick={() => setShowConfirmModal(true)}
-                                          // onClick={() => deleteProfilePic('profile_picture')()}
+                                        // onClick={() => deleteProfilePic('profile_picture')()}
                                         >
                                           <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -1081,7 +1089,7 @@ const PersonalDetails = () => {
                                             value={formik.values?.email}
                                             disabled={true}
                                             style={{ opacity: 0.5 }}
-                                            // disabled={ userData?.email }
+                                          // disabled={ userData?.email }
                                           />
                                           <span className="change-mobile-no">
                                             {/* <a onClick={() => changeMobileEmailId()}>
@@ -1115,8 +1123,8 @@ const PersonalDetails = () => {
                                             placeholder="Enter your Mobile number"
                                             disabled={disabled}
                                             style={{ opacity: 0.5 }}
-                                            // defaultValue={userData?.phone}
-                                            // disabled={ userData?.phone }
+                                          // defaultValue={userData?.phone}
+                                          // disabled={ userData?.phone }
                                           />
                                           <span className="change-mobile-no">
                                             {/* <a onClick={() => changeMobileNo()}>
@@ -1125,7 +1133,7 @@ const PersonalDetails = () => {
                                           </span>
 
                                           {formik.touched.mobile_number &&
-                                          formik.errors.mobile_number ? (
+                                            formik.errors.mobile_number ? (
                                             <div className="error-message">
                                               {formik.errors.mobile_number}
                                             </div>
@@ -1137,10 +1145,18 @@ const PersonalDetails = () => {
                                           sm={6}
                                           controlId="whatsapp_number"
                                           className="no-whatsapp">
+                                          {/* <Form.Label>
+                                            Whatsapp Number<span className="text-danger"> *</span>
+                                          </Form.Label> */}
                                           <Form.Label>
                                             Whatsapp Number<span className="text-danger"> *</span>
+                                            {editable ? (
+                                              <BsPencilSquare className="edit-icon" onClick={() => setEditable(false)} />
+                                            ) : (
+                                              <BsPencilSquare className="edit-icon" onClick={() => setEditable(true)} />
+                                            )}
                                           </Form.Label>
-                                          <PhoneInput
+                                          {/* <PhoneInput
                                             country={'in'}
                                             value={formik.values?.whatsapp_number}
                                             onChange={(phone, data) => {
@@ -1152,6 +1168,19 @@ const PersonalDetails = () => {
                                             placeholder="Enter your Whatsapp number"
                                             disabled={disabled}
                                             style={{ opacity: 0.5 }}
+                                          /> */}
+                                          <PhoneInput
+                                            country={'in'}
+                                            value={formik.values?.whatsapp_number}
+                                            onChange={(phone, data) => {
+                                              setWhatsAppNumber({ phone, data });
+                                              formik.setFieldValue('whatsapp_number', phone);
+                                            }}
+                                            countryCodeEditable={false}
+                                            onBlur={formik.handleBlur('whatsapp_number')}
+                                            placeholder="Enter your Whatsapp number"
+                                            disabled={!editable} // Inverted the value of editable
+                                            style={{ opacity: editable ? 1 : 0.5 }} // Adjusted opacity based on editable
                                           />
                                           <span className="change-mobile-no">
                                             {/* <a onClick={() => changeWhatsappNo()}>
@@ -1159,7 +1188,7 @@ const PersonalDetails = () => {
                                             </a> */}
                                           </span>
                                           {formik.touched.whatsapp_number &&
-                                          formik.errors.whatsapp_number ? (
+                                            formik.errors.whatsapp_number ? (
                                             <div className="error-message  mt-3">
                                               {formik.errors.whatsapp_number}
                                             </div>
@@ -1250,7 +1279,7 @@ const PersonalDetails = () => {
                                             // style={{width: '170px'}}
                                             className={
                                               formik.touched.birth_month &&
-                                              formik.errors.birth_month
+                                                formik.errors.birth_month
                                                 ? 'is-invalid'
                                                 : null
                                             }
@@ -1267,7 +1296,7 @@ const PersonalDetails = () => {
                                             ;
                                           </Form.Select>
                                           {formik.touched.birth_month &&
-                                          formik.errors.birth_month ? (
+                                            formik.errors.birth_month ? (
                                             <div className="error-message">
                                               {formik.errors.birth_month}
                                             </div>
@@ -1420,12 +1449,12 @@ const PersonalDetails = () => {
                                                       'change_mobile_number'
                                                     )}
                                                     placeholder="Enter your Mobile number"
-                                                    // defaultValue={userData?.phone}
-                                                    // disabled={ userData?.phone }
+                                                  // defaultValue={userData?.phone}
+                                                  // disabled={ userData?.phone }
                                                   />
 
                                                   {formik1.touched.mobile_number &&
-                                                  formik1.errors.mobile_number ? (
+                                                    formik1.errors.mobile_number ? (
                                                     <div className="error-message">
                                                       {formik1.errors.mobile_number}
                                                     </div>
@@ -1494,12 +1523,12 @@ const PersonalDetails = () => {
                                                       'change_mobile_number'
                                                     )}
                                                     placeholder="Enter your whatsapp number"
-                                                    // defaultValue={userData?.phone}
-                                                    // disabled={ userData?.phone }
+                                                  // defaultValue={userData?.phone}
+                                                  // disabled={ userData?.phone }
                                                   />
 
                                                   {formik1.touched.mobile_number &&
-                                                  formik1.errors.mobile_number ? (
+                                                    formik1.errors.mobile_number ? (
                                                     <div className="error-message">
                                                       {formik1.errors.mobile_number}
                                                     </div>
@@ -1670,7 +1699,7 @@ const PersonalDetails = () => {
                                                     onChange={formik_change_email.handleChange}
                                                     className={
                                                       formik_change_email.touched.change_email_id &&
-                                                      formik_change_email.errors.change_email_id
+                                                        formik_change_email.errors.change_email_id
                                                         ? 'is-invalid'
                                                         : null
                                                     }
@@ -1679,11 +1708,11 @@ const PersonalDetails = () => {
                                                     value={
                                                       formik_change_email.values?.change_email_id
                                                     }
-                                                    // disabled={ userData?.email }
+                                                  // disabled={ userData?.email }
                                                   />
 
                                                   {formik_change_email.touched.change_email_id &&
-                                                  formik_change_email.errors.change_email_id ? (
+                                                    formik_change_email.errors.change_email_id ? (
                                                     <div className="error-message">
                                                       {formik_change_email.errors.change_email_id}
                                                     </div>
@@ -1840,7 +1869,8 @@ const PersonalDetails = () => {
                       <div className="course-application-list" id="educational">
                         <h3 className="text-primary">Educational Details </h3>
                         {userOccupation && userOccupation === 'STUDENT' && (
-                          <ProfileStudentEducationDetails educationalInfo={EducationalData} />
+                          // <ProfileStudentEducationDetails educationalInfo={EducationalData} />
+                          <EducationalDetails educationalInfo={EducationalData} />
                         )}
                         {userOccupation && userOccupation !== 'STUDENT' && (
                           <EducationalDetails educationalInfo={EducationalData} />

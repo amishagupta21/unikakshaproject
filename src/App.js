@@ -59,7 +59,8 @@ const App = () => {
                 <Route path="course/apply/:courseVariantSlug" element={<CourseApplication />} />
                 <Route
                   path="course/apply/student/:courseVariantSlug"
-                  element={<StudentCourseApplication />}
+                  // element={<StudentCourseApplication />}
+                  element={<CourseApplication />}
                 />
                 <Route path="my-courses" element={<MyCourses />} />
                 <Route path="unikode" element={<Unikode />} />

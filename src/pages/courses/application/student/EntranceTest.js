@@ -20,7 +20,6 @@ const EntranceTest = ({ course, user }) => {
       payload,
       true
     );
-    console.log("applicationDetails",applicationDetails)
     const { m_testurl } = applicationDetails?.data?.data.application;
     setTestUrl(m_testurl);
   };

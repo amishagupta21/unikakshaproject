@@ -16,7 +16,6 @@ const status = [
 ];
 
 const MultiStepBar = ({ page, onPageNumberClick, testResults }) => {
-  // console.log("details",page)
   let hasTakenEntranceTest = true;
 
 
@@ -27,7 +26,6 @@ const MultiStepBar = ({ page, onPageNumberClick, testResults }) => {
   const onStepperClick = (page) => {
     onPageNumberClick(page);
   };
-  // console.log("details",onStepperClick)
 
 
   return (

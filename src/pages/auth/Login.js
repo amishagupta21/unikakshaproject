@@ -103,7 +103,6 @@ const Login = () => {
 
   const checkIfUserExists = async (email, phone) => {
     const result = await ApiService('user/check-exists', 'POST', { email, phone }, true);
-    console.log(result, '////');
     if (email === null || email === undefined) {
       return result?.data?.data?.byPhone?.user;
     }

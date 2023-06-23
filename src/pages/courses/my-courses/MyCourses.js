@@ -41,7 +41,6 @@ const MyCourses = () => {
 
   const fetchInitialData = async () => {
     const response = await ApiService('/student/application/list', 'GET', {}, true);
-    // console.log("here",response)
     const { data } = response;
     const stepper = data?.data?.[0]?.application_stage;
     // console.log("working",stepper)
@@ -185,9 +184,10 @@ const MyCourses = () => {
                           <Card.Body className="application-status application-status-course">
                             {occupation !== 'STUDENT' && <MultiStepBar page={stepper} />}
                             {occupation === 'STUDENT' && (
-                              <StudentMultiStepBar
-                                page={setStepperStage(application?.application_stage)}
-                              />
+                              <MultiStepBar page={stepper} />
+                              // <StudentMultiStepBar
+                              //   page={setStepperStage(application?.application_stage)}
+                              // />
                             )}
                           </Card.Body>
                         </div>
@@ -202,7 +202,8 @@ const MyCourses = () => {
                               variant="secondary"
                               type="button"
                               onClick={() => {
-                                navigate(`/course/apply/${application?.courseDetail?.course_url}`);
+                                navigate(`/course/apply/${application?.courseDetail?.course_url
+                                }`);
                               }}>
                               Complete Application
                             </Button>
