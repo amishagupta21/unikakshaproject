@@ -106,6 +106,7 @@ const CourseApplication = () => {
   };
 
   const fetchCourseDetails = async (params) => {
+    // console.log("params",params)
     const { courseVariantSlug } = params;
     const res = await ApiService(`courses/course_url/${courseVariantSlug}/detail`);
     return res?.data?.data?.course;

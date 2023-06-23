@@ -13,7 +13,7 @@ const EnrollmentStatus = () => {
     const navigate = useNavigate();
 
     const goToDashboard = () => {
-        navigate('/my-courses');
+        navigate('/dashboard');
     }
 
     return (
