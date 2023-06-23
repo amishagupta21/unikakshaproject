@@ -68,7 +68,6 @@ const ApplicationStatus = ({
       payload,
       true
     );
-    console.log("detailsofpages",applicationDetails)
 
 
     // if (applicationDetails?.data?.data.application) {

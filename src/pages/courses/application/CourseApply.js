@@ -140,6 +140,29 @@ const CourseApplication = () => {
   const fetchInitialData = async (uid) => {
     setIsLoading(true);
     const courseData = state ? state : await fetchCourseDetails(params);
+
+
+    // const application_stage = courseData?.applicationStage
+    // if (application_stage === 'personal_details') {
+    //   nextPageNumber(1);
+    // } else if (application_stage === 'education_details') {
+    //   nextPageNumber(2);
+    // } else if (application_stage === 'test_result') {
+    //   nextPageNumber(3);
+    //   setIsLoading(false);
+
+    //   return;
+    // } else if (application_stage === 'application_status') {
+    //   nextPageNumber(4);
+      
+    // } else if (
+    //   application_stage === 'payment_status'
+    // ) {
+    //   nextPageNumber(4);
+    // } else {
+    //   nextPageNumber(6);
+    // }
+
     setCourseDetails(courseData);
     fetchUserDetails(uid);
     if (courseDetails?.course_id) {
@@ -159,8 +182,6 @@ const CourseApplication = () => {
       payload,
       true
     );
-    console.log("details", applicationDetails)
-    console.log("detailsuser",applicationDetails?.data?.data.application)
     if (applicationDetails?.data?.data.application) {
       const { application_stage, m_applicationstatus, m_totalscore, m_candidatescore } =
         applicationDetails?.data?.data.application;
@@ -197,7 +218,8 @@ const CourseApplication = () => {
     window.scrollTo(0, 0);
     fetchInitialData(user?.uid);
     dispatch(setLoading(false));
-  }, [courseDetails]);
+  },[courseDetails]
+  );
 
   const fetchVariantBatches = async (courseVariantId) => {
     const res = await ApiService(`courses/${courseVariantId}/batch/list`);
@@ -218,7 +240,6 @@ const CourseApplication = () => {
       personal_details: personalDetails,
     };
     const response = await ApiService('/student/personal-details', `POST`, payload, true);
-    // console.log("details",response)
 
     setIsNextLoading(false);
     if (response?.data.code === 200) {

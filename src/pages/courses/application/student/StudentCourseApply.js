@@ -13,7 +13,7 @@ import ApplicationStatus from './StudentApplicationStatus';
 import './StudentCourseApply.scss';
 import EducationDetails from './StudentEducationDetails';
 import EnrollmentStatus from './StudentEnrollmentStatus';
-// import MultiStepBar from './StudentFormProgress';
+import MultiStepBar from './StudentFormProgress';
 import Payments from './StudentPayments';
 import { isEmpty } from 'lodash';
 import {
@@ -203,7 +203,6 @@ const StudentCourseApplication = () => {
       nextPage();
     }
   };
-
   const formik = useFormik({
     validationSchema: Yup.object().shape({
       full_name: Yup.string().required('Name is required'),

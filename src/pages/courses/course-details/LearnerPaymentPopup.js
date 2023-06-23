@@ -75,7 +75,7 @@ const LearnerPaymentPopup = ({ courseId, courseInfo, setopenpayment }) => {
         payload,
         true
       );
-console.log("applicationDetails",applicationDetails)
+// console.log("applicationDetails",applicationDetails)
       setApplication(applicationDetails?.data?.data?.application);
 
       let payload = {
