@@ -43,15 +43,11 @@ const MyCourses = () => {
     const response = await ApiService('/student/application/list', 'GET', {}, true);
     const { data } = response;
     const stepper = data?.data?.[0]?.application_stage;
-    // console.log("working",stepper)
-    // courseStepper[data.data.]
     courseStepper[stepper] && setStepper(courseStepper[stepper]);
-    // console.log("here2",courseStepper)
     setApplicationList(data?.data);
   };
 
   const setStepperStage = (stage) => {
-    // console.log(stage, steps.indexOf(stage) + 1, '/////////stage');
     //return steps.indexOf(stage);
     setPage(pageNumber || 0);
     setStepperTitle(stepperName || '');
@@ -72,8 +68,6 @@ const MyCourses = () => {
       ];
     }
 
-    // console.log(steps);
-    // console.log(...steps, ...s)
     // setOccupation(response?.data?.data?.userProfile?.occupation);
   };
 
@@ -202,7 +196,7 @@ const MyCourses = () => {
                               variant="secondary"
                               type="button"
                               onClick={() => {
-                                navigate(`/course/apply/${application?.courseDetail?.course_url
+                                navigate(`/course/apply/${application?.courseDetail?.course_id
                                 }`);
                               }}>
                               Complete Application
@@ -216,7 +210,7 @@ const MyCourses = () => {
                               type="button"
                               onClick={() => {
                                 navigate(
-                                  `/course/apply/student/${application?.courseDetail?.course_url}`
+                                  `/course/apply/student/${application?.courseDetail?.course_id}`
                                 );
                               }}>
                               Complete Application
