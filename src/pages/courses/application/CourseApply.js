@@ -39,6 +39,7 @@ const steps = [
 ];
 
 const CourseApplication = () => {
+
   const [page, setPage] = React.useState();
   const [stepperTitle, setStepperTitle] = React.useState('');
   const [mobileState, setMobileNumber] = React.useState({ phone: '', data: '' });
@@ -141,29 +142,7 @@ const CourseApplication = () => {
   const fetchInitialData = async (uid) => {
     setIsLoading(true);
     const courseData = state ? state : await fetchCourseDetails(params);
-
-
-    // const application_stage = courseData?.applicationStage
-    // if (application_stage === 'personal_details') {
-    //   nextPageNumber(1);
-    // } else if (application_stage === 'education_details') {
-    //   nextPageNumber(2);
-    // } else if (application_stage === 'test_result') {
-    //   nextPageNumber(3);
-    //   setIsLoading(false);
-
-    //   return;
-    // } else if (application_stage === 'application_status') {
-    //   nextPageNumber(4);
-      
-    // } else if (
-    //   application_stage === 'payment_status'
-    // ) {
-    //   nextPageNumber(4);
-    // } else {
-    //   nextPageNumber(6);
-    // }
-
+   
     setCourseDetails(courseData);
     fetchUserDetails(uid);
     if (courseDetails?.course_id) {
@@ -219,8 +198,7 @@ const CourseApplication = () => {
     window.scrollTo(0, 0);
     fetchInitialData(user?.uid);
     dispatch(setLoading(false));
-  },[courseDetails]
-  );
+  }, [courseDetails.course_title]);
 
   const fetchVariantBatches = async (courseVariantId) => {
     const res = await ApiService(`courses/${courseVariantId}/batch/list`);
