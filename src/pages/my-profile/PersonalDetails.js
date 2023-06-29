@@ -1073,6 +1073,11 @@ const PersonalDetails = () => {
                                           <Form.Label>
                                             Email
                                             <span className="text-danger"> *</span>
+                                            {editable ? (
+                                              <BsPencilSquare className="edit-icon" onClick={() => setEditable(false)} />
+                                            ) : (
+                                              <BsPencilSquare className="edit-icon" onClick={() => setEditable(true)} />
+                                            )}
                                           </Form.Label>
                                           <Form.Control
                                             type="email"
@@ -1087,8 +1092,10 @@ const PersonalDetails = () => {
                                             onBlur={formik.handleBlur}
                                             placeholder="Enter your Email"
                                             value={formik.values?.email}
-                                            disabled={true}
-                                            style={{ opacity: 0.5 }}
+                                            disabled={!editable} // Inverted the value of editable
+                                            style={{ opacity: editable ? 1 : 0.5 }} 
+                                            // disabled={true}
+                                            // style={{ opacity: 0.5 }}
                                           // disabled={ userData?.email }
                                           />
                                           <span className="change-mobile-no">
