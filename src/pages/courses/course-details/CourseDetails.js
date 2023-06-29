@@ -32,6 +32,7 @@ import ApiService from '../../../services/ApiService';
 import './CourseDetails.scss';
 import Faqs from './Faqs';
 import LearnerPaymentPopup from './LearnerPaymentPopup';
+import Payment from '../../../components/Payment';
 
 function CourseDetails() {
   const [courseDetails, setCourseDetails] = React.useState();
@@ -347,7 +348,9 @@ function CourseDetails() {
                     <span>Learners:</span>{' '}
                     {courseDetails?.learner_count}
                   </p>
+
                 </div>
+
                 <div className="d-flex">
                   <h6 className="me-1">
                     <span>Duration:</span> {courseVariantBatches[0]?.duration} Months |{' '}
@@ -468,8 +471,10 @@ function CourseDetails() {
                 Choose A Payment Plan That Works For You
               </h4>
               <Row xs={1} md={1} className="mtb5 eligible-group-chat">
-                {getPaymentsPlans()}
+                {/* {getPaymentsPlans()} */}
+                <Payment />
               </Row>
+
               {courseDetails?.course_type == 'PartTime' &&
                 courseDetails?.course_variant_sections?.whatWillYouLearn.label && (
                   <>
