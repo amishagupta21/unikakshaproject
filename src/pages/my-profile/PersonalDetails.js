@@ -64,7 +64,7 @@ const PersonalDetails = () => {
   // const [userDOBData, setDobData] = React.useState();
   const [isLoading, setIsLoading] = React.useState(false);
   const [editable, setEditable] = React.useState(false);
-
+   const[emailEditable,setEmailEditable]=React.useState(false)
 
   const [EducationalData, setEducationalDetails] = React.useState({});
   const [KYCData, setKYCDetails] = React.useState();
@@ -1073,10 +1073,10 @@ const PersonalDetails = () => {
                                           <Form.Label>
                                             Email
                                             <span className="text-danger"> *</span>
-                                            {editable ? (
-                                              <BsPencilSquare className="edit-icon" onClick={() => setEditable(false)} />
+                                            {emailEditable ? (
+                                              <BsPencilSquare className="edit-icon" onClick={() => setEmailEditable(false)} />
                                             ) : (
-                                              <BsPencilSquare className="edit-icon" onClick={() => setEditable(true)} />
+                                              <BsPencilSquare className="edit-icon" onClick={() => setEmailEditable(true)} />
                                             )}
                                           </Form.Label>
                                           <Form.Control
@@ -1092,8 +1092,8 @@ const PersonalDetails = () => {
                                             onBlur={formik.handleBlur}
                                             placeholder="Enter your Email"
                                             value={formik.values?.email}
-                                            disabled={!editable} // Inverted the value of editable
-                                            style={{ opacity: editable ? 1 : 0.5 }} 
+                                            disabled={!emailEditable} // Inverted the value of editable
+                                            style={{ opacity: emailEditable ? 1 : 0.5 }} 
                                             // disabled={true}
                                             // style={{ opacity: 0.5 }}
                                           // disabled={ userData?.email }
