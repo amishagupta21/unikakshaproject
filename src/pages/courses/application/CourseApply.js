@@ -142,7 +142,7 @@ const CourseApplication = () => {
   const fetchInitialData = async (uid) => {
     setIsLoading(true);
     const courseData = state ? state : await fetchCourseDetails(params);
-   
+
     setCourseDetails(courseData);
     fetchUserDetails(uid);
     if (courseDetails?.course_id) {
