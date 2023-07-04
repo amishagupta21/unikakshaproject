@@ -120,7 +120,7 @@ const Payments = (params) => {
       image: { bannerLogoSvg },
       callback_url:
         'https://razorpay.com/docs/payments/server-integration/go/payment-gateway/build-integration/',
-      order_id: orderId,
+      // order_id: orderId,
       handler: async function (response) {
         if (response.razorpay_payment_id) {
           createPaymant(response, 'Success');
