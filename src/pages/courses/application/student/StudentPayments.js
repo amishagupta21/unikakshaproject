@@ -109,9 +109,10 @@ const Payments = (params) => {
     // const result = await axios.post("https://api.razorpay.com/v1/orders")
 
     const orderId = orderData?.id;
+    const RAZORPAY_KEY = process.env.REACT_APP_RAZORPAY_KEY;
 
     const options = {
-      key: 'rzp_live_xsOESw138cvA75', // Enter the Key ID generated from the Dashboard
+      key: RAZORPAY_KEY, // Enter the Key ID generated from the Dashboard
       amount: orderData?.amount,
       currency: orderData?.currency,
       name: 'Code Shastra',

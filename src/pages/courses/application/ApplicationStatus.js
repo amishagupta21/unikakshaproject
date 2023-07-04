@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
-import { Card, Row, Col, InputGroup, FormControl, Button } from 'react-bootstrap';
+import React, { useEffect,useState } from 'react';
+import { Button } from 'react-bootstrap';
 import { badge, cancelRe, engineeringTeam, working } from '../../../assets/images';
 import PaymentPopup from './PaymentPopup';
 import ApiService from '../../../services/ApiService';
 import './ApplicationStatus.scss';
 import { useDispatch } from 'react-redux';
 import { setLoading } from '../../../redux/actions/LoaderActions';
+import Payment from '../../../components/Payment';
 
 const applicationStatus = {
   review: {
@@ -45,12 +46,14 @@ const ApplicationStatus = ({
   id,
 }) => {
   const dispatch = useDispatch();
-  const [status, setStatus] = React.useState();
-  const [statusContent, setStatusContent] = React.useState({});
-  const [openpayment, setopenpayment] = React.useState(false);
-  const [isPaymentOpen, setIsPaymentOpen] = React.useState(true);
+  const [status, setStatus] = useState();
+  const [statusContent, setStatusContent] = useState({});
+  const [openpayment, setopenpayment] = useState(false);
+  const [isPaymentOpen, setIsPaymentOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
+
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
   useEffect(() => {
     dispatch(setLoading(true));
 
@@ -106,27 +109,47 @@ const ApplicationStatus = ({
   };
   // const {imgContent } = statusContent;
 
+  const openModal = () => {
+    setIsModalOpen(!isModalOpen)
+  }
   return (
     <>
+      
+      {isModalOpen? <Payment
+        nextPage={nextPage}
+        setOrderData={setOrderData}
+        application={application}
+        courseId={courseId}
+        id={id}
+        selectedBatch={selectedBatch}
+        orderData={orderData}
+        setWorldLineStatus={setWorldLineStatus}
+        setopenpayment={setopenpayment}
+        worldLineStatus={worldLineStatus}
+        setSelectedBatch={setSelectedBatch}
+        isPaymentOpen={isPaymentOpen}
+        openPayment={openPayment}
+      />:
+      <>
       <div className="d-flex align-items-center justify-content-center">
-        <div>
-          <div className="d-flex align-items-center justify-content-center">
-            {status === 'approved' && <img src={badge} className="me-3"></img>}
-            <h3 className="text-primary text-center header mt-2 mb-4 sml-head">
-              {statusContent?.header}
-            </h3>
-          </div>
-          <div className="mt-2 mb-4 d-flex align-items-center justify-content-center">
-            <img src={statusContent?.imgContent} className="img-fluid"></img>
-          </div>
-          <div className={`my-2 content-box ${status}`}>
-            <p className="text-primary text-center message1">{statusContent?.message1}</p>
-            <p className="text-primary text-center message2">{statusContent?.message2}</p>
-            <p className="text-primary text-center message3">{statusContent?.message3}</p>
-          </div>
+      <div>
+        <div className="d-flex align-items-center justify-content-center">
+          {status === 'approved' && <img src={badge} className="me-3"></img>}
+          <h3 className="text-primary text-center header mt-2 mb-4 sml-head">
+            {statusContent?.header}
+          </h3>
+        </div>
+        <div className="mt-2 mb-4 d-flex align-items-center justify-content-center">
+          <img src={statusContent?.imgContent} className="img-fluid"></img>
+        </div>
+        <div className={`my-2 content-box ${status}`}>
+          <p className="text-primary text-center message1">{statusContent?.message1}</p>
+          <p className="text-primary text-center message2">{statusContent?.message2}</p>
+          <p className="text-primary text-center message3">{statusContent?.message3}</p>
         </div>
       </div>
-      {status === 'approved' && (
+    </div>
+    {status === 'approved' && (
         <div className="m-auto mt-3">
           <Button
             size="lg"
@@ -134,32 +157,17 @@ const ApplicationStatus = ({
             variant="secondary"
             type="button"
             onClick={() => {
-              if (isPaymentOpen) openPayment();
-              else {
-                nextPageNumber(6);
-              }
-            }}>
+              openModal();
+            }}
+          >
             Next
           </Button>
         </div>
       )}
-      {openpayment && (
-        <>
-          <PaymentPopup
-            nextPage={nextPage}
-            setOrderData={setOrderData}
-            application={application}
-            courseId={courseId}
-            id={id}
-            selectedBatch={selectedBatch}
-            orderData={orderData}
-            setWorldLineStatus={setWorldLineStatus}
-            setopenpayment={setopenpayment}
-            worldLineStatus={worldLineStatus}
-            setSelectedBatch={setSelectedBatch}
-          />
-        </>
-      )}
+    </>
+    }
+      
+      
     </>
   );
 };

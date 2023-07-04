@@ -79,7 +79,6 @@ const Payments = (params) => {
         },
       ],
     };
-    // console.log(payload);
     const response = await ApiService('/order/create-payment', `POST`, payload, true);
     if (response?.data.code === 200) {
       // nextPage();
@@ -121,7 +120,7 @@ const Payments = (params) => {
       image: { bannerLogoSvg },
       callback_url:
         'https://razorpay.com/docs/payments/server-integration/go/payment-gateway/build-integration/',
-      // order_id: orderId,
+      order_id: orderId,
       handler: async function (response) {
         if (response.razorpay_payment_id) {
           createPaymant(response, 'Success');
@@ -160,6 +159,7 @@ const Payments = (params) => {
       },
     };
 
+    // console.log("option",options)
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
 

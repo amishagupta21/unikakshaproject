@@ -348,7 +348,7 @@ const AccountSettings = () => {
                                 className='upload-container uploading' >
                                 <div className="uploadbtn-text">
                                     <img className="mx-2" src={facebookIcon} alt="facebook" />
-                                    <div class="sc-login-find"><h6>Facebook</h6>
+                                    <div className="sc-login-find"><h6>Facebook</h6>
                                         <span>Enable one click login for Seamless Login Experience.</span></div>
 
                                 </div>
@@ -366,7 +366,7 @@ const AccountSettings = () => {
                                 className='upload-container uploading' >
                                 <div className="uploadbtn-text">
                                     <img className="mx-2" src={AppleIcon} alt="AppleIcon" />
-                                    <div class="sc-login-find"><h6>Apple</h6>
+                                    <div className="sc-login-find"><h6>Apple</h6>
                                         <span>Enable one click login for Seamless Login Experience.</span>
                                     </div>
                                     {/* <span><p>Enable one click login for Seamless Login Experience.</p></span> */}
