@@ -6,6 +6,7 @@ import ApiService from '../../../services/ApiService';
 import React, { useEffect } from 'react';
 import lodash from 'lodash';
 import { yearsOptions } from '../../../utils-componets/static-content/DateMonthContent';
+import { studentYearsOptions } from '../../../utils-componets/static-content/DateMonthContent';
 import { getWorkingPosition } from '../../../services/ReuseableFun';
 import { useDispatch } from 'react-redux';
 import { openToaster } from '../../../redux/actions/ToastAction';
@@ -384,7 +385,7 @@ const EducationDetails = ({
                           onChange={formik.handleChange}
                           defaultValue={formik.values?.pgYOC}>
                           <option value="">Select completion Year</option>
-                          {yearsOptions.map((option, index) => (
+                          {studentYearsOptions.map((option, index) => (
                             <option key={index} value={option.value}>
                               {option.label}
                             </option>
@@ -475,7 +476,7 @@ const EducationDetails = ({
                           onChange={formik.handleChange}
                           defaultValue={formik.values?.ugYOC}>
                           <option value="">Select completion Year</option>
-                          {yearsOptions.map((option, index) => (
+                          {studentYearsOptions.map((option, index) => (
                             <option key={index} value={option.value}>
                               {option.label}
                             </option>

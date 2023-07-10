@@ -25,6 +25,7 @@ const PaymentPopup = ({
   const navigate = useNavigate();
   useEffect(() => {
     fetchVariantBatches();
+    // batchSchedule()
   }, []);
 
   function onChangeBatch(event) {
@@ -42,6 +43,11 @@ const PaymentPopup = ({
       setSelectedBatch(res.data.data.result[0]?.id);
     }
   };
+  // const batchSchedule = async() => {
+  //   const res = await ApiService(`/admin/next-batch`,"GET",{},true);
+  //   console.log("res yahinha",res)
+  
+  // };
   const togglepayment = () => {
     setopenpayment(false);
   };
@@ -62,6 +68,10 @@ const PaymentPopup = ({
   };
 
   const getbatches = () => {
+    //  const batchSchedule=async()=>{
+    //   const userDetails = await ApiService(`/admin/next-batch`, 'GET', {}, true);
+    //   console.log("userDetails", userDetails)
+    //  }
     let items = batches.map((element, index) => {
       return (
         <CardGroup key={index}>

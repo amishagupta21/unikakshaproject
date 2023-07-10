@@ -107,7 +107,6 @@ const CourseApplication = () => {
   };
 
   const fetchCourseDetails = async (params) => {
-    // console.log("params",params)
     const { courseVariantSlug } = params;
     const res = await ApiService(`courses/course_url/${courseVariantSlug}/detail`);
     return res?.data?.data?.course;
@@ -130,9 +129,9 @@ const CourseApplication = () => {
     });
     // formik.setValues({ mobile_number: initData?.mobile_number});
     // mobile_number: initData?.phone;
+
     setMobileNumber({ phone: details?.phone });
   };
-
   // const setInitialDobData = (initlData) => {
   //   formik.setValues({ birth_date: initlData?.birth_date });
   //   formik.setValues({ birth_month: initlData?.birth_month });
@@ -142,7 +141,6 @@ const CourseApplication = () => {
   const fetchInitialData = async (uid) => {
     setIsLoading(true);
     const courseData = state ? state : await fetchCourseDetails(params);
-
     setCourseDetails(courseData);
     fetchUserDetails(uid);
     if (courseDetails?.course_id) {
@@ -274,7 +272,6 @@ const CourseApplication = () => {
         ...(Number(values.birth_date) && { birth_date: Number(values.birth_date) }),
         ...(Number(values.birth_month) && { birth_month: Number(values.birth_month) }),
       };
-
       formPersonalDetailsPayload(personalDetails);
     },
   });

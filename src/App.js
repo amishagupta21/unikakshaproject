@@ -27,6 +27,7 @@ import LearnerPayments from './pages/courses/course-details/LearnerPayments';
 import FooterContainer from './components/FooterComponent';
 import { useState } from 'react';
 import WorldLine from './pages/courses/application/WorldLine';
+import UnikodeComponent from './pages/courses/DummyComponent';
 
 const App = () => {
   const isLoader = useSelector((state) => state?.loader?.isLoading);
@@ -36,6 +37,7 @@ const App = () => {
   const [dashboard, setDashboard] = useState('/dashboard');
   const isAuthenticated =
     useSelector((state) => state?.auth?.isAuthenticated) || localStorage.getItem('isAuthenticated');
+    
   return (
     <div>
       {isLoader && <Loader />}
@@ -56,6 +58,7 @@ const App = () => {
 
               <Route element={<PrivateRoute />}>
                 <Route path="dashboard" element={<Homepage />} />
+                <Route path="redirectToUnikode" element={<UnikodeComponent />} />
                 <Route path="course/apply/:courseVariantSlug" element={<CourseApplication />} />
                 <Route
                   path="course/apply/student/:courseVariantSlug"
