@@ -69,6 +69,7 @@ const Payments = (params) => {
           application_id: applicationDetails?._id,
           course_id: courseData?.course_id,
           batch_id: selectedBatch,
+          // batch_id:"163cfef0-ce40-490b-a1e5-b27d142f759d",
           registration_fee: 2500,
           discount_coupon: '',
           discount_amount: 0,
@@ -76,6 +77,7 @@ const Payments = (params) => {
           payment_id: paymentResponse.razorpay_payment_id,
           order_id: orderData?.id,
           payment_status: status,
+
         },
       ],
     };

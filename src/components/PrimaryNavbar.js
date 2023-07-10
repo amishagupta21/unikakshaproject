@@ -89,9 +89,9 @@ const PrimaryNavbar = () => {
             <Nav className="ms-auto nav-customs">
               <Nav.Link href="/dashboard#course_list">Courses</Nav.Link>
               {/* <Nav.Link href="https://unikode.unikaksha.com">Unikode</Nav.Link> */}
-              <Nav.Link href="https://unikode.unikaksha.com/login/index.php">Unikode</Nav.Link>
-              {/* <Nav.Link onClick={() => navigate('/unikode')}>Unikode</Nav.Link> */}
+              <Nav.Link href="/redirectToUnikode" >Unikode</Nav.Link>
               <Nav.Link href="https://www.unikaksha.com/events/">Event & Content</Nav.Link>
+              {/* <Nav.Link href="https://www.google.com/">Google</Nav.Link> */}
               {/* <Nav.Link href="/dashboard">Courses</Nav.Link> */}
               {/* <Nav.Link href="#features" className="refer-frd">
                 Refer a Friend

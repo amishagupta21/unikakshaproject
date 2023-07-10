@@ -243,6 +243,7 @@ const Signup = () => {
     // }
 
     localStorage.setItem('user', JSON.stringify(user));
+   
     // console.log(result?.data)
 
     if (result?.data.code === 200) {

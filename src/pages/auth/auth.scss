@@ -1,4 +1,6 @@
-
+.edit-phone{
+  z-index: 3;
+}
 .log-in-title {
   font-family: 'Roboto', sans-serif;
   font-style: normal;
@@ -165,6 +167,13 @@
   border-radius: 3px 0 0 3px !important;
 }
 
+.password0-toggle {
+  position: absolute;
+  right:  -1%;
+  top: 73%;
+  transform: translateY(-320%);
+  border: none;
+}
 .custom-check-label {
   font-weight: 400;
   font-size: 12px;
@@ -349,6 +358,24 @@ select.form-control {
   font-weight: 500;
   font-size: 12px;
   line-height: 14px;
+}
+.pencil-login{
+  margin-left: 240px;
+  margin-top: -45px;
+  color: #ff7f2e;
+  background: #ffffff;
+  // border: 1px solid #ff7f2e;
+  border-radius: 4px;
+  z-index: 2;
+  position: absolute;
+  // width: 85px;
+  // height: 34px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 14px;
+
 }
 .pencil-edit{
   margin-left: 230px;

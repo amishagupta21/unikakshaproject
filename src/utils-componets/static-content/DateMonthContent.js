@@ -147,6 +147,8 @@ export const optionsday = [
   {value: 30, label: '30' },
   {value: 31, label: '31' },
 ];
+
+
 export const optionsEmploymentType = [
   { value: 'Full Time', label: 'Full Time' },
   { value: 'PART_TIME', label: 'Part Time' },
@@ -155,7 +157,6 @@ export const optionsEmploymentType = [
   { value: 'FREELANCE', label: 'Freelance' },
 ];
 export const studentYearsOptions = [
-  // { value: '2022', label: '2022' },
   { value: '2023', label: '2023' },
   { value: '2024', label: '2024' },
   { value: '2025', label: '2026' },
