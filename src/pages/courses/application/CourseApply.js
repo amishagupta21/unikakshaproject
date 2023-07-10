@@ -70,13 +70,6 @@ const CourseApplication = () => {
   const { state } = useLocation();
   const params = useParams();
 
-  const phoneCountry = {
-    countryCode: 'in',
-    dialCode: '91',
-    format: '+.. .....-.....',
-    name: 'India',
-  };
-
   const fetchUserDetails = async (uid) => {
     let personalDetails = {};
     let educationalDetails = {};
@@ -325,7 +318,6 @@ const CourseApplication = () => {
 
   const copyFromMobileNumber = (value) => {
     if (value.target.checked) {
-      // setWhatsAppNumber({phone: '+918344498652', data: phoneCountry});
       setWhatsAppNumber({ phone: mobileState.phone, data: mobileState.data });
       formik.setFieldValue('whatsapp_number', mobileState.phone);
     }
