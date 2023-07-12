@@ -110,7 +110,6 @@ const Signup = () => {
     console.log("check", JSON.stringify(result.data.data))
     if (result?.data.data.byEmail.user != null || result?.data.data.byPhone.user != null) {
       setAuthError('User already exists with same Email or Phonenumber');
-      // console.log("already existed")
       return true
     } else {
       console.log("sucessfully created")

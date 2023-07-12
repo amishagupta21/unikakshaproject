@@ -61,7 +61,6 @@ function CourseDetails() {
   };
   const fetchVariantBatchesfaq = async (course_id) => {
     const res = await ApiService(`courses/${course_id}/faq/list`);
-    // console.log("working", res.data.data)
     return res?.data?.data;
   };
 

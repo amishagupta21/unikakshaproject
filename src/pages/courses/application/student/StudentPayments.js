@@ -17,7 +17,6 @@ const Payments = (params) => {
   const selectedBatch = params.selectedBatch;
 
   useEffect(() => {
-    // console.log(selectedBatch[0]);
     fetchUserDetails(user?.uid);
 
     if (
@@ -40,7 +39,6 @@ const Payments = (params) => {
   const fetchUserDetails = async (uid) => {
     const response = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
 
-    // console.log(response?.data?.data?.userProfile?.personal_details);
 
     setUserProfile(response?.data?.data?.userProfile?.personal_details);
   };
@@ -120,7 +118,6 @@ const Payments = (params) => {
       image: { bannerLogoSvg },
       order_id: orderId,
       handler: async function (response) {
-        // console.log(response);
         if (response.razorpay_payment_id) {
           createPaymant(response, 'Success');
         }

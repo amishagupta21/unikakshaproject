@@ -3,7 +3,6 @@ import axios from 'axios';
 const ApiService = async (url_end_point, type, data, isToken) => {
   
    const token = JSON.parse(localStorage.getItem('user'))?.stsTokenManager?.accessToken;
-  console.log("token",token);
   const apiObj = (url_end_point, type, data) => {
     const baseUrl = process.env.REACT_APP_API_URL;
     const obj = {
