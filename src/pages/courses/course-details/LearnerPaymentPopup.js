@@ -75,7 +75,6 @@ const LearnerPaymentPopup = ({ courseId, courseInfo, setopenpayment }) => {
         payload,
         true
       );
-// console.log("applicationDetails",applicationDetails)
       setApplication(applicationDetails?.data?.data?.application);
 
       let payload = {
@@ -86,7 +85,6 @@ const LearnerPaymentPopup = ({ courseId, courseInfo, setopenpayment }) => {
       let orderDetails = await ApiService('/order/create-order', `POST`, payload, true);
 
       if (orderDetails?.data?.code === 200) {
-        // console.log(orderDetails?.data?.data)
 
         dispatch(setLoading(false));
         navigate(`/payment`, {
@@ -98,7 +96,6 @@ const LearnerPaymentPopup = ({ courseId, courseInfo, setopenpayment }) => {
             applicationData: applicationDetails?.data?.data?.application,
           },
         });
-        // console.log(openPaymentScreen)
       }
     }
   };
@@ -133,7 +130,6 @@ const LearnerPaymentPopup = ({ courseId, courseInfo, setopenpayment }) => {
 
   // navigate("/payment", {batch: selectedBatch});
 
-  //    console.log(applicationData)
 
   const getbatches = () => {
     let items = batches.map((element, index) => {

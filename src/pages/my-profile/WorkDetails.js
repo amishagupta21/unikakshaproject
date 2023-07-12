@@ -96,7 +96,6 @@ const workDetails = ({ educationalDetails }) => {
 
         }]
       }
-console.log("work",payload)
       dispatch(setLoading(true));
       setIsNextLoading(true);
 
