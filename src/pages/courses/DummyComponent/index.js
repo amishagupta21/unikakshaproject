@@ -34,6 +34,31 @@ const UnikodeComponent = () => {
 
   // };
  
+  // const fetchApplicationDetails = async () => {
+  //   const userName = localStorage.getItem('user');
+  //   const user = JSON.parse(userName);
+  //   const payload = {
+  //     full_name: user.displayName,
+  //     email: user.email,
+  //   };
+  
+  //   try {
+  //     let applicationDetails = await ApiService(
+  //       '/student/unikode-check-create-user',
+  //       'POST',
+  //       payload,
+  //       true
+  //     );
+  //     setUsername(applicationDetails.data.unikodeINFO[0].username);
+  //     setPassowrd(applicationDetails.data.unikodeINFO[0].password);
+  //     // Auto submit form
+  //     // ref?.current?.submit();
+  //   } catch (error) {
+  //     // Handle error
+  //   }
+  //   // ref?.current?.submit();
+
+  // };
   const fetchApplicationDetails = async () => {
     const userName = localStorage.getItem('user');
     const user = JSON.parse(userName);
@@ -51,14 +76,15 @@ const UnikodeComponent = () => {
       );
       setUsername(applicationDetails.data.unikodeINFO[0].username);
       setPassowrd(applicationDetails.data.unikodeINFO[0].password);
-      // Auto submit form
-      // ref?.current?.submit();
+      
+      setTimeout(() => {
+        ref?.current?.submit();
+      }, 2000); // Delay in milliseconds (2 seconds in this example)
     } catch (error) {
       // Handle error
     }
-    // ref?.current?.submit();
-
   };
+  
   useEffect(() => {
     fetchApplicationDetails();
   }, [])
