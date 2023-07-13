@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const ApiService = async (url_end_point, type, data, isToken) => {
+const ApiService = async (url_end_point, type="GET", data, isToken) => {
   
    const token = JSON.parse(localStorage.getItem('user'))?.stsTokenManager?.accessToken;
   const apiObj = (url_end_point, type, data) => {

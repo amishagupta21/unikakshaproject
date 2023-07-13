@@ -188,6 +188,7 @@ const CourseApplication = () => {
     dispatch(setLoading(true));
     window.scrollTo(0, 0);
     fetchInitialData(user?.uid);
+    // console.log("working")
     dispatch(setLoading(false));
   }, [courseDetails.course_title]);
 

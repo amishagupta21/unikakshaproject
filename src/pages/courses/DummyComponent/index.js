@@ -28,7 +28,6 @@ const UnikodeComponent = () => {
       payload,
       true
     );
-    console.log("applicationDetails",applicationDetails.data)
     setUsername(applicationDetails.data.unikodeINFO[0].username)
     setPassowrd(applicationDetails.data.unikodeINFO[0].password)
     // Auto submit form
