@@ -52,7 +52,7 @@ const UnikodeComponent = () => {
       setUsername(applicationDetails.data.unikodeINFO[0].username);
       setPassowrd(applicationDetails.data.unikodeINFO[0].password);
       // Auto submit form
-      ref?.current?.submit();
+      // ref?.current?.submit();
     } catch (error) {
       // Handle error
     }
