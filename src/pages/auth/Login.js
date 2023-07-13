@@ -28,6 +28,7 @@ import { RecaptchaVerifier, getAuth, signInWithPhoneNumber } from 'firebase/auth
 import Footer from '../../components/Footer';
 
 const Login = () => {
+  
   let isAuth =
     useSelector((state) => state?.auth?.isAuthenticated) ||
     JSON.parse(localStorage.getItem('isAuthenticated'));
@@ -78,6 +79,7 @@ const Login = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  
 
   useEffect(() => {
     // if (isAuth) {

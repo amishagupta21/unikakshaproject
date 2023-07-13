@@ -49,7 +49,6 @@ const UnikodeComponent = () => {
         <p>Password :
           <input size="10" name="password" type="text" value={passowrd} />
         </p>
-        <input type="hidden" name="logintoken" value="<?php echo s(\core\session\manager::get_login_token()); ?>" />
         <p>
           <input name="Submit" value="Login" type="submit" />
         </p>
