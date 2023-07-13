@@ -56,7 +56,7 @@ const UnikodeComponent = () => {
     } catch (error) {
       // Handle error
     }
-    ref?.current?.submit();
+    // ref?.current?.submit();
 
   };
   useEffect(() => {
@@ -66,7 +66,7 @@ const UnikodeComponent = () => {
     <div>
       <h1>Redirecting you to unikode...</h1>
 
-      <form style={{visibility:"hidden"}} ref={ref} class="loginform"  name="form" id="form" method="post" action="https://unikode.unikaksha.com/login/index.php">
+      <form style={{visibility:".hidden"}} ref={ref} class="loginform"  name="form" id="form" method="post" action="https://unikode.unikaksha.com/login/index.php">
         <p>Username :
           <input size="10" name="username" value={username} />
         </p>
