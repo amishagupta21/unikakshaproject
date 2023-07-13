@@ -72,9 +72,8 @@ const ApplicationStatus = ({
       true
     );
 
-
     // if (applicationDetails?.data?.data.application) {
-    const applicationData = applicationDetails?.data?.data.application;
+    const applicationData = applicationDetails?.data?.data?.application;
     // setApplication(applicationDetails?.data?.data.application);
     const { m_applicationstatus: appStatus, application_stage } = applicationData;
     if (application_stage === 'payment_status') {
@@ -83,6 +82,7 @@ const ApplicationStatus = ({
     let app_status = '';
     // const appStatus = 'Application Approved';
     if (
+      appStatus === 'Complete' ||
       appStatus === 'Application Approved' ||
       appStatus === 'Assessment Passed' ||
       appStatus === 'Application In Review' ||

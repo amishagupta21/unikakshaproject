@@ -32,6 +32,7 @@ import icon22 from "../../assets/images/images/icon/icon-22.svg"
 import icon23 from "../../assets/images/images/icon/icon-23.svg"
 import icon24 from "../../assets/images/images/icon/icon-24.svg"
 import PaymentPopup from '../../pages/courses/application/PaymentPopup'
+import PaymentPopupAutonomy from '../../pages/courses/application/PaymentPopupAutonomy'
 
 
 
@@ -53,6 +54,11 @@ const Payment = (
     }
 ) => {
     const [isPaymentOpen, setIsPaymentOpen] = useState(false);
+    const [isPymentAutonomy, setIsPymentAutonomy] = useState(false);
+
+    const openPaymentModalAutonomy = ()=>{
+        setIsPymentAutonomy(!isPymentAutonomy)
+    }
   
     const openPaymentModal = ()=>{
         setIsPaymentOpen(!isPaymentOpen)
@@ -317,7 +323,7 @@ const Payment = (
                             <div className="income-btn">
                                 <h6><span className="tooltip-prices-new">+ Income Sharing Agreement</span></h6>
                             </div>
-                            <div className="btn-sec"><a href="#" className="btn-orange" onClick={openPaymentModal}>Enroll Now</a></div>
+                            <div className="btn-sec"><a href="#" className="btn-orange" onClick={openPaymentModalAutonomy}>Enroll Now</a></div>
                         </div>
                     </div>
                 </div>
@@ -332,6 +338,21 @@ const Payment = (
                         orderData={orderData}
                         setWorldLineStatus={setWorldLineStatus}
                         setopenpayment={openPaymentModal}
+                        worldLineStatus={worldLineStatus}
+                        setSelectedBatch={setSelectedBatch}
+                    />
+                )}
+                 {isPymentAutonomy && (
+                    <PaymentPopupAutonomy
+                        nextPage={nextPage}
+                        setOrderData={setOrderData}
+                        application={application}
+                        courseId={courseId}
+                        id={id}
+                        selectedBatch={selectedBatch}
+                        orderData={orderData}
+                        setWorldLineStatus={setWorldLineStatus}
+                        setopenpayment={openPaymentModalAutonomy}
                         worldLineStatus={worldLineStatus}
                         setSelectedBatch={setSelectedBatch}
                     />
