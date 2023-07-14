@@ -808,6 +808,7 @@ const EducationDetails = ({
               disabled={
                 !(formik.isValid && formik.dirty) || isNextLoading || highestQualification === ''
               }
+              // onClick={()=>nextPageNumber(4)}
               variant="secondary"
               type="submit">
               {isNextLoading ? 'Saving..' : 'Next'}

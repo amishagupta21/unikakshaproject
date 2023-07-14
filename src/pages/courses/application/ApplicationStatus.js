@@ -83,6 +83,7 @@ const ApplicationStatus = ({
     // const appStatus = 'Application Approved';
     if (
       appStatus === 'Complete' ||
+      appStatus==="Assessment Link Sent"||
       appStatus === 'Application Approved' ||
       appStatus === 'Assessment Passed' ||
       appStatus === 'Application In Review' ||
