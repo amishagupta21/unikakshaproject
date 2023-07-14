@@ -162,11 +162,20 @@ const CourseApplication = () => {
       };
       settestResults(obj);
       setApplicationDetails(applicationDetails?.data?.data.application);
+      // console.log("applicationDetails?.data?.data.application?.m_applicationstatus", applicationDetails?.data?.data.application?.m_applicationstatus)
+      // if (applicationDetails?.data?.data.application?.m_applicationstatus === 'Assessment Passed') {
+      //   // application_stage === 'test_result'
+      //   // nextPageNumber(4)
+      // }
       if (application_stage === 'personal_details') {
         nextPageNumber(1);
       } else if (application_stage === 'education_details') {
         nextPageNumber(2);
-      } else if (application_stage === 'test_result') {
+      } 
+      else if (applicationDetails?.data?.data.application?.m_applicationstatus === 'Assessment Passed' && applicationDetails?.data?.data.application?.application_stage === "test_result") {
+        nextPageNumber(4);
+      }
+      else if (application_stage === 'test_result') {
         nextPageNumber(3);
       } else if (application_stage === 'application_status') {
         nextPageNumber(4);
@@ -188,7 +197,6 @@ const CourseApplication = () => {
     dispatch(setLoading(true));
     window.scrollTo(0, 0);
     fetchInitialData(user?.uid);
-    // console.log("working")
     dispatch(setLoading(false));
   }, [courseDetails.course_title]);
 

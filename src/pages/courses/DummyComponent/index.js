@@ -59,6 +59,7 @@ const UnikodeComponent = () => {
   //   // ref?.current?.submit();
 
   // };
+  
   const fetchApplicationDetails = async () => {
     const userName = localStorage.getItem('user');
     const user = JSON.parse(userName);

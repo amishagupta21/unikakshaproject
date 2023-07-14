@@ -58,7 +58,6 @@ const PaymentPopup = ({
       currency: 'INR',
       receipt: (Math.random() + 1).toString(36).substring(7),
     };
-    console.log("payload",payload)
     let orderDetails = await ApiService('order/create-order', `POST`, payload, true);
     if (orderDetails?.data?.code === 200) {
       setOrderData(orderDetails.data.data);
