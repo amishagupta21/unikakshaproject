@@ -26,12 +26,13 @@ import { rightArrow } from '../../assets/images';
 import OtpInput from 'react-otp-input';
 import { RecaptchaVerifier, getAuth, signInWithPhoneNumber } from 'firebase/auth';
 import Footer from '../../components/Footer';
-
+import { redirect } from "react-router-dom"
 const Login = () => {
-  
+
   let isAuth =
     useSelector((state) => state?.auth?.isAuthenticated) ||
     JSON.parse(localStorage.getItem('isAuthenticated'));
+
   const [loading, setloading] = useState();
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
@@ -79,12 +80,8 @@ const Login = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  
 
-  useEffect(() => {
-    // if (isAuth) {
-    //   navigate('/dashboard');SSS
-    // }
+  useEffect(()=>{
     const interval = setInterval(() => {
       if (seconds > 0) {
         setSeconds(seconds - 1);
@@ -100,10 +97,15 @@ const Login = () => {
         }
       }
     }, 1000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [seconds, minutes]);
+    return ()=> clearInterval(interval);
+  },[seconds,minutes])
+
+
+  useEffect(() => {
+    if (isAuth) {
+      navigate('/dashboard');
+    }
+  }, []);
 
   const checkIfUserExists = async (email, phone) => {
     const result = await ApiService('user/check-exists', 'POST', { email, phone }, true);
@@ -128,10 +130,6 @@ const Login = () => {
 
     if (userisExist) {
       setAuthErrorNotRegistered(false);
-      // const { phone } = user;
-      // if (phone) {
-      //   sendOTP(phone);
-      // } else {
 
       await firebase
         .auth()
@@ -162,7 +160,6 @@ const Login = () => {
             navigate('/info');
           }
 
-          // ...
         })
         .catch((error) => {
           var errorCode = error.code;
@@ -196,7 +193,6 @@ const Login = () => {
       const { phone } = user;
 
       if (phone) {
-
         sendOTP(phone);
       }
       // setloading(false);
@@ -249,6 +245,7 @@ const Login = () => {
   // };
 
   const sendOTP = async (phoneNumber) => {
+ 
     // Dispatch an action to set the loading state to true
     dispatch(setLoading(true));
     setloading(true);
@@ -264,22 +261,11 @@ const Login = () => {
       .then(async (confirmationResult) => {
         window.confirmationResult = confirmationResult;
 
-
-        // console.log(confirmationResult, '//////confirmationResult');
-        // if (window.confirmationResult.verificationId === confirmationResult.verificationId) {
-        //   const index = window.confirmationResult.verificationId.length - 1;
-        //   const s =
-        //     window.confirmationResult.verificationId.substring(0, index) +
-        //     'a' +
-        //     window.confirmationResult.verificationId.substring(index + 1);
-        //   window.confirmationResult.verificationId = s;
-        // } else {
-        //   window.confirmationResult = confirmationResult;
-        // }
+       
         toast.success('OTP has been Sent to Mobile Number', {
           theme: 'colored',
         });
-        // Set the OTP timer
+
         setMinutes(1);
         setSeconds(59);
 
@@ -353,28 +339,9 @@ const Login = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const interval = setInterval(countdown, 1000);
-  //   return () => clearInterval(interval);
-  // }, [seconds, minutes]);
 
-  // const resendOTP = (phone) => {
-  //   if (seconds === 0 && minutes === 0) {
-  //     setOtp('');
-  //     setOtpError(null);
-  //     setIsResendDisabled(true);
-  //     setMinutes(2);
-  //     setSeconds(0);
-  //     sendOTP(phone);
-  //   }
-  // };
+  const resendOTP = () => {
 
-  const resendOTP = async (values) => {
-    // const { mobileNumber } = values;
-    // const user = await checkIfUserExists(null, `+${mobileNumber}`);
-    // if (user) {
-    //   const { phone } = user;
-    //   if (phone) {
     if (seconds === 0 && minutes === 0) {
       setOtp('');
       setOtpError(null);
@@ -382,16 +349,8 @@ const Login = () => {
       setMinutes(1);
       setSeconds(59);
       sendOTP(phone);
-      // window.location.reload()
     }
   };
-  //   setloading(false);
-  //   dispatch(setLoading(false));
-  // } else {
-  //   setAuthError('User not found');
-  //   setloading(false);
-  //   dispatch(setLoading(false));
-  // }
 
   return (
     <>
