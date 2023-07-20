@@ -67,6 +67,7 @@ function CourseDetails() {
 
   const fetchInitialData = async (params) => {
     const courseData = state ? state : await fetchCourseDetails(params);
+    // console.log("course",(courseData))
     courseData?.course_variant_sections?.bannerAsset?.value?.filter((e) => {
       if (e.type === 'background-image') {
         setPromoBanner(e);
@@ -340,7 +341,7 @@ function CourseDetails() {
                 {/* - ${courseDetails?.variant_name} */}
                 <div className="d-flex ratings my-2">
                   <p className="me-3">
-                    <span>Ratings:</span> {courseDetails?.course_variant_sections?.ratings?.value}
+                    <span>Ratings:</span> {courseDetails?.rating}
                   </p>
                   <RatingComponent />
                   <p className="ms-3">
@@ -352,7 +353,10 @@ function CourseDetails() {
 
                 <div className="d-flex">
                   <h6 className="me-1">
-                    <span>Duration:</span> {courseVariantBatches[0]?.duration} Months |{' '}
+                    <span>Duration: </span> 
+                    {courseDetails?.duration}
+                    {/* {courseVariantBatches[0]?.duration}  */}
+                      Months |{' '}
                   </h6>
                   <h6>{courseDetails?.variant_name}</h6>
                 </div>

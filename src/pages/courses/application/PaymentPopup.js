@@ -67,10 +67,7 @@ const PaymentPopup = ({
   };
 
   const getbatches = () => {
-    //  const batchSchedule=async()=>{
-    //   const userDetails = await ApiService(`/admin/next-batch`, 'GET', {}, true);
-    //   console.log("userDetails", userDetails)
-    //  }
+   
     let items = batches.map((element, index) => {
       return (
         <CardGroup key={index}>

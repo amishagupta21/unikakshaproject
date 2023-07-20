@@ -48,6 +48,7 @@ const Homepage = () => {
     <div className="course-list-api">
       <div className="course-list-api-full">
         <HeroSection bannerDetails={data?.banner1_configure && data?.banner1_configure} />
+        
         <div className="container">
           <CourseList courses={topCourses && topCourses} />
           <Placementpartner
