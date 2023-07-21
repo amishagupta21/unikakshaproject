@@ -141,6 +141,7 @@ const CourseApplication = () => {
     }
     fetchVariantBatches(courseData.id);
     setIsLoading(false);
+  
   };
   const fetchApplicationDetails = async (uid, courseId) => {
     const payload = {
