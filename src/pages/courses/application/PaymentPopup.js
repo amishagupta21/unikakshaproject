@@ -5,7 +5,7 @@ import moment from 'moment';
 import ApiService from '../../../services/ApiService';
 import { useNavigate } from 'react-router-dom';
 import Worldline from './WorldLine';
-
+import { calendar1 } from '../../../assets/images';
 const PaymentPopup = ({
   nextPage,
   setOrderData,
@@ -17,10 +17,12 @@ const PaymentPopup = ({
   setSelectedBatch,
   setWorldLineStatus,
   worldLineStatus,
-  id,
+  id
 }) => {
   const [batches, setbatches] = React.useState();
   const [defaultBatch, setDefaultBatch] = React.useState();
+  const [batchDate, setBatchDate] = React.useState([]);
+
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -66,32 +68,74 @@ const PaymentPopup = ({
     }
   };
 
-  const getbatches = () => {
-   
-    let items = batches.map((element, index) => {
+  // const getbatches = () => {
+  //   //  const batchSchedule=async()=>{
+  //   //   const userDetails = await ApiService(`/admin/next-batch`, 'GET', {}, true);
+  //   //   console.log("userDetails", userDetails)
+  //   //  }
+  //   let items = batches.map((element, index) => {
+  //     return (
+  //       <CardGroup key={index}>
+  //         <Col>
+  //           <div className="batch-list">
+  //             <div className="starte-style">
+  //               <input
+  //                 type="radio"
+  //                 name="batch"
+  //                 onChange={onChangeBatch}
+  //                 checked={defaultBatch == element.id}
+  //                 value={element.id}></input>
+  //               <label style={{ marginTop: '5px' }}>Starting from</label>
+  //             </div>
+  //             <div className="mtb-5 start-date">
+  //               <span>{moment(element.start_date).format('Do MMMM dddd')}</span>
+  //             </div>
+  //             <div className="mtb-5 recomend-style">
+  //               {index === 0 && <span style={{ color: '#02A74D' }}>Recomenned for you</span>}
+  //               {index !== 0 && <span style={{ color: '#FF613C' }}>Filling Fast</span>}
+  //             </div>
+  //           </div>
+  //         </Col>
+  //       </CardGroup>
+  //     );
+  //   });
+  //   return items;
+  // };
+  const batchSchedule = async () => {
+    const res = await ApiService(`/admin/batch-Schedule/${courseId}`);
+    const batchSchedule = res?.data?.data?.result[0].course_variant_sections.overview.batchShedule;
+    setBatchDate(batchSchedule)
+  };
+  useEffect(()=>{
+    batchSchedule()
+  },[])
+  const getBatches = () => {
+    const items = batchDate?.map((element, index) => {
       return (
-        <CardGroup key={index}>
-          <Col>
-            <div className="batch-list">
-              <div className="starte-style">
-                <input
-                  type="radio"
-                  name="batch"
-                  onChange={onChangeBatch}
-                  checked={defaultBatch == element.id}
-                  value={element.id}></input>
-                <label style={{ marginTop: '5px' }}>Starting from</label>
-              </div>
-              <div className="mtb-5 start-date">
-                <span>{moment(element.start_date).format('Do MMMM dddd')}</span>
-              </div>
-              <div className="mtb-5 recomend-style">
-                {index === 0 && <span style={{ color: '#02A74D' }}>Recomenned for you</span>}
-                {index !== 0 && <span style={{ color: '#FF613C' }}>Filling Fast</span>}
-              </div>
-            </div>
-          </Col>
-        </CardGroup>
+        <Col key={index} sm={3}>
+          <Card className="batch-card-style">
+            <Card.Body className="text-left-align">
+              <h6 className="font-color text-left-align mtb5"> Starts From </h6>
+              <p>
+                <img src={calendar1} alt="Calendar" className="calendar-icon" />
+                {/* <span className="text-left-align mtb5">{convertDate(element.start_date)}</span> */}
+                <span className="text-left-align mtb5">{element?.date1}</span>
+                <span className="text-left-align mtb5">{element?.date2}</span>
+                <span className="text-left-align mtb5">{element?.date3}</span>
+              </p>
+
+              <Button
+                variant="secondary"
+                className={index == 0 ? '' : 'upcoming-btn'}
+                onClick={() => {
+                  apply(courseDetails);
+                }}>
+                {' '}
+                {index == 0 ? 'Apply Now' : 'Upcoming'}{' '}
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
       );
     });
     return items;
@@ -120,7 +164,7 @@ const PaymentPopup = ({
                 <div className="mt-3">
                   <Row className="nomargin batch-head">Batch Schedule</Row>
                   <Row xs={1} md={3} className="nomargin mt-2">
-                    {getbatches()}
+                    {getBatches()}
                   </Row>
                 </div>
               </div>

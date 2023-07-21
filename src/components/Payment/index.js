@@ -118,7 +118,7 @@ const Payment = (
                                     </li>
                                 </ul>
                             </div>
-                            <div className="text-center"><a href="#" className="show-all">Show All</a></div>
+                            {/* <div className="text-center"><a href="#" className="show-all">Show All</a></div> */}
                             <div>
                                 <h4 className="pay-heading">
                                     <span style={{ color: '#EF6A28' }} className="left_span">Only Pay </span>
@@ -181,7 +181,7 @@ const Payment = (
                                     </li>
                                 </ul>
                             </div>
-                            <div className="text-center"><a href="#" className="show-all">Show All</a></div>
+                            {/* <div className="text-center"><a href="#" className="show-all">Show All</a></div> */}
                             <div>
                                 <h4 className="pay-heading">
                                     <span style={{ textDecoration: "line-through" }} className="left_span strike">₹1,50,000 </span>
@@ -244,13 +244,13 @@ const Payment = (
                                     </li>
                                 </ul>
                             </div>
-                            <div className="text-center"><a href="#" className="show-all">Show All</a></div>
+                            {/* <div className="text-center"><a href="#" className="show-all">Show All</a></div> */}
                             <div>
                                 <h4 className="pay-heading">
                                     <span style={{ textDecoration: "line-through" }} className="left_span strike">
-                                        ₹1,25,000
+                                    ₹75,000
                                     </span>
-                                    <span style={{ color: "#EF6A28" }} className="span_bold">₹1,00,000 </span><br></br>
+                                    <span style={{ color: "#EF6A28" }} className="span_bold">₹50,000</span><br></br>
                                     (incl of GST & Registration Fees)
                                 </h4>
                             </div>
@@ -310,13 +310,13 @@ const Payment = (
                                     </li>
                                 </ul>
                             </div>
-                            <div className="text-center"><a href="#" className="show-all">Show All</a></div>
+                            {/* <div className="text-center"><a href="#" className="show-all">Show All</a></div> */}
                             <div>
                                 <h4 className="pay-heading">
                                     <span style={{ textDecoration: "line-through" }} className="left_span strike">
-                                        ₹25,000
+                                    ₹15,000
                                     </span>
-                                    <span style={{ color: '#EF6A28' }} className="span_bold">₹18,000 </span><br></br>
+                                    <span style={{ color: '#EF6A28' }} className="span_bold"> ₹10,000  </span><br></br>
                                     (incl of GST & Registration Fees)
                                 </h4>
                             </div>
@@ -345,6 +345,7 @@ const Payment = (
                  {isPymentAutonomy && (
                     <PaymentPopupAutonomy
                         nextPage={nextPage}
+
                         setOrderData={setOrderData}
                         application={application}
                         courseId={courseId}

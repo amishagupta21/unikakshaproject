@@ -42,6 +42,7 @@ function CourseDetails() {
   const params = useParams();
   const [courseVariantBatches, setVariantCourseBatches] = React.useState([]);
   const [courseVariantBatchesfaq, setVariantCourseBatchesfaq] = React.useState([]);
+  const [batchDate, setBatchDate] = React.useState([]);
   const [eligibilityCriteria, setEligibilityCriteria] = React.useState([]);
   const [openpayment, setopenpayment] = React.useState(false);
   const [promoBanner, setPromoBanner] = React.useState();
@@ -63,7 +64,11 @@ function CourseDetails() {
     const res = await ApiService(`courses/${course_id}/faq/list`);
     return res?.data?.data;
   };
-
+  const batchSchedule = async (course_id) => {
+    const res = await ApiService(`/admin/batch-Schedule/${course_id}`);
+    // console.log("res",JSON.stringify(res?.data?.data?.result[0].course_variant_sections.overview.batchShedule))
+    return res?.data?.data?.result[0].course_variant_sections.overview.batchShedule;
+  };
 
   const fetchInitialData = async (params) => {
     const courseData = state ? state : await fetchCourseDetails(params);
@@ -79,6 +84,9 @@ function CourseDetails() {
     const variantBatchesfaq = await fetchVariantBatchesfaq(courseData?.course_id);
     setCourseDetails(courseData);
     setVariantCourseBatchesfaq(variantBatchesfaq);
+    const fetchBatches = await batchSchedule(courseData?.course_id);
+    // setCourseDetails(courseData);
+    setBatchDate(fetchBatches);
 
 
   };
@@ -152,7 +160,7 @@ function CourseDetails() {
   };
 
   const getBatches = () => {
-    let items = courseVariantBatches?.map((element, index) => {
+    const items = batchDate?.map((element, index) => {
       return (
         <Col key={index} sm={3}>
           <Card className="batch-card-style">
@@ -160,7 +168,10 @@ function CourseDetails() {
               <h6 className="font-color text-left-align mtb5"> Starts From </h6>
               <p>
                 <img src={calendar1} alt="Calendar" className="calendar-icon" />
-                <span className="text-left-align mtb5">{convertDate(element.start_date)}</span>
+                {/* <span className="text-left-align mtb5">{convertDate(element.start_date)}</span> */}
+                <span className="text-left-align mtb5">{element?.date1}</span>
+                <span className="text-left-align mtb5">{element?.date2}</span>
+                <span className="text-left-align mtb5">{element?.date3}</span>
               </p>
 
               <Button
