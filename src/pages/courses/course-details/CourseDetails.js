@@ -43,6 +43,7 @@ function CourseDetails() {
   const [courseVariantBatches, setVariantCourseBatches] = React.useState([]);
   const [courseVariantBatchesfaq, setVariantCourseBatchesfaq] = React.useState([]);
   const [batchDate, setBatchDate] = React.useState([]);
+  const [eveningbatchDate, eveningsetBatchDate] = React.useState([]);
   const [eligibilityCriteria, setEligibilityCriteria] = React.useState([]);
   const [openpayment, setopenpayment] = React.useState(false);
   const [promoBanner, setPromoBanner] = React.useState();
@@ -58,6 +59,7 @@ function CourseDetails() {
 
   const fetchVariantBatches = async (course_id) => {
     const res = await ApiService(`courses/${course_id}/batch/list`);
+
     return res?.data?.data?.result;
   };
   const fetchVariantBatchesfaq = async (course_id) => {
@@ -66,13 +68,19 @@ function CourseDetails() {
   };
   const batchSchedule = async (course_id) => {
     const res = await ApiService(`/admin/batch-Schedule/${course_id}`);
-    // console.log("res",JSON.stringify(res?.data?.data?.result[0].course_variant_sections.overview.batchShedule))
-    return res?.data?.data?.result[0].course_variant_sections.overview.batchShedule;
+    // console.log("res",JSON.stringify(res?.data?.data?.result))
+    return res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[0]?.morningBatch;
+  };
+
+  const eveningbatchSchedule = async (course_id) => {
+    const res = await ApiService(`/admin/batch-Schedule/${course_id}`);
+    // console.log("res1",JSON.stringify(res?.data?.data?.result[0]?.course_variant_sections.overview.batchShedule[1]?.eveningBatch))
+    return res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[1]?.eveningBatch;
   };
 
   const fetchInitialData = async (params) => {
     const courseData = state ? state : await fetchCourseDetails(params);
-    // console.log("course",(courseData))
+    console.log("course",(courseData))
     courseData?.course_variant_sections?.bannerAsset?.value?.filter((e) => {
       if (e.type === 'background-image') {
         setPromoBanner(e);
@@ -87,6 +95,9 @@ function CourseDetails() {
     const fetchBatches = await batchSchedule(courseData?.course_id);
     // setCourseDetails(courseData);
     setBatchDate(fetchBatches);
+
+    const eveningfetchBatches = await eveningbatchSchedule(courseData?.course_id);
+    eveningsetBatchDate(eveningfetchBatches);
 
 
   };
@@ -190,6 +201,38 @@ function CourseDetails() {
     });
     return items;
   };
+  const eveningGetBatches = () => {
+    const items = eveningbatchDate?.map((element, index) => {
+      return (
+        <Col key={index} sm={3}>
+          <Card className="batch-card-style">
+            <Card.Body className="text-left-align">
+              <h6 className="font-color text-left-align mtb5"> Starts From </h6>
+              <p>
+                <img src={calendar1} alt="Calendar" className="calendar-icon" />
+                {/* <span className="text-left-align mtb5">{convertDate(element.start_date)}</span> */}
+                <span className="text-left-align mtb5">{element?.date1}</span>
+                <span className="text-left-align mtb5">{element?.date2}</span>
+                <span className="text-left-align mtb5">{element?.date3}</span>
+              </p>
+
+              <Button
+                variant="secondary"
+                className={index == 0 ? '' : 'upcoming-btn'}
+                onClick={() => {
+                  apply(courseDetails);
+                }}>
+                {' '}
+                {index == 0 ? 'Apply Now' : 'Upcoming'}{' '}
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
+      );
+    });
+    return items;
+  };
+
 
   const getEligibility = () => {
     const Eligibility = courseDetails?.course_detail_page?.eligibilityCriteria?.value;
@@ -457,10 +500,16 @@ function CourseDetails() {
                 <p className="text-left-align  mt2">{courseDetails?.about_course}</p>
               </Row>
               <h4 className="font-color mb2" id="batches">
-                Batches
+                Morning Batches
               </h4>
               <Row xs={1} md={3} className="mtb5">
                 {getBatches()}
+              </Row>
+              <h4 className="font-color mb2" id="batches">
+                Evening Batches
+              </h4>
+              <Row xs={1} md={3} className="mtb5">
+                {eveningGetBatches()}
               </Row>
               <h4 className="font-color mb2" id="eligibility">
                 Eligiblility Criteria

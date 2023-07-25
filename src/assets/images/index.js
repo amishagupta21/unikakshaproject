@@ -60,6 +60,7 @@ import iconPdf from './icon-pdf.svg';
 import iconLinkedSvg from './icon-linked.svg';
 // import profilePicture from './profile-picture.png';
 import profilePicture from './profile-pic.svg';
+import profilepic from './profile-pic.jpg'
 import loginShapeLeft from './login-shape-left.svg';
 import iconEnroll from './icon-enroll.svg';
 import editGray from './edit-gray.svg';
@@ -164,6 +165,7 @@ export {
     iconLinked,
     loginBanner,
     progressIcon,
+    profilepic,
     iconPdf,
     iconLinkedSvg,
     profilePicture,

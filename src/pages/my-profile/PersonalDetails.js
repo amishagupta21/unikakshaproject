@@ -36,6 +36,7 @@ import {
   profileEditIcon,
   profilePicture,
   trashWhite,
+  profilepic
 } from '../../assets/images';
 import './PersonalDetails.scss';
 
@@ -905,7 +906,7 @@ const PersonalDetails = () => {
 
                         <div className="upload-area">
                           <img
-                            src={profilePic ? profilePic : profilePicture}
+                            src={profilePic ? profilePic : profilepic}
                             alt="profile"
                             className="profile-avatar"
                             onClick={() => viewProfilePhoto()}
@@ -937,7 +938,7 @@ const PersonalDetails = () => {
                                     <div className="mt-3">
                                       <Row className="nomargin batch-head">
                                         <img
-                                          src={profilePic ? profilePic : profilePicture}
+                                          src={profilePic ? profilePic : profilepic}
                                           alt="profile"
                                           className=""
                                           onClick={() => viewProfilePhoto()}

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import Worldline from './WorldLine';
 import { calendar1 } from '../../../assets/images';
 
-const PaymentPopupAutonomy = ({
+const PaymentPopupSynergy = ({
   nextPage,
   setOrderData,
   courseId,
@@ -57,7 +57,7 @@ const PaymentPopupAutonomy = ({
   const createOrder = async () => {
     let payload = {
       application_id: application?._id,
-      amount: 10000,
+      amount: 50000,
       currency: 'INR',
       receipt: (Math.random() + 1).toString(36).substring(7),
     };
@@ -189,7 +189,7 @@ const PaymentPopupAutonomy = ({
                 <Row className="mt-2 nomargin amnt-list">
                   <Col md="7 nopadd">Registartion Fee</Col>
                   <Col md="5 nopadd">
-                    <span className="floatRight">10,000</span>
+                    <span className="floatRight">50,000</span>
                   </Col>
                 </Row>
                 <Row className="mt-2 nomargin btmborder amnt-list">
@@ -201,7 +201,7 @@ const PaymentPopupAutonomy = ({
                 <Row className="mt-2 nomargin total-amnt">
                   <Col md="7 nopadd">Total</Col>
                   <Col md="5 nopadd">
-                    <span className="floatRight">10,000</span>
+                    <span className="floatRight">50,000</span>
                   </Col>
                 </Row>
               </div>
@@ -244,4 +244,4 @@ const PaymentPopupAutonomy = ({
   );
 };
 
-export default PaymentPopupAutonomy;
+export default PaymentPopupSynergy;

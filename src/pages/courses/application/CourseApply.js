@@ -137,9 +137,9 @@ const CourseApplication = () => {
     setCourseDetails(courseData);
     fetchUserDetails(uid);
     if (courseDetails?.course_id) {
-      await fetchApplicationDetails(uid, courseData.id);
+      await fetchApplicationDetails(uid, courseData?.id);
     }
-    fetchVariantBatches(courseData.id);
+    fetchVariantBatches(courseData?.id);
     setIsLoading(false);
   
   };
@@ -199,7 +199,7 @@ const CourseApplication = () => {
     window.scrollTo(0, 0);
     fetchInitialData(user?.uid);
     dispatch(setLoading(false));
-  }, [courseDetails.course_title]);
+  }, [courseDetails?.course_title]);
 
   const fetchVariantBatches = async (courseVariantId) => {
     const res = await ApiService(`courses/${courseVariantId}/batch/list`);
@@ -355,7 +355,7 @@ const CourseApplication = () => {
                 <div>
                   <Card.Title
                     style={{ fontWeight: '600', color: '#222380', marginBottom: 'unset' }}>
-                    {courseDetails.course_title}
+                    {courseDetails?.course_title}
                   </Card.Title>
                   {/* <Card.Subtitle style={{ fontFamily: 'Roboto' }} className="mb-2 text-muted d-flex">
                   <div style={{ fontSize: '12px', paddingRight: '24px' }}>
