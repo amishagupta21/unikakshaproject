@@ -59,7 +59,6 @@ function CourseDetails() {
 
   const fetchVariantBatches = async (course_id) => {
     const res = await ApiService(`courses/${course_id}/batch/list`);
-
     return res?.data?.data?.result;
   };
   const fetchVariantBatchesfaq = async (course_id) => {
@@ -80,7 +79,7 @@ function CourseDetails() {
 
   const fetchInitialData = async (params) => {
     const courseData = state ? state : await fetchCourseDetails(params);
-    console.log("course",(courseData))
+    console.log("courseData",courseData)
     courseData?.course_variant_sections?.bannerAsset?.value?.filter((e) => {
       if (e.type === 'background-image') {
         setPromoBanner(e);
@@ -518,8 +517,8 @@ function CourseDetails() {
                 {getEligibility()}
               </Row>
 
-              {courseDetails?.course_variant_sections?.whatWillYouLearn?.value &&
-                courseDetails?.course_type == 'PartTime' && (
+              {/* {courseDetails?.course_variant_sections?.whatWillYouLearn?.value &&
+                courseDetails?.course_type == 'PartTime' && ( */}
                   <>
                     <h4 className="font-color mb2" id="jobs">
                       The Best Job Roles You Can Get
@@ -528,7 +527,7 @@ function CourseDetails() {
                       {getJobs()}
                     </Row>
                   </>
-                )}
+                {/* )} */}
 
               <h4 className="font-color mb2" id="paymode">
                 Choose A Payment Plan That Works For You
