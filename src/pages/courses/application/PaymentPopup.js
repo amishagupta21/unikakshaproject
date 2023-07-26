@@ -22,6 +22,7 @@ const PaymentPopup = ({
   const [batches, setbatches] = React.useState();
   const [defaultBatch, setDefaultBatch] = React.useState();
   const [batchDate, setBatchDate] = React.useState([]);
+  const [eveningBatchDate, setEveningBatchDate] = React.useState([]);
 
 
   const navigate = useNavigate();
@@ -103,11 +104,19 @@ const PaymentPopup = ({
   // };
   const batchSchedule = async () => {
     const res = await ApiService(`/admin/batch-Schedule/${courseId}`);
-    const batchSchedule = res?.data?.data?.result[0].course_variant_sections.overview.batchShedule;
+    const batchSchedule = res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[0]?.morningBatch;
+    // console.log("schedule",res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[0]?.morningBatch)
     setBatchDate(batchSchedule)
   };
+  const eveningbatchSchedule = async () => {
+    const res = await ApiService(`/admin/batch-Schedule/${courseId}`);
+    const eveningBatch=res?.data?.data?.result[0]?.course_variant_sections?.overview?.batchShedule[1]?.eveningBatch;
+    setEveningBatchDate(eveningBatch)
+  };
+
   useEffect(()=>{
     batchSchedule()
+    eveningbatchSchedule()
   },[])
   const getBatches = () => {
     const items = batchDate?.map((element, index) => {
@@ -124,7 +133,7 @@ const PaymentPopup = ({
                 <span className="text-left-align mtb5">{element?.date3}</span>
               </p>
 
-              <Button
+              {/* <Button
                 variant="secondary"
                 className={index == 0 ? '' : 'upcoming-btn'}
                 onClick={() => {
@@ -132,7 +141,38 @@ const PaymentPopup = ({
                 }}>
                 {' '}
                 {index == 0 ? 'Apply Now' : 'Upcoming'}{' '}
-              </Button>
+              </Button> */}
+            </Card.Body>
+          </Card>
+        </Col>
+      );
+    });
+    return items;
+  };
+  const getEveningBatches = () => {
+    const items = eveningBatchDate?.map((element, index) => {
+      return (
+        <Col key={index} sm={3}>
+          <Card className="batch-card-style">
+            <Card.Body className="text-left-align">
+              <h6 className="font-color text-left-align mtb5"> Starts From </h6>
+              <p>
+                <img src={calendar1} alt="Calendar" className="calendar-icon" />
+                {/* <span className="text-left-align mtb5">{convertDate(element.start_date)}</span> */}
+                <span className="text-left-align mtb5">{element?.date1}</span>
+                <span className="text-left-align mtb5">{element?.date2}</span>
+                <span className="text-left-align mtb5">{element?.date3}</span>
+              </p>
+
+              {/* <Button
+                variant="secondary"
+                className={index == 0 ? '' : 'upcoming-btn'}
+                onClick={() => {
+                  apply(courseDetails);
+                }}>
+                {' '}
+                {index == 0 ? 'Apply Now' : 'Upcoming'}{' '}
+              </Button> */}
             </Card.Body>
           </Card>
         </Col>
@@ -162,9 +202,15 @@ const PaymentPopup = ({
                   </span>
                 </div>
                 <div className="mt-3">
-                  <Row className="nomargin batch-head">Batch Schedule</Row>
+                  <Row className="nomargin batch-head">Morning Batch Schedule</Row>
                   <Row xs={1} md={3} className="nomargin mt-2">
                     {getBatches()}
+                  </Row>
+                </div>
+                <div className="mt-3">
+                  <Row className="nomargin batch-head">Evening Batch Schedule</Row>
+                  <Row xs={1} md={3} className="nomargin mt-2">
+                    {getEveningBatches()}
                   </Row>
                 </div>
               </div>
