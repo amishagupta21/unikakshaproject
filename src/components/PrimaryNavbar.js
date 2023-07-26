@@ -3,7 +3,7 @@ import { Container, Nav, Navbar } from 'react-bootstrap';
 import Dropdown from 'react-bootstrap/Dropdown';
 import BrandLogo from '../assets/images/unikaksha-logo.svg';
 import Notify from '../assets/images/icon-notify.svg';
-import { Profileimg, profilePicture } from '../assets/images';
+import { Profileimg, profilePicture, profilepic } from '../assets/images';
 import Course from '../assets/images/icon-mycourse.svg';
 import Profile from '../assets/images/icon-myprofile.svg';
 import Logout from '../assets/images/icon-logout.svg';
@@ -116,7 +116,7 @@ const PrimaryNavbar = () => {
                 <Nav.Link className="notification-link-dp">
                   <Dropdown>
                     <Dropdown.Toggle id="dropdown-basic" className="dropdown-design">
-                      <img src={profilePic ? profilePic : profilePicture} alt="profile" style={{ width: '50px', height: '50px' }} />
+                      <img src={profilePic ? profilePic : profilepic} alt="profile" style={{ width: '50px', height: '50px' }} />
                       <span className="avatar-name">{user?.displayName}</span>
                     </Dropdown.Toggle>
 

@@ -82,7 +82,7 @@ const HeroSection = ({ bannerDetails }) => {
                       <h2>{banner?.title}</h2>
                       <h1>Bootcamp</h1>
                       <p>
-                        Batch starting <span className="orange">{batchStartDate}</span>
+                         Next Batch starting <span className="orange">{batchStartDate}</span>
                       </p>
                       <div className="btn-item">
                         <a href={banner.deeplink} target="_blank" className="enroll-now">
