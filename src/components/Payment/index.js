@@ -33,6 +33,7 @@ import icon23 from "../../assets/images/images/icon/icon-23.svg"
 import icon24 from "../../assets/images/images/icon/icon-24.svg"
 import PaymentPopup from '../../pages/courses/application/PaymentPopup'
 import PaymentPopupAutonomy from '../../pages/courses/application/PaymentPopupAutonomy'
+import PaymentPopupSynergy from '../../pages/courses/application/PaymentPopupSynergy'
 
 
 
@@ -55,6 +56,7 @@ const Payment = (
 ) => {
     const [isPaymentOpen, setIsPaymentOpen] = useState(false);
     const [isPymentAutonomy, setIsPymentAutonomy] = useState(false);
+    const [isPymentSynergy, setIsPymentSynergy] = useState(false);
 
     const openPaymentModalAutonomy = ()=>{
         setIsPymentAutonomy(!isPymentAutonomy)
@@ -63,7 +65,9 @@ const Payment = (
     const openPaymentModal = ()=>{
         setIsPaymentOpen(!isPaymentOpen)
     }
-
+    const openPaymentSynergy = ()=>{
+        setIsPymentSynergy(!isPymentSynergy)
+    }
     return (
         <div className="container">
             <div className="row">
@@ -133,7 +137,7 @@ const Payment = (
                         </div>
                     </div>
                 </div>
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                     <div className="pricing-sec blue-sec">
                         <div className="pricing-sec-white">
                             <div className="pricing-heading">
@@ -181,7 +185,6 @@ const Payment = (
                                     </li>
                                 </ul>
                             </div>
-                            {/* <div className="text-center"><a href="#" className="show-all">Show All</a></div> */}
                             <div>
                                 <h4 className="pay-heading">
                                     <span style={{ textDecoration: "line-through" }} className="left_span strike">₹1,50,000 </span>
@@ -195,7 +198,7 @@ const Payment = (
                             <div className="btn-sec"><a href="#" className="btn-orange" onClick={openPaymentModal}>Enroll Now</a></div>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <div className="col-lg-3">
                     <div className="pricing-sec organge-sec">
                         <div className="pricing-sec-white">
@@ -257,7 +260,7 @@ const Payment = (
                             <div className="income-btn">
                                 <h6><span className="tooltip-prices-new">+ Income Sharing Agreement</span></h6>
                             </div>
-                            <div className="btn-sec"><a href="#" className="btn-orange" onClick={openPaymentModal}>Enroll Now</a></div>
+                            <div className="btn-sec"><a href="#" className="btn-orange" onClick={openPaymentSynergy}>Enroll Now</a></div>
                         </div>
                     </div>
                 </div>
@@ -354,6 +357,22 @@ const Payment = (
                         orderData={orderData}
                         setWorldLineStatus={setWorldLineStatus}
                         setopenpayment={openPaymentModalAutonomy}
+                        worldLineStatus={worldLineStatus}
+                        setSelectedBatch={setSelectedBatch}
+                    />
+                )}
+                 {isPymentSynergy && (
+                    <PaymentPopupSynergy
+                        nextPage={nextPage}
+
+                        setOrderData={setOrderData}
+                        application={application}
+                        courseId={courseId}
+                        id={id}
+                        selectedBatch={selectedBatch}
+                        orderData={orderData}
+                        setWorldLineStatus={setWorldLineStatus}
+                        setopenpayment={openPaymentSynergy}
                         worldLineStatus={worldLineStatus}
                         setSelectedBatch={setSelectedBatch}
                     />
