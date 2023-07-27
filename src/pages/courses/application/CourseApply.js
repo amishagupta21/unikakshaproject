@@ -173,9 +173,6 @@ const CourseApplication = () => {
       } else if (application_stage === 'education_details') {
         nextPageNumber(2);
       } 
-      else if (applicationDetails?.data?.data.application?.m_applicationstatus === 'Assessment Passed' && applicationDetails?.data?.data.application?.application_stage === "test_result") {
-        nextPageNumber(4);
-      }
       else if (application_stage === 'test_result') {
         nextPageNumber(3);
       } else if (application_stage === 'application_status') {

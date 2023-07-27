@@ -65,7 +65,7 @@ const PersonalDetails = () => {
   // const [userDOBData, setDobData] = React.useState();
   const [isLoading, setIsLoading] = React.useState(false);
   const [editable, setEditable] = React.useState(false);
-   const[emailEditable,setEmailEditable]=React.useState(false)
+  const [emailEditable, setEmailEditable] = React.useState(false)
 
   const [EducationalData, setEducationalDetails] = React.useState({});
   const [KYCData, setKYCDetails] = React.useState();
@@ -418,26 +418,6 @@ const PersonalDetails = () => {
     input.setAttribute('multiple', true);
     input.click();
 
-    // input.onchange = async () => {
-    //   const files = input.files;
-
-    //   for (let i = 0; i < files.length; i++) {
-    //     const file = files[i];
-
-    //     // if (file.size / 1e6 > 2)
-    //     const allowedTypes = ['image/jpeg','image/jpg', 'image/png'];
-    //     if (!allowedTypes.includes(file.type)) {
-    //       dispatch(
-    //         openToaster({
-    //           show: true,
-    //           header: 'Warning!',
-    //           variant: 'warning',
-    //           body: 'File size exceeds the max. allowed size : 2 Mb',
-    //         })
-
-    //       );
-    //       window.location.reload();
-    //       continue;
     input.onchange = async () => {
       const files = input.files;
 
@@ -451,42 +431,32 @@ const PersonalDetails = () => {
               show: true,
               header: 'Warning!',
               variant: 'warning',
-              body: 'File size exceeds the max. allowed size : 2 Mb',
+              body: 'only jpg or png files are allowed',
             })
           );
-          window.location.reload();
-          continue;
+          dispatch(setLoading(false));
+          return
         }
 
+        // Check if the file size is less than 1MB (1MB = 1024 * 1024 bytes)
+        const maxSizeInBytes = 1024 * 1024;
+
+        if (!(file.size <= maxSizeInBytes)) {
+          dispatch(
+            openToaster({
+              show: true,
+              header: 'Warning!',
+              variant: 'warning',
+              body: 'File size exceeds the max. allowed size : 1 Mb',
+            })
+          );
+          dispatch(setLoading(false));
+          return
+        }
         uploadToS3(file, docType);
       }
     };
   };
-
-  // const uploadToS3 = (inputFile, docType) => {
-  //   if (inputFile) {
-  //     let promise = new Promise(async (resolve, reject) => {
-  //       let payload = {
-  //         file_name: inputFile.name,
-  //         type: inputFile.type,
-  //         document_type: docType,
-  //       };
-  //       dispatch(setLoading(false));
-
-  //       const response = await ApiService('/user/upload/profile-picture', `POST`, payload, true);
-  //       if (response.data) {
-  //         uploadUsingSignedUrl(response.data.data.signedUrl, inputFile, docType)
-  //           .then((res) => {
-
-  //             viewProfilePic('profile_picture');
-  //             window.location.reload();
-  //             resolve(true);
-  //           })
-  //           .catch((error) => { });
-  //       }
-  //     });
-  //   }
-  // };
 
   const uploadToS3 = async (inputFile, docType) => {
     try {
@@ -870,7 +840,7 @@ const PersonalDetails = () => {
                         <Nav.Link eventKey="third">Work Details</Nav.Link>
                       </Nav.Item>
                     )}
-                       {userOccupation && userOccupation === 'STUDENT' && (
+                    {userOccupation && userOccupation === 'STUDENT' && (
                       <Nav.Item>
                         <Nav.Link eventKey="third">Work Details</Nav.Link>
                       </Nav.Item>
@@ -1094,9 +1064,9 @@ const PersonalDetails = () => {
                                             placeholder="Enter your Email"
                                             value={formik.values?.email}
                                             disabled={!emailEditable} // Inverted the value of editable
-                                            style={{ opacity: emailEditable ? 1 : 0.5 }} 
-                                            // disabled={true}
-                                            // style={{ opacity: 0.5 }}
+                                            style={{ opacity: emailEditable ? 1 : 0.5 }}
+                                          // disabled={true}
+                                          // style={{ opacity: 0.5 }}
                                           // disabled={ userData?.email }
                                           />
                                           <span className="change-mobile-no">
