@@ -194,6 +194,11 @@ const EducationDetails = ({
       return errors;
     },
     onSubmit: (values) => {
+     
+      if(applicationDetails.m_applicationstatus === 'Assessment Passed' && applicationDetails.application_stage === "test_result"){
+        nextPageNumber(4);
+        return
+      }
       if (applicationDetails?.application_stage === 'application_status') {
         nextPageNumber(3);
       } else {
@@ -808,7 +813,6 @@ const EducationDetails = ({
               disabled={
                 !(formik.isValid && formik.dirty) || isNextLoading || highestQualification === ''
               }
-              // onClick={()=>nextPageNumber(4)}
               variant="secondary"
               type="submit">
               {isNextLoading ? 'Saving..' : 'Next'}

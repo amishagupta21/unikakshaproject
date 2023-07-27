@@ -71,7 +71,7 @@ const Payment = (
     return (
         <div className="container">
             <div className="row">
-                <div className="col-lg-3">
+                <div className="col-lg-4">
                     <div className="pricing-sec">
                         <div className="pricing-sec-white">
                             <div className="pricing-heading">
@@ -199,7 +199,7 @@ const Payment = (
                         </div>
                     </div>
                 </div> */}
-                <div className="col-lg-3">
+                <div className="col-lg-4">
                     <div className="pricing-sec organge-sec">
                         <div className="pricing-sec-white">
                             <div className="pricing-heading">
@@ -264,7 +264,7 @@ const Payment = (
                         </div>
                     </div>
                 </div>
-                <div className="col-lg-3">
+                <div className="col-lg-4">
                     <div className="pricing-sec lightblue-sec">
                         <div className="pricing-sec-white">
                             <div className="pricing-heading">
