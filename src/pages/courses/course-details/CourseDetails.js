@@ -79,7 +79,7 @@ function CourseDetails() {
 
   const fetchInitialData = async (params) => {
     const courseData = state ? state : await fetchCourseDetails(params);
-    console.log("courseData",courseData)
+    console.log("courseData", courseData)
     courseData?.course_variant_sections?.bannerAsset?.value?.filter((e) => {
       if (e.type === 'background-image') {
         setPromoBanner(e);
@@ -191,7 +191,7 @@ function CourseDetails() {
                   apply(courseDetails);
                 }}>
                 {' '}
-                {index == 0 ? 'Apply Now' : 'Upcoming'}{' '}
+                {index == 0 ? 'Apply Now' : 'Apply Now'}{' '}
               </Button>
             </Card.Body>
           </Card>
@@ -222,7 +222,7 @@ function CourseDetails() {
                   apply(courseDetails);
                 }}>
                 {' '}
-                {index == 0 ? 'Apply Now' : 'Upcoming'}{' '}
+                {index == 0 ? 'Apply Now' : 'Apply Now'}{' '}
               </Button>
             </Card.Body>
           </Card>
@@ -406,10 +406,10 @@ function CourseDetails() {
 
                 <div className="d-flex">
                   <h6 className="me-1">
-                    <span>Duration: </span> 
+                    <span>Duration: </span>
                     {courseDetails?.duration}
                     {/* {courseVariantBatches[0]?.duration}  */}
-                      Months |{' '}
+                    Months |{' '}
                   </h6>
                   <h6>{courseDetails?.variant_name}</h6>
                 </div>
@@ -519,15 +519,15 @@ function CourseDetails() {
 
               {/* {courseDetails?.course_variant_sections?.whatWillYouLearn?.value &&
                 courseDetails?.course_type == 'PartTime' && ( */}
-                  <>
+              {/* <>
                     <h4 className="font-color mb2" id="jobs">
                       The Best Job Roles You Can Get
                     </h4>
                     <Row xs={1} md={4} className="mtb5">
                       {getJobs()}
                     </Row>
-                  </>
-                {/* )} */}
+                  </> */}
+              {/* )} */}
 
               <h4 className="font-color mb2" id="paymode">
                 Choose A Payment Plan That Works For You
@@ -536,6 +536,15 @@ function CourseDetails() {
                 {/* {getPaymentsPlans()} */}
                 <Payment />
               </Row>
+
+              <>
+                <h4 className="font-color mb2" id="jobs">
+                  The Best Job Roles You Can Get
+                </h4>
+                <Row xs={1} md={4} className="mtb5">
+                  {getJobs()}
+                </Row>
+              </>
 
               {courseDetails?.course_type == 'PartTime' &&
                 courseDetails?.course_variant_sections?.whatWillYouLearn.label && (
