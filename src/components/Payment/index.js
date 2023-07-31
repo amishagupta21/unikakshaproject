@@ -34,6 +34,7 @@ import icon24 from "../../assets/images/images/icon/icon-24.svg"
 import PaymentPopup from '../../pages/courses/application/PaymentPopup'
 import PaymentPopupAutonomy from '../../pages/courses/application/PaymentPopupAutonomy'
 import PaymentPopupSynergy from '../../pages/courses/application/PaymentPopupSynergy'
+import CustomPyament from '../../pages/courses/application/CustomPayment'
 
 
 
@@ -50,22 +51,25 @@ const Payment = (
         worldLineStatus,
         nextPageNumber,
         id,
-        setopenpayment,
-        openPayment
     }
 ) => {
     const [isPaymentOpen, setIsPaymentOpen] = useState(false);
     const [isPymentAutonomy, setIsPymentAutonomy] = useState(false);
     const [isPymentSynergy, setIsPymentSynergy] = useState(false);
+    const [customPayment, setCustomPayment] = useState();
 
-    const openPaymentModalAutonomy = ()=>{
+    const toggleCustomPayment = () => {
+        setCustomPayment(!customPayment)
+    }
+
+    const openPaymentModalAutonomy = () => {
         setIsPymentAutonomy(!isPymentAutonomy)
     }
-  
-    const openPaymentModal = ()=>{
+
+    const openPaymentModal = () => {
         setIsPaymentOpen(!isPaymentOpen)
     }
-    const openPaymentSynergy = ()=>{
+    const openPaymentSynergy = () => {
         setIsPymentSynergy(!isPymentSynergy)
     }
     return (
@@ -134,6 +138,7 @@ const Payment = (
                                 Pay your course fee ONLY when you land a job (Capped at ₹3,00,000)
                             </p>
                             <div className="btn-sec"><a href="#" className="btn-orange" onClick={openPaymentModal}>Enroll Now</a></div>
+
                         </div>
                     </div>
                 </div>
@@ -251,7 +256,7 @@ const Payment = (
                             <div>
                                 <h4 className="pay-heading">
                                     <span style={{ textDecoration: "line-through" }} className="left_span strike">
-                                    ₹75,000
+                                        ₹75,000
                                     </span>
                                     <span style={{ color: "#EF6A28" }} className="span_bold">₹50,000</span><br></br>
                                     (incl of GST & Registration Fees)
@@ -317,7 +322,7 @@ const Payment = (
                             <div>
                                 <h4 className="pay-heading">
                                     <span style={{ textDecoration: "line-through" }} className="left_span strike">
-                                    ₹15,000
+                                        ₹15,000
                                     </span>
                                     <span style={{ color: '#EF6A28' }} className="span_bold"> ₹10,000  </span><br></br>
                                     (incl of GST & Registration Fees)
@@ -328,8 +333,23 @@ const Payment = (
                             </div>
                             <div className="btn-sec"><a href="#" className="btn-orange" onClick={openPaymentModalAutonomy}>Enroll Now</a></div>
                         </div>
+
                     </div>
+
                 </div>
+                <div className="btn-sec">
+                    <button onClick={toggleCustomPayment} className="btn-orange">Make Payment</button>
+                </div>
+                {customPayment && (
+                    <CustomPyament
+                        setOrderData={setOrderData}
+                        application={application}
+                        toggleCustomPayment={toggleCustomPayment}
+                        nextPage={nextPage}
+                        courseId={courseId}
+                    />
+                )
+                }
                 {isPaymentOpen && (
                     <PaymentPopup
                         nextPage={nextPage}
@@ -345,7 +365,7 @@ const Payment = (
                         setSelectedBatch={setSelectedBatch}
                     />
                 )}
-                 {isPymentAutonomy && (
+                {isPymentAutonomy && (
                     <PaymentPopupAutonomy
                         nextPage={nextPage}
 
@@ -361,10 +381,9 @@ const Payment = (
                         setSelectedBatch={setSelectedBatch}
                     />
                 )}
-                 {isPymentSynergy && (
+                {isPymentSynergy && (
                     <PaymentPopupSynergy
                         nextPage={nextPage}
-
                         setOrderData={setOrderData}
                         application={application}
                         courseId={courseId}
