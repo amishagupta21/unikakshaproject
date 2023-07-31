@@ -150,3 +150,15 @@ input[type="radio"] {
   vertical-align: middle;
   margin-right: 5px;
 }
+.amount-input {
+  border: 1px solid black;
+  padding: 8px 12px;
+  border-radius: 4px;
+  outline: none;
+  width: 250px; /* You can adjust the width as needed */
+}
+
+/* Style the placeholder text */
+.amount-input::placeholder {
+  color: #999;
+}
