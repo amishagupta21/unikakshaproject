@@ -346,6 +346,7 @@ const Payment = (
                         application={application}
                         toggleCustomPayment={toggleCustomPayment}
                         nextPage={nextPage}
+                        courseId={courseId}
                     />
                 )
                 }

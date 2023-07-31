@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { Card, Row, Col, InputGroup, FormControl, Button, CardGroup, Form } from 'react-bootstrap';
 import ApiService from '../../../services/ApiService';
+import { calendar1 } from '../../../assets/images';
 
-const CustomPyament = ({toggleCustomPayment,nextPage,setOrderData,application}) => {
+const CustomPyament = ({toggleCustomPayment,nextPage,setOrderData,application,courseId}) => {
 
     const [amount, setAmount] = useState(0); // Set the initial value to 2500 or any other default value
 
@@ -19,12 +20,91 @@ const CustomPyament = ({toggleCustomPayment,nextPage,setOrderData,application}) 
         let orderDetails = await ApiService('order/create-order', `POST`, payload, true);
         if (orderDetails?.data?.code === 200) {
             setOrderData(orderDetails.data.data);
-            console.log("orderDetails",orderDetails.data);
             nextPage(6);
             toggleCustomPayment();
         }
       };
-
+      const [batchDate, setBatchDate] = React.useState([]);
+      const [eveningBatchDate, setEveningBatchDate] = React.useState([]);
+    
+      const batchSchedule = async () => {
+        const res = await ApiService(`/admin/batch-Schedule/${courseId}`);
+        const batchSchedule = res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[0]?.morningBatch;
+        // console.log("schedule",res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[0]?.morningBatch)
+        setBatchDate(batchSchedule)
+      };
+      const eveningbatchSchedule = async () => {
+        const res = await ApiService(`/admin/batch-Schedule/${courseId}`);
+        const eveningBatch=res?.data?.data?.result[0]?.course_variant_sections?.overview?.batchShedule[1]?.eveningBatch;
+        setEveningBatchDate(eveningBatch)
+      };
+    
+      useEffect(()=>{
+        batchSchedule()
+        eveningbatchSchedule()
+      },[])
+      const getBatches = () => {
+        const items = batchDate?.map((element, index) => {
+          return (
+            <Col key={index} sm={3}>
+              <Card className="batch-card-style">
+                <Card.Body className="text-left-align">
+                  <h6 className="font-color text-left-align mtb5"> Starts From </h6>
+                  <p>
+                    <img src={calendar1} alt="Calendar" className="calendar-icon" />
+                    {/* <span className="text-left-align mtb5">{convertDate(element.start_date)}</span> */}
+                    <span className="text-left-align mtb5">{element?.date1}</span>
+                    <span className="text-left-align mtb5">{element?.date2}</span>
+                    <span className="text-left-align mtb5">{element?.date3}</span>
+                  </p>
+    
+                  {/* <Button
+                    variant="secondary"
+                    className={index == 0 ? '' : 'upcoming-btn'}
+                    onClick={() => {
+                      apply(courseDetails);
+                    }}>
+                    {' '}
+                    {index == 0 ? 'Apply Now' : 'Upcoming'}{' '}
+                  </Button> */}
+                </Card.Body>
+              </Card>
+            </Col>
+          );
+        });
+        return items;
+      };
+      const getEveningBatches = () => {
+        const items = eveningBatchDate?.map((element, index) => {
+          return (
+            <Col key={index} sm={3}>
+              <Card className="batch-card-style">
+                <Card.Body className="text-left-align">
+                  <h6 className="font-color text-left-align mtb5"> Starts From </h6>
+                  <p>
+                    <img src={calendar1} alt="Calendar" className="calendar-icon" />
+                    {/* <span className="text-left-align mtb5">{convertDate(element.start_date)}</span> */}
+                    <span className="text-left-align mtb5">{element?.date1}</span>
+                    <span className="text-left-align mtb5">{element?.date2}</span>
+                    <span className="text-left-align mtb5">{element?.date3}</span>
+                  </p>
+    
+                  {/* <Button
+                    variant="secondary"
+                    className={index == 0 ? '' : 'upcoming-btn'}
+                    onClick={() => {
+                      apply(courseDetails);
+                    }}>
+                    {' '}
+                    {index == 0 ? 'Apply Now' : 'Upcoming'}{' '}
+                  </Button> */}
+                </Card.Body>
+              </Card>
+            </Col>
+          );
+        });
+        return items;
+      };
     return (
         <>
             <div className="modal display-block">
@@ -44,7 +124,7 @@ const CustomPyament = ({toggleCustomPayment,nextPage,setOrderData,application}) 
                                 </svg>
                             </span>
                         </div>
-                        {/* <div className="mt-3">
+                        <div className="mt-3">
             <Row className="nomargin batch-head">Morning Batch Schedule</Row>
             <Row xs={1} md={3} className="nomargin mt-2">
               {getBatches()}
@@ -55,9 +135,9 @@ const CustomPyament = ({toggleCustomPayment,nextPage,setOrderData,application}) 
             <Row xs={1} md={3} className="nomargin mt-2">
               {getEveningBatches()}
             </Row>
-          </div> */}
+          </div>
                     </div>
-                    <div className="mt-3 coupon-div">
+                    {/* <div className="mt-3 coupon-div">
                         <div className="model-body pb-2">
                             <Row>
                                 <span className="mtb-10">Have a coupon code?</span>
@@ -74,7 +154,7 @@ const CustomPyament = ({toggleCustomPayment,nextPage,setOrderData,application}) 
                                 </span>
                             </Row>
                         </div>
-                    </div>
+                    </div> */}
                     <div className="mt-3 model-body model-body-register">
                         <Row className="mt-2 nomargin amnt-list">
                             <Col md="7 nopadd">
