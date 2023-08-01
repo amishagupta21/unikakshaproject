@@ -9,7 +9,12 @@ const CustomPyament = ({ toggleCustomPayment, nextPage, setOrderData, applicatio
 
     const [amount, setAmount] = useState(); // Set the initial value to 2500 or any other default value
 
-    const handleAmountChange = (event) => setAmount(event.target.value);
+    const handleAmountChange = (event) => {
+        const input = event.target.value;
+        const onlyNumbers = input.replace(/[^0-9]/g, ''); // Remove any non-numeric characters
+    
+        setAmount(onlyNumbers);
+      }
 
 
     const createOrder = async () => {

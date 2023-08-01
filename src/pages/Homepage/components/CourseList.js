@@ -106,7 +106,8 @@ const CourseList = ({ courses }) => {
         {/* <div>see all</div> */}
       </div>
       <Row>
-        {courses?.map((course, idx) => (
+        {courses?.map((course, idx) => 
+          (
           <Col md="4" key={course?.id}>
             <Card className="my-4 card-custom card-expore" style={{ width: '100%' }}>
               <Card className="bannerlable">{getPaymentMode(course)}</Card>
