@@ -8,21 +8,12 @@ import { calendar1 } from '../../../assets/images';
 const CustomPyament = ({ toggleCustomPayment, nextPage, setOrderData, application, courseId }) => {
 
     const [amount, setAmount] = useState(); // Set the initial value to 2500 or any other default value
-    const [paymentProcessed, setPaymentProcessed] = useState(false);
     const handleAmountChange = (event) => {
-        // Check if payment is processed, if yes, return without updating the state
-        if (paymentProcessed) {
-            return;
-        }
-
         const input = event.target.value;
         const onlyNumbers = input.replace(/[^0-9]/g, ''); // Remove any non-numeric characters
-
-        // Ensure that the amount is more than 500
-        if (parseInt(onlyNumbers) >= 500) {
-            setAmount(onlyNumbers);
-        }
-    }
+    
+        setAmount(onlyNumbers);
+      }
 
     const createOrder = async () => {
         let payload = {
