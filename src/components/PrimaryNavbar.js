@@ -91,7 +91,7 @@ const PrimaryNavbar = () => {
               {/* <Nav.Link href="https://unikode.unikaksha.com">Unikode</Nav.Link> */}
               <Nav.Link href="/redirectToUnikode" >Unikode</Nav.Link>
               <Nav.Link href="https://www.unikaksha.com/events/">Event & Content</Nav.Link>
-              <Nav.Link href="https://pages.razorpay.com/fsd-registration" target='_blank'>Custom Payment</Nav.Link>
+              {/* <Nav.Link href="https://pages.razorpay.com/fsd-registration" target='_blank'>Custom Payment</Nav.Link> */}
 
               {/* <Nav.Link href="/dashboard">Courses</Nav.Link> */}
               {/* <Nav.Link href="#features" className="refer-frd">
