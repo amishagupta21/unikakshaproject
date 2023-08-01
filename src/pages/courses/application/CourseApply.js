@@ -373,7 +373,10 @@ const CourseApplication = () => {
                   <Card.Link
                     as="div"
                     className="view-card-course"
-                    onClick={() => navigate(`../course/${courseDetails.course_url}`)}>
+                    onClick={() => 
+                      navigate(`/course/${courseDetails?.course_url}`, { state: courseDetails })
+                    }
+                    >
                     View Course
                   </Card.Link>
                 </div>
