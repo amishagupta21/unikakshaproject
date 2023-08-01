@@ -135,7 +135,6 @@ const CustomPyament = ({ toggleCustomPayment, nextPage, setOrderData, applicatio
                                     value={amount}
                                     onChange={handleAmountChange}
                                     className="amount-input"
-                                    disabled={paymentProcessed} // Add the disabled attribute here
                                 />
                             </Col>
                         </Row>
