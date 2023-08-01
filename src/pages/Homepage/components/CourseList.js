@@ -37,7 +37,6 @@ const CourseList = ({ courses }) => {
 
   const fetchUserDetails = async (uid) => {
     const response = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
-
     setOccupation(response?.data?.data?.userProfile?.occupation);
   };
 
@@ -62,6 +61,8 @@ const CourseList = ({ courses }) => {
   const viewDetails = (course) => {
     navigate(`/course/${course?.course_url}`, { state: course });
   };
+
+
 
   useEffect(() => {
     fetchUserDetails(user?.uid);
