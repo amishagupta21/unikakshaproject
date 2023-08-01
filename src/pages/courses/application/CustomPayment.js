@@ -8,14 +8,21 @@ import { calendar1 } from '../../../assets/images';
 const CustomPyament = ({ toggleCustomPayment, nextPage, setOrderData, application, courseId }) => {
 
     const [amount, setAmount] = useState(); // Set the initial value to 2500 or any other default value
-
+    const [paymentProcessed, setPaymentProcessed] = useState(false);
     const handleAmountChange = (event) => {
+        // Check if payment is processed, if yes, return without updating the state
+        if (paymentProcessed) {
+            return;
+        }
+
         const input = event.target.value;
         const onlyNumbers = input.replace(/[^0-9]/g, ''); // Remove any non-numeric characters
-    
-        setAmount(onlyNumbers);
-      }
 
+        // Ensure that the amount is more than 500
+        if (parseInt(onlyNumbers) >= 500) {
+            setAmount(onlyNumbers);
+        }
+    }
 
     const createOrder = async () => {
         let payload = {
@@ -137,6 +144,7 @@ const CustomPyament = ({ toggleCustomPayment, nextPage, setOrderData, applicatio
                                     value={amount}
                                     onChange={handleAmountChange}
                                     className="amount-input"
+                                    disabled={paymentProcessed} // Add the disabled attribute here
                                 />
                             </Col>
                         </Row>
@@ -157,9 +165,9 @@ const CustomPyament = ({ toggleCustomPayment, nextPage, setOrderData, applicatio
                                 type="button"
                                 onClick={createOrder}>
                                 {/* <Col md="5 nopadd"> */}
-                                    {/* <span className="floatRight"> */}
-                                        Pay {amount}
-                                        {/* </span> */}
+                                {/* <span className="floatRight"> */}
+                                Pay {amount}
+                                {/* </span> */}
                                 {/* </Col> */}
                             </Button>
                         </Row>

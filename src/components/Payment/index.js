@@ -338,7 +338,7 @@ const Payment = (
 
                 </div>
                 <div className="btn-sec">
-                    <button onClick={toggleCustomPayment} className="btn-orange">Make Payment</button>
+                    <button onClick={toggleCustomPayment} className="btn-orange">Custom Payment</button>
                 </div>
                 {customPayment && (
                     <CustomPyament
