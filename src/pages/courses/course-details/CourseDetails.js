@@ -79,7 +79,6 @@ function CourseDetails() {
 
   const fetchInitialData = async (params) => {
     const courseData = state ? state : await fetchCourseDetails(params);
-    console.log("courseData", courseData)
     courseData?.course_variant_sections?.bannerAsset?.value?.filter((e) => {
       if (e.type === 'background-image') {
         setPromoBanner(e);
