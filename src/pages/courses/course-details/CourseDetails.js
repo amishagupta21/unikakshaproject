@@ -1,5 +1,5 @@
 import parse from 'html-react-parser';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Card,
@@ -12,17 +12,15 @@ import {
   Row,
 } from 'react-bootstrap';
 import Rating from 'react-rating';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   calendar1,
-  computer,
   emptystar,
   facebook,
   fullstar,
   linkedin,
   microsoft,
   netflix,
-  overview,
   slack,
   tick,
   xbo,
@@ -33,20 +31,19 @@ import './CourseDetails.scss';
 import Faqs from './Faqs';
 import LearnerPaymentPopup from './LearnerPaymentPopup';
 import Payment from '../../../components/Payment';
+import ViewDetailsPayment from '../../../components/ViewDetailsPayment';
 
 function CourseDetails() {
-  const [courseDetails, setCourseDetails] = React.useState();
-  // const [courseDetailsfaq, setCourseDetailsfaq] = React.useState();
-  const [courseFaq, setCourseFaq] = React.useState();
+  const [courseDetails, setCourseDetails] = useState();
   const { state } = useLocation();
   const params = useParams();
-  const [courseVariantBatches, setVariantCourseBatches] = React.useState([]);
-  const [courseVariantBatchesfaq, setVariantCourseBatchesfaq] = React.useState([]);
-  const [batchDate, setBatchDate] = React.useState([]);
-  const [eveningbatchDate, eveningsetBatchDate] = React.useState([]);
-  const [eligibilityCriteria, setEligibilityCriteria] = React.useState([]);
-  const [openpayment, setopenpayment] = React.useState(false);
-  const [promoBanner, setPromoBanner] = React.useState();
+  const [courseVariantBatches, setVariantCourseBatches] = useState([]);
+  const [courseVariantBatchesfaq, setVariantCourseBatchesfaq] = useState([]);
+  const [batchDate, setBatchDate] = useState([]);
+  const [eveningbatchDate, eveningsetBatchDate] = useState([]);
+  const [eligibilityCriteria, setEligibilityCriteria] = useState([]);
+  const [openpayment, setopenpayment] = useState(false);
+  const [promoBanner, setPromoBanner] = useState();
 
   const navigate = useNavigate();
 
@@ -67,13 +64,11 @@ function CourseDetails() {
   };
   const batchSchedule = async (course_id) => {
     const res = await ApiService(`/admin/batch-Schedule/${course_id}`);
-    // console.log("res",JSON.stringify(res?.data?.data?.result))
     return res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[0]?.morningBatch;
   };
 
   const eveningbatchSchedule = async (course_id) => {
     const res = await ApiService(`/admin/batch-Schedule/${course_id}`);
-    // console.log("res1",JSON.stringify(res?.data?.data?.result[0]?.course_variant_sections.overview.batchShedule[1]?.eveningBatch))
     return res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[1]?.eveningBatch;
   };
 
@@ -91,7 +86,6 @@ function CourseDetails() {
     setCourseDetails(courseData);
     setVariantCourseBatchesfaq(variantBatchesfaq);
     const fetchBatches = await batchSchedule(courseData?.course_id);
-    // setCourseDetails(courseData);
     setBatchDate(fetchBatches);
 
     const eveningfetchBatches = await eveningbatchSchedule(courseData?.course_id);
@@ -118,8 +112,6 @@ function CourseDetails() {
       navigate(`/course/apply/${course.course_url}`, { state: course });
     }
   };
-
-
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -390,7 +382,6 @@ function CourseDetails() {
             <div className="container mx-auto my-4">
               <div className="details my-auto">
                 <h4>{`${courseDetails?.course_title} `}</h4>
-                {/* - ${courseDetails?.variant_name} */}
                 <div className="d-flex ratings my-2">
                   <p className="me-3">
                     <span>Ratings:</span> {courseDetails?.rating}
@@ -407,7 +398,6 @@ function CourseDetails() {
                   <h6 className="me-1">
                     <span>Duration: </span>
                     {courseDetails?.duration}
-                    {/* {courseVariantBatches[0]?.duration}  */}
                     Months |{' '}
                   </h6>
                   <h6>{courseDetails?.variant_name}</h6>
@@ -516,24 +506,11 @@ function CourseDetails() {
                 {getEligibility()}
               </Row>
 
-              {/* {courseDetails?.course_variant_sections?.whatWillYouLearn?.value &&
-                courseDetails?.course_type == 'PartTime' && ( */}
-              {/* <>
-                    <h4 className="font-color mb2" id="jobs">
-                      The Best Job Roles You Can Get
-                    </h4>
-                    <Row xs={1} md={4} className="mtb5">
-                      {getJobs()}
-                    </Row>
-                  </> */}
-              {/* )} */}
-
               <h4 className="font-color mb2" id="paymode">
                 Choose A Payment Plan That Works For You
               </h4>
               <Row xs={1} md={1} className="mtb5 eligible-group-chat">
-                {/* {getPaymentsPlans()} */}
-                <Payment />
+              <ViewDetailsPayment/>
               </Row>
 
               <>

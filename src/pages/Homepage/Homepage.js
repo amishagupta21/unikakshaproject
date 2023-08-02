@@ -16,9 +16,22 @@ const Homepage = () => {
   const [data, setData] = useState({});
   const [topCourses, setTopCourses] = useState([]);
 
+
   const fetchCourseDetails = async (data) => {
     dispatch(setLoading(true));
-    data = data['top-courses']?.item;
+
+
+    data = data['top-courses']?.item;    //for fetching course data --- through firebase 
+ 
+  //  ` data=[
+  //     "28d97f2a-1ff4-47f1-9606-9fbcef394897",
+  //     "5c95b2e8-9e43-498e-901f-cdefa28096c3",
+  //     "cfdbeadb-760e-493c-adce-1644727a4c6b",
+  //     "22d1f637-bfea-4273-b582-3b226872a0ef",
+  //     "7ba7421a-38ce-4fad-86bc-aba8f2f7a586"
+  //   ]`
+///temporary code
+
     let res = await ApiService('home/top-courses', `POST`, { course_variant_ids: data }, true);
     if (res?.data?.code === 200) {
       setTopCourses(res?.data?.data?.result);
@@ -28,9 +41,9 @@ const Homepage = () => {
 
   const fetchdata = async () => {
     const isFetched = await fetchAndActivate(remoteConfig);
+
     const temp3 = await getValue(remoteConfig, 'skill_fit_data');
     const responseData = await JSON.parse(temp3._value);
-    // console.log(responseData?.banner1_configure)
     setData(responseData);
     fetchCourseDetails(responseData);
     const uid = JSON.parse(localStorage.getItem('user')).uid;

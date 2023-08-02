@@ -38,20 +38,8 @@ import CustomPyament from '../../pages/courses/application/CustomPayment'
 
 
 
-const Payment = (
-    {
-        nextPage,
-        application,
-        setOrderData,
-        courseId,
-        selectedBatch,
-        orderData,
-        setSelectedBatch,
-        setWorldLineStatus,
-        worldLineStatus,
-        nextPageNumber,
-        id,
-    }
+const ViewDetailsPayment = (
+   
 ) => {
     const [isPaymentOpen, setIsPaymentOpen] = useState(false);
     const [isPymentAutonomy, setIsPymentAutonomy] = useState(false);
@@ -137,8 +125,7 @@ const Payment = (
                             <p className="small-text">
                                 Pay your course fee ONLY when you land a job (Capped at ₹3,00,000)
                             </p>
-                            <div className="btn-sec"><a href="#" className="btn-orange" onClick={openPaymentModal}
-                            >Enroll Now</a></div>
+                            {/* <div className="btn-sec"><a href="#" className="btn-orange" onClick={openPaymentModal}>Enroll Now</a></div> */}
 
                         </div>
                     </div>
@@ -266,7 +253,7 @@ const Payment = (
                             <div className="income-btn">
                                 <h6><span className="tooltip-prices-new">+ Income Sharing Agreement</span></h6>
                             </div>
-                            <div className="btn-sec"><a href="#" className="btn-orange" onClick={openPaymentSynergy}>Enroll Now</a></div>
+                            {/* <div className="btn-sec"><a href="#" className="btn-orange" onClick={openPaymentSynergy}>Enroll Now</a></div> */}
                         </div>
                     </div>
                 </div>
@@ -332,25 +319,13 @@ const Payment = (
                             <div className="income-btn">
                                 <h6><span className="tooltip-prices-new">+ Income Sharing Agreement</span></h6>
                             </div>
-                            <div className="btn-sec"><a href="#" className="btn-orange" onClick={openPaymentModalAutonomy}>Enroll Now</a></div>
+                            {/* <div className="btn-sec"><a href="#" className="btn-orange" onClick={openPaymentModalAutonomy}>Enroll Now</a></div> */}
                         </div>
 
                     </div>
 
                 </div>
-                <div className="btn-sec">
-                    <button onClick={toggleCustomPayment} className="btn-orange">Custom Payment</button>
-                </div>
-                {customPayment && (
-                    <CustomPyament
-                        setOrderData={setOrderData}
-                        application={application}
-                        toggleCustomPayment={toggleCustomPayment}
-                        nextPage={nextPage}
-                        courseId={courseId}
-                    />
-                )
-                }
+                
                 {isPaymentOpen && (
                     <PaymentPopup
                         nextPage={nextPage}
@@ -404,4 +379,4 @@ const Payment = (
 
 }
 
-export default Payment
+export default ViewDetailsPayment

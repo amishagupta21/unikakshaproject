@@ -1,59 +1,42 @@
 import React, { useEffect } from 'react';
-import { Card, Row, Col, InputGroup, FormControl, Button, CardGroup, Form } from 'react-bootstrap';
+import { Card, Row, Col, InputGroup, Button } from 'react-bootstrap';
 import './paymentPopups.scss';
-import moment from 'moment';
 import ApiService from '../../../services/ApiService';
 import { useNavigate } from 'react-router-dom';
-import Worldline from './WorldLine';
 import { calendar1 } from '../../../assets/images';
+
 const PaymentPopup = ({
   nextPage,
   setOrderData,
   courseId,
-  orderData,
-  selectedBatch,
   application,
   setopenpayment,
   setSelectedBatch,
-  setWorldLineStatus,
-  worldLineStatus,
-  id
 }) => {
   const [batches, setbatches] = React.useState();
-  const [defaultBatch, setDefaultBatch] = React.useState();
   const [batchDate, setBatchDate] = React.useState([]);
   const [eveningBatchDate, setEveningBatchDate] = React.useState([]);
 
 
-  const navigate = useNavigate();
   useEffect(() => {
     fetchVariantBatches();
-    // batchSchedule()
+    console.log("abcd")
   }, []);
 
-  function onChangeBatch(event) {
-    const batch = batches.filter((e) => e.id === event.target.value);
-    setDefaultBatch(batch[0]?.id);
-    setSelectedBatch(batch[0]);
-  }
 
   const fetchVariantBatches = async (courseId) => {
     const res = await ApiService(`courses/${courseId}/batch/list`);
     if (res?.data.code === 200) {
       setbatches(res.data.data.result);
-
       setDefaultBatch(res.data.data.result[0]?.id);
       setSelectedBatch(res.data.data.result[0]?.id);
     }
   };
-  // const batchSchedule = async() => {
-  //   const res = await ApiService(`/admin/next-batch`,"GET",{},true);
-  //   console.log("res yahinha",res)
-  
-  // };
+
   const togglepayment = () => {
     setopenpayment(false);
   };
+  
   const createOrder = async () => {
     let payload = {
       application_id: application?._id,
@@ -69,43 +52,10 @@ const PaymentPopup = ({
     }
   };
 
-  // const getbatches = () => {
-  //   //  const batchSchedule=async()=>{
-  //   //   const userDetails = await ApiService(`/admin/next-batch`, 'GET', {}, true);
-  //   //   console.log("userDetails", userDetails)
-  //   //  }
-  //   let items = batches.map((element, index) => {
-  //     return (
-  //       <CardGroup key={index}>
-  //         <Col>
-  //           <div className="batch-list">
-  //             <div className="starte-style">
-  //               <input
-  //                 type="radio"
-  //                 name="batch"
-  //                 onChange={onChangeBatch}
-  //                 checked={defaultBatch == element.id}
-  //                 value={element.id}></input>
-  //               <label style={{ marginTop: '5px' }}>Starting from</label>
-  //             </div>
-  //             <div className="mtb-5 start-date">
-  //               <span>{moment(element.start_date).format('Do MMMM dddd')}</span>
-  //             </div>
-  //             <div className="mtb-5 recomend-style">
-  //               {index === 0 && <span style={{ color: '#02A74D' }}>Recomenned for you</span>}
-  //               {index !== 0 && <span style={{ color: '#FF613C' }}>Filling Fast</span>}
-  //             </div>
-  //           </div>
-  //         </Col>
-  //       </CardGroup>
-  //     );
-  //   });
-  //   return items;
-  // };
   const batchSchedule = async () => {
     const res = await ApiService(`/admin/batch-Schedule/${courseId}`);
     const batchSchedule = res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[0]?.morningBatch;
-    // console.log("schedule",res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[0]?.morningBatch)
+    console.log("schedule",res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[0]?.morningBatch)
     setBatchDate(batchSchedule)
   };
   const eveningbatchSchedule = async () => {
@@ -127,21 +77,10 @@ const PaymentPopup = ({
               <h6 className="font-color text-left-align mtb5"> Starts From </h6>
               <p>
                 <img src={calendar1} alt="Calendar" className="calendar-icon" />
-                {/* <span className="text-left-align mtb5">{convertDate(element.start_date)}</span> */}
                 <span className="text-left-align mtb5">{element?.date1}</span>
                 <span className="text-left-align mtb5">{element?.date2}</span>
                 <span className="text-left-align mtb5">{element?.date3}</span>
               </p>
-
-              {/* <Button
-                variant="secondary"
-                className={index == 0 ? '' : 'upcoming-btn'}
-                onClick={() => {
-                  apply(courseDetails);
-                }}>
-                {' '}
-                {index == 0 ? 'Apply Now' : 'Upcoming'}{' '}
-              </Button> */}
             </Card.Body>
           </Card>
         </Col>
@@ -158,21 +97,10 @@ const PaymentPopup = ({
               <h6 className="font-color text-left-align mtb5"> Starts From </h6>
               <p>
                 <img src={calendar1} alt="Calendar" className="calendar-icon" />
-                {/* <span className="text-left-align mtb5">{convertDate(element.start_date)}</span> */}
                 <span className="text-left-align mtb5">{element?.date1}</span>
                 <span className="text-left-align mtb5">{element?.date2}</span>
                 <span className="text-left-align mtb5">{element?.date3}</span>
               </p>
-
-              {/* <Button
-                variant="secondary"
-                className={index == 0 ? '' : 'upcoming-btn'}
-                onClick={() => {
-                  apply(courseDetails);
-                }}>
-                {' '}
-                {index == 0 ? 'Apply Now' : 'Upcoming'}{' '}
-              </Button> */}
             </Card.Body>
           </Card>
         </Col>
@@ -268,19 +196,6 @@ const PaymentPopup = ({
                     onClick={() => createOrder()}>
                     Next
                   </Button>
-
-                  {/* <Worldline
-                    nextPage={nextPage}
-                    setWorldLineStatus={setWorldLineStatus}
-                    selectedBatch={selectedBatch}
-                    orderData={orderData}
-                    setopenpayment={setopenpayment}
-                    application={application}
-                    courseId={courseId}
-                    worldLineStatus={worldLineStatus}
-                    createOrder={() => createOrder()}
-                    id={id}
-                  /> */}
                 </Row>
               </div>
             </section>
