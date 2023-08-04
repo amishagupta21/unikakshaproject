@@ -6,16 +6,40 @@ import './paymentPopups.scss';
 import { calendar1 } from '../../../assets/images';
 
 const CustomPyament = ({ toggleCustomPayment, nextPage, setOrderData, application, courseId }) => {
+    const MIN_AMOUNT = 500;
 
-    const [amount, setAmount] = useState(); // Set the initial value to 2500 or any other default value
+    const [amount, setAmount] = useState(0);
+    const [validationMessage, setValidationMessage] = useState("");
+    const [disablePaymentButton, setDisablePaymentButton] = useState(true);
+
     const handleAmountChange = (event) => {
         const input = event.target.value;
-        const onlyNumbers = input.replace(/[^0-9]/g, ''); // Remove any non-numeric characters
-    
+
+        const onlyNumbers = input.replace(/[^0-9]/g, '');
+        const numberValue = parseInt(onlyNumbers);
+
         setAmount(onlyNumbers);
-      }
+        if (!onlyNumbers) {
+            setDisablePaymentButton(true);
+            return
+        }
+        if (numberValue < MIN_AMOUNT) {
+            setValidationMessage('Amount must be greater than or equal to 500.');
+            setDisablePaymentButton(true);
+        } else {
+            setValidationMessage('');
+            setDisablePaymentButton(false);
+        }
+
+
+    };
 
     const createOrder = async () => {
+        if (amount < MIN_AMOUNT) {
+            setValidationMessage('Amount must be greater than or equal to 500.');
+            return;
+        }
+
         let payload = {
             application_id: application?._id,
             amount: parseInt(amount),
@@ -56,7 +80,6 @@ const CustomPyament = ({ toggleCustomPayment, nextPage, setOrderData, applicatio
                             <h6 className="font-color text-left-align mtb5"> Starts From </h6>
                             <p>
                                 <img src={calendar1} alt="Calendar" className="calendar-icon" />
-                                {/* <span className="text-left-align mtb5">{convertDate(element.start_date)}</span> */}
                                 <span className="text-left-align mtb5">{element?.date1}</span>
                                 <span className="text-left-align mtb5">{element?.date2}</span>
                                 <span className="text-left-align mtb5">{element?.date3}</span>
@@ -78,7 +101,6 @@ const CustomPyament = ({ toggleCustomPayment, nextPage, setOrderData, applicatio
                             <h6 className="font-color text-left-align mtb5"> Starts From </h6>
                             <p>
                                 <img src={calendar1} alt="Calendar" className="calendar-icon" />
-                                {/* <span className="text-left-align mtb5">{convertDate(element.start_date)}</span> */}
                                 <span className="text-left-align mtb5">{element?.date1}</span>
                                 <span className="text-left-align mtb5">{element?.date2}</span>
                                 <span className="text-left-align mtb5">{element?.date3}</span>
@@ -130,12 +152,13 @@ const CustomPyament = ({ toggleCustomPayment, nextPage, setOrderData, applicatio
                             <Col md="7 nopadd">
                                 <label>Amount :   </label>
                                 <input
-                                    placeholder='Enter your amount here'
+                                    placeholder="Enter your amount here"
                                     type="text"
                                     value={amount}
                                     onChange={handleAmountChange}
                                     className="amount-input"
                                 />
+                                {validationMessage && <p className="text-danger">{validationMessage}</p>}
                             </Col>
                         </Row>
                     </div>
@@ -153,12 +176,10 @@ const CustomPyament = ({ toggleCustomPayment, nextPage, setOrderData, applicatio
                                 className="col-3"
                                 variant="secondary"
                                 type="button"
-                                onClick={createOrder}>
-                                {/* <Col md="5 nopadd"> */}
-                                {/* <span className="floatRight"> */}
+                                onClick={createOrder}
+                                disabled={disablePaymentButton}
+                            >
                                 Pay {amount}
-                                {/* </span> */}
-                                {/* </Col> */}
                             </Button>
                         </Row>
                     </div>

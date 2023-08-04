@@ -196,7 +196,7 @@ const EducationDetails = ({
     onSubmit: (values) => {
      
       if(applicationDetails?.m_applicationstatus === 'Assessment Passed' && applicationDetails?.application_stage === "test_result"){
-        nextPageNumber(4);
+        nextPageNumber(5);
         return
       }
       if (applicationDetails?.application_stage === 'application_status') {
