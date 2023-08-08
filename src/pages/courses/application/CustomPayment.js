@@ -8,7 +8,7 @@ import { calendar1 } from '../../../assets/images';
 const CustomPyament = ({ toggleCustomPayment, nextPage, setOrderData, application, courseId }) => {
     const MIN_AMOUNT = 500;
 
-    const [amount, setAmount] = useState(0);
+    const [amount, setAmount] = useState();
     const [validationMessage, setValidationMessage] = useState("");
     const [disablePaymentButton, setDisablePaymentButton] = useState(true);
 
