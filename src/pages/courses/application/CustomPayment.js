@@ -19,21 +19,21 @@ const CustomPyament = ({ toggleCustomPayment, nextPage, setOrderData, applicatio
         const numberValue = parseInt(onlyNumbers);
 
         setAmount(onlyNumbers);
+
         if (!onlyNumbers) {
+            setValidationMessage('');
             setDisablePaymentButton(true);
-            return
+            return;
         }
-        if (numberValue < MIN_AMOUNT) {
-            setValidationMessage('Amount must be greater than or equal to 500.');
+
+        if (numberValue < MIN_AMOUNT || numberValue > 50000) {
+            setValidationMessage('Amount must be between 500 and 50,000.');
             setDisablePaymentButton(true);
         } else {
             setValidationMessage('');
             setDisablePaymentButton(false);
         }
-
-
     };
-
     const createOrder = async () => {
         if (amount < MIN_AMOUNT) {
             setValidationMessage('Amount must be greater than or equal to 500.');
