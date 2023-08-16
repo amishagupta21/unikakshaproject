@@ -141,8 +141,9 @@ const CourseApplication = () => {
     }
     fetchVariantBatches(courseData?.id);
     setIsLoading(false);
-  
+
   };
+
   const fetchApplicationDetails = async (uid, courseId) => {
     const payload = {
       uid: uid,
@@ -163,16 +164,12 @@ const CourseApplication = () => {
       };
       settestResults(obj);
       setApplicationDetails(applicationDetails?.data?.data.application);
-      // console.log("applicationDetails?.data?.data.application?.m_applicationstatus", applicationDetails?.data?.data.application?.m_applicationstatus)
-      // if (applicationDetails?.data?.data.application?.m_applicationstatus === 'Assessment Passed') {
-      //   // application_stage === 'test_result'
-      //   // nextPageNumber(4)
-      // }
+
       if (application_stage === 'personal_details') {
         nextPageNumber(1);
       } else if (application_stage === 'education_details') {
         nextPageNumber(2);
-      } 
+      }
       else if (application_stage === 'test_result') {
         nextPageNumber(3);
       } else if (application_stage === 'application_status') {
@@ -216,6 +213,7 @@ const CourseApplication = () => {
       course_start_date: new Date(courseDetails?.start_date).toLocaleDateString(),
       personal_details: personalDetails,
     };
+
     const response = await ApiService('/student/personal-details', `POST`, payload, true);
 
     setIsNextLoading(false);
@@ -314,7 +312,34 @@ const CourseApplication = () => {
         setPage(0);
     }
   };
+  const nextPageNumber_ = (pageNumber) => {
+    switch (pageNumber) {
+      case 0:
+        setPage(0);
+        setStepperTitle('Personal Details');
+        break;
+      case 1:
+        setPage(1);
+        setStepperTitle('Education Details');
+        break;
 
+      case 2:
+        setPage(2);
+        setStepperTitle('Payment');
+        break;
+      case 3:
+        setPage(3);
+        setStepperTitle('KYC & Documents');
+        break;
+
+      case 4:
+        setPage(4);
+        setStepperTitle('Enrollment Status');
+        break;
+      default:
+        setPage(0);
+    }
+  };
   const returnToDashboard = () => {
     navigate('/dashboard');
   };
@@ -344,7 +369,7 @@ const CourseApplication = () => {
               <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
               <p className="step-header">{stepperTitle}</p>
             </div>
-            <MultiStepBar page={page} onPageNumberClick={nextPageNumber} className="custom-bar" />
+            <MultiStepBar page={page} onPageNumberClick={nextPageNumber}  courseTitle={courseDetails?.course_title} className="custom-bar" />//added
             <Card className="view-course border">
               <Card.Body
                 style={{ padding: 'unset' }}
@@ -373,10 +398,10 @@ const CourseApplication = () => {
                   <Card.Link
                     as="div"
                     className="view-card-course"
-                    onClick={() => 
+                    onClick={() =>
                       navigate(`/course/${courseDetails?.course_url}`, { state: courseDetails })
                     }
-                    >
+                  >
                     View Course
                   </Card.Link>
                 </div>
@@ -681,46 +706,60 @@ const CourseApplication = () => {
                 <EducationDetails
                   nextPage={nextPage}
                   course={courseDetails}
+                  courseTitle={courseDetails?.course_title}
                   applicationDetails={applicationDetails}
                   nextPageNumber={nextPageNumber}
+                  nextPageNumber_={nextPageNumber_}
                   user={user}
                   educationalDetails={EducationalDetails}
                   setEducationalDetails={setEducationalDetails}
                 />
               )}
-              {page === 2 && (
-                <EntranceTest nextPage={nextPage} course={courseDetails} user={user} />
-              )}
-              {page === 3 && (
+
+              //added
+              {(courseDetails?.course_title !== "Job Ready Program" && courseDetails?.course_title !== "Industry Ready Program") && (
                 <>
-                  <TestResult
-                    nextPage={nextPage}
-                    testResult={testResults}
-                    application={applicationDetails}
-                    userName={user.displayName}
-                  />
-                </>
+                  {page === 2 && (
+                    <EntranceTest nextPage={nextPage} course={courseDetails} user={user} />
+                  )}
+                    </>
               )}
-              {page === 4 && (
-                <>
-                  <ApplicationStatus
-                    nextPage={nextPage}
-                    application={applicationDetails}
-                    selectedBatch={courseDetails?.batchesData?.batch_id}
-                    setOrderData={setOrderData}
-                    nextPageNumber={nextPageNumber}
-                    courseId={courseDetails?.course_id}
-                    worldLineStatus={worldLineStatus}
-                    setWorldLineStatus={setWorldLineStatus}
-                    setSelectedBatch={setSelectedBatch}></ApplicationStatus>
-                </>
-              )}
+                  {page === 3 && (
+                    <>
+                      <TestResult
+                        nextPage={nextPage}
+                        testResult={testResults}
+                        application={applicationDetails}
+                        userName={user.displayName}
+                      />
+                    </>
+                  )}
+                  
+                  {page === 4 && (
+                    <>
+                      <ApplicationStatus
+                        nextPage={nextPage}
+                        application={applicationDetails}
+                        courseTitle={courseDetails?.course_title}
+                        selectedBatch={courseDetails?.batchesData?.batch_id}
+                        setOrderData={setOrderData}
+                        nextPageNumber={nextPageNumber}
+                        courseId={courseDetails?.course_id}
+                        worldLineStatus={worldLineStatus}
+                        setWorldLineStatus={setWorldLineStatus}
+                        setSelectedBatch={setSelectedBatch}
+                      ></ApplicationStatus>
+                    </>
+                  )}
+              
+              
               {page === 5 && (
                 <>
                   <Payments
                     nextPage={nextPage}
                     course={courseDetails}
                     orderData={orderData}
+                    courseTitle={courseDetails?.course_title}
                     application={applicationDetails}
                     selectedBatch={courseDetails?.batchesData?.batch_id}
                     page={page}

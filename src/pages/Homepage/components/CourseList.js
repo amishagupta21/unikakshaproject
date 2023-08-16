@@ -29,7 +29,7 @@ const RatingComponent = ({ rating }) => {
   );
 };
 
-const CourseList = ({ courses }) => {
+const CourseList = ({ courses,program }) => {
   const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
   const [occupation, setOccupation] = React.useState([]);
   const [openpayment, setopenpayment] = React.useState(false);
@@ -59,8 +59,20 @@ const CourseList = ({ courses }) => {
   };
 
   const viewDetails = (course) => {
-    navigate(`/course/${course?.course_url}`, { state: course });
+    if (course?.course_title === "Industry Ready Program") {
+      const url = "https://www.unikaksha.com/industry-ready-program/";
+      window.open(url, "_blank");
+      return 
+    }if (course?.course_title === "Job Ready Program") {
+      const url = "https://www.unikaksha.com/unikaksha-job-ready/";
+      window.open(url, "_blank");
+      return
+    }
+     else {
+      navigate(`/course/${course?.course_url}`, { state: course });
+    }
   };
+  
 
 
 
@@ -200,337 +212,7 @@ const CourseList = ({ courses }) => {
       </Row>
     </>
 
-    // <>
-    //   <div className="d-flex justify-content-between">
-    //     <div>
-    //       <h5>Top Techfit Courses</h5>
-    //       <p>This are the top 3 courses provided by UniKaksha</p>
-    //     </div>
-    //     <div>see all</div>
-    //   </div>
-    //   <Row>
-    //     <Col md="4">
-    //       <Card className="my-4 card-custom" style={{ width: '100%' }}>
-    //         <Card.Img variant="top" src={courseImage} />
-    //         <Card.Body>
-    //           <div className="d-flex justify-content-between align-items-center course-title-section">
-    //             <Card.Title> course title </Card.Title>
-    //             <img src={HeartIcon} alt="heart-icon" />
-    //           </div>
-    //           <div className="d-flex align-items-center my-3 ">
-    //             <p className="mb-0">Ratings 45</p>
-    //             <div className="d-flex ms-2">
-    //               <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarHalfFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarIcon} alt="heart-icon" />
-    //             </div>
-    //           </div>
-    //           <div className="mb-4">
-    //             <div className="d-flex justify-content-between mb-3">
-    //               <div className="d-flex">
-    //                 <img src={WaitClockIcon} alt="Wait-Clock-Icon" />
-    //                 <p style={{ fontSize: '12px' }} className="ms-2 mb-0">
-    //                   Duration, <strong> 6 Months</strong>
-    //                 </p>
-    //               </div>
-    //               <div className="d-flex">
-    //                 <img src={CalenderIcon} alt="Wait-Clock-Icon" />
-    //                 <p style={{ fontSize: '12px' }} className="ms-2 mb-0">
-    //                   Starts, <strong> 4 Dec</strong>
-    //                 </p>
-    //               </div>
-    //             </div>
-
-    //             <div className="d-flex mb-1">
-    //               <img src={righrMark} alt="right mark" />
-    //               <p className="ms-2 mb-0">
-    //                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, unde?
-    //               </p>
-    //             </div>
-    //             <div className="d-flex mb-1">
-    //               <img src={righrMark} alt="right mark" />
-    //               <p className="ms-2 mb-0">
-    //                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, unde?
-    //               </p>
-    //             </div>
-    //             <div className="d-flex mb-1">
-    //               <img src={righrMark} alt="right mark" />
-    //               <p className="ms-2 mb-0">
-    //                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, unde?
-    //               </p>
-    //             </div>
-    //           </div>
-    //           <div className="button-group">
-    //             <div className="row">
-    //               <div className="col-sm-6">
-    //                 <Button variant="outline-warning">View Details</Button>
-    //               </div>
-    //               <div className="col-sm-6">
-    //                 <Button variant="warning">Apply Now</Button>
-    //               </div>
-    //             </div>
-    //           </div>
-    //         </Card.Body>
-    //       </Card>
-    //     </Col>
-    //     <Col md="4">
-    //       <Card className="my-4 card-custom" style={{ width: '100%' }}>
-    //         <Card.Img variant="top" src={courseImage} />
-    //         <Card.Body>
-    //           <div className="d-flex justify-content-between align-items-center course-title-section">
-    //             <Card.Title> course title </Card.Title>
-    //             <img src={HeartIcon} alt="heart-icon" />
-    //           </div>
-    //           <div className="d-flex align-items-center my-3 ">
-    //             <p className="mb-0">Ratings 45</p>
-    //             <div className="d-flex ms-2">
-    //               <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarHalfFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarIcon} alt="heart-icon" />
-    //             </div>
-    //           </div>
-    //           <div className="mb-4">
-    //             <div className="d-flex justify-content-between mb-3">
-    //               <div className="d-flex">
-    //                 <img src={WaitClockIcon} alt="Wait-Clock-Icon" />
-    //                 <p style={{ fontSize: '12px' }} className="ms-2 mb-0">
-    //                   Duration, <strong> 6 Months</strong>
-    //                 </p>
-    //               </div>
-    //               <div className="d-flex">
-    //                 <img src={CalenderIcon} alt="Wait-Clock-Icon" />
-    //                 <p style={{ fontSize: '12px' }} className="ms-2 mb-0">
-    //                   Starts, <strong>4 Dec</strong>
-    //                 </p>
-    //               </div>
-    //             </div>
-    //             <div className="d-flex mb-1">
-    //               <img src={righrMark} alt="right mark" />
-    //               <p className="ms-2 mb-0">4.2</p>
-    //             </div>
-    //           </div>
-    //           <div className="button-group">
-    //             <div className="row">
-    //               <div className="col-sm-6">
-    //                 <Button variant="outline-warning">View Details</Button>
-    //               </div>
-    //               <div className="col-sm-6">
-    //                 <Button variant="warning">Apply Now</Button>
-    //               </div>
-    //             </div>
-    //           </div>
-    //         </Card.Body>
-    //       </Card>
-    //     </Col>
-    //     <Col md="4">
-    //       <Card className="my-4 card-custom" style={{ width: '100%' }}>
-    //         <Card.Img variant="top" src={courseImage} />
-    //         <Card.Body>
-    //           <div className="d-flex justify-content-between align-items-center course-title-section">
-    //             <Card.Title> course title </Card.Title>
-    //             <img src={HeartIcon} alt="heart-icon" />
-    //           </div>
-    //           <div className="d-flex align-items-center my-3 ">
-    //             <p className="mb-0">Ratings 45</p>
-    //             <div className="d-flex ms-2">
-    //               <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarHalfFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarIcon} alt="heart-icon" />
-    //             </div>
-    //           </div>
-    //           <div className="mb-4">
-    //             <div className="d-flex justify-content-between mb-3">
-    //               <div className="d-flex">
-    //                 <img src={WaitClockIcon} alt="Wait-Clock-Icon" />
-    //                 <p style={{ fontSize: '12px' }} className="ms-2 mb-0">
-    //                   Duration, <strong> 6 Months</strong>
-    //                 </p>
-    //               </div>
-    //               <div className="d-flex">
-    //                 <img src={CalenderIcon} alt="Wait-Clock-Icon" />
-    //                 <p style={{ fontSize: '12px' }} className="ms-2 mb-0">
-    //                   Starts, <strong> 4 Dec</strong>
-    //                 </p>
-    //               </div>
-    //             </div>
-    //           </div>
-    //           <div className="button-group">
-    //             <div className="row">
-    //               <div className="col-sm-6">
-    //                 <Button variant="outline-warning">View Details</Button>
-    //               </div>
-    //               <div className="col-sm-6">
-    //                 <Button variant="warning">Apply Now</Button>
-    //               </div>
-    //             </div>
-    //           </div>
-    //         </Card.Body>
-    //       </Card>
-    //     </Col>
-    //     <Col md="4">
-    //       <Card className="my-4 card-custom" style={{ width: '100%' }}>
-    //         <Card.Img variant="top" src={courseImage} />
-    //         <Card.Body>
-    //           <div className="d-flex justify-content-between align-items-center course-title-section">
-    //             <Card.Title> course title </Card.Title>
-    //             <img src={HeartIcon} alt="heart-icon" />
-    //           </div>
-    //           <div className="d-flex align-items-center my-3 ">
-    //             <p className="mb-0">Ratings 45</p>
-    //             <div className="d-flex ms-2">
-    //               <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarHalfFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarIcon} alt="heart-icon" />
-    //             </div>
-    //           </div>
-    //           <div className="mb-4">
-    //             <div className="d-flex justify-content-between mb-3">
-    //               <div className="d-flex">
-    //                 <img src={WaitClockIcon} alt="Wait-Clock-Icon" />
-    //                 <p style={{ fontSize: '12px' }} className="ms-2 mb-0">
-    //                   Duration, <strong> 6 Months</strong>
-    //                 </p>
-    //               </div>
-    //               <div className="d-flex">
-    //                 <img src={CalenderIcon} alt="Wait-Clock-Icon" />
-    //                 <p style={{ fontSize: '12px' }} className="ms-2 mb-0">
-    //                   Starts, <strong> 4 Dec</strong>
-    //                 </p>
-    //               </div>
-    //             </div>
-
-    //             <div className="d-flex mb-1">
-    //               <img src={righrMark} alt="right mark" />
-    //               <p className="ms-2 mb-0">4.2</p>
-    //             </div>
-    //           </div>
-    //           <div className="button-group">
-    //             <div className="row">
-    //               <div className="col-sm-6">
-    //                 <Button variant="outline-warning">View Details</Button>
-    //               </div>
-    //               <div className="col-sm-6">
-    //                 <Button variant="warning">Apply Now</Button>
-    //               </div>
-    //             </div>
-    //           </div>
-    //         </Card.Body>
-    //       </Card>
-    //     </Col>
-    //     <Col md="4">
-    //       <Card className="my-4 card-custom" style={{ width: '100%' }}>
-    //         <Card.Img variant="top" src={courseImage} />
-    //         <Card.Body>
-    //           <div className="d-flex justify-content-between align-items-center course-title-section">
-    //             <Card.Title> course title </Card.Title>
-    //             <img src={HeartIcon} alt="heart-icon" />
-    //           </div>
-    //           <div className="d-flex align-items-center my-3 ">
-    //             <p className="mb-0">Ratings 45</p>
-    //             <div className="d-flex ms-2">
-    //               <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarHalfFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarIcon} alt="heart-icon" />
-    //             </div>
-    //           </div>
-    //           <div className="mb-4">
-    //             <div className="d-flex justify-content-between mb-3">
-    //               <div className="d-flex">
-    //                 <img src={WaitClockIcon} alt="Wait-Clock-Icon" />
-    //                 <p style={{ fontSize: '12px' }} className="ms-2 mb-0">
-    //                   Duration, <strong> 6 Months</strong>
-    //                 </p>
-    //               </div>
-    //               <div className="d-flex">
-    //                 <img src={CalenderIcon} alt="Wait-Clock-Icon" />
-    //                 <p style={{ fontSize: '12px' }} className="ms-2 mb-0">
-    //                   Starts, <strong> 4 Dec</strong>
-    //                 </p>
-    //               </div>
-    //             </div>
-
-    //             <div className="d-flex mb-1">
-    //               <img src={righrMark} alt="right mark" />
-    //               <p className="ms-2 mb-0">4.2</p>
-    //             </div>
-    //           </div>
-    //           <div className="button-group">
-    //             <div className="row">
-    //               <div className="col-sm-6">
-    //                 <Button variant="outline-warning">View Details</Button>
-    //               </div>
-    //               <div className="col-sm-6">
-    //                 <Button variant="warning">Apply Now</Button>
-    //               </div>
-    //             </div>
-    //           </div>
-    //         </Card.Body>
-    //       </Card>
-    //     </Col>
-    //     <Col md="4">
-    //       <Card className="my-4 card-custom" style={{ width: '100%' }}>
-    //         <Card.Img variant="top" src={courseImage} />
-    //         <Card.Body>
-    //           <div className="d-flex justify-content-between align-items-center course-title-section">
-    //             <Card.Title> course title </Card.Title>
-    //             <img src={HeartIcon} alt="heart-icon" />
-    //           </div>
-    //           <div className="d-flex align-items-center my-3 ">
-    //             <p className="mb-0">Ratings 45</p>
-    //             <div className="d-flex ms-2">
-    //               <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarHalfFilledIcon} alt="heart-icon" />
-    //               <img className="me-1" src={StarIcon} alt="heart-icon" />
-    //             </div>
-    //           </div>
-    //           <div className="mb-4">
-    //             <div className="d-flex justify-content-between mb-3">
-    //               <div className="d-flex">
-    //                 <img src={WaitClockIcon} alt="Wait-Clock-Icon" />
-    //                 <p style={{ fontSize: '12px' }} className="ms-2 mb-0">
-    //                   Duration, <strong> 6 Months</strong>
-    //                 </p>
-    //               </div>
-    //               <div className="d-flex">
-    //                 <img src={CalenderIcon} alt="Wait-Clock-Icon" />
-    //                 <p style={{ fontSize: '12px' }} className="ms-2 mb-0">
-    //                   Starts, <strong> 4 Dec</strong>
-    //                 </p>
-    //               </div>
-    //             </div>
-
-    //             <div className="d-flex mb-1">
-    //               <img src={righrMark} alt="right mark" />
-    //               <p className="ms-2 mb-0">4.2</p>
-    //             </div>
-    //           </div>
-    //           <div className="button-group">
-    //             <div className="row">
-    //               <div className="col-sm-6">
-    //                 <Button variant="outline-warning">View Details</Button>
-    //               </div>
-    //               <div className="col-sm-6">
-    //                 <Button variant="warning">Apply Now</Button>
-    //               </div>
-    //             </div>
-    //           </div>
-    //         </Card.Body>
-    //       </Card>
-    //     </Col>
-    //   </Row>
-    // </>
+   
   );
 };
 

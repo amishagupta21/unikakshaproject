@@ -15,6 +15,8 @@ const Homepage = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState({});
   const [topCourses, setTopCourses] = useState([]);
+  const [industryReadyProgram, setIndustryReadyProgram] = useState();
+  const [jobReadyProgram, setJobReadyProgram] = useState();
 
 
   const fetchCourseDetails = async (data) => {
@@ -35,6 +37,9 @@ const Homepage = () => {
     let res = await ApiService('home/top-courses', `POST`, { course_variant_ids: data }, true);
     if (res?.data?.code === 200) {
       setTopCourses(res?.data?.data?.result);
+      // console.log(JSON.stringify(res?.data?.data?.result))
+      setIndustryReadyProgram(res?.data?.data?.result[0])
+      setJobReadyProgram(res?.data?.data?.result[1])
       dispatch(setLoading(false));
     }
   };
@@ -63,7 +68,7 @@ const Homepage = () => {
         <HeroSection bannerDetails={data?.banner1_configure && data?.banner1_configure} />
         
         <div className="container">
-          <CourseList courses={topCourses && topCourses} />
+          <CourseList courses={topCourses && topCourses} program={industryReadyProgram} jobReady={jobReadyProgram}/>
           <Placementpartner
             placementPartner={
               data?.placement_partner_configure && data?.placement_partner_configure
