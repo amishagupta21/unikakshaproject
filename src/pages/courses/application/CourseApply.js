@@ -369,7 +369,7 @@ const CourseApplication = () => {
               <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
               <p className="step-header">{stepperTitle}</p>
             </div>
-            <MultiStepBar page={page} onPageNumberClick={nextPageNumber}  courseTitle={courseDetails?.course_title} className="custom-bar" />//added
+            <MultiStepBar page={page} onPageNumberClick={nextPageNumber}  courseTitle={courseDetails?.course_title} className="custom-bar" />
             <Card className="view-course border">
               <Card.Body
                 style={{ padding: 'unset' }}
@@ -716,7 +716,6 @@ const CourseApplication = () => {
                 />
               )}
 
-              //added
               {(courseDetails?.course_title !== "Job Ready Program" && courseDetails?.course_title !== "Industry Ready Program") && (
                 <>
                   {page === 2 && (
