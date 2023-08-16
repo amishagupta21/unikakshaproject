@@ -117,7 +117,7 @@ const ApplicationStatus = ({
   return (
     <>
       
-      {isModalOpen||courseTitle === 'Industry Ready Program'||courseTitle==='Job Ready Program' ? <Payment //added
+      {isModalOpen||courseTitle === 'Industry Ready Program'||courseTitle==='Job Ready Program' ? <Payment
         nextPage={nextPage}
         setOrderData={setOrderData}
         application={application}
