@@ -43,6 +43,7 @@ const ApplicationStatus = ({
   setWorldLineStatus,
   worldLineStatus,
   nextPageNumber,
+  courseTitle,
   id,
 }) => {
   const dispatch = useDispatch();
@@ -116,7 +117,7 @@ const ApplicationStatus = ({
   return (
     <>
       
-      {isModalOpen? <Payment
+      {isModalOpen||courseTitle === 'Industry Ready Program'||courseTitle==='Job Ready Program' ? <Payment //added
         nextPage={nextPage}
         setOrderData={setOrderData}
         application={application}

@@ -10,6 +10,7 @@ import { studentYearsOptions } from '../../../utils-componets/static-content/Dat
 import { getWorkingPosition } from '../../../services/ReuseableFun';
 import { useDispatch } from 'react-redux';
 import { openToaster } from '../../../redux/actions/ToastAction';
+import Payment from '../../../components/Payment';
 
 const highestQualificationOption = [
   { value: '', label: 'Please select' },
@@ -49,6 +50,8 @@ const EducationDetails = ({
   setEducationalDetails,
   applicationDetails,
   nextPageNumber,
+  courseTitle,
+  nextPageNumber_,
   changePage,
 }) => {
   const [graduatedYesOrNo, setGraduatedYesOrNo] = React.useState('nill');
@@ -194,11 +197,18 @@ const EducationDetails = ({
       return errors;
     },
     onSubmit: (values) => {
-     
-      if(applicationDetails?.m_applicationstatus === 'Assessment Passed' && applicationDetails?.application_stage === "test_result"){
-        nextPageNumber(5);
+      if(courseTitle==="Industry Ready Program"||courseTitle==='Job Ready Program'){
+        nextPageNumber(4)
         return
       }
+    
+      if(applicationDetails?.m_applicationstatus === 'Assessment Passed' && applicationDetails?.application_stage === "test_result"){
+
+        nextPageNumber(4);
+        return
+      }
+      console.log("applicationDetails?.m_applicationstatus",applicationDetails?.m_applicationstatus,applicationDetails?.application_stage)
+
       if (applicationDetails?.application_stage === 'application_status') {
         nextPageNumber(3);
       } else {

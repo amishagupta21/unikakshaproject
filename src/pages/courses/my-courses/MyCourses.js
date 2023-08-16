@@ -45,6 +45,7 @@ const MyCourses = () => {
     const stepper = data?.data?.[0]?.application_stage;
     courseStepper[stepper] && setStepper(courseStepper[stepper]);
     setApplicationList(data?.data);
+    console.log("data?.data",data?.data)
   };
 
   const setStepperStage = (stage) => {
@@ -158,24 +159,7 @@ const MyCourses = () => {
                               )}
                             </div>
                           </Card.Title>
-                          {/* <Card.Subtitle
-                            style={{ fontFamily: 'Roboto' }}
-                            className="mb-2 text-muted d-flex">
-                            <div style={{ fontSize: '12px', paddingRight: '24px' }}>
-                              <img className="me-2" src={hourGlass} alt="duration" />
-                              <span style={{ fontWeight: '400' }}>Duration, </span>
-                              <span style={{ fontWeight: '600' }}>
-                                {application?.course_duration} Months
-                              </span>
-                            </div>
-                            <div style={{ fontSize: '12px' }}>
-                              <img className="me-2" src={calendar1} alt="calendar" />
-                              <span style={{ fontWeight: '400' }}>Starts, </span>
-                              <span style={{ fontWeight: '600' }}>
-                                {application?.course_start_date}
-                              </span>
-                            </div>
-                          </Card.Subtitle> */}
+                        
                           <Card.Body className="application-status application-status-course">
                             {occupation !== 'STUDENT' && <MultiStepBar page={stepper} />}
                             {occupation === 'STUDENT' && (
