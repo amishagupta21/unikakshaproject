@@ -359,7 +359,19 @@ const CourseApplication = () => {
     { name: 'Male', value: 'male', icon: maleIcon },
     { name: 'Female', value: 'female', icon: femaleIcon },
   ];
-
+    const handleViewCourseClick = () => {
+      if (courseDetails?.course_title === 'Industry Ready Program') {
+        window.open('https://www.unikaksha.com/industry-ready-program/', '_blank');
+        return
+      }  if (courseDetails?.course_title === "Job Ready Program") {
+        window.open("https://www.unikaksha.com/unikaksha-job-ready/", '_blank');
+        return
+      }
+      else {
+        // Navigate to the course URL
+        navigate(`/course/${courseDetails?.course_url}`, { state: courseDetails });
+      }
+    };
   return (
     <>
       {!isLoading ? (
@@ -395,16 +407,10 @@ const CourseApplication = () => {
                 </Card.Subtitle> */}
                 </div>
                 <div>
-                  <Card.Link
-                    as="div"
-                    className="view-card-course"
-                    onClick={() =>
-                      navigate(`/course/${courseDetails?.course_url}`, { state: courseDetails })
-                    }
-                  >
-                    View Course
-                  </Card.Link>
-                </div>
+          <Card.Link as="div" className="view-card-course" onClick={handleViewCourseClick}>
+            View Course
+          </Card.Link>
+        </div>
               </Card.Body>
             </Card>
             <div className="my-4 course-fully-form">

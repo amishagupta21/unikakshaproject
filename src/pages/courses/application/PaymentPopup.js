@@ -55,7 +55,6 @@ const PaymentPopup = ({
   const batchSchedule = async () => {
     const res = await ApiService(`/admin/batch-Schedule/${courseId}`);
     const batchSchedule = res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[0]?.morningBatch;
-    console.log("schedule",res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[0]?.morningBatch)
     setBatchDate(batchSchedule)
   };
   const eveningbatchSchedule = async () => {
@@ -129,18 +128,20 @@ const PaymentPopup = ({
                     </svg>
                   </span>
                 </div>
-                <div className="mt-3">
-                  <Row className="nomargin batch-head">Morning Batch Schedule</Row>
-                  <Row xs={1} md={3} className="nomargin mt-2">
-                    {getBatches()}
-                  </Row>
-                </div>
-                <div className="mt-3">
-                  <Row className="nomargin batch-head">Evening Batch Schedule</Row>
-                  <Row xs={1} md={3} className="nomargin mt-2">
-                    {getEveningBatches()}
-                  </Row>
-                </div>
+              
+                  <div className="mt-3">
+                    <Row className="nomargin batch-head">Morning Batch Schedule</Row>
+                    <Row xs={1} md={3} className="nomargin mt-2">
+                      {getBatches()}
+                    </Row>
+                  </div>
+                  <div className="mt-3">
+                    <Row className="nomargin batch-head">Evening Batch Schedule</Row>
+                    <Row xs={1} md={3} className="nomargin mt-2">
+                      {getEveningBatches()}
+                    </Row>
+                  </div>
+               
               </div>
               <div className="mt-3 coupon-div">
                 <div className="model-body pb-2">

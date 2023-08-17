@@ -207,7 +207,6 @@ const EducationDetails = ({
         nextPageNumber(4);
         return
       }
-      console.log("applicationDetails?.m_applicationstatus",applicationDetails?.m_applicationstatus,applicationDetails?.application_stage)
 
       if (applicationDetails?.application_stage === 'application_status') {
         nextPageNumber(3);
