@@ -45,7 +45,7 @@ const MyCourses = () => {
     const stepper = data?.data?.[0]?.application_stage;
     courseStepper[stepper] && setStepper(courseStepper[stepper]);
     setApplicationList(data?.data);
-    console.log("data?.data",data?.data)
+    // console.log("data?.data",data?.data)
   };
 
   const setStepperStage = (stage) => {
@@ -124,7 +124,7 @@ const MyCourses = () => {
               <h3 className="text-primary">Course Application</h3>
               {applicationList?.length > 0 ? (
                 applicationList.map((application, idx) => {
-                  console.log("image",application)
+                  // console.log("image",application)
                   return (
                     <Card key={idx} className="p-3 my-3">
                       <div className="d-flex flex-row">

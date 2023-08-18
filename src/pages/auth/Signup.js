@@ -127,12 +127,12 @@ const Signup = () => {
       { email, phone: `+${phone}` },
       true
     );
-    console.log("check", JSON.stringify(result.data.data))
+    // console.log("check", JSON.stringify(result.data.data))
     if (result?.data.data.byEmail.user != null || result?.data.data.byPhone.user != null) {
       setAuthError('User already exists with same Email or Phonenumber');
       return true
     } else {
-      console.log("sucessfully created")
+      // console.log("sucessfully created")
     }
 
     // return result?.data?.data?.user
@@ -228,7 +228,7 @@ const Signup = () => {
 
 
         setIsButtonLoading(false);
-        console.log(response.user);
+        // console.log(response.user);
         if (response.user) {
           setloading(false);
           const { user } = response.user.multiFactor;
@@ -238,7 +238,7 @@ const Signup = () => {
         }
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         // setloading(false);
         // setIsButtonLoading(false);
         setOtpError('Invalid Code!');

@@ -12,7 +12,10 @@ const PaymentPopup = ({
   application,
   setopenpayment,
   setSelectedBatch,
+  
 }) => {
+  // console.log("application",application)
+  // console.log("courseId",courseId)
   const [batches, setbatches] = React.useState();
   const [batchDate, setBatchDate] = React.useState([]);
   const [eveningBatchDate, setEveningBatchDate] = React.useState([]);
@@ -20,7 +23,6 @@ const PaymentPopup = ({
 
   useEffect(() => {
     fetchVariantBatches();
-    console.log("abcd")
   }, []);
 
 
@@ -44,13 +46,21 @@ const PaymentPopup = ({
       currency: 'INR',
       receipt: (Math.random() + 1).toString(36).substring(7),
     };
+    
+    // Check if courseId matches the specified value
+    if (courseId === "232c10ed-f4bf-4601-a7ed-14b743ae95d6"||courseId ==="c5ae492d-5d19-4549-8345-2ca8deb67fc2") {
+      payload.application_id = courseId;
+    }
+    
     let orderDetails = await ApiService('order/create-order', `POST`, payload, true);
+    
     if (orderDetails?.data?.code === 200) {
       setOrderData(orderDetails.data.data);
       setopenpayment(false);
       nextPage();
     }
   };
+  
 
   const batchSchedule = async () => {
     const res = await ApiService(`/admin/batch-Schedule/${courseId}`);
