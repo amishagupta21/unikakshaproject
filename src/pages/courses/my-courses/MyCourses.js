@@ -124,7 +124,6 @@ const MyCourses = () => {
               <h3 className="text-primary">Course Application</h3>
               {applicationList?.length > 0 ? (
                 applicationList.map((application, idx) => {
-                  console.log('///image', application);
                   return (
                     <Card key={idx} className="p-3 my-3">
                       <div className="d-flex flex-row">

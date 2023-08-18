@@ -370,6 +370,7 @@ const CourseApplication = () => {
       navigate(`/course/${courseDetails?.course_url}`, { state: courseDetails });
     }
   };
+
   return (
     <>
       {!isLoading ? (
@@ -725,14 +726,14 @@ const CourseApplication = () => {
                 />
               )}
 
-              {courseDetails?.course_title !== 'Job Ready Program' &&
-                courseDetails?.course_title !== 'Industry Ready Program' && (
+              {courseDetails?.course_title !== 'Job Ready Program' ||
+                (courseDetails?.course_title !== 'Industry Ready Program' && (
                   <>
                     {page === 2 && (
                       <EntranceTest nextPage={nextPage} course={courseDetails} user={user} />
                     )}
                   </>
-                )}
+                ))}
               {page === 3 && (
                 <>
                   <TestResult
