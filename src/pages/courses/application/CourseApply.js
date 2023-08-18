@@ -754,6 +754,7 @@ const CourseApplication = () => {
                     setWorldLineStatus={setWorldLineStatus}
                     setSelectedBatch={setSelectedBatch}
                   ></ApplicationStatus>
+                  {console.log("application",applicationDetails)}
                 </>
               )}
 

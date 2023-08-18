@@ -20,6 +20,7 @@ const PaymentPopupAutonomy = ({
   worldLineStatus,
   id,
 }) => {
+   
   const [batches, setbatches] = React.useState();
   const [defaultBatch, setDefaultBatch] = React.useState();
   const [batchDate, setBatchDate] = React.useState([]);
@@ -62,6 +63,9 @@ const PaymentPopupAutonomy = ({
       currency: 'INR',
       receipt: (Math.random() + 1).toString(36).substring(7),
     };
+    if (courseId === "232c10ed-f4bf-4601-a7ed-14b743ae95d6"||courseId ==="c5ae492d-5d19-4549-8345-2ca8deb67fc2") {
+      payload.application_id = courseId;
+    }
     let orderDetails = await ApiService('order/create-order', `POST`, payload, true);
     if (orderDetails?.data?.code === 200) {
       setOrderData(orderDetails.data.data);

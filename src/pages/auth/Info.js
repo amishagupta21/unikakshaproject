@@ -110,7 +110,6 @@ const Info = () => {
       dispatch(setLoading(false));
       dispatch(setIsAuthenticated(true));
       const cuser = firebase.auth().currentUser;
-      console.log(cuser)
       localStorage.setItem('user', JSON.stringify(cuser));
       navigate('/dashboard');
       setloading(false);
