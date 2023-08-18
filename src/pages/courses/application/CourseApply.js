@@ -359,19 +359,19 @@ const CourseApplication = () => {
     { name: 'Male', value: 'male', icon: maleIcon },
     { name: 'Female', value: 'female', icon: femaleIcon },
   ];
-    const handleViewCourseClick = () => {
-      if (courseDetails?.course_title === 'Industry Ready Program') {
-        window.open('https://www.unikaksha.com/industry-ready-program/', '_blank');
-        return
-      }  if (courseDetails?.course_title === "Job Ready Program") {
-        window.open("https://www.unikaksha.com/unikaksha-job-ready/", '_blank');
-        return
-      }
-      else {
-        // Navigate to the course URL
-        navigate(`/course/${courseDetails?.course_url}`, { state: courseDetails });
-      }
-    };
+  const handleViewCourseClick = () => {
+    if (courseDetails?.course_title === 'Industry Ready Program') {
+      window.open('https://www.unikaksha.com/industry-ready-program/', '_blank');
+      return
+    } if (courseDetails?.course_title === "Job Ready Program") {
+      window.open("https://www.unikaksha.com/unikaksha-job-ready/", '_blank');
+      return
+    }
+    else {
+      // Navigate to the course URL
+      navigate(`/course/${courseDetails?.course_url}`, { state: courseDetails });
+    }
+  };
   return (
     <>
       {!isLoading ? (
@@ -381,7 +381,7 @@ const CourseApplication = () => {
               <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
               <p className="step-header">{stepperTitle}</p>
             </div>
-            <MultiStepBar page={page} onPageNumberClick={nextPageNumber}  courseTitle={courseDetails?.course_title} className="custom-bar" />
+            <MultiStepBar page={page} onPageNumberClick={nextPageNumber} courseTitle={courseDetails?.course_title} className="custom-bar" />
             <Card className="view-course border">
               <Card.Body
                 style={{ padding: 'unset' }}
@@ -407,10 +407,10 @@ const CourseApplication = () => {
                 </Card.Subtitle> */}
                 </div>
                 <div>
-          <Card.Link as="div" className="view-card-course" onClick={handleViewCourseClick}>
-            View Course
-          </Card.Link>
-        </div>
+                  <Card.Link as="div" className="view-card-course" onClick={handleViewCourseClick}>
+                    View Course
+                  </Card.Link>
+                </div>
               </Card.Body>
             </Card>
             <div className="my-4 course-fully-form">
@@ -727,37 +727,37 @@ const CourseApplication = () => {
                   {page === 2 && (
                     <EntranceTest nextPage={nextPage} course={courseDetails} user={user} />
                   )}
-                    </>
+                </>
               )}
-                  {page === 3 && (
-                    <>
-                      <TestResult
-                        nextPage={nextPage}
-                        testResult={testResults}
-                        application={applicationDetails}
-                        userName={user.displayName}
-                      />
-                    </>
-                  )}
-                  
-                  {page === 4 && (
-                    <>
-                      <ApplicationStatus
-                        nextPage={nextPage}
-                        application={applicationDetails}
-                        courseTitle={courseDetails?.course_title}
-                        selectedBatch={courseDetails?.batchesData?.batch_id}
-                        setOrderData={setOrderData}
-                        nextPageNumber={nextPageNumber}
-                        courseId={courseDetails?.course_id}
-                        worldLineStatus={worldLineStatus}
-                        setWorldLineStatus={setWorldLineStatus}
-                        setSelectedBatch={setSelectedBatch}
-                      ></ApplicationStatus>
-                    </>
-                  )}
-              
-              
+              {page === 3 && (
+                <>
+                  <TestResult
+                    nextPage={nextPage}
+                    testResult={testResults}
+                    application={applicationDetails}
+                    userName={user.displayName}
+                  />
+                </>
+              )}
+
+              {page === 4 && (
+                <>
+                  <ApplicationStatus
+                    nextPage={nextPage}
+                    application={applicationDetails}
+                    courseTitle={courseDetails?.course_title}
+                    selectedBatch={courseDetails?.batchesData?.batch_id}
+                    setOrderData={setOrderData}
+                    nextPageNumber={nextPageNumber}
+                    courseId={courseDetails?.course_id}
+                    worldLineStatus={worldLineStatus}
+                    setWorldLineStatus={setWorldLineStatus}
+                    setSelectedBatch={setSelectedBatch}
+                  ></ApplicationStatus>
+                </>
+              )}
+
+
               {page === 5 && (
                 <>
                   <Payments
