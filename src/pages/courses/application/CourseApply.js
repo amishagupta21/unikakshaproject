@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, ButtonGroup, Card, Col, Form, Row, ToggleButton } from 'react-bootstrap';
 import PhoneInput from 'react-phone-input-2';
 import { useDispatch } from 'react-redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import * as Yup from 'yup';
 import { arrowBack, femaleIcon, maleIcon, verified } from '../../../assets/images';
 import { setLoading } from '../../../redux/actions/LoaderActions';
@@ -39,7 +39,6 @@ const steps = [
 ];
 
 const CourseApplication = () => {
-
   const [page, setPage] = React.useState();
   const [stepperTitle, setStepperTitle] = React.useState('');
   const [mobileState, setMobileNumber] = React.useState({ phone: '', data: '' });
@@ -99,9 +98,10 @@ const CourseApplication = () => {
     setGenderValue(details?.gender);
   };
 
-  const fetchCourseDetails = async (params) => {
-    const { courseVariantSlug } = params;
-    const res = await ApiService(`courses/course_url/${courseVariantSlug}/detail`);
+  const fetchCourseDetails = async (params, courseDetails) => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const course_id = queryParams.get('course_id');
+    const res = await ApiService(`courses/course_url/${course_id}/detail`);
     return res?.data?.data?.course;
   };
 
@@ -141,7 +141,6 @@ const CourseApplication = () => {
     }
     fetchVariantBatches(courseData?.id);
     setIsLoading(false);
-
   };
 
   const fetchApplicationDetails = async (uid, courseId) => {
@@ -169,8 +168,7 @@ const CourseApplication = () => {
         nextPageNumber(1);
       } else if (application_stage === 'education_details') {
         nextPageNumber(2);
-      }
-      else if (application_stage === 'test_result') {
+      } else if (application_stage === 'test_result') {
         nextPageNumber(3);
       } else if (application_stage === 'application_status') {
         nextPageNumber(4);
@@ -362,12 +360,12 @@ const CourseApplication = () => {
   const handleViewCourseClick = () => {
     if (courseDetails?.course_title === 'Industry Ready Program') {
       window.open('https://www.unikaksha.com/industry-ready-program/', '_blank');
-      return
-    } if (courseDetails?.course_title === "Job Ready Program") {
-      window.open("https://www.unikaksha.com/unikaksha-job-ready/", '_blank');
-      return
+      return;
     }
-    else {
+    if (courseDetails?.course_title === 'Job Ready Program') {
+      window.open('https://www.unikaksha.com/unikaksha-job-ready/', '_blank');
+      return;
+    } else {
       // Navigate to the course URL
       navigate(`/course/${courseDetails?.course_url}`, { state: courseDetails });
     }
@@ -381,7 +379,12 @@ const CourseApplication = () => {
               <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
               <p className="step-header">{stepperTitle}</p>
             </div>
-            <MultiStepBar page={page} onPageNumberClick={nextPageNumber} courseTitle={courseDetails?.course_title} className="custom-bar" />
+            <MultiStepBar
+              page={page}
+              onPageNumberClick={nextPageNumber}
+              courseTitle={courseDetails?.course_title}
+              className="custom-bar"
+            />
             <Card className="view-course border">
               <Card.Body
                 style={{ padding: 'unset' }}
@@ -441,7 +444,7 @@ const CourseApplication = () => {
                             // defaultValue={user.displayName}
                             value={formik.values?.full_name}
                             placeholder="Enter you full name"
-                          // disabled="disabled"
+                            // disabled="disabled"
                           />
 
                           {formik.touched.full_name && formik.errors.full_name ? (
@@ -468,7 +471,7 @@ const CourseApplication = () => {
                             // disabled={disabled}
                             disabled="disabled"
                             style={{ opacity: 0.5 }}
-                          // disabled={ userData?.email }
+                            // disabled={ userData?.email }
                           />
 
                           {formik.touched.email && formik.errors.email ? (
@@ -501,8 +504,8 @@ const CourseApplication = () => {
                               // onBlur={formik.handleBlur('mobile_number')}
                               className="disabled-field"
                               disabled="disabled"
-                            // defaultValue={userData?.phone}
-                            // disabled={ userData?.phone }
+                              // defaultValue={userData?.phone}
+                              // disabled={ userData?.phone }
                             />
                           </div>
                           {formik.touched.mobile_number && formik.errors.mobile_number ? (
@@ -722,13 +725,14 @@ const CourseApplication = () => {
                 />
               )}
 
-              {(courseDetails?.course_title !== "Job Ready Program" && courseDetails?.course_title !== "Industry Ready Program") && (
-                <>
-                  {page === 2 && (
-                    <EntranceTest nextPage={nextPage} course={courseDetails} user={user} />
-                  )}
-                </>
-              )}
+              {courseDetails?.course_title !== 'Job Ready Program' &&
+                courseDetails?.course_title !== 'Industry Ready Program' && (
+                  <>
+                    {page === 2 && (
+                      <EntranceTest nextPage={nextPage} course={courseDetails} user={user} />
+                    )}
+                  </>
+                )}
               {page === 3 && (
                 <>
                   <TestResult
@@ -752,12 +756,9 @@ const CourseApplication = () => {
                     courseId={courseDetails?.course_id}
                     worldLineStatus={worldLineStatus}
                     setWorldLineStatus={setWorldLineStatus}
-                    setSelectedBatch={setSelectedBatch}
-                  ></ApplicationStatus>
-                  {console.log("application",applicationDetails)}
+                    setSelectedBatch={setSelectedBatch}></ApplicationStatus>
                 </>
               )}
-
 
               {page === 5 && (
                 <>
@@ -777,9 +778,10 @@ const CourseApplication = () => {
               )}
               {page === 6 && (
                 <>
-                  <KYCDocuments nextPage={nextPage}
-                    onAllDocumentsSubmitted={handleAllDocumentsSubmitted} areDocumentsSubmitted={areDocumentsSubmitted}
-                  ></KYCDocuments>
+                  <KYCDocuments
+                    nextPage={nextPage}
+                    onAllDocumentsSubmitted={handleAllDocumentsSubmitted}
+                    areDocumentsSubmitted={areDocumentsSubmitted}></KYCDocuments>
                   <Row className="d-flex justify-content-end">
                     <Button
                       className="col-1 me-2 btn btn-outline-secondary"
@@ -792,8 +794,7 @@ const CourseApplication = () => {
                       variant="secondary"
                       type="button"
                       onClick={() => nextPage()}
-                      disabled={areDocumentsSubmitted}
-                    >
+                      disabled={areDocumentsSubmitted}>
                       Save
                     </Button>
                   </Row>

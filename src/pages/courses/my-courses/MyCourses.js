@@ -124,7 +124,7 @@ const MyCourses = () => {
               <h3 className="text-primary">Course Application</h3>
               {applicationList?.length > 0 ? (
                 applicationList.map((application, idx) => {
-                  // console.log("image",application)
+                  console.log('///image', application);
                   return (
                     <Card key={idx} className="p-3 my-3">
                       <div className="d-flex flex-row">
@@ -159,11 +159,19 @@ const MyCourses = () => {
                               )}
                             </div>
                           </Card.Title>
-                        
+
                           <Card.Body className="application-status application-status-course">
-                            {occupation !== 'STUDENT' && <MultiStepBar page={stepper} />}
+                            {occupation !== 'STUDENT' && (
+                              <MultiStepBar
+                                page={stepper}
+                                application={application?.course_title}
+                              />
+                            )}
                             {occupation === 'STUDENT' && (
-                              <MultiStepBar page={stepper} />
+                              <MultiStepBar
+                                page={stepper}
+                                application={application?.course_title}
+                              />
                               // <StudentMultiStepBar
                               //   page={setStepperStage(application?.application_stage)}
                               // />
@@ -181,9 +189,7 @@ const MyCourses = () => {
                               variant="secondary"
                               type="button"
                               onClick={() => {
-                                navigate(`/course/apply/${application?.course_id
-
-                                }`);
+                                navigate(`/course/apply/${application?.course_id}`);
                               }}>
                               Complete Application
                             </Button>
@@ -195,10 +201,7 @@ const MyCourses = () => {
                               variant="secondary"
                               type="button"
                               onClick={() => {
-                                navigate(
-                                  `/course/apply/student/${application?.course_id
-                                  }`
-                                );
+                                navigate(`/course/apply/student/${application?.course_id}`);
                               }}>
                               Complete Application
                             </Button>
