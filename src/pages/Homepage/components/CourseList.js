@@ -29,7 +29,7 @@ const RatingComponent = ({ rating }) => {
   );
 };
 
-const CourseList = ({ courses,program }) => {
+const CourseList = ({ courses, program }) => {
   const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
   const [occupation, setOccupation] = React.useState([]);
   const [openpayment, setopenpayment] = React.useState(false);
@@ -53,28 +53,27 @@ const CourseList = ({ courses,program }) => {
       if (course?.target_audience === '{Learners}') {
         setopenpayment(true);
       } else {
-        navigate(`/course/apply/${course.course_url}`, { state: course });
+        navigate(`/course/apply/${course.course_url}?course_id=${course?.course_id}`, {
+          state: course,
+        });
       }
     }
   };
 
   const viewDetails = (course) => {
-    if (course?.course_title === "Industry Ready Program") {
-      const url = "https://www.unikaksha.com/industry-ready-program/";
-      window.open(url, "_blank");
-      return 
-    }if (course?.course_title === "Job Ready Program") {
-      const url = "https://www.unikaksha.com/unikaksha-job-ready/";
-      window.open(url, "_blank");
-      return
+    if (course?.course_title === 'Industry Ready Program') {
+      const url = 'https://www.unikaksha.com/industry-ready-program/';
+      window.open(url, '_blank');
+      return;
     }
-     else {
+    if (course?.course_title === 'Job Ready Program') {
+      const url = 'https://www.unikaksha.com/unikaksha-job-ready/';
+      window.open(url, '_blank');
+      return;
+    } else {
       navigate(`/course/${course?.course_url}`, { state: course });
     }
   };
-  
-
-
 
   useEffect(() => {
     fetchUserDetails(user?.uid);
@@ -118,8 +117,7 @@ const CourseList = ({ courses,program }) => {
         {/* <div>see all</div> */}
       </div>
       <Row>
-        {courses?.map((course, idx) => 
-          (
+        {courses?.map((course, idx) => (
           <Col md="4" key={course?.id}>
             <Card className="my-4 card-custom card-expore" style={{ width: '100%' }}>
               <Card className="bannerlable">{getPaymentMode(course)}</Card>
@@ -211,8 +209,6 @@ const CourseList = ({ courses,program }) => {
         ))}
       </Row>
     </>
-
-   
   );
 };
 

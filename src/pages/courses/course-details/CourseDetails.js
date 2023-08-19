@@ -53,7 +53,6 @@ function CourseDetails() {
     return res?.data?.data?.course;
   };
 
-
   const fetchVariantBatches = async (course_id) => {
     const res = await ApiService(`courses/${course_id}/batch/list`);
     return res?.data?.data?.result;
@@ -64,12 +63,14 @@ function CourseDetails() {
   };
   const batchSchedule = async (course_id) => {
     const res = await ApiService(`/admin/batch-Schedule/${course_id}`);
-    return res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[0]?.morningBatch;
+    return res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[0]
+      ?.morningBatch;
   };
 
   const eveningbatchSchedule = async (course_id) => {
     const res = await ApiService(`/admin/batch-Schedule/${course_id}`);
-    return res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[1]?.eveningBatch;
+    return res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[1]
+      ?.eveningBatch;
   };
 
   const fetchInitialData = async (params) => {
@@ -90,8 +91,6 @@ function CourseDetails() {
 
     const eveningfetchBatches = await eveningbatchSchedule(courseData?.course_id);
     eveningsetBatchDate(eveningfetchBatches);
-
-
   };
 
   const convertDate = (dateInput) => {
@@ -222,7 +221,6 @@ function CourseDetails() {
     });
     return items;
   };
-
 
   const getEligibility = () => {
     const Eligibility = courseDetails?.course_detail_page?.eligibilityCriteria?.value;
@@ -365,16 +363,17 @@ function CourseDetails() {
       <div className="course-details my-5">
         {openpayment && (
           <>
-            <LearnerPaymentPopup courseId={courseDetails?.id} courseInfo={courseDetails} setopenpayment={setopenpayment} />
+            <LearnerPaymentPopup
+              courseId={courseDetails?.id}
+              courseInfo={courseDetails}
+              setopenpayment={setopenpayment}
+            />
           </>
         )}
         {promoBanner ? (
           <Container fluid={true} className="promo-banner">
             <a target={'_blank'} href={promoBanner.register_url}>
-              <img
-                src={promoBanner.url}
-                width={'100%'}
-              />
+              <img src={promoBanner.url} width={'100%'} />
             </a>
           </Container>
         ) : (
@@ -388,10 +387,8 @@ function CourseDetails() {
                   </p>
                   <RatingComponent />
                   <p className="ms-3">
-                    <span>Learners:</span>{' '}
-                    {courseDetails?.learner_count}
+                    <span>Learners:</span> {courseDetails?.learner_count}
                   </p>
-
                 </div>
 
                 <div className="d-flex">
@@ -423,34 +420,36 @@ function CourseDetails() {
               </div>
               <div className="carousel-container">
                 <Carousel indicators={false} touch={true} pause="hover" controls={false}>
-                  {courseDetails?.card_configuration?.bannerContentDesktop?.value.map((asset, i) => {
-                    // if(asset.type === 'image') {
-                    //     return (
-                    //         <CarouselItem key={i}>
-                    //             <img src={asset.url}></img>
-                    //         </CarouselItem>
-                    //     );
-                    // }
-                    if (asset.type === 'video') {
-                      return (
-                        <CarouselItem key={i}>
-                          <video src={asset.url} controls></video>
-                        </CarouselItem>
-                      );
-                    }
+                  {courseDetails?.card_configuration?.bannerContentDesktop?.value.map(
+                    (asset, i) => {
+                      // if(asset.type === 'image') {
+                      //     return (
+                      //         <CarouselItem key={i}>
+                      //             <img src={asset.url}></img>
+                      //         </CarouselItem>
+                      //     );
+                      // }
+                      if (asset.type === 'video') {
+                        return (
+                          <CarouselItem key={i}>
+                            <video src={asset.url} controls></video>
+                          </CarouselItem>
+                        );
+                      }
 
-                    if (asset.type === 'youtube') {
-                      return (
-                        <CarouselItem key={i}>
-                          <iframe
-                            src={`https://www.youtube.com/embed/I3OmgJmUhek`}
-                            frameBorder="20px"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen={true}></iframe>
-                        </CarouselItem>
-                      );
+                      if (asset.type === 'youtube') {
+                        return (
+                          <CarouselItem key={i}>
+                            <iframe
+                              src={`https://www.youtube.com/embed/I3OmgJmUhek`}
+                              frameBorder="20px"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen={true}></iframe>
+                          </CarouselItem>
+                        );
+                      }
                     }
-                  })}
+                  )}
                 </Carousel>
               </div>
             </div>
@@ -510,7 +509,7 @@ function CourseDetails() {
                 Choose A Payment Plan That Works For You
               </h4>
               <Row xs={1} md={1} className="mtb5 eligible-group-chat">
-              <ViewDetailsPayment/>
+                <ViewDetailsPayment />
               </Row>
 
               <>
@@ -631,8 +630,9 @@ function CourseDetails() {
                 FAQs
               </h4>
               <Row xs={1} md={1} className="mtb5 faqs">
-                {courseVariantBatchesfaq &&
-                  <Faqs courseVariantBatchesfaq={courseVariantBatchesfaq} />}
+                {courseVariantBatchesfaq && (
+                  <Faqs courseVariantBatchesfaq={courseVariantBatchesfaq} />
+                )}
               </Row>
             </Col>
           </Row>
