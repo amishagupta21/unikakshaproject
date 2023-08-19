@@ -1,7 +1,6 @@
 import React from 'react';
 import { Step, Stepper } from 'react-form-stepper';
 import './FormProgress.scss';
-import { useState } from 'react';
 
 const status = [
   'Assessment Passed',

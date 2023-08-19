@@ -84,7 +84,13 @@ const CourseApplication = () => {
     educationalDetails.education_details =
       userDetails?.data?.data?.userProfile?.education_details ?? educationalDetails;
     educationalDetails.work_details = userDetails?.data?.data?.userProfile?.work_details ?? [];
-    nextPageNumber(0);
+    const getLastActiveStep = localStorage.getItem('activeStep');
+    const check = getLastActiveStep !== null ? parseInt(getLastActiveStep) : null;
+    if (check) {
+      nextPageNumber(check);
+    } else {
+      nextPageNumber(0);
+    }
     if (!isEmpty(personalDetails)) {
       setPersonalDetailsInForm(personalDetails);
     }
@@ -273,7 +279,10 @@ const CourseApplication = () => {
   });
 
   const nextPageNumber = (pageNumber) => {
-    switch (pageNumber) {
+    const getLastActiveStep = localStorage.getItem('activeStep');
+    const check = getLastActiveStep !== null ? parseInt(getLastActiveStep) : null;
+
+    switch (check || pageNumber) {
       case 0:
         setPage(0);
         setStepperTitle('Personal Details');
@@ -309,6 +318,7 @@ const CourseApplication = () => {
       default:
         setPage(0);
     }
+    localStorage.setItem('activeStep', pageNumber);
   };
   const nextPageNumber_ = (pageNumber) => {
     switch (pageNumber) {
