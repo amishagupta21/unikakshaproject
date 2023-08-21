@@ -170,13 +170,14 @@ const CourseApplication = () => {
       };
       settestResults(obj);
       setApplicationDetails(applicationDetails?.data?.data.application);
+      console.log(application_stage, m_applicationstatus, '//////////application_stage');
 
       if (application_stage === 'personal_details') {
         nextPageNumber(1);
       } else if (application_stage === 'education_details') {
         nextPageNumber(2);
       } else if (application_stage === 'test_result') {
-        nextPageNumber(3);
+        nextPageNumber(4);
       } else if (application_stage === 'application_status') {
         nextPageNumber(4);
       } else if (
@@ -280,6 +281,7 @@ const CourseApplication = () => {
   });
 
   const nextPageNumber = (pageNumber) => {
+    console.log(pageNumber, '//////////pageNumber');
     const getLastActiveStep = localStorage.getItem('activeStep');
     const check = getLastActiveStep !== null ? parseInt(getLastActiveStep) : null;
 
@@ -355,6 +357,13 @@ const CourseApplication = () => {
   const nextPage = () => {
     const nextPage = page + 1;
     nextPageNumber(nextPage);
+    // if (
+    //   courseDetails?.course_title === 'Job Ready Program' ||
+    //   courseDetails?.course_title === 'Industry Ready Program'
+    // ) {
+    //   const nextPage_ = page + 3;
+    //   nextPageNumber_(nextPage_);
+    // }
   };
 
   const copyFromMobileNumber = (value) => {
@@ -382,6 +391,10 @@ const CourseApplication = () => {
     }
   };
 
+  console.log(courseDetails, '//////////courseDetails');
+
+  console.log(page, '//////////page');
+
   return (
     <>
       {!isLoading ? (
@@ -394,6 +407,8 @@ const CourseApplication = () => {
             <MultiStepBar
               page={page}
               onPageNumberClick={nextPageNumber}
+              onPageNumberClick_={nextPageNumber_}
+              setPage={setPage}
               courseTitle={courseDetails?.course_title}
               className="custom-bar"
             />
@@ -732,33 +747,34 @@ const CourseApplication = () => {
                   nextPageNumber={nextPageNumber}
                   nextPageNumber_={nextPageNumber_}
                   user={user}
+                  page={page}
                   educationalDetails={EducationalDetails}
                   setEducationalDetails={setEducationalDetails}
                 />
               )}
 
-              {(courseDetails?.course_title !== 'Job Ready Program' ||
-                courseDetails?.course_title !== 'Industry Ready Program' ||
-                courseDetails?.course_title !== 'Full Stack Web Development') && (
+              {courseDetails?.course_title === 'Full Stack Web Development' && (
                 <>
                   {page === 2 && (
                     <EntranceTest nextPage={nextPage} course={courseDetails} user={user} />
                   )}
                 </>
               )}
-              {page === 3 && (
+              {courseDetails?.course_title === 'Full Stack Web Development' && (
                 <>
-                  <TestResult
-                    nextPage={nextPage}
-                    testResult={testResults}
-                    application={applicationDetails}
-                    userName={user.displayName}
-                  />
+                  {page === 3 && (
+                    <TestResult
+                      nextPage={nextPage}
+                      testResult={testResults}
+                      application={applicationDetails}
+                      userName={user.displayName}
+                    />
+                  )}
                 </>
               )}
 
-              {page === 4 && (
-                <>
+              <>
+                {page === 4 && (
                   <ApplicationStatus
                     nextPage={nextPage}
                     application={applicationDetails}
@@ -770,8 +786,8 @@ const CourseApplication = () => {
                     worldLineStatus={worldLineStatus}
                     setWorldLineStatus={setWorldLineStatus}
                     setSelectedBatch={setSelectedBatch}></ApplicationStatus>
-                </>
-              )}
+                )}
+              </>
 
               {page === 5 && (
                 <>

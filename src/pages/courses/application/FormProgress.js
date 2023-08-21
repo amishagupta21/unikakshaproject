@@ -15,11 +15,25 @@ const status = [
   'Enrolment Pending',
 ];
 
-const MultiStepBar = ({ page, onPageNumberClick, testResults, courseTitle, application }) => {
+const MultiStepBar = ({
+  page,
+  onPageNumberClick,
+  testResults,
+  courseTitle,
+  application,
+  setPage,
+  onPageNumberClick_,
+}) => {
   const hasTakenEntranceTest = status.includes(testResults?.applicationStatus);
+
+  console.log(page, onPageNumberClick, '//////////page');
 
   const onStepperClick = (page) => {
     onPageNumberClick(page);
+  };
+
+  const onStepperClick_ = (page) => {
+    onPageNumberClick_(page);
   };
 
   const jobReadyProgramCourse = 'Job Ready Program';
@@ -46,11 +60,11 @@ const MultiStepBar = ({ page, onPageNumberClick, testResults, courseTitle, appli
         application === jobReadyProgramCourse ||
         (courseTitle || application) === industryReadyProgram) && (
         <Stepper activeStep={page}>
-          <Step onClick={() => onStepperClick(0)} label="Personal Details" />
-          <Step onClick={() => onStepperClick(1)} label="Education & Work Details" />
-          <Step onClick={() => onStepperClick(2)} label="Payment" />
-          <Step onClick={() => onStepperClick(3)} label="KYC & Documents" />
-          <Step onClick={() => onStepperClick(4)} label="Enrollment Status" />
+          <Step onClick={() => onStepperClick_(0)} label="Personal Details" />
+          <Step onClick={() => onStepperClick_(1)} label="Education & Work Details" />
+          <Step onClick={() => onStepperClick_(2)} label="Payment" />
+          <Step onClick={() => onStepperClick_(3)} label="KYC & Documents" />
+          <Step onClick={() => onStepperClick_(4)} label="Enrollment Status" />
         </Stepper>
       )}
     </>
