@@ -32,24 +32,7 @@ const Signup = () => {
   const [disabled, setDisabled] = useState(false);
 
 
-  document.addEventListener('DOMContentLoaded', function() {
-    jQuery("#signup-button").click(function () {
-      let unique_id = document.getElementById('mobileNumber_').value;
-  
-      Moengage.track_event("Apply_Now_Course_FSD", {
-        "name": document.getElementById('fullName').value,
-        "email": document.getElementById('email').value,
-        "whatsapp_number": document.getElementById('mobileNumber_').value,
-      });
-  
-      Moengage.add_user_name(document.getElementById('fullName').value);
-      Moengage.add_email(document.getElementById('email').value);
-      Moengage.add_mobile(document.getElementById('mobileNumber_').value);
-      Moengage.add_unique_user_id(unique_id);
-      alert(unique_id);
-    });
-  });
-  
+
 
   const styles = {
     container: {
@@ -217,8 +200,22 @@ const Signup = () => {
 
   const onSubmitOTP = (e) => {
     setIsButtonLoading(true);
-
+    
     e.preventDefault();
+    const { fullName, email, mobileNumber } = formData;
+
+    Moengage.track_event("Sign-Up-Event", {
+      "FullName": fullName,      // Use the actual fullName value from form state
+      "Email": email,            // Use the actual email value from form state
+      "PhoneNumber": mobileNumber // Use the actual mobileNumber value from form state
+    });
+    Moengage.add_user_name(fullName);
+  Moengage.add_email(email);
+  Moengage.add_mobile(mobileNumber);
+  Moengage.add_unique_user_id(mobileNumber);
+
+
+        
 
     window.confirmationResult
       .confirm(otp && otp)
@@ -345,20 +342,20 @@ const Signup = () => {
                       name="fullName"
                       render={({ field, formProps }) => (
                         <Row className="mb-0">
-                        <FormGroup className="form-group-1 mb-3" as={Col} md="12">
-                          <FormLabel htmlFor="fullName">
-                            Full Name<em className="red top">*</em> (As per PAN)
-                          </FormLabel>
-                          <FormControl
-                            id="fullName" // Add id here
-                            placeholder="Enter your name here"
-                            type={'text'}
-                            value={field.value}
-                            onChange={field.onChange}
-                          />
-                        </FormGroup>
-                      </Row>
-                      
+                          <FormGroup className="form-group-1 mb-3" as={Col} md="12">
+                            <FormLabel htmlFor="fullName">
+                              Full Name<em className="red top">*</em> (As per PAN)
+                            </FormLabel>
+                            <FormControl
+                              id="fullName" // Add id here
+                              placeholder="Enter your name here"
+                              type={'text'}
+                              value={field.value}
+                              onChange={field.onChange}
+                            />
+                          </FormGroup>
+                        </Row>
+
                       )}
                     />
                     {errors.fullName && touched.fullName ? (
@@ -368,21 +365,21 @@ const Signup = () => {
                       name="email"
                       render={({ field, formProps }) => (
                         <Row className="mb-0">
-                        <FormGroup className="form-group-1 mb-3" as={Col} md="12">
-                          <FormLabel htmlFor="email">
-                            Email<em className="red top">*</em>
-                          </FormLabel>
-                          <FormControl
-                            id="email" // Specify the id here
-                            placeholder="Enter your email here"
-                            type="text"
-                            value={field.value}
-                            onChange={field.onChange}
-                          />
-                        </FormGroup>
-                      </Row>
-                      
-                      
+                          <FormGroup className="form-group-1 mb-3" as={Col} md="12">
+                            <FormLabel htmlFor="email">
+                              Email<em className="red top">*</em>
+                            </FormLabel>
+                            <FormControl
+                              id="email" // Specify the id here
+                              placeholder="Enter your email here"
+                              type="text"
+                              value={field.value}
+                              onChange={field.onChange}
+                            />
+                          </FormGroup>
+                        </Row>
+
+
                       )}
                     />
                     {errors.email && touched.email ? (
