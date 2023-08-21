@@ -87,11 +87,12 @@ const CourseApplication = () => {
     educationalDetails.work_details = userDetails?.data?.data?.userProfile?.work_details ?? [];
     const getLastActiveStep = localStorage.getItem("activeStep");
     const check = getLastActiveStep !== null ? parseInt(getLastActiveStep) : null;
-    if (check) {
-      nextPageNumber(check)
-    } else {
-      nextPageNumber(0)
-    }
+    // if (check) {
+    //   nextPageNumber(check)
+    // } else {
+    // }
+    nextPageNumber(0)
+
     if (!isEmpty(personalDetails)) {
       setPersonalDetailsInForm(personalDetails);
     }
@@ -284,7 +285,7 @@ const CourseApplication = () => {
     const getLastActiveStep = localStorage.getItem("activeStep");
     const check = getLastActiveStep !== null? parseInt(getLastActiveStep):null;
 
-    switch (check || pageNumber) {
+    switch (pageNumber) {
       case 0:
         setPage(0);
         setStepperTitle('Personal Details');
