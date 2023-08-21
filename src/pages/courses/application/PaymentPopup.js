@@ -12,7 +12,6 @@ const PaymentPopup = ({
   application,
   setopenpayment,
   setSelectedBatch,
-  
 }) => {
   // console.log("application",application)
   // console.log("courseId",courseId)
@@ -20,11 +19,9 @@ const PaymentPopup = ({
   const [batchDate, setBatchDate] = React.useState([]);
   const [eveningBatchDate, setEveningBatchDate] = React.useState([]);
 
-
   useEffect(() => {
     fetchVariantBatches();
   }, []);
-
 
   const fetchVariantBatches = async (courseId) => {
     const res = await ApiService(`courses/${courseId}/batch/list`);
@@ -38,7 +35,7 @@ const PaymentPopup = ({
   const togglepayment = () => {
     setopenpayment(false);
   };
-  
+
   const createOrder = async () => {
     let payload = {
       application_id: application?._id,
@@ -46,37 +43,41 @@ const PaymentPopup = ({
       currency: 'INR',
       receipt: (Math.random() + 1).toString(36).substring(7),
     };
-    
+
     // Check if courseId matches the specified value
-    if (courseId === "232c10ed-f4bf-4601-a7ed-14b743ae95d6"||courseId ==="c5ae492d-5d19-4549-8345-2ca8deb67fc2") {
+    if (
+      courseId === '232c10ed-f4bf-4601-a7ed-14b743ae95d6' ||
+      courseId === 'c5ae492d-5d19-4549-8345-2ca8deb67fc2'
+    ) {
       payload.application_id = courseId;
     }
-    
+
     let orderDetails = await ApiService('order/create-order', `POST`, payload, true);
-    
+
     if (orderDetails?.data?.code === 200) {
       setOrderData(orderDetails.data.data);
       setopenpayment(false);
       nextPage();
     }
   };
-  
 
   const batchSchedule = async () => {
     const res = await ApiService(`/admin/batch-Schedule/${courseId}`);
-    const batchSchedule = res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[0]?.morningBatch;
-    setBatchDate(batchSchedule)
+    const batchSchedule =
+      res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[0]?.morningBatch;
+    setBatchDate(batchSchedule);
   };
   const eveningbatchSchedule = async () => {
     const res = await ApiService(`/admin/batch-Schedule/${courseId}`);
-    const eveningBatch=res?.data?.data?.result[0]?.course_variant_sections?.overview?.batchShedule[1]?.eveningBatch;
-    setEveningBatchDate(eveningBatch)
+    const eveningBatch =
+      res?.data?.data?.result[0]?.course_variant_sections?.overview?.batchShedule[1]?.eveningBatch;
+    setEveningBatchDate(eveningBatch);
   };
 
-  useEffect(()=>{
-    batchSchedule()
-    eveningbatchSchedule()
-  },[])
+  useEffect(() => {
+    batchSchedule();
+    eveningbatchSchedule();
+  }, []);
   const getBatches = () => {
     const items = batchDate?.map((element, index) => {
       return (
@@ -138,20 +139,19 @@ const PaymentPopup = ({
                     </svg>
                   </span>
                 </div>
-              
-                  <div className="mt-3">
-                    <Row className="nomargin batch-head">Morning Batch Schedule</Row>
-                    <Row xs={1} md={3} className="nomargin mt-2">
-                      {getBatches()}
-                    </Row>
-                  </div>
-                  <div className="mt-3">
-                    <Row className="nomargin batch-head">Evening Batch Schedule</Row>
-                    <Row xs={1} md={3} className="nomargin mt-2">
-                      {getEveningBatches()}
-                    </Row>
-                  </div>
-               
+
+                <div className="mt-3">
+                  <Row className="nomargin batch-head">Morning Batch Schedule</Row>
+                  <Row xs={1} md={3} className="nomargin mt-2">
+                    {getBatches()}
+                  </Row>
+                </div>
+                <div className="mt-3">
+                  <Row className="nomargin batch-head">Evening Batch Schedule</Row>
+                  <Row xs={1} md={3} className="nomargin mt-2">
+                    {getEveningBatches()}
+                  </Row>
+                </div>
               </div>
               <div className="mt-3 coupon-div">
                 <div className="model-body pb-2">
