@@ -20,12 +20,10 @@ const PaymentPopupAutonomy = ({
   worldLineStatus,
   id,
 }) => {
-   
   const [batches, setbatches] = React.useState();
   const [defaultBatch, setDefaultBatch] = React.useState();
   const [batchDate, setBatchDate] = React.useState([]);
   const [eveningBatchDate, setEveningBatchDate] = React.useState([]);
-
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -51,7 +49,7 @@ const PaymentPopupAutonomy = ({
   // const batchSchedule = async() => {
   //   const res = await ApiService(`/admin/next-batch`,"GET",{},true);
   //   console.log("res yahinha",res)
-  
+
   // };
   const togglepayment = () => {
     setopenpayment(false);
@@ -63,7 +61,10 @@ const PaymentPopupAutonomy = ({
       currency: 'INR',
       receipt: (Math.random() + 1).toString(36).substring(7),
     };
-    if (courseId === "232c10ed-f4bf-4601-a7ed-14b743ae95d6"||courseId ==="c5ae492d-5d19-4549-8345-2ca8deb67fc2") {
+    if (
+      courseId === '232c10ed-f4bf-4601-a7ed-14b743ae95d6' ||
+      courseId === 'c5ae492d-5d19-4549-8345-2ca8deb67fc2'
+    ) {
       payload.application_id = courseId;
     }
     let orderDetails = await ApiService('order/create-order', `POST`, payload, true);
@@ -75,7 +76,7 @@ const PaymentPopupAutonomy = ({
   };
 
   // const getbatches = () => {
-    
+
   //   let items = batches.map((element, index) => {
   //     return (
   //       <CardGroup key={index}>
@@ -107,18 +108,20 @@ const PaymentPopupAutonomy = ({
 
   const batchSchedule = async () => {
     const res = await ApiService(`/admin/batch-Schedule/${courseId}`);
-    const batchSchedule = res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[0]?.morningBatch;
-    setBatchDate(batchSchedule)
+    const batchSchedule =
+      res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[0]?.morningBatch;
+    setBatchDate(batchSchedule);
   };
   const eveningbatchSchedule = async () => {
     const res = await ApiService(`/admin/batch-Schedule/${courseId}`);
-    const eveningBatch=res?.data?.data?.result[0]?.course_variant_sections?.overview?.batchShedule[1]?.eveningBatch;
-    setEveningBatchDate(eveningBatch)
+    const eveningBatch =
+      res?.data?.data?.result[0]?.course_variant_sections?.overview?.batchShedule[1]?.eveningBatch;
+    setEveningBatchDate(eveningBatch);
   };
-  useEffect(()=>{
-    batchSchedule()
-    eveningbatchSchedule()
-  },[])
+  useEffect(() => {
+    batchSchedule();
+    eveningbatchSchedule();
+  }, []);
   const getBatches = () => {
     const items = batchDate?.map((element, index) => {
       return (

@@ -53,6 +53,7 @@ const EducationDetails = ({
   courseTitle,
   nextPageNumber_,
   changePage,
+  stepperTitle,
   page,
 }) => {
   const [graduatedYesOrNo, setGraduatedYesOrNo] = React.useState('nill');
@@ -124,7 +125,7 @@ const EducationDetails = ({
     formik.setValues(formData);
   };
 
-  console.log(nextPage, '///////////nextPage');
+  console.log(nextPageNumber_, nextPage, '///////////nextPageNumber_');
 
   const formik = useFormik({
     validationSchema: Yup.object().shape({
@@ -255,20 +256,17 @@ const EducationDetails = ({
 
       setIsNextLoading(true);
       submitEducationalDetails(payload);
-      console.log(page, '/////courseTitle', applicationDetails?.m_applicationstatus);
       // Check for specific conditions after the data submission
-      if (page === 1) {
-        nextPageNumber_(2);
-      } else if (courseTitle === 'Industry Ready Program' || courseTitle === 'Job Ready Program') {
-        nextPageNumber(4);
-      } else if (
-        applicationDetails?.m_applicationstatus === 'Assessment Passed' &&
-        applicationDetails?.application_stage === 'test_result'
-      ) {
-        nextPageNumber(4);
-      } else if (applicationDetails?.application_stage === 'application_status') {
-        nextPageNumber(3);
-      }
+      // if (courseTitle === 'Industry Ready Program' || courseTitle === 'Job Ready Program') {
+      //   nextPageNumber(4);
+      // } else if (
+      //   applicationDetails?.m_applicationstatus === 'Assessment Passed' &&
+      //   applicationDetails?.application_stage === 'test_result'
+      // ) {
+      //   nextPageNumber(4);
+      // } else if (applicationDetails?.application_stage === 'application_status') {
+      //   nextPageNumber(3);
+      // }
     },
   });
 
@@ -289,15 +287,16 @@ const EducationDetails = ({
       setEducationalDetails(payload);
 
       // Check if courseTitle is "Industry Ready Program" and navigate accordingly
-      if (courseTitle === 'Industry Ready Program' || courseTitle === 'Job Ready Program') {
-        nextPageNumber(4);
-      }
+      // if (courseTitle === 'Industry Ready Program' || courseTitle === 'Job Ready Program') {
+      //   nextPageNumber(4);
+      // }
       // else if (courseTitle === 'Full Stack Web Development') {
       //   nextPageNumber(4);
       // }
-      else {
-        nextPage();
-      }
+      // else {
+      nextPage();
+      // nextPageNumber(4);
+      // }
     }
   };
 

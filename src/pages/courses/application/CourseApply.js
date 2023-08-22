@@ -56,6 +56,7 @@ const CourseApplication = () => {
   const [userData, setUserData] = React.useState();
   const [birthInfo, setBirthInfo] = React.useState();
   const [initData, setInitData] = React.useState();
+  const [temp, setTemp] = React.useState(false);
   const [areDocumentsSubmitted, setAreDocumentsSubmitted] = useState(true);
   const handleAllDocumentsSubmitted = (state) => {
     setAreDocumentsSubmitted(state);
@@ -170,7 +171,6 @@ const CourseApplication = () => {
       };
       settestResults(obj);
       setApplicationDetails(applicationDetails?.data?.data.application);
-      console.log(application_stage, m_applicationstatus, '//////////application_stage');
 
       if (application_stage === 'personal_details') {
         nextPageNumber(1);
@@ -281,9 +281,8 @@ const CourseApplication = () => {
   });
 
   const nextPageNumber = (pageNumber) => {
-    console.log(pageNumber, '//////////pageNumber');
-    const getLastActiveStep = localStorage.getItem('activeStep');
-    const check = getLastActiveStep !== null ? parseInt(getLastActiveStep) : null;
+    // const getLastActiveStep = localStorage.getItem('activeStep');
+    // const check = getLastActiveStep !== null ? parseInt(getLastActiveStep) : null;
 
     switch (pageNumber) {
       case 0:
@@ -321,7 +320,7 @@ const CourseApplication = () => {
       default:
         setPage(0);
     }
-    localStorage.setItem('activeStep', pageNumber);
+    // localStorage.setItem('activeStep', pageNumber);
   };
   const nextPageNumber_ = (pageNumber) => {
     switch (pageNumber) {
@@ -390,10 +389,6 @@ const CourseApplication = () => {
       navigate(`/course/${courseDetails?.course_url}`, { state: courseDetails });
     }
   };
-
-  console.log(courseDetails, '//////////courseDetails');
-
-  console.log(page, '//////////page');
 
   return (
     <>
@@ -750,9 +745,9 @@ const CourseApplication = () => {
                   page={page}
                   educationalDetails={EducationalDetails}
                   setEducationalDetails={setEducationalDetails}
+                  stepperTitle={stepperTitle}
                 />
               )}
-
               {courseDetails?.course_title === 'Full Stack Web Development' && (
                 <>
                   {page === 2 && (
@@ -772,68 +767,130 @@ const CourseApplication = () => {
                   )}
                 </>
               )}
-
               <>
-                {page === 4 && (
-                  <ApplicationStatus
-                    nextPage={nextPage}
-                    application={applicationDetails}
-                    courseTitle={courseDetails?.course_title}
-                    selectedBatch={courseDetails?.batchesData?.batch_id}
-                    setOrderData={setOrderData}
-                    nextPageNumber={nextPageNumber}
-                    courseId={courseDetails?.course_id}
-                    worldLineStatus={worldLineStatus}
-                    setWorldLineStatus={setWorldLineStatus}
-                    setSelectedBatch={setSelectedBatch}></ApplicationStatus>
-                )}
+                {courseDetails?.course_title === 'Job Ready Program'
+                  ? page === 2 && (
+                      <ApplicationStatus
+                        nextPage={nextPage}
+                        application={applicationDetails}
+                        courseTitle={courseDetails?.course_title}
+                        selectedBatch={courseDetails?.batchesData?.batch_id}
+                        setOrderData={setOrderData}
+                        nextPageNumber={nextPageNumber}
+                        courseId={courseDetails?.course_id}
+                        worldLineStatus={worldLineStatus}
+                        setWorldLineStatus={setWorldLineStatus}
+                        setSelectedBatch={setSelectedBatch}
+                        setTemp={setTemp}
+                        temp={temp}
+                      />
+                    )
+                  : page === 4 && (
+                      <ApplicationStatus
+                        nextPage={nextPage}
+                        application={applicationDetails}
+                        courseTitle={courseDetails?.course_title}
+                        selectedBatch={courseDetails?.batchesData?.batch_id}
+                        setOrderData={setOrderData}
+                        nextPageNumber={nextPageNumber}
+                        courseId={courseDetails?.course_id}
+                        worldLineStatus={worldLineStatus}
+                        setWorldLineStatus={setWorldLineStatus}
+                        setSelectedBatch={setSelectedBatch}
+                        setTemp={setTemp}
+                        temp={temp}
+                      />
+                    )}
               </>
+              {/* {page === 5 && (
+                <Payments
+                  nextPage={nextPage}
+                  course={courseDetails}
+                  orderData={orderData}
+                  courseTitle={courseDetails?.course_title}
+                  application={applicationDetails}
+                  selectedBatch={courseDetails?.batchesData?.batch_id}
+                  page={page}
+                  worldLineStatus={worldLineStatus}
+                  setWorldLineStatus={setWorldLineStatus}
+                  onPageNumberClick={nextPageNumber}
+                  setApplicationDetails={setApplicationDetails}></Payments>
+              )} */}
 
-              {page === 5 && (
-                <>
-                  <Payments
-                    nextPage={nextPage}
-                    course={courseDetails}
-                    orderData={orderData}
-                    courseTitle={courseDetails?.course_title}
-                    application={applicationDetails}
-                    selectedBatch={courseDetails?.batchesData?.batch_id}
-                    page={page}
-                    worldLineStatus={worldLineStatus}
-                    setWorldLineStatus={setWorldLineStatus}
-                    onPageNumberClick={nextPageNumber}
-                    setApplicationDetails={setApplicationDetails}></Payments>
-                </>
+              {temp && (page === 2 || page === 5) && (
+                <Payments
+                  nextPage={nextPage}
+                  course={courseDetails}
+                  orderData={orderData}
+                  courseTitle={courseDetails?.course_title}
+                  application={applicationDetails}
+                  selectedBatch={courseDetails?.batchesData?.batch_id}
+                  page={page}
+                  worldLineStatus={worldLineStatus}
+                  setWorldLineStatus={setWorldLineStatus}
+                  onPageNumberClick={nextPageNumber}
+                  setApplicationDetails={setApplicationDetails}></Payments>
               )}
-              {page === 6 && (
-                <>
-                  <KYCDocuments
-                    nextPage={nextPage}
-                    onAllDocumentsSubmitted={handleAllDocumentsSubmitted}
-                    areDocumentsSubmitted={areDocumentsSubmitted}></KYCDocuments>
-                  <Row className="d-flex justify-content-end">
-                    <Button
-                      className="col-1 me-2 btn btn-outline-secondary"
-                      variant="outline-secondary"
-                      type="button">
-                      Cancel
-                    </Button>
-                    <Button
-                      className="col-1"
-                      variant="secondary"
-                      type="button"
-                      onClick={() => nextPage()}
-                      disabled={areDocumentsSubmitted}>
-                      Save
-                    </Button>
-                  </Row>
-                </>
-              )}
-              {page === 7 && (
-                <>
-                  <EnrollmentStatus nextPage={nextPage}></EnrollmentStatus>
-                </>
-              )}
+              {courseDetails?.course_title === 'Job Ready Program'
+                ? page === 3 && (
+                    <>
+                      <KYCDocuments
+                        nextPage={nextPage}
+                        onAllDocumentsSubmitted={handleAllDocumentsSubmitted}
+                        areDocumentsSubmitted={areDocumentsSubmitted}></KYCDocuments>
+                      <Row className="d-flex justify-content-end">
+                        <Button
+                          className="col-1 me-2 btn btn-outline-secondary"
+                          variant="outline-secondary"
+                          type="button">
+                          Cancel
+                        </Button>
+                        <Button
+                          className="col-1"
+                          variant="secondary"
+                          type="button"
+                          onClick={() => nextPage(4)}
+                          disabled={areDocumentsSubmitted}>
+                          Save
+                        </Button>
+                      </Row>
+                    </>
+                  )
+                : page === 6 && (
+                    <>
+                      <KYCDocuments
+                        nextPage={nextPage}
+                        onAllDocumentsSubmitted={handleAllDocumentsSubmitted}
+                        areDocumentsSubmitted={areDocumentsSubmitted}></KYCDocuments>
+                      <Row className="d-flex justify-content-end">
+                        <Button
+                          className="col-1 me-2 btn btn-outline-secondary"
+                          variant="outline-secondary"
+                          type="button">
+                          Cancel
+                        </Button>
+                        <Button
+                          className="col-1"
+                          variant="secondary"
+                          type="button"
+                          onClick={() => nextPage()}
+                          disabled={areDocumentsSubmitted}>
+                          Save
+                        </Button>
+                      </Row>
+                    </>
+                  )}
+              {courseDetails?.course_title === 'Job Ready Program'
+                ? page === 4 && (
+                    <>
+                      <EnrollmentStatus nextPage={nextPage}></EnrollmentStatus>
+                    </>
+                  )
+                : page === 7 && (
+                    <>
+                      <EnrollmentStatus nextPage={nextPage}></EnrollmentStatus>
+                    </>
+                  )}
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { badge, cancelRe, engineeringTeam, working } from '../../../assets/images';
 import PaymentPopup from './PaymentPopup';
@@ -44,7 +44,9 @@ const ApplicationStatus = ({
   worldLineStatus,
   nextPageNumber,
   courseTitle,
+  setTemp,
   id,
+  temp,
 }) => {
   const dispatch = useDispatch();
   const [status, setStatus] = useState();
@@ -52,7 +54,6 @@ const ApplicationStatus = ({
   const [openpayment, setopenpayment] = useState(false);
   const [isPaymentOpen, setIsPaymentOpen] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
 
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
   useEffect(() => {
@@ -84,7 +85,7 @@ const ApplicationStatus = ({
     // const appStatus = 'Application Approved';
     if (
       appStatus === 'Complete' ||
-      appStatus==="Assessment Link Sent"||
+      appStatus === 'Assessment Link Sent' ||
       appStatus === 'Application Approved' ||
       appStatus === 'Assessment Passed' ||
       appStatus === 'Application In Review' ||
@@ -112,64 +113,71 @@ const ApplicationStatus = ({
   // const {imgContent } = statusContent;
 
   const openModal = () => {
-    setIsModalOpen(!isModalOpen)
-  }
+    setIsModalOpen(!isModalOpen);
+  };
   return (
     <>
-      
-      {isModalOpen||courseTitle === 'Industry Ready Program'||courseTitle==='Job Ready Program' ? <Payment
-        nextPage={nextPage}
-        setOrderData={setOrderData}
-        application={application}
-        courseId={courseId}
-        id={id}
-        selectedBatch={selectedBatch}
-        orderData={orderData}
-        setWorldLineStatus={setWorldLineStatus}
-        setopenpayment={setopenpayment}
-        worldLineStatus={worldLineStatus}
-        setSelectedBatch={setSelectedBatch}
-        isPaymentOpen={isPaymentOpen}
-        openPayment={openPayment}
-      />:
-      <>
-      <div className="d-flex align-items-center justify-content-center">
-      <div>
-        <div className="d-flex align-items-center justify-content-center">
-          {status === 'approved' && <img src={badge} className="me-3"></img>}
-          <h3 className="text-primary text-center header mt-2 mb-4 sml-head">
-            {statusContent?.header}
-          </h3>
-        </div>
-        <div className="mt-2 mb-4 d-flex align-items-center justify-content-center">
-          <img src={statusContent?.imgContent} className="img-fluid"></img>
-        </div>
-        <div className={`my-2 content-box ${status}`}>
-          <p className="text-primary text-center message1">{statusContent?.message1}</p>
-          <p className="text-primary text-center message2">{statusContent?.message2}</p>
-          <p className="text-primary text-center message3">{statusContent?.message3}</p>
-        </div>
-      </div>
-    </div>
-    {status === 'approved' && (
-        <div className="m-auto mt-3">
-          <Button
-            size="lg"
-            className="btn-center"
-            variant="secondary"
-            type="button"
-            onClick={() => {
-              openModal();
-            }}
-          >
-            Next
-          </Button>
-        </div>
+      {temp && (
+        <>
+          {isModalOpen ||
+          courseTitle === 'Industry Ready Program' ||
+          courseTitle === 'Job Ready Program' ? (
+            <>
+              <Payment
+                nextPage={nextPage}
+                setOrderData={setOrderData}
+                application={application}
+                courseId={courseId}
+                id={id}
+                selectedBatch={selectedBatch}
+                orderData={orderData}
+                setWorldLineStatus={setWorldLineStatus}
+                setopenpayment={setopenpayment}
+                worldLineStatus={worldLineStatus}
+                setSelectedBatch={setSelectedBatch}
+                isPaymentOpen={isPaymentOpen}
+                openPayment={openPayment}
+                setTemp={setTemp}
+              />
+            </>
+          ) : (
+            <>
+              <div className="d-flex align-items-center justify-content-center">
+                <div>
+                  <div className="d-flex align-items-center justify-content-center">
+                    {status === 'approved' && <img src={badge} className="me-3"></img>}
+                    <h3 className="text-primary text-center header mt-2 mb-4 sml-head">
+                      {statusContent?.header}
+                    </h3>
+                  </div>
+                  <div className="mt-2 mb-4 d-flex align-items-center justify-content-center">
+                    <img src={statusContent?.imgContent} className="img-fluid"></img>
+                  </div>
+                  <div className={`my-2 content-box ${status}`}>
+                    <p className="text-primary text-center message1">{statusContent?.message1}</p>
+                    <p className="text-primary text-center message2">{statusContent?.message2}</p>
+                    <p className="text-primary text-center message3">{statusContent?.message3}</p>
+                  </div>
+                </div>
+              </div>
+              {status === 'approved' && (
+                <div className="m-auto mt-3">
+                  <Button
+                    size="lg"
+                    className="btn-center"
+                    variant="secondary"
+                    type="button"
+                    onClick={() => {
+                      openModal();
+                    }}>
+                    Next
+                  </Button>
+                </div>
+              )}
+            </>
+          )}
+        </>
       )}
-    </>
-    }
-      
-      
     </>
   );
 };
