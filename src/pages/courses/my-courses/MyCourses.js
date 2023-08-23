@@ -39,8 +39,8 @@ const MyCourses = () => {
   ];
   const navigate = useNavigate();
 
-  const fetchInitialData = async () => {
-    const response = await ApiService('/student/application/list', 'GET', {}, true);
+  const fetchInitialData = async (uid) => {
+    const response = await ApiService(`/student/application/list?uid=${uid}`, 'GET', {}, true);
     const { data } = response;
     const stepper = data?.data?.[0]?.application_stage;
     courseStepper[stepper] && setStepper(courseStepper[stepper]);
@@ -75,7 +75,7 @@ const MyCourses = () => {
   useEffect(() => {
     fetchUserDetails(user?.uid);
 
-    fetchInitialData();
+    fetchInitialData(user?.uid);
 
     // const fetchApplicationDetails = async (uid, courseId) => {
 
