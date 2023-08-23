@@ -56,7 +56,7 @@ const CourseApplication = () => {
   const [userData, setUserData] = React.useState();
   const [birthInfo, setBirthInfo] = React.useState();
   const [initData, setInitData] = React.useState();
-  const [temp, setTemp] = React.useState(false);
+  const [paymentMethod, setPaymentMethod] = React.useState(false);
   const [areDocumentsSubmitted, setAreDocumentsSubmitted] = useState(true);
   const handleAllDocumentsSubmitted = (state) => {
     setAreDocumentsSubmitted(state);
@@ -768,7 +768,8 @@ const CourseApplication = () => {
                 </>
               )}
               <>
-                {courseDetails?.course_title === 'Job Ready Program'
+                {courseDetails?.course_title === 'Job Ready Program' ||
+                courseDetails?.course_title === 'Industry Ready Program'
                   ? page === 2 && (
                       <ApplicationStatus
                         nextPage={nextPage}
@@ -781,8 +782,8 @@ const CourseApplication = () => {
                         worldLineStatus={worldLineStatus}
                         setWorldLineStatus={setWorldLineStatus}
                         setSelectedBatch={setSelectedBatch}
-                        setTemp={setTemp}
-                        temp={temp}
+                        setPaymentMethod={setPaymentMethod}
+                        paymentMethod={paymentMethod}
                       />
                     )
                   : page === 4 && (
@@ -797,8 +798,8 @@ const CourseApplication = () => {
                         worldLineStatus={worldLineStatus}
                         setWorldLineStatus={setWorldLineStatus}
                         setSelectedBatch={setSelectedBatch}
-                        setTemp={setTemp}
-                        temp={temp}
+                        setPaymentMethod={setPaymentMethod}
+                        paymentMethod={paymentMethod}
                       />
                     )}
               </>
@@ -817,7 +818,7 @@ const CourseApplication = () => {
                   setApplicationDetails={setApplicationDetails}></Payments>
               )} */}
 
-              {temp && (page === 2 || page === 5) && (
+              {paymentMethod && (page === 2 || page === 5) && (
                 <Payments
                   nextPage={nextPage}
                   course={courseDetails}
@@ -831,7 +832,8 @@ const CourseApplication = () => {
                   onPageNumberClick={nextPageNumber}
                   setApplicationDetails={setApplicationDetails}></Payments>
               )}
-              {courseDetails?.course_title === 'Job Ready Program'
+              {courseDetails?.course_title === 'Job Ready Program' ||
+              courseDetails?.course_title === 'Industry Ready Program'
                 ? page === 3 && (
                     <>
                       <KYCDocuments
@@ -880,7 +882,8 @@ const CourseApplication = () => {
                       </Row>
                     </>
                   )}
-              {courseDetails?.course_title === 'Job Ready Program'
+              {courseDetails?.course_title === 'Job Ready Program' ||
+              courseDetails?.course_title === 'Industry Ready Program'
                 ? page === 4 && (
                     <>
                       <EnrollmentStatus nextPage={nextPage}></EnrollmentStatus>

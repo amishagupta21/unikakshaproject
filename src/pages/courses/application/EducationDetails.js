@@ -125,8 +125,6 @@ const EducationDetails = ({
     formik.setValues(formData);
   };
 
-  console.log(nextPageNumber_, nextPage, '///////////nextPageNumber_');
-
   const formik = useFormik({
     validationSchema: Yup.object().shape({
       schoolDiplomaCollegeName: Yup.string().required(),

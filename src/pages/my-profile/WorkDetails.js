@@ -10,7 +10,6 @@ import { useDispatch } from 'react-redux';
 import { openToaster } from '../../redux/actions/ToastAction';
 
 const workDetails = ({ educationalDetails }) => {
-
   const [workingPositionList, setworkingPositionList] = React.useState([]);
   const [isNextLoading, setIsNextLoading] = React.useState(false);
   const [workData, setWorkDetails] = React.useState({});
@@ -32,7 +31,6 @@ const workDetails = ({ educationalDetails }) => {
   }, [educationalDetails]);
 
   const setInitialData = async () => {
-
     // console.log(await getWorkingPosition());
     setworkingPositionList(await getWorkingPosition());
     // console.log(educationalDetails?.work_details);
@@ -45,9 +43,7 @@ const workDetails = ({ educationalDetails }) => {
       formData.experience = educationalDetails.work_details[0]?.experience;
     }
     formik.setValues(formData);
-
-
-  }
+  };
 
   const returnToDashboard = () => {
     navigate('/dashboard');
@@ -60,7 +56,6 @@ const workDetails = ({ educationalDetails }) => {
       organization_name: '',
     },
     validationSchema: Yup.object().shape({
-
       position: Yup.string(),
       experience: Yup.number(),
       organization_name: Yup.string(),
@@ -85,17 +80,16 @@ const workDetails = ({ educationalDetails }) => {
       return errors;
     },
     onSubmit: (values) => {
-
-
       const payload = {
         uid: user?.uid,
-        "work_details": [{
-          position: values.position,
-          experience: values.experience,
-          organization_name: values.organization_name,
-
-        }]
-      }
+        work_details: [
+          {
+            position: values.position,
+            experience: values.experience,
+            organization_name: values.organization_name,
+          },
+        ],
+      };
       dispatch(setLoading(true));
       setIsNextLoading(true);
 
@@ -118,7 +112,6 @@ const workDetails = ({ educationalDetails }) => {
           body: 'Work details updated successfully!',
         })
       );
-
     }
   };
 
@@ -126,11 +119,8 @@ const workDetails = ({ educationalDetails }) => {
 
   return (
     <>
-      <div className='work-space'>
-
+      <div className="work-space">
         <Form onSubmit={formik.handleSubmit}>
-
-
           <Row className="mb-5">
             <Col sm={4}>
               <Form.Group controlId="position">
@@ -198,7 +188,7 @@ const workDetails = ({ educationalDetails }) => {
         </Form>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default workDetails;

@@ -185,8 +185,6 @@ const Payments = (params) => {
     onPageNumberClick(page);
   };
 
-  console.log(courseData, '///////////courseData');
-
   const getPaymentSuccess = () => {
     return (
       <div className="d-flex align-items-center justify-content-center pay-align">
@@ -218,7 +216,8 @@ const Payments = (params) => {
             <p>We have sent you the transaction details on your email and whatsapp.</p>
           </div>
           <div className="m-auto mt-3">
-            {courseData?.course_title === 'Job Ready Program' ? (
+            {courseData?.course_title === 'Job Ready Program' ||
+            courseData?.course_title === 'Industry Ready Program' ? (
               <Button
                 size="lg"
                 className="btn-center"

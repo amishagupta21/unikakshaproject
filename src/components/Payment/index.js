@@ -48,7 +48,7 @@ const Payment = ({
   worldLineStatus,
   nextPageNumber,
   id,
-  setTemp,
+  setPaymentMethod,
 }) => {
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
   const [isPymentAutonomy, setIsPymentAutonomy] = useState(false);
@@ -406,7 +406,7 @@ const Payment = ({
             setopenpayment={openPaymentModal}
             worldLineStatus={worldLineStatus}
             setSelectedBatch={setSelectedBatch}
-            setTemp={setTemp}
+            setPaymentMethod={setPaymentMethod}
           />
         )}
         {isPymentAutonomy && (

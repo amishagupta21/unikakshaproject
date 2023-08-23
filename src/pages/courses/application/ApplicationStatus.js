@@ -44,9 +44,9 @@ const ApplicationStatus = ({
   worldLineStatus,
   nextPageNumber,
   courseTitle,
-  setTemp,
+  setPaymentMethod,
   id,
-  temp,
+  paymentMethod,
 }) => {
   const dispatch = useDispatch();
   const [status, setStatus] = useState();
@@ -115,9 +115,10 @@ const ApplicationStatus = ({
   const openModal = () => {
     setIsModalOpen(!isModalOpen);
   };
+
   return (
     <>
-      {temp && (
+      {!paymentMethod && (
         <>
           {isModalOpen ||
           courseTitle === 'Industry Ready Program' ||
@@ -137,11 +138,12 @@ const ApplicationStatus = ({
                 setSelectedBatch={setSelectedBatch}
                 isPaymentOpen={isPaymentOpen}
                 openPayment={openPayment}
-                setTemp={setTemp}
+                setPaymentMethod={setPaymentMethod}
               />
             </>
           ) : (
             <>
+              {/* {!paymentMethod && ( */}
               <div className="d-flex align-items-center justify-content-center">
                 <div>
                   <div className="d-flex align-items-center justify-content-center">
@@ -160,6 +162,8 @@ const ApplicationStatus = ({
                   </div>
                 </div>
               </div>
+              {/* )} */}
+
               {status === 'approved' && (
                 <div className="m-auto mt-3">
                   <Button

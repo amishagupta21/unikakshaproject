@@ -12,9 +12,8 @@ const PaymentPopup = ({
   application,
   setopenpayment,
   setSelectedBatch,
-  setTemp,
+  setPaymentMethod,
 }) => {
-  console.log('application', application);
   const [batches, setbatches] = React.useState();
   const [batchDate, setBatchDate] = React.useState([]);
   const [eveningBatchDate, setEveningBatchDate] = React.useState([]);
@@ -60,7 +59,7 @@ const PaymentPopup = ({
       if (application?.course_title === 'Full Stack Web Development') {
         nextPage();
       }
-      setTemp(true);
+      setPaymentMethod(true);
     }
   };
 
