@@ -200,7 +200,7 @@ const Signup = () => {
 
   const onSubmitOTP = (e) => {
     setIsButtonLoading(true);
-    
+
     e.preventDefault();
     const { fullName, email, mobileNumber } = formData;
 
@@ -210,12 +210,12 @@ const Signup = () => {
       "PhoneNumber": mobileNumber // Use the actual mobileNumber value from form state
     });
     Moengage.add_user_name(fullName);
-  Moengage.add_email(email);
-  Moengage.add_mobile(mobileNumber);
-  Moengage.add_unique_user_id(mobileNumber);
+    Moengage.add_email(email);
+    Moengage.add_mobile(mobileNumber);
+    Moengage.add_unique_user_id(mobileNumber);
+    
 
 
-        
 
     window.confirmationResult
       .confirm(otp && otp)
