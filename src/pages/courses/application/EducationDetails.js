@@ -53,6 +53,8 @@ const EducationDetails = ({
   courseTitle,
   nextPageNumber_,
   changePage,
+  stepperTitle,
+  page,
 }) => {
   const [graduatedYesOrNo, setGraduatedYesOrNo] = React.useState('nill');
   const [yesOrNoLabel, setYesOrNoLabel] = React.useState('');
@@ -217,13 +219,13 @@ const EducationDetails = ({
           passing_marks: values.pgMarks,
         },
       ];
-      
+
       if (highestQualification === 'UG') {
         qualification = qualification.slice(0, 2);
       } else if (highestQualification === 'Diploma_or_12th') {
         qualification = qualification.slice(0, 1);
       }
-    
+
       let workDetails = [
         {
           position: values.position,
@@ -231,7 +233,7 @@ const EducationDetails = ({
           organization_name: values.organization_name,
         },
       ];
-    
+
       const payload = {
         education_details: {
           highest_qualification: highestQualification,
@@ -242,36 +244,34 @@ const EducationDetails = ({
         uid: user?.uid,
         course_id: course?.course_id,
       };
-    
+
       if (is_enrolled_other_program === 'yes') {
         payload.education_details.other_program_name = values.other_program_name;
         payload.education_details.other_program_college_name = values.other_program_college_name;
         payload.education_details.other_program_course_duration =
           values?.other_program_course_duration ?? 1;
       }
-    
+
       setIsNextLoading(true);
       submitEducationalDetails(payload);
-    
       // Check for specific conditions after the data submission
-      if (courseTitle === "Industry Ready Program"||courseTitle==='Job Ready Program') {
-        nextPageNumber(4);
-      } else if (
-        applicationDetails?.m_applicationstatus === 'Assessment Passed' &&
-        applicationDetails?.application_stage === "test_result"
-      ) {
-        nextPageNumber(4);
-      } else if (applicationDetails?.application_stage === 'application_status') {
-        nextPageNumber(3);
-      }
-    }
-    
+      // if (courseTitle === 'Industry Ready Program' || courseTitle === 'Job Ready Program') {
+      //   nextPageNumber(4);
+      // } else if (
+      //   applicationDetails?.m_applicationstatus === 'Assessment Passed' &&
+      //   applicationDetails?.application_stage === 'test_result'
+      // ) {
+      //   nextPageNumber(4);
+      // } else if (applicationDetails?.application_stage === 'application_status') {
+      //   nextPageNumber(3);
+      // }
+    },
   });
 
   const submitEducationalDetails = async (payload) => {
     const response = await ApiService('/student/educational-details', 'PUT', payload, true);
     setIsNextLoading(false);
-    
+
     if (response?.config.data) {
       dispatch(
         openToaster({
@@ -281,18 +281,22 @@ const EducationDetails = ({
           body: 'Educational details were saved successfully!',
         })
       );
-  
+
       setEducationalDetails(payload);
-      
+
       // Check if courseTitle is "Industry Ready Program" and navigate accordingly
-      if (courseTitle === 'Industry Ready Program'||courseTitle==='Job Ready Program') {
-        nextPageNumber(4);
-      } else {
-        nextPage();
-      }
+      // if (courseTitle === 'Industry Ready Program' || courseTitle === 'Job Ready Program') {
+      //   nextPageNumber(4);
+      // }
+      // else if (courseTitle === 'Full Stack Web Development') {
+      //   nextPageNumber(4);
+      // }
+      // else {
+      nextPage();
+      // nextPageNumber(4);
+      // }
     }
   };
-  
 
   return (
     <div>

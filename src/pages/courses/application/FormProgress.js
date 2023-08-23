@@ -15,7 +15,15 @@ const status = [
   'Enrolment Pending',
 ];
 
-const MultiStepBar = ({ page, onPageNumberClick, testResults, courseTitle, application }) => {
+const MultiStepBar = ({
+  page,
+  onPageNumberClick,
+  testResults,
+  courseTitle,
+  application,
+  setPage,
+  onPageNumberClick_,
+}) => {
   const hasTakenEntranceTest = status.includes(testResults?.applicationStatus);
 
   const onStepperClick = (page) => {

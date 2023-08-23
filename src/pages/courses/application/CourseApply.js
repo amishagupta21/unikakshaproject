@@ -56,6 +56,7 @@ const CourseApplication = () => {
   const [userData, setUserData] = React.useState();
   const [birthInfo, setBirthInfo] = React.useState();
   const [initData, setInitData] = React.useState();
+  const [paymentMethod, setPaymentMethod] = React.useState(false);
   const [areDocumentsSubmitted, setAreDocumentsSubmitted] = useState(true);
   const handleAllDocumentsSubmitted = (state) => {
     setAreDocumentsSubmitted(state);
@@ -176,7 +177,7 @@ const CourseApplication = () => {
       } else if (application_stage === 'education_details') {
         nextPageNumber(2);
       } else if (application_stage === 'test_result') {
-        nextPageNumber(3);
+        nextPageNumber(4);
       } else if (application_stage === 'application_status') {
         nextPageNumber(4);
       } else if (
@@ -280,8 +281,8 @@ const CourseApplication = () => {
   });
 
   const nextPageNumber = (pageNumber) => {
-    const getLastActiveStep = localStorage.getItem('activeStep');
-    const check = getLastActiveStep !== null ? parseInt(getLastActiveStep) : null;
+    // const getLastActiveStep = localStorage.getItem('activeStep');
+    // const check = getLastActiveStep !== null ? parseInt(getLastActiveStep) : null;
 
     switch (pageNumber) {
       case 0:
@@ -319,7 +320,7 @@ const CourseApplication = () => {
       default:
         setPage(0);
     }
-    localStorage.setItem('activeStep', pageNumber);
+    // localStorage.setItem('activeStep', pageNumber);
   };
   const nextPageNumber_ = (pageNumber) => {
     switch (pageNumber) {
@@ -355,6 +356,13 @@ const CourseApplication = () => {
   const nextPage = () => {
     const nextPage = page + 1;
     nextPageNumber(nextPage);
+    // if (
+    //   courseDetails?.course_title === 'Job Ready Program' ||
+    //   courseDetails?.course_title === 'Industry Ready Program'
+    // ) {
+    //   const nextPage_ = page + 3;
+    //   nextPageNumber_(nextPage_);
+    // }
   };
 
   const copyFromMobileNumber = (value) => {
@@ -394,6 +402,8 @@ const CourseApplication = () => {
             <MultiStepBar
               page={page}
               onPageNumberClick={nextPageNumber}
+              onPageNumberClick_={nextPageNumber_}
+              setPage={setPage}
               courseTitle={courseDetails?.course_title}
               className="custom-bar"
             />
@@ -732,92 +742,158 @@ const CourseApplication = () => {
                   nextPageNumber={nextPageNumber}
                   nextPageNumber_={nextPageNumber_}
                   user={user}
+                  page={page}
                   educationalDetails={EducationalDetails}
                   setEducationalDetails={setEducationalDetails}
+                  stepperTitle={stepperTitle}
                 />
               )}
-
-              {(courseDetails?.course_title !== 'Job Ready Program' ||
-                courseDetails?.course_title !== 'Industry Ready Program' ||
-                courseDetails?.course_title !== 'Full Stack Web Development') && (
+              {courseDetails?.course_title === 'Full Stack Web Development' && (
                 <>
                   {page === 2 && (
                     <EntranceTest nextPage={nextPage} course={courseDetails} user={user} />
                   )}
                 </>
               )}
-              {page === 3 && (
+              {courseDetails?.course_title === 'Full Stack Web Development' && (
                 <>
-                  <TestResult
-                    nextPage={nextPage}
-                    testResult={testResults}
-                    application={applicationDetails}
-                    userName={user.displayName}
-                  />
+                  {page === 3 && (
+                    <TestResult
+                      nextPage={nextPage}
+                      testResult={testResults}
+                      application={applicationDetails}
+                      userName={user.displayName}
+                    />
+                  )}
                 </>
               )}
+              <>
+                {courseDetails?.course_title === 'Job Ready Program' ||
+                courseDetails?.course_title === 'Industry Ready Program'
+                  ? page === 2 && (
+                      <ApplicationStatus
+                        nextPage={nextPage}
+                        application={applicationDetails}
+                        courseTitle={courseDetails?.course_title}
+                        selectedBatch={courseDetails?.batchesData?.batch_id}
+                        setOrderData={setOrderData}
+                        nextPageNumber={nextPageNumber}
+                        courseId={courseDetails?.course_id}
+                        worldLineStatus={worldLineStatus}
+                        setWorldLineStatus={setWorldLineStatus}
+                        setSelectedBatch={setSelectedBatch}
+                        setPaymentMethod={setPaymentMethod}
+                        paymentMethod={paymentMethod}
+                      />
+                    )
+                  : page === 4 && (
+                      <ApplicationStatus
+                        nextPage={nextPage}
+                        application={applicationDetails}
+                        courseTitle={courseDetails?.course_title}
+                        selectedBatch={courseDetails?.batchesData?.batch_id}
+                        setOrderData={setOrderData}
+                        nextPageNumber={nextPageNumber}
+                        courseId={courseDetails?.course_id}
+                        worldLineStatus={worldLineStatus}
+                        setWorldLineStatus={setWorldLineStatus}
+                        setSelectedBatch={setSelectedBatch}
+                        setPaymentMethod={setPaymentMethod}
+                        paymentMethod={paymentMethod}
+                      />
+                    )}
+              </>
+              {/* {page === 5 && (
+                <Payments
+                  nextPage={nextPage}
+                  course={courseDetails}
+                  orderData={orderData}
+                  courseTitle={courseDetails?.course_title}
+                  application={applicationDetails}
+                  selectedBatch={courseDetails?.batchesData?.batch_id}
+                  page={page}
+                  worldLineStatus={worldLineStatus}
+                  setWorldLineStatus={setWorldLineStatus}
+                  onPageNumberClick={nextPageNumber}
+                  setApplicationDetails={setApplicationDetails}></Payments>
+              )} */}
 
-              {page === 4 && (
-                <>
-                  <ApplicationStatus
-                    nextPage={nextPage}
-                    application={applicationDetails}
-                    courseTitle={courseDetails?.course_title}
-                    selectedBatch={courseDetails?.batchesData?.batch_id}
-                    setOrderData={setOrderData}
-                    nextPageNumber={nextPageNumber}
-                    courseId={courseDetails?.course_id}
-                    worldLineStatus={worldLineStatus}
-                    setWorldLineStatus={setWorldLineStatus}
-                    setSelectedBatch={setSelectedBatch}></ApplicationStatus>
-                </>
+              {paymentMethod && (page === 2 || page === 5) && (
+                <Payments
+                  nextPage={nextPage}
+                  course={courseDetails}
+                  orderData={orderData}
+                  courseTitle={courseDetails?.course_title}
+                  application={applicationDetails}
+                  selectedBatch={courseDetails?.batchesData?.batch_id}
+                  page={page}
+                  worldLineStatus={worldLineStatus}
+                  setWorldLineStatus={setWorldLineStatus}
+                  onPageNumberClick={nextPageNumber}
+                  setApplicationDetails={setApplicationDetails}></Payments>
               )}
-
-              {page === 5 && (
-                <>
-                  <Payments
-                    nextPage={nextPage}
-                    course={courseDetails}
-                    orderData={orderData}
-                    courseTitle={courseDetails?.course_title}
-                    application={applicationDetails}
-                    selectedBatch={courseDetails?.batchesData?.batch_id}
-                    page={page}
-                    worldLineStatus={worldLineStatus}
-                    setWorldLineStatus={setWorldLineStatus}
-                    onPageNumberClick={nextPageNumber}
-                    setApplicationDetails={setApplicationDetails}></Payments>
-                </>
-              )}
-              {page === 6 && (
-                <>
-                  <KYCDocuments
-                    nextPage={nextPage}
-                    onAllDocumentsSubmitted={handleAllDocumentsSubmitted}
-                    areDocumentsSubmitted={areDocumentsSubmitted}></KYCDocuments>
-                  <Row className="d-flex justify-content-end">
-                    <Button
-                      className="col-1 me-2 btn btn-outline-secondary"
-                      variant="outline-secondary"
-                      type="button">
-                      Cancel
-                    </Button>
-                    <Button
-                      className="col-1"
-                      variant="secondary"
-                      type="button"
-                      onClick={() => nextPage()}
-                      disabled={areDocumentsSubmitted}>
-                      Save
-                    </Button>
-                  </Row>
-                </>
-              )}
-              {page === 7 && (
-                <>
-                  <EnrollmentStatus nextPage={nextPage}></EnrollmentStatus>
-                </>
-              )}
+              {courseDetails?.course_title === 'Job Ready Program' ||
+              courseDetails?.course_title === 'Industry Ready Program'
+                ? page === 3 && (
+                    <>
+                      <KYCDocuments
+                        nextPage={nextPage}
+                        onAllDocumentsSubmitted={handleAllDocumentsSubmitted}
+                        areDocumentsSubmitted={areDocumentsSubmitted}></KYCDocuments>
+                      <Row className="d-flex justify-content-end">
+                        <Button
+                          className="col-1 me-2 btn btn-outline-secondary"
+                          variant="outline-secondary"
+                          type="button">
+                          Cancel
+                        </Button>
+                        <Button
+                          className="col-1"
+                          variant="secondary"
+                          type="button"
+                          onClick={() => nextPage(4)}
+                          disabled={areDocumentsSubmitted}>
+                          Save
+                        </Button>
+                      </Row>
+                    </>
+                  )
+                : page === 6 && (
+                    <>
+                      <KYCDocuments
+                        nextPage={nextPage}
+                        onAllDocumentsSubmitted={handleAllDocumentsSubmitted}
+                        areDocumentsSubmitted={areDocumentsSubmitted}></KYCDocuments>
+                      <Row className="d-flex justify-content-end">
+                        <Button
+                          className="col-1 me-2 btn btn-outline-secondary"
+                          variant="outline-secondary"
+                          type="button">
+                          Cancel
+                        </Button>
+                        <Button
+                          className="col-1"
+                          variant="secondary"
+                          type="button"
+                          onClick={() => nextPage()}
+                          disabled={areDocumentsSubmitted}>
+                          Save
+                        </Button>
+                      </Row>
+                    </>
+                  )}
+              {courseDetails?.course_title === 'Job Ready Program' ||
+              courseDetails?.course_title === 'Industry Ready Program'
+                ? page === 4 && (
+                    <>
+                      <EnrollmentStatus nextPage={nextPage}></EnrollmentStatus>
+                    </>
+                  )
+                : page === 7 && (
+                    <>
+                      <EnrollmentStatus nextPage={nextPage}></EnrollmentStatus>
+                    </>
+                  )}
             </div>
           </div>
         </div>

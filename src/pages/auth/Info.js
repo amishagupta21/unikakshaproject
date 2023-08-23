@@ -293,8 +293,8 @@ const Info = () => {
                                     clearIcon={null}	
                                     name="graduationMonth"
                                     maxDetail="year"
-                                    minDate={new Date('2012-03')}
-                                    maxDate={new Date()}
+                                    minDate={new Date()}
+                                    maxDate={new Date('2030-12-31')}
                                   />                                
                                 </FormGroup>
                               </Row>

@@ -77,7 +77,6 @@ const Payments = (params) => {
           payment_id: paymentResponse.razorpay_payment_id,
           order_id: orderData?.id,
           payment_status: status,
-
         },
       ],
     };
@@ -217,14 +216,26 @@ const Payments = (params) => {
             <p>We have sent you the transaction details on your email and whatsapp.</p>
           </div>
           <div className="m-auto mt-3">
-            <Button
-              size="lg"
-              className="btn-center"
-              variant="secondary"
-              type="button"
-              onClick={() => onStepperClick(6)}>
-              Next
-            </Button>
+            {courseData?.course_title === 'Job Ready Program' ||
+            courseData?.course_title === 'Industry Ready Program' ? (
+              <Button
+                size="lg"
+                className="btn-center"
+                variant="secondary"
+                type="button"
+                onClick={() => onStepperClick(3)}>
+                Next
+              </Button>
+            ) : (
+              <Button
+                size="lg"
+                className="btn-center"
+                variant="secondary"
+                type="button"
+                onClick={() => onStepperClick(6)}>
+                Next
+              </Button>
+            )}
           </div>
         </div>
       </div>
