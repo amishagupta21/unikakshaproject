@@ -24,6 +24,7 @@ const MultiStepBar = ({
   setPage,
   onPageNumberClick_,
 }) => {
+  console.log("courseTitle",courseTitle)
   const hasTakenEntranceTest = status.includes(testResults?.applicationStatus);
 
   const onStepperClick = (page) => {

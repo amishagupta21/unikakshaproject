@@ -301,6 +301,7 @@ const KYCDocuments = ({onAllDocumentsSubmitted}) => {
           file_name: inputFile.name,
           type: inputFile.type,
           document_type: docType,
+          uid:firebase.auth().currentUser.uid
         };
 
         const response = await ApiService('/student/upload-document', `POST`, payload, true);
