@@ -160,7 +160,7 @@ const Signup = () => {
         const email = userSignUpData?.email; // Replace with actual email
 
         Moengage.add_unique_user_id(phoneNumber);
-        Moengage.track_event('Apply_Now_Course_industry_ready', {
+        Moengage.track_event('Sign-Up-Event', {
           name: fullname,
           email: email,
           whatsapp_number: phoneNumber,

@@ -287,6 +287,14 @@ const Login = () => {
     setloading(true);
     dispatch(setLoading(true));
 
+    Moengage.track_event("Log-In-Event", {
+      "Email": email,            // Use the actual email value from form state
+      "PhoneNumber": phoneNumber // Use the actual mobileNumber value from form state
+    });
+    Moengage.add_email(email);
+    Moengage.add_mobile(phoneNumber);
+    Moengage.add_unique_user_id(phoneNumber);
+    
     window.confirmationResult
       .confirm(otp && otp)
 
