@@ -23,20 +23,20 @@ const Homepage = () => {
 
     // data = data['top-courses']?.item;    //for fetching course data --- through firebase
     ///Dev Database course id
-    data = [
-      '28d97f2a-1ff4-47f1-9606-9fbcef394897',
-      '5c95b2e8-9e43-498e-901f-cdefa28096c3',
-      'cfdbeadb-760e-493c-adce-1644727a4c6b',
-      '22d1f637-bfea-4273-b582-3b226872a0ef',
-      '7ba7421a-38ce-4fad-86bc-aba8f2f7a586',
-    ];
+    // data = [
+    //   '28d97f2a-1ff4-47f1-9606-9fbcef394897',
+    //   '5c95b2e8-9e43-498e-901f-cdefa28096c3',
+    //   'cfdbeadb-760e-493c-adce-1644727a4c6b',
+    //   '22d1f637-bfea-4273-b582-3b226872a0ef',
+    //   '7ba7421a-38ce-4fad-86bc-aba8f2f7a586',
+    // ];
 
     // Production Database course id
-    // data = [
-    //   '9c1a1605-1955-4b8b-b4e9-d39ab7aa21d4',
-    //   'cfdbeadb-760e-493c-adce-1644727a4c6b',
-    //   'f33f5b40-9dc2-4b86-b487-db445a0d513e',
-    // ];
+    data = [
+      '9c1a1605-1955-4b8b-b4e9-d39ab7aa21d4',
+      'cfdbeadb-760e-493c-adce-1644727a4c6b',
+      'f33f5b40-9dc2-4b86-b487-db445a0d513e',
+    ];
     // /temporary code
 
     let res = await ApiService('home/top-courses', `POST`, { course_variant_ids: data }, true);
