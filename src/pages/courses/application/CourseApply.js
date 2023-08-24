@@ -336,7 +336,7 @@ const CourseApplication = () => {
 
       case 2:
         setPage(2);
-        setStepperTitleFive('Payment') || setStepperTitle('Payment');
+        setStepperTitle('Payment');
         break;
       case 3:
         setPage(3);
