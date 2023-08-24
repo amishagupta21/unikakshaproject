@@ -124,6 +124,10 @@ const MyCourses = () => {
               <h3 className="text-primary">Course Application</h3>
               {applicationList?.length > 0 ? (
                 applicationList.map((application, idx) => {
+                  var inputString = application?.course_title;
+                  var words = inputString.split(' ');
+                  var courseTitle = words.join('-').toLowerCase();
+
                   return (
                     <Card key={idx} className="p-3 my-3">
                       <div className="d-flex flex-row">
@@ -188,7 +192,9 @@ const MyCourses = () => {
                               variant="secondary"
                               type="button"
                               onClick={() => {
-                                navigate(`/course/apply/${application?.course_id}`);
+                                navigate(
+                                  `/course/apply/${courseTitle}?course_id=${application?.course_id}`
+                                );
                               }}>
                               Complete Application
                             </Button>
@@ -200,7 +206,9 @@ const MyCourses = () => {
                               variant="secondary"
                               type="button"
                               onClick={() => {
-                                navigate(`/course/apply/student/${application?.course_id}`);
+                                navigate(
+                                  `/course/apply/${courseTitle}?course_id=${application?.course_id}`
+                                );
                               }}>
                               Complete Application
                             </Button>
