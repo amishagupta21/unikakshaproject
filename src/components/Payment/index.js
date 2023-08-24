@@ -88,7 +88,7 @@ const Payment = ({
           (
             <div className="container" >
             <div className="row">
-              <div className="col-lg-5">
+              <div className="col-lg-5 mx-auto">
                 <div className="pricing-sec organge-sec">
                   <div className="pricing-sec-white">
                     <div className="pricing-heading">
@@ -209,7 +209,7 @@ const Payment = ({
             (
               <div className="container">
               <div className="row">
-              <div className="col-lg-5">
+              <div className="col-lg-5 mx-auto">
                 <div className="pricing-sec organge-sec">
                   <div className="pricing-sec-white">
                     <div className="pricing-heading">
