@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, Row, Col, InputGroup, FormControl, Button, CardGroup, Form } from 'react-bootstrap';
 import ApiService from '../../../services/ApiService';
 import './paymentPopups.scss';
-
 import { calendar1 } from '../../../assets/images';
-
 const CustomPayment = ({
   toggleCustomPayment,
   nextPage,
@@ -14,27 +12,23 @@ const CustomPayment = ({
   setPaymentMethod,
   setSelectedBatch,
   setCustomPayment,
+  courseTitle
+
 }) => {
   const MIN_AMOUNT = 500;
-
   const [amount, setAmount] = useState();
   const [validationMessage, setValidationMessage] = useState('');
   const [disablePaymentButton, setDisablePaymentButton] = useState(true);
-
   const handleAmountChange = (event) => {
     const input = event.target.value;
-
     const onlyNumbers = input.replace(/[^0-9]/g, '');
     const numberValue = parseInt(onlyNumbers);
-
     setAmount(onlyNumbers);
-
     if (!onlyNumbers) {
       setValidationMessage('');
       setDisablePaymentButton(true);
       return;
     }
-
     if (numberValue < MIN_AMOUNT || numberValue > 50000) {
       setValidationMessage('Amount must be between 500 and 50,000.');
       setDisablePaymentButton(true);
@@ -48,7 +42,6 @@ const CustomPayment = ({
       setValidationMessage('Amount must be greater than or equal to 500.');
       return;
     }
-
     let payload = {
       application_id: application?._id,
       amount: parseInt(amount),
@@ -56,11 +49,11 @@ const CustomPayment = ({
       receipt: (Math.random() + 1).toString(36).substring(7),
     };
     if (
-      courseId === '232c10ed-f4bf-4601-a7ed-14b743ae95d6' ||
-      courseId === 'c5ae492d-5d19-4549-8345-2ca8deb67fc2'
-    ) {
+      courseTitle === 'Industry Ready Program' ||
+      courseTitle === 'Job Ready Program'
+  ) {
       payload.application_id = courseId;
-    }
+  }
     let orderDetails = await ApiService('order/create-order', `POST`, payload, true);
     if (orderDetails?.data?.code === 200) {
       setOrderData(orderDetails.data.data);
@@ -74,7 +67,6 @@ const CustomPayment = ({
   };
   const [batchDate, setBatchDate] = React.useState([]);
   const [eveningBatchDate, setEveningBatchDate] = React.useState([]);
-
   const batchSchedule = async () => {
     const res = await ApiService(`/admin/batch-Schedule/${courseId}`);
     const batchSchedule =
@@ -87,7 +79,6 @@ const CustomPayment = ({
       res?.data?.data?.result[0]?.course_variant_sections?.overview?.batchShedule[1]?.eveningBatch;
     setEveningBatchDate(eveningBatch);
   };
-
   useEffect(() => {
     batchSchedule();
     eveningbatchSchedule();
@@ -164,7 +155,6 @@ const CustomPayment = ({
               </Row>
             </div>
           </div>
-
           <div className="mt-3 model-body model-body-register">
             <Row className="mt-2 nomargin amnt-list">
               <Col md="7 nopadd">
