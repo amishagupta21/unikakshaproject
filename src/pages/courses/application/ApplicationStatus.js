@@ -203,6 +203,7 @@ const ApplicationStatus = ({
                     isPaymentOpen={isPaymentOpen}
                     openPayment={openPayment}
                     setPaymentMethod={setPaymentMethod}
+                    courseTitle={courseTitle}
                   />
                 </>
               ) : (

@@ -53,6 +53,7 @@ const Payment = ({
   setPaymentMethod,
   courseTitle
 }) => {
+  console.log("courseTitle",courseTitle)
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
   const [isPymentAutonomy, setIsPymentAutonomy] = useState(false);
   const [isPymentSynergy, setIsPymentSynergy] = useState(false);

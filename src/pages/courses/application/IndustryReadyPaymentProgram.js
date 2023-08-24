@@ -71,9 +71,9 @@ const IndustryReadyPaymentProgram = ({
     if (orderDetails?.data?.code === 200) {
       setOrderData(orderDetails.data.data);
       setopenpayment(false);
-      if (application?.course_title === 'Industry Ready Program') {
-        nextPage();
-      }
+      // if (application?.course_title === 'Industry Ready Program') {
+      //   nextPage();
+      // }
       setPaymentMethod(true);
     }
   };
