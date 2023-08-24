@@ -58,7 +58,7 @@ const Payment = ({
   const [isPymentSynergy, setIsPymentSynergy] = useState(false);
   const [isPymentIndustryReadyProgram, setPymentIndustryReadyProgram] = useState(false);
   const [isPymentJobReadyProgram, setPymentJobReadyProgram] = useState(false);
-  const [customPayment, setCustomPayment] = useState();
+  const [customPayment, setCustomPayment] = useState(false);
 
   const toggleCustomPayment = () => {
     setCustomPayment(!customPayment);
