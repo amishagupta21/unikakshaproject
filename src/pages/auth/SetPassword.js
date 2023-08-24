@@ -119,6 +119,65 @@ const Signup = () => {
     // }
   };
 
+  const userName = localStorage.getItem('user');
+  // console.log("userName", userName)
+  const userObject = JSON.parse(userName);
+
+  if (userObject.displayName) {
+    const fullName = userObject.displayName;
+    // console.log('Full Name:', fullName);
+  }
+
+  if (userObject.providerData && userObject.providerData[0].phoneNumber) {
+    const phoneNumber = userObject.providerData[0].phoneNumber;
+    // console.log('Phone Number:', phoneNumber);
+  }
+  useEffect(() => {
+    const userName = localStorage.getItem('user');
+    const userObject = JSON.parse(userName);
+
+    let fullname = ''; // Initialize variables
+    let phoneNumber = '';
+
+    if (userObject.displayName) {
+      fullname = userObject.displayName;
+      // console.log('Full Name:', fullname);
+    }
+
+    if (userObject.providerData && userObject.providerData[0].phoneNumber) {
+      phoneNumber = userObject.providerData[0].phoneNumber;
+      // console.log('Phone Number:', phoneNumber);
+    }
+
+    const handleMoengageEvent = (e) => {
+      if (e.detail.name === 'SDK_INITIALIZED') {
+        // alert(e.detail.data);
+      }
+      if (e.detail.name === 'SETTINGS_FETCHED') {
+        // alert(e.detail.data);
+
+        // Use the fullname and phoneNumber obtained from above
+        const email = userSignUpData?.email; // Replace with actual email
+
+        Moengage.add_unique_user_id(phoneNumber);
+        Moengage.track_event('Apply_Now_Course_industry_ready', {
+          name: fullname,
+          email: email,
+          whatsapp_number: phoneNumber,
+        });
+        Moengage.add_user_name(fullname);
+        Moengage.add_email(email);
+        Moengage.add_mobile(phoneNumber);
+      }
+    };
+
+    window.addEventListener('MOE_LIFECYCLE', handleMoengageEvent);
+
+    return () => {
+      window.removeEventListener('MOE_LIFECYCLE', handleMoengageEvent);
+    };
+  }, []);
+
   return (
     <>
       <section className="auth_layout login_screen auth-unikaksha set-password">
@@ -213,7 +272,7 @@ const Signup = () => {
                                   <i className="bi bi-eye-fill"></i>
                                 )}
                               </Button>
-                              </FormGroup>
+                            </FormGroup>
                           </Row>
                         )}
                       />
