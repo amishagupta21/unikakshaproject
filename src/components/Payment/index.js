@@ -51,7 +51,9 @@ const Payment = ({
   nextPageNumber,
   id,
   setPaymentMethod,
+  courseTitle
 }) => {
+  console.log("courseTitle",courseTitle)
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
   const [isPymentAutonomy, setIsPymentAutonomy] = useState(false);
   const [isPymentSynergy, setIsPymentSynergy] = useState(false);
@@ -82,8 +84,9 @@ const Payment = ({
   return (
     <div className="container">
       <div className="row">
-        {courseId === '232c10ed-f4bf-4601-a7ed-14b743ae95d6' ? (
-          <div className="container" style={{ marginLeft: '380px' }}>
+        {courseTitle === 'Industry Ready Program' ?
+          (
+            <div className="container" >
             <div className="row">
               <div className="col-lg-5">
                 <div className="pricing-sec organge-sec">
@@ -200,10 +203,12 @@ const Payment = ({
                 </div>
               </div>
             </div>
-          </div>
-        ) : courseId === 'c5ae492d-5d19-4549-8345-2ca8deb67fc2' ? (
-          <div className="container" style={{ marginLeft: '380px' }}>
-            <div className="row">
+            </div>
+            // </div>
+          ) : courseTitle === 'Job Ready Program' ?
+            (
+              <div className="container">
+              <div className="row">
               <div className="col-lg-5">
                 <div className="pricing-sec organge-sec">
                   <div className="pricing-sec-white">
@@ -589,6 +594,7 @@ const Payment = ({
             orderData={orderData}
             setSelectedBatch={setSelectedBatch}
             id={id}
+            courseTitle={courseTitle}
           />
         )}
         {isPaymentOpen && (
@@ -605,6 +611,7 @@ const Payment = ({
             worldLineStatus={worldLineStatus}
             setSelectedBatch={setSelectedBatch}
             setPaymentMethod={setPaymentMethod}
+            courseTitle={courseTitle}
           />
         )}
         {isPymentAutonomy && (
@@ -621,6 +628,7 @@ const Payment = ({
             worldLineStatus={worldLineStatus}
             setSelectedBatch={setSelectedBatch}
             setPaymentMethod={setPaymentMethod}
+            courseTitle={courseTitle}
           />
         )}
         {isPymentSynergy && (
@@ -637,6 +645,7 @@ const Payment = ({
             worldLineStatus={worldLineStatus}
             setSelectedBatch={setSelectedBatch}
             setPaymentMethod={setPaymentMethod}
+            courseTitle={courseTitle}
           />
         )}
         {isPymentIndustryReadyProgram && (
@@ -653,6 +662,7 @@ const Payment = ({
             worldLineStatus={worldLineStatus}
             setSelectedBatch={setSelectedBatch}
             setPaymentMethod={setPaymentMethod}
+            courseTitle={courseTitle}
           />
         )}
         {isPymentJobReadyProgram && (
@@ -669,6 +679,7 @@ const Payment = ({
             worldLineStatus={worldLineStatus}
             setSelectedBatch={setSelectedBatch}
             setPaymentMethod={setPaymentMethod}
+            courseTitle={courseTitle}
           />
         )}
       </div>
