@@ -41,13 +41,13 @@ const HeroSection = ({ bannerDetails }) => {
                       <p>
                          Next Morning Batch starting
                            <span className="orange">
-                            2023-08-17
+                            2023-09-21
                             {/* {batchStartDate} */}
                           </span>
                       </p>
                       <p>
                          Next Evening Batch starting <span className="orange">
-                         2023-08-17
+                         2023-09-21
                           {/* {batchStartDate} */}
                           </span>
                       </p>
