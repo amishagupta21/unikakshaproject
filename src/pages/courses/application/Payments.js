@@ -81,9 +81,9 @@ const Payments = (params) => {
       ],
     };
     const response = await ApiService('/order/create-payment', `POST`, payload, true);
-    if (response?.data.code === 200) {
-      // nextPage();
-    }
+    // if (response?.data.code === 200) {
+    //   // nextPage();
+    // }
   };
 
   function loadScript(src) {

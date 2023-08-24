@@ -18,6 +18,7 @@ const PaymentPopupAutonomy = ({
   setSelectedBatch,
   setWorldLineStatus,
   worldLineStatus,
+  setPaymentMethod,
   id,
 }) => {
   const [batches, setbatches] = React.useState();
@@ -71,7 +72,10 @@ const PaymentPopupAutonomy = ({
     if (orderDetails?.data?.code === 200) {
       setOrderData(orderDetails.data.data);
       setopenpayment(false);
-      nextPage();
+      setPaymentMethod(true);
+      if (application?.course_title === 'Full Stack Web Development') {
+        nextPage(3);
+      }
     }
   };
 

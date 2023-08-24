@@ -57,7 +57,7 @@ const PaymentPopup = ({
       setOrderData(orderDetails.data.data);
       setopenpayment(false);
       if (application?.course_title === 'Full Stack Web Development') {
-        nextPage();
+        nextPage(3);
       }
       setPaymentMethod(true);
     }
