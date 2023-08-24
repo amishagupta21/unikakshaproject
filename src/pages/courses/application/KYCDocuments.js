@@ -90,7 +90,7 @@ const FieldLabel = ({ label, property, fileName }) => {
   );
 };
 
-const KYCDocuments = ({onAllDocumentsSubmitted}) => {
+const KYCDocuments = ({ onAllDocumentsSubmitted }) => {
   const [panCard, setPanCard] = React.useState({
     placeholder: staticContents.panCardPlaceholder,
     percentage: 0,
@@ -107,7 +107,8 @@ const KYCDocuments = ({onAllDocumentsSubmitted}) => {
     placeholder: staticContents.qcPlaceholder,
     percentage: 0,
   });
-  const [isQualificationCertificateUploaded, setIsQualificationCertificateUploaded] = React.useState(false);
+  const [isQualificationCertificateUploaded, setIsQualificationCertificateUploaded] =
+    React.useState(false);
 
   const [hscCertificate, setHSCCertificate] = React.useState({
     placeholder: staticContents.hscPlaceholder,
@@ -127,28 +128,34 @@ const KYCDocuments = ({onAllDocumentsSubmitted}) => {
     const uid = firebase.auth().currentUser.uid;
     ApiService(`/user/${uid}/detail`, 'GET', {}, true)
       .then((response) => {
-        const result = response.data.data.userProfile.kyc
+        const result = response.data.data.userProfile.kyc;
         setKycDetails(result);
 
-        if(result?.pan_card){
-         setIsPanCardUploaded(true)
+        if (result?.pan_card) {
+          setIsPanCardUploaded(true);
         }
-        if(result?.aadhar_card){
-          setIsAadhaarCardUploaded(true)
-         }
-         if(result?.qualification_certificate){
-          setIsQualificationCertificateUploaded(true)
-         }
-         if(result?.hsc_certificate){
-          setIsHscCertificateUploaded(true)
-         }
-         if(result?.ssc_certificate){
-          setIsSscCertificateUploaded(true)
-         }
+        if (result?.aadhar_card) {
+          setIsAadhaarCardUploaded(true);
+        }
+        if (result?.qualification_certificate) {
+          setIsQualificationCertificateUploaded(true);
+        }
+        if (result?.hsc_certificate) {
+          setIsHscCertificateUploaded(true);
+        }
+        if (result?.ssc_certificate) {
+          setIsSscCertificateUploaded(true);
+        }
 
-          if(result?.pan_card && result?.aadhar_card && result?.qualification_certificate && result?.ssc_certificate && result?.hsc_certificate){
+        if (
+          result?.pan_card &&
+          result?.aadhar_card &&
+          result?.qualification_certificate &&
+          result?.ssc_certificate &&
+          result?.hsc_certificate
+        ) {
           onAllDocumentsSubmitted();
-         }
+        }
       })
       .catch((err) => {});
   };
@@ -200,7 +207,6 @@ const KYCDocuments = ({onAllDocumentsSubmitted}) => {
     );
     window.open(result?.data?.data?.signedUrl);
     dispatch(setLoading(false));
-
   };
 
   const deleteDocument = async (docType) => {
@@ -211,8 +217,8 @@ const KYCDocuments = ({onAllDocumentsSubmitted}) => {
             placeholder: staticContents.panCardPlaceholder,
             percentage: 0,
           });
-          setKycDetails({...kycDetails, pan_card: ''})
-          setIsPanCardUploaded(false)
+          setKycDetails({ ...kycDetails, pan_card: '' });
+          setIsPanCardUploaded(false);
           break;
 
         case 'aadhar_card':
@@ -220,8 +226,8 @@ const KYCDocuments = ({onAllDocumentsSubmitted}) => {
             placeholder: staticContents.aadhaarPlaceholder,
             percentage: 0,
           });
-          setKycDetails({...kycDetails, aadhar_card: ''})
-          setIsAadhaarCardUploaded(false)
+          setKycDetails({ ...kycDetails, aadhar_card: '' });
+          setIsAadhaarCardUploaded(false);
           break;
 
         case 'qualification_certificate':
@@ -229,8 +235,8 @@ const KYCDocuments = ({onAllDocumentsSubmitted}) => {
             placeholder: staticContents.qcPlaceholder,
             percentage: 0,
           });
-          setKycDetails({...kycDetails, qualification_certificate: ''})
-          setIsQualificationCertificateUploaded(false)
+          setKycDetails({ ...kycDetails, qualification_certificate: '' });
+          setIsQualificationCertificateUploaded(false);
           break;
 
         case 'hsc_certificate':
@@ -238,8 +244,8 @@ const KYCDocuments = ({onAllDocumentsSubmitted}) => {
             placeholder: staticContents.hscPlaceholder,
             percentage: 0,
           });
-          setKycDetails({...kycDetails, hsc_certificate: ''})
-          setIsHscCertificateUploaded(false)
+          setKycDetails({ ...kycDetails, hsc_certificate: '' });
+          setIsHscCertificateUploaded(false);
           break;
 
         case 'ssc_certificate':
@@ -247,8 +253,8 @@ const KYCDocuments = ({onAllDocumentsSubmitted}) => {
             placeholder: staticContents.sscPlaceholder,
             percentage: 0,
           });
-          setKycDetails({...kycDetails, ssc_certificate: ''})
-          setIsSscCertificateUploaded(false)
+          setKycDetails({ ...kycDetails, ssc_certificate: '' });
+          setIsSscCertificateUploaded(false);
           break;
 
         default:
@@ -327,24 +333,24 @@ const KYCDocuments = ({onAllDocumentsSubmitted}) => {
     xhr.upload.onload = () => {
       if (docType == 'pan_card') {
         setPanCard((old) => ({ ...old, placeholder: data.name }));
-        setIsPanCardUploaded(true)
-        setKycDetails({...kycDetails, pan_card: data.name})
+        setIsPanCardUploaded(true);
+        setKycDetails({ ...kycDetails, pan_card: data.name });
       } else if (docType == 'aadhar_card') {
         setAadhaarCard((old) => ({ ...old, placeholder: data.name }));
-        setIsAadhaarCardUploaded(true)
-        setKycDetails({...kycDetails, aadhar_card: data.name})
+        setIsAadhaarCardUploaded(true);
+        setKycDetails({ ...kycDetails, aadhar_card: data.name });
       } else if (docType == 'qualification_certificate') {
         setQualificationCertificate((old) => ({ ...old, placeholder: data.name }));
-        setIsQualificationCertificateUploaded(true)
-        setKycDetails({...kycDetails, qualification_certificate: data.name})
+        setIsQualificationCertificateUploaded(true);
+        setKycDetails({ ...kycDetails, qualification_certificate: data.name });
       } else if (docType == 'hsc_certificate') {
         setHSCCertificate((old) => ({ ...old, placeholder: data.name }));
-        setIsHscCertificateUploaded(true)
-        setKycDetails({...kycDetails, hsc_certificate:  data.name})
+        setIsHscCertificateUploaded(true);
+        setKycDetails({ ...kycDetails, hsc_certificate: data.name });
       } else if (docType == 'ssc_certificate') {
         setSSCCertificate((old) => ({ ...old, placeholder: data.name }));
-        setIsSscCertificateUploaded(true)
-        setKycDetails({...kycDetails, ssc_certificate: data.name})
+        setIsSscCertificateUploaded(true);
+        setKycDetails({ ...kycDetails, ssc_certificate: data.name });
       }
 
       // setTimeout(()=>{
@@ -352,12 +358,12 @@ const KYCDocuments = ({onAllDocumentsSubmitted}) => {
       //   //   onAllDocumentsSubmitted();
       //   //  }
       //   console.log(isPanCardUploaded , isAadhaarCardUploaded ,isQualificationCertificateUploaded ,isSscCertificateUploaded , isHscCertificateUploaded);
-      
+
       //    if(isPanCardUploaded && isAadhaarCardUploaded && isQualificationCertificateUploaded && isSscCertificateUploaded && isHscCertificateUploaded){
       //     onAllDocumentsSubmitted();
       //   }
       // },1)
-    
+
       // if(isPanCardUploaded && isAadhaarCardUploaded && isQualificationCertificateUploaded && isSscCertificateUploaded && isHscCertificateUploaded){
       //   onAllDocumentsSubmitted();
       // }
@@ -379,13 +385,25 @@ const KYCDocuments = ({onAllDocumentsSubmitted}) => {
     dispatch(setLoading(false));
   };
 
-  useEffect(()=>{
-    if(isPanCardUploaded && isAadhaarCardUploaded && isQualificationCertificateUploaded && isSscCertificateUploaded && isHscCertificateUploaded){
+  useEffect(() => {
+    if (
+      isPanCardUploaded &&
+      isAadhaarCardUploaded &&
+      isQualificationCertificateUploaded &&
+      isSscCertificateUploaded &&
+      isHscCertificateUploaded
+    ) {
       onAllDocumentsSubmitted(false);
-    }else{
+    } else {
       onAllDocumentsSubmitted(true);
     }
-  },[isPanCardUploaded,isAadhaarCardUploaded,isQualificationCertificateUploaded,isSscCertificateUploaded,isHscCertificateUploaded])
+  }, [
+    isPanCardUploaded,
+    isAadhaarCardUploaded,
+    isQualificationCertificateUploaded,
+    isSscCertificateUploaded,
+    isHscCertificateUploaded,
+  ]);
   return (
     <>
       <div className="my-4">
@@ -397,7 +415,7 @@ const KYCDocuments = ({onAllDocumentsSubmitted}) => {
           <Col>
             <div
               className={`upload-container ${panCard.percentage > 0 ? 'uploading' : ''} ${
-                (panCard.percentage == 100 || kycDetails?.pan_card) ? 'success' : ''
+                panCard.percentage == 100 || kycDetails?.pan_card ? 'success' : ''
               }`}>
               <FieldLabel label="PAN Card" property={panCard} fileName={kycDetails?.pan_card} />
               <div className="upload-btn">
@@ -415,7 +433,7 @@ const KYCDocuments = ({onAllDocumentsSubmitted}) => {
           <Col>
             <div
               className={`upload-container ${aadhaarCard.percentage > 0 ? 'uploading' : ''} ${
-                (aadhaarCard.percentage == 100 || kycDetails?.aadhar_card) ? 'success' : ''
+                aadhaarCard.percentage == 100 || kycDetails?.aadhar_card ? 'success' : ''
               }`}>
               <FieldLabel
                 label="Aadhaar Card"
@@ -438,7 +456,11 @@ const KYCDocuments = ({onAllDocumentsSubmitted}) => {
             <div
               className={`upload-container ${
                 qualificationCertificate.percentage > 0 ? 'uploading' : ''
-              } ${(qualificationCertificate.percentage == 100 || kycDetails?.qualification_certificate) ? 'success' : ''}`}>
+              } ${
+                qualificationCertificate.percentage == 100 || kycDetails?.qualification_certificate
+                  ? 'success'
+                  : ''
+              }`}>
               <FieldLabel
                 label="Latest Qualification Certificate"
                 property={qualificationCertificate}
@@ -462,7 +484,7 @@ const KYCDocuments = ({onAllDocumentsSubmitted}) => {
           <Col md={4}>
             <div
               className={`upload-container ${hscCertificate.percentage > 0 ? 'uploading' : ''} ${
-                (hscCertificate.percentage == 100 || kycDetails?.hsc_certificate) ? 'success' : ''
+                hscCertificate.percentage == 100 || kycDetails?.hsc_certificate ? 'success' : ''
               }`}>
               <FieldLabel
                 label="HSC Certificate"
@@ -484,7 +506,7 @@ const KYCDocuments = ({onAllDocumentsSubmitted}) => {
           <Col md={4}>
             <div
               className={`upload-container ${sscCertificate.percentage > 0 ? 'uploading' : ''} ${
-                (sscCertificate.percentage == 100 || kycDetails?.ssc_certificate) ? 'success' : ''
+                sscCertificate.percentage == 100 || kycDetails?.ssc_certificate ? 'success' : ''
               }`}>
               <FieldLabel
                 label="SSC Certificate"
