@@ -47,7 +47,9 @@ const CourseList = ({ courses, program }) => {
       if (course?.target_audience === '{Learners}') {
         setopenpayment(true);
       } else {
-        navigate(`/course/apply/student/${course.course_url}`, { state: course });
+        navigate(`/course/apply/student/${course.course_url}?course_id=${course?.course_id}`, {
+          state: course,
+        });
       }
     } else {
       if (course?.target_audience === '{Learners}') {

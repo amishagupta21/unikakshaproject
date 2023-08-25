@@ -17,19 +17,29 @@ const Homepage = () => {
   const [topCourses, setTopCourses] = useState([]);
   const [industryReadyProgram, setIndustryReadyProgram] = useState();
   const [jobReadyProgram, setJobReadyProgram] = useState();
+  const [allCourseId, setAllCourseId] = useState([]);
 
-  const fetchCourseDetails = async (data) => {
+  const fetchApi = async () => {
+    const res = await ApiService(`admin/get/cvids`);
+    setAllCourseId(res?.data?.data);
+    if (res?.data?.code === 200) {
+      fetchCourseDetails(res?.data?.data);
+      // const data = localStorage.setItem('allCourseId', JSON.stringify(res?.data?.data));
+    } else {
+    }
+  };
+
+  const fetchCourseDetails = async (data, allCourseId) => {
     dispatch(setLoading(true));
 
-    // data = data['top-courses']?.item;    //for fetching course data --- through firebase
     ///Dev Database course id
-    data = [
-      '28d97f2a-1ff4-47f1-9606-9fbcef394897',
-      '5c95b2e8-9e43-498e-901f-cdefa28096c3',
-      'cfdbeadb-760e-493c-adce-1644727a4c6b',
-      '22d1f637-bfea-4273-b582-3b226872a0ef',
-      '7ba7421a-38ce-4fad-86bc-aba8f2f7a586',
-    ];
+    // data = [
+    //   '28d97f2a-1ff4-47f1-9606-9fbcef394897',
+    //   '5c95b2e8-9e43-498e-901f-cdefa28096c3',
+    //   'cfdbeadb-760e-493c-adce-1644727a4c6b',
+    //   '22d1f637-bfea-4273-b582-3b226872a0ef',
+    //   '7ba7421a-38ce-4fad-86bc-aba8f2f7a586',
+    // ];
 
     // Production Database course id
     // data = [
@@ -42,18 +52,20 @@ const Homepage = () => {
     let res = await ApiService('home/top-courses', `POST`, { course_variant_ids: data }, true);
     if (res?.data?.code === 200) {
       setTopCourses(res?.data?.data?.result);
-      // console.log(JSON.stringify(res?.data?.data?.result))
       setIndustryReadyProgram(res?.data?.data?.result[0]);
       setJobReadyProgram(res?.data?.data?.result[1]);
       dispatch(setLoading(false));
     }
   };
 
+  useEffect(() => {
+    fetchApi();
+  }, []);
+
   const fetchdata = async () => {
     const isFetched = await fetchAndActivate(remoteConfig);
-
-    const temp3 = await getValue(remoteConfig, 'skill_fit_data');
-    const responseData = await JSON.parse(temp3._value);
+    // const temp3 = await getValue(remoteConfig, 'skill_fit_data');
+    // const responseData = await JSON.parse(temp3._value);
     setData(responseData);
     fetchCourseDetails(responseData);
     const uid = JSON.parse(localStorage.getItem('user')).uid;
