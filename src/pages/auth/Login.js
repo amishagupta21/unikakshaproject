@@ -69,7 +69,7 @@ const Login = () => {
         (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signin-container', {
           size: 'invisible',
           callback: (response) => {
-            console.log(response);
+            // console.log(response);
           },
           defaultCountry: 'IN',
         }))
@@ -109,6 +109,7 @@ const Login = () => {
 
   const checkIfUserExists = async (email, phone) => {
     const result = await ApiService('user/check-exists', 'POST', { email, phone }, true);
+    // console.log("res",result.data.data.byPhone.user.fullName)
     if (email === null || email === undefined) {
       return result?.data?.data?.byPhone?.user;
     }
@@ -124,63 +125,86 @@ const Login = () => {
     setAuthError();
     setloading(true);
     dispatch(setLoading(true));
+  
     const { email, password } = values;
-
-    const userisExist = await checkIfUserExists(email, null);
-
-    if (userisExist) {
-      setAuthErrorNotRegistered(false);
-
-      await firebase
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        .then((response) => {
-          const { user } = response.user.multiFactor;
-
-          // firebase.auth().currentUser.updateProfile({ displayName: userisExist?.displayName });
-
-          // var firebaseUser = userCredential.user;
-          setloading(false);
-          dispatch(setLoading(false));
-          dispatch(setIsAuthenticated(true));
-          localStorage.setItem('user', JSON.stringify(user));
-          toast.success('Log in Succesfull', {
-            theme: 'colored',
-          });
-
-          const isBasicInfoExists = getUserBasicInfo(user.uid);
-          if (isBasicInfoExists) {
-            const redirectUrl = searchParams.get('redirect');
-            if (redirectUrl) {
-              navigate(redirectUrl);
+  
+    try {
+      const userisExist = await checkIfUserExists(email, null);
+  
+      if (userisExist) {
+        setAuthErrorNotRegistered(false);
+  
+        await firebase.auth().signInWithEmailAndPassword(email, password)
+          .then(async (response) => {
+            const { user } = response.user.multiFactor;
+  
+            const userData = {
+              "form_name": "Login-In-Event",
+              "email": email
+            };
+  
+            // console.log("userData:____", userData);
+  
+            const result = await ApiService("centralised/create", "POST", userData);
+            const userId = result.data.data._id;
+            const userNameEvent=result.data.data[0].full_name
+            const userNumber=result.data.data[0].whatsapp_number
+            // console.log("result/////", result.data.data[0].whatsapp_number
+            // );
+            // console.log("result", result.data.data._id);
+  
+            setloading(false);
+            dispatch(setLoading(false));
+            dispatch(setIsAuthenticated(true));
+            localStorage.setItem('user', JSON.stringify(user));
+            toast.success('Log in Succesfull', {
+              theme: 'colored',
+            });
+  
+            const isBasicInfoExists = await getUserBasicInfo(user.uid);
+            if (isBasicInfoExists) {
+              const redirectUrl = searchParams.get('redirect');
+              if (redirectUrl) {
+                navigate(redirectUrl);
+              } else {
+                navigate('/dashboard');
+              }
             } else {
-              navigate('/dashboard');
+              navigate('/info');
             }
-          } else {
-            navigate('/info');
-          }
-
-        })
-        .catch((error) => {
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          console.log(errorMessage);
-          // setAuthError('This e-mail is not registered with us. Please sign up.');
-          setAuthErrorNotRegistered(true);
-          setloading(false);
-          dispatch(setLoading(false));
-        });
-
-      // }
-      setloading(false);
-      dispatch(setLoading(false));
-    } else {
-      setAuthErrorNotRegistered(true);
-      // setAuthError('This e-mail is not registered with us. Please sign up.');
+  
+            // MoEngage tracking
+            Moengage.track_event("Log-In-Event", {
+              "FullName": userNameEvent,
+              "Email": email,
+              "PhoneNumber": userNumber,
+            });
+            Moengage.add_user_name(userNameEvent);
+            Moengage.add_email(email);
+            Moengage.add_mobile(userNumber);
+            Moengage.add_unique_user_id(userId);
+  
+          })
+          .catch((error) => {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            console.log(errorMessage);
+            setAuthErrorNotRegistered(true);
+            setloading(false);
+            dispatch(setLoading(false));
+          });
+      } else {
+        setAuthErrorNotRegistered(true);
+        setloading(false);
+        dispatch(setLoading(false));
+      }
+    } catch (error) {
+      console.error("Error:", error);
       setloading(false);
       dispatch(setLoading(false));
     }
   };
+  
 
   const signInWithNumber = async (values) => {
     setAuthError();
@@ -283,18 +307,38 @@ const Login = () => {
       });
   };
 
-  const onSubmitOTP = () => {
+  const onSubmitOTP = async(values) => {
     setloading(true);
     dispatch(setLoading(true));
 
+    const {email} = values;
+   
+    const userData = {
+      // "full_name": values.email,
+      "form_name": "Login-In-Event",
+      // "email": values.email,
+      "whatsapp_number": phoneNumber
+    };
+    // console.log("userData:____", userData);
+    const result = await ApiService("centralised/create", "POST", userData);
+    const userId = result.data.data._id
+    const userNameEvent=result.data.data[0].full_name
+    const userEmail=result.data.data[0].email
+    // console.log("result/////",result.data.data[0].full_name
+    // )
+    
+    // console.log("result",result.data.data._id)
     Moengage.track_event("Log-In-Event", {
-      "Email": email,            // Use the actual email value from form state
+      "FullName": userNameEvent,
+      "Email": userEmail,            // Use the actual email value from form state
       "PhoneNumber": phoneNumber // Use the actual mobileNumber value from form state
     });
-    Moengage.add_email(email);
+    Moengage.add_user_name(userNameEvent);
+    Moengage.add_email(userEmail);
     Moengage.add_mobile(phoneNumber);
-    Moengage.add_unique_user_id(phoneNumber);
+    Moengage.add_unique_user_id(userId);
     
+
     window.confirmationResult
       .confirm(otp && otp)
 
@@ -307,11 +351,7 @@ const Login = () => {
 
           dispatch(setIsAuthenticated(true));
           localStorage.setItem('user', JSON.stringify(user));
-          // localStorage.setItem('unikodeuser', JSON.stringify({
-          //   id: 5364,
-          //   username: "kunalkjk88jndsfj2nbk",
-          //   password: "Kunal@123"
-          // }));
+         
           toast.success('Log in Succesfull', {
             theme: 'colored',
           });
@@ -563,7 +603,7 @@ const Login = () => {
                                   type="button"
                                   variant="secondary"
                                   disabled={!(otp.length === 6) || loading}
-                                  onClick={onSubmitOTP}>
+                                  onClick={()=>onSubmitOTP(values)}>
                                   {loading ? 'Loading...' : 'Log in'}
                                 </Button>
                               </div>
@@ -681,6 +721,7 @@ const Login = () => {
                                   type="submit"
                                   className="btn-secondary"
                                   variant="secondary"
+                                  // onClick={emailUniqueId()}
                                   disabled={!values.email || loading}>
                                   {loading ? 'Loading...' : 'Log in'}
                                 </Button>

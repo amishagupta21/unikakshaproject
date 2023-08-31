@@ -135,6 +135,7 @@ const Signup = () => {
   useEffect(() => {
     const userName = localStorage.getItem('user');
     const userObject = JSON.parse(userName);
+    // console.log("userObject",userObject?.uid)
 
     let fullname = ''; // Initialize variables
     let phoneNumber = '';
@@ -143,12 +144,14 @@ const Signup = () => {
       fullname = userObject.displayName;
       // console.log('Full Name:', fullname);
     }
+   
 
     if (userObject.providerData && userObject.providerData[0].phoneNumber) {
       phoneNumber = userObject.providerData[0].phoneNumber;
       // console.log('Phone Number:', phoneNumber);
     }
-
+    const userId = localStorage.getItem('userId');
+    console.log("userId//////",userId)
     const handleMoengageEvent = (e) => {
       if (e.detail.name === 'SDK_INITIALIZED') {
         // alert(e.detail.data);
@@ -159,7 +162,6 @@ const Signup = () => {
         // Use the fullname and phoneNumber obtained from above
         const email = userSignUpData?.email; // Replace with actual email
 
-        Moengage.add_unique_user_id(phoneNumber);
         Moengage.track_event('Sign-Up-Event', {
           name: fullname,
           email: email,
@@ -168,6 +170,9 @@ const Signup = () => {
         Moengage.add_user_name(fullname);
         Moengage.add_email(email);
         Moengage.add_mobile(phoneNumber);
+        Moengage.add_unique_user_id(userId);
+
+        // Moengage.add_unique_user_id(unique_id);
       }
     };
 

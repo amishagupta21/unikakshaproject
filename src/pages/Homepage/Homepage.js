@@ -105,9 +105,12 @@ const Homepage = () => {
 
     if (userObject.providerData && userObject.providerData[0].phoneNumber) {
       phoneNumber = userObject.providerData[0].phoneNumber;
-      // console.log('Phone Number:', phoneNumber);
+      console.log('Phone Number:', phoneNumber);
     }
-
+    const phoneNumberForMoengage = phoneNumber;
+    console.log("phoneNumberForMoengage",phoneNumberForMoengage)
+    const userId = localStorage.getItem('userId');
+    // console.log("userId//////",userId)
     const handleMoengageEvent = (e) => {
       if (e.detail.name === 'SDK_INITIALIZED') {
         // alert(e.detail.data);
@@ -118,13 +121,13 @@ const Homepage = () => {
         // Use the fullname and phoneNumber obtained from above
         const email = userSignUpData?.email; // Replace with actual email
 
-        Moengage.add_unique_user_id(phoneNumber);
+        Moengage.add_unique_user_id(userId);
         Moengage.track_event('Log-in-Event', {
           email: email,
-          whatsapp_number: phoneNumber,
+          whatsapp_number: phoneNumberForMoengage,
         });
         Moengage.add_email(email);
-        Moengage.add_mobile(phoneNumber);
+        Moengage.add_mobile(phoneNumberForMoengage);
       }
     };
 

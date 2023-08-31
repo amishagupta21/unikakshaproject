@@ -5,7 +5,6 @@ import Loginbanner from '../../../assets/images/img-home-banner.png';
 import ApiService from '../../../services/ApiService';
 
 const HeroSection = ({ bannerDetails }) => {
-  
   const [batchStartDate, setBatchStartDate] = useState('');
 
   useEffect(() => {
