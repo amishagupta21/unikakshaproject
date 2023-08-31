@@ -177,7 +177,12 @@ const CourseApplication = () => {
         nextPageNumber(1);
       } else if (application_stage === 'education_details') {
         nextPageNumber(2);
-      } else if (application_stage === 'test_result') {
+      }
+      // else if (applicationDetails?.m_applicationstatus === 'Assessment Passed' &&
+      //   applicationDetails?.application_stage === 'test_result') {
+      //   nextPageNumber(4);
+      // } 
+      else if (application_stage === 'test_result') {
         nextPageNumber(4);
       } else if (application_stage === 'application_status') {
         nextPageNumber(4);

@@ -153,10 +153,11 @@ const ProfileKYC = ({kycData}) => {
   };
 
   const deleteAPI = async (docType) => {
+    const uid = firebase.auth().currentUser.uid;
     const response = await ApiService(
       '/student/delete-document',
       `DELETE`,
-      { document_type: docType },
+      { document_type: docType, uid: uid },
       true
     );
     return response.data.data.deleted;
@@ -164,10 +165,11 @@ const ProfileKYC = ({kycData}) => {
 
   const viewDocument = async (fileKey) => {
     dispatch(setLoading(true));
+    const uid = firebase.auth().currentUser.uid;
     const result = await ApiService(
       '/student/get-kyc-singed-doc',
       `POST`,
-      { document_type: fileKey },
+      { document_type: fileKey, uid: uid},
       true
     );
     window.open(result?.data?.data?.signedUrl);

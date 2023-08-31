@@ -198,51 +198,120 @@ const Signup = () => {
   };
   // console.log(formData);
 
-  const onSubmitOTP = (e) => {
-    setIsButtonLoading(true);
+  // const onSubmitOTP = async({e,user}) => {
+  //     setIsButtonLoading(true);
 
+  //     e.preventDefault();
+  //     const userData = {
+  //       // "uid": user.uid,
+  //       "form_name": "Sign-Up",
+  //       "fullName": formData.fullName,
+  //       "email": formData.email,
+  //       "phone": `+91${formData?.mobileNumber}`,
+  //     };
+  //     const result = await ApiService(`centralised/create`, `POST`, userData);
+  //     console.log("result",result)
+  //     const { fullName, email, mobileNumber } = formData;
+
+  //     Moengage.track_event("Sign-Up-Event", {
+  //       "FullName": fullName,      // Use the actual fullName value from form state
+  //       "Email": email,            // Use the actual email value from form state
+  //       "PhoneNumber": mobileNumber // Use the actual mobileNumber value from form state
+  //     });
+  //     Moengage.add_user_name(fullName);
+  //     Moengage.add_email(email);
+  //     Moengage.add_mobile(mobileNumber);
+  //     Moengage.add_unique_user_id(mobileNumber);
+
+
+
+
+  //     window.confirmationResult
+  //       .confirm(otp && otp)
+  //       .then(async (response) => {
+  //         setloading(true);
+  //         dispatch(setLoading(true));
+
+
+  //         setIsButtonLoading(false);
+  //         // console.log(response.user);
+  //         if (response.user) {
+  //           setloading(false);
+  //           const { user } = response.user.multiFactor;
+
+  //           firebase.auth().currentUser.updateProfile({ displayName: formData?.fullName });
+  //           createUserIfNotExists(user);
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         // console.log(error);
+  //         // setloading(false);
+  //         // setIsButtonLoading(false);
+  //         setOtpError('Invalid Code!');
+  //       });
+  //   };
+  const onSubmitOTP = async (e) => {
     e.preventDefault();
-    const { fullName, email, mobileNumber } = formData;
 
-    Moengage.track_event("Sign-Up-Event", {
-      "FullName": fullName,      // Use the actual fullName value from form state
-      "Email": email,            // Use the actual email value from form state
-      "PhoneNumber": mobileNumber // Use the actual mobileNumber value from form state
-    });
-    Moengage.add_user_name(fullName);
-    Moengage.add_email(email);
-    Moengage.add_mobile(mobileNumber);
-    Moengage.add_unique_user_id(mobileNumber);
-    
+    try {
+      setIsButtonLoading(true);
 
+      const { fullName, email, mobileNumber } = formData; // Destructure formData here
 
+      const otpResponse_ = await confirmationResult.confirm(otp);
 
-    window.confirmationResult
-      .confirm(otp && otp)
-      .then(async (response) => {
-        setloading(true);
-        dispatch(setLoading(true));
+      const otpUserUid = otpResponse_.user.multiFactor.user.uid;
 
-
-        setIsButtonLoading(false);
-        // console.log(response.user);
-        if (response.user) {
-          setloading(false);
-          const { user } = response.user.multiFactor;
-
-          firebase.auth().currentUser.updateProfile({ displayName: formData?.fullName });
-          createUserIfNotExists(user);
-        }
-      })
-      .catch((error) => {
-        // console.log(error);
-        // setloading(false);
-        // setIsButtonLoading(false);
-        setOtpError('Invalid Code!');
+      const userData = {
+        "form_name": "Sign-Up",
+        "full_name": fullName,
+        "email": email,
+        "whatsapp_number": `+91${mobileNumber}`,
+      };
+      // console.log("userData:", userData);
+      const result = await ApiService("centralised/create", "POST", userData);
+      const userId = result?.data?.data?._id;
+      // console.log("userId", userId);
+      localStorage.setItem('userId', userId);
+      // Track user event using Moengage
+      Moengage.track_event("Sign-Up-Event", {
+        "FullName": fullName,
+        "Email": email,
+        "PhoneNumber": mobileNumber
       });
+
+      // Set user information in Moengage
+
+
+      Moengage.add_user_name(fullName);
+      Moengage.add_email(email);
+      Moengage.add_mobile(mobileNumber);
+      Moengage.add_unique_user_id(userId);
+
+
+      const otpResponse = await window.confirmationResult.confirm(otp); // Confirm OTP
+
+      setloading(true);
+      dispatch(setLoading(true));
+      setIsButtonLoading(false);
+
+      if (otpResponse.user) {
+        setloading(false);
+
+        const { user } = otpResponse.user.multiFactor;
+        await firebase.auth().currentUser.updateProfile({ displayName: fullName });
+        createUserIfNotExists(user);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setIsButtonLoading(false);
+      setOtpError('Invalid Code!');
+    }
   };
 
+
   const createUserIfNotExists = async (user) => {
+    // console.log('user1', user)
     const userData = {
       uid: user.uid,
       fullName: formData.fullName,
@@ -251,6 +320,7 @@ const Signup = () => {
       whatsappoptin: formData?.whatsappoptin,
       countryCode: formData.countryCode,
     };
+    // console.log("user_", userData)
     const result = await ApiService(`user/create`, `POST`, userData);
     // if(result?.data.code === 400){
     //   return true
