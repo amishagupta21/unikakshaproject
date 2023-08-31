@@ -64,8 +64,7 @@ const EducationalDetails = (educationalInfo) => {
 
   const educationalDetails = educationalInfo?.educationalInfo;
   // const workDetails = educationalInfo?.educationalData?.work_details;
-  // console.log(educationalDetails);
-  // console.log(educationalDetails?.work_details);
+  
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -76,7 +75,6 @@ const EducationalDetails = (educationalInfo) => {
   ];
 
   useEffect(() => {
-    // console.log(educationalInfo)
     setInitialData();
   }, [educationalDetails]);
 
@@ -106,7 +104,6 @@ const EducationalDetails = (educationalInfo) => {
     fetchUserDetails(user?.uid);
     // setworkingPositionList(await getWorkingPosition());
     let formData = {};
-    // console.log(educationalDetails?.work_details);
     let educationData = educationalDetails.education_details;
 
     if (educationData) {
@@ -146,7 +143,6 @@ const EducationalDetails = (educationalInfo) => {
         }
       });
     }
-    // console.log(educationalDetails);
     // if (educationalDetails && educationalDetails?.work_details.length) {
     //   formData.position = educationalDetails.work_details[0].position;
     //   formData.organization_name = educationalDetails.work_details[0].organization_name;

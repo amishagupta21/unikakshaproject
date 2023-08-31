@@ -45,7 +45,6 @@ const KYCDocuments = () => {
     const uploadToS3 = (inputFile, docType) => {
        
         if (inputFile) {
-            // console.log(inputFile);
           let promise = new Promise((resolve, reject) => {
             let payload = {
               file_name: inputFile.name,

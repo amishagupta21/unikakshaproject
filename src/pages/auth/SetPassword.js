@@ -120,38 +120,31 @@ const Signup = () => {
   };
 
   const userName = localStorage.getItem('user');
-  // console.log("userName", userName)
   const userObject = JSON.parse(userName);
 
   if (userObject.displayName) {
     const fullName = userObject.displayName;
-    // console.log('Full Name:', fullName);
   }
 
   if (userObject.providerData && userObject.providerData[0].phoneNumber) {
     const phoneNumber = userObject.providerData[0].phoneNumber;
-    // console.log('Phone Number:', phoneNumber);
   }
   useEffect(() => {
     const userName = localStorage.getItem('user');
     const userObject = JSON.parse(userName);
-    // console.log("userObject",userObject?.uid)
 
     let fullname = ''; // Initialize variables
     let phoneNumber = '';
 
     if (userObject.displayName) {
       fullname = userObject.displayName;
-      // console.log('Full Name:', fullname);
     }
    
 
     if (userObject.providerData && userObject.providerData[0].phoneNumber) {
       phoneNumber = userObject.providerData[0].phoneNumber;
-      // console.log('Phone Number:', phoneNumber);
     }
     const userId = localStorage.getItem('userId');
-    console.log("userId//////",userId)
     const handleMoengageEvent = (e) => {
       if (e.detail.name === 'SDK_INITIALIZED') {
         // alert(e.detail.data);

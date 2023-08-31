@@ -109,7 +109,6 @@ const Login = () => {
 
   const checkIfUserExists = async (email, phone) => {
     const result = await ApiService('user/check-exists', 'POST', { email, phone }, true);
-    // console.log("res",result.data.data.byPhone.user.fullName)
     if (email === null || email === undefined) {
       return result?.data?.data?.byPhone?.user;
     }
@@ -143,15 +142,12 @@ const Login = () => {
               "email": email
             };
   
-            // console.log("userData:____", userData);
   
             const result = await ApiService("centralised/create", "POST", userData);
             const userId = result.data.data._id;
             const userNameEvent=result.data.data[0].full_name
             const userNumber=result.data.data[0].whatsapp_number
-            // console.log("result/////", result.data.data[0].whatsapp_number
-            // );
-            // console.log("result", result.data.data._id);
+            
   
             setloading(false);
             dispatch(setLoading(false));
@@ -319,15 +315,11 @@ const Login = () => {
       // "email": values.email,
       "whatsapp_number": phoneNumber
     };
-    // console.log("userData:____", userData);
     const result = await ApiService("centralised/create", "POST", userData);
     const userId = result.data.data._id
     const userNameEvent=result.data.data[0].full_name
     const userEmail=result.data.data[0].email
-    // console.log("result/////",result.data.data[0].full_name
-    // )
-    
-    // console.log("result",result.data.data._id)
+   
     Moengage.track_event("Log-In-Event", {
       "FullName": userNameEvent,
       "Email": userEmail,            // Use the actual email value from form state

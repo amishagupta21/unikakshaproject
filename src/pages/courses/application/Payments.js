@@ -160,7 +160,6 @@ const Payments = (params) => {
       },
     };
 
-    // console.log("option",options)
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
 

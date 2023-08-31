@@ -110,7 +110,6 @@ const Signup = () => {
       { email, phone: `+${phone}` },
       true
     );
-    // console.log("check", JSON.stringify(result.data.data))
     if (result?.data.data.byEmail.user != null || result?.data.data.byPhone.user != null) {
       setAuthError('User already exists with same Email or Phonenumber');
       return true
@@ -154,7 +153,6 @@ const Signup = () => {
     setloading(true);
 
     const userExist = await checkIfUserExists(values.email, `${values.mobileNumber}`);
-    //  console.log(userExist)
     if (!userExist) {
       const appVerifier = configureCaptcha();
       firebase
@@ -268,10 +266,8 @@ const Signup = () => {
         "email": email,
         "whatsapp_number": `+91${mobileNumber}`,
       };
-      // console.log("userData:", userData);
       const result = await ApiService("centralised/create", "POST", userData);
       const userId = result?.data?.data?._id;
-      // console.log("userId", userId);
       localStorage.setItem('userId', userId);
       // Track user event using Moengage
       Moengage.track_event("Sign-Up-Event", {
@@ -311,7 +307,6 @@ const Signup = () => {
 
 
   const createUserIfNotExists = async (user) => {
-    // console.log('user1', user)
     const userData = {
       uid: user.uid,
       fullName: formData.fullName,
@@ -320,7 +315,6 @@ const Signup = () => {
       whatsappoptin: formData?.whatsappoptin,
       countryCode: formData.countryCode,
     };
-    // console.log("user_", userData)
     const result = await ApiService(`user/create`, `POST`, userData);
     // if(result?.data.code === 400){
     //   return true
@@ -330,7 +324,6 @@ const Signup = () => {
 
     localStorage.setItem('user', JSON.stringify(user));
 
-    // console.log(result?.data)
 
     if (result?.data.code === 200) {
       // navigate('/info');
