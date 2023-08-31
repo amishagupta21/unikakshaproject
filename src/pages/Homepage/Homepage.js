@@ -15,8 +15,8 @@ const Homepage = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState({});
   const [topCourses, setTopCourses] = useState([]);
-  const [industryReadyProgram, setIndustryReadyProgram] = useState();
-  const [jobReadyProgram, setJobReadyProgram] = useState();
+  // const [industryReadyProgram, setIndustryReadyProgram] = useState();
+  // const [jobReadyProgram, setJobReadyProgram] = useState();
   const [allCourseId, setAllCourseId] = useState([]);
 
   const fetchApi = async () => {
@@ -29,7 +29,7 @@ const Homepage = () => {
     }
   };
 
-  const fetchCourseDetails = async (data, allCourseId) => {
+  const fetchCourseDetails = async (dataId, allCourseId) => {
     dispatch(setLoading(true));
 
     ///Dev Database course id
@@ -49,11 +49,11 @@ const Homepage = () => {
     // ];
     // /temporary code
 
-    let res = await ApiService('home/top-courses', `POST`, { course_variant_ids: data }, true);
+    let res = await ApiService('home/top-courses', `POST`, { course_variant_ids: dataId }, true);
     if (res?.data?.code === 200) {
       setTopCourses(res?.data?.data?.result);
-      setIndustryReadyProgram(res?.data?.data?.result[0]);
-      setJobReadyProgram(res?.data?.data?.result[1]);
+      // setIndustryReadyProgram(res?.data?.data?.result[0]);
+      // setJobReadyProgram(res?.data?.data?.result[1]);
       dispatch(setLoading(false));
     }
   };
@@ -64,10 +64,10 @@ const Homepage = () => {
 
   const fetchdata = async () => {
     const isFetched = await fetchAndActivate(remoteConfig);
-    // const temp3 = await getValue(remoteConfig, 'skill_fit_data');
-    // const responseData = await JSON.parse(temp3._value);
+    const temp3 = await getValue(remoteConfig, 'skill_fit_data');
+    const responseData = await JSON.parse(temp3._value);
     setData(responseData);
-    fetchCourseDetails(responseData);
+    // fetchCourseDetails(responseData);
     const uid = JSON.parse(localStorage.getItem('user')).uid;
     const response = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
     localStorage.setItem('userData', JSON.stringify(response?.data?.data));
@@ -79,17 +79,14 @@ const Homepage = () => {
     }, 100);
   }, []);
   const userName = localStorage.getItem('user');
-  // console.log("userName", userName)
   const userObject = JSON.parse(userName);
 
   if (userObject.displayName) {
     const fullName = userObject.displayName;
-    // console.log('Full Name:', fullName);
   }
 
   if (userObject.providerData && userObject.providerData[0].phoneNumber) {
     const phoneNumber = userObject.providerData[0].phoneNumber;
-    // console.log('Phone Number:', phoneNumber);
   }
   useEffect(() => {
     const userName = localStorage.getItem('user');
@@ -100,17 +97,13 @@ const Homepage = () => {
 
     if (userObject.displayName) {
       fullname = userObject.displayName;
-      // console.log('Full Name:', fullname);
     }
 
     if (userObject.providerData && userObject.providerData[0].phoneNumber) {
       phoneNumber = userObject.providerData[0].phoneNumber;
-      console.log('Phone Number:', phoneNumber);
     }
     const phoneNumberForMoengage = phoneNumber;
-    console.log("phoneNumberForMoengage",phoneNumberForMoengage)
     const userId = localStorage.getItem('userId');
-    // console.log("userId//////",userId)
     const handleMoengageEvent = (e) => {
       if (e.detail.name === 'SDK_INITIALIZED') {
         // alert(e.detail.data);
@@ -145,8 +138,8 @@ const Homepage = () => {
         <div className="container">
           <CourseList
             courses={topCourses && topCourses}
-            program={industryReadyProgram}
-            jobReady={jobReadyProgram}
+            // program={industryReadyProgram}
+            // jobReady={jobReadyProgram}
           />
           <Placementpartner
             placementPartner={
