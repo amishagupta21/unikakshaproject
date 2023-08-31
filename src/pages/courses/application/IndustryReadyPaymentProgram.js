@@ -22,7 +22,6 @@ const IndustryReadyPaymentProgram = ({
   courseTitle,
   id,
 }) => {
-  console.log("application",courseTitle)
   const [batches, setbatches] = React.useState();
   const [defaultBatch, setDefaultBatch] = React.useState();
   const [batchDate, setBatchDate] = React.useState([]);
@@ -60,10 +59,7 @@ const IndustryReadyPaymentProgram = ({
       currency: 'INR',
       receipt: (Math.random() + 1).toString(36).substring(7),
     };
-    if (
-      courseTitle === 'Industry Ready Program' ||
-      courseTitle === 'Job Ready Program'
-    ) {
+    if (courseTitle === 'Industry Ready Program' || courseTitle === 'Job Ready Program') {
       payload.application_id = courseId;
     }
     let orderDetails = await ApiService('order/create-order', `POST`, payload, true);

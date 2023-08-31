@@ -51,15 +51,14 @@ const Payment = ({
   nextPageNumber,
   id,
   setPaymentMethod,
-  courseTitle
+  courseTitle,
 }) => {
-  console.log("courseTitle",courseTitle)
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
   const [isPymentAutonomy, setIsPymentAutonomy] = useState(false);
   const [isPymentSynergy, setIsPymentSynergy] = useState(false);
   const [isPymentIndustryReadyProgram, setPymentIndustryReadyProgram] = useState(false);
   const [isPymentJobReadyProgram, setPymentJobReadyProgram] = useState(false);
-  const [customPayment, setCustomPayment] = useState();
+  const [customPayment, setCustomPayment] = useState(false);
 
   const toggleCustomPayment = () => {
     setCustomPayment(!customPayment);
@@ -84,9 +83,8 @@ const Payment = ({
   return (
     <div className="container">
       <div className="row">
-        {courseTitle === 'Industry Ready Program' ?
-          (
-            <div className="container" >
+        {courseTitle === 'Industry Ready Program' ? (
+          <div className="container">
             <div className="row">
               <div className="col-lg-5 mx-auto">
                 <div className="pricing-sec organge-sec">
@@ -203,12 +201,11 @@ const Payment = ({
                 </div>
               </div>
             </div>
-            </div>
-            // </div>
-          ) : courseTitle === 'Job Ready Program' ?
-            (
-              <div className="container">
-              <div className="row">
+          </div>
+        ) : // </div>
+        courseTitle === 'Job Ready Program' ? (
+          <div className="container">
+            <div className="row">
               <div className="col-lg-5 mx-auto">
                 <div className="pricing-sec organge-sec">
                   <div className="pricing-sec-white">

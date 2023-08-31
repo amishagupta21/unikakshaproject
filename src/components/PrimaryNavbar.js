@@ -17,7 +17,6 @@ import ApiService from '../services/ApiService';
 import Modal from './Modal';
 
 const PrimaryNavbar = () => {
-
   const [profilePic, setProfilePic] = React.useState();
 
   let isAuth =
@@ -43,9 +42,7 @@ const PrimaryNavbar = () => {
     setUser(JSON.parse(localStorage.getItem('user')));
   }, [isAuth]);
 
-
   const getProfilePic = async () => {
-
     const result = await ApiService(
       '/user/get-profile-picture',
       `POST`,
@@ -89,7 +86,7 @@ const PrimaryNavbar = () => {
             <Nav className="ms-auto nav-customs">
               <Nav.Link href="/dashboard#course_list">Courses</Nav.Link>
               {/* <Nav.Link href="https://unikode.unikaksha.com">Unikode</Nav.Link> */}
-              <Nav.Link href="/redirectToUnikode" >Unikode</Nav.Link>
+              <Nav.Link href="/redirectToUnikode">Unikode</Nav.Link>
               <Nav.Link href="https://www.unikaksha.com/events/">Event & Content</Nav.Link>
               {/* <Nav.Link href="https://pages.razorpay.com/fsd-registration" target='_blank'>Custom Payment</Nav.Link> */}
 
@@ -105,10 +102,11 @@ const PrimaryNavbar = () => {
                 {/* <Nav.Link href="#features" className="notification-link">
                   <img src={Notify} alt="notification" />
                 </Nav.Link> */}
-                <Nav.Link href="#features" className="notification-link"
+                <Nav.Link
+                  href="#features"
+                  className="notification-link"
                   onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                >
+                  onMouseLeave={handleMouseLeave}>
                   <div className="notification-wrapper">
                     <img src={Notify} alt="notification" />
                     {showNotification && <div className="notification-text">Coming soon!</div>}
@@ -117,7 +115,11 @@ const PrimaryNavbar = () => {
                 <Nav.Link className="notification-link-dp">
                   <Dropdown>
                     <Dropdown.Toggle id="dropdown-basic" className="dropdown-design">
-                      <img src={profilePic ? profilePic : profilepic} alt="profile" style={{ width: '50px', height: '50px' }} />
+                      <img
+                        src={profilePic ? profilePic : profilepic}
+                        alt="profile"
+                        style={{ width: '50px', height: '50px' }}
+                      />
                       <span className="avatar-name">{user?.displayName}</span>
                     </Dropdown.Toggle>
 
@@ -146,7 +148,6 @@ const PrimaryNavbar = () => {
         </Container>
       </Navbar>
       {/* {showPopUp ? <Modal cancelHandler={cancelHandler} handler={handler}/> : null} */}
-
     </div>
   );
 };

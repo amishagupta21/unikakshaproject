@@ -4,7 +4,7 @@ import ApiService from '../../../services/ApiService';
 import './paymentPopups.scss';
 import { calendar1 } from '../../../assets/images';
 const CustomPayment = ({
-  toggleCustomPayment,
+  // toggleCustomPayment,
   nextPage,
   setOrderData,
   application,
@@ -12,8 +12,7 @@ const CustomPayment = ({
   setPaymentMethod,
   setSelectedBatch,
   setCustomPayment,
-  courseTitle
-
+  courseTitle,
 }) => {
   const MIN_AMOUNT = 500;
   const [amount, setAmount] = useState();
@@ -37,6 +36,10 @@ const CustomPayment = ({
       setDisablePaymentButton(false);
     }
   };
+
+  const toggleCustomPayment = () => {
+    setCustomPayment(false);
+  };
   const createOrder = async () => {
     if (amount < MIN_AMOUNT) {
       setValidationMessage('Amount must be greater than or equal to 500.');
@@ -48,12 +51,9 @@ const CustomPayment = ({
       currency: 'INR',
       receipt: (Math.random() + 1).toString(36).substring(7),
     };
-    if (
-      courseTitle === 'Industry Ready Program' ||
-      courseTitle === 'Job Ready Program'
-  ) {
+    if (courseTitle === 'Industry Ready Program' || courseTitle === 'Job Ready Program') {
       payload.application_id = courseId;
-  }
+    }
     let orderDetails = await ApiService('order/create-order', `POST`, payload, true);
     if (orderDetails?.data?.code === 200) {
       setOrderData(orderDetails.data.data);
@@ -176,7 +176,7 @@ const CustomPayment = ({
                 className="col-3 me-2 btn btn-outline-secondary"
                 variant="outline-secondary"
                 type="button"
-                onClick={toggleCustomPayment}>
+                onClick={() => toggleCustomPayment()}>
                 Cancel
               </Button>
               <Button

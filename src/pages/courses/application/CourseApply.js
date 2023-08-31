@@ -41,6 +41,7 @@ const steps = [
 const CourseApplication = () => {
   const [page, setPage] = React.useState();
   const [stepperTitle, setStepperTitle] = React.useState('');
+
   const [mobileState, setMobileNumber] = React.useState({ phone: '', data: '' });
   const [whatsAppState, setWhatsAppNumber] = React.useState({ phone: '', data: '' });
   const [genderValue, setGenderValue] = React.useState('');
