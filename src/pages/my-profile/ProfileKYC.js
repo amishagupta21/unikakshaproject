@@ -268,12 +268,14 @@ const ProfileKYC = ({kycData}) => {
 
   const uploadToS3 = (inputFile, docType) => {
     dispatch(setLoading(true));
+    const uid = firebase.auth().currentUser.uid;
     if (inputFile) {
       let promise = new Promise(async (resolve, reject) => {
         let payload = {
           file_name: inputFile.name,
           type: inputFile.type,
           document_type: docType,
+          uid: uid
         };
 
         const response = await ApiService('/student/upload-document', `POST`, payload, true);

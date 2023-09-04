@@ -78,16 +78,7 @@ const Homepage = () => {
       fetchdata();
     }, 100);
   }, []);
-  const userName = localStorage.getItem('user');
-  const userObject = JSON.parse(userName);
 
-  if (userObject.displayName) {
-    const fullName = userObject.displayName;
-  }
-
-  if (userObject.providerData && userObject.providerData[0].phoneNumber) {
-    const phoneNumber = userObject.providerData[0].phoneNumber;
-  }
   useEffect(() => {
     const userName = localStorage.getItem('user');
     const userObject = JSON.parse(userName);
