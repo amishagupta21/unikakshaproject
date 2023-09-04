@@ -325,9 +325,9 @@ const Signup = () => {
 
       const { fullName, email, mobileNumber } = formData; // Destructure formData here
 
-      const otpResponse_ = await confirmationResult.confirm(otp);
+      // const otpResponse_ = await confirmationResult.confirm(otp);
 
-      const otpUserUid = otpResponse_.user.multiFactor.user.uid;
+      // const otpUserUid = otpResponse_.user.multiFactor.user.uid;
 
       const userData = {
         "form_name": "Sign-Up",
