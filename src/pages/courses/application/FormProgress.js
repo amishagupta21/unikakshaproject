@@ -29,7 +29,6 @@ const MultiStepBar = ({
   const onStepperClick = (page) => {
     onPageNumberClick(page);
   };
-
   const jobReadyProgramCourse = 'Job Ready Program';
   const fullStackWebDevelopmentCourse = 'Full Stack Web Development';
   const industryReadyProgram = 'Industry Ready Program';

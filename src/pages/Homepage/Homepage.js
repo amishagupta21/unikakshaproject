@@ -103,7 +103,8 @@ const Homepage = () => {
         // alert(e.detail.data);
 
         // Use the fullname and phoneNumber obtained from above
-        const email = userSignUpData?.email; // Replace with actual email
+        // userSignUpData
+        const email = userObject?.email; // Replace with actual email
 
         Moengage.add_unique_user_id(userId);
         Moengage.track_event('Log-in-Event', {
