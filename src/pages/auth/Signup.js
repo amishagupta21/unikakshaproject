@@ -357,41 +357,43 @@ const Signup = () => {
       const otpResponse = await window.confirmationResult.confirm(otp); // Confirm OTP
 
 
-      const subscriberData = {
-        email: email,
-        name: fullName,
-        status: 'enabled',
-        lists: [11],
-        attribs: {
-          subscription_status: 'confirmed',
-        },
-      };
-      console.log("subscriberData", subscriberData)
-      const username = 'admin'; // Replace with your actual username
-      const password = 'X6FQ5T2pUUI1ACC1'; // Replace with your actual password
-      const authString = `${username}:${password}`;
-      const base64AuthString = btoa(authString);
+      // const subscriberData = {
+      //   email: email,
+      //   name: fullName,
+      //   status: 'enabled',
+      //   lists: [11],
+      //   attribs: {
+      //     subscription_status: 'confirmed',
+      //   },
+      // };
+      // console.log("subscriberData", subscriberData)
+      // const username = 'admin'; // Replace with your actual username
+      // const password = 'X6FQ5T2pUUI1ACC1'; // Replace with your actual password
+      // const authString = `${username}:${password}`;
+      // // console.log("authString",authString)
+      // const base64AuthString = btoa(authString);
+      // // console.log("base64AuthString",base64AuthString)
 
-      // Make a POST request to the subscribers API with Basic Authentication
-      const subscribersApiUrl = 'https://listmonk.codeshastra.com/api/subscribers';
-      const subscribersApiResponse = await fetch(subscribersApiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Basic ${base64AuthString}`, // Include Basic Auth header
-        },
-        body: JSON.stringify(subscriberData),
-      });
+      // // Make a POST request to the subscribers API with Basic Authentication
+      // const subscribersApiUrl = 'https://listmonk.codeshastra.com/api/subscribers';
+      // const subscribersApiResponse = await fetch(subscribersApiUrl, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     'Authorization': `Basic ${base64AuthString}`, // Include Basic Auth header
+      //   },
+      //   body: JSON.stringify(subscriberData),
+      // });
 
-      if (subscribersApiResponse.status === 200) {
-        // The API call was successful
-        console.log('Subscriber added successfully.');
-      } else {
-        // Handle errors here if the API call fails
-        console.error('Failed to add subscriber:', subscribersApiResponse.status, subscribersApiResponse.statusText);
-        setIsButtonLoading(false);
-        setOtpError('Error adding subscriber');
-      }
+      // if (subscribersApiResponse.status === 200) {
+      //   // The API call was successful
+      //   console.log('Subscriber added successfully.');
+      // } else {
+      //   // Handle errors here if the API call fails
+      //   console.error('Failed to add subscriber:', subscribersApiResponse.status, subscribersApiResponse.statusText);
+      //   setIsButtonLoading(false);
+      //   setOtpError('Error adding subscriber');
+      // }
 
 
 
