@@ -178,25 +178,30 @@ const CourseApplication = () => {
       } else if (application_stage === 'education_details') {
         nextPageNumber(2);
       }
-      // else if (applicationDetails?.m_applicationstatus === 'Assessment Passed' &&
-      //   applicationDetails?.application_stage === 'test_result') {
+      // else if (
+      //   applicationDetails?.m_applicationstatus === 'Assessment Passed' &&
+      //   applicationDetails?.application_stage === 'test_result'
+      // ) {
       //   nextPageNumber(4);
-      // } 
+      // }
       else if (application_stage === 'test_result') {
+        nextPageNumber(4);
+      } else if (
+        applicationDetails?.application_stage === 'test_result' ||
+        applicationDetails?.m_applicationstatus === 'Assessment Passed'
+      ) {
         nextPageNumber(4);
       } else if (application_stage === 'application_status') {
         nextPageNumber(4);
-      } else if (
-        application_stage === 'payment_status' &&
-        m_applicationstatus === 'Payment Failed'
-      ) {
-        nextPageNumber(4);
-      } else if (
-        application_stage === 'payment_status' &&
-        m_applicationstatus === 'Payment Successfull'
-      ) {
+      } else if (application_stage === 'payment_status') {
         nextPageNumber(6);
       }
+      // else if (
+      //   application_stage === 'payment_status' ||
+      //   m_applicationstatus === 'Payment Successfull'
+      // ) {
+      //   nextPageNumber(6);
+      // }
     }
   };
 
@@ -757,7 +762,12 @@ const CourseApplication = () => {
               {courseDetails?.course_title === 'Full Stack Web Development' && (
                 <>
                   {page === 2 && (
-                    <EntranceTest nextPage={nextPage} course={courseDetails} user={user} />
+                    <EntranceTest
+                      nextPage={nextPage}
+                      course={courseDetails}
+                      user={user}
+                      nextPageNumber={nextPageNumber}
+                    />
                   )}
                 </>
               )}

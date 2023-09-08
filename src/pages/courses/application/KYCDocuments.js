@@ -125,7 +125,7 @@ const KYCDocuments = ({ onAllDocumentsSubmitted }) => {
   const dispatch = useDispatch();
 
   const fetchInitialData = () => {
-    const uid = firebase.auth().currentUser.uid;
+    const uid = firebase.auth().currentUser?.uid;
     ApiService(`/user/${uid}/detail`, 'GET', {}, true)
       .then((response) => {
         const result = response.data.data.userProfile.kyc;
@@ -309,7 +309,7 @@ const KYCDocuments = ({ onAllDocumentsSubmitted }) => {
           file_name: inputFile.name,
           type: inputFile.type,
           document_type: docType,
-          uid:firebase.auth().currentUser.uid
+          uid: firebase.auth().currentUser.uid,
         };
 
         const response = await ApiService('/student/upload-document', `POST`, payload, true);
