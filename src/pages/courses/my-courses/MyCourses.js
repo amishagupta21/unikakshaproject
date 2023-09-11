@@ -45,11 +45,9 @@ const MyCourses = () => {
     const stepper = data?.data?.[0]?.application_stage;
     courseStepper[stepper] && setStepper(courseStepper[stepper]);
     setApplicationList(data?.data);
-    // console.log("data?.data",data?.data)
   };
 
   const setStepperStage = (stage) => {
-    //return steps.indexOf(stage);
     setPage(pageNumber || 0);
     setStepperTitle(stepperName || '');
   };
@@ -168,6 +166,7 @@ const MyCourses = () => {
                               <MultiStepBar
                                 page={stepper}
                                 application={application?.course_title}
+                                // applicationPage={application?.application_stage}
                               />
                             )}
                             {occupation === 'STUDENT' && (
@@ -183,9 +182,6 @@ const MyCourses = () => {
                         </div>
                       </div>
                       <Card.Footer>
-                        {/* <Button variant='secondary' type="button" onClick={() => nextPage()}>
-                                            Start Learning
-                                        </Button> */}
                         {application?.application_stage !== 'enrollment_status' &&
                           occupation !== 'STUDENT' && (
                             <Button
