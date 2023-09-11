@@ -194,8 +194,18 @@ const CourseApplication = () => {
         nextPageNumber(4);
       } else if (application_stage === 'application_status') {
         nextPageNumber(4);
-      } else if (application_stage === 'payment_status') {
-        nextPageNumber(6) || nextPageNumber(3);
+      } else if (
+        application_stage === 'payment_status' ||
+        m_applicationstatus === 'Full Payment Received'
+      ) {
+        if (
+          courseDetails?.course_title === 'Industry Ready Program' ||
+          courseDetails?.course_title === 'Job Ready Program'
+        ) {
+          nextPageNumber(3);
+        } else {
+          nextPageNumber(6);
+        }
       }
       // else if (
       //   application_stage === 'payment_status' ||
@@ -300,52 +310,67 @@ const CourseApplication = () => {
       case 0:
         setPage(0);
         setStepperTitle('Personal Details');
-        if (courseDetails?.course_title === 'Industry Ready Program' || courseDetails?.course_title === 'Job Ready Program' ) {
+        if (
+          courseDetails?.course_title === 'Industry Ready Program' ||
+          courseDetails?.course_title === 'Job Ready Program'
+        ) {
           setStepperTitle_('Personal Details');
         }
         break;
       case 1:
         setPage(1);
         setStepperTitle('Education & Work Details');
-        if (courseDetails?.course_title === 'Industry Ready Program' || courseDetails?.course_title === 'Job Ready Program') {
+        if (
+          courseDetails?.course_title === 'Industry Ready Program' ||
+          courseDetails?.course_title === 'Job Ready Program'
+        ) {
           setStepperTitle_('Education & Work Details');
         }
         break;
       case 2:
         setPage(2);
         setStepperTitle('Entrance Test');
-        if (courseDetails?.course_title === 'Industry Ready Program' || courseDetails?.course_title === 'Job Ready Program') {
+        if (
+          courseDetails?.course_title === 'Industry Ready Program' ||
+          courseDetails?.course_title === 'Job Ready Program'
+        ) {
           setStepperTitle_('Payment');
         }
         break;
       case 3:
         setPage(3);
         setStepperTitle('Test Result');
-        if (courseDetails?.course_title === 'Industry Ready Program' || courseDetails?.course_title === 'Job Ready Program') {
+        if (
+          courseDetails?.course_title === 'Industry Ready Program' ||
+          courseDetails?.course_title === 'Job Ready Program'
+        ) {
           setStepperTitle_('KYC & Documents');
         }
         break;
       case 4:
         setPage(4);
         setStepperTitle('Application Status');
-        if (courseDetails?.course_title === 'Industry Ready Program' || courseDetails?.course_title === 'Job Ready Program') {
+        if (
+          courseDetails?.course_title === 'Industry Ready Program' ||
+          courseDetails?.course_title === 'Job Ready Program'
+        ) {
           setStepperTitle_('Enrollment Status');
         }
         break;
       case 5:
         setPage(5);
         setStepperTitle('Payment');
-       
+
         break;
       case 6:
         setPage(6);
         setStepperTitle('KYC & Documents');
-      
+
         break;
       case 7:
         setPage(7);
         setStepperTitle('Enrollment Status');
-       
+
         break;
       default:
         setPage(0);
@@ -427,7 +452,12 @@ const CourseApplication = () => {
           <div className="container">
             <div className="d-flex mt-5 back-btn">
               <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
-              <p className="step-header">{courseDetails?.course_title === 'Industry Ready Program'|| courseDetails?.course_title === 'Job Ready Program' ? stepperTitle_ : stepperTitle}</p>
+              <p className="step-header">
+                {courseDetails?.course_title === 'Industry Ready Program' ||
+                courseDetails?.course_title === 'Job Ready Program'
+                  ? stepperTitle_
+                  : stepperTitle}
+              </p>
             </div>
             <MultiStepBar
               page={page}
