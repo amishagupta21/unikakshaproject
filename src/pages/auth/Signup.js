@@ -357,40 +357,40 @@ const Signup = () => {
       const otpResponse = await window.confirmationResult.confirm(otp); // Confirm OTP
 
 
-      const subscriberData = {
-        email: email,
-        name: fullName,
-        status: 'enabled',
-        lists: [11],
-        attribs: {
-          subscription_status: 'confirmed',
-        },
-      };
-      console.log("subscriberData", subscriberData)
-      const username = 'admin'; 
-      const password = 'X6FQ5T2pUUI1ACC1'; 
-      const authString = `${username}:${password}`;
-      console.log("authString",authString)
-      const base64AuthString = btoa(authString);
-      console.log("base64AuthString",base64AuthString)
+      // const subscriberData = {
+      //   email: email,
+      //   name: fullName,
+      //   status: 'enabled',
+      //   lists: [11],
+      //   attribs: {
+      //     subscription_status: 'confirmed',
+      //   },
+      // };
+      // console.log("subscriberData", subscriberData)
+      // const username = 'admin'; 
+      // const password = 'X6FQ5T2pUUI1ACC1'; 
+      // const authString = `${username}:${password}`;
+      // console.log("authString",authString)
+      // const base64AuthString = btoa(authString);
+      // console.log("base64AuthString",base64AuthString)
 
-      const subscribersApiUrl = 'https://listmonk.codeshastra.com/api/subscribers';
-      const subscribersApiResponse = await fetch(subscribersApiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Basic ${base64AuthString}`, 
-        },
-        body: JSON.stringify(subscriberData),
-      });
+      // const subscribersApiUrl = 'https://listmonk.codeshastra.com/api/subscribers';
+      // const subscribersApiResponse = await fetch(subscribersApiUrl, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     'Authorization': `Basic ${base64AuthString}`, 
+      //   },
+      //   body: JSON.stringify(subscriberData),
+      // });
 
-      if (subscribersApiResponse.status === 200) {
-        console.log('Subscriber added successfully.');
-      } else {
-        console.error('Failed to add subscriber:', subscribersApiResponse.status, subscribersApiResponse.statusText);
-        setIsButtonLoading(false);
-        setOtpError('Error adding subscriber');
-      }
+      // if (subscribersApiResponse.status === 200) {
+      //   console.log('Subscriber added successfully.');
+      // } else {
+      //   console.error('Failed to add subscriber:', subscribersApiResponse.status, subscribersApiResponse.statusText);
+      //   setIsButtonLoading(false);
+      //   setOtpError('Error adding subscriber');
+      // }
 
 
 
