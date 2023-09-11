@@ -306,6 +306,9 @@ const EducationDetails = ({
       if (
         applicationDetails?.application_stage === 'test_result' ||
         applicationDetails?.m_applicationstatus === 'Assessment Passed'
+        // ||
+        // applicationDetails?.application_stage === 'payment_status' ||
+        // applicationDetails?.m_applicationstatus === 'Full Payment Received'
       ) {
         nextPageNumber(4);
       } else {
