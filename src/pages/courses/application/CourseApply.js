@@ -195,7 +195,7 @@ const CourseApplication = () => {
       } else if (application_stage === 'application_status') {
         nextPageNumber(4);
       } else if (application_stage === 'payment_status') {
-        nextPageNumber(6);
+        nextPageNumber(6) || nextPageNumber(3);
       }
       // else if (
       //   application_stage === 'payment_status' ||
