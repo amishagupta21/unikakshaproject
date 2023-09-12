@@ -676,10 +676,7 @@ const Login = () => {
                                   </Row>
                                 )}
                               />
-                              <div className="mb-4">
-                                {/* <Link to="/forget-password" className='fp'>
-                                  Forgot Password?</Link> */}
-                              </div>
+
                               {errors.password && touched.password ? (
                                 <div className="error-text">{errors.password}</div>
                               ) : null}
