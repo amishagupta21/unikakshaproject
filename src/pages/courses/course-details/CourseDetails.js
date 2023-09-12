@@ -59,17 +59,18 @@ function CourseDetails() {
   };
   const fetchVariantBatchesfaq = async (course_id) => {
     const res = await ApiService(`courses/${course_id}/faq/list`);
+
     return res?.data?.data;
   };
   const batchSchedule = async (course_id) => {
     const res = await ApiService(`/admin/batch-Schedule/${course_id}`);
-    return res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[0]
+    return res?.data?.data?.result[0]?.course_variant_sections?.overview?.batchShedule[0]
       ?.morningBatch;
   };
 
   const eveningbatchSchedule = async (course_id) => {
     const res = await ApiService(`/admin/batch-Schedule/${course_id}`);
-    return res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[1]
+    return res?.data?.data?.result[0]?.course_variant_sections?.overview?.batchShedule[1]
       ?.eveningBatch;
   };
 
@@ -80,7 +81,7 @@ function CourseDetails() {
         setPromoBanner(e);
       }
     });
-    const variantBatches = await fetchVariantBatches(courseData.course_id);
+    const variantBatches = await fetchVariantBatches(courseData?.course_id);
     setCourseDetails(courseData);
     setVariantCourseBatches(variantBatches);
     const variantBatchesfaq = await fetchVariantBatchesfaq(courseData?.course_id);
@@ -128,7 +129,7 @@ function CourseDetails() {
   ];
 
   const RatingComponent = () => {
-    const ratingInDecimal = courseDetails?.course_variant_sections?.ratings?.value.split('/')[0];
+    const ratingInDecimal = courseDetails?.rating;
     return (
       <Rating
         initialRating={ratingInDecimal}
