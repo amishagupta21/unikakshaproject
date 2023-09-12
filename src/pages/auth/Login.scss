@@ -1,73 +1,68 @@
 .login {
-    .error-text {
-        color: red;
-        font-size: 14px;
-        margin-bottom: 10px !important;
-        margin-top: 10px !important;
-    }
-    .otp-input {
-        margin-top: 15px !important;
-    }
-    .otp-sent {
-        margin-left: 250px;
-        margin-top: -39px;
-        color: #02A74D;
-        background: #FFFFFF;
-        border: 1px solid #02A74D;
-        border-radius: 4px;
-        z-index: 2;
-        position: absolute;
-        width: 85px;
-        height: 34px;
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 500;
-        font-size: 12px;
-        line-height: 14px;
-    }
-    .get-otp-btn {
-        
-        margin-left: 250px;
-        margin-top: -39px;
-        color: #FF7F2E;
-        background: #FFFFFF;
-        border: 1px solid #FF7F2E;
-        border-radius: 4px;
-        z-index: 2;
-        position: absolute;
-        width: 85px;
-        height: 34px;
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 500;
-        font-size: 12px;
-        line-height: 14px;
-    }
-    .fp {
-        margin-left: 235px;
-    }
+  .error-text {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px !important;
+    // margin-top: 10px !important;
+  }
+  .otp-input {
+    margin-top: 15px !important;
+  }
+  .otp-sent {
+    margin-left: 250px;
+    margin-top: -39px;
+    color: #02a74d;
+    background: #ffffff;
+    border: 1px solid #02a74d;
+    border-radius: 4px;
+    z-index: 2;
+    position: absolute;
+    width: 85px;
+    height: 34px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+  }
+  .get-otp-btn {
+    margin-left: 250px;
+    margin-top: -39px;
+    color: #ff7f2e;
+    background: #ffffff;
+    border: 1px solid #ff7f2e;
+    border-radius: 4px;
+    z-index: 2;
+    position: absolute;
+    width: 85px;
+    height: 34px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+  }
+  .fp {
+    margin-left: 235px;
+  }
 }
 
-@media screen and (max-width:767px) {
-
-    .login .get-otp-btn, .login .otp-sent {
-        right: 8px;
-        z-index: 2;
-    }
-    
+@media screen and (max-width: 767px) {
+  .login .get-otp-btn,
+  .login .otp-sent {
+    right: 8px;
+    z-index: 2;
+  }
 }
-
-
 
 p.sml-info {
-    
-    color: #8F8799;
-    font-size: 11px;
-    font-weight: 400;
+  color: #8f8799;
+  font-size: 11px;
+  font-weight: 400;
 }
 
 button.btn-secondary.btn-secondary-out.btn.btn-outline-secondary {
-    background: transparent;
-    color: #EF6B29;
-    font-weight: bold;
+  background: transparent;
+  color: #ef6b29;
+  font-weight: bold;
 }

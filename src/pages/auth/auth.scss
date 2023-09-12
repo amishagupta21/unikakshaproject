@@ -1,4 +1,4 @@
-.edit-phone{
+.edit-phone {
   z-index: 3;
 }
 .log-in-title {
@@ -168,8 +168,8 @@
 }
 
 .password0-toggle {
-  position: absolute;
-  right:  -1%;
+  position: relative;
+  left: 86%;
   top: 73%;
   transform: translateY(-320%);
   border: none;
@@ -359,7 +359,7 @@ select.form-control {
   font-size: 12px;
   line-height: 14px;
 }
-.pencil-login{
+.pencil-login {
   margin-left: 240px;
   margin-top: -45px;
   color: #ff7f2e;
@@ -375,9 +375,8 @@ select.form-control {
   font-weight: 500;
   font-size: 12px;
   line-height: 14px;
-
 }
-.pencil-edit{
+.pencil-edit {
   margin-left: 230px;
   margin-top: -85px;
   color: #ff7f2e;
