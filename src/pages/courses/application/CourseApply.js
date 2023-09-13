@@ -60,6 +60,8 @@ const CourseApplication = () => {
   const [initData, setInitData] = React.useState();
   const [paymentMethod, setPaymentMethod] = React.useState(false);
   const [areDocumentsSubmitted, setAreDocumentsSubmitted] = useState(true);
+  const [step, setStep] = useState(0);
+
   const handleAllDocumentsSubmitted = (state) => {
     setAreDocumentsSubmitted(state);
   };
@@ -411,13 +413,6 @@ const CourseApplication = () => {
   const nextPage = () => {
     const nextPage = page + 1;
     nextPageNumber(nextPage);
-    // if (
-    //   courseDetails?.course_title === 'Job Ready Program' ||
-    //   courseDetails?.course_title === 'Industry Ready Program'
-    // ) {
-    //   const nextPage_ = page + 3;
-    //   nextPageNumber_(nextPage_);
-    // }
   };
 
   const copyFromMobileNumber = (value) => {
@@ -445,13 +440,23 @@ const CourseApplication = () => {
     }
   };
 
+  const onStepperClick = (page) => {
+    nextPageNumber(page);
+  };
+
   return (
     <>
       {!isLoading ? (
         <div className="my-5  course-application  course-application-uii">
           <div className="container">
             <div className="d-flex mt-5 back-btn">
-              <img className="me-2" onClick={() => navigate(-1)} src={arrowBack} alt="back-arrow" />
+              <img
+                className="me-2"
+                // onClick={() => setPage(page - 1)}
+                onClick={() => onStepperClick(page - 1)}
+                src={arrowBack}
+                alt="back-arrow"
+              />
               <p className="step-header">
                 {courseDetails?.course_title === 'Industry Ready Program' ||
                 courseDetails?.course_title === 'Job Ready Program'
@@ -806,6 +811,9 @@ const CourseApplication = () => {
                   educationalDetails={EducationalDetails}
                   setEducationalDetails={setEducationalDetails}
                   stepperTitle={stepperTitle}
+                  setStepperTitle={setStepperTitle}
+                  setPage={setPage}
+                  onStepperClick={onStepperClick}
                 />
               )}
               {courseDetails?.course_title === 'Full Stack Web Development' && (
@@ -909,6 +917,7 @@ const CourseApplication = () => {
                         <Button
                           className="col-1 me-2 btn btn-outline-secondary"
                           variant="outline-secondary"
+                          onClick={() => onStepperClick(2)}
                           type="button">
                           Cancel
                         </Button>
@@ -933,6 +942,7 @@ const CourseApplication = () => {
                         <Button
                           className="col-1 me-2 btn btn-outline-secondary"
                           variant="outline-secondary"
+                          onClick={() => onStepperClick(5)}
                           type="button">
                           Cancel
                         </Button>
