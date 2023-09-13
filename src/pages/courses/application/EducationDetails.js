@@ -55,6 +55,8 @@ const EducationDetails = ({
   changePage,
   stepperTitle,
   page,
+  setPage,
+  onStepperClick,
 }) => {
   const [graduatedYesOrNo, setGraduatedYesOrNo] = React.useState('nill');
   const [yesOrNoLabel, setYesOrNoLabel] = React.useState('');
@@ -319,6 +321,10 @@ const EducationDetails = ({
       // }
     }
   };
+
+  // const prevStep = () => {
+  //   setPage(0);
+  // };
 
   return (
     <div>
@@ -851,7 +857,11 @@ const EducationDetails = ({
             </>
           )}
           <Row className="d-flex justify-content-end my-btn-styles row">
-            <Button className="btn btn-outline-secondary" variant="outline-secondary" type="button">
+            <Button
+              className="btn btn-outline-secondary"
+              onClick={() => onStepperClick(0)}
+              variant="outline-secondary"
+              type="button">
               Cancel
             </Button>
             <Button
