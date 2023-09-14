@@ -17,7 +17,9 @@ const Hand = () => {
 };
 
 const MyCourses = () => {
-  const [userName, setUserName] = React.useState(firebase.auth().currentUser?.displayName);
+  // const [userName, setUserName] = React.useState(firebase.auth()?.currentUser?.displayName);
+  const [userName, setUserName] = React.useState('');
+
   const [applicationList, setApplicationList] = React.useState([]);
   const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
   const [occupation, setOccupation] = React.useState([]);
@@ -39,6 +41,8 @@ const MyCourses = () => {
   ];
   const navigate = useNavigate();
 
+  console.log(firebase.auth()?.currentUser?.displayName, '////////userName');
+
   const fetchInitialData = async (uid) => {
     const response = await ApiService(`/student/application/list?uid=${uid}`, 'GET', {}, true);
     const { data } = response;
@@ -54,7 +58,9 @@ const MyCourses = () => {
 
   const fetchUserDetails = async (uid) => {
     const response = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
+    console.log(response, '///////response');
     setOccupation(response?.data?.data?.userProfile?.occupation);
+    setUserName(response?.data?.data?.user?.fullName);
 
     if (occupation === 'STUDENT') {
       steps = [
