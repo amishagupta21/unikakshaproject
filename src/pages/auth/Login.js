@@ -143,9 +143,9 @@ const Login = () => {
             };
 
             const result = await ApiService('centralised/create', 'POST', userData);
-            const userId = result.data.data._id;
-            const userNameEvent = result.data.data.full_name;
-            const userNumber = result.data.data.whatsapp_number;
+            const userId = result?.data?.data?._id;
+            const userNameEvent = result?.data?.data[0]?.full_name;
+            const userNumber = result?.data?.data[0]?.whatsapp_number;
 
             setloading(false);
             dispatch(setLoading(false));
@@ -311,14 +311,14 @@ const Login = () => {
     };
     const result = await ApiService('centralised/create', 'POST', userData);
     const userId = result?.data?.data?._id;
-    const userNameEvent = result.data.data.full_name;
-   
-    const userEmail = result?.data.data.email;
+    const userNameEvent = result?.data?.data?.full_name;
+
+    const userEmail = result?.data?.data?.email;
 
     Moengage.track_event('Log-In-Event', {
       FullName: userNameEvent,
-      Email: userEmail, 
-      PhoneNumber: phoneNumber, 
+      Email: userEmail,
+      PhoneNumber: phoneNumber,
     });
     Moengage.add_user_name(userNameEvent);
     Moengage.add_email(userEmail);
