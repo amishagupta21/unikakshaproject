@@ -2136,7 +2136,7 @@ a.notification-link-dp.nav-link .dropdown-item img {
   width: 100%;
   height: 5px;
   content: '';
-  left: -65px;
+  /* left: -65px; */
   position: absolute;
 }
 
