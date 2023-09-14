@@ -41,8 +41,6 @@ const MyCourses = () => {
   ];
   const navigate = useNavigate();
 
-  console.log(firebase.auth()?.currentUser?.displayName, '////////userName');
-
   const fetchInitialData = async (uid) => {
     const response = await ApiService(`/student/application/list?uid=${uid}`, 'GET', {}, true);
     const { data } = response;
