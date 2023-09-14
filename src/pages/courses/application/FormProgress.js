@@ -52,7 +52,7 @@ const MultiStepBar = ({
       {(courseTitle === jobReadyProgramCourse ||
         application === jobReadyProgramCourse ||
         (courseTitle || application) === industryReadyProgram) && (
-        <Stepper className="d-flex justify-content-between" activeStep={page}>
+        <Stepper className="d-flex justify-content-between five-stepper" activeStep={page}>
           <Step onClick={() => onStepperClick(0)} label="Personal Details" />
           <Step onClick={() => onStepperClick(1)} label="Education & Work Details" />
           <Step onClick={() => onStepperClick(2)} label="Payment" />
