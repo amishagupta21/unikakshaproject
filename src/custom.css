@@ -2103,10 +2103,10 @@ a.notification-link-dp.nav-link .dropdown-item img {
 .StepContainer-0-2-2:nth-child(7) button.completed:before,
 .StepContainer-0-2-2:nth-child(8) button.completed:before {
   background: #222380;
-  width: 88%;
+  width: 90% !important;
   height: 5px;
   content: '';
-  left: -94px;
+  left: -112px !important;
   position: absolute;
 }
 
@@ -2128,10 +2128,10 @@ a.notification-link-dp.nav-link .dropdown-item img {
 .StepContainer-0-2-2:nth-child(7) button.completed:before,
 .StepContainer-0-2-2:nth-child(8) button.completed:before {
   background: #222380;
-  width: 82%;
+  width: 83%;
   height: 5px;
   content: '';
-  left: -56px;
+  left: -65px;
   position: absolute;
 }
 
