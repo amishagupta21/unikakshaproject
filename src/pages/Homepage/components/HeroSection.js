@@ -3,10 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { Carousel } from 'react-bootstrap';
 import Loginbanner from '../../../assets/images/img-home-banner.png';
 import ApiService from '../../../services/ApiService';
-import { useNavigate } from 'react-router-dom';
+import { json, useNavigate } from 'react-router-dom';
 
 const HeroSection = ({ bannerDetails, courses }) => {
+  // console.log("courses",courses[2].course_id)
   const [batchStartDate, setBatchStartDate] = useState('');
+  const [eveningbatchStartDate, setEveningBatchStartDate] = useState('');
   const [courseData, setcourseData] = React.useState();
   const [occupation, setOccupation] = React.useState([]);
   const navigate = useNavigate();
@@ -15,15 +17,19 @@ const HeroSection = ({ bannerDetails, courses }) => {
   useEffect(() => {
     const fetchBatchStartDate = async () => {
       try {
-        const res = await ApiService(`/admin/next-batch/date`, 'GET', {}, true);
-        const startDate = res?.data?.data[0]?.start_date;
+        const courseId = courses[2].course_id;
+        const res = await ApiService(`/admin/batch-Schedule/${courseId}`, 'GET', {}, true);
+        const startDate = res.data.data.result[0]?.course_variant_sections?.overview?.batchShedule[0]?.morningBatch[0];
+        const startDateEvening = res.data.data.result[0]?.course_variant_sections?.overview?.batchShedule[1]?.eveningBatch[0];
         setBatchStartDate(startDate);
+        setEveningBatchStartDate(startDateEvening)
       } catch (error) {
         console.error('Error fetching batch start date:', error);
       }
     };
     fetchBatchStartDate();
-  }, []);
+  }, [courses]);
+  
   const fetchUserDetails = async (uid) => {
     const response = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
     setOccupation(response?.data?.data?.userProfile?.occupation);
@@ -71,13 +77,13 @@ const HeroSection = ({ bannerDetails, courses }) => {
                       <p>
                         Next Morning Batch starting&nbsp;
                         <span className="orange">
-                          {batchStartDate}
+                        {batchStartDate && batchStartDate.date2 ? batchStartDate.date2 : ''}
                         </span>
                       </p>
                       <p>
                         Next Evening Batch starting&nbsp;
                         <span className="orange">
-                          {batchStartDate}
+                         {eveningbatchStartDate && eveningbatchStartDate.date2 ? eveningbatchStartDate.date2 : ''}
                         </span>
                       </p>
                       {courses?.map((course, idx) => {
