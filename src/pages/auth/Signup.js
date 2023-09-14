@@ -294,64 +294,13 @@ const Signup = () => {
       //   },
       // };
       // console.log("subscriberData", subscriberData)
-
-      
-      // const username = 'admin';
-      // const password = 'X6FQ5T2pUUI1ACC1';
-      // const authString = `${username}:${password}`;
-
-
-      // console.log("authString", authString)
-
-
-      // const base64AuthString = btoa(authString);
-      // console.log("base64AuthString", base64AuthString)
-
-      // const subscribersApiUrl = 'https://listmonk.unikaksha.com/api/subscribers';
-      // const subscribersApiResponse = await fetch(subscribersApiUrl, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     'Authorization': `Basic ${base64AuthString}`,
-      //     'Access-Control-Allow-Origin': '*'
-      //   },
-      //   body: JSON.stringify(subscriberData),
-      // });
-
-      // if (subscribersApiResponse.status === 200) {
-      //   console.log('Subscriber added successfully.');
-      // } else {
-      //   console.error('Failed to add subscriber:', subscribersApiResponse.status, subscribersApiResponse.statusText);
-      //   setIsButtonLoading(false);
-      //   setOtpError('Error adding subscriber');
+      // const listmonkResult = await ApiService("centralised/listmonk", "POST", subscriberData);
+      // console.log("result",listmonkResult)
+      // if (listmonkResult.status !== 200) {
+      //   console.error("Listmonk API Error:", listmonkResult.data);
+      //   throw new Error("Listmonk API Error");
       // }
-
-
-      // const username = 'admin';
-      // const password = 'X6FQ5T2pUUI1ACC1';
-      // const Buffer = require('buffer').Buffer;
-      // const token = Buffer.from(`${username}:${password}`, 'utf8').toString(
-      //   'base64'
-      // );
-      // const postdata = {
-      //   email: 'jszsczxesacasdhfkjhskjamisha43324khsdfjlkjxjif2222@yopmail.com',
-      //   name: 'amisha gupta',
-      //   status: 'enabled',
-      //   lists: [11],
-      //   attribs: {
-      //     subscription_status: 'confirmed',
-      //   },
-      // };
-      // const data = await axios.post(
-      //   'https://listmonk.unikaksha.com/api/subscribers',
-      //   postdata,
-      //   {
-      //     headers: {
-      //       'Authorization':'Basic YWRtaW46WDZGUTVUMnBVVUkxQUNDMQ=='
-      //     },
-      //   }
-      // );
-      // console.log(data);
+    
 
 
 
