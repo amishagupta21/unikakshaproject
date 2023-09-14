@@ -125,7 +125,7 @@ const Homepage = () => {
   return (
     <div className="course-list-api">
       <div className="course-list-api-full">
-        <HeroSection bannerDetails={data?.banner1_configure && data?.banner1_configure} />
+        <HeroSection bannerDetails={data?.banner1_configure && data?.banner1_configure}  courses={topCourses && topCourses} />
 
         <div className="container">
           <CourseList
