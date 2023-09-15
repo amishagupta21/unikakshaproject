@@ -274,7 +274,6 @@ const Signup = () => {
 
       // Set user information in Moengage
 
-
       Moengage.add_user_name(fullName);
       Moengage.add_email(email);
       Moengage.add_mobile(mobileNumber);
@@ -284,26 +283,21 @@ const Signup = () => {
       const otpResponse = await window.confirmationResult.confirm(otp); // Confirm OTP
 
 
-      // const subscriberData = {
-      //   email: email,
-      //   name: fullName,
-      //   status: 'enabled',
-      //   lists: [11],
-      //   attribs: {
-      //     subscription_status: 'confirmed',
-      //   },
-      // };
-      // console.log("subscriberData", subscriberData)
-      // const listmonkResult = await ApiService("centralised/listmonk", "POST", subscriberData);
-      // console.log("result",listmonkResult)
-      // if (listmonkResult.status !== 200) {
-      //   console.error("Listmonk API Error:", listmonkResult.data);
-      //   throw new Error("Listmonk API Error");
-      // }
+      const subscriberData = {
+        email: email,
+        name: fullName,
+        status: 'enabled',
+        lists: [11],
+        attribs: {
+          subscription_status: 'confirmed',
+        },
+      };
+      const listmonkResult = await ApiService("centralised/listmonk", "POST", subscriberData);
+      if (listmonkResult.status !== 200) {
+        console.error("Listmonk API Error:", listmonkResult.data);
+        throw new Error("Listmonk API Error");
+      }
     
-
-
-
       setloading(true);
       dispatch(setLoading(true));
       setIsButtonLoading(false);
