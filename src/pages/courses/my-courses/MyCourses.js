@@ -56,7 +56,6 @@ const MyCourses = () => {
 
   const fetchUserDetails = async (uid) => {
     const response = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
-    console.log(response, '///////response');
     setOccupation(response?.data?.data?.userProfile?.occupation);
     setUserName(response?.data?.data?.user?.fullName);
 

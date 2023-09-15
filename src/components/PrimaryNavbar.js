@@ -23,7 +23,6 @@ const PrimaryNavbar = () => {
     useSelector((state) => state?.auth?.isAuthenticated) ||
     JSON.parse(localStorage.getItem('isAuthenticated'));
   const [user, setUser] = React.useState();
-
   const navigate = useNavigate();
   const path = useLocation().pathname;
   const url = window.location.pathname.split('/').pop();
@@ -41,6 +40,8 @@ const PrimaryNavbar = () => {
     getProfilePic();
     setUser(JSON.parse(localStorage.getItem('user')));
   }, [isAuth]);
+
+  const result = JSON.parse(localStorage.getItem('userData'));
 
   const getProfilePic = async () => {
     const result = await ApiService(
@@ -119,7 +120,9 @@ const PrimaryNavbar = () => {
                         alt="profile"
                         style={{ width: '50px', height: '50px' }}
                       />
-                      <span className="avatar-name">{user?.displayName}</span>
+                      <span className="avatar-name">
+                        {result?.userProfile?.personal_details?.full_name}
+                      </span>
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>

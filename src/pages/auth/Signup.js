@@ -96,11 +96,11 @@ const Signup = () => {
   }, [seconds, minutes]);
 
   const configureCaptcha = () =>
-  (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signup-container', {
-    size: 'invisible',
-    callback: (response) => { },
-    defaultCountry: 'IN',
-  }));
+    (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signup-container', {
+      size: 'invisible',
+      callback: (response) => {},
+      defaultCountry: 'IN',
+    }));
 
   const checkIfUserExists = async (email, phone) => {
     const result = await ApiService(
@@ -243,7 +243,6 @@ const Signup = () => {
   //     });
   // };
 
-
   const onSubmitOTP = async (e) => {
     e.preventDefault();
 
@@ -257,19 +256,19 @@ const Signup = () => {
       // const otpUserUid = otpResponse_.user.multiFactor.user.uid;
 
       const userData = {
-        "form_name": "Sign-Up",
-        "full_name": fullName,
-        "email": email,
-        "whatsapp_number": `+91${mobileNumber}`,
+        form_name: 'Sign-Up',
+        full_name: fullName,
+        email: email,
+        whatsapp_number: `+91${mobileNumber}`,
       };
-      const result = await ApiService("centralised/create", "POST", userData);
+      const result = await ApiService('centralised/create', 'POST', userData);
       const userId = result?.data?.data?._id;
       localStorage.setItem('userId', userId);
       // Track user event using Moengage
-      Moengage.track_event("Sign-Up-Event", {
-        "FullName": fullName,
-        "Email": email,
-        "PhoneNumber": mobileNumber
+      Moengage.track_event('Sign-Up-Event', {
+        FullName: fullName,
+        Email: email,
+        PhoneNumber: mobileNumber,
       });
 
       // Set user information in Moengage
@@ -279,9 +278,7 @@ const Signup = () => {
       Moengage.add_mobile(mobileNumber);
       Moengage.add_unique_user_id(userId);
 
-
       const otpResponse = await window.confirmationResult.confirm(otp); // Confirm OTP
-
 
       const subscriberData = {
         email: email,
@@ -292,12 +289,12 @@ const Signup = () => {
           subscription_status: 'confirmed',
         },
       };
-      const listmonkResult = await ApiService("centralised/listmonk", "POST", subscriberData);
+      const listmonkResult = await ApiService('centralised/listmonk', 'POST', subscriberData);
       if (listmonkResult.status !== 200) {
-        console.error("Listmonk API Error:", listmonkResult.data);
-        throw new Error("Listmonk API Error");
+        console.error('Listmonk API Error:', listmonkResult.data);
+        throw new Error('Listmonk API Error');
       }
-    
+
       setloading(true);
       dispatch(setLoading(true));
       setIsButtonLoading(false);
@@ -309,15 +306,12 @@ const Signup = () => {
         await firebase.auth().currentUser.updateProfile({ displayName: fullName });
         createUserIfNotExists(user);
       }
-
-
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Error:', error);
       setIsButtonLoading(false);
       setOtpError('Invalid Code!');
     }
   };
-
 
   const createUserIfNotExists = async (user) => {
     const userData = {
@@ -335,8 +329,7 @@ const Signup = () => {
     //   return false
     // }
 
-    localStorage.setItem('user', JSON.stringify(user));
-
+    localStorage.setItem('users', JSON.stringify(user));
 
     if (result?.data.code === 200) {
       // navigate('/info');
