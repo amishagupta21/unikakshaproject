@@ -90,10 +90,14 @@ const PersonalDetails = () => {
   const [seconds, setSeconds] = React.useState(0);
   const [isButtonLoading, setIsButtonLoading] = React.useState();
   const [isResendDisabled, setIsResendDisabled] = React.useState(true);
+  const [updateData, setUpdateData] = React.useState([]);
 
   const [authError, setAuthError] = React.useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  // const result = localStorage.setItem('updateData', JSON.stringify(updateData));
+  // console.log(result, '//////////result');
 
   const configureCaptcha = () => {
     return (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
@@ -242,7 +246,13 @@ const PersonalDetails = () => {
     };
 
     const response = await ApiService('student/update-personal-details', `PATCH`, payload, true);
-    // console.log(response)
+    setUpdateData(response?.data?.data);
+
+    const userData = JSON.parse(localStorage.getItem('userData'));
+
+    userData.userProfile = { ...response?.data?.data };
+    localStorage.setItem('userData', JSON.stringify(userData));
+
     // console.log(JSON.stringify(response.data));
     // const checkIfUserExists = async (email, phone) => {
     //   const result = await ApiService(
