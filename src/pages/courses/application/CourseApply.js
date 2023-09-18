@@ -840,6 +840,7 @@ const CourseApplication = () => {
                   )}
                 </>
               )}
+
               <>
                 {courseDetails?.course_title === 'Job Ready Program' ||
                 courseDetails?.course_title === 'Industry Ready Program'
@@ -876,34 +877,41 @@ const CourseApplication = () => {
                       />
                     )}
               </>
-              {/* {page === 5 && (
-                <Payments
-                  nextPage={nextPage}
-                  course={courseDetails}
-                  orderData={orderData}
-                  courseTitle={courseDetails?.course_title}
-                  application={applicationDetails}
-                  selectedBatch={courseDetails?.batchesData?.batch_id}
-                  page={page}
-                  worldLineStatus={worldLineStatus}
-                  setWorldLineStatus={setWorldLineStatus}
-                  onPageNumberClick={nextPageNumber}
-                  setApplicationDetails={setApplicationDetails}></Payments>
-              )} */}
 
-              {paymentMethod && (page === 2 || page === 5) && (
-                <Payments
-                  nextPage={nextPage}
-                  course={courseDetails}
-                  orderData={orderData}
-                  courseTitle={courseDetails?.course_title}
-                  application={applicationDetails}
-                  selectedBatch={courseDetails?.batchesData?.batch_id}
-                  page={page}
-                  worldLineStatus={worldLineStatus}
-                  setWorldLineStatus={setWorldLineStatus}
-                  onPageNumberClick={nextPageNumber}
-                  setApplicationDetails={setApplicationDetails}></Payments>
+              {courseDetails?.course_title === 'Full Stack Web Development' ? (
+                <>
+                  {paymentMethod && page === 5 && (
+                    <Payments
+                      nextPage={nextPage}
+                      course={courseDetails}
+                      orderData={orderData}
+                      courseTitle={courseDetails?.course_title}
+                      application={applicationDetails}
+                      selectedBatch={courseDetails?.batchesData?.batch_id}
+                      page={page}
+                      worldLineStatus={worldLineStatus}
+                      setWorldLineStatus={setWorldLineStatus}
+                      onPageNumberClick={nextPageNumber}
+                      setApplicationDetails={setApplicationDetails}></Payments>
+                  )}
+                </>
+              ) : (
+                <>
+                  {paymentMethod && page === 2 && (
+                    <Payments
+                      nextPage={nextPage}
+                      course={courseDetails}
+                      orderData={orderData}
+                      courseTitle={courseDetails?.course_title}
+                      application={applicationDetails}
+                      selectedBatch={courseDetails?.batchesData?.batch_id}
+                      page={page}
+                      worldLineStatus={worldLineStatus}
+                      setWorldLineStatus={setWorldLineStatus}
+                      onPageNumberClick={nextPageNumber}
+                      setApplicationDetails={setApplicationDetails}></Payments>
+                  )}
+                </>
               )}
               {courseDetails?.course_title === 'Job Ready Program' ||
               courseDetails?.course_title === 'Industry Ready Program'
