@@ -96,11 +96,11 @@ const Signup = () => {
   }, [seconds, minutes]);
 
   const configureCaptcha = () =>
-    (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signup-container', {
-      size: 'invisible',
-      callback: (response) => {},
-      defaultCountry: 'IN',
-    }));
+  (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('signup-container', {
+    size: 'invisible',
+    callback: (response) => { },
+    defaultCountry: 'IN',
+  }));
 
   const checkIfUserExists = async (email, phone) => {
     const result = await ApiService(
@@ -563,7 +563,16 @@ const Signup = () => {
                         <div className="error-text invalid-otp">{authError}</div>
                       </>
                     )}
-
+                    <label className="mb-3 mt-3 custom-check-lable">
+                      <input
+                        className="me-2"
+                        type="checkbox"
+                        name="whatsappoptin"
+                        defaultChecked={values.whatsappoptin}
+                      />
+                      {/* <Field className="me-2" type="checkbox" name="whatsappoptin" /> */}
+                      <span>Yes, I would like to subscribe for newsletter.</span>
+                    </label>
                     <label className="mb-3 mt-3 custom-check-lable">
                       <input
                         className="me-2"
