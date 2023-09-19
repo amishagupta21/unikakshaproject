@@ -190,8 +190,8 @@ const CourseApplication = () => {
       else if (application_stage === 'test_result') {
         nextPageNumber(4);
       } else if (
-        applicationDetails?.application_stage === 'test_result' ||
-        applicationDetails?.m_applicationstatus === 'Assessment Passed'
+       application_stage === 'test_result' ||
+       m_applicationstatus === 'Assessment Passed'
       ) {
         nextPageNumber(4);
       } else if (application_stage === 'application_status') {
@@ -803,6 +803,7 @@ const CourseApplication = () => {
                   nextPage={nextPage}
                   course={courseDetails}
                   courseTitle={courseDetails?.course_title}
+                  courseId={courseDetails?.course_id}
                   applicationDetails={applicationDetails}
                   nextPageNumber={nextPageNumber}
                   nextPageNumber_={nextPageNumber_}
