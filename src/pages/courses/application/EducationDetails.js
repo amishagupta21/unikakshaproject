@@ -148,10 +148,11 @@ const EducationDetails = ({
     ) {
       nextPageNumber(4);
     }
-    // else {
-    //   // Navigate to the appropriate page if the condition is not met
+    else {
+      // Navigate to the appropriate page if the condition is not met
     //  nextPageNumber(4);
-    // }
+     nextPage();
+    }
   }
 
   const formik = useFormik({
@@ -294,12 +295,12 @@ const EducationDetails = ({
 
 
 
-      // if (
-      //   applicationDetails?.m_applicationstatus === 'Assessment Passed' &&
-      //   applicationDetails?.application_stage === 'test_result'
-      // ) {
-      //   nextPageNumber(4);
-      // }
+      if (
+        applicationDetails?.m_applicationstatus === 'Assessment Passed' &&
+        applicationDetails?.application_stage === 'test_result'
+      ) {
+        nextPageNumber(4);
+      }
 
       // Check for specific conditions after the data submission
       // if (courseTitle === 'Industry Ready Program' || courseTitle === 'Job Ready Program') {
@@ -342,14 +343,15 @@ const EducationDetails = ({
       // }
       // else {
 
-      if (
-        applicationDetails?.data?.data?.application?.application_stage === 'test_result' ||
-        applicationDetails?.data?.data?.application?.m_applicationstatus === 'Assessment Passed'
-      ) {
-        nextPageNumber(4); // Navigate to page 4
-      } else {
-        nextPage();
-      }
+      // if (
+      //   applicationDetails?.data?.data?.application?.application_stage === 'test_result' ||
+      //   applicationDetails?.data?.data?.application?.m_applicationstatus === 'Assessment Passed'
+      // ) {
+      //   nextPageNumber(4); // Navigate to page 4
+      // } else {
+      //   // nextPageNumber(4);
+      //   nextPage();
+      // }
 
       // nextPageNumber(4);
       // }
