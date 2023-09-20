@@ -259,6 +259,7 @@ const Signup = () => {
                                 value={field.value}
                                 onChange={field.onChange}
                               />
+                              <div className='eye-icon'>
                               <Button
                                 variant="outline-secondary"
                                 className="password-toggle"
@@ -270,6 +271,7 @@ const Signup = () => {
                                   <i className="bi bi-eye-fill"></i>
                                 )}
                               </Button>
+                              </div>
                             </FormGroup>
                           </Row>
                         )}
@@ -296,6 +298,7 @@ const Signup = () => {
                                 value={field.value}
                                 onChange={field.onChange}
                               />
+                               <div className='eye-icon'>
                               <Button
                                 variant="outline-secondary"
                                 className="password2-toggle"
@@ -307,6 +310,7 @@ const Signup = () => {
                                   <i className="bi bi-eye-fill"></i>
                                 )}
                               </Button>
+                              </div>
                             </FormGroup>
                           </Row>
                         )}
