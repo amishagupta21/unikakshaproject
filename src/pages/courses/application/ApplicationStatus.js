@@ -47,6 +47,7 @@ const ApplicationStatus = ({
   setPaymentMethod,
   id,
   paymentMethod,
+  page,
 }) => {
   const dispatch = useDispatch();
   const [status, setStatus] = useState();
@@ -118,6 +119,45 @@ const ApplicationStatus = ({
 
   return (
     <>
+      {courseTitle === 'Industry Ready Program' || courseTitle === 'Job Ready Program'
+        ? !paymentMethod
+        : paymentMethod && (
+            <div>
+              <div className="d-flex align-items-center justify-content-center">
+                <div>
+                  <div className="d-flex align-items-center justify-content-center">
+                    {status === 'approved' && <img src={badge} className="me-3"></img>}
+                    <h3 className="text-primary text-center header mt-2 mb-4 sml-head">
+                      {statusContent?.header}
+                    </h3>
+                  </div>
+                  <div className="mt-2 mb-4 d-flex align-items-center justify-content-center">
+                    <img src={statusContent?.imgContent} className="img-fluid"></img>
+                  </div>
+                  <div className={`my-2 content-box ${status}`}>
+                    <p className="text-primary text-center message1">{statusContent?.message1}</p>
+                    <p className="text-primary text-center message2">{statusContent?.message2}</p>
+                    <p className="text-primary text-center message3">{statusContent?.message3}</p>
+                  </div>
+                </div>
+              </div>
+              {status === 'approved' && (
+                <div className="m-auto mt-3">
+                  <Button
+                    size="lg"
+                    className="btn-center"
+                    variant="secondary"
+                    type="button"
+                    onClick={() => {
+                      openModal();
+                    }}>
+                    Next
+                  </Button>
+                </div>
+              )}
+            </div>
+          )}
+
       {application?.course_title === 'Full Stack Web Development' ? (
         <>
           {isModalOpen ||
