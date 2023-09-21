@@ -76,45 +76,78 @@ const PaymentPopup = ({
     batchSchedule();
     eveningbatchSchedule();
   }, []);
-  const getBatches = () => {
-    const items = batchDate?.map((element, index) => {
-      return (
-        <Col key={index} sm={3}>
-          <Card className="batch-card-style">
-            <Card.Body className="text-left-align">
-              <h6 className="font-color text-left-align mtb5"> Starts From </h6>
-              <p>
-                <img src={calendar1} alt="Calendar" className="calendar-icon" />
-                <span className="text-left-align mtb5">{element?.date1}</span>
-                <span className="text-left-align mtb5">{element?.date2}</span>
-                <span className="text-left-align mtb5">{element?.date3}</span>
-              </p>
-            </Card.Body>
-          </Card>
-        </Col>
-      );
+
+  const [selectedMorningCheckboxes, setSelectedMorningCheckboxes] = React.useState([]); 
+  const [selectedEveningCheckboxes, setSelectedEveningCheckboxes] = React.useState([]);
+
+ 
+  const handleMorningCheckboxChange = (index) => {
+    setSelectedMorningCheckboxes((prevState) => {
+      if (prevState.includes(index)) {
+      
+        return prevState.filter((i) => i !== index);
+      } else {
+      
+        return [...prevState, index];
+      }
     });
-    return items;
+  };
+
+ 
+  const handleEveningCheckboxChange = (index) => {
+    setSelectedEveningCheckboxes((prevState) => {
+      if (prevState.includes(index)) {
+        return prevState.filter((i) => i !== index);
+      } else {
+        return [...prevState, index];
+      }
+    });
+  };
+  const getBatches = () => {
+    return batchDate.map((element, index) => (
+      <Col key={index} sm={3}>
+        <Card className="batch-card-style">
+          <Card.Body className="text-left-align">
+            <h6 className="font-color text-left-align mtb5"> Starts From </h6>
+            <input
+              type="checkbox"
+              onChange={() => handleMorningCheckboxChange(index)} 
+              checked={selectedMorningCheckboxes.includes(index)} 
+            />
+            <p>
+              <img src={calendar1} alt="Calendar" className="calendar-icon" />
+              <span className="text-left-align mtb5">{element?.date1}</span>
+              <span className="text-left-align mtb5">{element?.date2}</span>
+              <span className="text-left-align mtb5">{element?.date3}</span>
+            </p>
+          
+          </Card.Body>
+        </Card>
+      </Col>
+    ));
   };
   const getEveningBatches = () => {
-    const items = eveningBatchDate?.map((element, index) => {
-      return (
-        <Col key={index} sm={3}>
-          <Card className="batch-card-style">
-            <Card.Body className="text-left-align">
-              <h6 className="font-color text-left-align mtb5"> Starts From </h6>
-              <p>
-                <img src={calendar1} alt="Calendar" className="calendar-icon" />
-                <span className="text-left-align mtb5">{element?.date1}</span>
-                <span className="text-left-align mtb5">{element?.date2}</span>
-                <span className="text-left-align mtb5">{element?.date3}</span>
-              </p>
-            </Card.Body>
-          </Card>
-        </Col>
-      );
-    });
-    return items;
+    return eveningBatchDate.map((element, index) => (
+      <Col key={index} sm={3}>
+        <Card className="batch-card-style">
+          <Card.Body className="text-left-align">
+            <h6 className="font-color text-left-align mtb5"> Starts From </h6>
+            <input
+              type="checkbox"
+              onChange={() => handleEveningCheckboxChange(index)} 
+              checked={selectedEveningCheckboxes.includes(index)} 
+            />
+            <p>
+              <img src={calendar1} alt="Calendar" className="calendar-icon" />
+              <span className="text-left-align mtb5">{element?.date1}</span>
+              <span className="text-left-align mtb5">{element?.date2}</span>
+              <span className="text-left-align mtb5">{element?.date3}</span>
+            </p>
+           
+          </Card.Body>
+        </Card>
+      </Col>
+    ));
   };
   return (
     <>
@@ -202,7 +235,11 @@ const PaymentPopup = ({
                     className="col-3"
                     variant="secondary"
                     type="button"
-                    onClick={() => createOrder()}>
+                    onClick={() => createOrder()}
+                    disabled={
+                      !selectedMorningCheckboxes.length &&
+                      !selectedEveningCheckboxes.length
+                    }>
                     Next
                   </Button>
                 </Row>

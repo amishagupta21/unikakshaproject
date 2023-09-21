@@ -6,7 +6,6 @@ import ApiService from '../../../services/ApiService';
 import { json, useNavigate } from 'react-router-dom';
 
 const HeroSection = ({ bannerDetails, courses }) => {
-  // console.log("courses",courses[2].course_id)
   const [batchStartDate, setBatchStartDate] = useState('');
   const [eveningbatchStartDate, setEveningBatchStartDate] = useState('');
   const [courseData, setcourseData] = React.useState();
@@ -17,12 +16,19 @@ const HeroSection = ({ bannerDetails, courses }) => {
   useEffect(() => {
     const fetchBatchStartDate = async () => {
       try {
-        const courseId = courses[2].course_id;
-        const res = await ApiService(`/admin/batch-Schedule/${courseId}`, 'GET', {}, true);
-        const startDate = res.data.data.result[0]?.course_variant_sections?.overview?.batchShedule[0]?.morningBatch[0];
-        const startDateEvening = res.data.data.result[0]?.course_variant_sections?.overview?.batchShedule[1]?.eveningBatch[0];
-        setBatchStartDate(startDate);
-        setEveningBatchStartDate(startDateEvening)
+        const fullStackCourse = courses.find(course => course.course_title === "Full Stack Web Development");
+  
+        if (fullStackCourse) {
+          const courseId = fullStackCourse.course_id;
+          const res = await ApiService(`/admin/batch-Schedule/${courseId}`, 'GET', {}, true);
+          const startDate = res.data.data.result[0]?.course_variant_sections?.overview?.batchShedule[0]?.morningBatch[1].date3;
+          const startDateEvening = res.data.data.result[0]?.course_variant_sections?.overview?.batchShedule[1]?.eveningBatch[1].date3;
+  
+          setBatchStartDate(startDate);
+          setEveningBatchStartDate(startDateEvening);
+        } else {
+          console.error('Full Stack Web Development course not found in courses data.');
+        }
       } catch (error) {
         console.error('Error fetching batch start date:', error);
       }
@@ -77,13 +83,13 @@ const HeroSection = ({ bannerDetails, courses }) => {
                       <p>
                         Next Morning Batch starting&nbsp;
                         <span className="orange">
-                        {batchStartDate && batchStartDate.date2 ? batchStartDate.date2 : ''}
+                        {batchStartDate }
                         </span>
                       </p>
                       <p>
                         Next Evening Batch starting&nbsp;
                         <span className="orange">
-                         {eveningbatchStartDate && eveningbatchStartDate.date2 ? eveningbatchStartDate.date2 : ''}
+                         {eveningbatchStartDate }
                         </span>
                       </p>
                       {courses?.map((course, idx) => {
