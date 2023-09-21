@@ -4,6 +4,7 @@ import { bannerLogoSvg, PaymentFailure, SuccessTick } from '../../../assets/imag
 import ApiService from '../../../services/ApiService';
 import './Payments.scss';
 import { useNavigate } from 'react-router-dom';
+import { badge, engineeringTeam } from '../../../assets/images';
 
 const Payments = (params) => {
   const [paymentResponse, setpaymentResponse] = React.useState();
@@ -184,60 +185,88 @@ const Payments = (params) => {
     onPageNumberClick(page);
   };
 
+  const applicationStatus = {
+    header: 'Payment Under Review!',
+    imgContent: engineeringTeam,
+    message1: 'Your payment is being reviewed by our team.',
+    message2: 'The review process usually takes around 1-2 hours.',
+    message3: 'You may get a call from our team members for further assistance.',
+  };
+
   const getPaymentSuccess = () => {
     return (
-      <div className="d-flex align-items-center justify-content-center pay-align">
-        <div>
-          <div className="mt-2 mb-4 d-flex align-items-center justify-content-center">
-            <img src={SuccessTick}></img>
+      <>
+        {/* <div className="d-flex align-items-center justify-content-center">
+          <div>
+            <div className="d-flex align-items-center justify-content-center">
+              <img src={badge} className="me-3"></img>
+              <h3 className="text-primary text-center header mt-2 mb-4 sml-head">
+                {applicationStatus?.header}
+              </h3>
+            </div>
+            <div className="mt-2 mb-4 d-flex align-items-center justify-content-center">
+              <img src={applicationStatus?.imgContent} className="img-fluid"></img>
+            </div>
+            <div className={`my-2 content-box ${status}`}>
+              <p className="text-primary text-center message1">{applicationStatus?.message1}</p>
+              <p className="text-primary text-center message2">{applicationStatus?.message2}</p>
+              <p className="text-primary text-center message3">{applicationStatus?.message3}</p>
+            </div>
           </div>
-          <h3 className="payment-text text-center header mt-2 mb-4 ">Payment Successful!</h3>
-          <div className="content-box">
-            <p className="text-primary text-center message1"> Transaction details</p>
-            <p className="text-primary text-center message2">
-              Transaction number : {paymentResponse?.razorpay_payment_id}
-            </p>
-            <p className="text-primary text-center message3">
-              Transaction Time : {getCurrentDateTime()}
-            </p>
-            <p className="text-primary text-center message1"> Course details</p>
-            <p className="text-primary text-center message2">
-              Batch name: {courseData?.course_title}
-            </p>
-            <p className="text-primary text-center message3">
-              Batch type : {courseData?.variant_name}
-            </p>
-            <p className="text-primary text-center message3">
-              Batch Time : {convertDate(selectedBatch?.start_date)}
-            </p>
-          </div>
-          <div className="mt-5 d-flex align-items-center justify-content-center footer-content">
-            <p>We have sent you the transaction details on your email and whatsapp.</p>
-          </div>
-          <div className="m-auto mt-3">
-            {courseData?.course_title === 'Job Ready Program' ||
-            courseData?.course_title === 'Industry Ready Program' ? (
-              <Button
-                size="lg"
-                className="btn-center"
-                variant="secondary"
-                type="button"
-                onClick={() => onStepperClick(3)}>
-                Next
-              </Button>
-            ) : (
-              <Button
-                size="lg"
-                className="btn-center"
-                variant="secondary"
-                type="button"
-                onClick={() => onStepperClick(6)}>
-                Next
-              </Button>
-            )}
+        </div> */}
+        <div className="d-flex align-items-center justify-content-center pay-align">
+          <div>
+            <div className="mt-2 mb-4 d-flex align-items-center justify-content-center">
+              <img src={SuccessTick}></img>
+            </div>
+            <h3 className="payment-text text-center header mt-2 mb-4 ">Payment Successful!</h3>
+            <div className="content-box">
+              <p className="text-primary text-center message1"> Transaction details</p>
+              <p className="text-primary text-center message2">
+                Transaction number : {paymentResponse?.razorpay_payment_id}
+              </p>
+              <p className="text-primary text-center message3">
+                Transaction Time : {getCurrentDateTime()}
+              </p>
+              <p className="text-primary text-center message1"> Course details</p>
+              <p className="text-primary text-center message2">
+                Batch name: {courseData?.course_title}
+              </p>
+              <p className="text-primary text-center message3">
+                Batch type : {courseData?.variant_name}
+              </p>
+              <p className="text-primary text-center message3">
+                Batch Time : {convertDate(selectedBatch?.start_date)}
+              </p>
+            </div>
+            <div className="mt-5 d-flex align-items-center justify-content-center footer-content">
+              <p>We have sent you the transaction details on your email and whatsapp.</p>
+            </div>
+            <div className="m-auto mt-3">
+              {courseData?.course_title === 'Job Ready Program' ||
+              courseData?.course_title === 'Industry Ready Program' ? (
+                <Button
+                  size="lg"
+                  className="btn-center"
+                  variant="secondary"
+                  type="button"
+                  onClick={() => onStepperClick(3)}>
+                  Next
+                </Button>
+              ) : (
+                <Button
+                  size="lg"
+                  className="btn-center"
+                  variant="secondary"
+                  type="button"
+                  onClick={() => onStepperClick(6)}>
+                  Next
+                </Button>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
 
     // });
