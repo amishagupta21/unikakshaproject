@@ -41,7 +41,10 @@ const PrimaryNavbar = () => {
     setUser(JSON.parse(localStorage.getItem('user')));
   }, [isAuth]);
 
+  console.log(user, '///////user');
+
   const result = JSON.parse(localStorage.getItem('userData'));
+  console.log(result, '/////////result');
   const getProfilePic = async () => {
     const result = await ApiService(
       '/user/get-profile-picture',
@@ -120,7 +123,7 @@ const PrimaryNavbar = () => {
                         style={{ width: '50px', height: '50px' }}
                       />
                       <span className="avatar-name">
-                        {result?.userProfile?.personal_details === ''
+                        {!result?.userProfile?.personal_details
                           ? user?.displayName
                           : result?.userProfile?.personal_details?.full_name}
                       </span>
