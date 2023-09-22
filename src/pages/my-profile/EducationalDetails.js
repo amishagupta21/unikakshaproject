@@ -624,6 +624,7 @@ const EducationalDetails = (educationalInfo) => {
                             type="text"
                             placeholder="12th or diploma marks"
                             name="schoolMarks"
+                            maxLength={4}
                             onChange={formik.handleChange}
                             className={
                               formik.touched.schoolMarks && formik.errors.schoolMarks

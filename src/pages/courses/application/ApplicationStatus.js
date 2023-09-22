@@ -119,45 +119,6 @@ const ApplicationStatus = ({
 
   return (
     <>
-      {courseTitle === 'Industry Ready Program' || courseTitle === 'Job Ready Program'
-        ? !paymentMethod
-        : paymentMethod && (
-            <div>
-              <div className="d-flex align-items-center justify-content-center">
-                <div>
-                  <div className="d-flex align-items-center justify-content-center">
-                    {status === 'approved' && <img src={badge} className="me-3"></img>}
-                    <h3 className="text-primary text-center header mt-2 mb-4 sml-head">
-                      {statusContent?.header}
-                    </h3>
-                  </div>
-                  <div className="mt-2 mb-4 d-flex align-items-center justify-content-center">
-                    <img src={statusContent?.imgContent} className="img-fluid"></img>
-                  </div>
-                  <div className={`my-2 content-box ${status}`}>
-                    <p className="text-primary text-center message1">{statusContent?.message1}</p>
-                    <p className="text-primary text-center message2">{statusContent?.message2}</p>
-                    <p className="text-primary text-center message3">{statusContent?.message3}</p>
-                  </div>
-                </div>
-              </div>
-              {status === 'approved' && (
-                <div className="m-auto mt-3">
-                  <Button
-                    size="lg"
-                    className="btn-center"
-                    variant="secondary"
-                    type="button"
-                    onClick={() => {
-                      openModal();
-                    }}>
-                    Next
-                  </Button>
-                </div>
-              )}
-            </div>
-          )}
-
       {application?.course_title === 'Full Stack Web Development' ? (
         <>
           {isModalOpen ||
@@ -184,45 +145,117 @@ const ApplicationStatus = ({
             </>
           ) : (
             <>
-              <div className="d-flex align-items-center justify-content-center">
-                <div>
-                  <div className="d-flex align-items-center justify-content-center">
-                    {status === 'approved' && <img src={badge} className="me-3"></img>}
-                    <h3 className="text-primary text-center header mt-2 mb-4 sml-head">
-                      {statusContent?.header}
-                    </h3>
-                  </div>
-                  <div className="mt-2 mb-4 d-flex align-items-center justify-content-center">
-                    <img src={statusContent?.imgContent} className="img-fluid"></img>
-                  </div>
-                  <div className={`my-2 content-box ${status}`}>
-                    <p className="text-primary text-center message1">{statusContent?.message1}</p>
-                    <p className="text-primary text-center message2">{statusContent?.message2}</p>
-                    <p className="text-primary text-center message3">{statusContent?.message3}</p>
+              <div>
+                <div className="d-flex align-items-center justify-content-center">
+                  <div>
+                    <div className="d-flex align-items-center justify-content-center">
+                      {status === 'approved' && <img src={badge} className="me-3"></img>}
+                      <h3 className="text-primary text-center header mt-2 mb-4 sml-head">
+                        {statusContent?.header}
+                      </h3>
+                    </div>
+                    <div className="mt-2 mb-4 d-flex align-items-center justify-content-center">
+                      <img src={statusContent?.imgContent} className="img-fluid"></img>
+                    </div>
+                    <div className={`my-2 content-box ${status}`}>
+                      <p className="text-primary text-center message1">{statusContent?.message1}</p>
+                      <p className="text-primary text-center message2">{statusContent?.message2}</p>
+                      <p className="text-primary text-center message3">{statusContent?.message3}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {status === 'approved' && (
-                <div className="m-auto mt-3">
-                  <Button
-                    size="lg"
-                    className="btn-center"
-                    variant="secondary"
-                    type="button"
-                    onClick={() => {
-                      openModal();
-                    }}>
-                    Next
-                  </Button>
-                </div>
-              )}
+                {status === 'approved' && (
+                  <div className="m-auto mt-3">
+                    <Button
+                      size="lg"
+                      className="btn-center"
+                      variant="secondary"
+                      type="button"
+                      onClick={() => {
+                        openModal();
+                      }}>
+                      Next
+                    </Button>
+                  </div>
+                )}
+              </div>
             </>
           )}
         </>
       ) : (
         <>
-          {!paymentMethod && (
+          {paymentMethod ? (
+            <>
+              {isModalOpen ||
+              courseTitle === 'Industry Ready Program' ||
+              courseTitle === 'Job Ready Program' ? (
+                <>
+                  {courseTitle === 'Full Stack Web Development' && (
+                    <Payment
+                      nextPage={nextPage}
+                      setOrderData={setOrderData}
+                      application={application}
+                      courseId={courseId}
+                      id={id}
+                      selectedBatch={selectedBatch}
+                      orderData={orderData}
+                      setWorldLineStatus={setWorldLineStatus}
+                      setopenpayment={setopenpayment}
+                      worldLineStatus={worldLineStatus}
+                      setSelectedBatch={setSelectedBatch}
+                      isPaymentOpen={isPaymentOpen}
+                      openPayment={openPayment}
+                      setPaymentMethod={setPaymentMethod}
+                      courseTitle={courseTitle}
+                    />
+                  )}
+                </>
+              ) : (
+                <>
+                  <div className="d-flex align-items-center justify-content-center">
+                    <div>
+                      <div className="d-flex align-items-center justify-content-center">
+                        {status === 'approved' && <img src={badge} className="me-3"></img>}
+                        <h3 className="text-primary text-center header mt-2 mb-4 sml-head">
+                          {statusContent?.header}
+                        </h3>
+                      </div>
+                      <div className="mt-2 mb-4 d-flex align-items-center justify-content-center">
+                        <img src={statusContent?.imgContent} className="img-fluid"></img>
+                      </div>
+                      <div className={`my-2 content-box ${status}`}>
+                        <p className="text-primary text-center message1">
+                          {statusContent?.message1}
+                        </p>
+                        <p className="text-primary text-center message2">
+                          {statusContent?.message2}
+                        </p>
+                        <p className="text-primary text-center message3">
+                          {statusContent?.message3}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {status === 'approved' && (
+                    <div className="m-auto mt-3">
+                      <Button
+                        size="lg"
+                        className="btn-center"
+                        variant="secondary"
+                        type="button"
+                        onClick={() => {
+                          openModal();
+                        }}>
+                        Next
+                      </Button>
+                    </div>
+                  )}
+                </>
+              )}
+            </>
+          ) : (
             <>
               {isModalOpen ||
               courseTitle === 'Industry Ready Program' ||
