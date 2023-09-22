@@ -428,11 +428,11 @@ const CourseApplication = () => {
   ];
   const handleViewCourseClick = () => {
     if (courseDetails?.course_title === 'Industry Ready Program') {
-      window.open('https://www.unikaksha.com/industry-ready-program/', '_blank');
+      window.open('https://www.unikaksha.com/course/industry-ready-program/', '_blank');
       return;
     }
     if (courseDetails?.course_title === 'Job Ready Program') {
-      window.open('https://www.unikaksha.com/unikaksha-job-ready/', '_blank');
+      window.open('https://www.unikaksha.com/course/job-ready-program/', '_blank');
       return;
     } else {
       // Navigate to the course URL
