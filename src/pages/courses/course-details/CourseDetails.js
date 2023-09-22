@@ -35,7 +35,9 @@ import ViewDetailsPayment from '../../../components/ViewDetailsPayment';
 
 function CourseDetails() {
   const [courseDetails, setCourseDetails] = useState();
-  const { state } = useLocation();
+  // const { state } = useLocation();
+  const state=JSON.parse(localStorage.getItem("_state"))
+
   const params = useParams();
   const [courseVariantBatches, setVariantCourseBatches] = useState([]);
   const [courseVariantBatchesfaq, setVariantCourseBatchesfaq] = useState([]);

@@ -144,8 +144,8 @@ const Login = () => {
 
             const result = await ApiService('centralised/create', 'POST', userData);
             const userId = result?.data?.data?._id;
-            const userNameEvent = result?.data?.data[0]?.full_name;
-            const userNumber = result?.data?.data[0]?.whatsapp_number;
+            const userNameEvent = result?.data?.data?.full_name;
+            const userNumber = result?.data?.data?.whatsapp_number;
 
             setloading(false);
             dispatch(setLoading(false));

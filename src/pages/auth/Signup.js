@@ -67,7 +67,6 @@ const Signup = () => {
 
   const [formData, setFormData] = useState({});
 
-  // console.log(otpError, "///////////otpError")
 
   const setInitialData = async () => {
     setUserDetails(location.state);
@@ -193,55 +192,6 @@ const Signup = () => {
       setAuthError('User already exist.');
     }
   };
-  // console.log(formData);
-
-  // const onSubmitOTP = async (e) => {
-  //   setIsButtonLoading(true);
-
-  //   e.preventDefault();
-  //   const userData = {
-  //     // "uid": user.uid,
-  //     form_name: 'Sign-Up',
-  //     fullName: formData.fullName,
-  //     email: formData.email,
-  //     phone: `+91${formData?.mobileNumber}`,
-  //   };
-  //   const result = await ApiService(`centralised/create`, `POST`, userData);
-  //   const { fullName, email, mobileNumber } = formData;
-
-  //   Moengage.track_event('Sign-Up-Event', {
-  //     FullName: fullName, // Use the actual fullName value from form state
-  //     Email: email, // Use the actual email value from form state
-  //     PhoneNumber: mobileNumber, // Use the actual mobileNumber value from form state
-  //   });
-  //   Moengage.add_user_name(fullName);
-  //   Moengage.add_email(email);
-  //   Moengage.add_mobile(mobileNumber);
-  //   Moengage.add_unique_user_id(mobileNumber);
-
-  //   window.confirmationResult
-  //     .confirm(otp && otp)
-  //     .then(async (response) => {
-  //       setloading(true);
-  //       dispatch(setLoading(true));
-
-  //       setIsButtonLoading(false);
-  //       // console.log(response.user);
-  //       if (response.user) {
-  //         setloading(false);
-  //         const { user } = response.user.multiFactor;
-
-  //         firebase.auth().currentUser.updateProfile({ displayName: formData?.fullName });
-  //         createUserIfNotExists(user);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       // console.log(error);
-  //       // setloading(false);
-  //       // setIsButtonLoading(false);
-  //       setOtpError('Invalid Code!');
-  //     });
-  // };
 
   const onSubmitOTP = async (e) => {
     e.preventDefault();

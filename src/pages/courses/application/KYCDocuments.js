@@ -355,20 +355,7 @@ const KYCDocuments = ({ onAllDocumentsSubmitted }) => {
         setKycDetails({ ...kycDetails, ssc_certificate: data.name });
       }
 
-      // setTimeout(()=>{
-      //   // if(kycDetails?.pan_card && kycDetails?.aadhar_card && kycDetails?.qualification_certificate && kycDetails?.ssc_certificate && kycDetails?.hsc_certificate){
-      //   //   onAllDocumentsSubmitted();
-      //   //  }
-      //   console.log(isPanCardUploaded , isAadhaarCardUploaded ,isQualificationCertificateUploaded ,isSscCertificateUploaded , isHscCertificateUploaded);
-
-      //    if(isPanCardUploaded && isAadhaarCardUploaded && isQualificationCertificateUploaded && isSscCertificateUploaded && isHscCertificateUploaded){
-      //     onAllDocumentsSubmitted();
-      //   }
-      // },1)
-
-      // if(isPanCardUploaded && isAadhaarCardUploaded && isQualificationCertificateUploaded && isSscCertificateUploaded && isHscCertificateUploaded){
-      //   onAllDocumentsSubmitted();
-      // }
+     
       dispatch(
         openToaster({
           show: true,
