@@ -121,68 +121,98 @@ const IndustryReadyPaymentProgram = ({
     batchSchedule();
     eveningbatchSchedule();
   }, []);
-  const getBatches = () => {
-    const items = batchDate?.map((element, index) => {
-      return (
-        <Col key={index} sm={3}>
-          <Card className="batch-card-style">
-            <Card.Body className="text-left-align">
-              <h6 className="font-color text-left-align mtb5"> Starts From </h6>
-              <p>
-                <img src={calendar1} alt="Calendar" className="calendar-icon" />
-                {/* <span className="text-left-align mtb5">{convertDate(element.start_date)}</span> */}
-                <span className="text-left-align mtb5">{element?.date1}</span>
-                <span className="text-left-align mtb5">{element?.date2}</span>
-                <span className="text-left-align mtb5">{element?.date3}</span>
-              </p>
+  const [selectedMorningCheckboxes, setSelectedMorningCheckboxes] = React.useState([]);
+  const [selectedEveningCheckboxes, setSelectedEveningCheckboxes] = React.useState([]);
 
-              {/* <Button
-                variant="secondary"
-                className={index == 0 ? '' : 'upcoming-btn'}
-                onClick={() => {
-                  apply(courseDetails);
-                }}>
-                {' '}
-                {index == 0 ? 'Apply Now' : 'Upcoming'}{' '}
-              </Button> */}
-            </Card.Body>
-          </Card>
-        </Col>
-      );
-    });
-    return items;
+  const handleMorningCheckboxChange = (index) => {
+    const isSelected = selectedMorningCheckboxes.includes(index);
+    if (isSelected) {
+      setSelectedMorningCheckboxes([]);
+    } else {
+      setSelectedMorningCheckboxes([index]);
+      setSelectedEveningCheckboxes([]);
+    }
+  };
+
+  const handleEveningCheckboxChange = (index) => {
+    const isSelected = selectedEveningCheckboxes.includes(index);
+    if (isSelected) {
+      setSelectedEveningCheckboxes([]);
+    } else {
+      setSelectedEveningCheckboxes([index]);
+      setSelectedMorningCheckboxes([]);
+    }
+  };
+
+  const getBatches = () => {
+    return batchDate.map((element, index) => (
+      <Col key={index} sm={3}>
+        <Card
+          className="batch-card-style"
+          style={{
+            backgroundColor: selectedMorningCheckboxes.includes(index) ? '#FF6347' : '',
+            color: selectedMorningCheckboxes.includes(index) ? 'white' : '',
+          }}
+        >
+
+          <Card.Body className="text-left-align">
+            <div className="font-color text-left-align mtb5">
+              <input
+                type="checkbox"
+                onChange={() => handleMorningCheckboxChange(index)}
+                checked={selectedMorningCheckboxes.includes(index)}
+                style={{
+                  display: 'inline-block',
+                  backgroundColor: selectedMorningCheckboxes.includes(index) ? '#333' : '',
+                  color: selectedMorningCheckboxes.includes(index) ? 'white' : '',
+                }}
+              />
+              <h5 style={{ display: 'inline-block', marginRight: '10px' }}>Starts From</h5>
+
+            </div>
+            <p>
+              <img src={calendar1} alt="Calendar" className="calendar-icon" />
+              <span className="text-left-align mtb5">{element?.date1}</span>
+              <span className="text-left-align mtb5">{element?.date2}</span>
+              <span className="text-left-align mtb5">{element?.date3}</span>
+            </p>
+
+          </Card.Body>
+        </Card>
+      </Col>
+    ));
   };
 
   const getEveningBatches = () => {
-    const items = eveningBatchDate?.map((element, index) => {
-      return (
-        <Col key={index} sm={3}>
-          <Card className="batch-card-style">
-            <Card.Body className="text-left-align">
-              <h6 className="font-color text-left-align mtb5"> Starts From </h6>
-              <p>
-                <img src={calendar1} alt="Calendar" className="calendar-icon" />
-                {/* <span className="text-left-align mtb5">{convertDate(element.start_date)}</span> */}
-                <span className="text-left-align mtb5">{element?.date1}</span>
-                <span className="text-left-align mtb5">{element?.date2}</span>
-                <span className="text-left-align mtb5">{element?.date3}</span>
-              </p>
-
-              {/* <Button
-                variant="secondary"
-                className={index == 0 ? '' : 'upcoming-btn'}
-                onClick={() => {
-                  apply(courseDetails);
-                }}>
-                {' '}
-                {index == 0 ? 'Apply Now' : 'Upcoming'}{' '}
-              </Button> */}
-            </Card.Body>
-          </Card>
-        </Col>
-      );
-    });
-    return items;
+    return eveningBatchDate.map((element, index) => (
+      <Col key={index} sm={3}>
+        <Card
+          className="batch-card-style"
+          style={{
+            backgroundColor: selectedEveningCheckboxes.includes(index) ? ' #FF6347' : '',
+            color: selectedEveningCheckboxes.includes(index) ? 'white' : '',
+          }}
+        >
+          <Card.Body className="text-left-align">
+            <div className="font-color text-left-align mtb5">
+              <input
+                type="checkbox"
+                onChange={() => handleEveningCheckboxChange(index)}
+                checked={selectedEveningCheckboxes.includes(index)}
+                style={{ display: 'inline-block' }}
+              />
+              <h5 style={{ display: 'inline-block', marginRight: '10px' }}>Starts From</h5>
+            </div>
+            <p>
+              <img src={calendar1} alt="Calendar" className="calendar-icon" />
+              <span className="text-left-align mtb5">{element?.date1}</span>
+              <span className="text-left-align mtb5">{element?.date2}</span>
+              <span className="text-left-align mtb5">{element?.date3}</span>
+            </p>
+          </Card.Body>
+        </Card>
+      </Col>
+    ));
   };
   return (
     <>
@@ -269,7 +299,11 @@ const IndustryReadyPaymentProgram = ({
                     className="col-3"
                     variant="secondary"
                     type="button"
-                    onClick={() => createOrder()}>
+                    onClick={() => createOrder()}
+                    disabled={
+                      !selectedMorningCheckboxes.length &&
+                      !selectedEveningCheckboxes.length
+                    }>
                     Next
                   </Button>
 

@@ -63,6 +63,7 @@ const CourseList = ({ courses, program }) => {
   };
 
   const viewDetails = (course) => {
+    
     if (course?.course_title === 'Industry Ready Program') {
       const url = 'https://www.unikaksha.com/industry-ready-program/';
       window.open(url, '_blank');
@@ -73,7 +74,8 @@ const CourseList = ({ courses, program }) => {
       window.open(url, '_blank');
       return;
     } else {
-      navigate(`/course/${course?.course_url}`, { state: course });
+      localStorage.setItem("_state",JSON.stringify(course))
+      navigate(`/course/${course?.course_url}`);
     }
   };
 

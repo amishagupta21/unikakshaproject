@@ -23,7 +23,6 @@ const HeroSection = ({ bannerDetails, courses }) => {
           const res = await ApiService(`/admin/batch-Schedule/${courseId}`, 'GET', {}, true);
           const startDate = res.data.data.result[0]?.course_variant_sections?.overview?.batchShedule[0]?.morningBatch[1].date3;
           const startDateEvening = res.data.data.result[0]?.course_variant_sections?.overview?.batchShedule[1]?.eveningBatch[1].date3;
-  
           setBatchStartDate(startDate);
           setEveningBatchStartDate(startDateEvening);
         } else {
