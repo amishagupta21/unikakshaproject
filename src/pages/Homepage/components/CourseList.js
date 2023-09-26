@@ -75,7 +75,7 @@ const CourseList = ({ courses, program }) => {
       return;
     } else {
       localStorage.setItem("_state",JSON.stringify(course))
-      navigate(`/course/${course?.course_url}`);
+      navigate(`/course/${course?.course_url}`, {state:course});
     }
   };
 
