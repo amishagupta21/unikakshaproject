@@ -35,8 +35,8 @@ import ViewDetailsPayment from '../../../components/ViewDetailsPayment';
 
 function CourseDetails() {
   const [courseDetails, setCourseDetails] = useState();
-  // const { state } = useLocation();
-  const state=JSON.parse(localStorage.getItem("_state"))
+  const { state } = useLocation();
+  const state_=JSON.parse(localStorage.getItem("_state"))
 
   const params = useParams();
   const [courseVariantBatches, setVariantCourseBatches] = useState([]);
@@ -77,7 +77,7 @@ function CourseDetails() {
   };
 
   const fetchInitialData = async (params) => {
-    const courseData = state ? state : await fetchCourseDetails(params);
+    const courseData = state ? state : await fetchCourseDetails(params)||state_;
     courseData?.course_variant_sections?.bannerAsset?.value?.filter((e) => {
       if (e.type === 'background-image') {
         setPromoBanner(e);
