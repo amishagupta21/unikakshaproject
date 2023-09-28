@@ -1,108 +1,112 @@
 .account-settings {
-    .right_box_container {
-        max-width: 500px;
-        padding-top: 0px;
-    }
-    .btn-secondary {
-        height: 48px;
-        width: 176px !important;box-shadow: 0px 1px rgb(54 63 94 / 12%); font-size: 18px;
-        font-style: normal;
-        font-size: 18px;
-        /* display: flex; */
-        margin-top: 5px;
-        margin-left: 5px;
-        font-weight: 500;
-    }
-    h6 {
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 500;
-        font-size: 16px;
-        line-height: 19px;
-        /* identical to box height */
-
-
-        color: #363F5E;
-    }
-    .password-toggle {
-        position: absolute;
-        left:65%;
-        top: 14%;
-        transform: translateY(-50%);
-        border: none;
-      }
-    //   .password-toggle:focus {
-    //     outline: none; 
-    //     box-shadow: none; 
-    //   }
-      
-      .password2-toggle {
-        position: absolute;
-        right: 133px;
-        top: 42%;
-        transform: translateY(-50%);
-        border: none;
-      }
-
-      .password3-toggle {
-        position: absolute;
-        right: 133px;
-        top: 70%;
-        transform: translateY(-50%);
-        border: none;
-      }
-      
-}
-.right_box_container .log-in-title {
-   
-    color: #222380;   
-
-}
-.account-settings button.button-sml.btn {
+  .right_box_container {
+    max-width: 500px;
+    padding-top: 0px;
+  }
+  .btn-secondary {
     height: 48px;
-    width: 176px !important;box-shadow: 0px 1px rgb(54 63 94 / 12%); font-size: 18px;
-}
-
-button.delete-link.delete-link-pixel.btn.btn-secondary i {
+    width: 176px !important;
+    box-shadow: 0px 1px rgb(54 63 94 / 12%);
+    font-size: 18px;
     font-style: normal;
     font-size: 18px;
     /* display: flex; */
     margin-top: 5px;
     margin-left: 5px;
     font-weight: 500;
+  }
+  h6 {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    /* identical to box height */
+
+    color: #363f5e;
+  }
+  .password-toggle {
+    position: absolute;
+    right: 0;
+    top: 17%;
+    // transform: translateY(-50%);
+    border: none;
+  }
+  //   .password-toggle:focus {
+  //     outline: none;
+  //     box-shadow: none;
+  //   }
+
+  .password2-toggle {
+    position: absolute;
+    right: 0;
+    top: 72%;
+    // transform: translateY(-50%);
+    border: none;
+  }
+
+  .password3-toggle {
+    position: absolute;
+    right: 0;
+    top: 10%;
+    // transform: translateY(-50%);
+    border: none;
+  }
+}
+.right_box_container .log-in-title {
+  color: #222380;
+}
+.account-settings button.button-sml.btn {
+  height: 48px;
+  width: 176px !important;
+  box-shadow: 0px 1px rgb(54 63 94 / 12%);
+  font-size: 18px;
+}
+
+button.delete-link.delete-link-pixel.btn.btn-secondary i {
+  font-style: normal;
+  font-size: 18px;
+  /* display: flex; */
+  margin-top: 5px;
+  margin-left: 5px;
+  font-weight: 500;
 }
 
 button.delete-link.delete-link-pixel.btn.btn-secondary {
-    width: 176px !important;
-    height: 48px;
-    background: transparent;
-    border: #FF3838 1px solid;
-    font-style: normal;
-    color: #FF3838;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0px 1px rgb(54 63 94 / 12%);
+  width: 176px !important;
+  height: 48px;
+  background: transparent;
+  border: #ff3838 1px solid;
+  font-style: normal;
+  color: #ff3838;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 1px rgb(54 63 94 / 12%);
 }
 .account-settings.right_box.right_box_accounts .right_box {
-    font-size: 16px;
+  font-size: 16px;
 }
 
-.account-settings .right_box_container{ padding: 0;}
+.account-settings .right_box_container {
+  padding: 0;
+}
 .account-settings.right_box.right_box_accounts form {
-    max-width: 365px;
+  max-width: 365px;
 }
 .upload-container.uploading .uploadbtn-text {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .account-settings.right_box.right_box_accounts .upload-container.uploading {
-    border: 2px dashed #8F8799;    margin-bottom: 20px;
+  border: 2px dashed #8f8799;
+  margin-bottom: 20px;
 }
 .top-dashboard-profiles.profile-personal.d-flex.flex-row.mx-auto.my-5.profile-personal-form {
-    min-height: calc(100vh - 278px);
+  min-height: calc(100vh - 278px);
 }
 
-.my-courses.d-flex.flex-row.mx-auto.my-5.my-courses-apllied-uni{
-    min-height: calc(100vh - 278px);}
+.my-courses.d-flex.flex-row.mx-auto.my-5.my-courses-apllied-uni {
+  min-height: calc(100vh - 278px);
+}
