@@ -96,9 +96,6 @@ const PersonalDetails = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // const result = localStorage.setItem('updateData', JSON.stringify(updateData));
-  // console.log(result, '//////////result');
-
   const configureCaptcha = () => {
     return (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
       'profile-otp-container',
@@ -568,7 +565,7 @@ const PersonalDetails = () => {
     );
 
     setProfilePic(result?.data?.data?.signedUrl);
-
+    // localStorage.setItem('profilePicture', JSON.stringify(result?.data?.data?.signedUrl));
     dispatch(setLoading(false));
   };
 
@@ -886,7 +883,7 @@ const PersonalDetails = () => {
 
                         <div className="upload-area">
                           <img
-                            src={profilePic ? profilePic : profilepic}
+                            src={profilePic}
                             alt="profile"
                             className="profile-avatar"
                             onClick={() => viewProfilePhoto()}

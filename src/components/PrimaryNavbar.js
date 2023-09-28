@@ -41,7 +41,16 @@ const PrimaryNavbar = () => {
     setUser(JSON.parse(localStorage.getItem('user')));
   }, [isAuth]);
 
+  // useEffect(() => {
+  //   const result1 = localStorage.getItem('profilePicture');
+  //   console.log(result1, '/////////result1');
+  //   cleanedUrl = result1.replace(/^"|"$/g, '');
+
+  //   console.log(cleanedUrl, '///////cleanedUrl');
+  // });
+
   const result = JSON.parse(localStorage.getItem('userData'));
+
   const getProfilePic = async () => {
     const result = await ApiService(
       '/user/get-profile-picture',
@@ -115,7 +124,7 @@ const PrimaryNavbar = () => {
                   <Dropdown>
                     <Dropdown.Toggle id="dropdown-basic" className="dropdown-design">
                       <img
-                        src={profilePic ? profilePic : profilepic}
+                        src={profilePic}
                         alt="profile"
                         style={{ width: '50px', height: '50px' }}
                       />
