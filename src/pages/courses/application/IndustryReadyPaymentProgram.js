@@ -21,11 +21,12 @@ const IndustryReadyPaymentProgram = ({
   setPaymentMethod,
   courseTitle,
   id,
+  scheduleBatchDate,
+  // batchDate,
+  // eveningBatchDate,
 }) => {
   const [batches, setbatches] = React.useState();
   const [defaultBatch, setDefaultBatch] = React.useState();
-  const [batchDate, setBatchDate] = React.useState([]);
-  const [eveningBatchDate, setEveningBatchDate] = React.useState([]);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -105,22 +106,6 @@ const IndustryReadyPaymentProgram = ({
   //   return items;
   // };
 
-  const batchSchedule = async () => {
-    const res = await ApiService(`/admin/batch-Schedule/${courseId}`);
-    const batchSchedule =
-      res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[0]?.morningBatch;
-    setBatchDate(batchSchedule);
-  };
-  const eveningbatchSchedule = async () => {
-    const res = await ApiService(`/admin/batch-Schedule/${courseId}`);
-    const eveningBatch =
-      res?.data?.data?.result[0]?.course_variant_sections?.overview?.batchShedule[1]?.eveningBatch;
-    setEveningBatchDate(eveningBatch);
-  };
-  useEffect(() => {
-    batchSchedule();
-    eveningbatchSchedule();
-  }, []);
   const [selectedMorningCheckboxes, setSelectedMorningCheckboxes] = React.useState([]);
   const [selectedEveningCheckboxes, setSelectedEveningCheckboxes] = React.useState([]);
 
@@ -145,16 +130,14 @@ const IndustryReadyPaymentProgram = ({
   };
 
   const getBatches = () => {
-    return batchDate.map((element, index) => (
+    return scheduleBatchDate.map((element, index) => (
       <Col key={index} sm={3}>
         <Card
           className="batch-card-style"
           style={{
-            backgroundColor: selectedMorningCheckboxes.includes(index) ? '#FF6347' : '',
-            color: selectedMorningCheckboxes.includes(index) ? 'white' : '',
-          }}
-        >
-
+            border: selectedMorningCheckboxes.includes(index) ? '1px solid #222380' : '',
+            // color: selectedMorningCheckboxes.includes(index) ? 'white' : '',
+          }}>
           <Card.Body className="text-left-align">
             <div className="font-color text-left-align mtb5">
               <input
@@ -167,16 +150,21 @@ const IndustryReadyPaymentProgram = ({
                   color: selectedMorningCheckboxes.includes(index) ? 'white' : '',
                 }}
               />
-              <h5 style={{ display: 'inline-block', marginRight: '10px' }}>Starts From</h5>
-
+              <h5
+                style={{
+                  display: 'inline-block',
+                  marginLeft: '10px',
+                  fontSize: '15px',
+                  color: '#363F5E',
+                }}>
+                Starts From
+              </h5>
             </div>
             <p>
-              <img src={calendar1} alt="Calendar" className="calendar-icon" />
-              <span className="text-left-align mtb5">{element?.date1}</span>
-              <span className="text-left-align mtb5">{element?.date2}</span>
-              <span className="text-left-align mtb5">{element?.date3}</span>
+              <span className="text-left-align mtb5 fs-5">{element?.date1}</span>
+              <span className="text-left-align mtb5 fs-5">{element?.date2}</span>
+              <span className="text-left-align mtb5 fs-5">{element?.date3}</span>
             </p>
-
           </Card.Body>
         </Card>
       </Col>
@@ -184,15 +172,14 @@ const IndustryReadyPaymentProgram = ({
   };
 
   const getEveningBatches = () => {
-    return eveningBatchDate.map((element, index) => (
+    return scheduleBatchDate.map((element, index) => (
       <Col key={index} sm={3}>
         <Card
           className="batch-card-style"
           style={{
-            backgroundColor: selectedEveningCheckboxes.includes(index) ? ' #FF6347' : '',
-            color: selectedEveningCheckboxes.includes(index) ? 'white' : '',
-          }}
-        >
+            border: selectedEveningCheckboxes.includes(index) ? ' 1px solid #222380' : '',
+            // color: selectedEveningCheckboxes.includes(index) ? 'white' : '',
+          }}>
           <Card.Body className="text-left-align">
             <div className="font-color text-left-align mtb5">
               <input
@@ -201,13 +188,20 @@ const IndustryReadyPaymentProgram = ({
                 checked={selectedEveningCheckboxes.includes(index)}
                 style={{ display: 'inline-block' }}
               />
-              <h5 style={{ display: 'inline-block', marginRight: '10px' }}>Starts From</h5>
+              <h5
+                style={{
+                  display: 'inline-block',
+                  marginLeft: '10px',
+                  fontSize: '15px',
+                  color: '#363F5E',
+                }}>
+                Starts From
+              </h5>
             </div>
             <p>
-              <img src={calendar1} alt="Calendar" className="calendar-icon" />
-              <span className="text-left-align mtb5">{element?.date1}</span>
-              <span className="text-left-align mtb5">{element?.date2}</span>
-              <span className="text-left-align mtb5">{element?.date3}</span>
+              <span className="text-left-align mtb5 fs-5">{element?.date1}</span>
+              <span className="text-left-align mtb5 fs-5">{element?.date2}</span>
+              <span className="text-left-align mtb5 fs-5">{element?.date3}</span>
             </p>
           </Card.Body>
         </Card>
@@ -301,8 +295,7 @@ const IndustryReadyPaymentProgram = ({
                     type="button"
                     onClick={() => createOrder()}
                     disabled={
-                      !selectedMorningCheckboxes.length &&
-                      !selectedEveningCheckboxes.length
+                      !selectedMorningCheckboxes.length && !selectedEveningCheckboxes.length
                     }>
                     Next
                   </Button>
