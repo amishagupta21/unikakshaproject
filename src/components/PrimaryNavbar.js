@@ -72,6 +72,7 @@ const PrimaryNavbar = () => {
     dispatch(setIsAuthenticated(false));
     navigate('/');
     window.location.reload();
+    Moengage.destroy_session();
     // setShowPopUp(!showPopUp);
   };
   // const handler=async()=>{

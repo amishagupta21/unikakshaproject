@@ -175,7 +175,24 @@ const Signup = () => {
       window.removeEventListener('MOE_LIFECYCLE', handleMoengageEvent);
     };
   }, []);
-
+  const SignupSchema = Yup.object().shape({
+    SetNewPassword: Yup.string()
+      .min(8, 'Password must be 8 characters long.')
+      .max(32, 'Password must be at most 32 characters long.')
+      .required('Set new password is a required field')
+      .matches(
+        /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?":{}|<>])/,
+        `Must Contain 8 Characters,  
+        \n One Uppercase,
+        \n One Number,
+        \n One Special Character`
+      ),
+    ConfirmPassword: Yup.string()
+      .oneOf([Yup.ref('SetNewPassword'), null], 'Both passwords need to be the same')
+      .required('Confirm password is a required field.')
+      .min(8, 'Your password is too short.')
+      .max(32, 'Password must be at most 32 characters long.'),
+  });
   return (
     <>
       <section className="auth_layout login_screen auth-unikaksha set-password">
@@ -206,24 +223,7 @@ const Signup = () => {
                     SetNewPassword: '',
                     ConfirmPassword: '',
                   }}
-                  validationSchema={Yup.object().shape({
-                    SetNewPassword: Yup.string()
-                      .min(8, 'Password must be 8 characters long.')
-                      .required('Set new password is a required field')
-                      .matches(
-                        /^(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
-                        `Must Contain 8 Characters,  
-                    \n One Uppercase,
-                    \n One Number`
-                      ),
-                    ConfirmPassword: Yup.string()
-                      .min(8, 'Your password is too short.')
-                      .required('Confirm password is a required field.')
-                      .oneOf(
-                        [Yup.ref('SetNewPassword'), null],
-                        'Both password need to be the same'
-                      ),
-                  })}
+                  validationSchema={SignupSchema}
                   onSubmit={(values) => {
                     setPassword(values);
                   }}
