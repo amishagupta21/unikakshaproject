@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import style from './index.css';
 import Hybrid from '../../assets/images/images/Hybrid-1.svg';
 import ISa from '../../assets/images/images/ISa.svg';
@@ -37,6 +37,7 @@ import PaymentPopupSynergy from '../../pages/courses/application/PaymentPopupSyn
 import CustomPayment from '../../pages/courses/application/CustomPayment';
 import IndustryReadyPaymentProgram from '../../pages/courses/application/IndustryReadyPaymentProgram';
 import JobReadyPaymentProgram from '../../pages/courses/application/JobReadyPayment';
+import ApiService from '../../services/ApiService';
 
 const Payment = ({
   nextPage,
@@ -59,6 +60,8 @@ const Payment = ({
   const [isPymentIndustryReadyProgram, setPymentIndustryReadyProgram] = useState(false);
   const [isPymentJobReadyProgram, setPymentJobReadyProgram] = useState(false);
   const [customPayment, setCustomPayment] = useState(false);
+  const [batchDate, setBatchDate] = React.useState([]);
+  const [eveningBatchDate, setEveningBatchDate] = React.useState([]);
 
   const toggleCustomPayment = () => {
     setCustomPayment(!customPayment);
@@ -80,6 +83,34 @@ const Payment = ({
   const openPaymentJobReady = () => {
     setPymentJobReadyProgram(!isPymentJobReadyProgram);
   };
+
+  const batchSchedule = async () => {
+    const res = await ApiService(`/admin/batch-Schedule/${courseId}`);
+    const batchSchedule =
+      res?.data?.data?.result[0].course_variant_sections.overview.batchShedule[0]?.morningBatch;
+    setBatchDate(batchSchedule);
+    const eveningBatch =
+      res?.data?.data?.result[0]?.course_variant_sections?.overview?.batchShedule[1]?.eveningBatch;
+    setEveningBatchDate(eveningBatch);
+  };
+
+  useEffect(() => {
+    batchSchedule();
+  }, []);
+
+  const currentDate = new Date();
+  const day = String(currentDate.getDate()).padStart(2, '0'); // Ensure two digits with leading zeros
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+  const year = currentDate.getFullYear();
+
+  const formattedDate = `${day}-${month}-${year}`;
+  const scheduleBatchDate = (batchDate || eveningBatchDate).filter((item) => {
+    // console.log(typeof item?.date2, '///////item');
+    // const newDate = new Date(item?.date2);
+    // console.log(newDate, '////////newDate');
+    return item >= formattedDate;
+  });
+
   return (
     <div className="container">
       <div className="row">
@@ -592,6 +623,7 @@ const Payment = ({
             setSelectedBatch={setSelectedBatch}
             id={id}
             courseTitle={courseTitle}
+            scheduleBatchDate={scheduleBatchDate}
           />
         )}
         {isPaymentOpen && (
@@ -609,6 +641,7 @@ const Payment = ({
             setSelectedBatch={setSelectedBatch}
             setPaymentMethod={setPaymentMethod}
             courseTitle={courseTitle}
+            scheduleBatchDate={scheduleBatchDate}
           />
         )}
         {isPymentAutonomy && (
@@ -626,6 +659,7 @@ const Payment = ({
             setSelectedBatch={setSelectedBatch}
             setPaymentMethod={setPaymentMethod}
             courseTitle={courseTitle}
+            scheduleBatchDate={scheduleBatchDate}
           />
         )}
         {isPymentSynergy && (
@@ -643,6 +677,7 @@ const Payment = ({
             setSelectedBatch={setSelectedBatch}
             setPaymentMethod={setPaymentMethod}
             courseTitle={courseTitle}
+            scheduleBatchDate={scheduleBatchDate}
           />
         )}
         {isPymentIndustryReadyProgram && (
@@ -660,6 +695,7 @@ const Payment = ({
             setSelectedBatch={setSelectedBatch}
             setPaymentMethod={setPaymentMethod}
             courseTitle={courseTitle}
+            scheduleBatchDate={scheduleBatchDate}
           />
         )}
         {isPymentJobReadyProgram && (
@@ -677,6 +713,7 @@ const Payment = ({
             setSelectedBatch={setSelectedBatch}
             setPaymentMethod={setPaymentMethod}
             courseTitle={courseTitle}
+            scheduleBatchDate={scheduleBatchDate}
           />
         )}
       </div>
