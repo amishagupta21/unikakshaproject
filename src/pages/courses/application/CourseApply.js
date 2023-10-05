@@ -190,8 +190,8 @@ const CourseApplication = () => {
       else if (application_stage === 'test_result') {
         nextPageNumber(4);
       } else if (
-       application_stage === 'test_result' ||
-       m_applicationstatus === 'Assessment Passed'
+        application_stage === 'test_result' ||
+        m_applicationstatus === 'Assessment Passed'
       ) {
         nextPageNumber(4);
       } else if (application_stage === 'application_status') {
@@ -216,6 +216,27 @@ const CourseApplication = () => {
       //   nextPageNumber(6);
       // }
     }
+  };
+
+  const createPayment = async (paymentResponse, status) => {
+    const payload = {
+      uid: applicationDetails?.uid,
+      orderItems: [
+        {
+          application_id: applicationDetails?._id,
+          course_id: applicationDetails?.course_id,
+
+          final_amount: 2500,
+          payment_id: '',
+          order_id: orderData?.id,
+          payment_status: 'pending',
+        },
+      ],
+    };
+    const response = await ApiService('/student/application/order/upsert', `POST`, payload, true);
+    // if (response?.data.code === 200) {
+    //   // nextPage();
+    // }
   };
 
   useEffect(() => {
@@ -859,6 +880,7 @@ const CourseApplication = () => {
                         setSelectedBatch={setSelectedBatch}
                         setPaymentMethod={setPaymentMethod}
                         paymentMethod={paymentMethod}
+                        createPayment={createPayment}
                       />
                     )
                   : page === 4 && (
@@ -875,6 +897,7 @@ const CourseApplication = () => {
                         setSelectedBatch={setSelectedBatch}
                         setPaymentMethod={setPaymentMethod}
                         paymentMethod={paymentMethod}
+                        createPayment={createPayment}
                       />
                     )}
               </>

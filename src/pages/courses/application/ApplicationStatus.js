@@ -47,6 +47,7 @@ const ApplicationStatus = ({
   setPaymentMethod,
   id,
   paymentMethod,
+  createPayment,
   page,
 }) => {
   const dispatch = useDispatch();
@@ -55,7 +56,7 @@ const ApplicationStatus = ({
   const [openpayment, setopenpayment] = useState(false);
   const [isPaymentOpen, setIsPaymentOpen] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [applicationData, setApplicationData] = useState([]);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
   useEffect(() => {
     dispatch(setLoading(true));
@@ -74,8 +75,8 @@ const ApplicationStatus = ({
       payload,
       true
     );
-
     // if (applicationDetails?.data?.data.application) {
+    setApplicationData(applicationDetails?.data?.data?.application);
     const applicationData = applicationDetails?.data?.data?.application;
     // setApplication(applicationDetails?.data?.data.application);
     const { m_applicationstatus: appStatus, application_stage } = applicationData;
@@ -141,6 +142,8 @@ const ApplicationStatus = ({
                 openPayment={openPayment}
                 setPaymentMethod={setPaymentMethod}
                 courseTitle={courseTitle}
+                applicationData={applicationData}
+                createPayment={createPayment}
               />
             </>
           ) : (
@@ -208,6 +211,8 @@ const ApplicationStatus = ({
                       openPayment={openPayment}
                       setPaymentMethod={setPaymentMethod}
                       courseTitle={courseTitle}
+                      applicationData={applicationData}
+                      createPayment={createPayment}
                     />
                   )}
                 </>
@@ -277,6 +282,8 @@ const ApplicationStatus = ({
                     openPayment={openPayment}
                     setPaymentMethod={setPaymentMethod}
                     courseTitle={courseTitle}
+                    applicationData={applicationData}
+                    createPayment={createPayment}
                   />
                 </>
               ) : (

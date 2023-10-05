@@ -15,6 +15,7 @@ const PaymentPopup = ({
   setPaymentMethod,
   courseTitle,
   scheduleBatchDate,
+  createPayment,
 }) => {
   const [batches, setbatches] = React.useState();
 
@@ -246,7 +247,9 @@ const PaymentPopup = ({
                     className="col-3"
                     variant="secondary"
                     type="button"
-                    onClick={() => createOrder()}
+                    onClick={() => {
+                      createOrder(), createPayment();
+                    }}
                     disabled={
                       !selectedMorningCheckboxes.length && !selectedEveningCheckboxes.length
                     }>

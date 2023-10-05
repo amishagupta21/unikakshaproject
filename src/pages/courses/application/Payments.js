@@ -12,6 +12,7 @@ const Payments = (params) => {
   const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
   const [userProfile, setUserProfile] = React.useState();
   const navigate = useNavigate();
+  const [paymentPending, setPaymentPending] = React.useState();
 
   const courseData = params.course;
   const nextPage = params.nextPage;
@@ -20,6 +21,7 @@ const Payments = (params) => {
   const selectedBatch = params.selectedBatch;
   const onPageNumberClick = params.onPageNumberClick;
   const page = params.page;
+  const [paymentPageStatus, setPaymentPageStatus] = React.useState([]);
 
   useEffect(() => {
     fetchUserDetails(user?.uid);
@@ -87,6 +89,28 @@ const Payments = (params) => {
     // }
   };
 
+  const createPayment = async (paymentResponse, status) => {
+    const payload = {
+      uid: applicationDetails?.uid,
+      orderItems: [
+        {
+          application_id: applicationDetails?._id,
+          course_id: applicationDetails?.course_id,
+          // batch_id:"163cfef0-ce40-490b-a1e5-b27d142f759d",
+
+          final_amount: 2500,
+          payment_id: paymentResponse.razorpay_payment_id,
+          order_id: orderData?.id,
+          payment_status: status === 'Success' && 'confirmed',
+        },
+      ],
+    };
+    const response = await ApiService('/student/application/order/upsert', `POST`, payload, true);
+    // if (response?.data.code === 200) {
+    //   // nextPage();
+    // }
+  };
+
   function loadScript(src) {
     return new Promise((resolve) => {
       const script = document.createElement('script');
@@ -126,6 +150,7 @@ const Payments = (params) => {
       handler: async function (response) {
         if (response.razorpay_payment_id) {
           createPaymant(response, 'Success');
+          createPayment(response, 'Success');
         }
         params?.setApplicationDetails({
           application_stage: 'payment_status',
@@ -145,7 +170,7 @@ const Payments = (params) => {
       modal: {
         ondismiss: function () {
           setpaymentStatus('Failed');
-          // createPaymant(response, 'Failed');
+          createPaymant(response, 'Failed');
         },
       },
       prefill: {
@@ -167,6 +192,7 @@ const Payments = (params) => {
     paymentObject.on('payment.failed', function (response) {
       setpaymentStatus('Failed');
       createPaymant(response, 'Failed');
+      createPayment(response, 'Failed');
 
       // nextPage();
       // createPaymant(response, 'Failed');
@@ -181,8 +207,32 @@ const Payments = (params) => {
     });
   }
 
+  const confirmPayment = async (uid) => {
+    const response = await ApiService(
+      `/student/application/order?uid=${applicationDetails?.uid}`,
+      'GET',
+      {},
+      true
+    );
+    setPaymentPending(response?.data);
+  };
+
+  useEffect(() => {
+    confirmPayment();
+  }, []);
+
   const onStepperClick = (page) => {
     onPageNumberClick(page);
+  };
+
+  const allPaymentStatus = () => {
+    if (paymentPending?.data[26]?.orderItems[0]?.payment_status === 'pending') {
+      return getPaymentPending();
+    } else if (paymentPending?.data[26]?.orderItems[0]?.payment_status === 'confirmed') {
+      return getPaymentSuccess();
+    } else {
+      // getPaymentFailure();
+    }
   };
 
   const applicationStatus = {
@@ -193,27 +243,54 @@ const Payments = (params) => {
     message3: 'You may get a call from our team members for further assistance.',
   };
 
+  const getPaymentPending = () => {
+    return (
+      <div className="d-flex align-items-center justify-content-center">
+        <div>
+          <div className="d-flex align-items-center justify-content-center">
+            <img src={badge} className="me-3"></img>
+            <h3 className="text-primary text-center header mt-2 mb-4 sml-head">
+              {applicationStatus?.header}
+            </h3>
+          </div>
+          <div className="mt-2 mb-4 d-flex align-items-center justify-content-center">
+            <img src={applicationStatus?.imgContent} className="img-fluid"></img>
+          </div>
+          <div className={`my-2 content-box ${status}`}>
+            <p className="text-primary text-center message1">{applicationStatus?.message1}</p>
+            <p className="text-primary text-center message2">{applicationStatus?.message2}</p>
+            <p className="text-primary text-center message3">{applicationStatus?.message3}</p>
+          </div>
+          <div className="m-auto mt-3">
+            {courseData?.course_title === 'Job Ready Program' ||
+            courseData?.course_title === 'Industry Ready Program' ? (
+              <Button
+                size="lg"
+                className="btn-center"
+                variant="secondary"
+                type="button"
+                onClick={() => onStepperClick(3)}>
+                Next
+              </Button>
+            ) : (
+              <Button
+                size="lg"
+                className="btn-center"
+                variant="secondary"
+                type="button"
+                onClick={() => onStepperClick(6)}>
+                Next
+              </Button>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   const getPaymentSuccess = () => {
     return (
       <>
-        {/* <div className="d-flex align-items-center justify-content-center">
-          <div>
-            <div className="d-flex align-items-center justify-content-center">
-              <img src={badge} className="me-3"></img>
-              <h3 className="text-primary text-center header mt-2 mb-4 sml-head">
-                {applicationStatus?.header}
-              </h3>
-            </div>
-            <div className="mt-2 mb-4 d-flex align-items-center justify-content-center">
-              <img src={applicationStatus?.imgContent} className="img-fluid"></img>
-            </div>
-            <div className={`my-2 content-box ${status}`}>
-              <p className="text-primary text-center message1">{applicationStatus?.message1}</p>
-              <p className="text-primary text-center message2">{applicationStatus?.message2}</p>
-              <p className="text-primary text-center message3">{applicationStatus?.message3}</p>
-            </div>
-          </div>
-        </div> */}
         <div className="d-flex align-items-center justify-content-center pay-align">
           <div>
             <div className="mt-2 mb-4 d-flex align-items-center justify-content-center">
@@ -316,8 +393,9 @@ const Payments = (params) => {
 
   return (
     <div className="payments">
-      {paymentStatus == 'Success' ? getPaymentSuccess() : ''}
-      {paymentStatus == 'Failed' ? getPaymentFailure() : ''}
+      {allPaymentStatus()}
+      {/* {paymentStatus == 'Success' ? getPaymentSuccess() : ''}
+      {paymentStatus == 'Failed' ? getPaymentFailure() : ''} */}
       {/* {params.worldLineStatus == 'Success' ? getPaymentSuccess() : ''}
       {params.worldLineStatus == 'Failed' ? getPaymentFailure() : ''} */}
     </div>

@@ -53,6 +53,8 @@ const Payment = ({
   id,
   setPaymentMethod,
   courseTitle,
+  applicationData,
+  createPayment,
 }) => {
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
   const [isPymentAutonomy, setIsPymentAutonomy] = useState(false);
@@ -642,6 +644,7 @@ const Payment = ({
             setPaymentMethod={setPaymentMethod}
             courseTitle={courseTitle}
             scheduleBatchDate={scheduleBatchDate}
+            createPayment={createPayment}
           />
         )}
         {isPymentAutonomy && (
