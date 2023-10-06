@@ -226,12 +226,12 @@ const Payments = (params) => {
   };
 
   const allPaymentStatus = () => {
-    if (paymentPending?.data[26]?.orderItems[0]?.payment_status === 'pending') {
+    if (paymentPending?.data[0]?.orderItems[0]?.payment_status === 'pending') {
       return getPaymentPending();
-    } else if (paymentPending?.data[26]?.orderItems[0]?.payment_status === 'confirmed') {
+    } else if (paymentPending?.data[0]?.orderItems[0]?.payment_status === 'confirmed') {
       return getPaymentSuccess();
     } else {
-      // getPaymentFailure();
+      getPaymentFailure();
     }
   };
 
@@ -393,9 +393,9 @@ const Payments = (params) => {
 
   return (
     <div className="payments">
-      {allPaymentStatus()}
-      {/* {paymentStatus == 'Success' ? getPaymentSuccess() : ''}
-      {paymentStatus == 'Failed' ? getPaymentFailure() : ''} */}
+      {/* {allPaymentStatus()} */}
+      {paymentStatus == 'Success' ? getPaymentSuccess() : ''}
+      {paymentStatus == 'Failed' ? getPaymentFailure() : ''}
       {/* {params.worldLineStatus == 'Success' ? getPaymentSuccess() : ''}
       {params.worldLineStatus == 'Failed' ? getPaymentFailure() : ''} */}
     </div>

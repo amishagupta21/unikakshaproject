@@ -225,7 +225,6 @@ const CourseApplication = () => {
         {
           application_id: applicationDetails?._id,
           course_id: applicationDetails?.course_id,
-
           final_amount: 2500,
           payment_id: '',
           order_id: orderData?.id,
