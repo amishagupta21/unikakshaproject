@@ -54,6 +54,7 @@ import { toast } from 'react-toastify';
 import OtpInput from 'react-otp-input';
 import { getAuth, updateProfile } from 'firebase/auth';
 import FooterContainer from '../../components/FooterComponent';
+import { ActionTypes } from '../../redux/constants/ActionTypes';
 
 const PersonalDetails = () => {
   const [mobileState, setMobileNumber] = React.useState({ phone: '', data: '' });
@@ -481,7 +482,7 @@ const PersonalDetails = () => {
           uploadUsingSignedUrl(response.data.data.signedUrl, inputFile, docType)
             .then((res) => {
               viewProfilePic('profile_picture');
-              window.location.reload();
+              // window.location.reload();
               return true;
             })
             .catch((error) => {});
@@ -565,6 +566,7 @@ const PersonalDetails = () => {
     );
 
     setProfilePic(result?.data?.data?.signedUrl);
+    dispatch({ type: ActionTypes.ALL_PROFILE_PICTURE, payload: result?.data?.data?.signedUrl });
     // localStorage.setItem('profilePicture', JSON.stringify(result?.data?.data?.signedUrl));
     dispatch(setLoading(false));
   };
@@ -876,7 +878,7 @@ const PersonalDetails = () => {
                   <Tab.Content>
                     <Tab.Pane eventKey="first">
                       <div className="course-application-list" id="personal">
-                        <h3 className="text-primary">Personal Details </h3>
+                        <h3 className="text-primary">Personal Details</h3>
                         {/* {applicationList?.length > 0 ? ( */}
                         {/* applicationList.map((application, idx) => {
                 return ( */}
@@ -915,7 +917,7 @@ const PersonalDetails = () => {
                                     <div className="mt-3">
                                       <Row className="nomargin batch-head">
                                         <img
-                                          src={profilePic ? profilePic : profilepic}
+                                          src={profilePic}
                                           alt="profile"
                                           className=""
                                           onClick={() => viewProfilePhoto()}

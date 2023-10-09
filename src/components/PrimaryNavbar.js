@@ -13,6 +13,8 @@ import { logout } from '../firebase/firebaseAuth';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsAuthenticated } from '../redux/actions/AuthAction';
+import { allProfilePicture } from '../redux/actions/AllProfilePictureAction';
+
 import ApiService from '../services/ApiService';
 import Modal from './Modal';
 
@@ -22,6 +24,9 @@ const PrimaryNavbar = () => {
   let isAuth =
     useSelector((state) => state?.auth?.isAuthenticated) ||
     JSON.parse(localStorage.getItem('isAuthenticated'));
+
+  const imageUrl = useSelector((state) => state?.profilePic);
+
   const [user, setUser] = React.useState();
   const navigate = useNavigate();
   const path = useLocation().pathname;
@@ -58,6 +63,7 @@ const PrimaryNavbar = () => {
       { document_type: 'profile_picture' },
       true
     );
+
     setProfilePic(result?.data?.data?.signedUrl);
   };
 
@@ -125,7 +131,7 @@ const PrimaryNavbar = () => {
                   <Dropdown>
                     <Dropdown.Toggle id="dropdown-basic" className="dropdown-design">
                       <img
-                        src={profilePic}
+                        src={imageUrl?.allProfilePicture}
                         alt="profile"
                         style={{ width: '50px', height: '50px' }}
                       />
