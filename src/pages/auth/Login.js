@@ -657,6 +657,7 @@ const Login = () => {
                                       <FormControl
                                         placeholder="Enter your password here"
                                         type={confirmShowPassword ? 'text' : 'password'}
+                                        maxLength={32}
                                         // type={'password'}
                                         value={field.value}
                                         onChange={field.onChange}
