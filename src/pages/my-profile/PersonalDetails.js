@@ -318,18 +318,10 @@ const PersonalDetails = () => {
     fetchUserDetails(uid);
   };
 
-  // useEffect(() => {
-  //   fetchUserDetails(uid);
-  // }, [personalDetail]);
-
   const fetchUserDetails = async (uid) => {
     let personalDetails = {};
     let educationalDetails = {};
     const userDetails = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
-    // console.log(
-    //   userDetails?.data?.data?.userProfile,
-    //   '/////////userDetails?.data?.data?.userProfile'
-    // );
     setPersonalDetail(userDetails?.data?.data?.userProfile);
     dispatch({ type: ActionTypes.PROFILE_NAME, payload: userDetails?.data?.data?.userProfile });
 
