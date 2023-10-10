@@ -3,7 +3,7 @@ import { Container, Nav, Navbar } from 'react-bootstrap';
 import Dropdown from 'react-bootstrap/Dropdown';
 import BrandLogo from '../assets/images/unikaksha-logo.svg';
 import Notify from '../assets/images/icon-notify.svg';
-import { Profileimg, profilePicture, profilepic } from '../assets/images';
+import { Profileimg, profilePicture, profilepic, profilepictures } from '../assets/images';
 import Course from '../assets/images/icon-mycourse.svg';
 import Profile from '../assets/images/icon-myprofile.svg';
 import Logout from '../assets/images/icon-logout.svg';
@@ -28,7 +28,6 @@ const PrimaryNavbar = () => {
     JSON.parse(localStorage.getItem('isAuthenticated'));
 
   const imageUrl = useSelector((state) => state?.profilePic);
-
   const [user, setUser] = React.useState();
   const navigate = useNavigate();
   const path = useLocation().pathname;
@@ -147,7 +146,11 @@ const PrimaryNavbar = () => {
                   <Dropdown>
                     <Dropdown.Toggle id="dropdown-basic" className="dropdown-design">
                       <img
-                        src={imageUrl?.allProfilePicture}
+                        src={
+                          imageUrl?.allProfilePicture
+                            ? imageUrl?.allProfilePicture
+                            : profilepictures
+                        }
                         alt="profile"
                         style={{ width: '50px', height: '50px' }}
                       />

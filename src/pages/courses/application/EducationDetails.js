@@ -101,7 +101,7 @@ const EducationDetails = ({
       formData.is_enrolled_other_program = educationData.is_enrolled_other_program;
       formData.other_program_name = educationData.other_program_name ?? '';
       formData.other_program_college_name = educationData.other_program_college_name ?? '';
-      formData.other_program_course_duration = educationData?.other_program_course_duration ?? 1;
+      formData.other_program_course_duration = educationData?.other_program_course_duration ?? '';
       lodash.forEach(educationData.qualification, (each) => {
         if (each.level === 'Diploma_or_12th') {
           formData.schoolDiplomaCollegeName = each.college_name;
@@ -315,6 +315,7 @@ const EducationDetails = ({
 
   const submitEducationalDetails = async (payload) => {
     const response = await ApiService('/student/educational-details', 'PUT', payload, true);
+    console.log(response, '////////response');
     setIsNextLoading(false);
 
     if (response?.config.data) {
