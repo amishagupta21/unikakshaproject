@@ -48,11 +48,11 @@ const Signup = () => {
   }, []);
 
   const configureCaptcha = () =>
-  (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('set-password-container', {
-    size: 'invisible',
-    callback: (response) => { },
-    defaultCountry: 'IN',
-  }));
+    (window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('set-password-container', {
+      size: 'invisible',
+      callback: (response) => {},
+      defaultCountry: 'IN',
+    }));
 
   const checkIfUserExists = async (email, phone) => {
     const result = await ApiService(
@@ -139,7 +139,6 @@ const Signup = () => {
     if (userObject.displayName) {
       fullname = userObject.displayName;
     }
-   
 
     if (userObject.providerData && userObject.providerData[0].phoneNumber) {
       phoneNumber = userObject.providerData[0].phoneNumber;
@@ -256,21 +255,21 @@ const Signup = () => {
                                 placeholder="Enter your password here"
                                 type={showPassword ? 'text' : 'password'}
                                 // type={'password'}
+                                maxLength={32}
                                 value={field.value}
                                 onChange={field.onChange}
                               />
-                              <div className='eye-icon'>
-                              <Button
-                                variant="outline-secondary"
-                                className="password-toggle"
-                                onClick={() => setShowPassword(!showPassword)}
-                              >
-                                {showPassword ? (
-                                  <i className="bi bi-eye-slash-fill"></i>
-                                ) : (
-                                  <i className="bi bi-eye-fill"></i>
-                                )}
-                              </Button>
+                              <div className="eye-icon">
+                                <Button
+                                  variant="outline-secondary"
+                                  className="password-toggle"
+                                  onClick={() => setShowPassword(!showPassword)}>
+                                  {showPassword ? (
+                                    <i className="bi bi-eye-slash-fill"></i>
+                                  ) : (
+                                    <i className="bi bi-eye-fill"></i>
+                                  )}
+                                </Button>
                               </div>
                             </FormGroup>
                           </Row>
@@ -295,21 +294,21 @@ const Signup = () => {
                                 placeholder="Enter your password here"
                                 type={confirmShowPassword ? 'text' : 'password'}
                                 // type={'password'}
+                                maxLength={32}
                                 value={field.value}
                                 onChange={field.onChange}
                               />
-                               <div className='eye-icon'>
-                              <Button
-                                variant="outline-secondary"
-                                className="password2-toggle"
-                                onClick={() => setConfirmShowPassword(!confirmShowPassword)}
-                              >
-                                {confirmShowPassword ? (
-                                  <i className="bi bi-eye-slash-fill"></i>
-                                ) : (
-                                  <i className="bi bi-eye-fill"></i>
-                                )}
-                              </Button>
+                              <div className="eye-icon">
+                                <Button
+                                  variant="outline-secondary"
+                                  className="password2-toggle"
+                                  onClick={() => setConfirmShowPassword(!confirmShowPassword)}>
+                                  {confirmShowPassword ? (
+                                    <i className="bi bi-eye-slash-fill"></i>
+                                  ) : (
+                                    <i className="bi bi-eye-fill"></i>
+                                  )}
+                                </Button>
                               </div>
                             </FormGroup>
                           </Row>

@@ -203,6 +203,7 @@ const AccountSettings = () => {
                               placeholder="Enter your current password here"
                               type={showPassword ? 'text' : 'password'}
                               // type={'password'}
+                              maxLength={32}
                               value={field.value}
                               onChange={field.onChange}
                             />
@@ -240,6 +241,7 @@ const AccountSettings = () => {
                             <FormControl
                               placeholder="Enter your new password here"
                               type={confirmShowPassword ? 'text' : 'password'}
+                              maxLength={32}
                               // type={'password'}
                               value={field.value}
                               onChange={field.onChange}
@@ -279,6 +281,7 @@ const AccountSettings = () => {
                             <FormControl
                               placeholder="Enter your confirm password here"
                               type={confirmNewShowPassword ? 'text' : 'password'}
+                              maxLength={32}
                               // type={'password'}
                               value={field.value}
                               onChange={field.onChange}
