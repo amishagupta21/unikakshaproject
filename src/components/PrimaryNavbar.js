@@ -14,6 +14,8 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsAuthenticated } from '../redux/actions/AuthAction';
 import { allProfilePicture } from '../redux/actions/AllProfilePictureAction';
+import { ActionTypes } from '../redux/constants/ActionTypes';
+import { firebase } from '../firebase/firebase';
 
 import ApiService from '../services/ApiService';
 import Modal from './Modal';
@@ -26,7 +28,6 @@ const PrimaryNavbar = () => {
     JSON.parse(localStorage.getItem('isAuthenticated'));
 
   const imageUrl = useSelector((state) => state?.profilePic);
-  const profileName = useSelector((state) => state?.profilePic);
 
   const [user, setUser] = React.useState();
   const navigate = useNavigate();
@@ -57,6 +58,19 @@ const PrimaryNavbar = () => {
 
   // const result = JSON.parse(localStorage.getItem('userData'));
 
+  useEffect(() => {
+    fetchUser(user);
+  }, [user?.uid]);
+
+  const fetchUser = async (user) => {
+    const userProfile = await ApiService(`/user/${user?.uid}/detail`, `GET`, {}, true);
+    dispatch({ type: ActionTypes.PROFILE_NAME, payload: userProfile?.data?.data?.userProfile });
+
+    // setProfilePic(result?.data?.data?.signedUrl);
+
+    // dispatch({ type: ActionTypes.ALL_PROFILE_PICTURE, payload: result?.data?.data?.signedUrl });
+  };
+
   const getProfilePic = async () => {
     const result = await ApiService(
       '/user/get-profile-picture',
@@ -64,8 +78,9 @@ const PrimaryNavbar = () => {
       { document_type: 'profile_picture' },
       true
     );
-
     setProfilePic(result?.data?.data?.signedUrl);
+
+    dispatch({ type: ActionTypes.ALL_PROFILE_PICTURE, payload: result?.data?.data?.signedUrl });
   };
 
   // const cancelHandler=()=>{
@@ -137,7 +152,7 @@ const PrimaryNavbar = () => {
                         style={{ width: '50px', height: '50px' }}
                       />
                       <span className="avatar-name">
-                        {profileName?.personalDetail?.personal_details?.full_name}
+                        {imageUrl?.personalDetail?.personal_details?.full_name}
                       </span>
                     </Dropdown.Toggle>
 
