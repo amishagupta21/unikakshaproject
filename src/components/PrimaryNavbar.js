@@ -26,6 +26,7 @@ const PrimaryNavbar = () => {
     JSON.parse(localStorage.getItem('isAuthenticated'));
 
   const imageUrl = useSelector((state) => state?.profilePic);
+  const profileName = useSelector((state) => state?.profilePic);
 
   const [user, setUser] = React.useState();
   const navigate = useNavigate();
@@ -54,7 +55,7 @@ const PrimaryNavbar = () => {
   //   console.log(cleanedUrl, '///////cleanedUrl');
   // });
 
-  const result = JSON.parse(localStorage.getItem('userData'));
+  // const result = JSON.parse(localStorage.getItem('userData'));
 
   const getProfilePic = async () => {
     const result = await ApiService(
@@ -136,9 +137,7 @@ const PrimaryNavbar = () => {
                         style={{ width: '50px', height: '50px' }}
                       />
                       <span className="avatar-name">
-                        {!result?.userProfile?.personal_details
-                          ? user?.displayName
-                          : result?.userProfile?.personal_details?.full_name}
+                        {profileName?.personalDetail?.personal_details?.full_name}
                       </span>
                     </Dropdown.Toggle>
 
