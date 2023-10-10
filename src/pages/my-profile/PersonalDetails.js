@@ -37,6 +37,7 @@ import {
   profilePicture,
   trashWhite,
   profilepic,
+  profilepictures,
 } from '../../assets/images';
 import './PersonalDetails.scss';
 
@@ -890,13 +891,13 @@ const PersonalDetails = () => {
                 return ( */}
 
                         <div className="upload-area">
+                          {' '}
                           <img
-                            src={profilePic}
+                            src={profilePic ? profilePic : profilepictures}
                             alt="profile"
                             className="profile-avatar"
                             onClick={() => viewProfilePhoto()}
                           />
-
                           <span className="avatar-name">
                             Profile Picture
                             <img
