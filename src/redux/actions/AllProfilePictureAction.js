@@ -6,3 +6,10 @@ export const allProfilePicture = (profilePic) => async (dispatch) => {
     payload: value,
   });
 };
+
+export const profileName = (profileName) => async (dispatch) => {
+  dispatch({
+    type: ActionTypes.PROFILE_NAME,
+    payload: value,
+  });
+};

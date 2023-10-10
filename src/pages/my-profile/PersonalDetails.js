@@ -92,7 +92,7 @@ const PersonalDetails = () => {
   const [isButtonLoading, setIsButtonLoading] = React.useState();
   const [isResendDisabled, setIsResendDisabled] = React.useState(true);
   const [updateData, setUpdateData] = React.useState([]);
-
+  const [personalDetail, setPersonalDetail] = React.useState([]);
   const [authError, setAuthError] = React.useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -246,10 +246,10 @@ const PersonalDetails = () => {
     const response = await ApiService('student/update-personal-details', `PATCH`, payload, true);
     setUpdateData(response?.data?.data);
 
-    const userData = JSON.parse(localStorage.getItem('userData'));
+    // const userData = JSON.parse(localStorage.getItem('userData'));
 
-    userData.userProfile = { ...response?.data?.data };
-    localStorage.setItem('userData', JSON.stringify(userData));
+    // userData.userProfile = { ...response?.data?.data };
+    // localStorage.setItem('userData', JSON.stringify(userData));
 
     // console.log(JSON.stringify(response.data));
     // const checkIfUserExists = async (email, phone) => {
@@ -289,6 +289,10 @@ const PersonalDetails = () => {
           body: 'Personal details updated successfully!',
         })
       );
+      dispatch({
+        type: ActionTypes.PROFILE_NAME,
+        payload: response?.data?.data,
+      });
     }
     dispatch(setLoading(false));
   };
@@ -314,10 +318,20 @@ const PersonalDetails = () => {
     fetchUserDetails(uid);
   };
 
+  // useEffect(() => {
+  //   fetchUserDetails(uid);
+  // }, [personalDetail]);
+
   const fetchUserDetails = async (uid) => {
     let personalDetails = {};
     let educationalDetails = {};
     const userDetails = await ApiService(`/user/${uid}/detail`, 'GET', {}, true);
+    // console.log(
+    //   userDetails?.data?.data?.userProfile,
+    //   '/////////userDetails?.data?.data?.userProfile'
+    // );
+    setPersonalDetail(userDetails?.data?.data?.userProfile);
+    dispatch({ type: ActionTypes.PROFILE_NAME, payload: userDetails?.data?.data?.userProfile });
 
     // setInitialDobData(userDetails?.data?.data?.userProfile?.information_data);
     // setDobData(userDetails?.data?.data?.userProfile?.information_data);  //console.log(user);
