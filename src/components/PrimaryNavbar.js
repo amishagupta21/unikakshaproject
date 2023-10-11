@@ -59,7 +59,7 @@ const PrimaryNavbar = () => {
 
   useEffect(() => {
     fetchUser(user);
-  }, [user?.uid]);
+  }, [user]);
 
   const fetchUser = async (user) => {
     const userProfile = await ApiService(`/user/${user?.uid}/detail`, `GET`, {}, true);
