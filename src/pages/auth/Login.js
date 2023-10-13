@@ -141,7 +141,6 @@ const Login = () => {
               form_name: 'Login-In-Event',
               email: email,
             };
-
             const result = await ApiService('centralised/create', 'POST', userData);
             const userId = result?.data?.data?._id;
             const userNameEvent = result?.data?.data?.full_name;

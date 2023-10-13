@@ -54,6 +54,7 @@ import { openToaster } from '../../redux/actions/ToastAction';
 import { toast } from 'react-toastify';
 import OtpInput from 'react-otp-input';
 import { getAuth, updateProfile } from 'firebase/auth';
+// import { auth } from './firebase';
 import FooterContainer from '../../components/FooterComponent';
 import { ActionTypes } from '../../redux/constants/ActionTypes';
 
@@ -175,7 +176,8 @@ const PersonalDetails = () => {
         occupation: occupation,
         ...rest,
       };
-      formPersonalDetailsPayload(personalDetails);
+      // formPersonalDetailsPayload(personalDetails);
+      updateEmail(personalDetails);
     },
   });
 
@@ -218,6 +220,44 @@ const PersonalDetails = () => {
     },
   });
 
+  const updateEmail = (personalDetails) => {
+    const user1 = firebase.auth().currentUser;
+    // const appVerifier1 = configureCaptcha2();
+    user1
+      .updateEmail(personalDetails.email)
+      .then(() => {
+        dispatch(
+          openToaster({
+            show: true,
+            header: 'Success!',
+            variant: 'Info',
+            body: 'Email change in Firebase',
+          })
+        );
+        formPersonalDetailsPayload(personalDetails);
+        // setSentLink('We will send you a link on your registered email');
+        dispatch(setLoading(false));
+      })
+      .catch((error) => {
+        // var errorCode = error.code;
+        var errorMessage = error.message;
+        dispatch(
+          openToaster({
+            show: true,
+            header: 'Warning!',
+            variant: 'Warning',
+            body: errorMessage,
+          })
+        );
+
+        dispatch(setLoading(false));
+
+        // ..
+      });
+
+    setChangeEmailPopup(false);
+  };
+
   const formPersonalDetailsPayload = async (personalDetails) => {
     dispatch(setLoading(true));
     const payload = {
@@ -247,40 +287,6 @@ const PersonalDetails = () => {
     const response = await ApiService('student/update-personal-details', `PATCH`, payload, true);
     setUpdateData(response?.data?.data);
 
-    // const userData = JSON.parse(localStorage.getItem('userData'));
-
-    // userData.userProfile = { ...response?.data?.data };
-    // localStorage.setItem('userData', JSON.stringify(userData));
-
-    // console.log(JSON.stringify(response.data));
-    // const checkIfUserExists = async (email, phone) => {
-    //   const result = await ApiService(
-    //     'user/check-exists',
-    //     'POST',
-    //     { email, phone: `+${phone}` },
-    //     true
-    //   );
-    //   console.log("check", JSON.stringify(result.data.data))
-    //   if (result?.data.data.byEmail.user != null || result?.data.data.byPhone.user != null) {
-    //     setAuthError('User already exists with same Email or Phonenumber');
-    //     // console.log("already existed")
-    //     return true
-    //   } else {
-    //     console.log("sucessfully created")
-    //   }
-
-    //   // return result?.data?.data?.user
-    // };
-    // if(response.data.personal_details.mobile_number!=null){
-    //   setAuthError('User already exists');
-    //   // console.log("already existed")
-    //   return true
-    // }else {
-    //   console.log("sucessfully created")
-
-    // }
-    // dispatch(setLoading(true));
-    // setIsNextLoading(false);
     if (response?.data.code === 200) {
       dispatch(
         openToaster({
@@ -294,9 +300,41 @@ const PersonalDetails = () => {
         type: ActionTypes.PROFILE_NAME,
         payload: response?.data?.data,
       });
+      updateEmail(payload?.personal_details?.email);
+      // updatePhone(payload?.personal_details?.whatsapp_number);
     }
     dispatch(setLoading(false));
   };
+
+  // const updatePhone = (whatsapp_number) => {
+  //   console.log(whatsapp_number, '////////whatsapp_number');
+  //   const user2 = firebase.auth().currentUser;
+  //   // const appVerifier1 = configureCaptcha2();
+  //   user2
+  //     .updatePhoneNumber(whatsapp_number)
+  //     .then(() => {
+  //       // setSentLink('We will send you a link on your registered email');
+  //       dispatch(setLoading(false));
+  //     })
+  //     .catch((error) => {
+  //       var errorCode = error.code;
+  //       var errorMessage = error.message;
+  //       console.log(error);
+  //       dispatch(setLoading(false));
+  //       // ..
+  //     });
+
+  //   dispatch(
+  //     openToaster({
+  //       show: true,
+  //       header: 'Success!',
+  //       variant: 'Info',
+  //       body: 'Verification link successfully sent to the new email address!',
+  //     })
+  //   );
+
+  //   setChangeEmailPopup(false);
+  // };
 
   useEffect(() => {
     const delay = 1;
@@ -723,64 +761,6 @@ const PersonalDetails = () => {
         // navigate('/login');
         setOtpError('Invalid Code!');
       });
-  };
-
-  const updateEmail = (email) => {
-    const user1 = firebase.auth().currentUser;
-
-    // const appVerifier1 = configureCaptcha2();
-
-    firebase
-      .auth()
-      .sendPasswordResetEmail(email)
-      .then(() => {
-        setSentLink('We will send you a link on your registered email');
-        console.log(email);
-        dispatch(setLoading(false));
-      })
-      .catch((error) => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        console.log(errorMessage);
-        dispatch(setLoading(false));
-        // ..
-      });
-    //   console.log(user1);
-
-    //   firebase.auth().currentUser.sendEmailVerification()
-    // .then(() => {
-    //   // Email verification sent!
-    //   // ...
-    // });
-
-    //   return;
-
-    // const user = firebase.auth().currentUser;
-
-    // TODO(you): prompt the user to re-provide their sign-in credentials
-
-    // user1.updateEmail(email).then((res) => {
-    //   firebase.auth().currentUser.sendEmailVerification().then(function(isSent) {
-    //     console.log(isSent);
-    //   })
-    //   .catch(function(error1) {
-    //     console.log(error1);
-    //   });
-
-    // }).catch((error) => {
-    //   console.log(error);
-    // });
-
-    dispatch(
-      openToaster({
-        show: true,
-        header: 'Success!',
-        variant: 'Info',
-        body: 'Verification link successfully sent to the new email address!',
-      })
-    );
-
-    setChangeEmailPopup(false);
   };
 
   // user1.updateEmail("velmurugan0819@gmail.com").then((res) => {

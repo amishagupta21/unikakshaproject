@@ -155,7 +155,10 @@ const PrimaryNavbar = () => {
                         style={{ width: '50px', height: '50px' }}
                       />
                       <span className="avatar-name">
-                        {imageUrl?.personalDetail?.personal_details?.full_name}
+                        {/* {imageUrl?.personalDetail?.personal_details?.full_name} */}
+                        {!imageUrl?.personalDetail?.personal_details
+                          ? user?.displayName
+                          : imageUrl?.personalDetail?.personal_details?.full_name}
                       </span>
                     </Dropdown.Toggle>
 
